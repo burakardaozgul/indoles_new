@@ -12,6 +12,7 @@ type SendEmailOptions = {
   to: string;
   subject: string;
   react: ReactElement;
+  idempotencyKey?: string;
 };
 
 export async function sendEmail(options: SendEmailOptions): Promise<{ id: string }> {
@@ -23,9 +24,13 @@ export async function sendEmail(options: SendEmailOptions): Promise<{ id: string
     to: options.to,
     subject: options.subject,
     react: options.react,
+    ...(options.idempotencyKey ? { idempotencyKey: options.idempotencyKey } : {}),
   });
   if (result.error) {
-    throw new Error(`Resend error: ${result.error.message}`);
+    throw new Error(`Resend error: ${result.error.message ?? JSON.stringify(result.error)}`);
   }
-  return { id: result.data!.id };
+  if (!result.data) {
+    throw new Error("Resend returned no data");
+  }
+  return { id: result.data.id };
 }

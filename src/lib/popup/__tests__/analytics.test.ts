@@ -19,4 +19,12 @@ describe("trackPopupEvent", () => {
       time_on_stage_ms: 5000,
     });
   });
+
+  it("server-side (window undefined) capture yapmaz", () => {
+    vi.stubGlobal("window", undefined);
+    mockCapture.mockClear();
+    trackPopupEvent("popup_shown", { trigger_source: "initial" });
+    expect(mockCapture).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
+  });
 });

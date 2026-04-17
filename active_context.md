@@ -1,3 +1,12 @@
+## Simplification Migration — başlangıç: 2026-04-17
+
+- Branch: `feat/simplification-migration`
+- Spec: `docs/superpowers/specs/2026-04-17-simplification-design.md`
+- Plan: `docs/superpowers/plans/2026-04-17-simplification-plan.md`
+- Phase: 0 (prep)
+
+---
+
 # Active Context — Entry Popup Implementation
 
 > **Son güncelleme:** 2026-04-17 (Phase 4 + ADR-006 + Docker DB setup; **Task 25 DB driver switch bekliyor**)

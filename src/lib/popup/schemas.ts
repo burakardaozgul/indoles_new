@@ -1,14 +1,21 @@
 import { z } from "zod";
 import { PERSONAS } from "./personas";
 import { getAllProblemSlugs } from "./problems";
+import type { PersonaSlug, ProblemSlug } from "./types";
 
-const personaEnum = z.enum(PERSONAS.map((p) => p.slug) as [string, ...string[]]);
-const problemEnum = z.enum(getAllProblemSlugs() as [string, ...string[]]);
+const personaEnum = z.enum(PERSONAS.map((p) => p.slug) as unknown as [PersonaSlug, ...PersonaSlug[]]);
+const PROBLEM_SLUGS = getAllProblemSlugs() as readonly ProblemSlug[];
+const problemEnum = z.enum(PROBLEM_SLUGS as unknown as [string, ...string[]]);
 
 export const leadFormSchema = z.object({
   firstName: z.string().min(2).max(100),
   lastName: z.string().min(2).max(100),
-  phone: z.string().min(7).max(30).regex(/^[+0-9\s()-]+$/, "invalid phone"),
+  phone: z
+    .string()
+    .min(7)
+    .max(30)
+    .regex(/^[+0-9\s()-]+$/, "invalid phone")
+    .refine((v) => (v.match(/\d/g) ?? []).length >= 7, "phone must contain at least 7 digits"),
   email: z.string().email(),
   company: z.string().min(2).max(200),
   title: z.string().min(2).max(100),

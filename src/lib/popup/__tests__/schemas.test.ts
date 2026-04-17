@@ -51,4 +51,21 @@ describe("popupSubmitSchema", () => {
   it("invalid persona reddeder", () => {
     expect(() => popupSubmitSchema.parse({ ...validPayload, persona: "other" })).toThrow();
   });
+
+  it("dismissed için lead opsiyonel", () => {
+    const { lead, ...withoutLead } = validPayload;
+    expect(() => popupSubmitSchema.parse({ ...withoutLead, submissionType: "dismissed" as const })).not.toThrow();
+  });
+
+  it("geçersiz telefon reddeder (all separators)", () => {
+    expect(() =>
+      leadFormSchema.parse({ ...validPayload.lead, phone: "   +()-- " })
+    ).toThrow();
+  });
+
+  it("persona tipi PersonaSlug union olarak narrow edilir", () => {
+    const parsed = popupSubmitSchema.parse(validPayload);
+    const persona: "donusum-teknoloji" | "buyume-pazarlar" = parsed.persona;
+    expect(persona).toBe("donusum-teknoloji");
+  });
 });

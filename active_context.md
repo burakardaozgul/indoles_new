@@ -1,176 +1,190 @@
 # Active Context — Entry Popup Implementation
 
-> **Son güncelleme:** 2026-04-17 (Phase 3 bitiminde)
-> **Yeniden başlatırken:** Bu dosyayı ilk oku, sonra `docs/superpowers/plans/2026-04-17-entry-popup-plan.md`'deki Phase 4'ten devam et.
+> **Son güncelleme:** 2026-04-17 (Phase 4 bitiminde + ADR-006 Sanity kaldırma)
+> **Yeniden başlatırken:** Bu dosyayı ilk oku, sonra `docs/superpowers/plans/2026-04-17-entry-popup-plan.md`'deki Task 25'ten devam et.
 
 ---
 
 ## Neredeyiz?
 
-**Phase 3 — Popup UI tamamlandı.** 21 task içinden 20 bitmiş durumda (Task 7 Cal.com skip edildi). **Phase 4 — Integration** sırada (3 task: 22, 23, 24).
+**Phase 4 — Integration tamamlandı.** 24 task içinden 23 bitmiş (Task 7 Cal.com skip edildi). **Phase 5 — E2E + a11y** sırada (2 task: 25, 26). **Phase 6 — docs + hardening** sonra (5 task: 27-31 + ADR-006 follow-up cleanup).
+
+Ek olarak bu session: **ADR-006 (Sanity kaldırma)** kararı alındı ve doc temizliği yapıldı. Source code + package.json cleanup Phase 6'ya bırakıldı.
 
 ### Hızlı kontrol komutları
 
 ```bash
 cd "/Users/burakardaozgul/Documents/AA - Claude/INDOLES - Yeni/indoles-web"
-git log --oneline | head -40        # Commit geçmişi
-pnpm vitest run 2>&1 | tail -10     # 79/79 test yeşil olmalı
-pnpm tsc --noEmit                   # Hatasız çıkmalı
+git log --oneline | head -10       # Commit geçmişi
+corepack pnpm vitest run 2>&1 | tail -5    # 88/88 test yeşil olmalı
+corepack pnpm tsc --noEmit                  # Hatasız çıkmalı
 ```
 
----
-
-## Bitmiş task'lar ve commit SHA'ları
-
-### Phase 1 — Foundation (5 task)
-| # | Task | Commit |
-|---|---|---|
-| 1 | Git init + baseline | `b3f2dfc` |
-| 2 | Types + persona config | `5d8b3f9` + `6ebefa7` (getPersonaDef test fix) |
-| 3 | Problem taxonomy (20) | `35f9b46` + `92dd226` (readonly + miss case test) |
-| 4 | i18n messages TR+EN | `316a698` |
-| 5 | DB schema popup_submissions | `ae4e357` + `2b61ac4` (enum + FK + indexes fix) |
-
-### Phase 2 — Backend (6 task + 1 skip)
-| # | Task | Commit |
-|---|---|---|
-| 6 | Zod schemas | `d86ebe7` + `f701df9` (narrow enum + phone refine) |
-| 7 | Cal.com quick-book | **SKIP** — kullanıcı kararı, ADR-005'te deferred |
-| 8 | Lead notification email | `37e3ee4` + `83843c8` (vitest plugin → scoped helper refactor) |
-| 9 | Lead confirmation email | `a5cfedd` + `85e7ee7` (decodeEntities extract + null-URL test) |
-| 10 | Inngest handler | `3c6910c` + `8abde6a` (serve route fix) + `8bf96f2` (step split + idempotencyKey) |
-| 11 | resolveProblemText | `2e4a2da` |
-| 12 | tRPC popup router | `3223b7d` + `6aae182` (personaLabel extract) |
-
-### Phase 3 — Popup UI (9 task)
-| # | Task | Commit |
-|---|---|---|
-| 13 | Cookie + useEntryPopup | `43cf0cf` |
-| 14 | Analytics helpers | `80d8c23` + `313ccba` (type narrowing + SSR guard) |
-| 15 | ProgressIndicator | `336b6ef` |
-| 16 | Stage1Persona | `cbc3099` + `add41e0` (a11y aria-label fix) |
-| 17 | Stage2Problems (FIFO) | `d5c0901` |
-| 18 | Stage3Actions | `d0db932` |
-| 19 | LeadFieldsForm + wrappers | `05694da` + `75673a7` (a11y fix) |
-| 20 | SuccessState | `5408a99` |
-| 21 | EntryPopup container | `f6f2762` |
-
-**Son commit (HEAD):** `f6f2762`
-**Total commit:** ~30
-**Test sayısı:** 79/79 yeşil
+**Not:** Shell'de `pnpm` PATH'te yok — `corepack pnpm` ile çalıştır.
 
 ---
 
-## Yarın buradan devam
+## Bitmiş task'lar ve commit SHA'ları (kısa)
 
-### Phase 4 — Integration (Task 22-24) sırası
+### Phase 1 — Foundation (5 task) — önceki session
+### Phase 2 — Backend (6 task + 1 skip) — önceki session
+### Phase 3 — Popup UI (9 task) — önceki session
+**Phase 1-3 detayı için:** git log'a bak, ya da eski active_context git history'de (HEAD~5 civarı).
+
+### Phase 4 — Integration (3 task) — bu session
+
+| # | Task | Commit |
+|---|---|---|
+| 22 | PersonaChip component | `99179d2` |
+| 23 | Homepage hero persona-aware + PersonaAxes removal | `06a2abf` |
+| 24 | Chatbot context injection | `90a3058` |
+
+### Ek: ADR-006 Sanity removal (docs-only)
+
+- Commit: `079f357`
+- ADR: `docs/decisions/ADR-006-remove-sanity.md`
+- CLAUDE.md §4/§7/§9 güncellendi
+- `docs/10-content-model-sanity.md` silindi
+- 7 diğer doc'ta Sanity ref'leri statik içerik alternatifleriyle güncellendi
+
+**Son commit (HEAD):** `079f357`
+**Total commit bu session:** 4 (Phase 4 + Sanity docs)
+**Test sayısı:** 88/88 yeşil (+6 Phase 4'ten)
+
+---
+
+## Yarın / yeni session buradan devam
+
+### Phase 5 — E2E + a11y (Task 25-26) sırası
 
 Plan dosyası: `docs/superpowers/plans/2026-04-17-entry-popup-plan.md`
 
-#### Task 22 — PersonaChip component
-- **Files:** `src/components/marketing/entry-popup/PersonaChip.tsx` + test
-- **Sorumluluk:** Hero'da küçük persona indicator chip (örn. "Seçim: Büyüme ve Yeni Pazarlar · değiştir"), `onReopen` callback'i ile popup'ı yeniden açar
-- **Dependency:** Bitmiş — tüm altyapı hazır. Straight-forward implementer dispatch.
+#### Task 25 — Playwright E2E happy path
+- **Files:** `tests/e2e/entry-popup.spec.ts` (CREATE)
+- **Sorumluluk:** Full popup flow (Stage 1 → 2 → 3 → contact submit). Cookie clear, 4s trigger, persona select, problem select (3), action select, form fill, submit, success state. Plan'da verbatim test kodu var.
+- **Dependency:** Playwright config'in mevcut olduğunu verify et — `playwright.config.ts` var mı? Yoksa kurulum ilk adım.
+- **Ek scenario'lar:** PersonaChip → popup yeniden açılır (plan'da var, line 3417 civarı).
 
-#### Task 23 — Homepage hero refactor
-- **Dependency risk:** Mevcut hero component path'i plan'da exact olarak belli değil. İlk adım:
-  ```bash
-  grep -rln "Sanayi" src/app/ src/components/ 2>/dev/null
-  grep -rln "hero\|Hero" src/app/\(marketing\)/ 2>/dev/null
-  ls src/app/\(marketing\)/\[locale\]/
-  ```
-- **Hedef:** Mevcut "iki eksen yan yana" hero'yu **tek-versiyon** hero'ya refactor et. Üstünde `PersonaChip` (Task 22'den), EntryPopup component'ini mount et (`useEntryPopup` hook kullanır).
-- **i18n:** `messages/tr.json` ve `en.json`'a `homepage.hero.{headline,body,cta}` namespace'i eklenecek (TR ve EN parite). Plan'da exact content var.
+#### Task 26 — A11y audit
+- **Files:** `tests/e2e/entry-popup.a11y.spec.ts`
+- **Sorumluluk:** @axe-core/playwright ile popup'ın tüm stage'lerinde axe scan. Focus management, keyboard nav, aria labels.
+- **Dependency:** `@axe-core/playwright` package yüklü mü? `playwright` peer dep'i.
 
-#### Task 24 — Chatbot context injection
-- **Dependency risk:** Chatbot agent entry point path'ini bulmak gerekecek:
-  ```bash
-  grep -rln "createDataStreamResponse\|streamText\|POST.*agent" src/app/api/ 2>/dev/null
-  ls src/app/api/agent/ src/app/api/chat/ 2>/dev/null
-  ls src/lib/ai/ 2>/dev/null
-  ```
-- **Hedef:** Agent route'ta server-side cookie oku (`indoles_popup_state`), persona+problems'ı system prompt'a `buildPopupContextBlock` helper'ı ile inject et. `src/lib/ai/system-prompt.ts` oluştur/genişlet.
-- **Plan'da verbatim code var.** Test mocked.
+### Phase 6 — docs + hardening (Task 27-31 + biriken backlog)
 
----
+Bu session'da biriken **Phase 6 backlog** (review'lerden + ADR-006 follow-up):
 
-## Kritik kararlar ve deviation'lar (yarın için önemli)
+**Entry popup review debt:**
+- Task 22: chip `aria-label` redundancy, `neutral-*` token migration (popup modülü geneli)
+- Task 23 M2: Hydration flash mitigation (middleware SSR opsiyonu)
+- Task 23 M3: `readCurrentPersona` runtime PersonaSlug validation
+- Task 23 M4: `HomeHeroSection` test'inde buyume-pazarlar variant copy assertion ekle
+- Task 23 M5: `i18n-parity.test.ts` → `home.hero.*` namespace'ı kapsayacak şekilde genişlet
+- Task 23: `(_outcome)` → `()` cleanup in `home-hero-section.tsx:47`
+- Task 24 I1: `readPopupContext` persona enum guard (tampered cookie koruması)
+- Task 24 I2: Chatbot UI wire-up'ta `/api/agent` POST body'sine `locale` eklenmesi (henüz client yok)
+- Task 24: `buildPopupContextBlock`'taki hardcoded TR/EN persona label'larını i18n'a çıkar
+- Docs: `docs/07-ai-agent-spec.md` → cookie outcome asimetrisi (hero "any persona", agent "completed only") dokümante edilmeli
 
-### Projeye özel kararlar (plan'daki gap'leri doldurmuş)
+**ADR-006 source code cleanup (önemli — bundle etkisi var):**
+- `package.json` deps: `sanity`, `@sanity/image-url`, `@sanity/vision`, `@sanity/webhook`, `next-sanity` kaldır. `sanity:typegen` script sil.
+- `sanity/sanity.config.ts` sil
+- `src/app/studio/[[...tool]]/page.tsx` sil
+- `src/app/api/webhooks/sanity/route.ts` sil
+- `src/lib/sanity/client.ts`, `src/lib/sanity/queries.ts` sil
+- `src/lib/content/types.ts` Sanity-specific type'ları temizle
+- `src/app/(admin)/admin/page.tsx` — Sanity query import'ları temizle/pages sadeleştir
+- `src/app/(auth)/app/brief/yeni/page.tsx` — aynı
+- `src/server/db/schema.ts` + `seed.ts` + migrations'taki Sanity doc id ref'leri kaldır
+- `.env` ve SST secret'larından `SANITY_*` kaldır
+- CSP policy'sinden Sanity domain'leri kaldır
+- **Not:** Bu cleanup, source code'u build-breakable yapabilir (Sanity import eden pages'ler). Adım adım, her silmeden sonra `tsc --noEmit` + `vitest run`.
 
-1. **Cal.com SKIP** — User kararı. Task 7 hiç implement edilmedi. Task 12 tRPC router booking path'ı Cal.com çağırmıyor — iletişim formu ile aynı davranış (DB + lead email). Gelecekte `CAL_COM_API_KEY` + event type configure edilince `createQuickBooking` eklenebilir (note inline at `src/server/routers/popup.ts`).
-2. **DATABASE_URL yok** — Migration (`src/server/db/migrations/0000_handy_lockjaw.sql`) generate edildi, **apply edilmedi**. Tüm testler DB mock'lu. Yarın Phase 4 için DB gerekmiyor. Phase 6 smoke test için user Docker açabilir: `docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=dev postgres:16`.
-3. **vitest.config.ts** — Task 2'de co-located test pattern eklendi (`src/**/__tests__/**/*.{test,spec}.{ts,tsx}`). Task 8'de kısa süre React Email decode için Vite plugin ekleyip sonra geri alındı (`decodeEntities` helper'a çevrildi — `src/lib/email/templates/__tests__/test-utils.ts`).
-4. **tRPC export ismi `trpc`, `api` değil** — Plan'da `api.popup.submit.useMutation()` yazıyor, gerçekte `trpc.popup.submit.useMutation()`. Task 21'de EntryPopup düzeltildi. Task 22-24'te de dikkat.
-5. **Inngest `functions/index.ts` barrel** — Task 10 sırasında yoktu, oluşturuldu. Hem `briefTriage` hem `popupLeadCreatedFn` export eder. Serve route (`src/app/api/webhooks/inngest/route.ts`) barrel'ı consume eder.
-6. **personaLabel** helper'ı `src/lib/popup/personas.ts`'de `getPersonaLocalizedLabel(slug, locale)` olarak yaşıyor — Task 23'teki hero hem EntryPopup hem Inngest handler bunu kullanacak.
-7. **React 19 text encoding** — React 19 text node'larda apostrof'u HTML entity olarak encode ediyor. Email template testleri `decodeEntities` helper'ı ile assert ediyor (`src/lib/email/templates/__tests__/test-utils.ts`).
+**Full-homepage persona adaptivity (phased rollout — user kararı):**
+- Şimdi: sadece hero (Task 23'de yapıldı)
+- Phase 6'dan sonra / Faz 2: `PillarsSection`, `ProofSection`, `PackagesSection`, `FinalCTASection` — persona'ya göre content adapt eder. Her biri ayrı task olacak. Copy + client wrapper + i18n parity gerekiyor her birinde.
+- `ClientLogosMarquee` ve `ManifestoSection` default/nötr kalır (kullanıcı kararı).
 
-### Non-blocking follow-up'lar (Phase 6 hardening'de toparlanacak)
+**Orijinal plan Phase 6 task'ları (27-31):**
+- Task 27: Cal.com booking flow (ADR-004 1 saat booking süresi) — Cal.com kullanılıyorsa
+- Task 28: quick-book guest path (ADR-005) — Cal.com kullanılıyorsa
+- Task 29: Rate limit + retention cron
+- Task 30: KVKK aydınlatma sayfası (şimdi static markdown ile — ADR-006 sonrası)
+- Task 31: Popup dismiss fidelity (mid-form dismiss doğru stage kaydı)
 
-- Cookie'ye `Secure` flag (prod'da)
-- EntryPopup dismiss stage fidelity (mid-form dismiss → şu an stage3 olarak işaretleniyor)
-- EntryPopup `as any` cast'i (discriminated union narrowing)
-- Radix Dialog sr-only Title/Description şu an `stage1.*` hard-coded — stage başına güncellenebilir
-- Stage3Actions `aria-label` redundant (helper text accessible name dışında kalıyor)
+### Final (Phase 6 sonrası)
 
-### Spec'te açık kararlar (Phase 6'da addressed)
+- `indoles-responsive-quality` skill ile 4-viewport Chrome live test + full Playwright suite
+- Lighthouse + PostHog funnel doğrulaması
+- Launch readiness checklist
 
-- ADR-004 (1 saat booking süresi) — Task 27
-- ADR-005 (quick-book guest path) — Task 28
-- KVKK aydınlatma sayfası (Sanity PortableText ile güvenli render — HTML-injection yok) — Task 30
-- Rate limit + retention cron — Task 31
-
----
-
-## Kalan task dağılımı
-
-| Phase | Task'lar | Durum |
-|---|---|---|
-| 4 — Integration | 22-24 | **Sırada (yarın başla)** |
-| 5 — E2E + a11y | 25-26 | Pending |
-| 6 — Docs + hardening | 27-31 | Pending |
-| Final | — | `indoles-responsive-quality` skill ile 4-viewport Chrome live test + full Playwright suite |
-
-Yaklaşık kalan: **~13 task** + final verification.
+Yaklaşık kalan: **~10 orjinal task + ~15 follow-up item.** Bir çalışma günü + 1 günlük polish.
 
 ---
 
-## Yarın başlamak için
+## Kritik kararlar ve deviation'lar (yeni session için önemli)
 
-### 1. Session'ı yeniden aç
-Claude Code'u açtığında bu dosyayı ilk oku:
+### Bu session'da alınan kararlar
+
+1. **Task 23 architecture:** Option B surgical — `EditorialHero` untouched, yeni `HomeHeroSection` client wrapper. Persona değişince `home.hero.personas.{slug}` i18n subtree kullanılır. Default persona=null SSR'da teslim edilir (SEO korundu). Hydration flash kabul edildi.
+2. **Task 23 i18n namespace:** Mevcut `home.hero.*` genişletildi (`personas.*` subtree eklendi). Plan'ın önerdiği paralel `homepage.hero.*` namespace reddedildi.
+3. **Task 23 PersonaAxes:** Component + `home.hero.axis.*` tamamen silindi. "İki eksen yan yana" kalıbı persona-driven hero'ya dönüştü.
+4. **Task 24 file org:** `buildPopupContextBlock` + `PopupAgentContext` mevcut `src/lib/ai/prompts/indoles-agent.ts`'e eklendi. Plan'ın önerdiği yeni `src/lib/ai/system-prompt.ts` dosyası oluşturulmadı.
+5. **Task 24 persona identifier:** Mevcut `Persona = "industrial" | "commerce" | "unknown"` type **korundu**. Yeni `PopupPersonaSlug = "donusum-teknoloji" | "buyume-pazarlar"` parallel olarak eklendi. Mapping `buildPopupContextBlock` içinde slug→human label olarak yapılıyor.
+6. **Cookie lifecycle asimetrisi (kasıtlı):** HomeHeroSection "any persona" cookie'de varsa adapt eder; agent route "outcome: completed" ister. Hero için soft signal, agent için hard signal. Phase 6 docs'ta açıklanacak.
+7. **ADR-006 Sanity kaldırıldı.** İçerik git'te statik TS + MDX olarak tutulur. Source code cleanup Phase 6'ya bırakıldı (build şu an kırık değil — Sanity import'ları hâlâ kodda).
+8. **Full-homepage persona adaptivity phased.** Şimdi sadece hero. Diğer section'lar Phase 6 sonrası ayrı task serisi.
+
+### Önceki session kararları (hâlâ geçerli)
+
+- **Cal.com SKIP** — Task 7 skip edildi (`CAL_COM_API_KEY` yok). Popup submission tRPC router booking path'ı sadece DB + lead email (contact ile aynı davranış).
+- **DATABASE_URL yok** — tüm testler mock'lu. Phase 6 smoke test için Docker postgres açılabilir.
+- **tRPC export ismi `trpc`**, `api` değil (plan `api.popup.submit.useMutation()` diyordu, gerçek `trpc.popup.submit.useMutation()`).
+- **Inngest functions barrel** Task 10'da oluşturuldu.
+- **personaLabel** helper `src/lib/popup/personas.ts → getPersonaLocalizedLabel(slug, locale)`.
+- **React 19 text encoding** apostrof'u HTML entity'ye dönüştürüyor — email template testleri `decodeEntities` helper ile assert ediyor.
+
+---
+
+## Yeni session başlatma
+
+### 1. Oku + durumu doğrula
+
 ```
 Read /Users/burakardaozgul/Documents/AA - Claude/INDOLES - Yeni/indoles-web/active_context.md
-```
-
-### 2. Durumu doğrula
-```bash
 cd "/Users/burakardaozgul/Documents/AA - Claude/INDOLES - Yeni/indoles-web"
-git log --oneline | head -5              # Son commit f6f2762 olmalı
-pnpm vitest run 2>&1 | tail -5           # 79/79
-pnpm tsc --noEmit                        # Temiz
+git log --oneline | head -5       # HEAD: 079f357
+corepack pnpm vitest run 2>&1 | tail -5   # 88/88
+corepack pnpm tsc --noEmit                 # temiz
 ```
 
-### 3. Subagent-driven akışa devam et
-Bana söylemen yeterli: **"active_context.md'yi oku, Task 22'den Phase 4'e devam et"**
+### 2. Subagent-driven akışa devam et
 
-Model kuralı korundu:
-- Ben (orchestrator) + reviewer'lar → **Opus**
+Bana söylemen yeterli: **"active_context.md'yi oku, Task 25'ten Phase 5'e devam et"**
+
+Model kuralı:
+- Orchestrator (ben) + reviewer'lar → **Opus**
 - Implementer'lar → **Sonnet**
-- Her task sonrası **2 aşamalı review** (spec + quality)
-- Her faz sonrası checkpoint
+- Her task sonrası 2 aşamalı review (spec + quality)
+- Phase sonu integration review + final reviewer
 
-### 4. Referans dosyalar
-- **Plan:** `docs/superpowers/plans/2026-04-17-entry-popup-plan.md` (31 task)
-- **Spec:** `docs/superpowers/specs/2026-04-17-entry-popup-design.md` (18 bölüm)
-- **Proje talimatları:** `CLAUDE.md` (repo root)
-- **Brainstorm session artifacts:** `.superpowers/brainstorm/` (gitignored, silinebilir)
+### 3. Task 25 başlatmadan önce (kritik kontrol)
 
-### 5. Özel durumlar
+Playwright setup'ı var mı?
 
-- **Homepage hero dosyası (Task 23 blocker):** İlk iş grep ile bul. Mevcut yapı: `src/app/(marketing)/[locale]/` altında homepage `page.tsx` olabilir. `HomepageHero.tsx` component `src/components/marketing/` altında olabilir ya da inline.
-- **Chatbot agent entry (Task 24 blocker):** `src/app/api/agent/` veya `src/app/api/chat/` olabilir. `src/lib/ai/` alt yapısı var. Reach out — implementer bulur.
+```bash
+ls tests/e2e/ 2>/dev/null                   # var mı?
+ls playwright.config.ts 2>/dev/null         # var mı?
+cat package.json | grep -iE "playwright|axe"
+```
+
+Yoksa Task 25'in ilk adımı Playwright init + config.
+
+### 4. Açık soru (Task 25 başında)
+
+- Playwright test'ler `corepack pnpm test:e2e` gibi bir script altında mı çalışacak, yoksa `corepack pnpm playwright test` direkt mi?
+- E2E için dev server mı kullanılacak (`pnpm dev` in background), yoksa production build mi? Plan verbatim code `page.goto("/tr")` diyor — localhost:3000 varsayıyor.
+- Mock tRPC / DB: Playwright'te gerçek DB olmadan çalışacak mı? Task 12'de tRPC mock pattern Phase 3 test'lerinde var mı bakılmalı.
 
 ---
 
@@ -178,17 +192,17 @@ Model kuralı korundu:
 
 ```
 Branch: main
-HEAD: f6f2762 feat(popup): EntryPopup container with state machine
-Uncommitted: 0 (tamamı commit'li)
-Remote: YOK (local-only şu an)
+HEAD: 079f357 docs: remove Sanity CMS, content moves to static TS + MDX (ADR-006)
+Uncommitted: 0
+Remote: YOK (local-only)
 ```
-
-Eğer remote'a push etmek istiyorsan ayrı bir karar — şimdi gerekmiyor.
 
 ---
 
 ## Kısa cevap: yarın ne yapacağız?
 
-**Phase 4 (Task 22-24) → Phase 5 (Task 25-26 E2E) → Phase 6 (Task 27-31 hardening + docs) → Final Chrome + Playwright verification.**
+**Task 25 (Playwright E2E) → Task 26 (a11y) → Phase 6 hardening (Task 27-31 + biriken backlog + ADR-006 code cleanup) → Final verification.**
 
-Toplamda yaklaşık 13 implementer dispatch + 26 reviewer (spec+quality per task) + ufak fix loopları. Tahmin: bir çalışma günü içinde bitirilebilir.
+Toplamda yaklaşık 2-3 implementer dispatch + 4-6 reviewer + ADR-006 code cleanup dispatch + final Chrome + Playwright + Lighthouse verification.
+
+Tahmin: 1-2 çalışma günü.

@@ -43,24 +43,26 @@
         "after": "."
       },
       "support": "İndoles Yazılım A.Ş., Türkiye merkezli iş geliştirme danışmanlık şirketi. Teşhis olmadan reçete yazmıyoruz — iş önce anlaşılır, teknoloji sonra çağrılır.",
-      "axis": {
-        "industrial": {
-          "eyebrow": "Sanayici lider için",
-          "label": "Sanayi için teknoloji dönüşümü",
-          "description": "Üretim, süreç ve veriyi aynı ritimde düzenler. Teşhis önce, teknoloji sonra.",
-          "topics": ["Verim", "Süreç", "AI", "Dijital dönüşüm"],
-          "pillar": "Transform",
-          "duration": "6–12 hafta",
-          "cta": "Transform'u incele"
+      "personas": {
+        "donusum-teknoloji": {
+          "editorial": {
+            "before": "Sanayi için ",
+            "emphasisA": "teknoloji dönüşümü",
+            "middle": "",
+            "emphasisB": "",
+            "after": "."
+          },
+          "support": "Süreç, veri ve AI'yi işin ritmine eşler. Teşhis önce, teknoloji sonra — verim ölçülebilir artar."
         },
-        "commerce": {
-          "eyebrow": "Ticaret markası için",
-          "label": "Ticaret için agresif büyüme",
-          "description": "Marka, performans ve deneyimi tek ritimde ölçeklendirir. Kanal değil; sistem.",
-          "topics": ["CRO", "Performans", "Marka", "E-ticaret"],
-          "pillar": "Growth",
-          "duration": "4–12 hafta",
-          "cta": "Growth'u incele"
+        "buyume-pazarlar": {
+          "editorial": {
+            "before": "Ticaret için ",
+            "emphasisA": "agresif büyüme",
+            "middle": "",
+            "emphasisB": "",
+            "after": "."
+          },
+          "support": "Marka, performans ve deneyimi tek ritimde ölçeklendirir. Kanal değil — sistem; büyüme ölçülebilir gelir."
         }
       }
     },

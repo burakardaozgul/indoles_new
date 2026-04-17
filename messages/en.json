@@ -43,24 +43,26 @@
         "after": " for commerce."
       },
       "support": "İndoles Yazılım A.Ş. is a Turkey-based business growth consultancy. We don't prescribe without diagnosing — business is understood first; technology is called second.",
-      "axis": {
-        "industrial": {
-          "eyebrow": "For industrial leaders",
-          "label": "Technology transformation for industry",
-          "description": "Production, process and data tuned to one rhythm. Diagnosis first, technology second.",
-          "topics": ["Efficiency", "Process", "AI", "Digitalization"],
-          "pillar": "Transform",
-          "duration": "6–12 weeks",
-          "cta": "Explore Transform"
+      "personas": {
+        "donusum-teknoloji": {
+          "editorial": {
+            "before": "Technology ",
+            "emphasisA": "transformation",
+            "middle": "",
+            "emphasisB": "",
+            "after": " for industry."
+          },
+          "support": "Process, data and AI matched to business rhythm. Diagnosis first, technology second — efficiency rises measurably."
         },
-        "commerce": {
-          "eyebrow": "For commerce brands",
-          "label": "Aggressive growth for commerce",
-          "description": "Brand, performance and experience scaled in one rhythm. Not a channel — a system.",
-          "topics": ["CRO", "Performance", "Brand", "E-commerce"],
-          "pillar": "Growth",
-          "duration": "4–12 weeks",
-          "cta": "Explore Growth"
+        "buyume-pazarlar": {
+          "editorial": {
+            "before": "Aggressive ",
+            "emphasisA": "growth",
+            "middle": "",
+            "emphasisB": "",
+            "after": " for commerce."
+          },
+          "support": "Brand, performance and experience scaled in one rhythm. Not a channel — a system; measurable revenue."
         }
       }
     },

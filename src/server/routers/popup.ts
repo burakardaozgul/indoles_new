@@ -5,13 +5,7 @@ import { popupSubmissions } from "../db/schema";
 import { inngest } from "../../lib/inngest/client";
 import { resolveProblemText } from "../../lib/popup/problems";
 import { POPUP_LEAD_CREATED_EVENT } from "../../lib/inngest/events/popup-lead";
-
-function personaLabel(persona: "donusum-teknoloji" | "buyume-pazarlar", locale: "tr" | "en"): string {
-  if (persona === "donusum-teknoloji") {
-    return locale === "tr" ? "Dönüşüm ve Teknoloji" : "Transformation & Technology";
-  }
-  return locale === "tr" ? "Büyüme ve Yeni Pazarlar" : "Growth & New Markets";
-}
+import { getPersonaLocalizedLabel } from "../../lib/popup/personas";
 
 export const popupRouter = createTRPCRouter({
   submit: publicProcedure
@@ -67,7 +61,7 @@ export const popupRouter = createTRPCRouter({
             company: input.lead.company,
             title: input.lead.title,
             persona: input.persona,
-            personaLabel: personaLabel(input.persona, input.locale),
+            personaLabel: getPersonaLocalizedLabel(input.persona, input.locale),
             problems: problemTexts,
             submissionType: input.submissionType,
             calComBookingUrl: bookingUrl,

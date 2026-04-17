@@ -40,3 +40,23 @@ export function getPersonaDef(slug: PersonaSlug): PersonaDef {
 export function getPersonaLabel(slug: PersonaSlug): string {
   return getPersonaDef(slug).labelKey;
 }
+
+const PERSONA_LABELS: Record<PersonaSlug, { tr: string; en: string }> = {
+  "donusum-teknoloji": {
+    tr: "Dönüşüm ve Teknoloji",
+    en: "Transformation & Technology",
+  },
+  "buyume-pazarlar": {
+    tr: "Büyüme ve Yeni Pazarlar",
+    en: "Growth & New Markets",
+  },
+};
+
+/**
+ * Returns the localized human-readable label for a persona.
+ * Used in email subjects, chatbot system prompts, lead notifications,
+ * and the hero PersonaChip indicator.
+ */
+export function getPersonaLocalizedLabel(slug: PersonaSlug, locale: "tr" | "en"): string {
+  return PERSONA_LABELS[slug][locale];
+}

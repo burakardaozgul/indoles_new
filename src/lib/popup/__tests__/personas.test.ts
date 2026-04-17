@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { PERSONAS, isPersonaSlug, getPersonaLabel, getPersonaDef } from "../personas";
+import { PERSONAS, isPersonaSlug, getPersonaLabel, getPersonaDef, getPersonaLocalizedLabel } from "../personas";
 
 describe("personas", () => {
   it("tam olarak iki persona tanımlar", () => {
@@ -43,5 +43,23 @@ describe("getPersonaDef", () => {
       // @ts-expect-error — intentional invalid input for runtime contract
       getPersonaDef("nonexistent")
     ).toThrow(/Unknown persona slug/);
+  });
+});
+
+describe("getPersonaLocalizedLabel", () => {
+  it("TR donusum-teknoloji label döner", () => {
+    expect(getPersonaLocalizedLabel("donusum-teknoloji", "tr")).toBe("Dönüşüm ve Teknoloji");
+  });
+
+  it("EN donusum-teknoloji label döner", () => {
+    expect(getPersonaLocalizedLabel("donusum-teknoloji", "en")).toBe("Transformation & Technology");
+  });
+
+  it("TR buyume-pazarlar label döner", () => {
+    expect(getPersonaLocalizedLabel("buyume-pazarlar", "tr")).toBe("Büyüme ve Yeni Pazarlar");
+  });
+
+  it("EN buyume-pazarlar label döner", () => {
+    expect(getPersonaLocalizedLabel("buyume-pazarlar", "en")).toBe("Growth & New Markets");
   });
 });

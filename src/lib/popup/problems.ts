@@ -1,4 +1,6 @@
 import type { ProblemDef, ProblemSlug, PersonaSlug } from "./types";
+import trMessages from "../../../messages/tr.json";
+import enMessages from "../../../messages/en.json";
 
 export const PROBLEMS: readonly ProblemDef[] = [
   // DÖNÜŞÜM VE TEKNOLOJİ (sanayici persona) — 10 problem
@@ -36,4 +38,12 @@ export function getProblemBySlug(slug: ProblemSlug): ProblemDef | undefined {
 
 export function getAllProblemSlugs(): readonly ProblemSlug[] {
   return PROBLEMS.map((p) => p.slug);
+}
+
+const TR_PROBLEMS = (trMessages as { popup?: { problems?: Record<string, string> } }).popup?.problems ?? {};
+const EN_PROBLEMS = (enMessages as { popup?: { problems?: Record<string, string> } }).popup?.problems ?? {};
+
+export function resolveProblemText(slug: ProblemSlug, locale: "tr" | "en"): string {
+  const bundle = locale === "tr" ? TR_PROBLEMS : EN_PROBLEMS;
+  return bundle[slug] ?? slug;
 }

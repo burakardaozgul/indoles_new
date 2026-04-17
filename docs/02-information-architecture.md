@@ -4,7 +4,7 @@ Bu doküman INDOLES web platformunun sayfa haritasını, URL yapısını, naviga
 
 **Bağımlılıklar:**
 - Upstream: `01-vision-positioning.md` (persona'lar, pillar yapısı, problem-tipi filtreleme kararı)
-- Downstream: `04-design-system-principles.md` (sayfa layout'ları), `10-content-model-sanity.md` (Sanity schema'ları), `11-funnel-customer-flows.md` (dinamik müşteri yolculuğu)
+- Downstream: `04-design-system-principles.md` (sayfa layout'ları), `11-funnel-customer-flows.md` (dinamik müşteri yolculuğu)
 
 **Scope notu:** Bu doküman sayfaların statik yapısını ve ilişkilerini tanımlar. Müşteri yolculuğu dinamik akışları `docs/11-funnel-customer-flows.md`'de ele alınır.
 
@@ -121,7 +121,6 @@ Admin Dashboard (/admin)
 ├── Kullanıcılar (/admin/kullanicilar)
 ├── Briefler (/admin/briefler)
 ├── Paketler (/admin/paketler)
-├── İçerik (/admin/icerik) → Sanity Studio redirect
 └── Analitik (/admin/analitik) → PostHog redirect
 ```
 
@@ -207,7 +206,7 @@ Next.js `trailingSlash: false` config ile uygulanır.
 |---------|----------|
 | `/` (kök) | 301 → `/tr` |
 | Trailing slash | 301 → slash'sız versiyon |
-| Slug değişikliği | Eski slug → yeni slug 301 (Sanity'de redirect map tutulur) |
+| Slug değişikliği | Eski slug → yeni slug 301 (next.config.ts'de redirect map tutulur) |
 | Silinen sayfa | 301 → en yakın parent sayfa veya 410 Gone |
 | TR → EN karşılık | hreflang ile belirtilir, otomatik redirect yapılmaz |
 | Olmayan dil | `/fr/growth` → 404 |
@@ -259,7 +258,7 @@ Next.js `trailingSlash: false` config ile uygulanır.
 | `/tr/admin/kullanicilar` | `/en/admin/users` | Kullanıcı yönetimi |
 | `/tr/admin/briefler` | `/en/admin/briefs` | Brief yönetimi |
 | `/tr/admin/paketler` | `/en/admin/packages` | Paket yönetimi |
-| `/tr/admin/icerik` | `/en/admin/content` | Sanity Studio redirect |
+| `/tr/admin/icerik` | `/en/admin/content` | İçerik yönetimi (statik dosya düzenleme — git workflow) |
 | `/tr/admin/analitik` | `/en/admin/analytics` | PostHog redirect |
 
 **Teknik Route'lar (dil-bağımsız):**
@@ -519,7 +518,7 @@ Her sayfa tipinin hangi diğer sayfa tiplerine link verdiği:
 | Journal yazı | İlgili yazılar, ilgili hizmet/paket, CTA |
 | Araç sonuç | İlgili paket önerisi, rezervasyon CTA |
 
-Cross-link'ler Sanity'de ilişkisel referans olarak yönetilir (detay `10-content-model-sanity.md`'de).
+Cross-link'ler `src/lib/content/*.ts` içindeki statik tanımlamalarda ilişkisel referans olarak yönetilir (bkz. ADR-006).
 
 ### 5e. Sticky Navigation Davranışı
 
@@ -585,8 +584,7 @@ Role-gated admin sayfaları. Detaylı permission matrix `09-auth-roles-permissio
 | Dashboard | Genel metrikler, bekleyen brief'ler, günlük rezervasyonlar | `admin` |
 | Kullanıcılar | Kullanıcı listesi, rol atama, hesap durumu | `admin` |
 | Briefler | Tüm brief'lerin yönetimi, atama, durum güncelleme | `admin` + `expert` (kendi atananları) |
-| Paketler | Paket oluşturma/düzenleme/yayınlama (Sanity ile senkron) | `admin` |
-| İçerik | Sanity Studio'ya redirect — CMS içerik yönetimi | `admin` |
+| Paketler | Paket oluşturma/düzenleme/yayınlama | `admin` |
 | Analitik | PostHog dashboard'una redirect — analytics görüntüleme | `admin` |
 
 ---
@@ -638,7 +636,7 @@ Detaylı SEO stratejisi `08-seo-i18n-strategy.md`'de.
 
 ## 10. Açık Sorular
 
-- **Site içi arama implementasyonu:** Faz 1'de basit Sanity-tabanlı arama mı, yoksa Algolia/Meilisearch gibi dedicated arama servisi mi?
+- **Site içi arama implementasyonu:** Faz 1'de statik indeks üzerinde basit arama mı, yoksa Algolia/Meilisearch gibi dedicated arama servisi mi?
 - **Journal kategori taksonomisi:** Hangi kategoriler olacak? Pillar bazlı mı, konu bazlı mı, hibrit mi?
 - **Araç listesi:** İlk launch'ta hangi interaktif teşhis araçları olacak? (ör. dijital olgunluk testi, CRO audit, AI hazırlık skoru)
 - **Homepage video:** Manifesto videosu mu, müşteri testimonial derlemesi mi, ürün tanıtım mı?

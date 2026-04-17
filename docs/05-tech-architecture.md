@@ -5,16 +5,18 @@
 > **Statü:** Onaylı — implementasyon için kaynak doküman.
 > **Bağlı belgeler:** `04-design-system-principles.md`, `docs/decisions/ADR-001-agent-orchestration.md`, `docs/decisions/ADR-002-stitch-design-reject.md`.
 
+> **Son güncelleme:** 2026-04-17 — ADR-006 kapsamında Sanity referansları kaldırıldı; içerik artık statik TS + MDX ile tutulur.
+
 ---
 
 ## 1. Mimari Özeti ve Kararlar
 
 ### 1.1 Tek cümlede
-INDOLES web, **AWS üzerinde SST + OpenNext ile deploy edilen, TypeScript tabanlı tek Next.js 15 monolitidir**; AI agent, tRPC API ve Sanity içerik katmanı aynı deploymentın parçasıdır.
+INDOLES web, **AWS üzerinde SST + OpenNext ile deploy edilen, TypeScript tabanlı tek Next.js 15 monolitidir**; AI agent ve tRPC API aynı deploymentın parçasıdır, içerik katmanı git içinde statik TS + MDX olarak tutulur (ADR-006).
 
 ### 1.2 Üst düzey prensipler
 - **Monolit ile başla.** Tek Next.js projesi; ayrı servisleri ancak yük veya ekip büyümesi zorladığında böl. Mikroservis borcunu erken alma.
-- **TypeScript her yerde.** Frontend, API, AI agent, Inngest fonksiyonları, Sanity şeması — tek dil, tek tip sistemi.
+- **TypeScript her yerde.** Frontend, API, AI agent, Inngest fonksiyonları, statik içerik tanımları — tek dil, tek tip sistemi.
 - **Edge'i dar tut.** Middleware edge'de çalışır (auth check, locale redirect, bot detection). RSC, Route Handler ve tRPC procedure'ları Node runtime'da kalır; Lambda'nın stabilitesi ve SDK uyumluluğu bu katmanda kritik.
 - **Serverless-first.** Ölçeklenen bileşenler (Neon, Lambda, S3, CloudFront) scale-to-zero veya event-driven. Sabit sunucu yok.
 - **Tek deployment artifact.** `sst deploy` tek komutla Next.js + tüm Lambda fonksiyonlarını + CDN'i yönetir; ayrı worker deploy pipeline'ı yok.
@@ -34,7 +36,7 @@ INDOLES web, **AWS üzerinde SST + OpenNext ile deploy edilen, TypeScript tabanl
 | API | tRPC (domain routers) + Raw Route Handlers | REST, GraphQL, ayrı Hono servisi |
 | AI orkestrasyon | Vercel AI SDK + Google Gemini | LangGraph, custom orchestrator, OpenAI |
 | Auth | Clerk | Auth.js, Supabase Auth, custom |
-| CMS | Sanity (embedded Studio) | Contentful, Payload, Strapi |
+| İçerik | Statik TS + MDX (git-in-content) | Sanity, Contentful, Payload, Strapi — bkz. ADR-006 |
 | Randevu | Cal.com Cloud (API + embed) | Cal.com self-hosted, Calendly, custom |
 | Ödeme | Stripe (global) + iyzico (TR) | Tek sağlayıcı |
 | Background jobs | Inngest | BullMQ, AWS SQS + Lambda |
@@ -71,7 +73,7 @@ graph TB
 
   subgraph Data["Veri ve İçerik"]
     Neon[(Neon Postgres<br/>serverless, branched)]
-    Sanity[Sanity CMS<br/>content lake + CDN]
+    StaticContent[Statik İçerik<br/>TS + MDX / git]
   end
 
   subgraph Identity["Kimlik ve Oturum"]
@@ -105,7 +107,7 @@ graph TB
   Lambda --> ISR
   Lambda --> Static
   Lambda --> Neon
-  Lambda --> Sanity
+  Lambda --> StaticContent
   Lambda --> Clerk
   Lambda --> Gemini
   Lambda --> Stripe
@@ -115,7 +117,6 @@ graph TB
   Lambda --> Inngest
   Inngest --> Neon
   Inngest --> Resend
-  Sanity -.webhook.-> Lambda
   Cal -.webhook.-> Lambda
   Stripe -.webhook.-> Lambda
   Iyzico -.webhook.-> Lambda
@@ -128,7 +129,7 @@ graph TB
 
 - **Edge katmanı** — CloudFront + Lambda@Edge/Middleware. Yalnızca auth check, locale redirect (`tr`/`en`), bot detection/user-agent triage ve basit redirect yazılır. Veri erişimi yok.
 - **Uygulama katmanı** — Next.js Lambda (Node.js runtime). RSC, Route Handlers, tRPC procedure'ları, AI agent handler'ı burada çalışır. Tüm veri erişimi, entegrasyon, iş kuralı bu katmanda.
-- **Veri katmanı** — Neon (transactional), Sanity (content), Clerk (identity store). Her biri kendi sınırında; cross-store join'ler uygulama katmanında yapılır.
+- **Veri katmanı** — Neon (transactional), Clerk (identity store), statik dosyalar (content — bkz. ADR-006). Her biri kendi sınırında; cross-store join'ler uygulama katmanında yapılır.
 - **Asenkron katman** — Inngest. E-posta gönderimi, Cal.com randevu onay akışı, ödeme receipt oluşturma, periyodik görevler.
 - **Üçüncü taraf entegrasyonlar** — Cal.com Cloud, Stripe, iyzico, Google Gemini. Webhook ile inbound, API ile outbound.
 - **Observability katmanı** — Sentry, PostHog, Axiom ayrı kanallardan beslenir; tek bir "logging gateway" yok.
@@ -148,7 +149,6 @@ sequenceDiagram
   participant L as Next.js Lambda
   participant Cl as Clerk
   participant DB as Neon
-  participant S as Sanity
 
   U->>CF: GET /tr/hizmetler/growth
   CF->>CF: Cache lookup (miss)
@@ -158,8 +158,7 @@ sequenceDiagram
   Cl-->>MW: 200 (public route, no auth required)
   MW->>L: Forward with headers
   L->>L: RSC render start
-  L->>S: getStaticContent("growth-page")
-  S-->>L: ISR cached content (or fresh)
+  L->>L: import staticContent from "src/lib/content"
   L->>DB: Light queries (persona hints, flags)
   DB-->>L: Result
   L->>L: Compose RSC tree
@@ -252,28 +251,13 @@ sequenceDiagram
   W-->>U: Progressive markdown render
 ```
 
-### 3.5 Sanity webhook → ISR revalidate
+### 3.5 İçerik güncelleme ve revalidate
 
-```mermaid
-sequenceDiagram
-  autonumber
-  participant Ed as Editör (Sanity Studio)
-  participant S as Sanity
-  participant W as /api/webhooks/sanity
-  participant NX as Next.js revalidate
-  participant CF as CloudFront
+ADR-006 kapsamında Sanity kaldırıldığı için webhook tabanlı ISR revalidate kaldırıldı. İçerik `src/lib/content/*.ts` ve `content/yazilar/*.mdx` içinde statik tutulur.
 
-  Ed->>S: Publish document
-  S->>W: POST webhook + signature
-  W->>W: Verify signature + parse payload
-  W->>W: Map document type → affected paths
-  W->>NX: revalidatePath("/tr/hizmetler/growth")
-  W->>NX: revalidateTag("package-list")
-  NX-->>W: OK
-  W-->>S: 200 OK
-  NX->>CF: Invalidate cache (bir sonraki istekte)
-  Note over CF: Bir sonraki istek fresh içerik döner
-```
+İçerik güncellenirken: (1) ilgili `.ts` veya `.mdx` dosyası git üzerinden güncellenir, (2) PR ile `main`'e merge edilir, (3) production deploy otomatik tetiklenir — yeni build içeriği alır.
+
+Bir sayfayı hızlıca güncellenmesi gerektiğinde (acil düzeltme) `revalidatePath` veya `revalidateTag` manuel olarak admin panelden veya bir Route Handler üzerinden tetiklenebilir; Sanity webhook'una gerek yoktur.
 
 ### 3.6 Ödeme akışı
 
@@ -332,7 +316,7 @@ sequenceDiagram
 - **tRPC v11** — Domain bazlı router'lar: `booking`, `brief`, `consultant`, `user`, `package`, `tool`. `createTRPCRouter` + `protectedProcedure` / `publicProcedure` / `adminProcedure`.
 - **Zod** — Tüm input validation. Drizzle şeması + Zod arasında `drizzle-zod` ile sync.
 - **Raw Route Handlers** — Yalnızca aşağıdakiler için:
-  - `/api/webhooks/*` (Sanity, Cal.com, Stripe, iyzico, Clerk) — imza doğrulama, raw body parse
+  - `/api/webhooks/*` (Cal.com, Stripe, iyzico, Clerk) — imza doğrulama, raw body parse
   - `/api/upload/*` — multipart/form-data, S3 presigned URL
   - `/api/agent` — AI streaming (SSE)
   - `/api/auth/*` — Clerk callback'leri (kütüphane gereksinimi)
@@ -349,10 +333,23 @@ sequenceDiagram
 - **Guardrails** — System prompt'ta INDOLES ton rehberi (bkz. `03-brand-voice-tone.md`). PII maskeleme, prompt injection filtresi middleware'de.
 
 ### 4.7 İçerik katmanı
-- **Sanity Studio** — `/sanity` altında embedded. Next.js'in bir route'u (`/studio`) olarak host edilir.
-- **Doküman tipleri** — `page`, `caseStudy`, `consultant`, `package`, `article`, `persona` (detay: `10-content-model-sanity.md`).
-- **GROQ + Type generation** — `sanity typegen` ile TypeScript tipleri otomatik. `next-sanity` ile RSC içinde doğrudan fetch.
-- **Preview mode** — Sanity Presentation tool → Next.js draft mode → cookie-based live preview.
+
+ADR-006 kapsamında Sanity kaldırıldı; içerik git içinde statik TS ve MDX dosyalarında tutulur.
+
+| İçerik türü | Konum |
+|---|---|
+| Hizmetler (12 adet) | `src/lib/content/services.ts` |
+| Pillar'lar | `src/lib/content/pillars.ts` |
+| Paketler | `src/lib/content/packages.ts` |
+| Vaka çalışmaları | `src/lib/content/cases.ts` |
+| Danışmanlar | `src/lib/content/consultants.ts` |
+| Blog / journal yazıları | `content/yazilar/{slug}.{tr,en}.mdx` |
+| Sayfa içerikleri (hakkımızda, manifesto) | `messages/{tr,en}.json` |
+| KVKK / yasal metinler | `content/hukuki/*.md` |
+| Görseller | `public/images/` |
+
+- **TypeScript tipler** — İçerik şemaları `src/lib/content/types.ts`'de tanımlanır; Sanity typegen veya GROQ yoktur, doğrudan TS importlar kullanılır.
+- **Preview:** Sanity Presentation tool kaldırıldı. İçerik değişiklikleri git branch üzerinden izlenir; gerektiğinde Next.js draft mode ile preview branch'te incelenebilir.
 
 ### 4.8 Randevu ve iletişim
 - **Cal.com Cloud** — Her consultant için event type. API ile uygun slot sorgulama, embed ile inline booking UI.
@@ -364,7 +361,7 @@ sequenceDiagram
 - **Stripe Checkout** — Global ödemeler. Checkout Session mode, webhook `checkout.session.completed`.
 - **iyzico** — TR kullanıcıları. Checkout Form API, webhook benzeri callback (`conversationId` ile eşleme).
 - **Routing** — Kullanıcının `locale` + billing country kombinasyonuna göre. Opt-out yok; biz yönlendiriyoruz.
-- **Para birimi** — Stripe için `EUR`/`USD`, iyzico için `TRY`. Katalog fiyatları Sanity'de tüm birimlerde saklanır.
+- **Para birimi** — Stripe için `EUR`/`USD`, iyzico için `TRY`. Katalog fiyatları statik TS'te (`src/lib/content/packages.ts`) tüm birimlerde saklanır.
 
 ### 4.10 Background jobs
 - **Inngest** — Event driven. Fonksiyonlar `src/lib/inngest/functions/*.ts`, her biri `inngest.createFunction(...)`.
@@ -373,7 +370,6 @@ sequenceDiagram
   - `booking.confirm` — Booking webhook sonrası onay akışı
   - `booking.reminder` — 24h + 1h önce hatırlatma
   - `payment.receipt` — Ödeme sonrası receipt email
-  - `cms.revalidate` — Sanity webhook sonrası path/tag invalidation
   - `analytics.digest` — Haftalık admin özet (opsiyonel, v2)
 - **Retry + dead letter** — Inngest built-in. Başarısız job'lar Sentry'ye alert atar.
 
@@ -415,7 +411,6 @@ export default $config({
     const neonDbUrl = new sst.Secret("NeonDatabaseUrl");
     const clerkPublishableKey = new sst.Secret("ClerkPublishableKey");
     const clerkSecretKey = new sst.Secret("ClerkSecretKey");
-    const sanityToken = new sst.Secret("SanityApiToken");
     const geminiApiKey = new sst.Secret("GoogleGeminiApiKey");
     const stripeSecretKey = new sst.Secret("StripeSecretKey");
     const iyzicoApiKey = new sst.Secret("IyzicoApiKey");
@@ -438,7 +433,6 @@ export default $config({
         DATABASE_URL: neonDbUrl.value,
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: clerkPublishableKey.value,
         CLERK_SECRET_KEY: clerkSecretKey.value,
-        SANITY_API_TOKEN: sanityToken.value,
         GOOGLE_GENERATIVE_AI_API_KEY: geminiApiKey.value,
         STRIPE_SECRET_KEY: stripeSecretKey.value,
         IYZICO_API_KEY: iyzicoApiKey.value,
@@ -486,20 +480,19 @@ Next.js App Router'da her route için rendering modu tek tek belirlenir. Varsay�
 | Route grubu | Örnek path | Mod | Revalidate | Gerekçe |
 |---|---|---|---|---|
 | Marketing anasayfa | `/[locale]` | SSR (persona-aware) | — | Kullanıcı cookie'sine göre persona varyantı; cache'lenemez. |
-| Hizmet / pillar sayfaları | `/[locale]/hizmetler/[slug]` | ISR | 3600s | Sanity içeriği stabil; webhook ile on-demand revalidate. |
-| Paket detay | `/[locale]/paketler/[slug]` | ISR | 900s | Fiyat/kapsam orta sıklıkta değişir. |
-| Case study | `/[locale]/vakalar/[slug]` | ISR | 3600s | Yayınlandıktan sonra nadiren değişir. |
-| Blog / içerik | `/[locale]/yazilar/[slug]` | ISR | 3600s | SEO-odaklı; statik üretim yeterli. |
+| Hizmet / pillar sayfaları | `/[locale]/hizmetler/[slug]` | ISR | 86400s | Statik içerik stabil; içerik değişimi git deploy ile gelir. |
+| Paket detay | `/[locale]/paketler/[slug]` | ISR | 3600s | Fiyat/kapsam orta sıklıkta değişir. |
+| Case study | `/[locale]/vakalar/[slug]` | ISR | 86400s | Yayınlandıktan sonra nadiren değişir. |
+| Blog / içerik | `/[locale]/yazilar/[slug]` | ISR | 86400s | SEO-odaklı; statik MDX üretim yeterli. |
 | Dashboard | `/app/dashboard` | SSR | — | Kullanıcıya özel; auth-gated. |
 | Brief formu | `/app/brief/yeni` | SSR + client island | — | Form state client-side, SSR shell. |
 | Rezervasyon | `/app/rezervasyon` | SSR | — | Cal.com embed auth-aware. |
 | Admin | `/admin/**` | SSR | — | Her zaman güncel data. |
-| Studio | `/studio` | Client-only (Sanity Studio SPA) | — | Sanity'nin kendi SPA'si. |
 | API | `/api/**` | Route Handler (dynamic) | — | — |
 
 **Streaming kuralı:** RSC render'ları `<Suspense>` ile parçalanır; shell 200ms içinde gönderilmeye başlar, data-heavy bölümler streaming ile gelir.
 
-**`generateStaticParams`:** ISR sayfaları için build time'da Sanity'den slug listesi alınır; kritik sayfalar (pillar'lar, öne çıkan case study'ler) pre-render.
+**`generateStaticParams`:** ISR sayfaları için build time'da `src/lib/content/*.ts` dosyalarından slug listesi alınır; kritik sayfalar (pillar'lar, öne çıkan case study'ler) pre-render.
 
 ---
 
@@ -602,7 +595,6 @@ Aşağıdakiler tRPC dışında, klasik Route Handler:
 
 | Path | Amaç | Özellik |
 |---|---|---|
-| `/api/webhooks/sanity` | Content revalidate | Signature verify (`SANITY_WEBHOOK_SECRET`), `revalidatePath` / `revalidateTag` |
 | `/api/webhooks/cal` | Booking event | HMAC verify, booking upsert, Inngest trigger |
 | `/api/webhooks/stripe` | Payment event | Stripe signature verify, payment upsert |
 | `/api/webhooks/iyzico` | Payment event | iyzico conversation ID match |
@@ -619,7 +611,6 @@ Aşağıdakiler tRPC dışında, klasik Route Handler:
 | Servis | Kullanım | Entegrasyon tipi | Kimlik doğrulama |
 |---|---|---|---|
 | Neon | Transactional DB | `@neondatabase/serverless` + Drizzle | Connection string (SST Secret) |
-| Sanity | CMS | `next-sanity` + webhook | API token (read) + webhook secret |
 | Clerk | Auth | `@clerk/nextjs` + webhook | Publishable + secret key + Svix signature |
 | Google Gemini | LLM | Vercel AI SDK (`@ai-sdk/google`) | API key |
 | Cal.com | Booking | REST API + `@calcom/embed-react` + webhook | API key + HMAC webhook secret |
@@ -659,7 +650,7 @@ Clerk üzerinden. Session cookie HTTP-only + Secure + SameSite=Lax. MFA opsiyone
 - SST Secrets üzerinden Lambda env injection.
 
 ### 9.5 Network + HTTP headers
-- **CSP (Content-Security-Policy):** `default-src 'self'`; `script-src` Clerk + PostHog + Sentry + Cal embed + Sanity preview; `frame-src` Cal.com + Sanity + Stripe Checkout + iyzico.
+- **CSP (Content-Security-Policy):** `default-src 'self'`; `script-src` Clerk + PostHog + Sentry + Cal embed; `frame-src` Cal.com + Stripe Checkout + iyzico.
 - **HSTS:** `max-age=63072000; includeSubDomains; preload`.
 - **X-Frame-Options:** `DENY` (studio hariç).
 - **Referrer-Policy:** `strict-origin-when-cross-origin`.
@@ -700,7 +691,7 @@ Her webhook endpoint'i **raw body** okur, signature doğrular, timestamp skew ko
 ### 10.2 Stratejiler
 - **RSC default** — JS bundle'ı müşteriye göndermemek ilk çözüm.
 - **Client island'ları izole et** — Form, embed, animasyon ihtiyaç duyanlar `"use client"`; diğer her şey server.
-- **Image optimization** — Next.js `<Image>` + Sanity `next-sanity-image`. AVIF/WebP otomatik.
+- **Image optimization** — Next.js `<Image>` + `/public/images/` statik asset'ler [gelecekte CDN kararı — şimdilik `/public`]. AVIF/WebP otomatik.
 - **Font strategy** — Fraunces + Inter self-host (`next/font`). `display: swap`, subset TR + EN + Latin Extended.
 - **Preconnect + preload** — CloudFront, Clerk, PostHog origin'lerine `preconnect`; LCP image `preload`.
 - **Code splitting** — Route bazlı otomatik; manuel `dynamic()` ile büyük client bileşenler (chart, editor) lazy.
@@ -724,12 +715,12 @@ indoles-web/
 │       ├── production.yml        # main'e merge → sst deploy --stage production
 │       └── checks.yml            # lint, typecheck, test, lighthouse
 ├── .claude/                      # Claude Code plugin ayarları, skill'ler
+├── content/
+│   ├── yazilar/                  # Blog yazıları — {slug}.{tr,en}.mdx
+│   └── hukuki/                   # KVKK / yasal metinler — *.md
 ├── docs/                         # Bu klasör
-├── public/                       # Statik asset'ler
-├── sanity/
-│   ├── schemas/                  # Doküman şemaları
-│   ├── structure.ts              # Studio custom structure
-│   └── sanity.config.ts
+├── public/
+│   └── images/                   # Statik görseller
 ├── src/
 │   ├── app/
 │   │   ├── (marketing)/
@@ -754,14 +745,12 @@ indoles-web/
 │   │   │       ├── briefs/page.tsx
 │   │   │       ├── bookings/page.tsx
 │   │   │       └── users/page.tsx
-│   │   ├── studio/[[...tool]]/page.tsx         # Sanity Studio
 │   │   ├── api/
 │   │   │   ├── trpc/[trpc]/route.ts
 │   │   │   ├── agent/route.ts                  # AI streaming
 │   │   │   ├── upload/route.ts
 │   │   │   ├── health/route.ts
 │   │   │   └── webhooks/
-│   │   │       ├── sanity/route.ts
 │   │   │       ├── cal/route.ts
 │   │   │       ├── stripe/route.ts
 │   │   │       ├── iyzico/route.ts
@@ -795,12 +784,16 @@ indoles-web/
 │   │   ├── analytics/
 │   │   │   ├── posthog.ts
 │   │   │   └── events.ts         # Typed event definitions
+│   │   ├── content/              # Statik içerik tanımları (ADR-006)
+│   │   │   ├── types.ts          # İçerik şema tipleri
+│   │   │   ├── services.ts
+│   │   │   ├── pillars.ts
+│   │   │   ├── packages.ts
+│   │   │   ├── cases.ts
+│   │   │   └── consultants.ts
 │   │   ├── inngest/
 │   │   │   ├── client.ts
 │   │   │   └── functions/
-│   │   ├── sanity/
-│   │   │   ├── client.ts
-│   │   │   └── queries.ts
 │   │   └── utils/                # cn, formatDate, slugify vb.
 │   ├── server/
 │   │   ├── db/
@@ -878,7 +871,6 @@ indoles-web/
 - **Incident response** — Üretim down/yavaş durumunda kim bakar, hangi dashboard'a.
 - **Secret rotation** — Clerk/Stripe/iyzico/Gemini key rotation prosedürü.
 - **Data export / user deletion** — KVKK/GDPR talebi geldiğinde adım adım.
-- **Sanity backup** — Haftalık export, S3'e.
 - **Neon PITR (point-in-time recovery)** — Veri kaybı senaryosunda.
 
 ### 12.3 Açık sorular

@@ -48,7 +48,7 @@ Aynı sayfa iki persona'ya aynı anda konuşabilir (orta ton, tek versiyon) veya
 | Danışman profil | Orta ton | Tek versiyon | Profesyonel profil dili |
 | Brief / Rezervasyon | Orta ton | Tek versiyon | Form dili nötr-yönlendirici |
 
-Persona-aware sayfalarda copy iki versiyon olarak yazılır ve Sanity'de persona alanıyla etiketlenir. Frontend, cookie'deki persona seçimine göre doğru versiyonu render eder.
+Persona-aware sayfalarda copy iki versiyon olarak yazılır ve `messages/{tr,en}.json` içinde persona alanıyla etiketlenir. Frontend, cookie'deki persona seçimine göre doğru versiyonu render eder.
 
 ---
 
@@ -575,7 +575,7 @@ Bir sayfa EN'ye çevrildiğinde kontrol edilecekler:
 
 ## 8. Açık Sorular
 
-- **Persona switch teknik implementasyonu:** Persona-aware sayfalarda çift copy Sanity'de nasıl yapılandırılacak? (detay `10-content-model-sanity.md`'de ele alınacak)
+- **Persona switch teknik implementasyonu:** Persona-aware sayfalarda çift copy `messages/{tr,en}.json` içinde nasıl yapılandırılacak?
 - **Journal yazarları:** İç ekip mi yazacak, dış katkıcı da olacak mı? Dış katkıcının sesi brand voice'a nasıl uyumlanacak?
 - **Video içerik tonu:** Homepage'deki video section için ses tonu rehberi bu dokümanın kapsamında mı, yoksa ayrı bir brief mi gerekiyor?
 - **Chatbot kişilik derinliği:** "INDOLES Danışman" zamanla öğrenen/hatırlayan bir kişilik mi geliştirecek, yoksa her session sıfırdan mı başlayacak? (teknik karar `07-ai-agent-spec.md`'de)

@@ -61,7 +61,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Database | Neon (serverless Postgres, EU-central) | Scale-to-zero, per-PR branching |
 | ORM | Drizzle + `@neondatabase/serverless` | Edge uyumlu driver |
 | Auth | Clerk | Session, MFA, webhook ile Neon sync |
-| CMS | Sanity (embedded Studio `/studio`) | Doküman seviyesi i18n TR+EN |
+| İçerik | Statik TS + MDX (git-in-content) | `src/lib/content/*.ts` + `content/yazilar/*.mdx`; i18n TR+EN paralel dosyalarla — bkz. `docs/decisions/ADR-006-remove-sanity.md` |
 | Booking | Cal.com Cloud (API + `@calcom/embed-react`) | Self-hosted değil, Cloud |
 | Ödeme | Stripe (global) + iyzico (TR) | Locale-based routing |
 | AI Agent | Vercel AI SDK + Google Gemini (monolit içinde `/api/agent`) | Tool calling, SSE streaming — bkz. `ADR-001` |
@@ -154,14 +154,14 @@ indoles-web/
 │   ├── 07-ai-agent-spec.md            # Agent araçları, system prompt, fallback
 │   ├── 08-seo-i18n-strategy.md        # hreflang, sitemap, llms.txt
 │   ├── 09-auth-roles-permissions.md   # Clerk rolleri, permission matrix
-│   ├── 10-content-model-sanity.md     # Sanity schema, i18n stratejisi
 │   ├── 11-funnel-customer-flows.md    # Üçlü funnel, AI devreye giriş noktaları
 │   ├── 12-analytics-measurement.md    # PostHog events, KPI'lar
 │   └── decisions/
 │       ├── ADR-template.md                   # Architecture Decision Record şablonu
 │       ├── ADR-001-agent-orchestration.md    # Vercel AI SDK seçimi gerekçesi
 │       ├── ADR-002-stitch-design-reject.md   # Stitch belgesinden reddedilen tasarım kararları
-│       └── ADR-003-cinematic-hero-zone.md    # Anasayfa hero için sınırlı dark istisnası
+│       ├── ADR-003-cinematic-hero-zone.md    # Anasayfa hero için sınırlı dark istisnası
+│       └── ADR-006-remove-sanity.md          # Sanity CMS kaldırıldı; içerik statik TS + MDX
 ├── lib/
 │   └── design/
 │       └── tokens.ts                  # Design token'lar (renk, tipografi, spacing, motion)
@@ -225,7 +225,6 @@ Referans alınabilecek siteler (Stripe, Linear, Vercel, Pentagram, Bureau Oberha
 | `07-ai-agent-spec.md` | AI agent'in amacı, tool tanımları, system prompt taslağı, fallback akışları |
 | `08-seo-i18n-strategy.md` | hreflang, canonical, sitemap, llms.txt stratejisi |
 | `09-auth-roles-permissions.md` | Clerk rolleri (guest/user/expert/admin) ve permission matrix |
-| `10-content-model-sanity.md` | Sanity schema hiyerarşisi, singleton/document ayrımı, i18n stratejisi |
 | `11-funnel-customer-flows.md` | Üçlü funnel akışı, AI agent devreye giriş noktaları, brief-rezervasyon-proje akışı |
 | `12-analytics-measurement.md` | PostHog event taksonomisi, KPI tanımları, dashboard fikirleri |
 
@@ -241,7 +240,7 @@ Referans alınabilecek siteler (Stripe, Linear, Vercel, Pentagram, Bureau Oberha
 |------------|---------------------|
 | Yeni bir DB tablosu veya entity | `06-data-model.md` |
 | Yeni bir sayfa veya route | `02-information-architecture.md` |
-| Yeni bir Sanity schema | `10-content-model-sanity.md` |
+| Yeni bir statik içerik türü (hizmet, paket, case vb.) | `src/lib/content/*.ts` + ilgili `docs/*.md` |
 | Yeni bir auth rolü veya permission | `09-auth-roles-permissions.md` |
 | Yeni bir AI agent tool'u | `07-ai-agent-spec.md` |
 | Tonal veya brand kararı | `03-brand-voice-tone.md` |

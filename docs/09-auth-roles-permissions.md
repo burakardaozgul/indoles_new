@@ -2,8 +2,10 @@
 
 > **Amaç:** INDOLES platformunun kullanıcı kimlikleri, rol modeli, permission matrix'i ve auth enforcement katmanlarını sabitlemek.
 >
-> **Bağlı belgeler:** `05-tech-architecture.md` §4.5 & §9, `06-data-model.md` §2.1, `10-content-model-sanity.md`.
+> **Bağlı belgeler:** `05-tech-architecture.md` §4.5 & §9, `06-data-model.md` §2.1.
 > **Provider:** Clerk.
+
+> **Son güncelleme:** 2026-04-17 — ADR-006 kapsamında Sanity referansları kaldırıldı; içerik artık statik TS + MDX ile tutulur.
 
 ---
 
@@ -29,8 +31,8 @@
 |---|---|---|
 | `guest` | Girişsiz ziyaretçi | Public sayfaları gör, AI agent ile sohbet et (anonim), iletişim formu gönder |
 | `user` | Kayıtlı kullanıcı | Brief gönder, randevu al, kendi brief/booking/payment'larını gör, hesap ayarları |
-| `consultant` | INDOLES iç ekip danışmanı | Kendi atanmış brief'lerini gör, kendi booking takvimini gör, case study draft yaz (Sanity Studio) |
-| `admin` | INDOLES yönetimi (Burak + gelecek ekip) | Tüm kullanıcıları gör/düzenle, tüm brief/booking/payment'lara erişim, Sanity Studio full, feature flag, user role assignment |
+| `consultant` | INDOLES iç ekip danışmanı | Kendi atanmış brief'lerini gör, kendi booking takvimini gör, case study draft yaz (git PR aracılığıyla) |
+| `admin` | INDOLES yönetimi (Burak + gelecek ekip) | Tüm kullanıcıları gör/düzenle, tüm brief/booking/payment'lara erişim, içerik yönetimi, feature flag, user role assignment |
 
 **Rol atama:**
 - Default: `user` (Clerk signup hook).
@@ -64,10 +66,10 @@
 | Kendi payment history | ✗ | ✓ | ✓ | ✓ |
 | Danışman profili **düzenle** (kendi) | ✗ | ✗ | ✓ | ✓ |
 | Danışman oluştur / diğerini düzenle | ✗ | ✗ | ✗ | ✓ |
-| Paket oluştur / düzenle (Sanity) | ✗ | ✗ | ✗ | ✓ |
-| Case study draft yaz (Sanity) | ✗ | ✗ | ✓ | ✓ |
-| Case study publish | ✗ | ✗ | ✗ | ✓ |
-| Blog yazısı draft/publish | ✗ | ✗ | ✓ (draft) | ✓ (publish) |
+| Paket oluştur / düzenle (`packages.ts` + git PR) | ✗ | ✗ | ✗ | ✓ |
+| Case study draft yaz (git PR) | ✗ | ✗ | ✓ | ✓ |
+| Case study publish (git merge) | ✗ | ✗ | ✗ | ✓ |
+| Blog yazısı draft/publish (git PR/merge) | ✗ | ✗ | ✓ (draft) | ✓ (publish) |
 | Admin panel erişim | ✗ | ✗ | ✗ | ✓ |
 | Kullanıcı listesi / rol atama | ✗ | ✗ | ✗ | ✓ |
 | Feature flag yönetimi (PostHog) | ✗ | ✗ | ✗ | ✓ |
@@ -95,13 +97,11 @@ import { NextResponse } from "next/server";
 const isProtected = createRouteMatcher([
   "/app/(.*)",
   "/admin/(.*)",
-  "/studio/(.*)",
   "/api/trpc/(.*)",
   "/api/upload(.*)",
 ]);
 
 const isAdmin = createRouteMatcher(["/admin/(.*)"]);
-const isStudio = createRouteMatcher(["/studio/(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   // 1. Locale redirect — next-intl middleware chain
@@ -118,12 +118,6 @@ export default clerkMiddleware(async (auth, req) => {
     // 3. Role-based check
     if (isAdmin(req) && session.sessionClaims?.metadata?.role !== "admin") {
       return NextResponse.redirect(new URL("/app/dashboard", req.url));
-    }
-    if (isStudio(req)) {
-      const role = session.sessionClaims?.metadata?.role;
-      if (role !== "admin" && role !== "consultant") {
-        return NextResponse.redirect(new URL("/app/dashboard", req.url));
-      }
     }
   }
 
@@ -198,9 +192,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
 Middleware çift emniyet; RSC layout ikinci kapı.
 
-### 4.4 Sanity Studio
+### 4.4 İçerik yönetimi (ADR-006 sonrası)
 
-Studio erişimi Next.js üzerinden (`/studio`) — middleware kontrol eder. Ayrıca Sanity projenin `sanity.config.ts`'inde `resolveUserFromRequest` helper'ı ile Clerk oturumu Sanity'e map'lenir; rol'e göre Sanity schema'larında conditional field visibility (örn. sadece admin publish edebilir).
+Sanity Studio kaldırıldı (bkz. ADR-006). İçerik güncellemeleri git üzerinden PR workflow'u ile yapılır. Consultant case study veya blog yazısı eklemek için branch açar, PR oluşturur; admin review eder ve merge eder (bu sayede "publish" da gerçekleşmiş olur). Admin panelinde içerik yönetimi için ayrı bir UI rotası gerekmez.
 
 ### 4.5 API Route Handler
 
@@ -261,8 +255,7 @@ type UserPublicMetadata = {
 ### 6.1 Consultant onboarding
 1. Admin Clerk dashboard'da yeni user oluşturur veya mevcut user'ı `role = consultant` yapar.
 2. Admin, admin panelde `/admin/consultants/new` → `consultants` row'u oluşturur (slug, cal event type, pillar focus).
-3. Consultant ilk login'de kendi profil sayfasına yönlendirilir, Sanity'deki profil dokümanını doldurur.
-4. Admin publish'ler, consultant canlıya çıkar.
+3. Consultant profil bilgileri `src/lib/content/consultants.ts` dosyasına eklenir (git PR); admin merge'ler, canlıya çıkar.
 
 ### 6.2 Password reset
 Clerk native — `/forgot-password` → email link.

@@ -75,7 +75,7 @@ Mesaj metninden ve URL bağlamından persona çıkarır.
 Pillar özeti (Growth / Transform / Build) — isim, vaat, hizmetler listesi, öne çıkan case study'ler.
 
 **Input:** `{ pillar: "growth" | "transform" | "build", locale: "tr" | "en" }`
-**Output:** Sanity'den pillar dokümanı (özetlenmiş).
+**Output:** `src/lib/content/pillars.ts`'den pillar verisi (özetlenmiş).
 
 ### 4.3 `getServices`
 Belirli pillar altındaki 12 hizmetten ilgili olanları döner.
@@ -157,7 +157,7 @@ Davranış:
 - Kullanıcıya "İnsan bir danışman en geç 1 iş günü içinde dönecek — bu arada [rezervasyon linki] ile daha hızlı bağlantı kurabilirsin" mesajı
 
 ### 4.10 `searchContent`
-Sanity içerik araması (blog, yazılar, akademi). Önce exact match, sonra semantic fallback.
+Statik içerik araması (blog, yazılar, case study'ler) — `src/lib/content/*.ts` ve MDX dosyaları üzerinde. Önce exact match, sonra semantic fallback.
 
 **Input:** `{ query: string, locale: "tr" | "en", type?: "article" | "caseStudy" | "page" }`
 **Output:** `[{ slug, title, excerpt, type }]`

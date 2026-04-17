@@ -1,6 +1,6 @@
 # 06 — Veri Modeli
 
-> **Amaç:** Neon Postgres üzerinde tutulacak entity'leri, ilişkilerini ve index stratejisini sabitlemek. Sanity'deki içerik modelinden farkı: burada **state** tutulur (kullanıcı, brief, booking, payment), orada **content** tutulur (page, caseStudy, article).
+> **Amaç:** Neon Postgres üzerinde tutulacak entity'leri, ilişkilerini ve index stratejisini sabitlemek. Statik içerik dosyalarından farkı: burada **state** tutulur (kullanıcı, brief, booking, payment), statik TS/MDX dosyalarında **content** tutulur (page, caseStudy, article — bkz. ADR-006).
 >
 > **ORM:** Drizzle — şema `src/server/db/schema.ts` tek dosyada başlar; domain büyürse klasörlenir.
 > **ID stratejisi:** `gen_random_uuid()` (pgcrypto) v1 için; v2'de uuid v7 değerlendirilecek. Dışarıya açılan (URL, API) ID'ler uuid; kullanıcı-dostu kısa slug'lar ayrı sütun.
@@ -49,7 +49,6 @@ erDiagram
 
   PACKAGES {
     uuid id PK
-    string sanity_ref UK
     string slug UK
     enum pillar
     jsonb pricing
@@ -188,7 +187,6 @@ Danışman profili. Faz 1'de iç ekip; açık marketplace yok (CLAUDE.md §6).
 | `id` | uuid | PK | — |
 | `user_id` | uuid | FK `users(id)`, UNIQUE | 1:1 |
 | `slug` | text | UNIQUE, NOT NULL | `/danismanlar/[slug]` |
-| `sanity_profile_ref` | text | NULL | Sanity doküman `_id` |
 | `cal_event_type_slug` | text | NOT NULL | Cal.com embed'de kullanılır |
 | `pillar_focus` | enum[] | NOT NULL | `growth` / `transform` / `build` |
 | `expertise_tags` | text[] | NOT NULL | Filtreleme için |
@@ -198,13 +196,12 @@ Danışman profili. Faz 1'de iç ekip; açık marketplace yok (CLAUDE.md §6).
 **Index'ler:** `(slug)`, `(active, display_order)`.
 
 ### 2.3 `packages`
-Ürünleşmiş paketler. Sabit kapsam + sabit süre + sabit fiyat. İçerik ve pazarlama copy'si Sanity'de; state (aktif mi, kaç satıldı, o anki fiyat override'ı) Neon'da.
+Ürünleşmiş paketler. Sabit kapsam + sabit süre + sabit fiyat. İçerik ve pazarlama copy'si `src/lib/content/packages.ts`'de (statik TS — ADR-006); state (aktif mi, kaç satıldı, o anki fiyat override'ı) Neon'da.
 
 | Sütun | Tip | Kısıt | Not |
 |---|---|---|---|
 | `id` | uuid | PK | — |
-| `sanity_ref` | text | UNIQUE, NOT NULL | Sanity `package` dokümanına referans |
-| `slug` | text | UNIQUE, NOT NULL | `/paketler/[slug]` |
+| `slug` | text | UNIQUE, NOT NULL | `/paketler/[slug]` — statik içerikle eşleştirilir |
 | `pillar` | enum | NOT NULL | `growth` / `transform` / `build` |
 | `pricing` | jsonb | NOT NULL | `{"TRY": 12000, "EUR": 450, "USD": 500}` |
 | `active` | boolean | NOT NULL, default true | Satışa açık mı |
@@ -433,7 +430,7 @@ Development + Preview ortamında realistic örnek data için Drizzle seed script
 ## 6. Backup ve Veri Koruma
 
 - **Neon PITR:** Production branch için 30 gün PITR (point-in-time recovery) aktif.
-- **Sanity export:** Haftalık cron (Inngest) ile `sanity export` → S3 bucket.
+- **Statik içerik:** Git'te (repository history) saklanır — ayrıca S3 backup gerekmez.
 - **Audit log retention:** 2 yıl (yasal + denetim).
 - **User soft delete:** 30 gün sonra Inngest cleanup job PII alanlarını anonymize eder (`email = "deleted-{id}@indoles.com.tr"`, `name = null`).
 - **Conversation retention:** Aktif kullanıcılar için süresiz; anonim sohbetler 90 gün sonra anonimleştirilir.

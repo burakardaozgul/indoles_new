@@ -2,7 +2,9 @@
 
 > **Amaç:** INDOLES web platformunun arama görünürlüğünü, çok dilli yapısını ve AI crawler'lara karşı tutumunu tek referansta sabitlemek.
 >
-> **Bağlı belgeler:** `02-information-architecture.md`, `05-tech-architecture.md`, `10-content-model-sanity.md`.
+> **Bağlı belgeler:** `02-information-architecture.md`, `05-tech-architecture.md`.
+
+> **Son güncelleme:** 2026-04-17 — ADR-006 kapsamında Sanity referansları kaldırıldı; içerik artık statik TS + MDX ile tutulur.
 
 ---
 
@@ -16,7 +18,7 @@
 | Locale detection | Path → cookie → Accept-Language header → default `tr` | Middleware'de 3 basamaklı |
 | Canonical URL | Her sayfada self-canonical | Duplicate content riski engelleme |
 | hreflang | Her lokalize sayfada TR + EN çiftleri + `x-default` | Google önerisi |
-| Sitemap | Dynamic generation (`/sitemap.xml`) + per-locale `/tr/sitemap.xml`, `/en/sitemap.xml` | Sanity + app router sayfaları birleştirir |
+| Sitemap | Dynamic generation (`/sitemap.xml`) + per-locale `/tr/sitemap.xml`, `/en/sitemap.xml` | Statik içerik indeksleri + app router sayfaları birleştirir |
 | Robots | `/robots.txt` — production'da allow; preview'da disallow | Preview'larda index edilmesin |
 | llms.txt | Yayınlanacak, curated | AI crawler'lara net içerik haritası |
 | Structured data | JSON-LD: Organization, Service, Article, CaseStudy, BreadcrumbList, FAQPage | Rich results için |
@@ -58,7 +60,7 @@
 
 **Segment translation:** URL segment'leri de çevrilir (`/hizmetler` ↔ `/services`, `/paketler` ↔ `/packages`). `next-intl`'in `pathnames` config'i ile yapılır.
 
-**Slug davranışı:** Content slug'ları (case study, paket, yazı) locale başına farklı olabilir (`/tr/paketler/buyume-sprinti` ↔ `/en/packages/growth-sprint`). Sanity `slug.current.tr` / `slug.current.en` ile yönetilir.
+**Slug davranışı:** Content slug'ları (case study, paket, yazı) locale başına farklı olabilir (`/tr/paketler/buyume-sprinti` ↔ `/en/packages/growth-sprint`). Her içerik tanımında `slug: { tr: "...", en: "..." }` yapısıyla yönetilir (`src/lib/content/*.ts`).
 
 ---
 
@@ -100,8 +102,8 @@ Next.js `sitemap.ts` file convention ile dynamic:
 // src/app/sitemap.ts
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = await collectStaticRoutes();        // static app routes
-  const sanityDocs = await fetchIndexableDocs();    // case studies, articles, packages
-  return [...pages, ...sanityDocs].map(entry => ({
+  const staticDocs = await fetchIndexableDocs();    // case studies, articles, packages — src/lib/content/*
+  return [...pages, ...staticDocs].map(entry => ({
     url: entry.url,
     lastModified: entry.lastModified,
     changeFrequency: entry.changeFrequency,
@@ -122,7 +124,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 | Danışman profili | 0.7 | monthly |
 | Blog/yazı | 0.7 | weekly |
 | Hakkımızda, iletişim | 0.5 | yearly |
-| Auth-gated, studio, /api | — | exclude |
+| Auth-gated, /api | — | exclude |
 
 ### 4.4 Preview davranışı
 Preview deployment'larda sitemap üretilir ama `robots.txt` `Disallow: /` olduğundan crawl edilmez; yanlışlıkla index'lenirse bile `noindex` meta tag'i vardır.
@@ -142,7 +144,6 @@ Sitemap: https://indoles.com.tr/sitemap.xml
 # Disallow
 Disallow: /app/
 Disallow: /admin/
-Disallow: /studio/
 Disallow: /api/
 Disallow: /*?draft=true
 ```
@@ -368,10 +369,10 @@ Kural: her indexable sayfadan 3-5 diğer indexable sayfaya link ver; orphan sayf
 ## 12. Çoklu Dil Workflow
 
 ### 12.1 İçerik eklenirken
-1. Sanity Studio'da TR versiyonu yayınlanır.
-2. EN çeviri aynı doküman üzerinde locale field'larında (document-level i18n, `10-content-model-sanity.md` §3) doldurulur.
-3. Her iki locale de yayına alınır.
-4. Webhook tetiklenir → ISR revalidate.
+1. TR versiyonu `{slug}.tr.mdx` (blog) veya `src/lib/content/*.ts` içinde oluşturulur.
+2. EN çeviri paralel dosyada (`{slug}.en.mdx`) veya aynı TS dosyasında `locale: "en"` alanında doldurulur.
+3. Her iki locale de aynı PR ile birlikte `main`'e merge edilir.
+4. Production deploy tetiklenir — webhook gerekmez, build-time statik.
 
 **Kural:** EN yayına alınmadan TR canlı olmaz (hreflang bütünlüğü için). Launch'ta 2 dil hazır; sonraki içerikler de 2 dil birlikte.
 

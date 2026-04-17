@@ -345,15 +345,14 @@ Ziyaretçi kullanıcı giriş yaptıktan sonra ana alanı:
 
 ### 6.2 Case study yayınlama
 
-1. Consultant Sanity Studio'da `caseStudy` draft yazar.
-2. Admin review: fotoğraf, metrik, dil tutarlılığı.
-3. Admin publish → Sanity webhook → Next.js revalidate.
+1. Consultant `content/vakalar/{slug}.{tr,en}.mdx` veya `src/lib/content/cases.ts` üzerinde draft yazar (git branch).
+2. Admin review: fotoğraf, metrik, dil tutarlılığı (PR review).
+3. Admin merge → production deploy → sayfa build-time statik olarak üretilir.
 
 ### 6.3 Paket durum güncelleme
 
-1. Sanity'de paket `active: false` → satıştan düşer.
-2. Neon `packages.active = false` (cron sync).
-3. Paket sayfası 404 yerine "Şu an bu paket aktif değil" + benzer öneriler.
+1. `src/lib/content/packages.ts` içinde paket `active: false` olarak güncellenir (git PR) veya Neon `packages.active = false` admin panelden set edilir.
+2. Paket sayfası 404 yerine "Şu an bu paket aktif değil" + benzer öneriler.
 
 ---
 

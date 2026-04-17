@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "@/styles/globals.css";
+import { TRPCProvider } from "@/lib/trpc/react";
 
 const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
@@ -49,7 +50,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${fraunces.variable} ${inter.variable} ${jetbrains.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <TRPCProvider>{children}</TRPCProvider>
+      </body>
     </html>
   );
 }

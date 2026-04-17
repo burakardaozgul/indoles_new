@@ -114,7 +114,6 @@ function Field({
       </label>
       <input
         id={id}
-        aria-label={id}
         type={type}
         value={value}
         onChange={onChange}

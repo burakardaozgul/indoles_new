@@ -1,18 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@react-email/render";
 import { PopupLeadNotificationEmail } from "../popup-lead-notification";
-
-// React 19 encodes apostrophes and quotes in text nodes as HTML entities.
-// Email clients render entities identically to the literal chars, but
-// tests comparing against source Turkish/English strings need to decode.
-function decodeEntities(html: string): string {
-  return html
-    .replace(/&#x27;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-}
+import { decodeEntities } from "./test-utils";
 
 describe("PopupLeadNotificationEmail", () => {
   const props = {

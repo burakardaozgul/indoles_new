@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Html, Head, Body, Container, Section, Heading, Text, Link, Hr } from "@react-email/components";
 
+// See popup-lead-confirmation.tsx for email i18n design note.
+
 type Props = {
   firstName: string;
   lastName: string;

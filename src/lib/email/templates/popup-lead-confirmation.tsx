@@ -1,6 +1,11 @@
 import * as React from "react";
 import { Html, Head, Body, Container, Heading, Text, Link } from "@react-email/components";
 
+// Email copy stays inline (bypassing next-intl) because React Email renders
+// outside request scope, where next-intl's getTranslations is not available
+// without additional plumbing. Keeping TR/EN strings as a local `copy` table
+// keeps email content reviewable in a single diff.
+
 type Props = {
   firstName: string;
   locale: "tr" | "en";

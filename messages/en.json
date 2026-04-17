@@ -217,5 +217,94 @@
       "tagline": "Digital and business transformation."
     },
     "build": { "name": "Build", "tagline": "Technology and product engineering." }
+  },
+  "popup": {
+    "meta": {
+      "progress": "{current} / {total}",
+      "kvkkConsent": "I consent to the processing of my personal data under KVKK.",
+      "kvkkLink": "Privacy notice",
+      "kvkkLinkHref": "/en/privacy-kvkk",
+      "back": "Back",
+      "next": "Continue",
+      "close": "Close",
+      "keepBrowsing": "Keep browsing for now",
+      "submit": "Submit",
+      "loading": "Sending..."
+    },
+    "stage1": {
+      "title": "Who are you?",
+      "subtitle": "Tell us a bit so we can show you what's relevant.",
+      "helper": "Pick what fits best — you can change it later."
+    },
+    "persona": {
+      "donusum-teknoloji": {
+        "label": "Transformation & Technology",
+        "description": "I want to boost efficiency, automate processes, or transform with AI in industry, manufacturing, or corporate operations."
+      },
+      "buyume-pazarlar": {
+        "label": "Growth & New Markets",
+        "description": "I want to grow sales, enter new markets, or strengthen my brand in commerce, e-commerce, or retail."
+      }
+    },
+    "stage2": {
+      "title": "Which situations do you face often?",
+      "subtitle": "Pick 3.",
+      "fifoHint": "You can pick up to 3. Earliest selection was removed."
+    },
+    "stage3": {
+      "title": "Got it. What's next?",
+      "subtitle": "Talk directly with the right advisor.",
+      "bookingCta": "Book a 1-hour free session",
+      "bookingHelper": "Pick a slot on Cal.com — it goes on your calendar.",
+      "contactCta": "Tell us, we'll reach out",
+      "contactHelper": "We'll get back within 1 business day."
+    },
+    "form": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "email": "Email",
+      "company": "Company",
+      "title": "Title",
+      "validation": {
+        "required": "This field is required.",
+        "email": "Enter a valid email.",
+        "phone": "Enter a valid phone number.",
+        "kvkk": "KVKK consent is required."
+      }
+    },
+    "success": {
+      "bookingTitle": "You're on the calendar.",
+      "bookingBody": "Details are in your email.",
+      "contactTitle": "Thanks.",
+      "contactBody": "We'll be in touch within 1 business day.",
+      "close": "Close"
+    },
+    "chip": {
+      "current": "Selection: {personaLabel}",
+      "change": "Change"
+    },
+    "problems": {
+      "manuel-surec-yavaslatiyor": "Manual processes are slowing my team down.",
+      "verimsizlik-goremiyorum": "I can't pinpoint where inefficiency happens.",
+      "ai-uygulama-bilmiyorum": "I can't see how AI would apply to my company.",
+      "veri-karar-verdirmiyor": "I have measurements, but they don't drive decisions.",
+      "dijitalesme-rafta": "Digital transformation has been shelved for years.",
+      "legacy-sistem-engelliyor": "Legacy systems block new business models.",
+      "ekip-teknoloji-takip-edemiyor": "My team can't keep up with technology.",
+      "ihracat-hazirlik-eksik": "Not ready for export or new markets.",
+      "tedarik-uretim-veri-kopuk": "Data between supply and production is disconnected.",
+      "oncelik-karmasasi": "I can't prioritize — everything feels urgent.",
+      "reklam-maliyeti-artisi": "Ad costs are rising, ROAS is falling.",
+      "trafik-satisa-donmuyor": "Traffic doesn't convert to sales.",
+      "siparis-hacmi-platoda": "Order volume is plateauing.",
+      "yeni-pazar-kanal": "I want to enter a new market or channel.",
+      "marka-bilinirlik-yetersiz": "My brand awareness is insufficient.",
+      "churn-yuksek": "Customer churn is high.",
+      "cac-ltv-makas": "CAC is rising, LTV is falling.",
+      "kanal-yonetim-eksik": "I can't manage marketing channels well.",
+      "altyapi-yuk-kaldirmiyor": "My e-commerce stack can't handle the sales load.",
+      "rekabet-geride-his": "I feel I'm falling behind competitors."
+    }
   }
 }

@@ -217,5 +217,94 @@
       "tagline": "Dijital ve işletme dönüşümü."
     },
     "build": { "name": "Build", "tagline": "Teknoloji ve ürün inşası." }
+  },
+  "popup": {
+    "meta": {
+      "progress": "{current} / {total}",
+      "kvkkConsent": "KVKK kapsamında kişisel verilerimin işlenmesini kabul ediyorum.",
+      "kvkkLink": "Aydınlatma metni",
+      "kvkkLinkHref": "/tr/gizlilik-kvkk",
+      "back": "Geri",
+      "next": "Devam et",
+      "close": "Kapat",
+      "keepBrowsing": "Şimdilik gezinmeye devam et",
+      "submit": "Gönder",
+      "loading": "Gönderiliyor..."
+    },
+    "stage1": {
+      "title": "Kimsin?",
+      "subtitle": "Seni daha iyi tanıyalım ki doğru içerikleri gösterelim.",
+      "helper": "Hangisi sana daha yakın? Sonra değiştirebilirsin."
+    },
+    "persona": {
+      "donusum-teknoloji": {
+        "label": "Dönüşüm ve Teknoloji",
+        "description": "Sanayi, üretim veya kurumsal operasyonda verimi artırmak, süreçleri otomatize etmek, AI ile dönüşmek istiyorum."
+      },
+      "buyume-pazarlar": {
+        "label": "Büyüme ve Yeni Pazarlar",
+        "description": "Ticaret, e-ticaret veya perakendede satış hacmini büyütmek, yeni pazarlara açılmak, markayı güçlendirmek istiyorum."
+      }
+    },
+    "stage2": {
+      "title": "Hangi durumları sıklıkla yaşıyorsun?",
+      "subtitle": "3 tanesini seç.",
+      "fifoHint": "3 sorun seçebilirsin. İlk seçimin çıkarıldı."
+    },
+    "stage3": {
+      "title": "Seçimini kaydettik. Sıradaki adım?",
+      "subtitle": "Sana uygun bir danışmanla doğrudan konuşalım.",
+      "bookingCta": "1 saatlik ücretsiz görüşme rezerve et",
+      "bookingHelper": "Cal.com'da slot seç, takvimine eklensin.",
+      "contactCta": "Bize anlatın, biz arayalım",
+      "contactHelper": "1 iş günü içinde geri dönüş yapacağız."
+    },
+    "form": {
+      "firstName": "Ad",
+      "lastName": "Soyad",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "company": "Şirket",
+      "title": "Unvan",
+      "validation": {
+        "required": "Bu alan zorunludur.",
+        "email": "Geçerli bir e-posta girin.",
+        "phone": "Geçerli bir telefon numarası girin.",
+        "kvkk": "KVKK onayı zorunludur."
+      }
+    },
+    "success": {
+      "bookingTitle": "Takvime aldık.",
+      "bookingBody": "Detayları e-postanda bulacaksın.",
+      "contactTitle": "Teşekkürler.",
+      "contactBody": "1 iş günü içinde ulaşacağız.",
+      "close": "Kapat"
+    },
+    "chip": {
+      "current": "Seçim: {personaLabel}",
+      "change": "Değiştir"
+    },
+    "problems": {
+      "manuel-surec-yavaslatiyor": "Manuel süreçler ekibimi yavaşlatıyor.",
+      "verimsizlik-goremiyorum": "Verimsizlik nerede, kesin bilemiyorum.",
+      "ai-uygulama-bilmiyorum": "AI'ın şirketime nasıl uygulanacağını göremiyorum.",
+      "veri-karar-verdirmiyor": "Verim ölçümüm var ama karar verdirmiyor.",
+      "dijitalesme-rafta": "Operasyonu dijitale taşımak birkaç yıldır rafta.",
+      "legacy-sistem-engelliyor": "Legacy sistem yeni iş modellerimi engelliyor.",
+      "ekip-teknoloji-takip-edemiyor": "Mevcut ekip teknolojiyi takip edemiyor.",
+      "ihracat-hazirlik-eksik": "İhracat veya yeni pazar için hazırlık eksik.",
+      "tedarik-uretim-veri-kopuk": "Tedarik ve üretim arasındaki veri kopuk.",
+      "oncelik-karmasasi": "Önceliklendirme yapamıyorum, her şey acil.",
+      "reklam-maliyeti-artisi": "Reklam maliyetim artıyor, ROAS düşüyor.",
+      "trafik-satisa-donmuyor": "Siteye trafik var, satışa dönmüyor.",
+      "siparis-hacmi-platoda": "Sipariş hacmim platoda, büyümüyor.",
+      "yeni-pazar-kanal": "Yeni bir pazara veya kanala girmek istiyorum.",
+      "marka-bilinirlik-yetersiz": "Marka bilinirliğim yetersiz.",
+      "churn-yuksek": "Müşteri kaybı (churn) yüksek.",
+      "cac-ltv-makas": "CAC artıyor, LTV düşüyor.",
+      "kanal-yonetim-eksik": "Pazarlama kanallarını doğru yönetemiyorum.",
+      "altyapi-yuk-kaldirmiyor": "E-ticaret altyapım satış yüküne dayanmıyor.",
+      "rekabet-geride-his": "Rekabette geride kaldığımı hissediyorum."
+    }
   }
 }

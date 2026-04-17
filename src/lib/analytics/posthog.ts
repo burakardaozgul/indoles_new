@@ -1,6 +1,8 @@
 import posthog from "posthog-js";
 import type { AnalyticsEvent } from "./events";
 
+export { posthog };
+
 let initialized = false;
 
 export function initPostHog() {

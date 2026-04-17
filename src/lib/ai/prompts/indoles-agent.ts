@@ -52,3 +52,50 @@ export function buildSystemPrompt(persona: Persona): string {
         : "Persona henüz belirlenmedi — nötr INDOLES tonuyla aç, ilk 1-2 mesaja göre tonunu kalibre et.";
   return `${BASE}\n\n${personaBlock}`;
 }
+
+// ---------------------------------------------------------------------------
+// Popup context block — bridges entry popup selections (persona + problems)
+// into agent system prompt. Popup uses its own slug taxonomy; we map to
+// localized human labels without touching the existing Persona type.
+// ---------------------------------------------------------------------------
+
+export type PopupPersonaSlug = "donusum-teknoloji" | "buyume-pazarlar";
+
+export type PopupAgentContext = {
+  persona: PopupPersonaSlug;
+  problems: string[];
+} | null;
+
+export function buildPopupContextBlock(
+  ctx: PopupAgentContext,
+  locale: "tr" | "en"
+): string {
+  if (!ctx) return "";
+
+  const personaLabel =
+    ctx.persona === "donusum-teknoloji"
+      ? locale === "tr"
+        ? "Dönüşüm ve Teknoloji"
+        : "Transformation & Technology"
+      : locale === "tr"
+        ? "Büyüme ve Yeni Pazarlar"
+        : "Growth & New Markets";
+
+  const problems = ctx.problems.map((p) => `- ${p}`).join("\n");
+  const tone =
+    ctx.persona === "donusum-teknoloji"
+      ? "calm, corporate, methodical"
+      : "dynamic, results-oriented, concise";
+
+  return `
+[VISITOR CONTEXT FROM POPUP]
+Persona: ${personaLabel}
+Last 3 selected problems:
+${problems}
+
+Rules:
+- Do not quote these verbatim in your first message.
+- Use them to interpret questions and tailor recommendations.
+- Tone: ${tone}.
+`.trim();
+}

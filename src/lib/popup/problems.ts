@@ -34,6 +34,6 @@ export function getProblemBySlug(slug: ProblemSlug): ProblemDef | undefined {
   return PROBLEMS.find((p) => p.slug === slug);
 }
 
-export function getAllProblemSlugs(): ProblemSlug[] {
+export function getAllProblemSlugs(): readonly ProblemSlug[] {
   return PROBLEMS.map((p) => p.slug);
 }

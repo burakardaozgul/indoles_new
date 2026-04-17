@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { PROBLEMS, getProblemsForPersona, getProblemBySlug } from "../problems";
+import { PROBLEMS, getProblemsForPersona, getProblemBySlug, getAllProblemSlugs } from "../problems";
 
 describe("problems", () => {
   it("toplam 20 problem tanımlar", () => {
@@ -27,5 +27,15 @@ describe("problems", () => {
   it("slug ile problem bulunabilir", () => {
     const p = getProblemBySlug("reklam-maliyeti-artisi");
     expect(p?.persona).toBe("buyume-pazarlar");
+  });
+
+  it("getAllProblemSlugs tüm slug'ları döner", () => {
+    const slugs = getAllProblemSlugs();
+    expect(slugs.length).toBe(20);
+    expect(new Set(slugs).size).toBe(20);
+  });
+
+  it("getProblemBySlug bilinmeyen slug için undefined döner", () => {
+    expect(getProblemBySlug("nonexistent-slug")).toBeUndefined();
   });
 });

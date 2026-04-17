@@ -37,6 +37,8 @@
     "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.0.7",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.64.1",
     "@sanity/webhook": "^4.0.4",

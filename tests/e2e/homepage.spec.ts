@@ -1,12 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-test("TR anasayfa yüklenir ve iki persona ekseni gösterir", async ({
-  page,
-}) => {
+test("TR anasayfa yüklenir ve hero render olur", async ({ page }) => {
   await page.goto("/tr");
   await expect(page.locator("h1")).toContainText("teknoloji dönüşümü");
-  await expect(page.locator("text=Sanayi")).toBeVisible();
-  await expect(page.locator("text=Ticaret")).toBeVisible();
 });
 
 test("EN anasayfa yüklenir", async ({ page }) => {

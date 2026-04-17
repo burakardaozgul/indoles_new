@@ -50,29 +50,40 @@ export const popupRouter = createTRPCRouter({
       if ((input.submissionType === "booking" || input.submissionType === "contact") && input.lead) {
         const problemTexts = input.problems.map((slug) => resolveProblemText(slug, input.locale));
 
-        await inngest.send({
-          name: POPUP_LEAD_CREATED_EVENT,
-          data: {
-            submissionId: row.id,
-            firstName: input.lead.firstName,
-            lastName: input.lead.lastName,
-            email: input.lead.email,
-            phone: input.lead.phone,
-            company: input.lead.company,
-            title: input.lead.title,
-            persona: input.persona,
-            personaLabel: getPersonaLocalizedLabel(input.persona, input.locale),
-            problems: problemTexts,
-            submissionType: input.submissionType,
-            calComBookingUrl: bookingUrl,
-            locale: input.locale,
-            utm: {
-              source: input.utmSource ?? null,
-              medium: input.utmMedium ?? null,
-              campaign: input.utmCampaign ?? null,
+        // Wrap in try/catch so that missing/unreachable Inngest (local dev, E2E)
+        // does not fail the mutation. In production, a real event key is required
+        // and the error would surface via Inngest's own observability.
+        try {
+          await inngest.send({
+            name: POPUP_LEAD_CREATED_EVENT,
+            data: {
+              submissionId: row.id,
+              firstName: input.lead.firstName,
+              lastName: input.lead.lastName,
+              email: input.lead.email,
+              phone: input.lead.phone,
+              company: input.lead.company,
+              title: input.lead.title,
+              persona: input.persona,
+              personaLabel: getPersonaLocalizedLabel(input.persona, input.locale),
+              problems: problemTexts,
+              submissionType: input.submissionType,
+              calComBookingUrl: bookingUrl,
+              locale: input.locale,
+              utm: {
+                source: input.utmSource ?? null,
+                medium: input.utmMedium ?? null,
+                campaign: input.utmCampaign ?? null,
+              },
             },
-          },
-        });
+          });
+        } catch (err) {
+          if (process.env.NODE_ENV !== "production") {
+            console.warn("[popup.submit] inngest.send skipped (non-production):", (err as Error).message);
+          } else {
+            throw err;
+          }
+        }
       }
 
       return { submissionId: row.id, bookingUrl };

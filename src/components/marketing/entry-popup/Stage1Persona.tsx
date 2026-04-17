@@ -20,7 +20,7 @@ export function Stage1Persona({ onSelect }: { onSelect: (p: PersonaSlug) => void
             key={p.slug}
             data-persona={p.slug}
             onClick={() => onSelect(p.slug)}
-            aria-label={p.slug}
+            aria-label={t(`persona.${p.slug}.label`)}
             className="text-left p-4 border border-neutral-200 rounded-lg hover:border-neutral-900 hover:shadow-sm transition focus:outline-none focus:ring-2 focus:ring-neutral-900"
           >
             <div className="font-medium text-neutral-900">{t(`persona.${p.slug}.label`)}</div>

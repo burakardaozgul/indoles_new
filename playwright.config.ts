@@ -7,7 +7,7 @@ const base = {
   retries: process.env.CI ? 2 : 0,
   reporter: [["html", { open: "never" }], ["list"]] as const,
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3100",
     trace: "on-first-retry" as const,
     screenshot: "only-on-failure" as const,
   },
@@ -23,8 +23,8 @@ export default defineConfig(
     : {
         ...base,
         webServer: {
-          command: "corepack pnpm dev",
-          url: "http://localhost:3000",
+          command: "PORT=3100 corepack pnpm dev",
+          url: "http://localhost:3100",
           reuseExistingServer: true,
           timeout: 120_000,
         },

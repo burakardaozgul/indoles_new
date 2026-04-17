@@ -2,6 +2,18 @@ import { describe, it, expect } from "vitest";
 import { render } from "@react-email/render";
 import { PopupLeadNotificationEmail } from "../popup-lead-notification";
 
+// React 19 encodes apostrophes and quotes in text nodes as HTML entities.
+// Email clients render entities identically to the literal chars, but
+// tests comparing against source Turkish/English strings need to decode.
+function decodeEntities(html: string): string {
+  return html
+    .replace(/&#x27;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
 describe("PopupLeadNotificationEmail", () => {
   const props = {
     firstName: "Ali",
@@ -24,7 +36,7 @@ describe("PopupLeadNotificationEmail", () => {
   };
 
   it("lead bilgilerini içerir", async () => {
-    const html = await render(<PopupLeadNotificationEmail {...props} />);
+    const html = decodeEntities(await render(<PopupLeadNotificationEmail {...props} />));
     expect(html).toContain("Ali Veli");
     expect(html).toContain("ali@ornek.com");
     expect(html).toContain("Test AŞ");
@@ -32,19 +44,19 @@ describe("PopupLeadNotificationEmail", () => {
   });
 
   it("3 sorunu listeler", async () => {
-    const html = await render(<PopupLeadNotificationEmail {...props} />);
+    const html = decodeEntities(await render(<PopupLeadNotificationEmail {...props} />));
     for (const p of props.problems) expect(html).toContain(p);
   });
 
   it("Cal.com linkini içerir (booking)", async () => {
-    const html = await render(<PopupLeadNotificationEmail {...props} />);
+    const html = decodeEntities(await render(<PopupLeadNotificationEmail {...props} />));
     expect(html).toContain("cal.com/booking/abc");
   });
 
   it("contact path'te Cal.com bölümünü atlar", async () => {
-    const html = await render(
+    const html = decodeEntities(await render(
       <PopupLeadNotificationEmail {...props} submissionType="contact" calComBookingUrl={null} />
-    );
+    ));
     expect(html).not.toContain("cal.com/booking");
   });
 });

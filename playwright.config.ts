@@ -23,7 +23,7 @@ export default defineConfig(
     : {
         ...base,
         webServer: {
-          command: "pnpm dev",
+          command: "corepack pnpm dev",
           url: "http://localhost:3000",
           reuseExistingServer: true,
           timeout: 120_000,

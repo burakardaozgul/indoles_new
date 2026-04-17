@@ -1,7 +1,83 @@
 # Active Context — Entry Popup Implementation
 
-> **Son güncelleme:** 2026-04-17 (Phase 4 bitiminde + ADR-006 Sanity kaldırma)
-> **Yeniden başlatırken:** Bu dosyayı ilk oku, sonra `docs/superpowers/plans/2026-04-17-entry-popup-plan.md`'deki Task 25'ten devam et.
+> **Son güncelleme:** 2026-04-17 (Phase 4 + ADR-006 + Docker DB setup; **Task 25 DB driver switch bekliyor**)
+> **Yeniden başlatırken:** Bu dosyayı ilk oku, sonra aşağıdaki "FRESH SESSION ENTRY POINT" bölümünü takip et.
+
+---
+
+## 🔴 FRESH SESSION ENTRY POINT (Task 25 başlangıcı)
+
+### Durum (fresh session açıldığında)
+
+1. **Phase 4 bitti.** HEAD: `ce99de5`. 88/88 test yeşil. typecheck temiz.
+2. **ADR-006 (Sanity kaldırıldı)** — docs güncel. Source code cleanup Phase 6'da.
+3. **Docker postgres çalışıyor:** container `indoles-dev-db`, port **5433** (5432 başka container'da tutulu), DB `indoles`, user `postgres`, pw `dev`. 14 table + `popup_submissions` migration apply edildi.
+4. **`.env.local` DATABASE_URL güncel:** `postgresql://postgres:dev@localhost:5433/indoles` (gitignored, commit edilmedi)
+5. **`playwright.config.ts:26` fix edildi:** `pnpm dev` → `corepack pnpm dev` (commit bekliyor)
+6. **Task 25 BLOCKER:** Runtime `src/server/db/index.ts` `@neondatabase/serverless` `neon-http` driver kullanıyor — local postgres'le konuşamaz (HTTPS API bekler). E2E submit path patlayacak.
+
+### İlk adım (driver switch)
+
+**Karar (Burak onaylı):** `src/server/db/index.ts`'e conditional driver switch ekle. URL localhost ise `pg` + `drizzle-orm/node-postgres`, değilse mevcut `neon-http`.
+
+**Task sırası:**
+
+1. **`pg` + `@types/pg` install:**
+   ```bash
+   cd "/Users/burakardaozgul/Documents/AA - Claude/INDOLES - Yeni/indoles-web"
+   corepack pnpm add pg
+   corepack pnpm add -D @types/pg
+   ```
+
+2. **`src/server/db/index.ts` refactor — ~15 satır additive:**
+   ```typescript
+   // Pseudocode:
+   // if (connectionString.includes("localhost") || connectionString.includes("127.0.0.1")) {
+   //   // use pg + drizzle-orm/node-postgres
+   //   const { Pool } = await import("pg");
+   //   const { drizzle: drizzlePg } = await import("drizzle-orm/node-postgres");
+   //   const pool = new Pool({ connectionString });
+   //   return drizzlePg(pool, { schema });
+   // }
+   // // else existing neon-http path
+   ```
+   **Önemli:** async dynamic import kullanırsan export type değişir. Simplest: sync top-level import her ikisini de et, runtime'da seç. Import cost negligible.
+
+3. **Docker container zaten çalışıyor** (fresh session'da `docker ps` ile doğrula). Değilse:
+   ```bash
+   docker start indoles-dev-db   # varsa start
+   # veya (container silinmişse):
+   docker run -d --name indoles-dev-db -p 5433:5432 -e POSTGRES_PASSWORD=dev -e POSTGRES_DB=indoles -e POSTGRES_USER=postgres postgres:16
+   sleep 4
+   docker exec -i indoles-dev-db psql -U postgres -d indoles < src/server/db/migrations/0000_handy_lockjaw.sql
+   ```
+
+4. **Driver switch verify:**
+   ```bash
+   corepack pnpm tsc --noEmit       # temiz olmalı
+   corepack pnpm vitest run         # 88/88
+   # dev server smoke test:
+   corepack pnpm dev &              # başlat
+   sleep 10
+   curl http://localhost:3000/tr | head -5   # 200 dönmeli
+   # tRPC endpoint smoke (manual): popup submit mock payload gönder
+   kill %1                          # dev server durdur
+   ```
+
+5. **Driver switch commit:**
+   ```bash
+   git add src/server/db/index.ts package.json pnpm-lock.yaml playwright.config.ts
+   git commit -m "feat(db): dual-driver support — pg for local, neon-http for Neon Cloud"
+   ```
+
+6. **Task 25 dispatch (implementer Sonnet):** Playwright E2E happy path — plan §3367-3460'ta verbatim test kodu. Cookie clear, 4s trigger, persona select, problem select, action select, form fill, submit, success state. Mevcut `tests/e2e/homepage.spec.ts` baseline var (revizyon gerekebilir — PersonaAxes silindi, "iki persona ekseni" test title misleading).
+
+### Task 25 için ek notlar
+
+- **Mevcut `homepage.spec.ts`:** 3 test var (TR home loads, EN home loads, /api/health). `text=Sanayi` ve `text=Ticaret` default editorial hero'da hâlâ var → muhtemelen geçer. Ama test title "iki persona ekseni gösterir" yanıltıcı — güncelleme gerek.
+- **Test isolation:** Her test öncesi `await context.clearCookies()` zaten plan'da var. DB cleanup için `afterEach`: popup_submissions truncate veya test prefix'li email (`"playwright-test-${Date.now()}@..."`) kullan.
+- **Dev server reuse:** `playwright.config.ts` `reuseExistingServer: true` — manuel `corepack pnpm dev` açıkken test çalışır, değilse Playwright auto-start eder (artık corepack ile).
+- **tRPC popup submit cookie etkisi:** Submit sonrası `indoles_popup_state` cookie'si `outcome: "completed"` ile yazılır — E2E bunu PersonaChip görünürlüğü için doğrulayabilir (bonus coverage).
 
 ---
 
@@ -9,7 +85,7 @@
 
 **Phase 4 — Integration tamamlandı.** 24 task içinden 23 bitmiş (Task 7 Cal.com skip edildi). **Phase 5 — E2E + a11y** sırada (2 task: 25, 26). **Phase 6 — docs + hardening** sonra (5 task: 27-31 + ADR-006 follow-up cleanup).
 
-Ek olarak bu session: **ADR-006 (Sanity kaldırma)** kararı alındı ve doc temizliği yapıldı. Source code + package.json cleanup Phase 6'ya bırakıldı.
+Ek olarak bu session: **ADR-006 (Sanity kaldırma)** kararı alındı ve doc temizliği yapıldı. Source code + package.json cleanup Phase 6'ya bırakıldı. **Docker postgres kuruldu (port 5433)** ve runtime DB driver switch gerekliliği tespit edildi — Task 25 ilk adımı.
 
 ### Hızlı kontrol komutları
 

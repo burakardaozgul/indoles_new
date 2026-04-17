@@ -7,6 +7,7 @@ CREATE TYPE "public"."payment_provider" AS ENUM('stripe', 'iyzico');--> statemen
 CREATE TYPE "public"."payment_status" AS ENUM('pending', 'succeeded', 'failed', 'refunded', 'disputed');--> statement-breakpoint
 CREATE TYPE "public"."persona" AS ENUM('industrial', 'commerce', 'unknown');--> statement-breakpoint
 CREATE TYPE "public"."pillar" AS ENUM('growth', 'transform', 'build');--> statement-breakpoint
+CREATE TYPE "public"."popup_persona" AS ENUM('donusum-teknoloji', 'buyume-pazarlar');--> statement-breakpoint
 CREATE TYPE "public"."reminder_channel" AS ENUM('email', 'sms');--> statement-breakpoint
 CREATE TYPE "public"."reminder_status" AS ENUM('scheduled', 'sent', 'failed', 'cancelled');--> statement-breakpoint
 CREATE TYPE "public"."timeline" AS ENUM('urgent', 'normal', 'flexible');--> statement-breakpoint
@@ -149,7 +150,7 @@ CREATE TABLE IF NOT EXISTS "popup_submissions" (
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"session_id" text NOT NULL,
 	"user_id" uuid,
-	"persona" text NOT NULL,
+	"persona" "popup_persona" NOT NULL,
 	"problems" text[] NOT NULL,
 	"first_name" text,
 	"last_name" text,
@@ -159,7 +160,7 @@ CREATE TABLE IF NOT EXISTS "popup_submissions" (
 	"title" text,
 	"submission_type" text NOT NULL,
 	"kvkk_consent_at" timestamp with time zone,
-	"locale" text NOT NULL,
+	"locale" "locale" NOT NULL,
 	"cal_com_booking_id" text,
 	"email_sent_at" timestamp with time zone,
 	"user_agent" text,
@@ -292,6 +293,12 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ ALTER TABLE "popup_submissions" ADD CONSTRAINT "popup_submissions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  ALTER TABLE "tool_invocations" ADD CONSTRAINT "tool_invocations_conversation_id_conversations_id_fk" FOREIGN KEY ("conversation_id") REFERENCES "public"."conversations"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -323,10 +330,10 @@ CREATE INDEX IF NOT EXISTS "payments_user_idx" ON "payments" USING btree ("user_
 CREATE INDEX IF NOT EXISTS "payments_status_idx" ON "payments" USING btree ("status","created_at");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "persona_signals_session_idx" ON "persona_signals" USING btree ("session_id","created_at");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "persona_signals_user_idx" ON "persona_signals" USING btree ("user_id","created_at");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "idx_popup_submissions_email" ON "popup_submissions" USING btree ("email");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "idx_popup_submissions_persona" ON "popup_submissions" USING btree ("persona");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "idx_popup_submissions_created" ON "popup_submissions" USING btree ("created_at");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "tool_invocations_tool_idx" ON "tool_invocations" USING btree ("tool_name","created_at");--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "users_clerk_id_idx" ON "users" USING btree ("clerk_id");--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "users_email_idx" ON "users" USING btree ("email");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "users_role_idx" ON "users" USING btree ("role");
-CREATE INDEX IF NOT EXISTS "idx_popup_submissions_email" ON "popup_submissions" ("email");
-CREATE INDEX IF NOT EXISTS "idx_popup_submissions_persona" ON "popup_submissions" ("persona");
-CREATE INDEX IF NOT EXISTS "idx_popup_submissions_created" ON "popup_submissions" ("created_at" DESC);

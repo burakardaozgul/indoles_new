@@ -68,6 +68,10 @@ export const messageRole = pgEnum("message_role", [
   "system",
   "tool",
 ]);
+export const popupPersonaEnum = pgEnum("popup_persona", [
+  "donusum-teknoloji",
+  "buyume-pazarlar",
+]);
 
 // ---------- Tables ----------
 
@@ -399,32 +403,42 @@ export const auditEvents = pgTable(
   })
 );
 
-export const popupSubmissions = pgTable("popup_submissions", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .notNull()
-    .defaultNow(),
-  sessionId: text("session_id").notNull(),
-  userId: uuid("user_id"),
-  persona: text("persona").notNull(),
-  problems: text("problems").array().notNull(),
-  firstName: text("first_name"),
-  lastName: text("last_name"),
-  phone: text("phone"),
-  email: text("email"),
-  company: text("company"),
-  title: text("title"),
-  submissionType: text("submission_type").notNull(),
-  kvkkConsentAt: timestamp("kvkk_consent_at", { withTimezone: true }),
-  locale: text("locale").notNull(),
-  calComBookingId: text("cal_com_booking_id"),
-  emailSentAt: timestamp("email_sent_at", { withTimezone: true }),
-  userAgent: text("user_agent"),
-  referrer: text("referrer"),
-  utmSource: text("utm_source"),
-  utmMedium: text("utm_medium"),
-  utmCampaign: text("utm_campaign"),
-});
+export const popupSubmissions = pgTable(
+  "popup_submissions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    sessionId: text("session_id").notNull(),
+    userId: uuid("user_id").references(() => users.id, {
+      onDelete: "set null",
+    }),
+    persona: popupPersonaEnum("persona").notNull(),
+    problems: text("problems").array().notNull(),
+    firstName: text("first_name"),
+    lastName: text("last_name"),
+    phone: text("phone"),
+    email: text("email"),
+    company: text("company"),
+    title: text("title"),
+    submissionType: text("submission_type").notNull(),
+    kvkkConsentAt: timestamp("kvkk_consent_at", { withTimezone: true }),
+    locale: localeEnum("locale").notNull(),
+    calComBookingId: text("cal_com_booking_id"),
+    emailSentAt: timestamp("email_sent_at", { withTimezone: true }),
+    userAgent: text("user_agent"),
+    referrer: text("referrer"),
+    utmSource: text("utm_source"),
+    utmMedium: text("utm_medium"),
+    utmCampaign: text("utm_campaign"),
+  },
+  (t) => ({
+    emailIdx: index("idx_popup_submissions_email").on(t.email),
+    personaIdx: index("idx_popup_submissions_persona").on(t.persona),
+    createdAtIdx: index("idx_popup_submissions_created").on(t.createdAt),
+  })
+);
 
 export type PopupSubmission = typeof popupSubmissions.$inferSelect;
 export type NewPopupSubmission = typeof popupSubmissions.$inferInsert;

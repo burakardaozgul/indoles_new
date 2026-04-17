@@ -1,5 +1,5 @@
 {
-  "id": "b5167f9a-5fe4-427c-93ad-ecae138b1aed",
+  "id": "12393bc9-a38a-489e-8e85-2850fb363c3e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1458,7 +1458,8 @@
         },
         "persona": {
           "name": "persona",
-          "type": "text",
+          "type": "popup_persona",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -1518,7 +1519,8 @@
         },
         "locale": {
           "name": "locale",
-          "type": "text",
+          "type": "locale",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -1565,8 +1567,68 @@
           "notNull": false
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
+      "indexes": {
+        "idx_popup_submissions_email": {
+          "name": "idx_popup_submissions_email",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_popup_submissions_persona": {
+          "name": "idx_popup_submissions_persona",
+          "columns": [
+            {
+              "expression": "persona",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_popup_submissions_created": {
+          "name": "idx_popup_submissions_created",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "popup_submissions_user_id_users_id_fk": {
+          "name": "popup_submissions_user_id_users_id_fk",
+          "tableFrom": "popup_submissions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -1912,6 +1974,14 @@
         "growth",
         "transform",
         "build"
+      ]
+    },
+    "public.popup_persona": {
+      "name": "popup_persona",
+      "schema": "public",
+      "values": [
+        "donusum-teknoloji",
+        "buyume-pazarlar"
       ]
     },
     "public.reminder_channel": {

@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   INDOLES Design System — Tailwind v4 theme
+   Kaynak: src/lib/design/tokens.ts (TypeScript) ve docs/04-design-system-principles.md
+   ============================================================================ */
+
+@theme {
+  /* Renkler — paper, surface, ink, brand, semantic */
+  --color-paper: #fbfaf7;
+
+  --color-surface-1: #f5f3ee;
+  --color-surface-2: #edeae3;
+  --color-surface-3: #e4e0d7;
+
+  --color-ink-900: #1a1f24;
+  --color-ink-700: #3e454d;
+  --color-ink-500: #6b7380;
+  --color-ink-300: #a5abb3;
+
+  --color-brand-50: #e8eef3;
+  --color-brand-100: #d1dce6;
+  --color-brand-200: #a8bece;
+  --color-brand-300: #839fb5;
+  --color-brand-400: #6e8ea6;
+  --color-brand-500: #567b97;
+  --color-brand-600: #4a6b85;
+  --color-brand-700: #3e5c73;
+  --color-brand-800: #2e4557;
+  --color-brand-900: #1f3040;
+
+  --color-success-50: #edf5f0;
+  --color-success-500: #3f7a56;
+  --color-success-700: #2d5a3e;
+  --color-warning-50: #fdf6e8;
+  --color-warning-500: #b88a2f;
+  --color-warning-700: #8a6720;
+  --color-danger-50: #faedec;
+  --color-danger-500: #a8453d;
+  --color-danger-700: #7d3230;
+
+  /* Hero zone — ADR-003 */
+  --color-hero-void: #05080f;
+  --color-hero-deep: #0a1628;
+  --color-hero-metal: #1b3a5c;
+  --color-hero-light: #3b6fa0;
+  --color-hero-paper: #f5f3ee;
+  --color-hero-accent: #a8bece;
+
+  /* Tipografi */
+  --font-heading: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Breakpoints */
+  --breakpoint-mobile: 375px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1280px;
+  --breakpoint-wide: 1536px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-editorial: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Root + body tabanı — @layer base ile Tailwind utility'lerinin override
+   edebilmesi garanti altına alınır (Tailwind v4 cascade layer disiplin). */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink-900);
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Heading base — base layer'da olduğu için Tailwind utility class'ları
+     (text-paper, text-ink-*, vb.) bu rule'u doğal olarak override eder. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-ink-900);
+  }
+}
+
+/* Focus ring — brand-500 ring 2px + 2px offset paper */
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Editorial prose max width */
+.prose-editorial {
+  max-width: 680px;
+}
+
+/* Tipografi utility class'ları — tokens.ts ile senkron */
+.typography-display-2xl {
+  font-family: var(--font-heading);
+  font-size: clamp(2.75rem, 4vw + 1rem, 4.5rem);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 9;
+}
+.typography-display-xl {
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 3vw + 1rem, 3.5rem);
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 9;
+}
+.typography-display-lg {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 2vw + 1rem, 2.75rem);
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 18;
+}
+.typography-h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 1.5vw + 1rem, 2.25rem);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 18;
+}
+.typography-h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 1vw + 0.75rem, 1.75rem);
+  line-height: 1.25;
+  font-weight: 500;
+  font-variation-settings: "opsz" 48;
+}
+.typography-h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 0.5vw + 0.75rem, 1.375rem);
+  line-height: 1.3;
+  font-weight: 600;
+  font-variation-settings: "opsz" 72;
+}
+.typography-body-lg {
+  font-size: clamp(1.125rem, 0.5vw + 0.75rem, 1.25rem);
+  line-height: 1.6;
+}
+.typography-body-md {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.typography-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.typography-caption {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+.typography-label {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Marquee (müşteri logoları slider'ı için) */
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  animation: marquee-x 40s linear infinite;
+  will-change: transform;
+}
+
+/* Watermark drift — dev INDOLES filigranının yavaş sağa-sola salınımı.
+   Sabit ve dişi: dramatik değil, background dokusu gibi hissedilir. */
+@keyframes watermark-drift {
+  0% {
+    transform: translate3d(-3%, 0, 0);
+  }
+  50% {
+    transform: translate3d(3%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-3%, 0, 0);
+  }
+}
+
+.watermark-drift {
+  animation: watermark-drift 28s ease-in-out infinite;
+  will-change: transform;
+}
+
+.marquee-pause-on-hover:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Motion respect for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

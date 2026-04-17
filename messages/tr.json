@@ -1,0 +1,221 @@
+{
+  "common": {
+    "brand": "INDOLES",
+    "tagline": "Sanayi için teknoloji dönüşümü, ticaret için agresif büyüme.",
+    "cta": {
+      "bookConsultation": "Görüşme rezerve et",
+      "viewServices": "Hizmetleri gör",
+      "viewPackages": "Paketleri incele",
+      "submitBrief": "Brief gönder",
+      "learnMore": "Daha fazla",
+      "explore": "Keşfet",
+      "viewAll": "Tümünü gör",
+      "view": "İncele"
+    },
+    "nav": {
+      "services": "Hizmetler",
+      "packages": "Paketler",
+      "caseStudies": "Vakalar",
+      "consultants": "Danışmanlar",
+      "articles": "Yazılar",
+      "contact": "İletişim",
+      "about": "Hakkımızda",
+      "signIn": "Giriş yap",
+      "dashboard": "Panel"
+    },
+    "footer": {
+      "menu": "Menü",
+      "company": "Kurumsal",
+      "legalName": "İndoles Yazılım A.Ş.",
+      "rights": "Tüm hakları saklıdır."
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "İş geliştirme danışmanlığı",
+      "tagline1": "Sanayi için teknoloji dönüşümü.",
+      "tagline2": "Ticaret için agresif büyüme.",
+      "editorial": {
+        "before": "Sanayi için ",
+        "emphasisA": "teknoloji dönüşümü",
+        "middle": ", ticaret için ",
+        "emphasisB": "agresif büyüme",
+        "after": "."
+      },
+      "support": "İndoles Yazılım A.Ş., Türkiye merkezli iş geliştirme danışmanlık şirketi. Teşhis olmadan reçete yazmıyoruz — iş önce anlaşılır, teknoloji sonra çağrılır.",
+      "axis": {
+        "industrial": {
+          "eyebrow": "Sanayici lider için",
+          "label": "Sanayi için teknoloji dönüşümü",
+          "description": "Üretim, süreç ve veriyi aynı ritimde düzenler. Teşhis önce, teknoloji sonra.",
+          "topics": ["Verim", "Süreç", "AI", "Dijital dönüşüm"],
+          "pillar": "Transform",
+          "duration": "6–12 hafta",
+          "cta": "Transform'u incele"
+        },
+        "commerce": {
+          "eyebrow": "Ticaret markası için",
+          "label": "Ticaret için agresif büyüme",
+          "description": "Marka, performans ve deneyimi tek ritimde ölçeklendirir. Kanal değil; sistem.",
+          "topics": ["CRO", "Performans", "Marka", "E-ticaret"],
+          "pillar": "Growth",
+          "duration": "4–12 hafta",
+          "cta": "Growth'u incele"
+        }
+      }
+    },
+    "pillars": {
+      "eyebrow": "01 — Uzmanlık",
+      "headline": "Üç pillar, tek disiplin.",
+      "lede": "Aynı iş zekâsının üç farklı yüzü. Ayrı ekipler değil, birbirini besleyen aynı omurga.",
+      "growth": {
+        "name": "Growth",
+        "tagline": "Ticaret için agresif büyüme.",
+        "description": "Marka, performans ve deneyimi tek bir büyüme makinesinde birleştirir.",
+        "services": [
+          "Performans Pazarlama",
+          "CRO",
+          "UI/UX Tasarım",
+          "E-ticaret",
+          "Marka Stratejisi"
+        ]
+      },
+      "transform": {
+        "name": "Transform",
+        "tagline": "Dijital ve işletme dönüşümü.",
+        "description": "Süreç, veri ve otomasyonu işin hızına eşler. Verim ölçülebilir artar, maliyet görünür düşer.",
+        "services": [
+          "AI Danışmanlığı",
+          "Dijital Dönüşüm",
+          "İş Otomasyonları",
+          "İş Zekası",
+          "İşletme Mühendisliği"
+        ]
+      },
+      "build": {
+        "name": "Build",
+        "tagline": "Teknoloji ve ürün inşası.",
+        "description": "Özel yazılım, mobil uygulama ve altyapı — dış danışmanlığı değil, sahiplikli yapım.",
+        "services": [
+          "Özel Yazılım",
+          "Mobil Uygulama",
+          "Teknoloji Danışmanlığı",
+          "Altyapı"
+        ]
+      }
+    },
+    "proof": {
+      "eyebrow": "02 — Kanıt",
+      "headline": "Sonuç bırakmadan gitmiyoruz.",
+      "lede": "Sektöre göre değil, problem tipine göre filtrelenir. Benzer senaryoyu gör, kendi ihtimalini değerlendir.",
+      "featured": {
+        "clientLabel": "Seçilmiş vaka",
+        "title": "Üretim planlamada 42% süre kısalması.",
+        "summary": "Excel-tabanlı üretim planlamayı uçtan uca dijitalleştirdik. Kaynak tahsis hatası neredeyse sıfırlandı, sevkiyat güvenilirliği iki katına çıktı.",
+        "metrics": [
+          { "value": "-%42", "label": "Planlama süresi" },
+          { "value": "2×", "label": "Sevkiyat güvenilirliği" },
+          { "value": "8 hafta", "label": "Uygulama süresi" }
+        ],
+        "pillar": "Transform"
+      },
+      "others": [
+        {
+          "problemType": "Müşteri edinimi",
+          "title": "E-ticarette 3.2× organik trafik, 6 ay.",
+          "pillar": "Growth"
+        },
+        {
+          "problemType": "Dijital dönüşüm",
+          "title": "Perakendede envanter görünürlüğü tek panoda.",
+          "pillar": "Transform"
+        },
+        {
+          "problemType": "Maliyet optimizasyonu",
+          "title": "İşletme maliyetinde %28 tasarruf, 12 ay.",
+          "pillar": "Transform"
+        }
+      ]
+    },
+    "packages": {
+      "eyebrow": "03 — Paketler",
+      "headline": "Sabit kapsam. Sabit süre.\nSabit fiyat.",
+      "lede": "Büyük iş birliklerinin giriş kapısı. Bir SaaS'ın starter plan'ı gibi — içeri gir, değer gör, büyü.",
+      "priceFromSuffix": "başlangıç",
+      "items": [
+        {
+          "slug": "buyume-sprinti",
+          "name": "Büyüme Sprinti",
+          "pillar": "Growth",
+          "duration": "3 hafta",
+          "priceFrom": "₺45.000",
+          "outcome": "Hangi kanalda parayı nereye koyarsan büyürsün, biz söyleriz."
+        },
+        {
+          "slug": "dijital-donusum-teshisi",
+          "name": "Dijital Dönüşüm Teşhisi",
+          "pillar": "Transform",
+          "duration": "2 hafta",
+          "priceFrom": "₺28.000",
+          "outcome": "Dijitalleşecek süreçleri ve sırasını sayfa sayfa yol haritası."
+        },
+        {
+          "slug": "ai-pilot",
+          "name": "AI Pilot",
+          "pillar": "Transform",
+          "duration": "6 hafta",
+          "priceFrom": "₺85.000",
+          "outcome": "Somut bir iş problemine uçtan uca çalışan AI prototipi."
+        },
+        {
+          "slug": "mvp-build",
+          "name": "MVP Build",
+          "pillar": "Build",
+          "duration": "8-12 hafta",
+          "priceFrom": "₺125.000",
+          "outcome": "Piyasaya çıkmaya hazır mobil veya web uygulaması."
+        }
+      ]
+    },
+    "manifesto": {
+      "quote": "Teşhis olmadan reçete yazmayız. İş önce anlaşılır, sonra teknoloji çağrılır.",
+      "attribution": "INDOLES Kurucusu"
+    },
+    "finalCta": {
+      "eyebrow": "05 — Başla",
+      "headline": "Nereden başlayalım?",
+      "lede": "Üç farklı hızda giriş kapısı. Hangisi sana uygunsa.",
+      "paths": {
+        "chat": {
+          "commitment": "Düşük taahhüt",
+          "label": "AI sohbet",
+          "description": "AI asistan ile birkaç cümlede problem tanımı. İlk yaklaşım anında geri döner.",
+          "meta": "5 dakika · Taahhütsüz · Anında",
+          "cta": "Sohbete başla"
+        },
+        "booking": {
+          "commitment": "Orta taahhüt",
+          "label": "30 dakikalık keşif görüşmesi",
+          "description": "Uzmanla 30 dakika. Problemi birlikte açalım, somut yön çıkaralım.",
+          "meta": "30 dakika · Taahhütsüz · Canlı",
+          "cta": "Randevu al"
+        },
+        "brief": {
+          "commitment": "Yüksek taahhüt",
+          "label": "Detaylı brief",
+          "description": "Projeyi adım adım tarif. 48 saat içinde yaklaşım ve paket önerisi döner.",
+          "meta": "15 dakika · Taahhütsüz · 48 saat yanıt",
+          "cta": "Brief doldur"
+        }
+      }
+    }
+  },
+  "pillars": {
+    "growth": { "name": "Growth", "tagline": "Ticaret için agresif büyüme." },
+    "transform": {
+      "name": "Transform",
+      "tagline": "Dijital ve işletme dönüşümü."
+    },
+    "build": { "name": "Build", "tagline": "Teknoloji ve ürün inşası." }
+  }
+}

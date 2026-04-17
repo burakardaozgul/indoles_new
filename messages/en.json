@@ -1,0 +1,221 @@
+{
+  "common": {
+    "brand": "INDOLES",
+    "tagline": "Technology transformation for industry, aggressive growth for commerce.",
+    "cta": {
+      "bookConsultation": "Book a consultation",
+      "viewServices": "View services",
+      "viewPackages": "View packages",
+      "submitBrief": "Submit brief",
+      "learnMore": "Learn more",
+      "explore": "Explore",
+      "viewAll": "View all",
+      "view": "View"
+    },
+    "nav": {
+      "services": "Services",
+      "packages": "Packages",
+      "caseStudies": "Case studies",
+      "consultants": "Consultants",
+      "articles": "Articles",
+      "contact": "Contact",
+      "about": "About",
+      "signIn": "Sign in",
+      "dashboard": "Dashboard"
+    },
+    "footer": {
+      "menu": "Menu",
+      "company": "Company",
+      "legalName": "İndoles Yazılım A.Ş.",
+      "rights": "All rights reserved."
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Business growth consultancy",
+      "tagline1": "Technology transformation for industry.",
+      "tagline2": "Aggressive growth for commerce.",
+      "editorial": {
+        "before": "Technology ",
+        "emphasisA": "transformation",
+        "middle": " for industry, aggressive ",
+        "emphasisB": "growth",
+        "after": " for commerce."
+      },
+      "support": "İndoles Yazılım A.Ş. is a Turkey-based business growth consultancy. We don't prescribe without diagnosing — business is understood first; technology is called second.",
+      "axis": {
+        "industrial": {
+          "eyebrow": "For industrial leaders",
+          "label": "Technology transformation for industry",
+          "description": "Production, process and data tuned to one rhythm. Diagnosis first, technology second.",
+          "topics": ["Efficiency", "Process", "AI", "Digitalization"],
+          "pillar": "Transform",
+          "duration": "6–12 weeks",
+          "cta": "Explore Transform"
+        },
+        "commerce": {
+          "eyebrow": "For commerce brands",
+          "label": "Aggressive growth for commerce",
+          "description": "Brand, performance and experience scaled in one rhythm. Not a channel — a system.",
+          "topics": ["CRO", "Performance", "Brand", "E-commerce"],
+          "pillar": "Growth",
+          "duration": "4–12 weeks",
+          "cta": "Explore Growth"
+        }
+      }
+    },
+    "pillars": {
+      "eyebrow": "01 — Expertise",
+      "headline": "Three pillars, one discipline.",
+      "lede": "Three faces of the same business intelligence. Not separate teams — one spine feeding itself.",
+      "growth": {
+        "name": "Growth",
+        "tagline": "Aggressive growth for commerce.",
+        "description": "Brand, performance and experience unified in one growth engine.",
+        "services": [
+          "Performance Marketing",
+          "CRO",
+          "UI/UX Design",
+          "E-commerce",
+          "Brand Strategy"
+        ]
+      },
+      "transform": {
+        "name": "Transform",
+        "tagline": "Digital and business transformation.",
+        "description": "Process, data and automation matched to business speed. Efficiency rises measurably, cost drops visibly.",
+        "services": [
+          "AI Advisory",
+          "Digital Transformation",
+          "Business Automation",
+          "Business Intelligence",
+          "Operations Engineering"
+        ]
+      },
+      "build": {
+        "name": "Build",
+        "tagline": "Technology and product engineering.",
+        "description": "Custom software, mobile and infrastructure — not outside advice, ownership-led construction.",
+        "services": [
+          "Custom Software",
+          "Mobile Apps",
+          "Technology Advisory",
+          "Infrastructure"
+        ]
+      }
+    },
+    "proof": {
+      "eyebrow": "02 — Proof",
+      "headline": "We don't leave without an outcome.",
+      "lede": "Filtered by problem type, not industry. See the similar scenario, evaluate your own odds.",
+      "featured": {
+        "clientLabel": "Selected case",
+        "title": "42% shorter production planning cycle.",
+        "summary": "We digitized spreadsheet-based production planning end to end. Resource allocation errors dropped to near zero; shipping reliability doubled.",
+        "metrics": [
+          { "value": "-42%", "label": "Planning time" },
+          { "value": "2×", "label": "Shipping reliability" },
+          { "value": "8 weeks", "label": "Time to deploy" }
+        ],
+        "pillar": "Transform"
+      },
+      "others": [
+        {
+          "problemType": "Customer acquisition",
+          "title": "3.2× organic traffic in 6 months, e-commerce.",
+          "pillar": "Growth"
+        },
+        {
+          "problemType": "Digital transformation",
+          "title": "Retail inventory visibility in a single dashboard.",
+          "pillar": "Transform"
+        },
+        {
+          "problemType": "Cost optimization",
+          "title": "28% operational cost reduction, 12 months.",
+          "pillar": "Transform"
+        }
+      ]
+    },
+    "packages": {
+      "eyebrow": "03 — Packages",
+      "headline": "Fixed scope. Fixed time.\nFixed price.",
+      "lede": "The front door to larger engagements. Like a SaaS starter plan — step in, see value, grow.",
+      "priceFromSuffix": "starting",
+      "items": [
+        {
+          "slug": "growth-sprint",
+          "name": "Growth Sprint",
+          "pillar": "Growth",
+          "duration": "3 weeks",
+          "priceFrom": "€1,500",
+          "outcome": "We tell you exactly which channel to put money into, and where."
+        },
+        {
+          "slug": "digital-transformation-audit",
+          "name": "Digital Transformation Audit",
+          "pillar": "Transform",
+          "duration": "2 weeks",
+          "priceFrom": "€950",
+          "outcome": "Page-by-page roadmap of which processes to digitize first."
+        },
+        {
+          "slug": "ai-pilot",
+          "name": "AI Pilot",
+          "pillar": "Transform",
+          "duration": "6 weeks",
+          "priceFrom": "€2,900",
+          "outcome": "An end-to-end working AI prototype for one concrete business problem."
+        },
+        {
+          "slug": "mvp-build",
+          "name": "MVP Build",
+          "pillar": "Build",
+          "duration": "8-12 weeks",
+          "priceFrom": "€4,200",
+          "outcome": "Market-ready mobile or web application."
+        }
+      ]
+    },
+    "manifesto": {
+      "quote": "No prescription without diagnosis. Business is understood first; technology is called second.",
+      "attribution": "INDOLES Founder"
+    },
+    "finalCta": {
+      "eyebrow": "05 — Start",
+      "headline": "Where do we start?",
+      "lede": "Three entry doors at three speeds. Pick the one that fits.",
+      "paths": {
+        "chat": {
+          "commitment": "Low commitment",
+          "label": "AI chat",
+          "description": "A few sentences to the AI. A first take comes back instantly.",
+          "meta": "5 min · No commitment · Instant",
+          "cta": "Start chat"
+        },
+        "booking": {
+          "commitment": "Medium commitment",
+          "label": "30-minute discovery call",
+          "description": "30 minutes with an expert. Open the problem, draw a concrete direction.",
+          "meta": "30 min · No commitment · Live",
+          "cta": "Book a call"
+        },
+        "brief": {
+          "commitment": "High commitment",
+          "label": "Detailed brief",
+          "description": "Describe the project step by step. Proposal and package fit within 48 hours.",
+          "meta": "15 min · No commitment · 48-hour reply",
+          "cta": "Fill the brief"
+        }
+      }
+    }
+  },
+  "pillars": {
+    "growth": { "name": "Growth", "tagline": "Aggressive growth for commerce." },
+    "transform": {
+      "name": "Transform",
+      "tagline": "Digital and business transformation."
+    },
+    "build": { "name": "Build", "tagline": "Technology and product engineering." }
+  }
+}

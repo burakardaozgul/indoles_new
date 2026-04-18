@@ -241,6 +241,7 @@
     "persona": {
       "donusum-teknoloji": {
         "label": "AI, Otomasyon ve Teknoloji Dönüşümü Arıyorum",
+        "description": "Manuel süreçleri otomatize et, AI'ı işin kalbine entegre et, veri altyapını inşa et.",
         "descriptionPoints": [
           "Manuel operasyonları otomatize etmek",
           "AI'ı üretim ve iş süreçlerine uygulamak",
@@ -249,6 +250,7 @@
       },
       "buyume-pazarlar": {
         "label": "Büyüme, Marka Bilinirliği ve Yeni Pazarlar Arıyorum",
+        "description": "Pazar payını genişlet, marka algısını güçlendir, yeni coğrafya ve kanallara aç.",
         "descriptionPoints": [
           "Pazar payını genişletmek, gelir büyütmek",
           "Marka bilinirliğini ve algısını güçlendirmek",
@@ -291,7 +293,7 @@
       "close": "Kapat"
     },
     "chip": {
-      "current": "Seçim: {personaLabel}",
+      "current": "{personaLabel}",
       "change": "Değiştir"
     },
     "booking": {

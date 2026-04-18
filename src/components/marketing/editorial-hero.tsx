@@ -54,6 +54,7 @@ export function EditorialHero({
           <div className="md:col-span-7 flex flex-col gap-6">
             <h1
               className={cn(
+                "typography-display-2xl",
                 "text-ink-900",
                 "leading-[1.05]"
               )}
@@ -61,7 +62,6 @@ export function EditorialHero({
                 fontFamily: "var(--font-heading-serif), Georgia, serif",
                 fontWeight: 500,
                 letterSpacing: "-0.03em",
-                fontSize: "clamp(2.25rem, 4.6vw, 4.25rem)",
                 fontVariationSettings: '"opsz" 9',
               }}
             >

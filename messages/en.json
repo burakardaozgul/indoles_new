@@ -241,6 +241,7 @@
     "persona": {
       "donusum-teknoloji": {
         "label": "I'm looking for AI, Automation, and Technology Transformation",
+        "description": "Automate manual processes, integrate AI at the core, and build your data infrastructure.",
         "descriptionPoints": [
           "Automating manual operations",
           "Bringing AI into production and business processes",
@@ -249,6 +250,7 @@
       },
       "buyume-pazarlar": {
         "label": "I'm looking for Growth, Brand Awareness, and New Markets",
+        "description": "Expand market share, sharpen brand perception, and break into new geographies and channels.",
         "descriptionPoints": [
           "Expanding market share, growing revenue",
           "Strengthening brand awareness and perception",
@@ -291,7 +293,7 @@
       "close": "Close"
     },
     "chip": {
-      "current": "Selection: {personaLabel}",
+      "current": "{personaLabel}",
       "change": "Change"
     },
     "booking": {

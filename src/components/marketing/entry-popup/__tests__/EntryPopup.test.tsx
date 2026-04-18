@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { EntryPopup } from "../EntryPopup";
 
@@ -7,17 +7,18 @@ vi.mock("next-intl", () => ({
   useLocale: () => "tr",
 }));
 
-const mockSubmit = vi.fn().mockResolvedValue({ submissionId: "sub_1", bookingUrl: null });
+global.fetch = vi.fn().mockResolvedValue({
+  ok: true,
+  json: async () => ({ ok: true, calComEmbedUrl: null }),
+}) as unknown as typeof fetch;
 
-vi.mock("@/lib/trpc/react", () => ({
-  trpc: {
-    popup: {
-      submit: {
-        useMutation: () => ({ mutateAsync: mockSubmit, isPending: false }),
-      },
+beforeEach(() => {
+  (window as unknown as { turnstile: unknown }).turnstile = {
+    render: (el: Element, opts: { callback: (token: string) => void }) => {
+      opts.callback("test-token");
     },
-  },
-}));
+  };
+});
 
 describe("EntryPopup", () => {
   it("open=true ise dialog render olur", () => {

@@ -14,7 +14,7 @@ import { SuccessState } from "./SuccessState";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { writePopupCookie, computeExpiresAt } from "../../../lib/popup/cookie";
 import { trackPopupEvent } from "../../../lib/popup/analytics";
-import { trpc } from "@/lib/trpc/react";
+import { submitVisitorProfile } from "../../../lib/popup/api";
 
 export type EntryPopupProps = {
   open: boolean;
@@ -36,13 +36,16 @@ function sessionId(): string {
 export function EntryPopup({ open, onClose }: EntryPopupProps) {
   const t = useTranslations("popup");
   const locale = useLocale() as "tr" | "en";
-  const submit = trpc.popup.submit.useMutation();
 
   const [stage, setStage] = React.useState<PopupStage>("stage1");
   const [persona, setPersona] = React.useState<PersonaSlug | null>(null);
   const [problems, setProblems] = React.useState<ProblemSlug[]>([]);
   const [stageStart, setStageStart] = React.useState<number>(Date.now());
   const [bookingUrl, setBookingUrl] = React.useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = React.useState<string>("");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  const turnstileRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (open) {
@@ -50,6 +53,18 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       setStageStart(Date.now());
     }
   }, [open]);
+
+  React.useEffect(() => {
+    const w = window as unknown as {
+      turnstile?: { render: (el: Element, opts: unknown) => void };
+    };
+    if (w.turnstile && turnstileRef.current) {
+      w.turnstile.render(turnstileRef.current, {
+        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+        callback: (token: string) => setTurnstileToken(token),
+      });
+    }
+  }, []);
 
   const handleDismiss = React.useCallback(
     (atStage: "stage1" | "stage2" | "stage3") => {
@@ -67,20 +82,9 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
         problems,
         expiresAt: computeExpiresAt(outcome),
       });
-      if (persona && problems.length === 3) {
-        submit
-          .mutateAsync({
-            sessionId: sessionId(),
-            persona,
-            problems: problems as [string, string, string],
-            submissionType: outcome,
-            locale,
-          } as any)
-          .catch(() => {});
-      }
       onClose(outcome);
     },
-    [persona, problems, onClose, submit, locale]
+    [persona, problems, onClose]
   );
 
   const handleStage1 = (p: PersonaSlug) => {
@@ -110,18 +114,28 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
 
   const handleSubmitForm = async (form: PopupLeadForm, type: "booking" | "contact") => {
     if (!persona || problems.length !== 3) return;
-    const res = await submit.mutateAsync({
-      sessionId: sessionId(),
+
+    const { kvkkConsent: _kvkk, ...leadFields } = form;
+
+    setIsSubmitting(true);
+    const result = await submitVisitorProfile({
       persona,
       problems: problems as [string, string, string],
+      lead: leadFields,
       submissionType: type,
+      kvkkConsent: true,
       locale,
-      lead: { ...form, kvkkConsent: true as const },
+      turnstileToken,
     });
+    setIsSubmitting(false);
+
+    if (!result.ok) {
+      return;
+    }
+
     trackPopupEvent(type === "booking" ? "popup_booking_submitted" : "popup_contact_submitted", {
       persona,
       problems,
-      lead_id: res.submissionId,
       locale,
     });
     trackPopupEvent("popup_kvkk_consent_given", { stage: type });
@@ -133,7 +147,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       problems,
       expiresAt: computeExpiresAt("completed"),
     });
-    setBookingUrl(res.bookingUrl);
+    setBookingUrl(result.calComEmbedUrl ?? null);
     setStage(type === "booking" ? "success-booking" : "success-contact");
   };
 
@@ -192,14 +206,21 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
                 <QuickBookForm
                   onBack={handleBack}
                   onSubmit={(form) => handleSubmitForm(form, "booking")}
-                  loading={submit.isPending}
+                  loading={isSubmitting}
                 />
               )}
               {stage === "contact" && (
                 <ContactForm
                   onBack={handleBack}
                   onSubmit={(form) => handleSubmitForm(form, "contact")}
-                  loading={submit.isPending}
+                  loading={isSubmitting}
+                />
+              )}
+              {(stage === "booking" || stage === "contact") && (
+                <div
+                  ref={turnstileRef}
+                  className="cf-turnstile mt-3"
+                  data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
                 />
               )}
               {(stage === "success-booking" || stage === "success-contact") && (

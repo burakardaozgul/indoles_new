@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "@/styles/globals.css";
 import { TRPCProvider } from "@/lib/trpc/react";
 
@@ -52,6 +53,10 @@ export default function RootLayout({
     >
       <body>
         <TRPCProvider>{children}</TRPCProvider>
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

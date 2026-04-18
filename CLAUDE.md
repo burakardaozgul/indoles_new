@@ -51,28 +51,28 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 
 ## 4. Tech Stack Özeti
 
-**Mimari seçim:** TypeScript monolit — tek Next.js 15 projesi. Mikroservis yok, ayrı AI servisi yok. Detay: `docs/05-tech-architecture.md`.
+**Mimari seçim:** Next.js 15 SSG + 2 REST API route. DB yok, auth yok, payment yok. Detay: `docs/05-tech-architecture.md` ve `docs/superpowers/specs/2026-04-17-simplification-design.md`.
 
 | Katman | Teknoloji | Not |
 |--------|-----------|-----|
-| Frontend | Next.js 15 (App Router, RSC) | React 19, streaming, Server Actions |
-| Styling | Tailwind CSS v4 + Radix UI primitives + cva + Framer Motion | Design system `lib/design/tokens.ts` üzerinden |
-| Backend | Next.js Route Handlers + tRPC v11 | Domain router'lar (booking, brief, consultant, user, package, tool) |
-| Database | Neon (serverless Postgres, EU-central) | Scale-to-zero, per-PR branching |
-| ORM | Drizzle + `@neondatabase/serverless` | Edge uyumlu driver |
-| Auth | Clerk | Session, MFA, webhook ile Neon sync |
-| İçerik | Statik TS + MDX (git-in-content) | `src/lib/content/*.ts` + `content/yazilar/*.mdx`; i18n TR+EN paralel dosyalarla — bkz. `docs/decisions/ADR-006-remove-sanity.md` |
-| Booking | Cal.com Cloud (API + `@calcom/embed-react`) | Self-hosted değil, Cloud |
-| Ödeme | Stripe (global) + iyzico (TR) | Locale-based routing |
-| AI Agent | Vercel AI SDK + Google Gemini (monolit içinde `/api/agent`) | Tool calling, SSE streaming — bkz. `ADR-001` |
-| i18n | next-intl | Path-based: `/tr/*`, `/en/*` |
-| Background Jobs | Inngest | Brief triage, booking onay, reminder, ödeme receipt |
+| Frontend | Next.js 15 (App Router, RSC, SSG) | React 19 |
+| Styling | Tailwind v4 + Radix UI + cva + Framer Motion | `lib/design/tokens.ts` |
+| Backend | Next.js Route Handlers (2 endpoint) | `/api/contact`, `/api/visitor-profile` |
+| Database | **Yok** | Launch'ta DB yok; ADR-010 |
+| Auth | **Yok** | Launch'ta auth yok; ADR-008 |
+| İçerik | Statik TS + MDX | `src/lib/content/*.ts` + `content/yazilar/*.mdx`; ADR-006 |
+| Booking | Cal.com Cloud (embed) | `@calcom/embed-react` |
+| Ödeme | **Yok** | ADR-009 |
+| AI Agent | **Yok** | Launch'ta agent yok; ADR-007 |
+| i18n | next-intl | Path-based TR+EN |
+| Background Jobs | **Yok** | ADR-011 |
 | Email | Resend + React Email | Transactional |
-| Analytics | PostHog (EU Cloud) | Ürün analitiği, funnel, feature flags, session replay |
-| Observability | Sentry + Axiom + CloudWatch | Error + log + altyapı metrikleri |
-| Deploy | AWS (SST Ion + OpenNext) | `eu-central-1`, tek deployment artifact |
-| CI/CD | GitHub Actions | Preview (per-PR) + Production stages |
-| Test | Vitest (unit/integration) + Playwright (E2E) | — |
+| Spam koruma | Cloudflare Turnstile | Invisible |
+| Analytics | PostHog EU Cloud | Funnel + replay + feature flag |
+| Observability | Sentry + Vercel built-in | — |
+| Deploy | Vercel (eu-central) | ADR-012 |
+| CI/CD | GitHub Actions + Vercel preview | — |
+| Test | Vitest + Playwright | — |
 
 ---
 
@@ -135,6 +135,10 @@ Aşağıdaki kalemler projenin kapsamı dışındadır. Gelecekte tekrar gündem
 | Kariyer sayfası / iş ilanları sistemi | Launch'ta yok, ileride tek bir "İş Birliği" sayfası yeterli |
 | Çoklu tenant / white-label | INDOLES tek markalı, tek tenant |
 | Gamification, rozet/puanlama sistemleri | B2B prestij konumuyla uyumsuz |
+| Auth / user accounts (launch) | Danışan vitrini iç ekip, self-signup yok; ADR-008 |
+| Ödeme gateway'i (launch) | Teklifleşme süreci; ADR-009 |
+| AI chatbot (launch) | Agent ROI belirsiz; ADR-007 |
+| Kalıcı DB (launch) | Mail + PostHog yeterli; ADR-010 |
 
 ---
 

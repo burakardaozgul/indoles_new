@@ -1,5 +1,7 @@
 # 09 — Auth, Roller ve İzinler
 
+> **Arşive alındı (2026-04-17)** — ADR-008 kapsamında Clerk + auth kaldırıldı. KVKK bölümü `docs/14-privacy-kvkk.md`'ye taşındı.
+
 > **Amaç:** INDOLES platformunun kullanıcı kimlikleri, rol modeli, permission matrix'i ve auth enforcement katmanlarını sabitlemek.
 >
 > **Bağlı belgeler:** `05-tech-architecture.md` §4.5 & §9, `06-data-model.md` §2.1.

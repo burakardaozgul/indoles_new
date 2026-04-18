@@ -34,7 +34,8 @@ export type PopupStage =
   | "booking"
   | "contact"
   | "success-booking"
-  | "success-contact";
+  | "success-contact"
+  | "existing-booking";
 
 export type PopupSubmissionType = "booking" | "contact" | "dismissed" | "skipped";
 
@@ -62,4 +63,6 @@ export type PopupCookieState = {
   persona: PersonaSlug | null;
   problems: ProblemSlug[];
   expiresAt: string;
+  submissionType?: "booking" | "contact";
+  bookingSlot?: { date: string; time: string };
 };

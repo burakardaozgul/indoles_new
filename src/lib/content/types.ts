@@ -1,10 +1,6 @@
-/**
- * Hardcoded içerik tipleri — Sanity bağlanana kadar placeholder.
- * Sanity CMS bağlanınca bu dosya yerine `src/lib/sanity/queries.ts` kullanılır.
- */
-
 export type Locale = "tr" | "en";
 export type Pillar = "growth" | "transform" | "build";
+export type Persona = "industrial" | "commerce";
 export type ProblemType =
   | "efficiency_loss"
   | "cost_optimization"
@@ -13,13 +9,15 @@ export type ProblemType =
   | "customer_acquisition";
 
 export type Localized<T> = Record<Locale, T>;
+export type PersonaText = Record<Persona, Localized<string>>;
+export type PersonaList = Record<Persona, Localized<string[]>>;
 
 export type PillarContent = {
   key: Pillar;
   name: Localized<string>;
-  tagline: Localized<string>;
+  tagline: PersonaText;
   heroLede: Localized<string>;
-  description: Localized<string>;
+  description: PersonaText;
   methodology: Array<{
     step: string;
     title: Localized<string>;
@@ -28,7 +26,7 @@ export type PillarContent = {
   services: Array<{
     slug: string;
     name: Localized<string>;
-    shortDescription: Localized<string>;
+    shortDescription: PersonaText;
   }>;
   metrics: Array<{ value: string; label: Localized<string> }>;
 };
@@ -39,14 +37,14 @@ export type PackageContent = {
   pillar: Pillar;
   durationWeeks: number;
   pricing: { TRY: number; EUR: number; USD: number };
-  outcome: Localized<string>;
-  summary: Localized<string>;
-  scope: Localized<string[]>;
-  deliverables: Localized<string[]>;
-  whoFor: Localized<string[]>;
+  outcome: PersonaText;
+  summary: PersonaText;
+  scope: PersonaList;
+  deliverables: PersonaList;
+  whoFor: PersonaList;
   faq: Array<{
     question: Localized<string>;
-    answer: Localized<string>;
+    answer: PersonaText;
   }>;
 };
 

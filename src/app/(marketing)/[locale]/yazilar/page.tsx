@@ -4,7 +4,6 @@ import { PageHeader } from "@/components/marketing/page-header";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { ARTICLES } from "@/lib/content/articles";
 import { getConsultantBySlug } from "@/lib/content/consultants";
-import { getPillar } from "@/lib/content/pillars";
 
 const CATEGORY_LABELS: Record<string, { tr: string; en: string }> = {
   growth: { tr: "Büyüme", en: "Growth" },

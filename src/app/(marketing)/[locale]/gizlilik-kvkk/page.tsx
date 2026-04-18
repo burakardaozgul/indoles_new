@@ -132,7 +132,7 @@ export default async function KvkkPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const loc = locale as 'tr' | 'en';
-  const tCommon = await getTranslations({ locale, namespace: 'common' });
+  const _tCommon = await getTranslations({ locale, namespace: 'common' });
 
   const content = loc === 'tr' ? KVKK_TR : KVKK_EN;
 

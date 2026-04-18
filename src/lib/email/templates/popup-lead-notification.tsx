@@ -62,7 +62,7 @@ export function PopupLeadNotificationEmail(p: Props) {
             ) : null}
           </Section>
           <Hr />
-          <Text><Link href={p.adminLink}>Admin'de aç</Link></Text>
+          <Text><Link href={p.adminLink}>Admin&apos;de aç</Link></Text>
         </Container>
       </Body>
     </Html>

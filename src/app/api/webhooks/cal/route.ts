@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
 
   const payload = JSON.parse(raw);
   // TODO: booking upsert + Inngest trigger — docs/11 §4.3
-  console.log("Cal.com webhook:", payload.triggerEvent);
+  // TODO: booking upsert + Inngest trigger
+console.error("Cal.com webhook:", payload.triggerEvent);
 
   return NextResponse.json({ ok: true });
 }

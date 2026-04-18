@@ -70,7 +70,7 @@ export function CinematicHeroBackground() {
     io.observe(container);
 
     let raf = 0;
-    let t0 = performance.now();
+    const t0 = performance.now();
 
     const draw = (now: number) => {
       if (!visible) {

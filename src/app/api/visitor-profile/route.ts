@@ -36,7 +36,7 @@ export async function POST(req: Request): Promise<Response> {
 
   try {
     await sendMailWithRetry({
-      from: 'INDOLES <noreply@indoles.com.tr>',
+      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <noreply@indoles.com.tr>',
       to: process.env.LEAD_INBOX_EMAIL ?? 'lead@indoles.com.tr',
       subject: `Yeni popup lead — ${data.lead.firstName} ${data.lead.lastName} (${data.lead.company})`,
       react: VisitorProfileLeadNotification({
@@ -49,7 +49,7 @@ export async function POST(req: Request): Promise<Response> {
       }),
     });
     await sendMailWithRetry({
-      from: 'INDOLES <hello@indoles.com.tr>',
+      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <hello@indoles.com.tr>',
       to: data.lead.email,
       subject: data.locale === 'tr' ? 'Seçimini aldık — INDOLES' : 'We got your selection — INDOLES',
       react: VisitorProfileAutoreply({
@@ -61,6 +61,7 @@ export async function POST(req: Request): Promise<Response> {
     });
   } catch (err) {
     Sentry.captureException(err, { tags: { route: 'visitor-profile', step: 'mail' } });
+    console.error('[api/visitor-profile] mail_failed:', err);
     return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
   }
 

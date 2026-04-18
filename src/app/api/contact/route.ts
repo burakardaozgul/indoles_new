@@ -34,19 +34,20 @@ export async function POST(req: Request): Promise<Response> {
 
   try {
     await sendMailWithRetry({
-      from: 'INDOLES <noreply@indoles.com.tr>',
+      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <noreply@indoles.com.tr>',
       to: process.env.SALES_INBOX_EMAIL ?? 'sales@indoles.com.tr',
       subject: `İletişim — ${data.subject} — ${data.firstName} ${data.lastName}`,
       react: ContactNotification(data),
     });
     await sendMailWithRetry({
-      from: 'INDOLES <hello@indoles.com.tr>',
+      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <hello@indoles.com.tr>',
       to: data.email,
       subject: data.locale === 'tr' ? 'Mesajını aldık — INDOLES' : 'We got your message — INDOLES',
       react: ContactAutoreply({ firstName: data.firstName, locale: data.locale }),
     });
   } catch (err) {
     Sentry.captureException(err, { tags: { route: 'contact', step: 'mail' } });
+    console.error('[api/contact] mail_failed:', err);
     return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
   }
 

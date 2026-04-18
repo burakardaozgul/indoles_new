@@ -13,7 +13,7 @@ export interface Props {
   lead: Lead;
   submissionType: 'booking' | 'contact';
   locale: 'tr' | 'en';
-  utm?: { source?: string; medium?: string; campaign?: string };
+  utm: { source?: string | undefined; medium?: string | undefined; campaign?: string | undefined } | undefined;
 }
 
 const personaLabel = {

@@ -23,6 +23,7 @@ describe('email templates', () => {
         lead={sampleLead}
         submissionType="booking"
         locale="tr"
+        utm={undefined}
       />,
     );
     expect(html).toContain('Burak');

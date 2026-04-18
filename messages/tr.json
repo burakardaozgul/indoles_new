@@ -70,6 +70,42 @@
       "eyebrow": "01 — Uzmanlık",
       "headline": "Üç pillar, tek disiplin.",
       "lede": "Aynı iş zekâsının üç farklı yüzü. Ayrı ekipler değil, birbirini besleyen aynı omurga.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "01 — Uzmanlık",
+          "headline": "Üç disiplin, tek omurga.",
+          "lede": "Dönüşüm, büyüme ve inşa aynı metodolojinin üç kolu. Her proje bu üçünü birden devreye alır — hangisini ne zaman, bunu teşhis söyler.",
+          "growth": {
+            "tagline": "Sanayi markası için yapısal büyüme.",
+            "description": "Marka konumlandırması, performans ve müşteri edinimini tek bir büyüme sisteminde birleştirir. İhracat hedefi veya yurt içi pazar payı — strateji veriye dayanır."
+          },
+          "transform": {
+            "tagline": "Süreç, veri ve AI dönüşümü.",
+            "description": "Üretim hattından ERP'ye, tedarik zincirinden karar destek sistemine — süreç analizi, otomasyon tasarımı ve uygulama tek elde. Verim ölçülebilir artar, maliyet görünür düşer."
+          },
+          "build": {
+            "tagline": "Özel yazılım ve altyapı inşası.",
+            "description": "Akıllı ERP, iş yönetim yazılımı, otomasyon sistemleri ve altyapı — dış danışmanlık değil, sahiplikli mühendislik. Kurulum sonrası sistemin kontrolü firmada kalır."
+          }
+        },
+        "commerce": {
+          "eyebrow": "01 — Sistem",
+          "headline": "Büyüme sistem işidir.",
+          "lede": "Growth, Transform ve Build tek bir büyüme motorunun üç kaldıracı. Kanal değil sistem; kampanya değil makine. Metrikler bağlanınca büyüme rastlantı olmaktan çıkar.",
+          "growth": {
+            "tagline": "Gelir artıran büyüme sistemi.",
+            "description": "CAC düşer, ROAS yükselir, dönüşüm oranı artar — marka, performans ve deneyim bir arada çalışınca. Büyüme hedefini koy, sistemi birlikte kuralım."
+          },
+          "transform": {
+            "tagline": "E-ticaret operasyonu hızlanır.",
+            "description": "Sipariş akışı, envanter senkronizasyonu, müşteri segmentasyonu — operasyonel darboğazlar bulunur, otomasyonla çözülür. Daha az elle iş, daha fazla ölçeklenebilirlik."
+          },
+          "build": {
+            "tagline": "Hızlı ve piyasaya hazır ürün.",
+            "description": "Mobile uygulama, web platformu veya e-ticaret altyapısı — 8-12 haftada piyasaya çıkmaya hazır. Dış danışman değil, sahiplikli mühendislik."
+          }
+        }
+      },
       "growth": {
         "name": "Growth",
         "tagline": "Ticaret için agresif büyüme.",
@@ -110,14 +146,41 @@
       "eyebrow": "02 — Kanıt",
       "headline": "Sonuç bırakmadan gitmiyoruz.",
       "lede": "Sektöre göre değil, problem tipine göre filtrelenir. Benzer senaryoyu gör, kendi ihtimalini değerlendir.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "02 — Kanıt",
+          "headline": "Her proje ölçülebilir bir çıktıyla kapanır.",
+          "lede": "Problem tipine göre filtrele — sektöre göre değil. Benzer ölçekte, benzer darboğazda çalışan bir firmayı gör; kendi dönüşüm ihtimalini somut olarak değerlendir.",
+          "featured": {
+            "summary": "Orta ölçekli bir sanayi firması Excel-tabanlı üretim planlamayla çalışıyordu: kaynak tahsis hatası yüksek, sevkiyat tarihleri öngörülemez, planlama döngüsü uzun. Süreci uçtan uca dijitalleştirdik — veri toplama, kaynak optimizasyon algoritması ve operatör arayüzü tek sistemde birleşti. 8 haftada uygulamaya alındı; planlama süresi yüzde kırk iki kısaldı, sevkiyat güvenilirliği iki katına çıktı."
+          }
+        },
+        "commerce": {
+          "eyebrow": "02 — Kanıt",
+          "headline": "Rakam olmadan sonuç sayılmaz.",
+          "lede": "Problem tipine göre filtrele. Senin darboğazına en yakın vakayı bul — büyüme metriği, dönüşüm oranı veya operasyon hızı — kendi potansiyelini ölç.",
+          "featured": {
+            "summary": "Planlama süresi yüzde kırk iki kısaldı, sevkiyat güvenilirliği iki katına çıktı, uygulama 8 haftada tamamlandı. Excel-tabanlı üretim planlamanın tüm iş akışını dijitalleştirdik: kaynak tahsis hatası sıfırlandı, operatör gösterge paneli gerçek zamanlı çalışmaya başladı."
+          }
+        }
+      },
       "featured": {
         "clientLabel": "Seçilmiş vaka",
         "title": "Üretim planlamada 42% süre kısalması.",
         "summary": "Excel-tabanlı üretim planlamayı uçtan uca dijitalleştirdik. Kaynak tahsis hatası neredeyse sıfırlandı, sevkiyat güvenilirliği iki katına çıktı.",
         "metrics": [
-          { "value": "-%42", "label": "Planlama süresi" },
-          { "value": "2×", "label": "Sevkiyat güvenilirliği" },
-          { "value": "8 hafta", "label": "Uygulama süresi" }
+          {
+            "value": "-%42",
+            "label": "Planlama süresi"
+          },
+          {
+            "value": "2×",
+            "label": "Sevkiyat güvenilirliği"
+          },
+          {
+            "value": "8 hafta",
+            "label": "Uygulama süresi"
+          }
         ],
         "pillar": "Transform"
       },
@@ -143,39 +206,47 @@
       "eyebrow": "03 — Paketler",
       "headline": "Sabit kapsam. Sabit süre.\nSabit fiyat.",
       "lede": "Büyük iş birliklerinin giriş kapısı. Bir SaaS'ın starter plan'ı gibi — içeri gir, değer gör, büyü.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "03 — Paketler",
+          "headline": "Sabit kapsam, sabit süre, sabit fiyat.",
+          "lede": "Büyük iş birliklerinin teşhis ve strateji giriş kapısı. Metodoloji şeffaf, kapsam sınırlı, bütçe öngörülebilir. Sonuç görülür, ilerleme kararı firmaya kalır."
+        },
+        "commerce": {
+          "eyebrow": "03 — Paketler",
+          "headline": "Sabit kapsam. Sabit süre.\nSabit fiyat.",
+          "lede": "Büyük iş birliklerinin hızlı giriş kapısı. Metrik hedefinizi belirle, paketi seç, başla. Starter plan gibi: içeri gir, değer gör, ölçekle."
+        }
+      },
       "priceFromSuffix": "başlangıç",
       "items": [
         {
           "slug": "buyume-sprinti",
           "name": "Büyüme Sprinti",
           "pillar": "Growth",
-          "duration": "3 hafta",
-          "priceFrom": "₺45.000",
-          "outcome": "Hangi kanalda parayı nereye koyarsan büyürsün, biz söyleriz."
+          "duration": "4 hafta",
+          "priceFrom": "₺240.000"
         },
         {
           "slug": "dijital-donusum-teshisi",
           "name": "Dijital Dönüşüm Teşhisi",
           "pillar": "Transform",
-          "duration": "2 hafta",
-          "priceFrom": "₺28.000",
-          "outcome": "Dijitalleşecek süreçleri ve sırasını sayfa sayfa yol haritası."
+          "duration": "3 hafta",
+          "priceFrom": "₺180.000"
         },
         {
           "slug": "ai-pilot",
           "name": "AI Pilot",
           "pillar": "Transform",
           "duration": "6 hafta",
-          "priceFrom": "₺85.000",
-          "outcome": "Somut bir iş problemine uçtan uca çalışan AI prototipi."
+          "priceFrom": "₺480.000"
         },
         {
           "slug": "mvp-build",
           "name": "MVP Build",
           "pillar": "Build",
-          "duration": "8-12 hafta",
-          "priceFrom": "₺125.000",
-          "outcome": "Piyasaya çıkmaya hazır mobil veya web uygulaması."
+          "duration": "8 hafta",
+          "priceFrom": "₺720.000"
         }
       ]
     },
@@ -187,6 +258,46 @@
       "eyebrow": "05 — Başla",
       "headline": "Nereden başlayalım?",
       "lede": "Üç farklı hızda giriş kapısı. Hangisi sana uygunsa.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "05 — Başla",
+          "headline": "Nasıl başlamak istersiniz?",
+          "lede": "Taahhüt seviyesine göre üç giriş kapısı. Teşhis olmadan reçete yazmayız — hangi kapıdan girerseniz girin, ilk adım problemi anlamaktır.",
+          "paths": {
+            "chat": {
+              "description": "AI danışman ile probleminizi birkaç cümlede tanımlayın. Sektörünüze ve büyüklüğünüze göre ilk değerlendirme anında döner.",
+              "cta": "Teşhisi başlat"
+            },
+            "booking": {
+              "description": "Bir uzmanla 30 dakika. Problemi birlikte açalım, hangi pillar'dan başlanacağını ve somut bir sonraki adımı belirleyelim.",
+              "cta": "Görüşmeyi planla"
+            },
+            "brief": {
+              "description": "Projeyi adım adım tarif edin. 48 saat içinde yaklaşım, uygun paket ve tahmini etki döner.",
+              "cta": "Brief gönderin"
+            }
+          }
+        },
+        "commerce": {
+          "eyebrow": "05 — Başla",
+          "headline": "Nereden başlayalım?",
+          "lede": "Üç farklı giriş hızı. Hazır hissediyorsan bugün başla — hazır değilsen önce konuş, sonra karar ver.",
+          "paths": {
+            "chat": {
+              "description": "AI asistanla birkaç cümlede problemi tanımla. Büyüme darboğazın nerede olduğuna dair ilk yaklaşım anında döner.",
+              "cta": "Şimdi başla"
+            },
+            "booking": {
+              "description": "30 dakikada büyüme yönünü netleştirelim. Hangi kanalda, hangi metrikte, ne kadar sürede etki beklenir — somut çıkaralım.",
+              "cta": "Planı kur"
+            },
+            "brief": {
+              "description": "Projeyi adım adım yaz. 48 saat içinde hangi paketten başlanacağı ve tahmini etki sana döner.",
+              "cta": "Brief doldur"
+            }
+          }
+        }
+      },
       "paths": {
         "chat": {
           "commitment": "Düşük taahhüt",
@@ -213,12 +324,18 @@
     }
   },
   "pillars": {
-    "growth": { "name": "Growth", "tagline": "Ticaret için agresif büyüme." },
+    "growth": {
+      "name": "Growth",
+      "tagline": "Ticaret için agresif büyüme."
+    },
     "transform": {
       "name": "Transform",
       "tagline": "Dijital ve işletme dönüşümü."
     },
-    "build": { "name": "Build", "tagline": "Teknoloji ve ürün inşası." }
+    "build": {
+      "name": "Build",
+      "tagline": "Teknoloji ve ürün inşası."
+    }
   },
   "popup": {
     "meta": {
@@ -326,6 +443,12 @@
       "kanal-yonetim-eksik": "Pazarlama kanallarını doğru yönetemiyorum.",
       "altyapi-yuk-kaldirmiyor": "E-ticaret altyapım satış yüküne dayanmıyor.",
       "rekabet-geride-his": "Rekabette geride kaldığımı hissediyorum."
+    },
+    "existingBooking": {
+      "title": "Görüşmeniz rezerve edildi.",
+      "body": "Detaylar e-postanızda mevcut.",
+      "reschedule": "Rezervasyonu yeniden planla",
+      "rescheduleHelper": "Farklı bir zaman seçerek görüşmenizi ilerletin."
     }
   }
 }

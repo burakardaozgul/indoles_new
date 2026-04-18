@@ -70,6 +70,42 @@
       "eyebrow": "01 — Expertise",
       "headline": "Three pillars, one discipline.",
       "lede": "Three faces of the same business intelligence. Not separate teams — one spine feeding itself.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "01 — Expertise",
+          "headline": "Three disciplines, one spine.",
+          "lede": "Transformation, growth and engineering are three arms of the same methodology. Every engagement activates all three — the diagnosis decides which one leads.",
+          "growth": {
+            "tagline": "Structural growth for industrial brands.",
+            "description": "Brand positioning, performance and customer acquisition unified in one growth system. Export targets or domestic market share — strategy is grounded in data."
+          },
+          "transform": {
+            "tagline": "Process, data and AI transformation.",
+            "description": "From production line to ERP, from supply chain to decision support — process analysis, automation design and implementation under one roof. Efficiency rises measurably, cost drops visibly."
+          },
+          "build": {
+            "tagline": "Custom software and infrastructure.",
+            "description": "Intelligent ERP, business management systems, automation and infrastructure — ownership-led engineering, not outside advice. After deployment, the firm controls the system."
+          }
+        },
+        "commerce": {
+          "eyebrow": "01 — System",
+          "headline": "Growth is an engineering problem.",
+          "lede": "Growth, Transform and Build are three levers of one revenue engine. Not a channel — a system. Not a campaign — a machine. When metrics connect, growth stops being luck.",
+          "growth": {
+            "tagline": "A growth system that drives revenue.",
+            "description": "CAC drops, ROAS rises, conversion improves — when brand, performance and experience work in sync. Set the growth target; we build the system together."
+          },
+          "transform": {
+            "tagline": "E-commerce operations, accelerated.",
+            "description": "Order flow, inventory sync, customer segmentation — operational bottlenecks identified and resolved through automation. Less manual work, more scalability."
+          },
+          "build": {
+            "tagline": "Fast, market-ready product.",
+            "description": "Mobile app, web platform or e-commerce infrastructure — ready to launch in 8-12 weeks. Ownership-led engineering, not outside consulting."
+          }
+        }
+      },
       "growth": {
         "name": "Growth",
         "tagline": "Aggressive growth for commerce.",
@@ -110,14 +146,41 @@
       "eyebrow": "02 — Proof",
       "headline": "We don't leave without an outcome.",
       "lede": "Filtered by problem type, not industry. See the similar scenario, evaluate your own odds.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "02 — Proof",
+          "headline": "Every engagement closes with a measurable outcome.",
+          "lede": "Filter by problem type, not industry. Find a firm of similar scale with a similar bottleneck; evaluate your own transformation potential on concrete ground.",
+          "featured": {
+            "summary": "A mid-size industrial firm ran spreadsheet-based production planning: resource allocation errors were high, shipment dates were unpredictable, planning cycles ran long. We digitized the process end to end — data capture, resource optimization and an operator interface unified in one system. Deployed in 8 weeks; planning time shortened by 42%, shipping reliability doubled."
+          }
+        },
+        "commerce": {
+          "eyebrow": "02 — Proof",
+          "headline": "No outcome, no result.",
+          "lede": "Filter by problem type. Find the case closest to your bottleneck — growth metric, conversion rate or operational speed — then measure your own potential.",
+          "featured": {
+            "summary": "Planning time down 42%. Shipping reliability doubled. Deployed in 8 weeks. We digitized the full workflow of spreadsheet-based production planning: resource allocation errors eliminated, operator dashboard running in real time."
+          }
+        }
+      },
       "featured": {
         "clientLabel": "Selected case",
         "title": "42% shorter production planning cycle.",
         "summary": "We digitized spreadsheet-based production planning end to end. Resource allocation errors dropped to near zero; shipping reliability doubled.",
         "metrics": [
-          { "value": "-42%", "label": "Planning time" },
-          { "value": "2×", "label": "Shipping reliability" },
-          { "value": "8 weeks", "label": "Time to deploy" }
+          {
+            "value": "-42%",
+            "label": "Planning time"
+          },
+          {
+            "value": "2×",
+            "label": "Shipping reliability"
+          },
+          {
+            "value": "8 weeks",
+            "label": "Time to deploy"
+          }
         ],
         "pillar": "Transform"
       },
@@ -143,39 +206,47 @@
       "eyebrow": "03 — Packages",
       "headline": "Fixed scope. Fixed time.\nFixed price.",
       "lede": "The front door to larger engagements. Like a SaaS starter plan — step in, see value, grow.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "03 — Packages",
+          "headline": "Fixed scope, fixed time, fixed price.",
+          "lede": "The diagnostic and strategy entry point for larger engagements. Methodology transparent, scope contained, budget predictable. Results are visible; the decision to proceed stays with you."
+        },
+        "commerce": {
+          "eyebrow": "03 — Packages",
+          "headline": "Fixed scope. Fixed time.\nFixed price.",
+          "lede": "The fast entry point to larger engagements. Set your metric target, pick a package, start. Like a starter plan — step in, see value, scale."
+        }
+      },
       "priceFromSuffix": "starting",
       "items": [
         {
           "slug": "growth-sprint",
           "name": "Growth Sprint",
           "pillar": "Growth",
-          "duration": "3 weeks",
-          "priceFrom": "€1,500",
-          "outcome": "We tell you exactly which channel to put money into, and where."
+          "duration": "4 weeks",
+          "priceFrom": "€1,500"
         },
         {
           "slug": "digital-transformation-audit",
           "name": "Digital Transformation Audit",
           "pillar": "Transform",
-          "duration": "2 weeks",
-          "priceFrom": "€950",
-          "outcome": "Page-by-page roadmap of which processes to digitize first."
+          "duration": "3 weeks",
+          "priceFrom": "€950"
         },
         {
           "slug": "ai-pilot",
           "name": "AI Pilot",
           "pillar": "Transform",
           "duration": "6 weeks",
-          "priceFrom": "€2,900",
-          "outcome": "An end-to-end working AI prototype for one concrete business problem."
+          "priceFrom": "€2,900"
         },
         {
           "slug": "mvp-build",
           "name": "MVP Build",
           "pillar": "Build",
-          "duration": "8-12 weeks",
-          "priceFrom": "€4,200",
-          "outcome": "Market-ready mobile or web application."
+          "duration": "8 weeks",
+          "priceFrom": "€4,200"
         }
       ]
     },
@@ -187,6 +258,46 @@
       "eyebrow": "05 — Start",
       "headline": "Where do we start?",
       "lede": "Three entry doors at three speeds. Pick the one that fits.",
+      "_personas": {
+        "industrial": {
+          "eyebrow": "05 — Start",
+          "headline": "How would you like to begin?",
+          "lede": "Three entry points by commitment level. We don't prescribe without diagnosing — whichever door you choose, the first step is understanding the problem.",
+          "paths": {
+            "chat": {
+              "description": "Describe your problem in a few sentences to the AI advisor. A first assessment comes back instantly, calibrated to your industry and scale.",
+              "cta": "Start the diagnosis"
+            },
+            "booking": {
+              "description": "30 minutes with an expert. We open the problem together and define which pillar to start from and what the concrete next step looks like.",
+              "cta": "Schedule a call"
+            },
+            "brief": {
+              "description": "Describe the project step by step. A proposed approach, relevant package and estimated impact come back within 48 hours.",
+              "cta": "Send the brief"
+            }
+          }
+        },
+        "commerce": {
+          "eyebrow": "05 — Start",
+          "headline": "Where do we start?",
+          "lede": "Three entry speeds. If you're ready, start today — if not, talk first, decide after.",
+          "paths": {
+            "chat": {
+              "description": "Describe the problem in a few sentences to the AI. A first read on where your growth bottleneck is comes back instantly.",
+              "cta": "Start now"
+            },
+            "booking": {
+              "description": "30 minutes to map your growth direction. Which channel, which metric, how soon to see impact — let's make it concrete.",
+              "cta": "Build the plan"
+            },
+            "brief": {
+              "description": "Write the project step by step. Which package fits and expected impact come back within 48 hours.",
+              "cta": "Fill the brief"
+            }
+          }
+        }
+      },
       "paths": {
         "chat": {
           "commitment": "Low commitment",
@@ -213,12 +324,18 @@
     }
   },
   "pillars": {
-    "growth": { "name": "Growth", "tagline": "Aggressive growth for commerce." },
+    "growth": {
+      "name": "Growth",
+      "tagline": "Aggressive growth for commerce."
+    },
     "transform": {
       "name": "Transform",
       "tagline": "Digital and business transformation."
     },
-    "build": { "name": "Build", "tagline": "Technology and product engineering." }
+    "build": {
+      "name": "Build",
+      "tagline": "Technology and product engineering."
+    }
   },
   "popup": {
     "meta": {
@@ -326,6 +443,12 @@
       "kanal-yonetim-eksik": "I can't manage marketing channels well.",
       "altyapi-yuk-kaldirmiyor": "My e-commerce stack can't handle the sales load.",
       "rekabet-geride-his": "I feel I'm falling behind competitors."
+    },
+    "existingBooking": {
+      "title": "You have a booking.",
+      "body": "Details are in your email.",
+      "reschedule": "Reschedule your meeting",
+      "rescheduleHelper": "Pick a new slot to move your session."
     }
   }
 }

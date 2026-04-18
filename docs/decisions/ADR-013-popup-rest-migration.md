@@ -33,3 +33,21 @@ Davranışsal spec (Stage 1/2/3, copy, cookie kuralları, a11y, viewport, layout
 
 - Popup conversion rate hedefi (%5-8) tutmazsa flow/backend ayrı değerlendirme
 - Mail/PostHog yetmez hale gelirse ADR-010 ile birlikte revize
+
+---
+
+## Güncelleme — 2026-04-17: Cal.com embed → capture-only booking
+
+**Karar sahibi:** Burak Arda Özgül
+
+Booking stage'de Cal.com embed açma kaldırıldı. Yeni akış:
+
+- Stage 3 → "booking" CTA → özel 2 kolonlu ekran (takvim + danışman kartı + form)
+- Kullanıcı istediği gün + saati seçer; bu `preferredSlot {date, time}` olarak `visitorProfileSchema`'ya eklendi
+- Backend: Cal.com API çağrısı yok, `buildCalEmbedUrl` kaldırıldı, yanıt `{ ok: true }` döner
+- Mail template'e `preferredSlot` eklendi; Burak/ekip seçilen sloту görür ve manuel onaylar
+- PostHog event'e `preferred_slot` property eklendi
+
+**Gerekçe:** Cal.com API entegrasyonu gerçek müsaitlik kontrolü gerektiriyor; launch'ta ihtiyaç yok. Mail + manuel onay daha az karmaşıklık, aynı müşteri bilgisi.
+
+**Faz 2 notu:** `src/lib/content/consultants.ts` ile persona-aware danışman eşleştirmesi ve gerçek Cal.com API entegrasyonu (availability check) değerlendirilecek.

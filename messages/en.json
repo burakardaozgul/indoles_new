@@ -294,6 +294,15 @@
       "current": "Selection: {personaLabel}",
       "change": "Change"
     },
+    "booking": {
+      "consultantCardTitle": "Your point of contact",
+      "slotNotSelected": "No date selected yet",
+      "slotSelected": "{date} · {time}",
+      "selectDatePrompt": "Select a day below",
+      "selectTimePrompt": "Choose your preferred time",
+      "disabledDayHint": "Weekends and past dates are unavailable",
+      "submitCta": "Submit meeting request"
+    },
     "problems": {
       "manuel-surec-yavaslatiyor": "Manual processes are slowing my team down.",
       "verimsizlik-goremiyorum": "I can't pinpoint where inefficiency happens.",

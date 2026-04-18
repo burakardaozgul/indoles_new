@@ -46,6 +46,7 @@ export async function POST(req: Request): Promise<Response> {
         submissionType: data.submissionType,
         locale: data.locale,
         utm: data.utm,
+        preferredSlot: data.preferredSlot,
       }),
     });
     await sendMailWithRetry({
@@ -93,6 +94,9 @@ export async function POST(req: Request): Promise<Response> {
         persona: data.persona,
         problems: data.problems,
         locale: data.locale,
+        preferred_slot: data.preferredSlot
+          ? `${data.preferredSlot.date} ${data.preferredSlot.time}`
+          : null,
       },
     });
     await flushPosthog();
@@ -100,25 +104,5 @@ export async function POST(req: Request): Promise<Response> {
     Sentry.captureException(err, { tags: { route: 'visitor-profile', step: 'posthog' } });
   }
 
-  return NextResponse.json({
-    ok: true,
-    calComEmbedUrl: data.submissionType === 'booking'
-      ? buildCalEmbedUrl(data)
-      : undefined,
-  });
-}
-
-function buildCalEmbedUrl(data: {
-  lead: { firstName: string; lastName: string; email: string };
-  persona: 'donusum-teknoloji' | 'buyume-pazarlar';
-  locale: 'tr' | 'en';
-}): string {
-  const base = process.env.CAL_COM_EMBED_URL ?? 'https://cal.com/indoles/gorusme';
-  const params = new URLSearchParams({
-    name: `${data.lead.firstName} ${data.lead.lastName}`,
-    email: data.lead.email,
-    'metadata[persona]': data.persona,
-    'metadata[locale]': data.locale,
-  });
-  return `${base}?${params.toString()}`;
+  return NextResponse.json({ ok: true });
 }

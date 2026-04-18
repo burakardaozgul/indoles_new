@@ -294,6 +294,15 @@
       "current": "Seçim: {personaLabel}",
       "change": "Değiştir"
     },
+    "booking": {
+      "consultantCardTitle": "Görüşmeye katılacak kişi",
+      "slotNotSelected": "Henüz bir gün seçmedin",
+      "slotSelected": "{date} · {time}",
+      "selectDatePrompt": "Aşağıdan bir gün seç",
+      "selectTimePrompt": "Tercih ettiğin saati seç",
+      "disabledDayHint": "Hafta sonları ve geçmiş günler seçilemez",
+      "submitCta": "Görüşme talebini ilet"
+    },
     "problems": {
       "manuel-surec-yavaslatiyor": "Manuel süreçler ekibimi yavaşlatıyor.",
       "verimsizlik-goremiyorum": "Verimsizlik nerede, kesin bilemiyorum.",

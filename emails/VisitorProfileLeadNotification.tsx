@@ -14,6 +14,7 @@ export interface Props {
   submissionType: 'booking' | 'contact';
   locale: 'tr' | 'en';
   utm: { source?: string | undefined; medium?: string | undefined; campaign?: string | undefined } | undefined;
+  preferredSlot?: { date: string; time: string } | undefined;
 }
 
 const personaLabel = {
@@ -22,7 +23,7 @@ const personaLabel = {
 };
 
 export default function VisitorProfileLeadNotification(props: Props) {
-  const { persona, problems, lead, submissionType, locale, utm } = props;
+  const { persona, problems, lead, submissionType, locale, utm, preferredSlot } = props;
   return (
     <Html>
       <Head />
@@ -46,6 +47,9 @@ export default function VisitorProfileLeadNotification(props: Props) {
             </ul>
             <Text><b>Submission tipi:</b> {submissionType}</Text>
             <Text><b>Locale:</b> {locale}</Text>
+            {preferredSlot && (
+              <Text><b>Tercih edilen saat:</b> {preferredSlot.date} · {preferredSlot.time}</Text>
+            )}
             {utm && (
               <Text><b>UTM:</b> {utm.source ?? '—'} / {utm.medium ?? '—'} / {utm.campaign ?? '—'}</Text>
             )}

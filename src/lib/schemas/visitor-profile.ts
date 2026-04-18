@@ -19,6 +19,10 @@ export const visitorProfileSchema = z.object({
     medium: z.string().optional(),
     campaign: z.string().optional(),
   }).optional(),
+  preferredSlot: z.object({
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    time: z.string().regex(/^\d{2}:\d{2}$/),
+  }).optional(),
   turnstileToken: z.string().min(1),
 });
 

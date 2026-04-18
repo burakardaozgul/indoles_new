@@ -62,6 +62,20 @@ describe('POST /api/visitor-profile', () => {
     expect(sendMailWithRetry).toHaveBeenCalledTimes(2);
   });
 
+  it('200 — preferredSlot ile booking', async () => {
+    const { verifyTurnstile } = await import('@/lib/security/turnstile');
+    const { sendMailWithRetry } = await import('@/lib/mail/client');
+    vi.mocked(verifyTurnstile).mockResolvedValueOnce(true);
+    vi.mocked(sendMailWithRetry).mockResolvedValue(undefined);
+    const bodyWithSlot = { ...validBody, preferredSlot: { date: '2026-04-25', time: '10:00' } };
+    const res = await POST(buildRequest(bodyWithSlot));
+    expect(res.status).toBe(200);
+    const json = await res.json() as Record<string, unknown>;
+    expect(json.ok).toBe(true);
+    // No calComEmbedUrl in new flow
+    expect(json.calComEmbedUrl).toBeUndefined();
+  });
+
   it('500 — Resend hepsi fail', async () => {
     const { verifyTurnstile } = await import('@/lib/security/turnstile');
     const { sendMailWithRetry } = await import('@/lib/mail/client');

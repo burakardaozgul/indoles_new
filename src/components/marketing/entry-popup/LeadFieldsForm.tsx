@@ -10,9 +10,10 @@ type Props = {
   onSubmit: (form: PopupLeadForm) => void;
   loading: boolean;
   submitLabel: string;
+  extraDisabled?: boolean;
 };
 
-export function LeadFieldsForm({ onBack, onSubmit, loading, submitLabel }: Props) {
+export function LeadFieldsForm({ onBack, onSubmit, loading, submitLabel, extraDisabled = false }: Props) {
   const t = useTranslations("popup");
   const [form, setForm] = React.useState<PopupLeadForm>({
     firstName: "",
@@ -40,7 +41,7 @@ export function LeadFieldsForm({ onBack, onSubmit, loading, submitLabel }: Props
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (!filled || loading) return;
+        if (!filled || loading || extraDisabled) return;
         onSubmit(form);
       }}
       className="space-y-3"
@@ -86,7 +87,7 @@ export function LeadFieldsForm({ onBack, onSubmit, loading, submitLabel }: Props
         </button>
         <button
           type="submit"
-          disabled={!filled || loading}
+          disabled={!filled || loading || extraDisabled}
           className="px-4 py-2 bg-brand-700 text-paper rounded-md text-sm font-medium hover:bg-brand-800 transition disabled:opacity-40 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
         >
           {loading ? t("meta.loading") : submitLabel}

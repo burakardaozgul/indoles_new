@@ -9,7 +9,7 @@ import type { PersonaSlug, ProblemSlug, PopupLeadForm, PopupStage } from "../../
 import { Stage1Persona } from "./Stage1Persona";
 import { Stage2Problems } from "./Stage2Problems";
 import { Stage3Actions } from "./Stage3Actions";
-import { QuickBookForm } from "./QuickBookForm";
+import { BookingScreen } from "./BookingScreen";
 import { ContactForm } from "./ContactForm";
 import { SuccessState } from "./SuccessState";
 import { ProgressIndicator } from "./ProgressIndicator";
@@ -17,7 +17,6 @@ import { BrandLogo } from "../../brand/brand-logo";
 import { writePopupCookie, computeExpiresAt } from "../../../lib/popup/cookie";
 import { trackPopupEvent } from "../../../lib/popup/analytics";
 import { submitVisitorProfile } from "../../../lib/popup/api";
-import { openCalEmbed } from "../../../lib/calcom/prefill";
 
 export type EntryPopupProps = {
   open: boolean;
@@ -44,7 +43,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
   const [persona, setPersona] = React.useState<PersonaSlug | null>(null);
   const [problems, setProblems] = React.useState<ProblemSlug[]>([]);
   const [stageStart, setStageStart] = React.useState<number>(Date.now());
-  const [bookingUrl, setBookingUrl] = React.useState<string | null>(null);
+  const [preferredSlot, setPreferredSlot] = React.useState<{ date: string; time: string } | null>(null);
   const [turnstileToken, setTurnstileToken] = React.useState<string>("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
@@ -151,10 +150,16 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
     if (stage === "booking" || stage === "contact") setStage("stage3");
   };
 
-  const handleSubmitForm = async (form: PopupLeadForm, type: "booking" | "contact") => {
+  const handleSubmitForm = async (
+    form: PopupLeadForm,
+    type: "booking" | "contact",
+    slot?: { date: string; time: string } | null,
+  ) => {
     if (!persona || problems.length !== 3 || !turnstileToken) return;
 
     const { kvkkConsent: _kvkk, ...leadFields } = form;
+
+    if (slot) setPreferredSlot(slot);
 
     setIsSubmitting(true);
     const result = await submitVisitorProfile({
@@ -165,6 +170,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       kvkkConsent: true,
       locale,
       turnstileToken,
+      ...(slot ? { preferredSlot: slot } : {}),
     });
     setIsSubmitting(false);
 
@@ -176,6 +182,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       persona,
       problems,
       locale,
+      ...(slot ? { preferred_slot: `${slot.date} ${slot.time}` } : {}),
     });
     trackPopupEvent("popup_kvkk_consent_given", { stage: type });
     writePopupCookie({
@@ -186,10 +193,6 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       problems,
       expiresAt: computeExpiresAt("completed"),
     });
-    if (result.calComEmbedUrl) {
-      setBookingUrl(result.calComEmbedUrl);
-      openCalEmbed(result.calComEmbedUrl);
-    }
     setStage(type === "booking" ? "success-booking" : "success-contact");
   };
 
@@ -218,7 +221,12 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-md z-50" />
         <Dialog.Content
-          className="fixed inset-x-0 bottom-0 md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:inset-auto w-full md:max-w-[560px] bg-white rounded-t-2xl md:rounded-lg shadow-xl p-6 md:p-8 z-50 max-h-[90vh] overflow-y-auto focus:outline-none"
+          className={[
+            "fixed inset-x-0 bottom-0 md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2",
+            "md:inset-auto w-full bg-paper rounded-t-2xl md:rounded-lg shadow-xl p-6 md:p-8",
+            "z-50 max-h-[90vh] overflow-y-auto focus:outline-none transition-[max-width] duration-300",
+            stage === "booking" ? "md:max-w-popup-wide" : "md:max-w-popup",
+          ].join(" ")}
         >
           <Dialog.Title className="sr-only">{t("stage1.title")}</Dialog.Title>
           <Dialog.Description className="sr-only">{t("stage1.subtitle")}</Dialog.Description>
@@ -251,10 +259,18 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
                 />
               )}
               {stage === "booking" && (
-                <QuickBookForm
+                <BookingScreen
+                  locale={locale}
                   onBack={handleBack}
-                  onSubmit={(form) => handleSubmitForm(form, "booking")}
+                  onSubmit={(form, slot) => handleSubmitForm(form, "booking", slot)}
                   loading={isSubmitting}
+                  turnstileSlot={
+                    <div
+                      ref={turnstileRef}
+                      className="cf-turnstile mt-3"
+                      data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                    />
+                  }
                 />
               )}
               {stage === "contact" && (
@@ -264,7 +280,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
                   loading={isSubmitting}
                 />
               )}
-              {(stage === "booking" || stage === "contact") && (
+              {stage === "contact" && (
                 <div
                   ref={turnstileRef}
                   className="cf-turnstile mt-3"
@@ -274,7 +290,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
               {(stage === "success-booking" || stage === "success-contact") && (
                 <SuccessState
                   variant={stage === "success-booking" ? "booking" : "contact"}
-                  bookingUrl={bookingUrl}
+                  bookingUrl={null}
                   onClose={() => onClose("completed")}
                 />
               )}

@@ -42,4 +42,23 @@ describe('visitorProfileSchema', () => {
   it('persona enum dışında değer reddedilir', () => {
     expect(() => visitorProfileSchema.parse({ ...validPayload, persona: 'other' })).toThrow();
   });
+
+  it('preferredSlot optional — yoksa kabul edilir', () => {
+    expect(() => visitorProfileSchema.parse(validPayload)).not.toThrow();
+  });
+
+  it('preferredSlot geçerli format — kabul edilir', () => {
+    const withSlot = { ...validPayload, preferredSlot: { date: '2026-04-25', time: '10:00' } };
+    expect(() => visitorProfileSchema.parse(withSlot)).not.toThrow();
+  });
+
+  it('preferredSlot hatalı date formatı reddedilir', () => {
+    const withBadSlot = { ...validPayload, preferredSlot: { date: '25-04-2026', time: '10:00' } };
+    expect(() => visitorProfileSchema.parse(withBadSlot)).toThrow();
+  });
+
+  it('preferredSlot hatalı time formatı reddedilir', () => {
+    const withBadTime = { ...validPayload, preferredSlot: { date: '2026-04-25', time: '10' } };
+    expect(() => visitorProfileSchema.parse(withBadTime)).toThrow();
+  });
 });

@@ -224,7 +224,8 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
           <Dialog.Description className="sr-only">{t("stage1.subtitle")}</Dialog.Description>
 
           <div className="flex flex-col items-center mb-5">
-            <BrandLogo variant="light-bg" height={22} priority />
+            <BrandLogo variant="light-bg" height={28} className="md:hidden" priority />
+            <BrandLogo variant="light-bg" height={40} className="hidden md:block" priority />
           </div>
 
           <AnimatePresence mode="wait">

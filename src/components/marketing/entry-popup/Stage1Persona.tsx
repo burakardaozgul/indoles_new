@@ -31,20 +31,20 @@ export function Stage1Persona({ onSelect }: { onSelect: (p: PersonaSlug) => void
               aria-label={t(`persona.${p.slug}.label`)}
               className="text-left p-4 border border-neutral-200 rounded-lg hover:border-brand-600 hover:shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
             >
-              <div className="mb-2">
+              <div className="flex items-center gap-2 mb-3">
                 {PERSONA_ICONS[p.slug]}
+                <div className="font-semibold text-base text-ink-900 leading-snug">
+                  {t(`persona.${p.slug}.label`)}
+                </div>
               </div>
-              <div className="font-semibold text-base text-ink-900 leading-snug">
-                {t(`persona.${p.slug}.label`)}
-              </div>
-              <ul className="mt-2 space-y-1">
+              <div className="space-y-1.5">
                 {points.map((point, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-ink-500 leading-relaxed">
-                    <span className="mt-1 w-1 h-1 rounded-full bg-brand-500 flex-shrink-0" aria-hidden />
-                    {point}
-                  </li>
+                  <div key={i} role="listitem" className="flex items-start gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-600 shrink-0" aria-hidden />
+                    <span className="text-sm text-ink-500 leading-relaxed">{point}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </button>
           );
         })}

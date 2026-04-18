@@ -286,6 +286,8 @@ Next.js `trailingSlash: false` config ile uygulanır.
 
 Persona switch'li, adaptif anasayfa. Ziyaretçi kendini "Sanayi" veya "Ticaret" olarak etiketler; sonraki bölümlerde öne çıkan içerik buna göre değişir.
 
+> **Not (2026-04-18, ADR-014):** Aşağıdaki tablonun "Persona-adaptif mi?" kolonu içerik-seçim eksenini etiketler (hangi logo, paket, testimonial, vaka öne çıkar). Copy ton eksenini (metin persona'ya göre yeniden yazılıyor mu) `docs/03-brand-voice-tone.md` §3 ton matrisi belirler. ADR-014 ile homepage'in tüm section'ları copy ton ekseninde persona-aware'e çıkarıldı; iki eksen birbirinden bağımsız çalışır.
+
 **Section sırası:**
 
 | Sıra | Section | İçerik | Persona-adaptif mi? |

@@ -38,17 +38,21 @@ Aynı sayfa iki persona'ya aynı anda konuşabilir (orta ton, tek versiyon) veya
 
 | Sayfa Tipi | Yaklaşım | Copy Üretimi | Gerekçe |
 |------------|----------|--------------|---------|
-| Homepage | Persona-aware | Çift versiyon | Persona switch'in en güçlü etkisi burada |
+| Homepage (hero + tüm section'lar) | Persona-aware | Çift versiyon | Persona switch'in etkisi hero'dan FinalCTA'ya kadar tüm section'larda korunur |
 | Pillar landing | Persona-aware | Çift versiyon | Her iki persona da her pillar'a gelebilir |
 | Vaka çalışmaları | Persona-aware | Çift versiyon | Metrik vurgusu vs. hikaye formatı persona'ya göre değişir |
-| Hizmet detay | Orta ton | Tek versiyon | Her persona için erişilebilir orta nokta |
-| Paket detay | Orta ton | Tek versiyon | Fiyat ve kapsam nötr dilde |
+| Hizmet listeleme (`/hizmetler`) | Persona-aware | Çift versiyon | Hero + 3 pillar blok + 12 hizmet shortDescription persona'ya göre ayrışır |
+| Hizmet detay | Orta ton | Tek versiyon | 12 hizmet × 2 persona × 2 dil bakım yükü ve ton tekrarı riski; orta tonla korunur |
+| Paket listeleme (`/paketler`) | Persona-aware | Çift versiyon | Hero + paket kartı outcome copy persona'ya göre ayrışır |
+| Paket detay | Persona-aware | Çift versiyon | Satın alma psikolojisi persona'ya göre ayrışır (sanayi: ROI + benchmark; ticaret: hız + metrik) |
 | Journal | Orta ton | Tek versiyon | Yazarın sesi ön planda |
 | Araçlar | Orta ton | Tek versiyon | Teşhis dili nötr-analitik |
 | Danışman profil | Orta ton | Tek versiyon | Profesyonel profil dili |
 | Brief / Rezervasyon | Orta ton | Tek versiyon | Form dili nötr-yönlendirici |
 
-Persona-aware sayfalarda copy iki versiyon olarak yazılır ve `messages/{tr,en}.json` içinde persona alanıyla etiketlenir. Frontend, cookie'deki persona seçimine göre doğru versiyonu render eder.
+Persona-aware sayfalarda copy iki versiyon olarak yazılır ve `messages/{tr,en}.json` içinde persona alanıyla (`industrial` / `commerce`) etiketlenir. Frontend, cookie'deki persona seçimine göre doğru versiyonu render eder.
+
+> **Güncelleme:** 2026-04-18, ADR-014 ile. Conversion-kritik yüzeyler (homepage tamamı, hizmet listeleme, paket listeleme, paket detay) persona-aware'e çıkarıldı. Hizmet detay sayfaları bu projede kesin olarak orta ton olarak kalır — bakım yükü ve ton tekrarı riski nedeniyle dinamikleştirilmez.
 
 ---
 
@@ -133,15 +137,16 @@ Persona-aware sayfalarda copy iki versiyon olarak yazılır ve `messages/{tr,en}
 | Sayfa Tipi | Versiyon | Persona 1A (Sanayici CEO) | Persona 1B (Sanayi Yöneticisi) | Persona 2 (Ticaret/Perakende) | Persona 3 (Scale-up) | Notlar |
 |------------|----------|---------------------------|-------------------------------|-------------------------------|----------------------|--------|
 | Homepage hero | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Persona switch sonrası |
-| Homepage section'ları | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Referanslar, testimonial, vakalar adapte |
+| Homepage section'ları (Pillars, Proof, Packages, FinalCTA) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Hero ile tutarlı; ADR-014 ile tüm section'lar kapsama alındı |
 | Pillar landing (Growth) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Aynı pillar, farklı ton |
 | Pillar landing (Transform) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | |
 | Pillar landing (Build) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | |
 | Vaka listeleme | Persona-aware | Dingin — hikaye formatı | Dingin — metrik formatı | Dinamik — metrik formatı | Dinamik — metrik formatı | Sunum biçimi değişir |
 | Vaka detay | Persona-aware | Anlatı ağırlıklı, sonunda metrik | Metrik ağırlıklı, ROI vurgusu | Metrik ağırlıklı, hız vurgusu | Kompakt, kaldıraç odaklı | |
-| Hizmet detay | Orta ton | Orta-formel | Orta-formel | Orta-formel | Orta-formel | Tek versiyon |
-| Paket listeleme | Orta ton | Orta-formel | Orta-formel | Orta-formel | Orta-formel | Tek versiyon |
-| Paket detay | Orta ton | Orta-formel | Orta-formel | Orta-formel | Orta-formel | Tek versiyon |
+| Hizmet listeleme (`/hizmetler`) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Hero + 3 pillar blok + 12 hizmet shortDescription; ADR-014 |
+| Hizmet detay | Orta ton | Orta-formel | Orta-formel | Orta-formel | Orta-formel | Tek versiyon — bakım yükü nedeniyle korundu |
+| Paket listeleme (`/paketler`) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Hero + paket kartı outcome copy; ADR-014 |
+| Paket detay | Persona-aware | Dingin — ROI + benchmark | Dingin — ROI + metodoloji | Dinamik — hız + metrik | Dinamik — hız + kaldıraç | summary, scope, deliverables, whoFor, faq persona'ya göre; ADR-014 |
 | Journal | Orta ton | Orta-editorial | Orta-editorial | Orta-editorial | Orta-editorial | Yazarın sesi katkıda bulunur |
 | Araçlar | Orta ton | Orta-analitik | Orta-analitik | Orta-analitik | Orta-analitik | Teşhis dili nötr |
 | Danışman profil | Orta ton | Orta-profesyonel | Orta-profesyonel | Orta-profesyonel | Orta-profesyonel | Tek versiyon |
@@ -149,6 +154,8 @@ Persona-aware sayfalarda copy iki versiyon olarak yazılır ve `messages/{tr,en}
 | Hakkımızda | Orta ton | Orta-editorial | Orta-editorial | Orta-editorial | Orta-editorial | Manifesto tonu |
 
 **Kural:** Persona-aware sayfalarda persona 1A ve 1B her zaman aynı tonu alır (dingin-kurumsal). Persona 2 ve 3 her zaman aynı tonu alır (dinamik-atletik). Orta ton sayfalarda persona ayrımı yapılmaz.
+
+> **Güncelleme:** 2026-04-18, ADR-014 ile. Hizmet listeleme, paket listeleme ve paket detay persona-aware'e çıkarıldı; homepage'in tüm section'ları kapsama alındı. Hizmet detayları bu projede kesin olarak orta ton olarak kalır — dinamikleştirilmeyecek.
 
 ---
 

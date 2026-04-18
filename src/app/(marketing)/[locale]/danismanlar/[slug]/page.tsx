@@ -4,6 +4,7 @@ import { Phone } from "lucide-react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/marketing/page-header";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { getConsultantBySlug, CONSULTANTS } from "@/lib/content/consultants";
 import { getPillar } from "@/lib/content/pillars";
 import { ARTICLES } from "@/lib/content/articles";
@@ -92,13 +93,10 @@ export default async function ConsultantDetail({
                   </div>
                 )}
               </dl>
-              <Link
-                href={`/${locale}/iletisim`}
-                className="mt-8 inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm w-full"
-              >
+              <PopupCTAButton className="mt-8 inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm w-full">
                 <Phone size={16} aria-hidden />
                 {tCommon("cta.bookConsultation")}
-              </Link>
+              </PopupCTAButton>
             </div>
           </aside>
 

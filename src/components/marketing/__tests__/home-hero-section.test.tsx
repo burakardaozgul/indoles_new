@@ -7,30 +7,29 @@ vi.mock("next-intl", () => ({
   useTranslations: () => (k: string) => k,
 }));
 
-// Mock EntryPopup to avoid full Radix/trpc tree
-vi.mock("../entry-popup/EntryPopup", () => ({
-  EntryPopup: ({ open }: { open: boolean; onClose: unknown }) => (
-    <div data-testid="entry-popup" data-open={String(open)} />
-  ),
-}));
-
 // Mock BrandWatermark to avoid window.matchMedia in jsdom
 vi.mock("@/components/brand/brand-watermark", () => ({
   BrandWatermark: () => null,
 }));
 
-// Mock PersonaChip (real component) — keep it real but mock its i18n dep above
-// No additional mock needed; PersonaChip is already covered by the next-intl mock.
+// Mock PopupCTAButton to avoid context dependency in EditorialHero
+vi.mock("../PopupCTAButton", () => ({
+  PopupCTAButton: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+    <button className={className}>{children}</button>
+  ),
+}));
 
-const mockForceOpen = vi.fn();
-const mockClose = vi.fn();
+const mockOpenPopup = vi.fn();
+
+vi.mock("@/lib/popup/popup-context", () => ({
+  usePopup: () => ({
+    open: false,
+    openPopup: mockOpenPopup,
+    closePopup: vi.fn(),
+  }),
+}));
 
 vi.mock("@/lib/popup/use-entry-popup", () => ({
-  useEntryPopup: () => ({
-    open: false,
-    forceOpen: mockForceOpen,
-    close: mockClose,
-  }),
   readCurrentPersona: vi.fn().mockReturnValue(null),
 }));
 
@@ -45,13 +44,8 @@ describe("HomeHeroSection", () => {
     vi.mocked(readCurrentPersona).mockReturnValue(null);
     render(<HomeHeroSection locale="tr" />);
 
-    // With key-as-string translator, tHero("editorial.emphasisA") → "editorial.emphasisA"
-    // emphasisA is inside its own <span>, so getByText works directly on it
     expect(screen.getByText("editorial.emphasisA")).toBeInTheDocument();
-    // support key renders in its own <p>
     expect(screen.getByText("support")).toBeInTheDocument();
-    // EntryPopup present (closed)
-    expect(screen.getByTestId("entry-popup")).toBeInTheDocument();
     // No PersonaChip rendered when persona is null
     expect(screen.queryByRole("button", { name: "chip.change" })).toBeNull();
   });
@@ -60,26 +54,23 @@ describe("HomeHeroSection", () => {
     vi.mocked(readCurrentPersona).mockReturnValue("donusum-teknoloji");
     render(<HomeHeroSection locale="tr" />);
 
-    // emphasisA is inside its own <span>
     expect(
       screen.getByText("personas.donusum-teknoloji.editorial.emphasisA")
     ).toBeInTheDocument();
-    // support renders in its own <p>
     expect(
       screen.getByText("personas.donusum-teknoloji.support")
     ).toBeInTheDocument();
-    // PersonaChip rendered (non-null persona)
     expect(
       screen.getByRole("button", { name: "chip.change" })
     ).toBeInTheDocument();
   });
 
-  it("PersonaChip change click → popup.forceOpen called", () => {
+  it("PersonaChip change click → openPopup called", () => {
     vi.mocked(readCurrentPersona).mockReturnValue("buyume-pazarlar");
     render(<HomeHeroSection locale="tr" />);
 
     const changeBtn = screen.getByRole("button", { name: "chip.change" });
     fireEvent.click(changeBtn);
-    expect(mockForceOpen).toHaveBeenCalledTimes(1);
+    expect(mockOpenPopup).toHaveBeenCalledTimes(1);
   });
 });

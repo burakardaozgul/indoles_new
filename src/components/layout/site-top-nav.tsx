@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { BrandLogo } from "@/components/brand/brand-logo";
+import { usePopup } from "@/lib/popup/popup-context";
 
 type NavLink = { href: string; label: string };
 
@@ -18,15 +19,14 @@ export function SiteTopNav({
   locale,
   links,
   ctaLabel,
-  ctaHref,
 }: {
   locale: "tr" | "en";
   links: NavLink[];
   ctaLabel: string;
-  ctaHref: string;
 }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const { openPopup } = usePopup();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -91,13 +91,14 @@ export function SiteTopNav({
           >
             {other}
           </a>
-          <Link
-            href={ctaHref}
+          <button
+            type="button"
+            onClick={openPopup}
             className="hidden md:inline-flex items-center gap-2 h-10 px-5 rounded-md bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm font-medium"
           >
             <Phone size={16} aria-hidden />
             {ctaLabel}
-          </Link>
+          </button>
           {/* Mobile burger */}
           <button
             type="button"

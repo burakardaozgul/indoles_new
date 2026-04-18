@@ -5,6 +5,8 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { routing } from "@/lib/i18n/routing";
 import { SiteTopNav } from "@/components/layout/site-top-nav";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { PopupProvider } from "@/lib/popup/popup-context";
+import { SectionNavigator } from "@/components/layout/section-navigator";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -106,16 +108,18 @@ export default async function MarketingLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <div className="min-h-screen flex flex-col">
-        <SiteTopNav
-          locale={locale as "tr" | "en"}
-          links={links}
-          ctaLabel={t("cta.bookConsultation")}
-          ctaHref={`/${locale}/iletisim`}
-        />
-        <main className="flex-1">{children}</main>
-        <SiteFooter locale={locale as "tr" | "en"} />
-      </div>
+      <PopupProvider>
+        <div className="min-h-screen flex flex-col">
+          <SiteTopNav
+            locale={locale as "tr" | "en"}
+            links={links}
+            ctaLabel={t("cta.bookConsultation")}
+          />
+          <main className="flex-1">{children}</main>
+          <SiteFooter locale={locale as "tr" | "en"} />
+          <SectionNavigator />
+        </div>
+      </PopupProvider>
     </NextIntlClientProvider>
   );
 }

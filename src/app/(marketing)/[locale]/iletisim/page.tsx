@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/marketing/page-header";
+import { CalcomEmbed } from "@/components/marketing/CalcomEmbed";
+import { ContactForm } from "@/components/marketing/ContactForm";
 
 export default async function ContactPage({
   params,
@@ -34,7 +35,7 @@ export default async function ContactPage({
 
       <section className="bg-paper border-b border-surface-2">
         <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-          {/* Cal.com embed placeholder */}
+          {/* Cal.com embed */}
           <div className="md:col-span-7">
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {loc === "tr" ? "Takvim" : "Calendar"}
@@ -42,41 +43,13 @@ export default async function ContactPage({
             <h2 className="typography-display-lg mt-4 text-ink-900">
               {loc === "tr" ? "Slot seç." : "Pick a slot."}
             </h2>
-            <div className="mt-10 bg-surface-1 border border-surface-2 rounded-2xl p-10 md:p-14 min-h-[420px] flex flex-col items-center justify-center text-center">
-              <div className="w-16 h-16 rounded-full bg-surface-2 grid place-items-center mb-6">
-                <svg
-                  aria-hidden
-                  viewBox="0 0 24 24"
-                  className="w-8 h-8 text-ink-500"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <rect x="3" y="5" width="18" height="16" rx="2" />
-                  <path d="M3 10h18M8 3v4M16 3v4" />
-                </svg>
-              </div>
-              <p className="typography-body-md text-ink-700 max-w-prose-editorial">
-                {loc === "tr"
-                  ? "Cal.com takvim entegrasyonu burada açılacak."
-                  : "Cal.com calendar embed will load here."}
-              </p>
-              <p className="typography-caption text-ink-500 mt-3">
-                {loc === "tr"
-                  ? "Geçici: launch'a kadar doğrudan e-postayla yazabilirsiniz."
-                  : "Temporary: email us directly until launch."}
-              </p>
-              <a
-                href="mailto:hello@indoles.com.tr"
-                className="mt-8 inline-flex items-center h-11 px-5 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm"
-              >
-                hello@indoles.com.tr
-              </a>
+            <div className="mt-10">
+              <CalcomEmbed />
             </div>
           </div>
 
-          {/* Channels + alternatives */}
-          <aside className="md:col-span-5 space-y-8">
+          {/* Contact info + form */}
+          <aside className="md:col-span-5 space-y-10">
             <div>
               <span className="typography-label uppercase tracking-widest text-ink-500">
                 {loc === "tr" ? "Doğrudan" : "Direct"}
@@ -114,61 +87,14 @@ export default async function ContactPage({
               </dl>
             </div>
 
-            <div className="bg-surface-1 rounded-2xl p-8">
+            <div>
               <span className="typography-label uppercase tracking-widest text-ink-500">
-                {loc === "tr" ? "Alternatifler" : "Alternatives"}
+                {loc === "tr" ? "Mesaj gönder" : "Send a message"}
               </span>
-              <ul className="mt-6 space-y-4">
-                <li>
-                  <Link
-                    href="/app/brief/yeni"
-                    className="group block"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <h3 className="typography-h3 text-ink-900 group-hover:text-brand-800">
-                        {loc === "tr"
-                          ? "Detaylı brief gönder"
-                          : "Submit detailed brief"}
-                      </h3>
-                      <span aria-hidden className="text-ink-500">
-                        →
-                      </span>
-                    </div>
-                    <p className="typography-caption text-ink-500 mt-1">
-                      {loc === "tr"
-                        ? "Proje veya retainer için."
-                        : "For project or retainer."}
-                    </p>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/${locale}#chat`}
-                    className="group block"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <h3 className="typography-h3 text-ink-900 group-hover:text-brand-800">
-                        {loc === "tr" ? "AI sohbet" : "AI chat"}
-                      </h3>
-                      <span aria-hidden className="text-ink-500">
-                        →
-                      </span>
-                    </div>
-                    <p className="typography-caption text-ink-500 mt-1">
-                      {loc === "tr"
-                        ? "İhtiyacını birkaç cümlede anlat."
-                        : "Describe your need in a few sentences."}
-                    </p>
-                  </Link>
-                </li>
-              </ul>
+              <div className="mt-6">
+                <ContactForm locale={loc} />
+              </div>
             </div>
-
-            <p className="typography-caption text-ink-500">
-              {loc === "tr"
-                ? "KVKK metni hukuki sayfalarda."
-                : "KVKK / GDPR terms on the legal pages."}
-            </p>
           </aside>
         </div>
       </section>

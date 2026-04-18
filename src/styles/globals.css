@@ -65,9 +65,9 @@
   --radius-xl: 16px;
   --radius-2xl: 24px;
 
-  /* Popup max-width tokens */
-  --max-w-popup: 35rem;        /* 560px — default stages */
-  --max-w-popup-wide: 57.5rem; /* 920px — booking stage 2-col */
+  /* Popup max-width tokens (Tailwind v4 --container-* → max-w-* utility) */
+  --container-popup: 35rem;        /* 560px — default stages */
+  --container-popup-wide: 57.5rem; /* 920px — booking stage 2-col */
 
   /* Motion */
   --ease-out: cubic-bezier(0, 0, 0.2, 1);

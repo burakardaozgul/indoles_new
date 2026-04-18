@@ -1,5 +1,7 @@
 # 06 — Veri Modeli
 
+> **Arşive alındı (2026-04-17)** — ADR-010 kapsamında DB kaldırıldı. Bu dosya Faz 2 referansı olarak korunuyor; launch'ta PostgreSQL tabloları yok. Veri akışı: `docs/superpowers/specs/2026-04-17-simplification-design.md` §5.
+
 > **Amaç:** Neon Postgres üzerinde tutulacak entity'leri, ilişkilerini ve index stratejisini sabitlemek. Statik içerik dosyalarından farkı: burada **state** tutulur (kullanıcı, brief, booking, payment), statik TS/MDX dosyalarında **content** tutulur (page, caseStudy, article — bkz. ADR-006).
 >
 > **ORM:** Drizzle — şema `src/server/db/schema.ts` tek dosyada başlar; domain büyürse klasörlenir.

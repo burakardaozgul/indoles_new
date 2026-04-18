@@ -16,7 +16,9 @@ beforeEach(() => {
   (window as unknown as { turnstile: unknown }).turnstile = {
     render: (el: Element, opts: { callback: (token: string) => void }) => {
       opts.callback("test-token");
+      return "widget-1";
     },
+    remove: vi.fn(),
   };
 });
 

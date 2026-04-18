@@ -56,16 +56,52 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
   }, [open]);
 
   React.useEffect(() => {
-    const w = window as unknown as {
-      turnstile?: { render: (el: Element, opts: unknown) => void };
+    if (stage !== "booking" && stage !== "contact") return;
+
+    let cancelled = false;
+    let widgetId: string | undefined;
+    let attempts = 0;
+
+    const tryRender = (): void => {
+      if (cancelled) return;
+      const w = window as unknown as {
+        turnstile?: {
+          render: (el: Element, opts: {
+            sitekey: string | undefined;
+            callback: (token: string) => void;
+          }) => string;
+          remove: (id: string) => void;
+        };
+      };
+      if (w.turnstile && turnstileRef.current) {
+        // Reset token when re-rendering (user came back to stage)
+        setTurnstileToken("");
+        widgetId = w.turnstile.render(turnstileRef.current, {
+          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+          callback: (token: string) => setTurnstileToken(token),
+        });
+      } else if (attempts < 30) {
+        attempts += 1;
+        setTimeout(tryRender, 100); // poll up to 3s
+      }
     };
-    if (w.turnstile && turnstileRef.current) {
-      w.turnstile.render(turnstileRef.current, {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-        callback: (token: string) => setTurnstileToken(token),
-      });
-    }
-  }, []);
+
+    tryRender();
+
+    return () => {
+      cancelled = true;
+      const w = window as unknown as {
+        turnstile?: { remove: (id: string) => void };
+      };
+      if (widgetId && w.turnstile) {
+        try {
+          w.turnstile.remove(widgetId);
+        } catch {
+          // widget already gone
+        }
+      }
+    };
+  }, [stage]);
 
   const handleDismiss = React.useCallback(
     (atStage: "stage1" | "stage2" | "stage3") => {
@@ -114,7 +150,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
   };
 
   const handleSubmitForm = async (form: PopupLeadForm, type: "booking" | "contact") => {
-    if (!persona || problems.length !== 3) return;
+    if (!persona || problems.length !== 3 || !turnstileToken) return;
 
     const { kvkkConsent: _kvkk, ...leadFields } = form;
 

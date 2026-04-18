@@ -2,7 +2,6 @@ import { inngest } from "../client";
 import { sendEmail } from "../../email/client";
 import { PopupLeadNotificationEmail } from "../../email/templates/popup-lead-notification";
 import { PopupLeadConfirmationEmail } from "../../email/templates/popup-lead-confirmation";
-import { markEmailSentForSubmission } from "../../../server/db/mutations/popup";
 import {
   type PopupLeadEventData,
   POPUP_LEAD_CREATED_EVENT,
@@ -58,7 +57,6 @@ export async function handlePopupLeadCreated(data: PopupLeadEventData): Promise<
     }),
   });
 
-  await markEmailSentForSubmission(data.submissionId);
 }
 
 export const popupLeadCreatedFn = inngest.createFunction(
@@ -110,8 +108,5 @@ export const popupLeadCreatedFn = inngest.createFunction(
       });
     });
 
-    await step.run("mark-email-sent", async () => {
-      await markEmailSentForSubmission(data.submissionId);
-    });
   }
 );

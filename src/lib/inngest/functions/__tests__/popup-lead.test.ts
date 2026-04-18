@@ -7,11 +7,6 @@ vi.mock("../../../email/client", () => ({
   sendEmail: (...args: unknown[]) => mockSendEmail(...args),
 }));
 
-const mockDbUpdate = vi.fn().mockResolvedValue(undefined);
-vi.mock("../../../../server/db/mutations/popup", () => ({
-  markEmailSentForSubmission: (...args: unknown[]) => mockDbUpdate(...args),
-}));
-
 const bookingPayload: PopupLeadEventData = {
   submissionId: "00000000-0000-0000-0000-000000000001",
   firstName: "Ali",
@@ -31,11 +26,10 @@ const bookingPayload: PopupLeadEventData = {
 
 beforeEach(() => {
   mockSendEmail.mockClear();
-  mockDbUpdate.mockClear();
 });
 
 describe("handlePopupLeadCreated", () => {
-  it("booking: lead + confirmation email gönderir ve DB'yi işaretler", async () => {
+  it("booking: lead + confirmation email gönderir", async () => {
     await handlePopupLeadCreated(bookingPayload);
 
     expect(mockSendEmail).toHaveBeenCalledTimes(2);
@@ -43,10 +37,9 @@ describe("handlePopupLeadCreated", () => {
     const second = mockSendEmail.mock.calls[1]![0] as { to: string };
     expect(first.to).toBe("lead@indoles.com.tr");
     expect(second.to).toBe("ali@ornek.com");
-    expect(mockDbUpdate).toHaveBeenCalledWith("00000000-0000-0000-0000-000000000001");
   });
 
-  it("contact variant (calComBookingUrl yok): iki email + DB mark", async () => {
+  it("contact variant (calComBookingUrl yok): iki email", async () => {
     const contactPayload: PopupLeadEventData = {
       ...bookingPayload,
       submissionId: "00000000-0000-0000-0000-000000000002",
@@ -57,7 +50,6 @@ describe("handlePopupLeadCreated", () => {
     await handlePopupLeadCreated(contactPayload);
 
     expect(mockSendEmail).toHaveBeenCalledTimes(2);
-    expect(mockDbUpdate).toHaveBeenCalledWith("00000000-0000-0000-0000-000000000002");
   });
 
   it("locale en: EN subject kullanır", async () => {

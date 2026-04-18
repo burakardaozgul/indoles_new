@@ -1,8 +1,8 @@
 import { tool } from "ai";
 import { z } from "zod";
-import { db } from "@/server/db";
-import { packages, consultants } from "@/server/db/schema";
-import { and, eq } from "drizzle-orm";
+import { PACKAGES } from "@/lib/content/packages";
+import { CONSULTANTS } from "@/lib/content/consultants";
+import type { Pillar } from "@/lib/content/types";
 
 /**
  * INDOLES AI agent tool'ları.
@@ -17,17 +17,14 @@ export const agentTools = {
       pillar: z.enum(["growth", "transform", "build"]).optional(),
       locale: z.enum(["tr", "en"]),
     }),
-    execute: async ({ pillar }) => {
-      const conditions = [eq(packages.active, true)];
-      if (pillar) conditions.push(eq(packages.pillar, pillar));
-      const rows = await db
-        .select()
-        .from(packages)
-        .where(and(...conditions));
-      return rows.map((r) => ({
-        slug: r.slug,
-        pillar: r.pillar,
-        pricing: r.pricing,
+    execute: async ({ pillar, locale }) => {
+      const filtered = pillar
+        ? PACKAGES.filter((p) => p.pillar === (pillar as Pillar))
+        : PACKAGES;
+      return filtered.map((p) => ({
+        slug: p.slug[locale],
+        pillar: p.pillar,
+        pricing: p.pricing,
       }));
     },
   }),
@@ -37,16 +34,15 @@ export const agentTools = {
     parameters: z.object({
       pillar: z.enum(["growth", "transform", "build"]).optional(),
     }),
-    execute: async () => {
-      const rows = await db
-        .select({
-          slug: consultants.slug,
-          pillarFocus: consultants.pillarFocus,
-          expertiseTags: consultants.expertiseTags,
-        })
-        .from(consultants)
-        .where(eq(consultants.active, true));
-      return rows;
+    execute: async ({ pillar }) => {
+      const filtered = pillar
+        ? CONSULTANTS.filter((c) => c.pillars.includes(pillar as Pillar))
+        : CONSULTANTS;
+      return filtered.map((c) => ({
+        slug: c.slug,
+        pillarFocus: c.pillars,
+        expertiseTags: c.expertise,
+      }));
     },
   }),
 

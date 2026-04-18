@@ -5,6 +5,8 @@
 > **Karar sahibi:** Burak Arda Özgül
 > **Bağlı belgeler:** `docs/01-vision-positioning.md`, `docs/02-information-architecture.md`, `docs/03-brand-voice-tone.md`, `docs/06-data-model.md`, `docs/11-funnel-customer-flows.md`, `docs/12-analytics-measurement.md`
 
+> **Altkatman revize (2026-04-17):** Bu spec davranışsal olarak geçerlidir. Altkatman (tRPC → REST, DB → mail+PostHog, Cal.com API → embed prefill, chatbot injection düşer, 24 ay retention/duplicate check düşer) `docs/decisions/ADR-013-popup-rest-migration.md` ile yürürlüğe girmiştir. Değişen bölümler: §6.3, §8, §9, §10, §11.3, §15.2.
+
 ---
 
 ## 1. Amaç ve Scope

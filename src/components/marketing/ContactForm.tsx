@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { contactSchema } from '@/lib/schemas/contact';
+import { Button } from '@/components/ui/button';
 
 // kvkkConsent is boolean in the form (not literal true) — we force it to true on submit
 type FormValues = z.infer<typeof formSchema>;
@@ -32,7 +33,7 @@ function Field({ name, label, type = 'text', register, error }: FieldProps) {
         {...register(name)}
         className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 bg-paper focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
       />
-      {error && <p className="typography-caption text-red-700 mt-1">{error}</p>}
+      {error && <p className="typography-caption text-danger-700 mt-1">{error}</p>}
     </div>
   );
 }
@@ -68,7 +69,7 @@ function Select({ name, label, options, register, error }: SelectProps) {
           );
         })}
       </select>
-      {error && <p className="typography-caption text-red-700 mt-1">{error}</p>}
+      {error && <p className="typography-caption text-danger-700 mt-1">{error}</p>}
     </div>
   );
 }
@@ -210,7 +211,7 @@ export function ContactForm({ locale }: { locale: 'tr' | 'en' }) {
           className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 bg-paper focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
         />
         {errors.message && (
-          <p className="typography-caption text-red-700 mt-1">
+          <p className="typography-caption text-danger-700 mt-1">
             {locale === 'tr' ? 'En az 20 karakter yaz.' : 'Minimum 20 characters.'}
           </p>
         )}
@@ -242,10 +243,9 @@ export function ContactForm({ locale }: { locale: 'tr' | 'en' }) {
         </span>
       </label>
       <div ref={turnstileRef} className="cf-turnstile" />
-      <button
+      <Button
         type="submit"
         disabled={state === 'submitting' || !turnstileToken || !kvkkConsent}
-        className="inline-flex items-center h-12 px-6 rounded-full bg-ink-900 text-paper disabled:bg-ink-500 disabled:cursor-not-allowed transition-colors typography-body-md"
       >
         {state === 'submitting'
           ? locale === 'tr'
@@ -254,9 +254,9 @@ export function ContactForm({ locale }: { locale: 'tr' | 'en' }) {
           : locale === 'tr'
             ? 'Gönder'
             : 'Send'}
-      </button>
+      </Button>
       {state === 'error' && (
-        <p className="typography-caption text-red-700">
+        <p className="typography-caption text-danger-700">
           {locale === 'tr'
             ? 'Bir sorun oluştu, tekrar dene.'
             : 'Something went wrong, please retry.'}

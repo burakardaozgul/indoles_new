@@ -12,41 +12,40 @@
 ## 1. Mimari Özeti ve Kararlar
 
 ### 1.1 Tek cümlede
-INDOLES web, **AWS üzerinde SST + OpenNext ile deploy edilen, TypeScript tabanlı tek Next.js 15 monolitidir**; AI agent ve tRPC API aynı deploymentın parçasıdır, içerik katmanı git içinde statik TS + MDX olarak tutulur (ADR-006).
+INDOLES web, **Vercel üzerinde deploy edilen, TypeScript tabanlı Next.js 15 SSG + 2 REST API route mimarisidir**; DB, auth, payment, AI agent ve background job yoktur; içerik katmanı git içinde statik TS + MDX olarak tutulur (ADR-006, ADR-010).
 
 ### 1.2 Üst düzey prensipler
-- **Monolit ile başla.** Tek Next.js projesi; ayrı servisleri ancak yük veya ekip büyümesi zorladığında böl. Mikroservis borcunu erken alma.
-- **TypeScript her yerde.** Frontend, API, AI agent, Inngest fonksiyonları, statik içerik tanımları — tek dil, tek tip sistemi.
-- **Edge'i dar tut.** Middleware edge'de çalışır (auth check, locale redirect, bot detection). RSC, Route Handler ve tRPC procedure'ları Node runtime'da kalır; Lambda'nın stabilitesi ve SDK uyumluluğu bu katmanda kritik.
-- **Serverless-first.** Ölçeklenen bileşenler (Neon, Lambda, S3, CloudFront) scale-to-zero veya event-driven. Sabit sunucu yok.
-- **Tek deployment artifact.** `sst deploy` tek komutla Next.js + tüm Lambda fonksiyonlarını + CDN'i yönetir; ayrı worker deploy pipeline'ı yok.
-- **Observability gün sıfırdan.** Sentry (hata), PostHog (ürün analitiği), Axiom (log), CloudWatch (altyapı metrikleri) baştan bağlı.
-- **Güvenlik standardı yüksek.** Clerk auth, SST Secrets, Content-Security-Policy, rate limiting ilk sürümden itibaren aktif.
+- **Statik önce.** Tüm sayfalar build-time SSG; sadece 2 serverless endpoint dinamik. Deploy sıfırdan Vercel.
+- **TypeScript her yerde.** Frontend, API route'lar, statik içerik tanımları — tek dil, tek tip sistemi.
+- **Edge'i dar tut.** Middleware yalnızca locale redirect (next-intl). Veri erişimi yok.
+- **Operasyonel sıfır yük.** DB migration yok, webhook yok, background job yok, auth session yok (ADR-007/008/009/010/011).
+- **Observability gün sıfırdan.** Sentry (hata) + PostHog EU (ürün analitiği, funnel, feature flag, session replay) baştan bağlı.
+- **Güvenlik:** Cloudflare Turnstile (form spam), CSP, Zod input validation. Auth yok ama form endpointleri rate-limited.
 
 ### 1.3 Kararların özeti
 
-| Karar alanı | Seçim | Reddedilen alternatif(ler) |
+| Karar alanı | Seçim | Reddedilen / Kaldırılan |
 |---|---|---|
-| Deploy hedefi | AWS (SST Ion + OpenNext) | Vercel, Railway, Fly.io |
-| Bölge | `eu-central-1` (Frankfurt) | `us-east-1`, `eu-west-1` |
-| Framework | Next.js 15 App Router | Remix, Astro, SvelteKit |
-| Monorepo | **Yok** — tek Next.js projesi | Turborepo, Nx, pnpm workspaces |
-| Veritabanı | Neon (serverless Postgres) | Supabase, RDS Postgres, PlanetScale |
-| ORM | Drizzle | Prisma, Kysely |
-| API | tRPC (domain routers) + Raw Route Handlers | REST, GraphQL, ayrı Hono servisi |
-| AI orkestrasyon | Vercel AI SDK + Google Gemini | LangGraph, custom orchestrator, OpenAI |
-| Auth | Clerk | Auth.js, Supabase Auth, custom |
-| İçerik | Statik TS + MDX (git-in-content) | Sanity, Contentful, Payload, Strapi — bkz. ADR-006 |
-| Randevu | Cal.com Cloud (API + embed) | Cal.com self-hosted, Calendly, custom |
-| Ödeme | Stripe (global) + iyzico (TR) | Tek sağlayıcı |
-| Background jobs | Inngest | BullMQ, AWS SQS + Lambda |
-| E-posta | Resend + React Email | SendGrid, Postmark, SES doğrudan |
-| Observability | Sentry + PostHog + Axiom | Datadog, New Relic |
+| Deploy hedefi | Vercel (eu-central) | AWS SST Ion — bkz. ADR-012 |
+| Framework | Next.js 15 App Router (SSG) | Remix, Astro, SvelteKit |
+| Monorepo | **Yok** — tek Next.js projesi | Turborepo, Nx |
+| Veritabanı | **Yok** (launch) | Neon Postgres — bkz. ADR-010 |
+| ORM | **Yok** | Drizzle — bkz. ADR-010 |
+| API | 2 REST Route Handler (`/api/contact`, `/api/visitor-profile`) | tRPC — bkz. ADR-010/ADR-008 |
+| AI orkestrasyon | **Yok** (launch) | Vercel AI SDK + Gemini — bkz. ADR-007 |
+| Auth | **Yok** (launch) | Clerk — bkz. ADR-008 |
+| İçerik | Statik TS + MDX (git-in-content) | Sanity — bkz. ADR-006 |
+| Randevu | Cal.com Cloud (embed + prefill) | Cal.com API + webhook |
+| Ödeme | **Yok** (launch) | Stripe + iyzico — bkz. ADR-009 |
+| Background jobs | **Yok** (launch) | Inngest — bkz. ADR-011 |
+| E-posta | Resend + React Email | SendGrid, Postmark |
+| Spam koruma | Cloudflare Turnstile | — |
+| Observability | Sentry + PostHog EU | Axiom (kaldırıldı), CloudWatch (kaldırıldı) |
 | Test | Vitest + Playwright | Jest, Cypress |
-| CI/CD | GitHub Actions | CircleCI, GitLab CI |
+| CI/CD | GitHub Actions + Vercel preview | CircleCI |
 | Environment stratejisi | Development → Preview (per-PR) → Production | Ek staging ortamı |
 
-Reddedilen kararların ek gerekçeleri: `ADR-001-agent-orchestration.md` (Vercel AI SDK seçimi), `ADR-002-stitch-design-reject.md` (Stitch tasarım kararlarının reddi).
+Sadeleştirme gerekçeleri: ADR-007 (agent), ADR-008 (auth), ADR-009 (payment), ADR-010 (DB), ADR-011 (Inngest), ADR-012 (Vercel).
 
 ---
 
@@ -54,89 +53,37 @@ Reddedilen kararların ek gerekçeleri: `ADR-001-agent-orchestration.md` (Vercel
 
 ### 2.1 Topoloji diyagramı
 
+> **Not:** Sadeleştirme sonrası (ADR-007/008/009/010/011/012). Eski AWS/tRPC/Neon/Clerk/Stripe/Inngest diyagramı bu dosyanın git geçmişinde korunur.
+
 ```mermaid
-graph TB
-  User[Kullanıcı<br/>Tarayıcı]
-  CF[CloudFront CDN<br/>SSL, cache, WAF]
-  MW[Edge Middleware<br/>Auth / Locale / Bot]
-  Lambda[Next.js Lambda<br/>RSC + Route Handlers + tRPC]
-  ISR[ISR Cache<br/>S3 + CloudFront]
-  Static[Static Assets<br/>S3]
-
-  subgraph AWS["AWS — eu-central-1"]
-    CF
-    MW
-    Lambda
-    ISR
-    Static
-  end
-
-  subgraph Data["Veri ve İçerik"]
-    Neon[(Neon Postgres<br/>serverless, branched)]
-    StaticContent[Statik İçerik<br/>TS + MDX / git]
-  end
-
-  subgraph Identity["Kimlik ve Oturum"]
-    Clerk[Clerk<br/>auth, sessions, orgs]
-  end
-
-  subgraph AI["AI ve Asenkron"]
-    Gemini[Google Gemini<br/>LLM + tools]
-    Inngest[Inngest<br/>background jobs]
-  end
-
-  subgraph Commerce["Ticaret ve Randevu"]
-    Stripe[Stripe<br/>global payments]
-    Iyzico[iyzico<br/>TR payments]
-    Cal[Cal.com Cloud<br/>booking + embed]
-  end
-
-  subgraph Comms["İletişim"]
-    Resend[Resend<br/>transactional email]
-  end
-
-  subgraph Obs["Gözlemleme"]
-    Sentry[Sentry]
-    PostHog[PostHog]
-    Axiom[Axiom logs]
-  end
-
-  User --> CF
-  CF --> MW
-  MW --> Lambda
-  Lambda --> ISR
-  Lambda --> Static
-  Lambda --> Neon
-  Lambda --> StaticContent
-  Lambda --> Clerk
-  Lambda --> Gemini
-  Lambda --> Stripe
-  Lambda --> Iyzico
-  Lambda --> Cal
-  Lambda --> Resend
-  Lambda --> Inngest
-  Inngest --> Neon
-  Inngest --> Resend
-  Cal -.webhook.-> Lambda
-  Stripe -.webhook.-> Lambda
-  Iyzico -.webhook.-> Lambda
-  Lambda --> Sentry
-  Lambda --> PostHog
-  Lambda --> Axiom
+graph LR
+    U[Ziyaretçi] -->|CDN| V[Vercel Edge]
+    V -->|static HTML| S[Next.js SSG sayfaları<br/>tr/* + en/*]
+    S -->|client JS| P[Persona Switch<br/>+ Popup + Form UI]
+    P -->|POST| A1[/api/contact/]
+    P -->|POST| A2[/api/visitor-profile/]
+    P -->|embed iframe| C[Cal.com Cloud]
+    P -->|identify/capture| PH[PostHog EU]
+    A1 -->|mail| R[Resend]
+    A2 -->|mail| R
+    A2 -->|server capture + identify| PH
 ```
 
 ### 2.2 Katman sınırları
 
-- **Edge katmanı** — CloudFront + Lambda@Edge/Middleware. Yalnızca auth check, locale redirect (`tr`/`en`), bot detection/user-agent triage ve basit redirect yazılır. Veri erişimi yok.
-- **Uygulama katmanı** — Next.js Lambda (Node.js runtime). RSC, Route Handlers, tRPC procedure'ları, AI agent handler'ı burada çalışır. Tüm veri erişimi, entegrasyon, iş kuralı bu katmanda.
-- **Veri katmanı** — Neon (transactional), Clerk (identity store), statik dosyalar (content — bkz. ADR-006). Her biri kendi sınırında; cross-store join'ler uygulama katmanında yapılır.
-- **Asenkron katman** — Inngest. E-posta gönderimi, Cal.com randevu onay akışı, ödeme receipt oluşturma, periyodik görevler.
-- **Üçüncü taraf entegrasyonlar** — Cal.com Cloud, Stripe, iyzico, Google Gemini. Webhook ile inbound, API ile outbound.
-- **Observability katmanı** — Sentry, PostHog, Axiom ayrı kanallardan beslenir; tek bir "logging gateway" yok.
+| Katman | İçerik |
+|--------|--------|
+| **Statik** | Tüm sayfalar build-time SSG. Persona switch, popup, form = client-side React. Vercel CDN edge'den servis. |
+| **Serverless (2 route)** | `/api/contact` (iletişim formu → Resend mail + PostHog). `/api/visitor-profile` (popup Stage 3 submit → Resend + PostHog). Her ikisi <100 satır, Node runtime. |
+| **External (3 servis)** | Cal.com (rezervasyon embed), PostHog EU (analytics + person properties + feature flags + replay), Resend (transactional mail). |
+
+**Kaldırılan katmanlar (sadeleştirme):** DB (ADR-010), Auth/Clerk (ADR-008), AI Agent (ADR-007), Payments/Stripe/iyzico (ADR-009), Inngest background jobs (ADR-011), AWS SST/OpenNext (ADR-012).
 
 ---
 
 ## 3. Akış Şemaları
+
+> **Not:** §3.2 (brief → tRPC), §3.3 (rezervasyon webhook), §3.4 (AI chatbot), §3.6 (ödeme) akışları kaldırılan katmanlara aitti — git geçmişinde arşivlendi. Aşağıda sadeleştirilmiş mimarinin geçerli akışları yer almaktadır.
 
 ### 3.1 Request lifecycle
 
@@ -144,26 +91,17 @@ graph TB
 sequenceDiagram
   autonumber
   participant U as Kullanıcı
-  participant CF as CloudFront
-  participant MW as Edge Middleware
-  participant L as Next.js Lambda
-  participant Cl as Clerk
-  participant DB as Neon
+  participant V as Vercel CDN
+  participant MW as next-intl Middleware
+  participant L as Next.js SSG sayfa
 
-  U->>CF: GET /tr/hizmetler/growth
-  CF->>CF: Cache lookup (miss)
-  CF->>MW: Forward request
-  MW->>MW: Locale detect (tr)
-  MW->>Cl: Session check (optional)
-  Cl-->>MW: 200 (public route, no auth required)
-  MW->>L: Forward with headers
-  L->>L: RSC render start
+  U->>V: GET /tr/hizmetler/growth
+  V->>V: Cache lookup (hit — SSG)
+  V->>MW: Locale detect (tr)
+  MW->>L: Static HTML servis
   L->>L: import staticContent from "src/lib/content"
-  L->>DB: Light queries (persona hints, flags)
-  DB-->>L: Result
-  L->>L: Compose RSC tree
-  L-->>CF: Streaming HTML + RSC payload
-  CF-->>U: TTFB < 800ms, progressive render
+  L-->>V: Pre-built HTML
+  V-->>U: TTFB < 200ms (CDN edge cache)
 ```
 
 ### 3.2 Brief gönderim akışı
@@ -308,29 +246,23 @@ sequenceDiagram
 - **Framer Motion** — Sadece gerçek değer katan yerlerde (page transitions, scroll-triggered reveal, modal enter/exit). Dekoratif animasyon yasak (bkz. 04).
 
 ### 4.3 Veri katmanı
-- **Neon Postgres** — Serverless, scale-to-zero. Production branch + her PR için otomatik preview branch.
-- **Drizzle ORM** — Şema `src/server/db/schema.ts`, migration `drizzle-kit generate` + `drizzle-kit migrate`. Edge uyumlu driver (`@neondatabase/serverless`).
-- **Connection pooling** — Neon'un built-in pooler'ı (`pgbouncer` modu) kullanılır; Lambda cold start'ta bağlantı maliyeti minimum.
+
+**DB yok** (ADR-010). Ziyaretçi verisi iki yerde yaşar:
+- **PostHog person properties:** `persona`, `industry`, `role`, `company_name`, `first_seen_locale`, `utm_*`, `popup_completed_at`, `selected_problems`
+- **Resend mail arşivi:** Her popup submit ve her contact submit bir mail olarak INDOLES inbox'ında kalır.
 
 ### 4.4 API ve sunucu katmanı
-- **tRPC v11** — Domain bazlı router'lar: `booking`, `brief`, `consultant`, `user`, `package`, `tool`. `createTRPCRouter` + `protectedProcedure` / `publicProcedure` / `adminProcedure`.
-- **Zod** — Tüm input validation. Drizzle şeması + Zod arasında `drizzle-zod` ile sync.
-- **Raw Route Handlers** — Yalnızca aşağıdakiler için:
-  - `/api/webhooks/*` (Cal.com, Stripe, iyzico, Clerk) — imza doğrulama, raw body parse
-  - `/api/upload/*` — multipart/form-data, S3 presigned URL
-  - `/api/agent` — AI streaming (SSE)
-  - `/api/auth/*` — Clerk callback'leri (kütüphane gereksinimi)
+- **2 REST Route Handler** — `POST /api/contact` (iletişim formu) + `POST /api/visitor-profile` (popup Stage 3 submit). tRPC yok (ADR-008/010).
+- **Zod** — Her iki endpoint'te input validation.
+- **Cloudflare Turnstile** — Spam koruma; her form submit'te sunucu-taraflı doğrulama.
 
 ### 4.5 Kimlik ve yetkilendirme
-- **Clerk** — Session, MFA, sosyal login, organization. Webhook ile user event'ları Neon'a sync edilir (`user.created`, `user.updated`, `user.deleted`).
-- **Rol modeli** — `user`, `consultant`, `admin` (detay: `09-auth-roles-permissions.md`). tRPC middleware ile procedure bazında kontrol.
-- **Session stratejisi** — Clerk JWT; server'da `auth()` helper'ı üzerinden `userId` + `orgId` + `role` çıkarılır.
+
+**Auth yok** (ADR-008). Launch'ta self-signup yok, kullanıcı hesabı yok, session yok. `docs/09-auth-roles-permissions.md` arşivlendi.
 
 ### 4.6 AI katmanı
-- **Vercel AI SDK** — `streamText`, `generateObject`, `tool` helper'ları. Gerekçe: `ADR-001`.
-- **Google Gemini** — Model seçimi: `gemini-1.5-pro` (kalite) veya `gemini-1.5-flash` (düşük maliyet/hız). Router logic: kısa Q&A → flash, brief triage → pro.
-- **Tool definitions** — `lib/ai/tools/*.ts`. Her tool Zod schema + handler. Örnek: `getPackages`, `getConsultantAvailability`, `createBriefDraft`, `searchCaseStudies`.
-- **Guardrails** — System prompt'ta INDOLES ton rehberi (bkz. `03-brand-voice-tone.md`). PII maskeleme, prompt injection filtresi middleware'de.
+
+**AI agent yok** (ADR-007). Launch sonrası 6 ay konuşma hacmi + rezervasyon conversion metriklerine bakılacak; yeterli neden oluşursa Faz 2'de FAQ asistanı olarak geri gelebilir.
 
 ### 4.7 İçerik katmanı
 
@@ -352,32 +284,22 @@ ADR-006 kapsamında Sanity kaldırıldı; içerik git içinde statik TS ve MDX d
 - **Preview:** Sanity Presentation tool kaldırıldı. İçerik değişiklikleri git branch üzerinden izlenir; gerektiğinde Next.js draft mode ile preview branch'te incelenebilir.
 
 ### 4.8 Randevu ve iletişim
-- **Cal.com Cloud** — Her consultant için event type. API ile uygun slot sorgulama, embed ile inline booking UI.
-- **Webhook** — `BOOKING_CREATED`, `BOOKING_RESCHEDULED`, `BOOKING_CANCELLED` → `/api/webhooks/cal`.
+- **Cal.com Cloud** — `@calcom/embed-react` ile inline embed. Popup Stage 3'te prefill (name, email, persona, selected_problems). Webhook yok — Cal.com kendi onay emailini gönderir.
 - **Resend** — Transactional email. React Email ile template'ler; `emails/` klasöründe TSX dosyaları.
-- **E-posta tipleri** — Welcome, brief confirmation, booking confirmation/reminder/cancellation, payment receipt, weekly digest (opsiyonel).
+- **E-posta tipleri** — Contact form onayı, popup submit (visitor profile) bildirimi.
 
 ### 4.9 Ödeme
-- **Stripe Checkout** — Global ödemeler. Checkout Session mode, webhook `checkout.session.completed`.
-- **iyzico** — TR kullanıcıları. Checkout Form API, webhook benzeri callback (`conversationId` ile eşleme).
-- **Routing** — Kullanıcının `locale` + billing country kombinasyonuna göre. Opt-out yok; biz yönlendiriyoruz.
-- **Para birimi** — Stripe için `EUR`/`USD`, iyzico için `TRY`. Katalog fiyatları statik TS'te (`src/lib/content/packages.ts`) tüm birimlerde saklanır.
+
+**Ödeme yok** (ADR-009). Paketler görüşme-sonrası teklifleşme ile satılır; online checkout Faz 2 kararı.
 
 ### 4.10 Background jobs
-- **Inngest** — Event driven. Fonksiyonlar `src/lib/inngest/functions/*.ts`, her biri `inngest.createFunction(...)`.
-- **Job tipleri**:
-  - `brief.triage` — Brief geldiğinde enrichment + otomatik öneri
-  - `booking.confirm` — Booking webhook sonrası onay akışı
-  - `booking.reminder` — 24h + 1h önce hatırlatma
-  - `payment.receipt` — Ödeme sonrası receipt email
-  - `analytics.digest` — Haftalık admin özet (opsiyonel, v2)
-- **Retry + dead letter** — Inngest built-in. Başarısız job'lar Sentry'ye alert atar.
+
+**Background job yok** (ADR-011). Mail + PostHog event yeterli; async iş ihtiyacı somutlaşırsa Faz 2'de Inngest veya Vercel Cron değerlendirilir.
 
 ### 4.11 Analitik ve observability
-- **PostHog** — Ürün analitiği, funnel tracking, feature flags, session replay (opt-in). Self-host değil, EU Cloud.
-- **Sentry** — Hata takibi + performance monitoring + replay. Server + client + edge.
-- **Axiom** — Structured log aggregation. `console.log` yerine `logger.info({ ... })` pattern'i.
-- **CloudWatch** — Lambda metrics, cold start, duration, error rate. SST native integration.
+- **PostHog EU Cloud** — Ürün analitiği, funnel tracking, feature flags, session replay (opt-in). Person properties ile kalıcı veri akışı (DB yok).
+- **Sentry** — Hata takibi + performance monitoring. Server + client.
+- Axiom ve CloudWatch kaldırıldı (ADR-012 — AWS çıkışı).
 
 ### 4.12 Test
 - **Vitest** — Unit + integration. `*.test.ts` dosyaları, `tests/` klasörü altında test fixture'ları.
@@ -388,88 +310,43 @@ ADR-006 kapsamında Sanity kaldırıldı; içerik git içinde statik TS ve MDX d
 
 ## 5. Deploy ve Altyapı
 
-### 5.1 SST ile altyapı
+### 5.1 Vercel deploy
 
-Altyapı tamamen `sst.config.ts` içinde kod olarak tanımlı. AWS resource'ları (CloudFront, Lambda, S3, Route 53) SST tarafından yönetilir; manuel console değişikliği yasak.
+SST/AWS kaldırıldı (ADR-012). Altyapı `vercel.json` + Vercel dashboard üzerinden. `sst.config.ts` repo'dan silindi.
 
-```typescript
-/// <reference path="./.sst/platform/config.d.ts" />
+**Environment variables (Vercel dashboard):**
 
-export default $config({
-  app(input) {
-    return {
-      name: "indoles-web",
-      removal: input?.stage === "production" ? "retain" : "remove",
-      home: "aws",
-      providers: {
-        aws: { region: "eu-central-1" },
-      },
-    };
-  },
-  async run() {
-    // Secrets — SST Secrets Manager
-    const neonDbUrl = new sst.Secret("NeonDatabaseUrl");
-    const clerkPublishableKey = new sst.Secret("ClerkPublishableKey");
-    const clerkSecretKey = new sst.Secret("ClerkSecretKey");
-    const geminiApiKey = new sst.Secret("GoogleGeminiApiKey");
-    const stripeSecretKey = new sst.Secret("StripeSecretKey");
-    const iyzicoApiKey = new sst.Secret("IyzicoApiKey");
-    const iyzicoSecretKey = new sst.Secret("IyzicoSecretKey");
-    const resendApiKey = new sst.Secret("ResendApiKey");
-    const inngestSigningKey = new sst.Secret("InngestSigningKey");
-    const posthogKey = new sst.Secret("PosthogKey");
-    const sentryDsn = new sst.Secret("SentryDsn");
-
-    // Next.js site — OpenNext wrapper
-    const site = new sst.aws.Nextjs("IndolesWeb", {
-      domain: {
-        name:
-          $app.stage === "production"
-            ? "indoles.com.tr"
-            : `${$app.stage}.indoles.com.tr`,
-        dns: sst.aws.dns({ zone: "indoles.com.tr" }),
-      },
-      environment: {
-        DATABASE_URL: neonDbUrl.value,
-        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: clerkPublishableKey.value,
-        CLERK_SECRET_KEY: clerkSecretKey.value,
-        GOOGLE_GENERATIVE_AI_API_KEY: geminiApiKey.value,
-        STRIPE_SECRET_KEY: stripeSecretKey.value,
-        IYZICO_API_KEY: iyzicoApiKey.value,
-        IYZICO_SECRET_KEY: iyzicoSecretKey.value,
-        RESEND_API_KEY: resendApiKey.value,
-        INNGEST_SIGNING_KEY: inngestSigningKey.value,
-        NEXT_PUBLIC_POSTHOG_KEY: posthogKey.value,
-        SENTRY_DSN: sentryDsn.value,
-      },
-    });
-
-    return { url: site.url };
-  },
-});
-```
+| Variable | Scope |
+|---|---|
+| `RESEND_API_KEY` | Production + Preview |
+| `NEXT_PUBLIC_POSTHOG_KEY` | Production + Preview |
+| `POSTHOG_PERSONAL_API_KEY` | Production + Preview |
+| `SENTRY_DSN` | Production + Preview |
+| `NEXT_PUBLIC_SENTRY_DSN` | Production + Preview |
+| `CLOUDFLARE_TURNSTILE_SECRET_KEY` | Production + Preview |
+| `NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY` | Production + Preview |
+| `NEXT_PUBLIC_CAL_COM_USERNAME` | Production + Preview |
 
 ### 5.2 Ortamlar
 
-| Ortam | Stage adı | Domain | Neon branch | Amaç |
-|---|---|---|---|---|
-| Development | — (local) | `http://localhost:3000` | Dev branch (paylaşımlı) | Yerel geliştirme |
-| Preview | `pr-{prNumber}` veya `preview` | `{stage}.indoles.com.tr` | Otomatik branch (PR başına) | PR review, stakeholder onay, E2E test |
-| Production | `production` | `indoles.com.tr` + `www.indoles.com.tr` | `main` | Canlı |
+| Ortam | Domain | Amaç |
+|---|---|---|
+| Development | `http://localhost:3000` | Yerel geliştirme |
+| Preview | `{branch}-indoles.vercel.app` | PR review, stakeholder onay, E2E test |
+| Production | `indoles.com.tr` + `www.indoles.com.tr` | Canlı |
 
-Ayrı "staging" ortamı **yok**: Preview deployment her PR için otomatik ayağa kalkar ve üretim paritesinde çalışır.
+Preview deployment her PR için Vercel tarafından otomatik oluşturulur.
 
 ### 5.3 Secrets yönetimi
 
-- **Geliştirme** — `.env.local` (git-ignored). Ekip paylaşımı için 1Password (varsayılan, v1).
-- **Preview + Production** — SST Secrets. `sst secret set NeonDatabaseUrl --stage production` ile set edilir.
-- **Rotation** — Üretim secret'ları çeyrek bazında rotate edilir; rotation checklist `docs/runbooks/secret-rotation.md` (henüz yazılmadı).
+- **Geliştirme** — `.env.local` (git-ignored).
+- **Preview + Production** — Vercel dashboard (Encrypted Environment Variables).
+- **Rotation** — `docs/runbooks/secret-rotation.md` (Faz 2'de yazılacak).
 
 ### 5.4 Domain ve DNS
-- **Route 53 hosted zone:** `indoles.com.tr`.
+- **Vercel DNS / external DNS:** `indoles.com.tr`.
 - **Production:** `indoles.com.tr` + `www.indoles.com.tr` (WWW → apex 301 redirect).
-- **Preview:** `{stage}.indoles.com.tr` — wildcard subdomain.
-- **SSL:** ACM sertifikası SST tarafından otomatik provision.
+- **SSL:** Vercel otomatik Let's Encrypt.
 
 ---
 
@@ -610,69 +487,57 @@ Aşağıdakiler tRPC dışında, klasik Route Handler:
 
 | Servis | Kullanım | Entegrasyon tipi | Kimlik doğrulama |
 |---|---|---|---|
-| Neon | Transactional DB | `@neondatabase/serverless` + Drizzle | Connection string (SST Secret) |
-| Clerk | Auth | `@clerk/nextjs` + webhook | Publishable + secret key + Svix signature |
-| Google Gemini | LLM | Vercel AI SDK (`@ai-sdk/google`) | API key |
-| Cal.com | Booking | REST API + `@calcom/embed-react` + webhook | API key + HMAC webhook secret |
-| Stripe | Global payment | `stripe-node` + webhook | Secret key + webhook signing secret |
-| iyzico | TR payment | `iyzipay-node` + callback | API key + secret key |
-| Resend | Email | `resend-node` + React Email templates | API key |
-| Inngest | Background jobs | `inngest` SDK + webhook ingress | Signing key |
-| PostHog | Analytics | `posthog-js` (client) + `posthog-node` (server) | Project API key |
-| Sentry | Error tracking | `@sentry/nextjs` | DSN |
-| Axiom | Logs | `@axiomhq/js` | API token |
+| Cal.com | Booking embed + prefill | `@calcom/embed-react` | `NEXT_PUBLIC_CAL_COM_USERNAME` |
+| Resend | Email | `resend` + React Email templates | `RESEND_API_KEY` |
+| PostHog EU | Analytics + person properties | `posthog-js` (client) + `posthog-node` (server) | `NEXT_PUBLIC_POSTHOG_KEY` |
+| Sentry | Error tracking | `@sentry/nextjs` | `SENTRY_DSN` |
+| Cloudflare Turnstile | Spam koruma | Invisible widget + server verify | Site key + secret key |
 
-Her entegrasyon için `src/lib/<service>/` altında:
-- `client.ts` — konfigüre edilmiş SDK instance
-- `types.ts` — domain tiplerine mapping
-- `index.ts` — public API
+**Kaldırılan entegrasyonlar:** Neon, Clerk, Google Gemini, Stripe, iyzico, Inngest, Axiom — bkz. ADR-007/008/009/010/011/012.
 
 ---
 
 ## 9. Güvenlik
 
 ### 9.1 Authentication
-Clerk üzerinden. Session cookie HTTP-only + Secure + SameSite=Lax. MFA opsiyonel ama admin rolü için zorunlu olarak işaretlenir (Clerk dashboard).
+
+**Auth yok** (ADR-008). Middleware yalnızca locale redirect (next-intl); session/role check yok.
 
 ### 9.2 Authorization
-- tRPC procedure bazında (`protectedProcedure`, `adminProcedure`).
-- Row-level ownership check: Her query `userId = ctx.auth.userId` filtresi içerir veya aksi açıkça policy'de yazılır.
-- Admin panelinde path-level guard: `middleware.ts` + RSC layout'ta role check.
+
+Tüm sayfalar public. 2 API route `/api/contact` + `/api/visitor-profile` server-side Zod validation + Turnstile verify ile korunur.
 
 ### 9.3 Input validation
-- Her tRPC procedure Zod schema ile korunur.
-- Raw Route Handler'lar `zod-validation-error` ile 400 döner.
-- File upload: MIME + magic number check (server-side), max 10MB, taranacak uzantılar.
+- Her iki Route Handler Zod schema ile korunur; geçersiz input 400 döner.
+- Cloudflare Turnstile server-side verify zorunlu.
 
 ### 9.4 Secrets
 - Asla kod içinde hardcoded.
 - `.env.local` git-ignored, örnekleri `.env.example`'da yalnızca anahtar adları.
-- SST Secrets üzerinden Lambda env injection.
+- Vercel Encrypted Environment Variables üzerinden inject.
 
 ### 9.5 Network + HTTP headers
-- **CSP (Content-Security-Policy):** `default-src 'self'`; `script-src` Clerk + PostHog + Sentry + Cal embed; `frame-src` Cal.com + Stripe Checkout + iyzico.
+- **CSP (Content-Security-Policy):** `default-src 'self'`; `script-src` PostHog + Sentry + Cal embed + Turnstile; `frame-src` Cal.com.
 - **HSTS:** `max-age=63072000; includeSubDomains; preload`.
-- **X-Frame-Options:** `DENY` (studio hariç).
+- **X-Frame-Options:** `DENY`.
 - **Referrer-Policy:** `strict-origin-when-cross-origin`.
 - **Permissions-Policy:** gereksiz API'ler disable.
 
 ### 9.6 Rate limiting
-- `brief.create`, `booking.create`, `payment.createSession`, `/api/agent` — kullanıcı ve IP bazında.
-- v1: Lambda memory LRU (best-effort, cold start'ta reset).
-- v2: Upstash Redis ile distributed.
+- `/api/contact` + `/api/visitor-profile` — IP bazında. v1: Vercel Edge Config veya middleware basit counter. v2: Upstash Redis.
 
 ### 9.7 Webhook güvenliği
-Her webhook endpoint'i **raw body** okur, signature doğrular, timestamp skew kontrolü yapar (5 dakika). Doğrulanmamış isteklere 401 döner, Sentry'e event atar.
+
+Webhook endpoint'i yok. Cal.com booking onayı Cal.com'un kendi email sisteminden gider.
 
 ### 9.8 KVKK + GDPR
-- PII alanları Neon'da tagged (şema seviyesinde comment/metadata).
-- "Hesabımı sil" akışı: kullanıcı → soft delete → 30 gün bekle → Inngest cleanup job → PII anonymize.
-- Cookie banner: PostHog + Clerk analitik cookie'leri opt-in (EEA bölgesi için).
+- Kalıcı DB yok; kişisel veri yalnızca Resend mail arşivinde ve PostHog person properties'te.
+- "Veri silme" talebi: Resend mail silme + PostHog person delete API. Prosedür `docs/14-privacy-kvkk.md`.
+- Cookie banner: PostHog analitik cookie'leri opt-in (EEA bölgesi için).
 
 ### 9.9 Kötü niyet ve botlar
-- CloudFront WAF → OWASP Top 10 managed rule set.
-- Middleware'de bilinen kötü bot UA'ları block.
-- Form endpoint'lerine honeypot field + Cloudflare Turnstile (public form'lar: iletişim, brief).
+- Cloudflare Turnstile — form endpoint'lerinde.
+- next-intl middleware'de bot UA pattern'leri (opsiyonel, v2).
 
 ---
 
@@ -836,7 +701,7 @@ indoles-web/
 
 ## 12. CI/CD, Runbook ve Açık Sorular
 
-### 12.1 GitHub Actions pipeline
+### 12.1 GitHub Actions + Vercel pipeline
 
 **`checks.yml`** — Her PR'da:
 ```
@@ -848,23 +713,20 @@ indoles-web/
 6. Lighthouse CI (opsiyonel, warn-only)
 ```
 
-**`preview.yml`** — PR açıldığında/güncellendiğinde:
+**Preview deploy** — Vercel otomatik tetikler (PR açıldığında/güncellendiğinde):
 ```
-1. checks.yml geçtikten sonra
-2. Neon branch oluştur (preview)
-3. sst deploy --stage pr-{prNumber}
-4. Playwright E2E (critical path) preview URL'e karşı
-5. PR'a preview URL + test raporu yorumu düş
+1. Vercel preview deployment oluşturur
+2. Playwright E2E (critical path) preview URL'e karşı (GitHub Actions)
+3. PR'a preview URL + test raporu yorumu düş
 ```
 
-**`production.yml`** — `main`'e merge:
+**Production deploy** — `main`'e merge:
 ```
 1. checks.yml geç
-2. Drizzle migration — production Neon branch'e apply
-3. sst deploy --stage production
-4. Sentry release bildir (source map upload)
-5. Smoke test (homepage + health endpoint)
-6. PostHog'a release annotation
+2. Vercel production deployment otomatik tetiklenir
+3. Sentry release bildir (source map upload)
+4. Smoke test (homepage + health endpoint)
+5. PostHog'a release annotation
 ```
 
 ### 12.2 Runbook başlıkları (ayrı belge: `docs/runbooks/`)

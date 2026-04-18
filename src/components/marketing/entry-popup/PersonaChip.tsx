@@ -16,7 +16,7 @@ export function PersonaChip({ persona, onReopen }: Props) {
 
   return (
     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 bg-white text-xs">
-      <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
+      <span className="w-1.5 h-1.5 rounded-full bg-brand-600" />
       <span className="text-neutral-700">{t("chip.current", { personaLabel: label })}</span>
       <button
         type="button"

@@ -3,7 +3,14 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { EntryPopup } from "../EntryPopup";
 
 vi.mock("next-intl", () => ({
-  useTranslations: (ns?: string) => (k: string) => `${ns ?? ""}.${k}`,
+  useTranslations: (ns?: string) => {
+    const t = (k: string) => `${ns ?? ""}.${k}`;
+    t.raw = (k: string) => {
+      if (k.includes("descriptionPoints")) return ["point 1", "point 2", "point 3"];
+      return [];
+    };
+    return t;
+  },
   useLocale: () => "tr",
 }));
 

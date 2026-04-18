@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
+import { ArrowLeft } from "lucide-react";
 import type { PopupLeadForm } from "../../../lib/popup/types";
 
 type Props = {
@@ -78,14 +79,15 @@ export function LeadFieldsForm({ onBack, onSubmit, loading, submitLabel }: Props
         <button
           type="button"
           onClick={onBack}
-          className="text-sm text-neutral-600 hover:text-neutral-900 underline"
+          className="inline-flex items-center gap-1 text-sm text-ink-500 hover:text-ink-900 underline underline-offset-2 transition"
         >
-          ← {t("meta.back")}
+          <ArrowLeft size={14} aria-hidden />
+          {t("meta.back")}
         </button>
         <button
           type="submit"
           disabled={!filled || loading}
-          className="px-4 py-2 bg-neutral-900 text-white rounded-md text-sm disabled:opacity-40"
+          className="px-4 py-2 bg-brand-700 text-paper rounded-md text-sm font-medium hover:bg-brand-800 transition disabled:opacity-40 disabled:cursor-not-allowed focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
         >
           {loading ? t("meta.loading") : submitLabel}
         </button>

@@ -240,12 +240,20 @@
     },
     "persona": {
       "donusum-teknoloji": {
-        "label": "Dönüşüm ve Teknoloji",
-        "description": "Sanayi, üretim veya kurumsal operasyonda verimi artırmak, süreçleri otomatize etmek, AI ile dönüşmek istiyorum."
+        "label": "AI, Otomasyon ve Teknoloji Dönüşümü Arıyorum",
+        "descriptionPoints": [
+          "Manuel operasyonları otomatize etmek",
+          "AI'ı üretim ve iş süreçlerine uygulamak",
+          "Veri altyapısı ve dijital dönüşüm inşa etmek"
+        ]
       },
       "buyume-pazarlar": {
-        "label": "Büyüme ve Yeni Pazarlar",
-        "description": "Ticaret, e-ticaret veya perakendede satış hacmini büyütmek, yeni pazarlara açılmak, markayı güçlendirmek istiyorum."
+        "label": "Büyüme, Marka Bilinirliği ve Yeni Pazarlar Arıyorum",
+        "descriptionPoints": [
+          "Pazar payını genişletmek, gelir büyütmek",
+          "Marka bilinirliğini ve algısını güçlendirmek",
+          "Yeni coğrafya veya kanallara açılmak"
+        ]
       }
     },
     "stage2": {
@@ -258,7 +266,7 @@
       "subtitle": "Sana uygun bir danışmanla doğrudan konuşalım.",
       "bookingCta": "1 saatlik ücretsiz görüşme rezerve et",
       "bookingHelper": "Cal.com'da slot seç, takvimine eklensin.",
-      "contactCta": "Bize anlatın, biz arayalım",
+      "contactCta": "Biz sizinle iletişime geçelim",
       "contactHelper": "1 iş günü içinde geri dönüş yapacağız."
     },
     "form": {

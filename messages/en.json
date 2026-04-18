@@ -240,12 +240,20 @@
     },
     "persona": {
       "donusum-teknoloji": {
-        "label": "Transformation & Technology",
-        "description": "I want to boost efficiency, automate processes, or transform with AI in industry, manufacturing, or corporate operations."
+        "label": "I'm looking for AI, Automation, and Technology Transformation",
+        "descriptionPoints": [
+          "Automating manual operations",
+          "Bringing AI into production and business processes",
+          "Building data infrastructure and driving digital transformation"
+        ]
       },
       "buyume-pazarlar": {
-        "label": "Growth & New Markets",
-        "description": "I want to grow sales, enter new markets, or strengthen my brand in commerce, e-commerce, or retail."
+        "label": "I'm looking for Growth, Brand Awareness, and New Markets",
+        "descriptionPoints": [
+          "Expanding market share, growing revenue",
+          "Strengthening brand awareness and perception",
+          "Entering new geographies or channels"
+        ]
       }
     },
     "stage2": {
@@ -258,8 +266,8 @@
       "subtitle": "Talk directly with the right advisor.",
       "bookingCta": "Book a 1-hour free session",
       "bookingHelper": "Pick a slot on Cal.com — it goes on your calendar.",
-      "contactCta": "Tell us, we'll reach out",
-      "contactHelper": "We'll get back within 1 business day."
+      "contactCta": "We'll reach out to you",
+      "contactHelper": "We'll reply within one business day."
     },
     "form": {
       "firstName": "First name",

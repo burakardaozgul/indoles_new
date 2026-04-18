@@ -4,6 +4,7 @@ import * as React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useTranslations, useLocale } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
 import type { PersonaSlug, ProblemSlug, PopupLeadForm, PopupStage } from "../../../lib/popup/types";
 import { Stage1Persona } from "./Stage1Persona";
 import { Stage2Problems } from "./Stage2Problems";
@@ -12,6 +13,7 @@ import { QuickBookForm } from "./QuickBookForm";
 import { ContactForm } from "./ContactForm";
 import { SuccessState } from "./SuccessState";
 import { ProgressIndicator } from "./ProgressIndicator";
+import { BrandLogo } from "../../brand/brand-logo";
 import { writePopupCookie, computeExpiresAt } from "../../../lib/popup/cookie";
 import { trackPopupEvent } from "../../../lib/popup/analytics";
 import { submitVisitorProfile } from "../../../lib/popup/api";
@@ -220,6 +222,11 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
         >
           <Dialog.Title className="sr-only">{t("stage1.title")}</Dialog.Title>
           <Dialog.Description className="sr-only">{t("stage1.subtitle")}</Dialog.Description>
+
+          <div className="flex flex-col items-center mb-5">
+            <BrandLogo variant="light-bg" height={22} priority />
+          </div>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={stage}
@@ -277,9 +284,9 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
             <button
               type="button"
               aria-label={t("meta.close")}
-              className="absolute top-3 right-3 text-neutral-500 hover:text-neutral-900 text-xl leading-none"
+              className="absolute top-3 right-3 text-ink-500 hover:text-ink-900 p-1 rounded-md transition focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2"
             >
-              ×
+              <X size={18} aria-hidden />
             </button>
           </Dialog.Close>
         </Dialog.Content>

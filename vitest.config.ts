@@ -11,6 +11,7 @@ export default defineConfig({
       "tests/unit/**/*.{test,spec}.{ts,tsx}",
       "tests/integration/**/*.{test,spec}.{ts,tsx}",
       "src/**/__tests__/**/*.{test,spec}.{ts,tsx}",
+      "emails/**/__tests__/**/*.{test,spec}.{ts,tsx}",
     ],
     exclude: ["tests/e2e/**", "node_modules/**", ".next/**"],
     setupFiles: ["./tests/setup.ts"],

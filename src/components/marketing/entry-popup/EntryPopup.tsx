@@ -225,7 +225,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
             "fixed inset-x-0 bottom-0 md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2",
             "md:inset-auto w-full bg-paper rounded-t-2xl md:rounded-lg shadow-xl p-6 md:p-8",
             "z-50 max-h-[90vh] overflow-y-auto focus:outline-none transition-[max-width] duration-300",
-            stage === "booking" ? "md:max-w-popup-wide" : "md:max-w-popup",
+            stage === "booking" ? "md:max-w-popup-wide" : "max-w-popup",
           ].join(" ")}
         >
           <Dialog.Title className="sr-only">{t("stage1.title")}</Dialog.Title>

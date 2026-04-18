@@ -50,10 +50,14 @@ export function LeadFieldsForm({ onBack, onSubmit, loading, submitLabel, extraDi
         <Field label={t("form.firstName")} id="firstName" value={form.firstName} onChange={update("firstName")} />
         <Field label={t("form.lastName")} id="lastName" value={form.lastName} onChange={update("lastName")} />
       </div>
-      <Field label={t("form.phone")} id="phone" type="tel" value={form.phone} onChange={update("phone")} />
-      <Field label={t("form.email")} id="email" type="email" value={form.email} onChange={update("email")} />
-      <Field label={t("form.company")} id="company" value={form.company} onChange={update("company")} />
-      <Field label={t("form.title")} id="title" value={form.title} onChange={update("title")} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <Field label={t("form.phone")} id="phone" type="tel" value={form.phone} onChange={update("phone")} />
+        <Field label={t("form.email")} id="email" type="email" value={form.email} onChange={update("email")} />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <Field label={t("form.company")} id="company" value={form.company} onChange={update("company")} />
+        <Field label={t("form.title")} id="title" value={form.title} onChange={update("title")} />
+      </div>
 
       <label className="flex items-start gap-2 text-xs text-neutral-700 mt-4">
         <input

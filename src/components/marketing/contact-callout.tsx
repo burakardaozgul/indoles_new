@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Phone } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 /**
@@ -23,8 +24,9 @@ export async function ContactCallout({ locale }: { locale: "tr" | "en" }) {
         <div className="md:col-span-5 flex flex-col gap-4 md:items-end">
           <Link
             href={`/${locale}/iletisim`}
-            className="inline-flex items-center justify-center h-12 px-6 rounded-full bg-paper text-ink-900 hover:bg-paper/90 transition-colors typography-body-md"
+            className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full bg-paper text-ink-900 hover:bg-paper/90 transition-colors typography-body-md"
           >
+            <Phone size={16} aria-hidden />
             {t("cta.bookConsultation")}
           </Link>
           <Link

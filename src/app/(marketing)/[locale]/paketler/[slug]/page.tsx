@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Phone } from "lucide-react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/marketing/page-header";
 import { ContactCallout } from "@/components/marketing/contact-callout";
@@ -61,8 +62,9 @@ export default async function PackageDetail({
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
                 href={`/${locale}/iletisim`}
-                className="inline-flex items-center h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md"
+                className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md"
               >
+                <Phone size={16} aria-hidden />
                 {tCommon("cta.bookConsultation")}
               </Link>
               <Link

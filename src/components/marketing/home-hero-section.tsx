@@ -17,11 +17,18 @@ export function HomeHeroSection({ locale }: Props) {
   const tCommon = useTranslations("common");
   const popup = useEntryPopup();
   const [persona, setPersona] = React.useState<PersonaSlug | null>(null);
+  // Incremented on chip-triggered reopen — forces EntryPopup remount (state reset)
+  const [reopenKey, setReopenKey] = React.useState(0);
 
   // Read persona from cookie; re-read whenever popup open state changes
   React.useEffect(() => {
     setPersona(readCurrentPersona());
   }, [popup.open]);
+
+  const handleChipReopen = React.useCallback(() => {
+    setReopenKey((n) => n + 1);
+    popup.forceOpen();
+  }, [popup]);
 
   // Persona present → persona-specific keys; otherwise → default keys
   const editorialKey = persona ? `personas.${persona}.editorial` : "editorial";
@@ -29,11 +36,6 @@ export function HomeHeroSection({ locale }: Props) {
 
   return (
     <>
-      {persona ? (
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 pt-8">
-          <PersonaChip persona={persona} onReopen={popup.forceOpen} />
-        </div>
-      ) : null}
       <EditorialHero
         eyebrow={tHero("eyebrow")}
         headlineBefore={tHero(`${editorialKey}.before`)}
@@ -46,8 +48,13 @@ export function HomeHeroSection({ locale }: Props) {
         ctaHref={`/${locale}/iletisim`}
         secondaryCtaLabel={tCommon("cta.viewServices")}
         secondaryCtaHref={`/${locale}/hizmetler`}
+        personaChip={
+          persona ? (
+            <PersonaChip persona={persona} onReopen={handleChipReopen} />
+          ) : null
+        }
       />
-      <EntryPopup open={popup.open} onClose={(_outcome) => popup.close()} />
+      <EntryPopup key={reopenKey} open={popup.open} onClose={(_outcome) => popup.close()} />
     </>
   );
 }

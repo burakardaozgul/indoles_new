@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Phone } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { BrandLogo } from "@/components/brand/brand-logo";
 
@@ -50,7 +51,7 @@ export function SiteTopNav({
           className="flex items-center rounded-md py-1 shrink-0"
           aria-label="INDOLES anasayfa"
         >
-          <BrandLogo variant="light-bg" height={48} priority />
+          <BrandLogo variant="light-bg" height={62} priority />
         </Link>
 
         {/* Center — links */}
@@ -92,8 +93,9 @@ export function SiteTopNav({
           </a>
           <Link
             href={ctaHref}
-            className="hidden md:inline-flex items-center h-10 px-5 rounded-md bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm font-medium"
+            className="hidden md:inline-flex items-center gap-2 h-10 px-5 rounded-md bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm font-medium"
           >
+            <Phone size={16} aria-hidden />
             {ctaLabel}
           </Link>
           {/* Mobile burger */}

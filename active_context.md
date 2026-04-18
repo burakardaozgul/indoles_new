@@ -1,9 +1,29 @@
-## Simplification Migration — başlangıç: 2026-04-17
+## Simplification Migration — durum: Phase 7 tamam (2026-04-18)
 
-- Branch: `feat/simplification-migration`
+- Branch: `feat/simplification-migration` (main'den 41 commit ileri)
 - Spec: `docs/superpowers/specs/2026-04-17-simplification-design.md`
 - Plan: `docs/superpowers/plans/2026-04-17-simplification-plan.md`
-- Phase: 0 (prep)
+
+### Tamamlandı
+
+- Phase 0: 7 ADR (007-013) + branch
+- Phase 1: Paralel backend — `/api/contact`, `/api/visitor-profile`, Zod, Turnstile, Resend retry, 4 mail template, PostHog server
+- Phase 2: Frontend cut-over — popup REST + Turnstile, Cal.com embed prefill, `/iletisim` ContactForm + real Cal.com embed, `/gizlilik-kvkk` sayfası
+- Phase 3: 28+ dependency ailesi çıkarıldı, ~10 kod alt-ağacı silindi (tRPC, DB, Clerk, Payments, Agent, Inngest, Sanity, SST)
+- Phase 4: `package.json` 77 → ~50 dep; env template; fresh install temiz
+- Phase 5.1: `next.config.ts` sadeleştirildi (SST/OpenNext kaldırıldı, Sentry wrapper eklendi)
+- Phase 6: CLAUDE.md §4 + §6, docs/05 mimari, docs/06 arşiv, docs/07 arşiv, docs/09 split + docs/14 yeni, docs/11 funnel, popup-design cross-ref
+- Phase 7: E2E popup spec güncellendi (Turnstile stub + route mock), contact-form e2e eklendi, i18n parity test, token leak scanner (skipped — 33 debt)
+
+### Burak'ın onayıyla yapılacak
+
+- Phase 5.2: Vercel proje setup + env migration (interactive, Vercel account)
+- Phase 8: Remote push + `gh pr create` + review + merge + prod deploy (blast radius geri dönülmez)
+
+### Teknik borçlar
+
+- `@vitejs/plugin-react` kaldırılamadı (`vitest.config.ts` import ediyor); vitest konfig migrasyonuyla çözülür
+- Design token leak 33 offender (`w-[1440px]` max-width, hex renkler); scanner testi `it.skip` ile duruyor, dosyalar dokunulurken düzeltilmeli
 
 ---
 

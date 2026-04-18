@@ -15,6 +15,7 @@ import { ProgressIndicator } from "./ProgressIndicator";
 import { writePopupCookie, computeExpiresAt } from "../../../lib/popup/cookie";
 import { trackPopupEvent } from "../../../lib/popup/analytics";
 import { submitVisitorProfile } from "../../../lib/popup/api";
+import { openCalEmbed } from "../../../lib/calcom/prefill";
 
 export type EntryPopupProps = {
   open: boolean;
@@ -147,7 +148,10 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       problems,
       expiresAt: computeExpiresAt("completed"),
     });
-    setBookingUrl(result.calComEmbedUrl ?? null);
+    if (result.calComEmbedUrl) {
+      setBookingUrl(result.calComEmbedUrl);
+      openCalEmbed(result.calComEmbedUrl);
+    }
     setStage(type === "booking" ? "success-booking" : "success-contact");
   };
 

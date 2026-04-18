@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { withSentryConfig } from "@sentry/nextjs";
 import path from "node:path";
 
 const withNextIntl = createNextIntlPlugin("./src/lib/i18n/request.ts");
@@ -10,9 +11,7 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname),
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "cdn.sanity.io" },
       { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "img.clerk.com" },
     ],
   },
   async headers() {
@@ -29,12 +28,11 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      {
-        source: "/studio/(.*)",
-        headers: [{ key: "X-Frame-Options", value: "SAMEORIGIN" }],
-      },
     ];
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withSentryConfig(withNextIntl(nextConfig), {
+  silent: true,
+  disableLogger: true,
+});

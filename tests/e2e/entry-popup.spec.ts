@@ -3,8 +3,38 @@ import { test, expect } from "@playwright/test";
 test.describe.configure({ mode: "serial" });
 
 test.describe("entry popup happy path", () => {
-  test.beforeEach(async ({ context }) => {
+  test.beforeEach(async ({ context, page }) => {
     await context.clearCookies();
+
+    // Stub Turnstile before any page script runs
+    await page.addInitScript(() => {
+      (
+        window as unknown as {
+          turnstile: {
+            render: (
+              el: Element,
+              opts: { callback: (t: string) => void }
+            ) => void;
+          };
+        }
+      ).turnstile = {
+        render: (_el, opts) => {
+          opts.callback("e2e-test-token");
+        },
+      };
+    });
+
+    // Mock /api/visitor-profile so the popup submit works without a live server
+    await page.route("**/api/visitor-profile", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: true,
+          calComEmbedUrl: "https://cal.com/indoles/gorusme?mock=1",
+        }),
+      })
+    );
   });
 
   test("Stage 1 → 2 → 3 → contact submit", async ({ page }) => {

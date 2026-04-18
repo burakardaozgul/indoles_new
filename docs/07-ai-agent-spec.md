@@ -1,5 +1,7 @@
 # 07 — AI Agent Spec
 
+> **Arşive alındı (2026-04-17)** — ADR-007 kapsamında AI agent kaldırıldı. Bu spec Faz 2'de agent FAQ asistanı olarak geri gelirse referans olarak korunuyor.
+
 > **Amaç:** INDOLES web chatbot'unun kimliğini, yapabileceklerini, tool setini, system prompt'unu, fallback akışlarını ve güvenlik sınırlarını sabitlemek.
 >
 > **Bağlı belgeler:** `03-brand-voice-tone.md`, `05-tech-architecture.md` §4.6, `06-data-model.md` §2.10, `ADR-001-agent-orchestration.md`.

@@ -12,6 +12,7 @@ import { Stage3Actions } from "./Stage3Actions";
 import { BookingScreen } from "./BookingScreen";
 import { ContactForm } from "./ContactForm";
 import { SuccessState } from "./SuccessState";
+import { ExistingBookingState } from "./ExistingBookingState";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { BrandLogo } from "../../brand/brand-logo";
 import { writePopupCookie, computeExpiresAt } from "../../../lib/popup/cookie";
@@ -21,6 +22,10 @@ import { submitVisitorProfile } from "../../../lib/popup/api";
 export type EntryPopupProps = {
   open: boolean;
   onClose: (outcome: "completed" | "skipped" | "dismissed") => void;
+  initialStage?: PopupStage;
+  initialPersona?: PersonaSlug | null;
+  initialProblems?: ProblemSlug[];
+  initialBookingSlot?: { date: string; time: string };
 };
 
 function sessionId(): string {
@@ -35,17 +40,30 @@ function sessionId(): string {
   return v;
 }
 
-export function EntryPopup({ open, onClose }: EntryPopupProps) {
+export function EntryPopup({
+  open,
+  onClose,
+  initialStage = "stage1",
+  initialPersona = null,
+  initialProblems = [],
+  initialBookingSlot,
+}: EntryPopupProps) {
   const t = useTranslations("popup");
   const locale = useLocale() as "tr" | "en";
 
-  const [stage, setStage] = React.useState<PopupStage>("stage1");
-  const [persona, setPersona] = React.useState<PersonaSlug | null>(null);
-  const [problems, setProblems] = React.useState<ProblemSlug[]>([]);
+  const [stage, setStage] = React.useState<PopupStage>(initialStage);
+  const [persona, setPersona] = React.useState<PersonaSlug | null>(initialPersona);
+  const [problems, setProblems] = React.useState<ProblemSlug[]>(initialProblems);
   const [stageStart, setStageStart] = React.useState<number>(Date.now());
-  const [preferredSlot, setPreferredSlot] = React.useState<{ date: string; time: string } | null>(null);
+  const [preferredSlot, setPreferredSlot] = React.useState<{ date: string; time: string } | null>(
+    initialBookingSlot ?? null
+  );
   const [turnstileToken, setTurnstileToken] = React.useState<string>("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  // Tracks which stage booking was reached from (stage3 or existing-booking)
+  const [bookingSource, setBookingSource] = React.useState<PopupStage>(
+    initialStage === "existing-booking" ? "existing-booking" : "stage3"
+  );
 
   const turnstileRef = React.useRef<HTMLDivElement>(null);
 
@@ -147,7 +165,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
   const handleBack = () => {
     if (stage === "stage2") setStage("stage1");
     if (stage === "stage3") setStage("stage2");
-    if (stage === "booking" || stage === "contact") setStage("stage3");
+    if (stage === "booking" || stage === "contact") setStage(bookingSource);
   };
 
   const handleSubmitForm = async (
@@ -192,6 +210,8 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
       persona,
       problems,
       expiresAt: computeExpiresAt("completed"),
+      submissionType: type,
+      ...(slot ? { bookingSlot: slot } : {}),
     });
     setStage(type === "booking" ? "success-booking" : "success-contact");
   };
@@ -204,13 +224,14 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
     contact: null,
     "success-booking": null,
     "success-contact": null,
+    "existing-booking": null,
   };
 
   return (
     <Dialog.Root
       open={open}
       onOpenChange={(o) => {
-        if (!o && (stage === "success-booking" || stage === "success-contact")) {
+        if (!o && (stage === "success-booking" || stage === "success-contact" || stage === "existing-booking")) {
           onClose("completed");
         } else if (!o) {
           const atStage = stage === "stage1" ? "stage1" : stage === "stage2" ? "stage2" : "stage3";
@@ -253,7 +274,7 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
               {stage === "stage3" && persona && (
                 <Stage3Actions
                   onBack={handleBack}
-                  onBooking={() => setStage("booking")}
+                  onBooking={() => { setBookingSource("stage3"); setStage("booking"); }}
                   onContact={() => setStage("contact")}
                   onKeepBrowsing={() => handleDismiss("stage3")}
                 />
@@ -292,6 +313,16 @@ export function EntryPopup({ open, onClose }: EntryPopupProps) {
                   variant={stage === "success-booking" ? "booking" : "contact"}
                   bookingUrl={null}
                   onClose={() => onClose("completed")}
+                />
+              )}
+              {stage === "existing-booking" && (
+                <ExistingBookingState
+                  {...(preferredSlot ? { bookingSlot: preferredSlot } : {})}
+                  onClose={() => onClose("completed")}
+                  onReschedule={() => {
+                    setBookingSource("existing-booking");
+                    setStage("booking");
+                  }}
                 />
               )}
             </motion.div>

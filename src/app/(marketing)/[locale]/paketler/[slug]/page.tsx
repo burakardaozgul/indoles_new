@@ -4,6 +4,8 @@ import { Phone } from "lucide-react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/marketing/page-header";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
+import { PersonaText, PersonaListItems } from "@/components/marketing/persona-text";
 import { getPackageBySlug, PACKAGES } from "@/lib/content/packages";
 import { getPillar } from "@/lib/content/pillars";
 import { CASES } from "@/lib/content/cases";
@@ -49,7 +51,12 @@ export default async function PackageDetail({
           loc === "tr" ? "hafta" : "weeks"
         }`}
         title={pkg.name[loc]}
-        lede={pkg.outcome[loc]}
+        lede={
+          <PersonaText
+            industrial={pkg.outcome.industrial[loc]}
+            commerce={pkg.outcome.commerce[loc]}
+          />
+        }
       />
 
       {/* Price + summary */}
@@ -57,16 +64,16 @@ export default async function PackageDetail({
         <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-8">
             <p className="typography-body-lg text-ink-700 max-w-prose-editorial">
-              {pkg.summary[loc]}
+              <PersonaText
+                industrial={pkg.summary.industrial[loc]}
+                commerce={pkg.summary.commerce[loc]}
+              />
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                href={`/${locale}/iletisim`}
-                className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md"
-              >
+              <PopupCTAButton className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md">
                 <Phone size={16} aria-hidden />
                 {tCommon("cta.bookConsultation")}
-              </Link>
+              </PopupCTAButton>
               <Link
                 href="/app/brief/yeni"
                 className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:bg-surface-1 transition-colors typography-body-md"
@@ -118,18 +125,11 @@ export default async function PackageDetail({
           </div>
           <div className="md:col-span-8">
             <ul className="divide-y divide-surface-2 border-y border-surface-2">
-              {pkg.scope[loc].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-4 py-4 typography-body-md text-ink-700"
-                >
-                  <span
-                    aria-hidden
-                    className="mt-2 w-1.5 h-1.5 rounded-full bg-brand-500 shrink-0"
-                  />
-                  <span>{item}</span>
-                </li>
-              ))}
+              <PersonaListItems
+                industrial={pkg.scope.industrial[loc]}
+                commerce={pkg.scope.commerce[loc]}
+                variant="scope"
+              />
             </ul>
           </div>
         </div>
@@ -146,14 +146,11 @@ export default async function PackageDetail({
               {loc === "tr" ? "Teslim edilenler." : "What you get."}
             </h3>
             <ol className="mt-8 space-y-4">
-              {pkg.deliverables[loc].map((d, i) => (
-                <li key={d} className="flex gap-4">
-                  <span className="typography-label text-ink-500 tracking-widest shrink-0">
-                    0{i + 1}
-                  </span>
-                  <span className="typography-body-md text-ink-700">{d}</span>
-                </li>
-              ))}
+              <PersonaListItems
+                industrial={pkg.deliverables.industrial[loc]}
+                commerce={pkg.deliverables.commerce[loc]}
+                variant="numbered"
+              />
             </ol>
           </div>
           <div>
@@ -164,18 +161,11 @@ export default async function PackageDetail({
               {loc === "tr" ? "Hangi profile uygun?" : "Who it fits."}
             </h3>
             <ul className="mt-8 space-y-4">
-              {pkg.whoFor[loc].map((w) => (
-                <li
-                  key={w}
-                  className="typography-body-md text-ink-700 flex items-start gap-4"
-                >
-                  <span
-                    aria-hidden
-                    className="mt-2 w-1.5 h-1.5 rounded-full bg-ink-500 shrink-0"
-                  />
-                  <span>{w}</span>
-                </li>
-              ))}
+              <PersonaListItems
+                industrial={pkg.whoFor.industrial[loc]}
+                commerce={pkg.whoFor.commerce[loc]}
+                variant="bullet"
+              />
             </ul>
           </div>
         </div>
@@ -194,10 +184,7 @@ export default async function PackageDetail({
               </h2>
               <div className="mt-12 divide-y divide-surface-2 border-y border-surface-2">
                 {pkg.faq.map((f) => (
-                  <details
-                    key={f.question[loc]}
-                    className="group py-6"
-                  >
+                  <details key={f.question[loc]} className="group py-6">
                     <summary className="cursor-pointer list-none flex items-center justify-between gap-4">
                       <span className="typography-h3 text-ink-900">
                         {f.question[loc]}
@@ -210,7 +197,10 @@ export default async function PackageDetail({
                       </span>
                     </summary>
                     <p className="typography-body-md text-ink-700 mt-4 max-w-prose-editorial">
-                      {f.answer[loc]}
+                      <PersonaText
+                        industrial={f.answer.industrial[loc]}
+                        commerce={f.answer.commerce[loc]}
+                      />
                     </p>
                   </details>
                 ))}

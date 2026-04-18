@@ -1,8 +1,9 @@
 import * as React from "react";
-import Link from "next/link";
 import { Phone } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import { BrandWatermark } from "@/components/brand/brand-watermark";
+import { PopupCTAButton } from "./PopupCTAButton";
 
 /**
  * Editorial hero — Anthropic sitesindeki model.
@@ -18,10 +19,11 @@ export function EditorialHero({
   headlineAfter,
   supportingCopy,
   ctaLabel,
-  ctaHref,
   secondaryCtaLabel,
   secondaryCtaHref,
   personaChip,
+  id,
+  navLabel,
 }: {
   eyebrow?: string;
   headlineBefore: string;
@@ -31,13 +33,16 @@ export function EditorialHero({
   headlineAfter: string;
   supportingCopy: string;
   ctaLabel: string;
-  ctaHref: string;
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
   personaChip?: React.ReactNode;
+  id?: string;
+  navLabel?: string;
 }) {
   return (
     <section
+      id={id}
+      {...(navLabel ? { "data-nav-label": navLabel } : {})}
       aria-label="Hero"
       className="relative bg-paper overflow-hidden"
     >
@@ -82,13 +87,10 @@ export function EditorialHero({
               {supportingCopy}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link
-                href={ctaHref}
-                className="inline-flex items-center gap-2 h-11 px-5 rounded-md bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm font-medium"
-              >
+              <PopupCTAButton className="inline-flex items-center gap-2 h-11 px-5 rounded-md bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm font-medium">
                 <Phone size={16} aria-hidden />
                 {ctaLabel}
-              </Link>
+              </PopupCTAButton>
               {secondaryCtaLabel && secondaryCtaHref && (
                 <Link
                   href={secondaryCtaHref}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/marketing/page-header";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { PersonaText } from "@/components/marketing/persona-text";
 import { PILLARS } from "@/lib/content/pillars";
 
 export default async function ServicesIndex({
@@ -48,7 +49,10 @@ export default async function ServicesIndex({
                     {p.name[loc]}
                   </h2>
                   <p className="typography-body-lg text-ink-700 mt-4">
-                    {p.tagline[loc]}
+                    <PersonaText
+                      industrial={p.tagline.industrial[loc]}
+                      commerce={p.tagline.commerce[loc]}
+                    />
                   </p>
                   <Link
                     href={`/${locale}/hizmetler/${p.key}`}
@@ -62,7 +66,10 @@ export default async function ServicesIndex({
                 </div>
                 <div className="md:col-span-8">
                   <p className="typography-body-lg text-ink-700 max-w-prose-editorial">
-                    {p.description[loc]}
+                    <PersonaText
+                      industrial={p.description.industrial[loc]}
+                      commerce={p.description.commerce[loc]}
+                    />
                   </p>
                   <ul className="mt-10 border-t border-surface-2">
                     {p.services.map((s) => (
@@ -75,7 +82,10 @@ export default async function ServicesIndex({
                           </div>
                           <div className="md:col-span-7">
                             <p className="typography-body-sm text-ink-700">
-                              {s.shortDescription[loc]}
+                              <PersonaText
+                                industrial={s.shortDescription.industrial[loc]}
+                                commerce={s.shortDescription.commerce[loc]}
+                              />
                             </p>
                           </div>
                         </div>

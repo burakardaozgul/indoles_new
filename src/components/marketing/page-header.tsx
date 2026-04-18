@@ -1,3 +1,4 @@
+import type React from "react";
 import { cn } from "@/lib/utils/cn";
 import { Breadcrumbs, type Crumb } from "./breadcrumbs";
 
@@ -12,9 +13,9 @@ export function PageHeader({
   breadcrumbs,
   tone = "paper",
 }: {
-  eyebrow?: string;
-  title: string;
-  lede?: string;
+  eyebrow?: React.ReactNode;
+  title: React.ReactNode;
+  lede?: React.ReactNode;
   breadcrumbs?: Crumb[];
   tone?: "paper" | "surface";
 }) {

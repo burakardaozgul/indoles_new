@@ -1,20 +1,16 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { SectionHeader } from "./section-header";
+import { PersonaText } from "./persona-text";
 
 type Locale = "tr" | "en";
 type PillarKey = "growth" | "transform" | "build";
 
-/**
- * Pillar-spesifik editorial işaret SVG'leri.
- * 48×48, brand-300 stroke/fill, 1.5px. Decorative — `aria-hidden`.
- */
 function PillarMark({ pillar }: { pillar: PillarKey }) {
   const stroke = "var(--color-brand-300)";
   const fill = "var(--color-brand-300)";
 
   if (pillar === "growth") {
-    // Minimalist bar chart — yükselen üç bar
     return (
       <svg
         aria-hidden
@@ -32,7 +28,6 @@ function PillarMark({ pillar }: { pillar: PillarKey }) {
     );
   }
   if (pillar === "transform") {
-    // İki yarım daire — dönüşüm sembolü
     return (
       <svg
         aria-hidden
@@ -49,7 +44,6 @@ function PillarMark({ pillar }: { pillar: PillarKey }) {
       </svg>
     );
   }
-  // build — üç yatay katman, alttan üste incelen
   return (
     <svg
       aria-hidden
@@ -73,6 +67,8 @@ export async function PillarsSection({ locale }: { locale: Locale }) {
 
   return (
     <section
+      id="section-hizmetler"
+      data-nav-label={locale === "tr" ? "Hizmetler" : "Services"}
       aria-labelledby="pillars-heading"
       className="bg-surface-1"
       style={{
@@ -81,9 +77,24 @@ export async function PillarsSection({ locale }: { locale: Locale }) {
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-28 md:py-40">
         <SectionHeader
-          eyebrow={t("eyebrow")}
-          headline={t("headline")}
-          lede={t("lede")}
+          eyebrow={
+            <PersonaText
+              industrial={t("_personas.industrial.eyebrow")}
+              commerce={t("_personas.commerce.eyebrow")}
+            />
+          }
+          headline={
+            <PersonaText
+              industrial={t("_personas.industrial.headline")}
+              commerce={t("_personas.commerce.headline")}
+            />
+          }
+          lede={
+            <PersonaText
+              industrial={t("_personas.industrial.lede")}
+              commerce={t("_personas.commerce.lede")}
+            />
+          }
         />
 
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-px bg-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
@@ -92,6 +103,8 @@ export async function PillarsSection({ locale }: { locale: Locale }) {
             const featured = services[0];
             const rest = services.slice(1);
             const pillarName = t(`${key}.name` as const);
+            const iDesc = t.raw(`_personas.industrial.${key}.description`) as string;
+            const cDesc = t.raw(`_personas.commerce.${key}.description`) as string;
             return (
               <article
                 key={key}
@@ -115,10 +128,9 @@ export async function PillarsSection({ locale }: { locale: Locale }) {
                 </h3>
 
                 <p className="typography-body-md text-ink-700 mt-4 max-w-prose-editorial">
-                  {t(`${key}.description` as const)}
+                  <PersonaText industrial={iDesc} commerce={cDesc} />
                 </p>
 
-                {/* Featured service + rest */}
                 <div className="mt-10">
                   <span className="typography-label uppercase tracking-widest text-ink-500">
                     {locale === "tr" ? "Öne çıkan" : "Featured"}

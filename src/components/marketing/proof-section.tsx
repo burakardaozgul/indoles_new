@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { SectionHeader } from "./section-header";
+import { PersonaText } from "./persona-text";
 
 type Metric = { value: string; label: string };
 type OtherCase = { problemType: string; title: string; pillar: string };
 
-/**
- * Featured case metriklerini gösteren panel — 3 kart yan yana.
- * Her kart: büyük Fraunces değer + body-md label + "Vakayı oku →" link.
- */
 function MetricsPanel({
   metrics,
   caseHref,
@@ -60,7 +57,6 @@ export async function ProofSection({ locale }: { locale: "tr" | "en" }) {
   const featured = {
     clientLabel: t("featured.clientLabel"),
     title: t("featured.title"),
-    summary: t("featured.summary"),
     pillar: t("featured.pillar"),
     metrics: t.raw("featured.metrics") as Metric[],
   };
@@ -75,6 +71,8 @@ export async function ProofSection({ locale }: { locale: "tr" | "en" }) {
 
   return (
     <section
+      id="section-basarilar"
+      data-nav-label={locale === "tr" ? "Başarılar" : "Results"}
       aria-labelledby="proof-heading"
       className="bg-paper"
       style={{
@@ -83,12 +81,26 @@ export async function ProofSection({ locale }: { locale: "tr" | "en" }) {
     >
       <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-28 md:py-36">
         <SectionHeader
-          eyebrow={t("eyebrow")}
-          headline={t("headline")}
-          lede={t("lede")}
+          eyebrow={
+            <PersonaText
+              industrial={t("_personas.industrial.eyebrow")}
+              commerce={t("_personas.commerce.eyebrow")}
+            />
+          }
+          headline={
+            <PersonaText
+              industrial={t("_personas.industrial.headline")}
+              commerce={t("_personas.commerce.headline")}
+            />
+          }
+          lede={
+            <PersonaText
+              industrial={t("_personas.industrial.lede")}
+              commerce={t("_personas.commerce.lede")}
+            />
+          }
         />
 
-        {/* Featured case — 4/8 grid: sol daralır, metrikler yayılır */}
         <article
           id="proof-heading"
           className="mt-20 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start"
@@ -110,7 +122,10 @@ export async function ProofSection({ locale }: { locale: "tr" | "en" }) {
               {featured.title}
             </h3>
             <p className="typography-body-md text-ink-700 mt-6">
-              {featured.summary}
+              <PersonaText
+                industrial={t("_personas.industrial.featured.summary")}
+                commerce={t("_personas.commerce.featured.summary")}
+              />
             </p>
             <Link
               href={`/${locale}/vakalar`}
@@ -137,7 +152,6 @@ export async function ProofSection({ locale }: { locale: "tr" | "en" }) {
           </div>
         </article>
 
-        {/* Secondary cases */}
         <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-6">
           {others.map((o) => (
             <article

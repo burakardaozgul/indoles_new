@@ -3,6 +3,7 @@ import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/marketing/page-header";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { PersonaText } from "@/components/marketing/persona-text";
 import { getPillar, PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
@@ -38,7 +39,7 @@ export default async function PillarDetail({
           { label: tCommon("nav.services"), href: `/${locale}/hizmetler` },
           { label: pillar.name[loc] },
         ]}
-        eyebrow={pillar.tagline[loc]}
+        eyebrow={pillar.tagline.industrial[loc]}
         title={pillar.name[loc]}
         lede={pillar.heroLede[loc]}
       />
@@ -82,7 +83,7 @@ export default async function PillarDetail({
               : "No prescription without diagnosis."}
           </h2>
           <p className="typography-body-lg text-ink-700 mt-6 max-w-prose-editorial">
-            {pillar.description[loc]}
+            {pillar.description.industrial[loc]}
           </p>
 
           <ol className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-px bg-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
@@ -141,7 +142,7 @@ export default async function PillarDetail({
                       </div>
                       <div className="md:col-span-7">
                         <p className="typography-body-md text-ink-700">
-                          {s.shortDescription[loc]}
+                          {s.shortDescription.industrial[loc]}
                         </p>
                       </div>
                     </div>
@@ -198,7 +199,10 @@ export default async function PillarDetail({
                     {pkg.name[loc]}
                   </h3>
                   <p className="typography-body-md text-ink-700 mt-4 max-w-prose-editorial">
-                    {pkg.outcome[loc]}
+                    <PersonaText
+                      industrial={pkg.outcome.industrial[loc]}
+                      commerce={pkg.outcome.commerce[loc]}
+                    />
                   </p>
                   <span className="mt-auto pt-8 inline-flex items-center gap-2 typography-body-sm text-brand-700">
                     <span className="underline underline-offset-4 decoration-brand-300 group-hover:decoration-brand-500">
@@ -246,10 +250,7 @@ export default async function PillarDetail({
               <div className="md:col-span-5">
                 <dl className="grid grid-cols-1 gap-px bg-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
                   {relatedCase.metrics.map((m) => (
-                    <div
-                      key={m.label[loc]}
-                      className="bg-surface-1 p-8"
-                    >
+                    <div key={m.label[loc]} className="bg-surface-1 p-8">
                       <dt className="typography-label uppercase tracking-widest text-ink-500">
                         {m.label[loc]}
                       </dt>

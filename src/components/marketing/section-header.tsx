@@ -1,3 +1,4 @@
+import type React from "react";
 import { cn } from "@/lib/utils/cn";
 
 /**
@@ -11,9 +12,9 @@ export function SectionHeader({
   align = "left",
   className,
 }: {
-  eyebrow: string;
-  headline: string;
-  lede?: string;
+  eyebrow: React.ReactNode;
+  headline: React.ReactNode;
+  lede?: React.ReactNode;
   align?: "left" | "center";
   className?: string;
 }) {

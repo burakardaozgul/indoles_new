@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { PopupCTAButton } from "./PopupCTAButton";
 
 /**
  * Ortak sayfa sonu CTA şeridi — her inner page'de tekrar etmesin diye tek
@@ -22,13 +23,10 @@ export async function ContactCallout({ locale }: { locale: "tr" | "en" }) {
           </p>
         </div>
         <div className="md:col-span-5 flex flex-col gap-4 md:items-end">
-          <Link
-            href={`/${locale}/iletisim`}
-            className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full bg-paper text-ink-900 hover:bg-paper/90 transition-colors typography-body-md"
-          >
+          <PopupCTAButton className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-full bg-paper text-ink-900 hover:bg-paper/90 transition-colors typography-body-md">
             <Phone size={16} aria-hidden />
             {t("cta.bookConsultation")}
-          </Link>
+          </PopupCTAButton>
           <Link
             href={`/app/brief/yeni`}
             className="inline-flex items-center gap-2 text-paper typography-body-sm"

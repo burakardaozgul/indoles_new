@@ -2,6 +2,7 @@ import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/marketing/page-header";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { PersonaText } from "@/components/marketing/persona-text";
 import { PACKAGES } from "@/lib/content/packages";
 import { getPillar } from "@/lib/content/pillars";
 
@@ -48,7 +49,7 @@ export default async function PackagesIndex({
                 <li key={pkg.slug[loc]} className="border-b border-surface-2">
                   <Link
                     href={`/${locale}/paketler/${pkg.slug[loc]}`}
-                    className="group grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-12 md:py-14 px-0 md:px-4 -mx-0 md:-mx-4 rounded-lg hover:bg-surface-1 transition-colors"
+                    className="group grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 py-12 md:py-14 px-0 md:px-4 mx-0 md:-mx-4 rounded-lg hover:bg-surface-1 transition-colors"
                   >
                     <div className="md:col-span-1 typography-label uppercase tracking-widest text-ink-500">
                       0{idx + 1}
@@ -73,7 +74,10 @@ export default async function PackagesIndex({
                     </div>
                     <div className="md:col-span-5">
                       <p className="typography-body-lg text-ink-700 max-w-prose-editorial">
-                        {pkg.outcome[loc]}
+                        <PersonaText
+                          industrial={pkg.outcome.industrial[loc]}
+                          commerce={pkg.outcome.commerce[loc]}
+                        />
                       </p>
                     </div>
                     <div className="md:col-span-2 md:text-right">

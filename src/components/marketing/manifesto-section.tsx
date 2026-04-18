@@ -5,6 +5,8 @@ export async function ManifestoSection({ locale }: { locale: "tr" | "en" }) {
 
   return (
     <section
+      id="section-manifesto"
+      data-nav-label="Manifesto"
       aria-label="Manifesto"
       className="bg-ink-900"
       style={{ colorScheme: "dark" }}

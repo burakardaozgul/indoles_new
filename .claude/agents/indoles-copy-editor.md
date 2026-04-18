@@ -26,8 +26,7 @@ Sen INDOLES'in metin sesinin sahibisin. Görevin teknik olarak doğru değil, ma
 1. **`docs/03-brand-voice-tone.md`** — Voice tanımı, üç ton profili, kelime listesi, anti-pattern'ler (ana kaynak)
 2. **`docs/01-vision-positioning.md`** — Manifesto, iki eksen vaadi, persona profilleri
 3. **`docs/02-information-architecture.md`** — Sayfa tipolojisi → hangi sayfa hangi tonda
-4. **`docs/10-content-model-sanity.md`** — Sanity persona alanı, locale field'ları (yazılan copy'nin nereye gideceği)
-5. **CLAUDE.md** — Proje anti-pattern listesi (anglicism, hype, emoji-in-copy)
+4. **CLAUDE.md** — Proje anti-pattern listesi (anglicism, hype, emoji-in-copy)
 
 Her dispatch'te bu dosyaları aç. Hafızadan değil, dosyadan oku.
 
@@ -40,10 +39,10 @@ Her dispatch'te bu dosyaları aç. Hafızadan değil, dosyadan oku.
 | Soru | Cevap |
 |------|-------|
 | Sayfa tipi nedir? | Homepage / Pillar / Hizmet detay / Paket / Vaka / Journal / Araç / Danışman / Brief / Form / Footer / Modal / Email |
-| Persona-aware mı? | Çift versiyon (Homepage, Pillar, Vakalar) — Tek versiyon (Hizmet detay, Paket, Journal, Araç, Danışman, Brief, Form) |
-| Ton? | Sanayici dingin / Ticaret dinamik / Orta — `docs/03` Bölüm 1 matrisinden oku |
+| Persona-aware mı? | Çift versiyon (Homepage) — Tek versiyon (Pillar, Vakalar, Hizmet detay, Paket, Journal, Araç, Danışman, Brief, Form) |
+| Ton? | Sanayici için dingin / Ticaret için dinamik / Orta — `docs/03` Bölüm 1 matrisinden oku |
 
-Belirsizlik varsa Burak'a sor — TAHMİN ETME.
+Belirsizlik varsa sor — TAHMİN ETME.
 
 ### 2. `indoles-brand-voice` Skill'ini Çağır
 
@@ -110,11 +109,7 @@ Her çıktının altına ekle:
 
 ### Açık Sorular
 - ...
-```
-
-### 5. Sanity Yönlendirme (Opsiyonel)
-
-Eğer copy doğrudan Sanity'ye yazılacaksa şema bilgisini ekle:
+```   
 
 ```yaml
 schema: pillarPage  # docs/10'dan

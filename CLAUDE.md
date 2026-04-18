@@ -7,9 +7,9 @@ Güncellemeler yalnızca Burak'ın onayıyla yapılır.
 
 ## 1. Proje Misyonu
 
-INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danışmanlık şirketi/stüdyosudur. Sanayi şirketlerine teknoloji dönüşümü, ticaret ve perakende markalarına agresif büyüme sunar. Bu repo, şirketin ana dijital varlık noktası olan kurumsal web platformunu barındırır — müşteri edinme, danışman vitrini, brief/rezervasyon funnel'ı ve AI chatbot ile interaktif deneyim sağlar.
+INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danışmanlık şirketi ve reklam ajansıdır. Sanayi şirketlerine teknoloji dönüşümü, AI danışmanlığı, otomasyon sistemleri, yazılım tasarımı, akıllı ERP ve İş yönetim yazılımları sunar. Ticaret ve perakende markalarına agresif büyüme, dijitalleşme, e-ticaret ve pazarlama danışmanlığı sunar. Bu repo, şirketin ana dijital varlık noktası olan kurumsal web platformunu barındırır — müşteri edinme, danışman vitrini, brief/rezervasyon funnel'ı ile deneyim sağlar.
 
-**Ana vaat:** "Sanayi için teknoloji dönüşümü, ticaret için agresif büyüme."
+**Ana vaat:** "Sanayi için Endüstri v5.0 -> 6.0 dönüşümü, Markalar için agresif büyüme ve net kâr."
 
 ---
 
@@ -17,7 +17,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 
 | İsim | Rol | Sorumluluk |
 |------|-----|------------|
-| Burak Arda Özgül | Kurucu / CTO | Vizyon, mimari, UX kararları, brand voice |
+| Burak Arda Özgül | Kurucu - Marka Stratejisti ve Kreatif Direktör| Vizyon, mimari, UX kararları, brand voice |
 
 - **Background:** 8+ yıl dijital pazarlama/reklam/markalaşma + AI SaaS co-founder deneyimi (ADUARDO)
 - **Ekip durumu:** Launch'a kadar tek-kişilik decision maker. Implementation desteği Claude Code üzerinden yürütülür.
@@ -31,11 +31,8 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 
 | Prensip | Açıklama |
 |---------|----------|
-| Outline-first workflow | Bir dosya veya feature yazmadan önce outline göster, onay al, sonra yaz |
 | Türkçe iletişim, İngilizce teknik terimler | Açıklama ve tartışma Türkçe; değişken, kavram, teknoloji isimleri İngilizce kalır |
 | Yapılandırılmış output | Tablo, liste, mermaid diyagram agresif kullan. Wall-of-text üretme |
-| Önce planlama, sonra build | Detaylı planlama olmadan implementasyona geçme |
-| Tahmin etme, sor | Kararlarda boşluk görürsen assumption yapma, Burak'a sor |
 | ADR disiplini | Mimari karar değişirse ilgili `docs/*.md` güncelle ve `docs/decisions/ADR-XXX.md` oluştur |
 
 ### Yasaklı Davranışlar (Anti-patterns)
@@ -44,7 +41,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 - **"Best practice olduğu için"** tek başına yeterli gerekçe değildir; karar `docs/*.md`'deki prensiplere uymalı
 - **Sessizce varsayım yapma** — muğlak bir durumda dur, sor
 - **Yeni dependency eklemeden önce gerekçelendir** — bundle size, maintenance, lock-in, alternatifler değerlendirilmeli
-- **Türkçe metinlerde gereksiz anglicizm** — "campaign" değil "kampanya", "case study" değil "vaka çalışması"; yalnızca teknik terimler İngilizce kalır
+- **Türkçe metinlerde gereksiz anglicizm** — "campaign" değil "kampanya", "case study" değil "vaka çalışması"; yalnızca çok yerleşmiş sektörel teknik terimler İngilizce kalır.
 - **Markdown/kod yorumlarında emoji yok** — editorial-minimalist dille bağdaşmıyor; emoji yalnızca UI component'inde işlevsel ikon olarak kullanılır (örn. gerçek anlam taşıyan bir ikon), dokümantasyon ve kod yorumlarında kullanılmaz
 
 ---
@@ -82,11 +79,11 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 
 | Pillar | Hizmetler | Nitel Odak |
 |--------|-----------|------------|
-| **Growth** | Marka Stratejisi ve Pazarlama Danışmanlığı, Performans Pazarlama, CRO, E-Ticaret, UI/UX Tasarım | Gelir büyümesi, müşteri edinimi, dönüşüm |
-| **Transform** | AI Danışmanlığı, Dijital Dönüşüm, İş Otomasyonları, İş Zekası, İşletme Mühendisliği | Verim, maliyet optimizasyonu, dönüşüm |
+| **Growth** | Marka Stratejisi ve Pazarlama Danışmanlığı, Performans Pazarlama, CRO, E-Ticaret Danışmanlığı, UI/UX Tasarım | Marka bilinirliği, gelir büyümesi, müşteri edinimi, dönüşüm |
+| **Transform** | Endüstri v5 & v6 dönüşümü, AI Danışmanlığı, Dijital Dönüşüm, İş Otomasyonları, İş Zekası, İşletme Mühendisliği, Akıllı ERP ve İş Yönetim Yazılımları | Verim, maliyet optimizasyonu, dönüşüm |
 | **Build** | Özel Yazılım ve Mobil Uygulama, Teknoloji ve Altyapı Danışmanlığı | Altyapı, ürün, teknik kapasite |
 
-Toplam 12 hizmet, üç pillar'a dağıtılmış.
+Üç pillar'a dağıtılmış.
 
 > **Ton kuralı:** Ton persona ekseninden gelir (bkz. Persona-Driven Homepage alt-bölümü), pillar'dan değil. Aynı pillar içinde iki farklı persona farklı tonlarla konuşulur. Detaylı ton matrisi `docs/03-brand-voice-tone.md`'de tanımlanır.
 
@@ -112,12 +109,9 @@ Hero'da audience switch iki eksen üzerinden çalışır:
 ### Diğer Kararlar
 
 - **i18n:** Path-based (`/tr/*`, `/en/*`), launch-day'de ikisi de hazır
-- **AI Agent:** Ayrı servis (Hono + Gemini), tool calling ile rezervasyon oluşturma + brief gönderme
-- **Danışman vitrini:** Faz 1 (launch) yalnızca iç ekip (INDOLES çalışanları). Faz 2 (12+ ay sonra, opsiyonel) davetle alınan küratörlü uzman ağı. Açık marketplace, freelance platformu veya self-signup modeli **explicitly dışlanmıştır** — prestij/lüks konumlandırmasıyla çatışır.
 - **Vaka çalışması filtreleme:** Sektör değil, problem-tipi bazlı (verim kaybı, maliyet optimizasyonu, pazara açılma, dijital dönüşüm, müşteri edinimi)
-- **Ana CTA:** "Görüşme rezerve et"
-- **Üçlü funnel:** Düşük taahhüt (interaktif teşhis/araçlar) → Orta taahhüt (saatlik rezervasyon) → Yüksek taahhüt (brief ve proje)
-- **Agent orchestration kararı:** Vercel AI SDK seçildi. LangGraph ve custom orchestrator reddedildi. Gerekçe ve yeniden değerlendirme tetikleyicileri `docs/decisions/ADR-001-agent-orchestration.md` belgesinde.
+- **Ana CTA:** "Uzmanımızla 1 saatlik görüşme yap"
+- **Üçlü funnel:** Düşük taahhüt (interaktif teşhis/araçlar) → Orta taahhüt (saatlik görüşme) → Yüksek taahhüt (brief ve proje)
 
 ---
 
@@ -129,10 +123,8 @@ Aşağıdaki kalemler projenin kapsamı dışındadır. Gelecekte tekrar gündem
 |--------------------|-------|
 | Mobile native app | Web-only stratejisi, launch ve Faz 2 için geçerli |
 | Danışman panelinde fatura / e-fatura / e-arşiv yönetimi | Muhasebe süreçleri INDOLES backoffice'te kalır |
-| Eğitim içerikleri (async video kurs, cohort program, downloadable playbook, video hosting) | Danışmanlar yalnızca 1-1 canlı görüşme satar |
 | Açık marketplace / freelance modeli / self-signup consultant | Prestij konumlandırmasıyla çatışır |
 | Müşteri portalı (proje takip, doküman paylaşımı, kanban) | Faz 2 kararı |
-| Kariyer sayfası / iş ilanları sistemi | Launch'ta yok, ileride tek bir "İş Birliği" sayfası yeterli |
 | Çoklu tenant / white-label | INDOLES tek markalı, tek tenant |
 | Gamification, rozet/puanlama sistemleri | B2B prestij konumuyla uyumsuz |
 | Auth / user accounts (launch) | Danışan vitrini iç ekip, self-signup yok; ADR-008 |
@@ -178,8 +170,7 @@ indoles-web/
 ---
 
 ## 8. Design Workflow (Code-Native)
-
-Bu projede Figma, Stitch veya başka bir dış tasarım aracı **kullanılmaz**. Tüm tasarım kararları repo içinde kodla alınır. Bu "design-as-code" yaklaşımdır (Stripe, Vercel, Linear'ın yolu).
+Tüm tasarım kararları repo içinde kodla alınır. Bu "design-as-code" yaklaşımdır (Stripe, Vercel, Linear'ın yolu).
 
 ### Authoritative Design Sources
 

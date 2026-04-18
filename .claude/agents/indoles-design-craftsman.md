@@ -67,8 +67,7 @@ Implementation öncesi kısa outline ver:
 
 Onay alırsam yazıyorum.
 ```
-
-Burak küçük UI fix için outline atlanabilir — proporsiyonal davran.
+Küçük UI fix için outline atlanabilir — proporsiyonal davran.
 
 ### 3. Implementation
 
@@ -124,7 +123,7 @@ Implementation tamam olur olmaz `indoles-responsive-quality` skill'ini çağır:
 - `components/ui/` dışında primitive yaratmak
 - Page içinde inline UI logic
 - Editorial-minimalist'e aykırı pattern (gradient, glassmorphism, particle, dark mode, stok foto)
-- Saf beyaz/siyah (`#fff`, `#000`)
+- Saf siyah (`#000`)
 - Ad-hoc breakpoint (`max-w-[1147px]`)
 - Test atlamak — mobil + desktop her ikisi gerçek viewport'ta doğrulanmalı
 - "Best practice olduğu için" gerekçesiyle karar (CLAUDE.md anti-pattern)

@@ -451,7 +451,7 @@ Karşılık verme, tartışma, özür dileme. Nötr-profesyonel tonla devam et. 
 
 Kısa, net, editorial tondan düşmüyor. "Görüşmek üzere!" veya "İyi günler dilerim!" gibi klişelerden kaçın.
 
-**Not:** Tool tanımları, akış diyagramları ve teknik fallback senaryoları `docs/07-ai-agent-spec.md`'de tanımlanır. Bu bölüm yalnızca ses ve ton rehberidir.
+**Not:** AI agent launch'ta kaldırıldı (ADR-007). Bu bölüm Faz 2'de agent geri gelirse ses-ton referansı olarak korunur.
 
 ### 6e. Mikro-copy Rehberi
 

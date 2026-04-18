@@ -30,7 +30,7 @@ INDOLES, farklı hazırlık seviyelerindeki potansiyel müşteriye üç farklı 
   - "Dijital dönüşüm hazırlık skoru" — 10 soruluk quiz, skor + yorum + ilgili pillar/paket önerisi
   - "Büyüme fırsatı teşhisi" — 8 soruluk quiz, ticaret persona için
 - **Hesaplayıcılar** (v2): ROI kalkülatörü, LTV/CAC hesabı
-- **AI chatbot** — Faz 2; `docs/07-ai-agent-spec.md` arşivlendi, ADR-007.
+- **AI chatbot** — Faz 2; gerekçe ADR-007.
 
 **Amaç:**
 - Ziyaretçinin kendi sorununu sayılaştırması.
@@ -230,7 +230,7 @@ sequenceDiagram
 
 ### 4.5 AI agent akışı — Faz 2
 
-> **Not:** AI agent launch'ta kaldırıldı (ADR-007). Bu akış Faz 2'de FAQ asistanı olarak geri gelirse `docs/07-ai-agent-spec.md` (arşivde) referans alınır. Mevcut alternatifleri: entry popup Stage 3 (Cal.com embed veya iletişim formu) + mikro teşhis araçları.
+> **Not:** AI agent launch'ta kaldırıldı (ADR-007). Faz 2'de FAQ asistanı olarak geri gelebilir. Mevcut alternatifler: entry popup Stage 3 (booking veya iletişim formu) + mikro teşhis araçları.
 
 ---
 

@@ -258,7 +258,7 @@ sequenceDiagram
 
 ### 4.5 Kimlik ve yetkilendirme
 
-**Auth yok** (ADR-008). Launch'ta self-signup yok, kullanıcı hesabı yok, session yok. `docs/09-auth-roles-permissions.md` arşivlendi.
+**Auth yok** (ADR-008). Launch'ta self-signup yok, kullanıcı hesabı yok, session yok.
 
 ### 4.6 AI katmanı
 

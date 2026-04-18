@@ -1,6 +1,6 @@
 # Gizlilik ve KVKK
 
-> **Kaynak:** Bu belge `docs/09-auth-roles-permissions.md` §6.3 ve §7.5 bölümlerinden sadeleştirme kapsamında ayrıştırılmıştır (2026-04-17, ADR-008).
+> **Kaynak:** Bu belge sadeleştirme kapsamında oluşturulmuştur (2026-04-17, ADR-008).
 >
 > **Bağlı belgeler:** `docs/superpowers/specs/2026-04-17-simplification-design.md` §2.3, `docs/decisions/ADR-008-remove-clerk-auth.md`, `docs/decisions/ADR-010-remove-database.md`.
 

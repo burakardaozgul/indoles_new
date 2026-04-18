@@ -41,15 +41,4 @@ export type AnalyticsEvent =
         timeline: Timeline;
       };
     }
-  | {
-      name: "chatbot_opened";
-      properties: { page: string; persona: Persona };
-    }
-  | {
-      name: "chatbot_message_sent";
-      properties: {
-        role: "user" | "assistant";
-        conversationId: string;
-        persona: Persona;
-      };
-    };
+;

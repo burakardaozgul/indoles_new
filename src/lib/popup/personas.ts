@@ -54,8 +54,7 @@ const PERSONA_LABELS: Record<PersonaSlug, { tr: string; en: string }> = {
 
 /**
  * Returns the localized human-readable label for a persona.
- * Used in email subjects, chatbot system prompts, lead notifications,
- * and the hero PersonaChip indicator.
+ * Used in email subjects, lead notifications, and the hero PersonaChip indicator.
  */
 export function getPersonaLocalizedLabel(slug: PersonaSlug, locale: "tr" | "en"): string {
   return PERSONA_LABELS[slug][locale];

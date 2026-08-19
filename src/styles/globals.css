@@ -1,234 +1,438 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   INDOLES Design System — Tailwind v4 theme
-   Kaynak: src/lib/design/tokens.ts (TypeScript) ve docs/04-design-system-principles.md
+   INDOLES Design System v2 — Tailwind v4 theme
+   Kaynak: src/lib/design/tokens.ts · Otorite: docs/04-design-system-principles.md
+   Geçiş gerekçesi: docs/decisions/ADR-015-design-system-v2.md
    ============================================================================ */
 
 @theme {
-  /* Renkler — paper, surface, ink, brand, semantic */
-  --color-paper: #fbfaf7;
+  /* --- Zemin ------------------------------------------------------------ */
+  --color-bg: #FAFAF7;
+  --color-bg-pure: #FFFFFF;
+  /* v1 uyumluluğu: `paper` ana tuvalin semantik adı olarak korunur */
+  --color-paper: #FAFAF7;
 
-  --color-surface-1: #f5f3ee;
-  --color-surface-2: #edeae3;
-  --color-surface-3: #e4e0d7;
+  --color-surface-1: #FFFFFF;
+  --color-surface-2: #F5F8FA;
+  --color-surface-3: #EAF1F4;
 
-  --color-ink-900: #1a1f24;
-  --color-ink-700: #3e454d;
-  --color-ink-500: #6b7380;
-  --color-ink-300: #a5abb3;
+  /* --- Mürekkep --------------------------------------------------------- */
+  --color-ink-900: #000000;
+  --color-ink-800: #0A0A0A;
+  --color-ink-700: #1A1A1A;
+  --color-ink-600: #4A5A64;
+  --color-ink-500: #6B7880;
+  --color-ink-400: #8F9AA2;
+  --color-ink-300: #B8C0C6;
+  --color-ink-200: #E2E6E9;
+  --color-ink-100: #EEF1F3;
 
-  --color-brand-50: #e8eef3;
-  --color-brand-100: #d1dce6;
-  --color-brand-200: #a8bece;
-  --color-brand-300: #839fb5;
-  --color-brand-400: #6e8ea6;
-  --color-brand-500: #567b97;
-  --color-brand-600: #4a6b85;
-  --color-brand-700: #3e5c73;
-  --color-brand-800: #2e4557;
-  --color-brand-900: #1f3040;
+  /* --- Marka: teal (logo rengi = teal-700) ------------------------------ */
+  --color-teal-50: #F5F8FA;
+  --color-teal-100: #EAF1F4;
+  --color-teal-200: #D4E2E8;
+  --color-teal-300: #AEC7D1;
+  --color-teal-400: #7AA4B3;
+  --color-teal-500: #4F8294;
+  --color-teal-600: #3A6B7D;
+  --color-teal-700: #2C5566;
+  --color-teal-800: #234959;
+  --color-teal-900: #1A3A47;
+  --color-teal-950: #0F1C23;
 
-  --color-success-50: #edf5f0;
-  --color-success-500: #3f7a56;
-  --color-success-700: #2d5a3e;
-  --color-warning-50: #fdf6e8;
-  --color-warning-500: #b88a2f;
-  --color-warning-700: #8a6720;
-  --color-danger-50: #faedec;
-  --color-danger-500: #a8453d;
-  --color-danger-700: #7d3230;
+  /* `brand-*` = `teal-*` semantik takma adı (v1 çağrı yerleri korunur) */
+  --color-brand-50: #F5F8FA;
+  --color-brand-100: #EAF1F4;
+  --color-brand-200: #D4E2E8;
+  --color-brand-300: #AEC7D1;
+  --color-brand-400: #7AA4B3;
+  --color-brand-500: #4F8294;
+  --color-brand-600: #3A6B7D;
+  --color-brand-700: #2C5566;
+  --color-brand-800: #234959;
+  --color-brand-900: #1A3A47;
 
-  /* Hero zone — ADR-003 */
-  --color-hero-void: #05080f;
-  --color-hero-deep: #0a1628;
-  --color-hero-metal: #1b3a5c;
-  --color-hero-light: #3b6fa0;
-  --color-hero-paper: #f5f3ee;
-  --color-hero-accent: #a8bece;
+  /* --- Accent: gold (yalnız dark yüzey + teknik illüstrasyon) ----------- */
+  --color-gold-100: #F2E9DA;
+  --color-gold-300: #DDC3A3;
+  --color-gold-400: #C9A881;
+  --color-gold-500: #B8956A;
+  --color-gold-600: #A88857;
+  --color-gold-700: #8F7142;
 
-  /* Tipografi */
-  --font-heading: "Fraunces", Georgia, serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* --- Semantic --------------------------------------------------------- */
+  --color-success-50: #EDF5F0;
+  --color-success-500: #3F7A56;
+  --color-success-700: #2D5A3E;
+  --color-warning-50: #F2E9DA;
+  --color-warning-500: #B8956A;
+  --color-warning-700: #8F7142;
+  --color-danger-50: #FAEDEC;
+  --color-danger-500: #A8453D;
+  --color-danger-700: #7D3230;
 
-  /* Breakpoints */
+  /* --- Tipografi -------------------------------------------------------- */
+  --font-display: var(--font-display-sans), "Lexend", -apple-system, sans-serif;
+  --font-body: var(--font-body-sans), "Inter", -apple-system, sans-serif;
+  --font-mono: var(--font-mono-code), "JetBrains Mono", ui-monospace, monospace;
+
+  /* Fluid tip skalası — text-step-{n} */
+  --text-step--2: clamp(0.69rem, 0.68rem + 0.07vw, 0.72rem);
+  --text-step--1: clamp(0.83rem, 0.80rem + 0.14vw, 0.90rem);
+  --text-step-0: clamp(1.00rem, 0.95rem + 0.23vw, 1.13rem);
+  --text-step-1: clamp(1.20rem, 1.13rem + 0.34vw, 1.41rem);
+  --text-step-2: clamp(1.44rem, 1.34rem + 0.50vw, 1.76rem);
+  --text-step-3: clamp(1.73rem, 1.58rem + 0.72vw, 2.20rem);
+  --text-step-4: clamp(2.07rem, 1.86rem + 1.05vw, 2.75rem);
+  --text-step-5: clamp(2.49rem, 2.19rem + 1.50vw, 3.43rem);
+  --text-step-6: clamp(2.99rem, 2.57rem + 2.10vw, 4.29rem);
+  --text-step-7: clamp(3.58rem, 3.00rem + 2.92vw, 5.37rem);
+  --text-step-8: clamp(4.30rem, 3.50rem + 4.02vw, 6.71rem);
+
+  --tracking-display: -0.035em;
+  --tracking-heading: -0.028em;
+  --tracking-title: -0.02em;
+  --tracking-label: 0.18em;
+
+  /* --- Breakpoint ------------------------------------------------------- */
   --breakpoint-mobile: 375px;
   --breakpoint-tablet: 768px;
   --breakpoint-desktop: 1280px;
   --breakpoint-wide: 1536px;
 
-  /* Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
+  /* --- Container -------------------------------------------------------- */
+  --container-ds: 1440px;
+  --container-ds-wide: 1680px;
+  --container-prose: 1120px;
+  --container-popup: 35rem;
+  --container-popup-wide: 57.5rem;
 
-  /* Popup max-width tokens (Tailwind v4 --container-* → max-w-* utility) */
-  --container-popup: 35rem;        /* 560px — default stages */
-  --container-popup-wide: 57.5rem; /* 920px — booking stage 2-col */
+  /* --- Radius (v2: belirgin küçük) -------------------------------------- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 10px;
 
-  /* Motion */
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-editorial: cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* --- Elevation -------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(15, 28, 35, 0.04), 0 1px 3px rgba(15, 28, 35, 0.04);
+  --shadow-md: 0 2px 4px rgba(15, 28, 35, 0.04), 0 8px 20px -4px rgba(15, 28, 35, 0.08), 0 16px 32px -12px rgba(44, 85, 102, 0.1);
+  --shadow-lg: 0 4px 8px rgba(15, 28, 35, 0.05), 0 20px 40px -12px rgba(15, 28, 35, 0.12), 0 40px 80px -24px rgba(44, 85, 102, 0.18);
+  --shadow-xl: 0 8px 16px rgba(15, 28, 35, 0.06), 0 40px 80px -20px rgba(44, 85, 102, 0.22), 0 60px 120px -40px rgba(15, 28, 35, 0.16);
+  --shadow-3d: 0 1px 0 0 rgba(255, 255, 255, 0.8) inset, 0 0 0 1px rgba(44, 85, 102, 0.06), 0 12px 24px -8px rgba(15, 28, 35, 0.12), 0 32px 64px -24px rgba(44, 85, 102, 0.2);
+
+  /* --- Motion ----------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* Root + body tabanı — @layer base ile Tailwind utility'lerinin override
-   edebilmesi garanti altına alınır (Tailwind v4 cascade layer disiplin). */
+/* ============================================================================
+   Base
+   ============================================================================ */
+
 @layer base {
   :root {
     color-scheme: light;
   }
 
   html {
-    background: var(--color-paper);
-    color: var(--color-ink-900);
+    background: var(--color-bg);
+    color: var(--color-ink-800);
+    scroll-behavior: smooth;
   }
 
   body {
     font-family: var(--font-body);
     font-size: 1rem;
-    line-height: 1.6;
+    /* v2 okuma ritmi: 1.55 sıkıydı, uzun paragraflarda satırlar birbirine
+       yapışıyordu. Anasayfanın lede'leri 1.65'te nefes alıyor (ADR-017). */
+    line-height: 1.62;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+    overflow-x: hidden;
   }
 
-  /* Heading base — base layer'da olduğu için Tailwind utility class'ları
-     (text-paper, text-ink-*, vb.) bu rule'u doğal olarak override eder. */
+  /* Başlık ağırlığı 600'dür — 700 Lexend'de fazla kalın duruyor, 500 ise
+     `typography-*` sınıflarında ayrı bir değere düşüyordu. Tek değer. */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.04;
     color: var(--color-ink-900);
   }
+
+  ::selection {
+    background: var(--color-teal-700);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-bg); }
+  ::-webkit-scrollbar-thumb { background: var(--color-ink-200); border-radius: 100px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-teal-400); }
 }
 
-/* Focus ring — brand-500 ring 2px + 2px offset paper */
+/* Focus ring — teal, 2px + offset */
 :focus-visible {
-  outline: 2px solid var(--color-brand-500);
+  outline: 2px solid var(--color-teal-700);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
 }
 
-/* Editorial prose max width */
-.prose-editorial {
-  max-width: 680px;
+/* ============================================================================
+   Primitives
+   ============================================================================ */
+
+/* --- Container ------------------------------------------------------------ */
+.ds-container {
+  max-width: var(--container-ds);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 72px);
+}
+.ds-container-wide {
+  max-width: var(--container-ds-wide);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 56px);
 }
 
-/* Tipografi utility class'ları — tokens.ts ile senkron */
-.typography-display-2xl {
-  font-family: var(--font-heading);
-  font-size: clamp(2.75rem, 4vw + 1rem, 4.5rem);
-  line-height: 1.1;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  font-variation-settings: "opsz" 9;
+/* --- Mono ----------------------------------------------------------------- */
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01";
+  letter-spacing: 0;
 }
-.typography-display-xl {
-  font-family: var(--font-heading);
-  font-size: clamp(2.25rem, 3vw + 1rem, 3.5rem);
-  line-height: 1.1;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  font-variation-settings: "opsz" 9;
-}
-.typography-display-lg {
-  font-family: var(--font-heading);
-  font-size: clamp(2rem, 2vw + 1rem, 2.75rem);
-  line-height: 1.15;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  font-variation-settings: "opsz" 18;
-}
-.typography-h1 {
-  font-family: var(--font-heading);
-  font-size: clamp(1.75rem, 1.5vw + 1rem, 2.25rem);
-  line-height: 1.2;
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* --- Eyebrow -------------------------------------------------------------- */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: -0.01em;
-  font-variation-settings: "opsz" 18;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-teal-700);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
-.typography-h2 {
-  font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 1vw + 0.75rem, 1.75rem);
-  line-height: 1.25;
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+  display: inline-block;
+  flex-shrink: 0;
+}
+/* Dark yüzeyde eyebrow gold'a döner */
+.eyebrow-gold { color: var(--color-gold-400); }
+/* Çizgisiz varyant (chip içi) */
+.eyebrow-bare::before { display: none; }
+
+/* --- Button --------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 14px;
   font-weight: 500;
-  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.4s var(--ease-out);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.1) inset,
+    0 -1px 0 0 rgba(0, 0, 0, 0.08) inset,
+    0 2px 4px rgba(15, 28, 35, 0.08),
+    0 8px 16px -4px rgba(15, 28, 35, 0.1);
 }
-.typography-h3 {
-  font-family: var(--font-heading);
-  font-size: clamp(1.25rem, 0.5vw + 0.75rem, 1.375rem);
-  line-height: 1.3;
-  font-weight: 600;
-  font-variation-settings: "opsz" 72;
+.btn-primary {
+  background: var(--color-ink-900);
+  color: var(--color-bg-pure);
 }
-.typography-body-lg {
-  font-size: clamp(1.125rem, 0.5vw + 0.75rem, 1.25rem);
-  line-height: 1.6;
+.btn-primary:hover {
+  background: var(--color-ink-700);
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.15) inset,
+    0 -1px 0 0 rgba(0, 0, 0, 0.08) inset,
+    0 4px 8px rgba(0, 0, 0, 0.12),
+    0 20px 32px -8px rgba(0, 0, 0, 0.35);
 }
-.typography-body-md {
-  font-size: 1rem;
-  line-height: 1.6;
+.btn-ghost {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  color: var(--color-ink-800);
+  border: 1px solid var(--color-ink-200);
 }
-.typography-body-sm {
-  font-size: 0.875rem;
-  line-height: 1.5;
+.btn-ghost:hover {
+  border-color: var(--color-teal-700);
+  color: var(--color-teal-700);
+  transform: translateY(-2px);
 }
-.typography-caption {
-  font-size: 0.8125rem;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
+/* Dark yüzey üstü ters buton */
+.btn-invert {
+  background: var(--color-bg-pure);
+  color: var(--color-ink-900);
 }
-.typography-label {
-  font-size: 0.75rem;
-  line-height: 1.4;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+.btn-invert:hover {
+  background: var(--color-gold-400);
+  transform: translateY(-2px);
+}
+.btn-lg { padding: 18px 28px; font-size: 15px; }
+.btn .arrow {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform 0.4s var(--ease-out);
+}
+.btn:hover .arrow { transform: translate(2px, -2px); }
+
+/* --- Divider -------------------------------------------------------------- */
+.divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, transparent, var(--color-ink-200) 20%, var(--color-ink-200) 80%, transparent);
 }
 
-/* Marquee (müşteri logoları slider'ı için) */
+/* --- Scroll reveal -------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal.d1 { transition-delay: 0.1s; }
+.reveal.d2 { transition-delay: 0.2s; }
+.reveal.d3 { transition-delay: 0.3s; }
+.reveal.d4 { transition-delay: 0.4s; }
+.reveal.d5 { transition-delay: 0.5s; }
+
+/* --- Grain ---------------------------------------------------------------- */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.17 0 0 0 0 0.33 0 0 0 0 0.4 0 0 0 0.08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.35;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 0;
+}
+
+/* --- Marquee -------------------------------------------------------------- */
 @keyframes marquee-x {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
-
 .marquee-track {
-  animation: marquee-x 40s linear infinite;
+  display: flex;
+  width: max-content;
+  animation: marquee-x 60s linear infinite;
   will-change: transform;
 }
-
-/* Watermark drift — dev INDOLES filigranının yavaş sağa-sola salınımı.
-   Sabit ve dişi: dramatik değil, background dokusu gibi hissedilir. */
-@keyframes watermark-drift {
-  0% {
-    transform: translate3d(-3%, 0, 0);
-  }
-  50% {
-    transform: translate3d(3%, 0, 0);
-  }
-  100% {
-    transform: translate3d(-3%, 0, 0);
-  }
-}
-
-.watermark-drift {
-  animation: watermark-drift 28s ease-in-out infinite;
-  will-change: transform;
-}
-
 .marquee-pause-on-hover:hover .marquee-track {
   animation-play-state: paused;
 }
 
-/* Motion respect for reduced motion */
+/* ============================================================================
+   Tipografi utility'leri — semantik adlar, v2 Lexend skalasına bağlı
+   ============================================================================ */
+
+.typography-display-2xl {
+  font-family: var(--font-display);
+  font-size: var(--text-step-8);
+  line-height: 0.94;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+}
+.typography-display-xl {
+  font-family: var(--font-display);
+  font-size: var(--text-step-7);
+  line-height: 0.98;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+}
+.typography-display-lg {
+  font-family: var(--font-display);
+  font-size: var(--text-step-6);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: var(--tracking-display);
+}
+.typography-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-step-5);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: var(--tracking-heading);
+}
+.typography-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-step-3);
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: var(--tracking-heading);
+}
+.typography-h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-step-2);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: var(--tracking-title);
+}
+.typography-body-lg {
+  font-size: var(--text-step-1);
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+.typography-body-md {
+  font-size: var(--text-step-0);
+  line-height: 1.68;
+}
+.typography-body-sm {
+  font-size: var(--text-step--1);
+  line-height: 1.6;
+}
+.typography-caption {
+  font-size: var(--text-step--2);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+.typography-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* Display font içi italik vurgu — başlıklarda ikinci ses */
+.accent-em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-teal-700);
+}
+.accent-em-gold { color: var(--color-gold-400); }
+
+/* Editorial okuma kolonu */
+.prose-editorial { max-width: 680px; }
+
+/* ============================================================================
+   Reduced motion
+   ============================================================================ */
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -236,4 +440,49 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ============================================================================
+   Sandbox / iframe overrides
+   ============================================================================ */
+
+html[data-iframe="true"] header,
+html[data-iframe="true"] footer,
+html[data-iframe="true"] nav[aria-label="Sayfa bölümleri"],
+html[data-iframe="true"] button[aria-label="Sayfa bölümleri"],
+html[data-iframe="true"] button[aria-label="Navigasyonu kapat"] {
+  display: none !important;
+}
+
+html[data-iframe="true"] main {
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: auto !important;
+}
+
+html[data-iframe="true"] body {
+  overflow-x: hidden;
+}
+
+/* ============================================================================
+   Persona merceği — iki varyant DOM'da, seçimi CSS yapar
+   ----------------------------------------------------------------------------
+   Persona-aware metinler her iki versiyonu da render eder; kök elemandaki
+   `data-persona` hangisinin görüneceğini söyler. Değer ilk boyamadan önce
+   `app/layout.tsx`'teki senkron script tarafından yazılır, sonrasında
+   `PersonaSwitch` günceller. Böylece `commerce` ziyaretçisi sanayi metnini
+   bir kare bile görmez ve sayfa statik üretilmeye devam eder.
+
+   Gizlenen varyant `display:none` olduğu için erişilebilirlik ağacına da
+   girmez — ekran okuyucu iki kez okumaz.
+   ========================================================================== */
+
+/* Yalnız GİZLER, asla display atamaz: görünen varyant kendi sınıflarının
+   (flex, grid…) display değerini korur. `display: revert` denendi ve
+   `PersonaListItems`'ın `flex` satırlarını bozdu — öznitelik seçicisi tek
+   sınıftan güçlü olduğu için `display:flex`i eziyordu. */
+:root[data-persona="commerce"] [data-persona-variant="industrial"],
+:root:not([data-persona="commerce"]) [data-persona-variant="commerce"] {
+  display: none;
 }

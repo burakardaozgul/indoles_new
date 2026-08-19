@@ -1,6 +1,6 @@
 # ADR-009: Payment (Stripe + iyzico) Kaldırılması
 
-**Durum:** Önerildi
+**Durum:** Accepted — uygulandı (kod doğrulaması: 2026-08-19)
 **Tarih:** 2026-04-17
 **Karar sahibi:** Burak Arda Özgül
 

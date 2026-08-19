@@ -3,7 +3,15 @@
 > **Not (2026-04-16):** Bu ADR'deki red kararları **genel geçerli** kalmıştır. Anasayfa hero zone'u için sınırlı istisna `ADR-003-cinematic-hero-zone.md`'de tanımlandı — orası yalnızca ilk 100vh'lik cinematic alanı kapsar; geri kalan tüm sayfalar bu ADR'ye sadık kalır.
 
 **Tarih:** 2026-04-16
-**Durum:** Kabul Edildi
+**Durum:** Kısmen supersede edildi (2026-08-19, ADR-015)
+
+> **Statü güncellemesi (2026-08-19, `ADR-015-design-system-v2.md`):**
+> §1 (dark base surface), §3 (particle flow), §4 (glassmorphism) ve §5 (gradient)
+> redleri **sınırlı kapsamda** kaldırıldı. §7 (üçüncül renk) redi `gold` accent
+> lehine **tamamen** kaldırıldı. §2 (çoklu marka paleti), §6 (all-caps buton) ve
+> §8 (overlapping negative-margin kart) redleri **aynen geçerlidir**.
+> Red-red karşılaştırma tablosu: ADR-015 §"ADR-002 red kararlarının yeni durumu".
+> ADR-003 istisnası artık geçersiz — o ADR de ADR-015 ile arşive alındı.
 **Karar Vericiler:** Burak Arda Özgül (Kurucu/CTO)
 
 ## Bağlam

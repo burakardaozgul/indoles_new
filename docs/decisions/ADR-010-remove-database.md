@@ -1,6 +1,6 @@
 # ADR-010: DB (Neon + Drizzle) Kaldırılması
 
-**Durum:** Önerildi
+**Durum:** Accepted — uygulandı (kod doğrulaması: 2026-08-19)
 **Tarih:** 2026-04-17
 **Karar sahibi:** Burak Arda Özgül
 **Bağlı:** `docs/superpowers/specs/2026-04-17-simplification-design.md` §5, `ADR-008`, `ADR-009`

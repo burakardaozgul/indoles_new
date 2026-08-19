@@ -1,6 +1,7 @@
 # ADR-003 — Cinematic Hero Zone
 
-**Statü:** Superseded (2026-04-16 — Editorial hero'ya pivot edildi, dark cinematic kaldırıldı)
+**Statü:** Archived (2026-08-19 — ADR-015 ile tamamen kapatıldı)
+**Önceki statü:** Superseded (2026-04-16 — Editorial hero'ya pivot edildi)
 **Tarih:** 2026-04-16
 **Karar veren:** Burak Arda Özgül
 **Etkilenen belgeler:** `docs/04-design-system-principles.md`, `docs/decisions/ADR-002-stitch-design-reject.md`
@@ -8,6 +9,12 @@
 > **Superseded note (aynı gün):** Cinematic dark hero ve floating glass nav kaldırıldı. Anasayfa Anthropic benzeri paper zemin + büyük Fraunces editorial headline'a geçti. Floating nav yerine `SiteTopNav` (sticky, paper zemin, sayfa akışının parçası) kullanılıyor. `ADR-002`'nin orijinal red kararları (dark base surface dahil) tam geçerli kaldı. `docs/04 §13 Cinematic Hero Zone` bölümü bilgi amaçlı duruyor ancak uygulama yok.
 
 ---
+
+> **ADR-015 notu (2026-08-19):** Bu ADR tamamen kapandı. Design System v2'nin
+> hero'su **light** zeminde canvas dalga taşır; dark metallic hero yoktur.
+> `hero.*` token namespace'i (`hero.void`, `hero.deep`, `hero.metal`,
+> `hero.light`, `hero.paper`, `hero.accent`) `tokens.ts`'ten kaldırıldı.
+> Aşağısı yalnızca tarihsel bağlam içindir — uygulanabilir karar taşımaz.
 
 ## Bağlam
 

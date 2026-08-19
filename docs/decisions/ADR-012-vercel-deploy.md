@@ -1,6 +1,6 @@
 # ADR-012: Deploy Platformu SST/AWS → Vercel
 
-**Durum:** Önerildi
+**Durum:** Accepted — uygulandı (kod doğrulaması: 2026-08-19)
 **Tarih:** 2026-04-17
 **Karar sahibi:** Burak Arda Özgül
 

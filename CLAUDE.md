@@ -20,7 +20,8 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Burak Arda Özgül | Kurucu - Marka Stratejisti ve Kreatif Direktör| Vizyon, mimari, UX kararları, brand voice |
 
 - **Background:** 8+ yıl dijital pazarlama/reklam/markalaşma + AI SaaS co-founder deneyimi (ADUARDO)
-- **Ekip durumu:** Launch'a kadar tek-kişilik decision maker. Implementation desteği Claude Code üzerinden yürütülür.
+- **Ekip durumu:** Ürün/mimari kararlarında tek karar verici Burak'tır. Implementation desteği Claude Code üzerinden yürütülür.
+- **Kadro:** 2026-08-19'da 10 kişilik kadro `src/lib/content/consultants.ts`'e alındı (kaynak: Claude Studio tasarım projesi). Site artık tek kişilik bir vitrin değildir; `/danismanlar` bu kadroyu listeler.
 - **Önemli:** Hayali roller (designer onayı, teknik lead review, PM sign-off vb.) icat edilmez. Karar mekanizması Burak'tır.
 
 ---
@@ -53,7 +54,11 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Katman | Teknoloji | Not |
 |--------|-----------|-----|
 | Frontend | Next.js 15 (App Router, RSC, SSG) | React 19 |
-| Styling | Tailwind v4 + Radix UI + cva + Framer Motion | `lib/design/tokens.ts` |
+| Styling | Tailwind v4 + Radix UI + cva | `src/lib/design/tokens.ts` → `src/styles/globals.css` |
+| Tipografi | Lexend (display) + Inter (gövde) + JetBrains Mono (etiket) | `next/font/google`; ADR-015 |
+| Marka rengi | teal-700 `#2C5566` + tek accent gold-500 `#B8956A` | ADR-015 |
+| Motion (ana site) | Canvas 2D (dalga, ağ) + scroll-bağlı sticky mekanizmalar | Framer Motion kaldırıldı |
+| Motion (v2) | Three.js + @react-three/fiber + custom GLSL · Lenis · GSAP ScrollTrigger | ADR-016 |
 | Backend | Next.js Route Handlers (2 endpoint) | `/api/contact`, `/api/visitor-profile` |
 | Database | **Yok** | Launch'ta DB yok; ADR-010 |
 | Auth | **Yok** | Launch'ta auth yok; ADR-008 |
@@ -131,6 +136,10 @@ Aşağıdaki kalemler projenin kapsamı dışındadır. Gelecekte tekrar gündem
 | Ödeme gateway'i (launch) | Teklifleşme süreci; ADR-009 |
 | AI chatbot (launch) | Agent ROI belirsiz; ADR-007 |
 | Kalıcı DB (launch) | Mail + PostHog yeterli; ADR-010 |
+| İnteraktif teşhis araçları (`/araclar`) | Launch kapsamı dışı; Faz 2 |
+| Journal kategori taksonomisi | Yazı hacmi haklı çıkarmıyor; 15+ yazıda tekrar bakılır |
+| İkinci marka accent rengi (gold dışında) | Tek accent disiplini; ADR-015 — v2 blob paleti de teal+gold'dan türetilir |
+| WebGL'siz fallback (v2) | Şu an yok; destek oranı sorun olursa ADR ile değerlendirilir |
 
 ---
 
@@ -139,32 +148,41 @@ Aşağıdaki kalemler projenin kapsamı dışındadır. Gelecekte tekrar gündem
 ```
 indoles-web/
 ├── CLAUDE.md                          # Bu dosya — workspace memory
+├── active_context.md                  # Oturumlar arası durum dökümü
 ├── README.md                          # Proje özeti (public-facing)
 ├── docs/
 │   ├── 01-vision-positioning.md       # Vizyon, persona'lar, ton gerilimi
-│   ├── 02-information-architecture.md # Sayfa haritası, URL, navigasyon
+│   ├── 02-information-architecture.md # Route haritası, navigasyon (v2 ile hizalı)
 │   ├── 03-brand-voice-tone.md         # İki alıcı profili için ton rehberi
-│   ├── 04-design-system-principles.md # Tipografi, renk, spacing, motion
-│   ├── 05-tech-architecture.md        # Stack detay, servis diyagramları
-│   ├── 06-data-model.md               # Postgres tabloları, ER diyagramı
-│   ├── 07-ai-agent-spec.md            # Agent araçları, system prompt, fallback
+│   ├── 04-design-system-principles.md # Design System v2 — estetik otorite
+│   ├── 05-tech-architecture.md        # Stack detay, akış diyagramları
 │   ├── 08-seo-i18n-strategy.md        # hreflang, sitemap, llms.txt
-│   ├── 09-auth-roles-permissions.md   # Clerk rolleri, permission matrix
-│   ├── 11-funnel-customer-flows.md    # Üçlü funnel, AI devreye giriş noktaları
+│   ├── 11-funnel-customer-flows.md    # Üçlü taahhüt funnel'ı
 │   ├── 12-analytics-measurement.md    # PostHog events, KPI'lar
-│   └── decisions/
-│       ├── ADR-template.md                   # Architecture Decision Record şablonu
-│       ├── ADR-001-agent-orchestration.md    # Vercel AI SDK seçimi gerekçesi
-│       ├── ADR-002-stitch-design-reject.md   # Stitch belgesinden reddedilen tasarım kararları
-│       ├── ADR-003-cinematic-hero-zone.md    # Anasayfa hero için sınırlı dark istisnası
-│       └── ADR-006-remove-sanity.md          # Sanity CMS kaldırıldı; içerik statik TS + MDX
-├── lib/
-│   └── design/
-│       └── tokens.ts                  # Design token'lar (renk, tipografi, spacing, motion)
-├── .claude/
-│   ├── skills/                        # Claude Code custom skill'leri
-│   └── commands/                      # Claude Code custom command'ları
-└── .gitignore
+│   ├── 14-privacy-kvkk.md             # KVKK, veri saklama
+│   ├── 06 / 07 / 09-*.md              # ARŞİV — uygulanmadı (ADR-010/007/008)
+│   ├── copy/                          # Persona copy taslakları
+│   ├── superpowers/                   # Spec ve plan arşivi
+│   └── decisions/ADR-001…ADR-015      # Karar kayıtları
+├── src/
+│   ├── app/(marketing)/[locale]/      # Tüm public sayfalar
+│   ├── app/(v2)/[locale]/v2/          # Yeni tasarım yönü — kendi chrome'u (ADR-016)
+│   ├── app/api/                       # contact · visitor-profile · health (+2 stub)
+│   ├── components/layout/             # top-bar · site-nav · site-footer
+│   ├── components/marketing/          # Ana site bölümleri + entry-popup + paylaşılanlar
+│   ├── components/v2/                 # webgl/ · cursor/ · hero/ · sections/
+│   ├── lib/v2/                        # anim-config · use-lenis · use-mouse · içerik
+│   ├── lib/content/                   # pillars · packages · cases · consultants ·
+│   │                                  # method · industries · company · clients · articles
+│   ├── lib/design/tokens.ts           # Design token'lar
+│   ├── lib/popup/                     # Entry popup domain (persona, problem, cookie)
+│   ├── lib/i18n/                      # next-intl routing + request
+│   └── styles/                        # globals.css (@theme + primitives) · sections.css · v2.css
+├── messages/{tr,en}.json              # i18n — persona alt ağaçları dahil
+├── content/legal/                     # KVKK MDX
+├── emails/                            # React Email şablonları
+├── public/                            # brand/ · musteri_logolari/
+└── .claude/                           # Custom skill ve agent tanımları
 ```
 
 ---
@@ -178,10 +196,14 @@ Tasarım kararlarının otorite hiyerarşisi:
 
 | Öncelik | Kaynak | İçerik |
 |---------|--------|--------|
-| 1 | `docs/04-design-system-principles.md` | Tasarım felsefesi, tipografi skalası, renk paleti, spacing, motion prensipleri. Estetik kararların tek otoritesi. |
-| 2 | `lib/design/tokens.ts` (veya `tokens.json`) | Design token'ların kod-seviyesinde tanımı. Tailwind config bu dosyadan beslenir. |
-| 3 | `components/ui/*` | shadcn/ui temelli component library. Her UI component burada tanımlanır, sayfalarda yeniden icat edilmez. |
-| 4 | Storybook (opsiyonel, Faz 2) | Component'lerin görsel katalogu. |
+| 1 | `docs/04-design-system-principles.md` (v2) | Tasarım felsefesi, tipografi, renk, spacing, elevation, motion. Estetik kararların tek otoritesi. |
+| 2 | `src/lib/design/tokens.ts` | Token'ların TypeScript tanımı. |
+| 3 | `src/styles/globals.css` (`@theme`) | Token'ların Tailwind v4 karşılığı + primitive'ler (`.eyebrow`, `.btn`, `.ds-container`, `.reveal`, `typography-*`). |
+| 4 | `src/styles/sections.css` | Tailwind ile temiz ifade edilemeyen yapılar: liquid-glass nav, sticky yatay track, timeline geometrisi, parallax kapları. |
+| 5 | `src/components/marketing/*`, `src/components/layout/*` | Bölüm component'leri. |
+| 6 | `docs/04` §12 + `src/lib/v2/anim-config.ts` + `src/styles/v2.css` | v2 motion ve etkileşim katmanı (ADR-016). Tüm süre/easing/threshold `anim-config.ts`'tedir; component'e gömülmez. |
+
+**Değişiklik sırası zorunludur:** docs/04 → tokens.ts → globals.css → component. Ham hex/px/easing component dosyasına yazılmaz.
 
 > **Önkoşul:** `docs/04-design-system-principles.md` ilk kod implementasyonundan önce tamamlanmış olmalıdır. Bu dosya eksikken veya placeholder halindeyken UI implementasyonu başlamaz. Başlarsa, Claude Code önce bu dosyanın yazılması için çalışmayı durdurur.
 

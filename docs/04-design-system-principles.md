@@ -1,885 +1,559 @@
-# Tasarım Sistem Prensipleri (Design System Principles)
+# Tasarım Sistem Prensipleri (Design System Principles) — v2
 
-Bu doküman INDOLES web platformunun görsel dilini tanımlar: tipografi, renk, grid, spacing, motion, ikonografi, component prensipleri ve erişilebilirlik kuralları. İlk kod implementasyonundan önce tamamlanmış olması zorunludur (bkz. CLAUDE.md Bölüm 8). Tasarım kararları alternatifsiz ve kesindir — bu belge seçenekler sunmaz, kararları dokümante eder.
+> **Statü:** Onaylı — estetik kararların tek otoritesi.
+> **Sürüm:** v2 (2026-08-19). v1 (editorial-serif) `docs/decisions/ADR-015-design-system-v2.md` ile emekliye ayrıldı.
+> **Kaynak kod:** `src/lib/design/tokens.ts` → `src/styles/globals.css` (`@theme`) → `src/styles/sections.css` → component.
+> **Upstream:** `01-vision-positioning.md` (iki eksen, ton gerilimi), `03-brand-voice-tone.md` (persona ton matrisi).
 
-**Bağımlılıklar:**
-- Upstream: `01-vision-positioning.md` (persona'lar, ton gerilimi), `03-brand-voice-tone.md` (editorial dil, mikro-copy)
-- Downstream: `lib/design/tokens.ts` (kod-seviyesi token tanımları), `tailwind.config.ts`, `components/ui/*`
-- İlişkili: `02-information-architecture.md` (sayfa tipolojileri, layout gereksinimleri)
-
-**Token kaynağı:** Bu belgede tanımlanan her değer `lib/design/tokens.ts` dosyasında type-safe olarak export edilir. Tailwind config bu dosyadan beslenir. Belge ile token dosyası arasında tutarsızlık varsa, belge otoritedir — token dosyası güncellenir.
+Bu doküman değişmeden hiçbir UI kararı değişmez. Bir component bu dokümana aykırı bir değer istiyorsa: önce burası güncellenir, sonra `tokens.ts`, sonra kod. Sapma ADR gerektirir.
 
 ---
 
 ## 1. Tasarım Felsefesi
 
-Bir tasarım sistemi sadece renk ve font seçmek değildir; markanın görsel dilini kodlamaktır. INDOLES'in görsel dili editorial-minimalist light olarak tanımlanır. Bu üç kelime kasıtlıdır.
+### Teknik-editorial
 
-### Editorial
+INDOLES'in görsel dili iki kaynaktan beslenir: **editorial yayıncılık** (net hiyerarşi, geniş boşluk, tipografi öncelikli sayfa) ve **teknik dokümantasyon** (mono etiketler, numaralandırılmış bölümler, diyagramlar, ölçüm dili). Bu ikisi çatışmaz — bir mühendislik dergisinin sayfa disiplinidir.
 
-"Editorial" demek gazete veya dergi demek değil. Bir tasarımın editorial olması, içeriğin görsel hiyerarşisinin okunabilirliği yönetmesi demektir: tipografi kendi başına konuşur, whitespace bilgiyi çerçeveler, detaylar (hairline, drop cap, marginalia) zenginlik katar ama dikkat çalmaz. Referans ailesi: Stripe Press'in kitap estetiği, Pentagram'ın tipografik disiplini, a16z Future'ın editorial grid'i, McKinsey Insights'ın veri sunumu.
+Üç kural bu dili taşır:
 
-Bu referanslar ilham kaynağıdır, authority değildir. Bir UI kararı için "Stripe Press böyle yapıyor" yetmez; karar bu belgede tanımlanan prensiplere uymalıdır (bkz. CLAUDE.md Bölüm 8, Inspiration vs. Authority).
+| Kural | Anlamı |
+|---|---|
+| **Tipografi taşır, dekorasyon taşımaz** | Bir bölümün ağırlığı punto, boşluk ve hiyerarşiden gelir; renk lekesinden veya görselden değil |
+| **Her görsel bir mekanizma anlatır** | Kullanılan her SVG bir süreci, ilişkiyi veya yapıyı gösterir. Süsleme amaçlı ikon veya stok fotoğraf yoktur |
+| **Ölçü görünür** | Sayaçlar, numaralar, ilerleme çubukları, koordinatlar, süre etiketleri — arayüz kendi konumunu söyler |
 
-### Minimalist
+### İki persona, bir görsel dil
 
-Minimalizm boşluk bırakmak değil, gereksizi çıkarmaktır. Her görsel öğe bir iş yapar — dekorasyon için değil, iletişim için vardır. Gradient yok, particle flow yok, glassmorphism yok, stok fotoğraf yok. Zenginlik yüzeyden değil derinlikten gelir: Fraunces'ın optical size varyasyonları, hairline rule'ların nefes alan zarfları, marginalia'nın editorial katmanı.
+Sanayici (dingin-kurumsal) ve ticaret (dinamik-atletik) ayrımı **copy** ekseninde yaşar, görsel dilde değil. Aynı grid, aynı palet, aynı motion; değişen yalnızca metin. Gerekçe: iki görsel dil iki marka demektir.
 
-### Light
+### Reddedilenler
 
-Sıcak kırık-beyaz kağıt yüzeyleri üzerine koyu mürekkep — bir basılı yayının dijital karşılığı. Dark mode Faz 1'de yoktur. Gerekçe: editorial-light dil dark base ile çelişir, tek renk disiplini (brand mavisi) dark palette'te yeterli kontrast katmanı üretmez, ve dark mode doğru yapılmak için ayrı bir token seti gerektirir — bu da launch öncesi kapsam dışıdır. Dark mode ileride ADR ile değerlendirilir.
+Aşağıdakiler bilinçli olarak dışarıdadır. Biri gerekirse ADR yazılır:
 
-### İki Persona, Bir Görsel Dil
-
-Persona ayrımı renkte değil, içerikte ve layout'ta yapılır. Sanayici de ticaretçi de aynı kağıt üzerinde, aynı Fraunces başlıklarla, aynı brand mavisiyle karşılanır. Fark: cümlelerin ritmi (`03-brand-voice-tone.md`), öne çıkan vaka çalışması tipi, section sıralaması ve veri sunumu formatı. Görsel dil sabittir; ton ve içerik persona'ya göre adapte olur.
-
----
-
-## 2. Tipografi Sistemi
-
-Tipografi, editorial tasarımın birincil aracıdır. INDOLES'in tipografi sistemi üç font ailesinden oluşur — her biri kesin bir rol taşır, çapraz kullanım yoktur.
-
-### Font Aileleri
-
-| Aile | Font | Rol | Kaynak | Format |
-|------|------|-----|--------|--------|
-| **Heading** | Fraunces | Display, H1-H3, pullquote, drop cap | Google Fonts | Variable (weight + opsz) |
-| **Body + UI** | Inter | Body, caption, label, button, input, nav, H4 | Google Fonts | Variable (weight) |
-| **Mono** | JetBrains Mono | Kod bloğu, metrik chip, tabular number | Google Fonts | Variable (weight) |
-
-**Neden Fraunces?** Old-style serif'lerin sıcaklığını taşır ama variable font olarak modern kontrol sunar. Optical size aksı (opsz 9–144) tek bir font dosyasıyla display'den heading'e geçiş sağlar. Ücretsiz, açık kaynak, performance-friendly.
-
-**Neden Inter?** UI fontlarının de facto standardı. Geniş dil desteği, tutarlı metrikler, x-height oranı okunabilirlik için optimize. shadcn/ui ile doğal uyum.
-
-**H4 neden Inter?** Fraunces 18px ve altında dekoratif karakterini kaybeder, okunabilirlik avantajı kalmaz. H4 boyutunda Inter'ın netliği daha değerli.
-
-### Fraunces Optical Size Eşleşmeleri
-
-Fraunces'ın `opsz` aksı 9 (SuperSoft — en dekoratif, yuvarlak terminaller) ile 144 (Sharp — en konvansiyonel) arasında çalışır. Büyük boyutlarda dekoratif karakter editorial imza yaratır; küçük boyutlarda okunabilirlik kazanır.
-
-| Token | opsz | Karakter | Kullanım |
-|-------|------|----------|----------|
-| display-2xl | 9 | SuperSoft | Hero headline — maksimum editorial imza |
-| display-xl | 9 | SuperSoft | Section hero, büyük manifesto başlığı |
-| display-lg | 18 | Soft | Sayfa başlığı, pillar landing hero |
-| h1 | 18 | Soft | Ana sayfa bölüm başlığı |
-| h2 | 48 | Normal | Alt-bölüm başlığı |
-| h3 | 72 | Sharp | Detay başlığı, body'ye yakın boyut |
-| pullquote | 9 | SuperSoft | Dekoratif vurgu çekmesi |
-| drop cap | 9 | SuperSoft | Prose açılış harfi |
-
-CSS'te: `font-variation-settings: 'opsz' 9;` veya `font-optical-sizing: auto;` ile tarayıcı kontrolüne bırakma. INDOLES'te manuel kontrol tercih edilir — her token için opsz değeri sabittir.
-
-### Tipografi Scale
-
-Base: 16px = 1rem. Fluid responsive: clamp() ile mobile → desktop arası akışkan geçiş.
-
-| Token | Font | Desktop | Mobile | clamp() | Line-height | Weight | Letter-spacing | opsz |
-|-------|------|---------|--------|---------|-------------|--------|----------------|------|
-| display-2xl | Fraunces | 4.5rem (72px) | 2.75rem (44px) | `clamp(2.75rem, 4vw + 1rem, 4.5rem)` | 1.1 | 400 | -0.02em | 9 |
-| display-xl | Fraunces | 3.5rem (56px) | 2.25rem (36px) | `clamp(2.25rem, 3vw + 1rem, 3.5rem)` | 1.1 | 400 | -0.02em | 9 |
-| display-lg | Fraunces | 2.75rem (44px) | 2rem (32px) | `clamp(2rem, 2vw + 1rem, 2.75rem)` | 1.15 | 400 | -0.01em | 18 |
-| h1 | Fraunces | 2.25rem (36px) | 1.75rem (28px) | `clamp(1.75rem, 1.5vw + 1rem, 2.25rem)` | 1.2 | 500 | -0.01em | 18 |
-| h2 | Fraunces | 1.75rem (28px) | 1.5rem (24px) | `clamp(1.5rem, 1vw + 0.75rem, 1.75rem)` | 1.25 | 500 | 0 | 48 |
-| h3 | Fraunces | 1.375rem (22px) | 1.25rem (20px) | `clamp(1.25rem, 0.5vw + 0.75rem, 1.375rem)` | 1.3 | 600 | 0 | 72 |
-| h4 | Inter | 1.125rem (18px) | 1.125rem (18px) | sabit | 1.4 | 600 | 0 | — |
-| body-lg | Inter | 1.25rem (20px) | 1.125rem (18px) | `clamp(1.125rem, 0.5vw + 0.75rem, 1.25rem)` | 1.6 | 400 | 0 | — |
-| body-md | Inter | 1rem (16px) | 1rem (16px) | sabit | 1.6 | 400 | 0 | — |
-| body-sm | Inter | 0.875rem (14px) | 0.875rem (14px) | sabit | 1.5 | 400 | 0 | — |
-| caption | Inter | 0.8125rem (13px) | 0.8125rem (13px) | sabit | 1.4 | 400 | 0.01em | — |
-| label | Inter | 0.75rem (12px) | 0.75rem (12px) | sabit | 1.4 | 500 | 0.02em | — |
-
-**Scale prensipleri:**
-
-- Fraunces weight'leri 400-600 aralığında: display boyutlarda 400 (zarif, hava veren), heading boyutlarda 500-600 (otoriter, yapısal)
-- Negatif letter-spacing yalnızca display boyutlarda — büyük metinde harfler optik olarak daha ayrık görünür, sıkılaştırma dengeler
-- body-md (16px) ve altı fluid değil, sabit — küçük metin boyutlarında fluid scale okunabilirliği bozar
-- Line-height display'den body'ye doğru artar: display'de satırlar birbirine yakın (vurgu), body'de ayrık (okunabilirlik)
-
-### Drop Cap Kuralı
-
-Uzun prose bölümlerinin açılışında ilk harf 3–4 satır yüksekliğinde, Fraunces opsz 9 (SuperSoft). Dekoratif bir editorial dokunuş — okuyucuya "bu metin okunmaya değer" sinyali verir.
-
-**Nerede kullanılır:** Journal yazıları, manifesto metni, Hakkımızda sayfasındaki uzun editorial bölümler.
-
-**Nerede kullanılmaz:** Hizmet sayfaları, paket detay, form sayfaları, araç sonuçları — buralarda drop cap gereksiz dekorasyon olur.
-
-**CSS yaklaşımı:**
-
-```css
-.drop-cap::first-letter {
-  font-family: 'Fraunces', Georgia, serif;
-  font-variation-settings: 'opsz' 9;
-  font-weight: 400;
-  float: left;
-  font-size: 3.5em;
-  line-height: 0.8;
-  padding-right: 0.08em;
-  color: var(--ink-900);
-}
-```
+- Stok fotoğraf ve genel amaçlı ikon setleri
+- Dekoratif parçacık yağmuru, sonsuz döngü animasyonları
+- Çoklu marka rengi (teal + gold dışında accent)
+- Light zeminde gradient buton
+- All-caps okuma metni
+- Kartların birbirine binen negative-margin düzenleri
+- Doğrulanmamış istatistik ve metrik (bkz. §10)
 
 ---
 
-## 3. Renk Sistemi
+## 2. Tipografi
 
-INDOLES'in renk sistemi tek renk disiplinine dayanır: brand mavisi + nötrler + semantic renkler. İkinci bir brand accent rengi, gradient veya dekoratif renk kategorisi yoktur. Bu kısıtlama bilinçlidir — editorial tasarımda renk kısıtlaması zenginlik kaybı değil, netlik kazanımıdır.
+### Aileler
 
-### Palet
+| Rol | Aile | Ağırlıklar | Nerede |
+|---|---|---|---|
+| Display | **Lexend** | 300, 400, 500, 600, 700 | h1–h6, metrik rakamları, alıntılar, marka ifadeleri |
+| Gövde | **Inter** | 400, 500, 600 | Paragraf, liste, form, buton |
+| Mono | **JetBrains Mono** | 400, 500 | `eyebrow`, kart meta, sayaç, koordinat, teknik etiket |
 
-#### Base Surface (Kağıt Hissi)
+Lexend geometrik ve okunabilirlik için tasarlanmış bir sans'tır; teknoloji vaadini serif'in taşıyamadığı yerde taşır. Yükleme `next/font/google` ile yapılır (`--font-display-sans`, `--font-body-sans`, `--font-mono-code`); CDN link'i yoktur.
 
-Saf beyaz (#FFFFFF) kullanılmaz. Tüm yüzeyler sıcak kırık-beyaz tonlardadır — basılı bir kitabın kağıt hissi.
+### Fluid skala
 
-| Token | Hex | Rol | Kullanım Örneği |
-|-------|-----|-----|-----------------|
-| paper | #FBFAF7 | Ana tuval | Sayfa arka planı, tüm body |
-| surface-1 | #F5F3EE | İkincil bölüm | Alternatif section bg, footer bg |
-| surface-2 | #EDEAE3 | Kart arka planı | Default card bg, sidebar bg |
-| surface-3 | #E4E0D7 | Elevated/hover state | Hover bg, active state, selected row |
+11 basamak, `clamp()` tabanlı. Mobilde 1.2, desktop'ta 1.25 modüler oran. Tailwind'de `text-step-{n}`:
 
-#### Ink (Metin — Pure Black Değil)
+| Token | Min → Max | Tipik kullanım |
+|---|---|---|
+| `step--2` | 0.69 → 0.72rem | Caption, dipnot |
+| `step--1` | 0.83 → 0.90rem | Küçük gövde, kart açıklaması |
+| `step-0` | 1.00 → 1.13rem | Gövde metni |
+| `step-1` | 1.20 → 1.41rem | Lede, öne çıkan paragraf |
+| `step-2` | 1.44 → 1.76rem | h3 |
+| `step-3` | 1.73 → 2.20rem | h2, bölüm başlığı |
+| `step-4` | 2.07 → 2.75rem | Vaka başlığı, metrik |
+| `step-5` | 2.49 → 3.43rem | Manifesto, h1 |
+| `step-6` | 2.99 → 4.29rem | Hero başlığı, display |
+| `step-7` | 3.58 → 5.37rem | Vizyon başlığı |
+| `step-8` | 4.30 → 6.71rem | Kapanış CTA |
 
-Pure black (#000000) kullanılmaz. Metin renkleri sıcak koyu tonlardadır — dijital mürekkep, siyah değil.
+### Semantik sınıflar
 
-| Token | Hex | Rol | Kullanım Örneği | Paper Üzerinde Kontrast |
-|-------|-----|-----|-----------------|------------------------|
-| ink-900 | #1A1F24 | Başlık, vurgu | H1-H4, bold vurgu, nav aktif | ~14:1 (AAA) |
-| ink-700 | #3E454D | Body metin | Paragraf, liste, tablo hücresi | ~8.8:1 (AAA) |
-| ink-500 | #6B7380 | Meta, caption | Tarih, yazar, yardımcı metin | ~4.6:1 (AA) |
-| ink-300 | #A5ABB3 | Placeholder, disabled | Input placeholder, disabled buton metin | ~2.2:1 (dekoratif) |
+`typography-*` sınıfları skalanın üstüne semantik bir katman koyar ve sayfa kodunda tercih edilir:
 
-**Not:** ink-300 WCAG AA'yı karşılamaz ve karşılaması gerekmez — yalnızca placeholder ve disabled state için kullanılır, bu kullanımlar WCAG'de kontrast muafiyetindedir.
+`typography-display-2xl` (step-8) · `display-xl` (step-7) · `display-lg` (step-6) · `h1` (step-5) · `h2` (step-3) · `h3` (step-2) · `body-lg` (step-1) · `body-md` (step-0) · `body-sm` (step--1) · `caption` (step--2) · `label` (mono 11px)
 
-#### Brand (INDOLES Mavisi — Logo Rengi)
+#### Ağırlık ve satır aralığı (ADR-017)
 
-Tek marka rengi. Tüm interactive, accent ve vurgu kullanımları bu skaladandır.
+Tek ağırlık: **başlıklar 600**. Önceden taban `h1–h6` kuralı 700, `typography-*`
+sınıfları 500 veriyordu — aynı sayfada iki farklı başlık ağırlığı vardı.
+Lexend'de 700 fazla kalın, 500 ise anasayfanın başlıklarının yanında cılız
+kalıyor.
 
-| Token | Hex | Rol | Kullanım Örneği | Paper Üzerinde Kontrast |
-|-------|-----|-----|-----------------|------------------------|
-| brand-50 | #E8EEF3 | Light hover, selection | Text selection bg, hover tint | — (bg kullanım) |
-| brand-100 | #D1DCE6 | Muted fill | Tag bg, subtle highlight | — (bg kullanım) |
-| brand-200 | #A8BECE | Tint, dekoratif | İllüstrasyon tint, hairline | — (dekoratif) |
-| brand-300 | #839FB5 | Orta tint | Data viz ikincil seri | ~3.1:1 |
-| brand-400 | #6E8EA6 | Orta vurgu | Data viz üçüncü seri | ~3.6:1 |
-| brand-500 | #567B97 | Logo rengi | Icon, border, large text link | ~4.3:1 (AA large text) |
-| brand-600 | #4A6B85 | Koyu vurgu | Visited link, active state | ~5.3:1 (AA) |
-| brand-700 | #3E5C73 | Birincil interaction | Button bg, text link, primary CTA | ~6.8:1 (AA) |
-| brand-800 | #2E4557 | Hover state | Button hover bg | ~8.9:1 (AAA) |
-| brand-900 | #1F3040 | En derin vurgu | Footer bg vurgu, dark accent | ~11.5:1 (AAA) |
+| Sınıf | Satır aralığı | Tracking |
+|---|---|---|
+| `display-2xl` | 0.94 | `--tracking-display` |
+| `display-xl` | 0.98 | `--tracking-display` |
+| `display-lg` | 1.00 | `--tracking-display` |
+| `h1` | 1.02 | `--tracking-heading` |
+| `h2` | 1.08 | `--tracking-heading` |
+| `h3` | 1.15 | `--tracking-title` |
+| `body-lg` | 1.60 | — |
+| `body-md` | 1.68 | — |
+| `body-sm` | 1.60 | — |
 
-**Kritik kontrast kuralı:** brand-500 body text boyutunda (16px ve altı) WCAG AA'yı karşılamaz (~4.3:1 < 4.5:1). Bu yüzden:
-- Body metin içindeki linkler: **brand-700** kullanır (6.8:1)
-- Large text (18px+ veya 14px+ bold): brand-500 kullanılabilir
-- Icon, border, non-text element: brand-500 kullanılabilir (non-text contrast minimum 3:1)
+Başlıklarda sıkı, gövdede açık. Gövdenin eski 1.5–1.55 değeri uzun paragraflarda
+satırları birbirine yapıştırıyordu; anasayfanın lede'leri 1.65'te nefes alıyor
+ve iç sayfaların da aynı ritmi taşıması gerekiyor.
 
-#### Semantic Renkler
+#### Display ölçeği sayfa başlığınındır
 
-Sessiz, editorial tonlarda. Göze vurmayan ama anlamını net ileten renkler. Her semantic kategoride 3 varyant: -50 (arka plan), -500 (ikon/border), -700 (metin).
+Bir iç sayfada **display ölçeğini yalnız `V2PageHeader` kullanır.** Bölüm
+başlıkları `h1`, kart ve liste başlıkları `h2` ölçeğindedir.
 
-| Kategori | Token | Hex | Rol | Paper Kontrast |
-|----------|-------|-----|-----|----------------|
-| **Success** | success-50 | #EDF5F0 | Alert/toast bg | — (bg) |
-| | success-500 | #3F7A56 | Icon, border, large text | ~4.9:1 (AA) |
-| | success-700 | #2D5A3E | Metin | ~7.6:1 (AAA) |
-| **Warning** | warning-50 | #FDF6E8 | Alert/toast bg | — (bg) |
-| | warning-500 | #B88A2F | Icon, border | ~3.0:1 (non-text) |
-| | warning-700 | #8A6720 | Metin | ~5.1:1 (AA) |
-| **Danger** | danger-50 | #FAEDEC | Alert/toast bg | — (bg) |
-| | danger-500 | #A8453D | Icon, border, large text | ~5.7:1 (AA) |
-| | danger-700 | #7D3230 | Metin | ~8.5:1 (AAA) |
-| **Info** | — | = brand-500/700 | Ayrı renk yok, brand kullanılır | (brand ile aynı) |
+Kural bir hatadan doğdu: `h2` etiketli bölüm başlıkları `display-xl` (step-7,
+5.37rem'e kadar) kullanıyordu — yani sayfanın kendi `h1`'inden **büyüktüler**.
+Ağırlık 500'ken bu göze batmıyordu; 600'e çıkınca hiyerarşi tamamen ters
+göründü. 24 kullanım bir basamak indirildi.
 
-**Kritik kontrast kuralı:** warning-500 metin olarak kullanılamaz (~3.0:1 < 4.5:1). Warning metni her zaman warning-700 ile yazılır. warning-500 yalnızca icon ve border için geçerlidir.
+Sayfa başına bir `h1` vardır ve o `V2PageHeader`'ındır.
 
-**Semantic kullanım senaryoları:**
+### Tracking
 
-| Renk | Ne Zaman Kullanılır | Örnek |
-|------|---------------------|-------|
-| Success | Pozitif sonuç, tamamlanmış işlem, pozitif metrik | Form gönderim onayı, ödeme başarılı, "Brief başarıyla gönderildi", vaka çalışmasında maliyet düşüşü (pozitif sonuç) |
-| Warning | Dikkat gerektiren ama kritik olmayan durum | Eksik opsiyonel alan, bekleyen işlem, draft kaydedildi ama gönderilmedi, yaklaşan deadline |
-| Danger | Hata, yıkıcı işlem onayı, gerçek olumsuz durum | Validation hatası, brief silme onayı, başarısız ödeme, sunucu hatası |
-| Info (brand) | Nötr bilgilendirme | Tooltip, yardım metni, "Profiliniz güncellendi", feature duyurusu |
+| Token | Değer | Nerede |
+|---|---|---|
+| `tracking-display` | −0.035em | step-6 ve üstü |
+| `tracking-heading` | −0.028em | step-3…step-5 |
+| `tracking-title` | −0.02em | h3, alıntı |
+| `tracking-label` | +0.18em | mono etiketler, eyebrow |
 
-**Dikkat:** Vaka çalışmalarında "maliyet %18 düştü" veya "CAC %47 azaldı" pozitif sonuçlardır — success rengi alır, danger değil. Danger yalnızca kullanıcının dikkatini çekmesi gereken gerçek olumsuz durumlar içindir.
+Kural: punto büyüdükçe tracking sıkışır, mono etiketlerde açılır.
 
-### Tek Renk Disiplini
+### İtalik vurgu — `accent-em`
 
-Brand accent veya ikinci marka rengi yoktur. Bu kısıtlamanın üç gerekçesi var:
+Başlıkların içinde ikinci bir ses: Lexend italik, weight 400, `teal-700`. Bir başlıkta **en fazla bir** `accent-em` bloğu bulunur; iki tane vurgu değil gürültü üretir. Dark yüzeyde `accent-em-gold` kullanılır.
 
-1. **Editorial netlik:** Tek renk, okuyucunun dikkatini yönetmeyi kolaylaştırır — brand mavisi gördüğünde "bu interactive veya vurgulanmış" bilir
-2. **Renk körlüğü uyumu:** Tek renk + nötrler + semantic (anlam taşıyan) renkler, renk körlüğü olan kullanıcılar için doğal olarak daha erişilebilir
-3. **Bakım kolaylığı:** Daha az renk = daha az tutarsızlık riski, daha kolay dark mode geçişi (ileride)
+---
 
-### Data Visualization Renk Disiplini
+## 3. Renk
 
-Vaka çalışmaları grafikleri, dashboard metrikleri ve veri görselleri tek renk disiplinini korur. Çoklu veri serisi gerektiğinde:
+### Teal — tek marka skalası
 
-| Seri | Token | Kullanım |
-|------|-------|----------|
-| Birincil | brand-500 | Ana veri serisi |
-| İkincil | brand-300 | Karşılaştırma serisi |
-| Üçüncül | brand-700 | Vurgu serisi |
-| Dördüncül | ink-700 | Referans çizgisi |
-| Beşincil | ink-500 | Gri referans |
+Logo renginden (`teal-700` = **#2C5566**) türetilmiş 11 basamak. Tailwind'de hem `teal-*` hem `brand-*` adıyla yayımlanır (aynı değerler; `brand-*` v1'den gelen çağrı yerlerinin uyumluluğu için, yeni kod `teal-*` kullanır).
 
-Ek renk kategorisi eklenmez. Gerçekten anlamsal ayrıştırma gerekiyorsa (pozitif/negatif metrik) semantic renkler kullanılır: success-500 (pozitif), danger-500 (negatif).
+| Token | Hex | Rol |
+|---|---|---|
+| `teal-50` | #F5F8FA | Bölüm zemini, etiket arka planı |
+| `teal-100` | #EAF1F4 | Kart zemini, gradient ucu |
+| `teal-200` | #D4E2E8 | Görsel zemin |
+| `teal-300` | #AEC7D1 | Diyagram ikincil |
+| `teal-400` | #7AA4B3 | Scrollbar hover, dalga katmanı |
+| `teal-500` | #4F8294 | Liste işareti, dalga katmanı |
+| **`teal-700`** | **#2C5566** | **Logo · birincil interaction · eyebrow · accent-em · timeline** |
+| `teal-800` | #234959 | Koyu vurgu |
+| `teal-900` | #1A3A47 | Vizyon zemini (üst) |
+| `teal-950` | #0F1C23 | Vizyon zemini (alt), portre bloğu |
 
-### Selection ve Hover State Renkleri
+### Gold — tek accent
 
-| State | Değer | Kullanım |
-|-------|-------|----------|
-| Text selection | brand-50 bg (#E8EEF3) | `::selection { background: var(--brand-50); }` |
-| Link hover | brand-800 text | Body link hover'da brand-700 → brand-800 |
-| Button hover (primary) | brand-800 bg | brand-700 → brand-800 |
-| Row hover (tablo) | surface-3 bg | Tablo satırı hover |
-| Card hover | elevation-2 shadow | Kart yükselme efekti |
+| Token | Hex | Rol |
+|---|---|---|
+| `gold-400` | #C9A881 | Dark yüzeyde eyebrow, italik vurgu, footer imzası |
+| `gold-500` | #B8956A | Teknik illüstrasyonlarda ikincil seri |
+| `gold-700` | #8F7142 | Semantic warning metni |
+
+**Gold light zeminde CTA rengi değildir.** Light zeminin birincil aksiyonu siyahtır. Gold'un işi dark yüzeyde sıcaklık ve tek bir vurgu noktası üretmektir.
+
+### Nötrler
+
+| Token | Hex | Rol |
+|---|---|---|
+| `bg` | #FAFAF7 | Ana tuval |
+| `bg-pure` / `surface-1` | #FFFFFF | Kart, panel |
+| `surface-2` | #F5F8FA | Alternatif bölüm |
+| `surface-3` | #EAF1F4 | Hover, elevated |
+| `ink-900` | #000000 | Yapısal siyah yüzey (topbar, footer, birincil buton) |
+| `ink-800` | #0A0A0A | Başlık metni |
+| `ink-700` | #1A1A1A | Güçlü gövde, nav link |
+| `ink-600` | #4A5A64 | Gövde metni |
+| `ink-500` | #6B7880 | Meta, caption |
+| `ink-400` | #8F9AA2 | Sessiz meta |
+| `ink-300` | #B8C0C6 | Placeholder, pasif ok |
+| `ink-200` | #E2E6E9 | Kenarlık, ayraç |
+| `ink-100` | #EEF1F3 | İnce ayraç |
+
+**Siyah kuralı:** `ink-900` bir *yüzey* rengidir. Okuma metni `ink-600`, başlık `ink-800/900` — ama gövde paragrafı asla saf siyah değildir.
+
+### Kontrast
+
+| Kombinasyon | Oran | Durum |
+|---|---|---|
+| ink-800 / bg | ~19:1 | AAA |
+| ink-600 / bg | ~7.4:1 | AAA |
+| ink-500 / bg | ~4.8:1 | AA |
+| teal-700 / bg | ~8.2:1 | AAA |
+| white / teal-900 | ~11:1 | AAA |
+| gold-400 / teal-950 | ~7.6:1 | AAA |
+| ink-300 / bg | ~2.3:1 | Yalnız placeholder/disabled — muaf |
+
+Dark bölümlerde (Vision, Footer, services kapanış kartı) `color-scheme: dark` set edilir.
+
+### Semantic
+
+`success` #3F7A56 · `warning` #B8956A (gold ile aynı) · `danger` #A8453D. Her biri 50/500/700 varyantlı. `info` ayrı renk almaz — teal kullanılır.
 
 ---
 
 ## 4. Spacing ve Grid
 
-Spacing sistemi 4px base unit üzerine kurulur. Her spacing değeri 4'ün katıdır — rastgele piksel değeri kullanılmaz. Grid sistemi 12-kolon asimetrik editorial yapıdadır — simetrik kutu düzeni değil.
+4px tabanlı skala; Tailwind'in varsayılan `--spacing` çarpanıyla birebir örtüşür, ayrı utility yayımlanmaz.
 
-### Spacing Scale
+`4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96 · 128 · 192`
 
-| Token | Değer | Piksel | Kullanım |
-|-------|-------|--------|----------|
-| spacing-0 | 0 | 0px | — |
-| spacing-1 | 0.25rem | 4px | Hairline offset, ince ayar |
-| spacing-2 | 0.5rem | 8px | Icon-text gap, tight padding |
-| spacing-3 | 0.75rem | 12px | Input padding, compact gap |
-| spacing-4 | 1rem | 16px | Card inner padding, base gap |
-| spacing-5 | 1.25rem | 20px | Form field gap |
-| spacing-6 | 1.5rem | 24px | Section iç padding, standart gap |
-| spacing-8 | 2rem | 32px | Gutter, bölüm arası gap |
-| spacing-10 | 2.5rem | 40px | Section iç boşluk |
-| spacing-12 | 3rem | 48px | Section padding (mobile) |
-| spacing-16 | 4rem | 64px | Section padding (desktop) |
-| spacing-20 | 5rem | 80px | Büyük bölüm arası boşluk |
-| spacing-24 | 6rem | 96px | Hero padding |
-| spacing-32 | 8rem | 128px | Major section arası |
-| spacing-40 | 10rem | 160px | Sayfa üst/alt padding |
-| spacing-48 | 12rem | 192px | Maksimum whitespace |
+### Bölüm ritmi
 
-**Spacing disiplini:** "Normal" spacing = spacing-2 (8px). Interface'i crowd etmeyen ama kalabalık da yapmayan temel birim. Liste elemanları arasında divider çizgisi değil spacing ile ayrıştırma yapılır (zero-divider policy). İstisna: hairline rules bölüm ayraçlarında editorial kural olarak kullanılır (bkz. Bölüm 6).
+| Ritim | Değer | Nerede |
+|---|---|---|
+| Sıkı | 96px | Marquee bandı, sektör grid |
+| Temel | 140px | Standart içerik bölümü |
+| Geniş | 180px | Manifesto, kapanış CTA |
 
-### Grid Sistemi
+### Container
 
-| Parametre | Değer |
-|-----------|-------|
-| Kolon sayısı | 12 |
-| Max-width (container) | 1280px |
-| Gutter | 32px (spacing-8) |
-| Margin (mobile) | 16px (spacing-4) |
-| Margin (tablet) | 24px (spacing-6) |
-| Margin (desktop) | auto (centered) |
+| Token | Genişlik | Padding | Nerede |
+|---|---|---|---|
+| `.ds-container` | 1440px | `clamp(20px, 5vw, 72px)` | Tüm standart bölümler ve iç sayfalar |
+| `.ds-container-wide` | 1680px | `clamp(20px, 4vw, 56px)` | Nav, services track başlığı |
+| `--container-prose` | 1120px | — | Manifesto, marquee |
+
+Kural: aynı sayfadaki her bölüm aynı sol kenardan başlar. Karışık container kullanımı yasaktır.
 
 ### Breakpoints
 
-| Token | Değer | Yaklaşım |
-|-------|-------|----------|
-| mobile | 375px | Default (mobile-first) |
-| tablet | 768px | min-width media query |
-| desktop | 1280px | min-width media query |
-| wide | 1536px | min-width media query |
+`mobile 375` · `tablet 768` · `desktop 1280` · `wide 1536`
 
-### Asimetrik Layout Pattern'ları
-
-Editorial tasarımın simetrik kutu düzeninden ayrıldığı nokta asimetrik grid kullanımıdır. Asimetri rastgele değil, kasıtlıdır — her pattern belirli bir iletişim amacı taşır.
-
-| Pattern | Kolon Dağılımı | Kullanım | Gerekçe |
-|---------|----------------|----------|---------|
-| Hero split | 8/4 | Hero section, büyük başlık + yan görsel/metrik | Sol geniş → başlık dominantlığı |
-| Editorial split | 7/5 | İçerik + yan detay, metin + vaka özeti | Dengesizlik dikkat çeker, statik hissettirmez |
-| Full-width | 12/12 | Referans logoları, CTA bandı, tam-genişlik section | Belirli section'larda nefes |
-| Prose centered | 6 (ortalanmış) | Journal yazısı, manifesto, uzun editorial | max-width 680px, okunabilirlik optimumu |
-
-**Prose max-width kuralı:** Uzun metin blokları (journal, manifesto, hizmet detay prose'u) 680px genişliği aşmaz. Bu editorial kitap standardıdır — 60-75 karakter/satır okunabilirliğin altın aralığıdır. Tailwind'de: `max-w-prose` (varsayılan 65ch) veya custom `max-w-[680px]`.
-
-**Sol-dar sağ-geniş prensibi:** Editorial section'larda sol kolon dar (etiket, numara, meta), sağ kolon geniş (içerik). Bu pattern Stitch belgesinden taşınmıştır — ama "her zaman" değil, "editorial bölümlerde" geçerlidir. Hero'da ters dönebilir (başlık solda geniş, görsel sağda dar).
+Ek bir davranış eşiği: **900px** — scroll-bağlı yatay track ve sticky timeline bu değerin altında kapanır ve dikey düzene döner.
 
 ---
 
 ## 5. Radius ve Elevation
 
-Köşe yuvarlaklığı ve gölge sistemi, editorial-minimalist dilin fiziksel katman hissini oluşturur. Keskin köşeler soğuk, aşırı yuvarlak köşeler çocuksu — INDOLES'in radius'u ikisinin arasında, hafif yumuşatılmış ama disiplinli.
+### Radius
 
-### Radius Scale
+`sm 2px` · `md 4px` · `lg 6px` · `xl 8px` · `2xl 10px`
 
-| Token | Değer | Kullanım |
-|-------|-------|----------|
-| radius-none | 0 | Hairline rule, tam-kenar section |
-| radius-sm | 4px | Chip, small badge, tag |
-| radius-md | 8px | Button, input, small card, toast |
-| radius-lg | 12px | Card, modal, dropdown |
-| radius-xl | 16px | Hero card, featured section |
-| radius-2xl | 24px | Nadiren — özel kullanım (büyük featured card) |
-| radius-full | 9999px | Avatar, pill badge, toggle |
+v2 radius'ları kasıtlı olarak küçüktür. Büyük radius "yumuşak uygulama kutusu" hissi verir; INDOLES basılı bir kenar arar. 10px üstü radius yalnız tam yuvarlak elemanlarda (nokta, avatar halkası) kullanılır.
 
-### Elevation Sistemi (Soft Layering)
+### Elevation
 
-Gölge sistemi pure black shadow kullanmaz. Tüm gölgeler ink-900 (#1A1F24, sıcak koyu) veya ink-500 (#6B7380) tonlarındadır — soğuk siyah değil, kağıt üzerindeki doğal gölge.
+Her seviye **en az iki katman** taşır: yakın kontak gölgesi + uzak ambient gölge. Ambient katman nötr gri değil **teal tonludur** (`rgb(44 85 102 / …)`) — yüzey markanın rengine oturur.
 
-| Token | Tanım | CSS Değeri | Kullanım |
-|-------|-------|-----------|----------|
-| elevation-0 | Düz yüzey | Yok (ne shadow ne border) | Default surface, inline element |
-| elevation-1 | Ghost hairline | `inset 0 0 0 1px rgba(107,115,128, 0.08)` | Subtle kart ayrımı, liste öğesi |
-| elevation-2 | Soft card | `0 8px 16px -2px rgba(26,31,36, 0.04)` | Standard kart, dropdown |
-| elevation-3 | Floating | `0 16px 32px -4px rgba(26,31,36, 0.06), inset 0 0 0 1px rgba(107,115,128, 0.12)` | Modal, floating panel, featured card |
-| elevation-4 | Ambient nav | elevation-2 + `backdrop-filter: blur(8px)` | Sticky header, floating nav |
-
-**Kurallar:**
-- Pure black (`rgba(0,0,0,...)`) shadow kesinlikle yasak — ink-900 veya ink-500 tonları kullanılır
-- Glassmorphism yasak — backdrop-blur maksimum 8px (elevation-4), 24px veya üzeri kesinlikle yok
-- Elevation 4'ün `backdrop-blur: 8px` değeri performans sınırıdır — bu değerin üzerine çıkmak Safari/iOS'ta jank yaratır
-- Kart gölgeleri hover'da bir üst elevation'a geçebilir (elevation-1 → elevation-2) — bu tek izin verilen gölge animasyonu
-
----
-
-## 6. Gizli Zenginlik Katmanları (Editorial Detay)
-
-Minimalizm "hiçbir şey yok" demek değildir. Editorial tasarımın gücü, dikkatli bakıldığında ortaya çıkan detaylardadır. Bu katmanlar ilk bakışta görünmez ama genel deneyime derinlik, zanaat hissi ve prestij katar.
-
-### Hairline Rules
-
-İnce çizgiler bölüm ayraçları olarak kullanılır — listelerde değil, editorial section geçişlerinde.
-
-```css
-.hairline {
-  border-top: 1px solid rgba(107, 115, 128, 0.12); /* ink-500 @ 12% */
-}
-```
-
-**Nerede:** Major section'lar arası (hero → referanslar, referanslar → video, vb.), footer üstü, sidebar bölüm ayraçları.
-
-**Nerede değil:** Liste öğeleri arasında (zero-divider policy — spacing ile ayrıştırma), tablo satırları arasında (yalnızca thead altında), kart içi bölümlerde.
-
-### Drop Cap
-
-Bölüm 2'de tanımlanan tipografi kuralı burada görsel bağlamıyla tamamlanır.
-
-- **Boyut:** 3-4 satır yüksekliğinde (font-size: ~3.5em)
-- **Font:** Fraunces, opsz 9 (SuperSoft), weight 400
-- **Renk:** ink-900 — body metinden ayrışmaz, sadece boyutla dikkat çeker
-- **Float:** left, sağında 0.08em padding
-- **Kullanım yerleri:** Journal yazıları, manifesto, Hakkımızda editorial bölümleri
-- **Kullanılmayan yerler:** Hizmet sayfaları, paket detay, form sayfaları, araç sonuçları
-
-### Marginalia
-
-Desktop genişliğinde (1280px+) ana içerik bloğunun yanında dar bir kolonda yer alan yardımcı bilgi katmanı: anahtar cümle, istatistik, yazar notu veya çapraz referans.
-
-**Desktop davranışı (≥1280px):**
-- Prose centered (6 kolon) layout'ta: sağ veya sol 2-3 kolonluk alanda
-- Editorial split (7/5) layout'ta: dar kolonda inline olarak
-- Tipografi: caption boyutu (0.8125rem), ink-500 rengi
-- Alignment: prose satır yüksekliğine hizalı (optik olarak ilgili paragrafın karşısında)
-
-**Mobile/tablet davranışı (<1280px):**
-- Normal prose akışına düşer
-- Subtle farklılaşma: surface-2 bg, radius-md, spacing-4 padding ile blockquote benzeri görünüm
-- Tam genişlik, ana akış içinde
-
-### Scroll-Linked Revelation
-
-Major bölüm girişlerinde sayfa aşağı kaydırıldığında öğeler nazikçe görünür hale gelir. Agresif değil, fark edilir ama baskın değil.
-
-| Parametre | Değer |
-|-----------|-------|
-| Animasyon | fade-in + translate-up |
-| Translate mesafesi | 8-16px (öğe boyutuna göre) |
-| Süre | 800ms |
-| Easing | `cubic-bezier(0.25, 0.1, 0.25, 1)` (editorial easing) |
-| Tetikleme | Viewport'un %20'sine girdiğinde (Intersection Observer) |
-| Stagger | Aynı section'daki öğeler 100ms aralıkla (maksimum 5 öğe) |
-
-**prefers-reduced-motion davranışı:** Tüm translate ve süre devre dışı kalır. Öğe anında tam opacity'de görünür (opacity: 0 → 1, süre: 0ms). Animasyon yok, içerik kaybı yok.
-
-### Pullquote
-
-Uzun prose içinde öne çıkarılmış alıntı veya vurgu cümlesi.
-
-| Parametre | Değer |
-|-----------|-------|
-| Font | Fraunces, opsz 9 (SuperSoft) |
-| Boyut | body-lg (1.25rem) veya h3 eşdeğeri, bağlama göre |
-| Weight | 400 (italic değil, regular) |
-| Renk | ink-900 |
-| Sol border | 2px solid brand-500 |
-| Sol padding | spacing-6 (24px) |
-| Margin | spacing-12 (48px) üst/alt |
-
-### Blockquote (Standart Alıntı)
-
-Prose içindeki düzenli alıntılar için — pullquote'dan daha mütevazı.
-
-| Parametre | Değer |
-|-----------|-------|
-| Font | Inter (body akışında kalır) |
-| Boyut | body-md (1rem) |
-| Renk | ink-700 |
-| Sol border | 2px solid brand-200 |
-| Sol padding | spacing-6 (24px) |
-| Stil | Italic |
-
----
-
-## 7. Motion Prensipleri
-
-Hareket, INDOLES'in tasarım dilinde bir lüks değil araçtır. Doğru kullanıldığında kullanıcıya bağlam verir (bu nereden geldi, nereye gidiyor), yanlış kullanıldığında dikkat çalar ve performans düşürür. Framer Motion birincil animasyon kütüphanesidir.
-
-### Timing Tokens
-
-| Token | Süre | Kullanım |
-|-------|------|----------|
-| duration-micro | 150ms | Button hover, icon rotation, tooltip appear/disappear |
-| duration-interaction | 300ms | Accordion open/close, dropdown, modal enter/exit, tab geçişi |
-| duration-editorial | 800ms | Scroll-linked reveal, hero entrance, page section animate-in |
-
-### Easing Tokens
-
-| Token | Değer | Kullanım |
-|-------|-------|----------|
-| ease-out | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Giren öğeler (modal appear, dropdown open) |
-| ease-in | `cubic-bezier(0.4, 0.0, 1, 1)` | Çıkan öğeler (modal dismiss, toast exit) |
-| ease-in-out | `cubic-bezier(0.4, 0.0, 0.2, 1)` | Hareket eden öğeler (slide, resize) |
-| ease-editorial | `cubic-bezier(0.25, 0.1, 0.25, 1)` | Scroll-linked reveal, hero animasyonları |
-
-### Neyi Animate Ederiz
-
-| Öğe | Animasyon | Timing | Easing |
-|-----|-----------|--------|--------|
-| Button hover | color + background-color | micro (150ms) | ease-out |
-| Button ok ikonu (→) | translate-x: 2px | micro (150ms) | ease-out |
-| Accordion panel | height + opacity | interaction (300ms) | ease-out |
-| Dropdown menu | opacity + scale(0.95→1) + translateY(-4px→0) | interaction (300ms) | ease-out |
-| Modal | opacity + scale(0.98→1) | interaction (300ms) | ease-out |
-| Toast | translateY(16px→0) + opacity | interaction (300ms) | ease-out |
-| Tooltip | opacity + translateY(4px→0) | micro (150ms) | ease-out |
-| Scroll reveal | opacity + translateY(8-16px→0) | editorial (800ms) | ease-editorial |
-| Kart hover | box-shadow (elevation geçişi) | micro (150ms) | ease-out |
-| Page route transition | opacity | interaction (300ms) | ease-in-out |
-
-### Neyi Animate Etmeyiz
-
-| Öğe | Neden |
-|-----|-------|
-| Text color (prose içinde) | Okunabilirliği bozar, dikkat dağıtır |
-| Layout shift (grid kolon değişimi) | CLS (Cumulative Layout Shift) — Core Web Vitals cezası |
-| Font size değişimi | Reflow tetikler, performans maliyeti yüksek |
-| Background pattern/texture | Dikkat çalar, editorial dille çelişir |
-| Veri yükleme (spinner) | Skeleton kullan, spinner değil — skeleton mevcut layout'u korur |
-| Infinite loop animasyon | Dikkat çalar, erişilebilirlik sorunu — tek istisna: loading skeleton pulse |
-
-### prefers-reduced-motion Davranışı
-
-```css
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-```
-
-Tüm motion süreleri pratikte sıfıra düşer. Scroll-linked reveal'lar anında görünür (opacity: 0 → 1, translate yok). Sayfa geçişleri anında olur. Tek istisna: loading skeleton'ın pulse animasyonu korunabilir (kullanıcıya "yükleniyor" sinyali vermek için gerekli) ama süre artırılır (2s → 4s).
-
----
-
-## 8. İkonografi ve Görsel Dil
-
-İkonlar ve görseller editorial-minimalist dilin sessiz ama etkili araçlarıdır. Kural basit: her görsel öğe bir iş yapar, dekorasyon için kullanılmaz.
-
-### İkon Kütüphanesi ve Stili
-
-| Parametre | Değer | Gerekçe |
-|-----------|-------|---------|
-| Kütüphane | Lucide | shadcn/ui default, tutarlı stroke, zengin set, aktif bakım |
-| Stroke weight | Light (1.5px) | Inter Medium ile optik uyum, Thin (1px) çok zayıf, Regular (2px) çok kalın |
-| Fill kullanımı | Yasak | Sadece outline — filled ikonlar editorial dille çelişir |
-| Boyut skalası | 16 / 20 / 24 / 32 | 16: inline metin yanı, 20: button içi, 24: standart, 32: hero/feature |
-| Renk | Bağlama göre ink veya brand | Metin yanında ink-700, interactive'de brand-500/700 |
-
-### Fotoğraf Politikası
-
-**Stok fotoğraf kesinlikle yasaktır.** Stok fotoğraf prestijli bir marka için en büyük itibar riskidir — "sahte" hissi verir, herkesin kullandığı görüntüler markayı jenerikleştirir.
-
-Fotoğraf kullanılacaksa:
-- **Özel çekim:** Dokümantasyon/reportaj stili, sahne kurgulanmamış, doğal aydınlatma
-- **Post-production:** Doygunluk düşük (editorial ton), kontrast hafif artırılmış, sıcak ton
-- **Konu:** Gerçek çalışma ortamı, gerçek insanlar, gerçek süreçler — "mutlu iş insanı stok" değil
-- **Alternatif (fotoğraf yokken):** Soyut geometrik illüstrasyon veya tipografik çözüm — kötü stok fotoğraftan iyidir
-
-### İllüstrasyon Kuralları
-
-Abstract, minimal, geometrik. Brand paletinden: brand-200/300 + ink-500 tonlarında.
-
-| Kural | Açıklama |
-|-------|----------|
-| Palet | brand-200, brand-300, ink-500 — diğer renkler yok |
-| Stil | Geometrik, flat, tek kalınlık çizgi (ikon stiliyle uyumlu) |
-| Detay seviyesi | Düşük — kavramı iletecek minimum çizgi |
-| İnsan figürü | Yok — soyut formlar, geometrik şekiller |
-| 3D | Yok — flat only |
-
-### Kesin Yasaklar
-
-| Yasak | Gerekçe |
-|-------|---------|
-| Gradient (CTA, arka plan, hiçbir yerde) | Flat disiplin kararı, gradient 2018-2022 trend'i, editorial dille çelişir |
-| Glassmorphism | Performans yükü (Safari/iOS), 2020-2022 trend'i, editorial değil |
-| Particle flow | Performans yükü, 2020-2022 trend'i, dikkat çalar |
-| Pure white (#FFFFFF) arka plan | paper (#FBFAF7) kullanılır — saf beyaz soğuk ve dijital hisseder |
-| Stok fotoğraf | Prestij kırar, jenerik hisseder |
-| Emoji (dekoratif) | CLAUDE.md kuralı — yalnızca işlevsel ikon olarak |
-
----
-
-## 9. Component Tasarım Prensipleri
-
-INDOLES'in component sistemi shadcn/ui üzerine kuruludur. shadcn/ui, dependency değil pattern kaynağıdır — component'ler projeye kopyalanır ve INDOLES'in token'larıyla özelleştirilir. Bu yaklaşım tam kontrol sağlar.
-
-### Token → Tailwind → Component Akışı
-
-```
-lib/design/tokens.ts  →  tailwind.config.ts  →  components/ui/*.tsx
-     (kaynak)              (config)               (kullanım)
-```
-
-1. `lib/design/tokens.ts` tüm değerleri type-safe olarak tanımlar
-2. `tailwind.config.ts` bu değerleri import ederek Tailwind theme'ini yapılandırır
-3. Component'ler Tailwind class'larını kullanır — literal değer (`text-[#567B97]`) yasak, token referansı (`text-brand-700`) zorunlu
-4. Yeni bir token gerekirse: önce `tokens.ts` güncelle, sonra Tailwind config'e ekle, sonra kullan. Sıralama tersine çevrilmez.
-
-Tailwind v4 entegrasyonunun teknik detayları (CSS-first config, `@theme` direktifi) `05-tech-architecture.md`'de tanımlanır.
-
-### Component Organizasyonu
-
-```
-components/ui/
-├── button.tsx
-├── input.tsx
-├── select.tsx
-├── checkbox.tsx
-├── radio.tsx
-├── toggle.tsx
-├── textarea.tsx
-├── card.tsx
-├── dialog.tsx
-├── toast.tsx
-├── tooltip.tsx
-├── badge.tsx
-├── avatar.tsx
-├── breadcrumb.tsx
-├── tabs.tsx
-├── table.tsx
-├── alert.tsx
-├── separator.tsx         # hairline rule component
-├── skeleton.tsx
-└── editorial/
-    ├── drop-cap.tsx      # editorial-only component'ler
-    ├── pullquote.tsx
-    └── marginalia.tsx
-```
-
-`editorial/` alt dizini INDOLES'e özgü editorial component'leri barındırır — shadcn/ui'da karşılığı yoktur.
-
-### Button Varyantları
-
-Her butonun temel kuralı: **sentence case** (All Caps kesinlikle yasak), sağ ok işareti (`→`) primary ve secondary'de.
-
-#### Primary Button
-
-| Parametre | Değer |
-|-----------|-------|
-| Background | brand-700 |
-| Text | paper |
-| Border | Yok |
-| Radius | radius-md (8px) |
-| Padding | spacing-3 (12px) vertical, spacing-6 (24px) horizontal |
-| Height | 44px (touch-friendly minimum) |
-| Font | Inter, body-md (1rem), weight 500 |
-| İkon | Sağda `→` oku |
-| Hover | bg → brand-800, ok `translate-x: 2px` (150ms ease-out) |
-| Active | bg → brand-900 |
-| Focus | ring-2 ring-brand-500 ring-offset-2 ring-offset-paper |
-| Disabled | bg → ink-300, text → paper, cursor: not-allowed |
-
-```tsx
-// Kullanım örneği
-<Button variant="primary">Görüşme Rezerve Et →</Button>
-```
-
-#### Secondary Button
-
-| Parametre | Değer |
-|-----------|-------|
-| Background | transparent |
-| Text | brand-700 |
-| Border | 1px solid brand-500 |
-| Radius | radius-md (8px) |
-| Hover | bg → brand-50, ok `translate-x: 2px` |
-| Active | bg → brand-100 |
-
-#### Tertiary Button
-
-| Parametre | Değer |
-|-----------|-------|
-| Background | transparent |
-| Text | ink-700 |
-| Border | Yok |
-| Underline | brand-500 @ 40% opacity |
-| Hover | underline → brand-500 @ 100% opacity |
-| Active | text → ink-900 |
-
-#### Ghost Button
-
-| Parametre | Değer |
-|-----------|-------|
-| Background | transparent |
-| Text | ink-500 |
-| Border | Yok |
-| Hover | bg → surface-2 |
-| Kullanım | Kapatma (X), ikincil aksiyonlar, toolbar |
-
-#### Destructive Button
-
-| Parametre | Değer |
-|-----------|-------|
-| Background | transparent |
-| Text | danger-700 |
-| Border | 1px solid danger-500 |
-| Hover | bg → danger-50 |
-| Kullanım | Brief silme, hesap kapatma onayı |
-
-### Input Varyantları
-
-| Parametre | Değer |
-|-----------|-------|
-| Border | 1px solid ink-300 |
-| Radius | radius-md (8px) |
-| Height | 44px |
-| Padding | spacing-3 (12px) horizontal |
-| Font | Inter, body-md |
-| Label | Inter, label boyutu (0.75rem), ink-700, weight 500 |
-| Placeholder | Inter, body-md, ink-300 |
-| Focus | ring-2 ring-brand-500 ring-offset-2 ring-offset-paper |
-| Error | border → 1px solid danger-500, altında danger-700 metin |
-| Disabled | bg → surface-1, border → ink-300 @ 50%, text → ink-300 |
-
-### Card Varyantları
-
-| Varyant | Background | Radius | Elevation | Kullanım |
-|---------|-----------|--------|-----------|----------|
-| Default | surface-2 | radius-lg (12px) | elevation-1 | Standart kart (hizmet, paket, danışman) |
-| Elevated | paper | radius-lg (12px) | elevation-2 | Öne çıkan kart (featured case study) |
-| Featured | paper | radius-xl (16px) | elevation-3 | Hero kart, büyük vaka çalışması |
-
-Kart hover'da bir üst elevation'a geçer (elevation-1 → elevation-2), 150ms ease-out.
-
----
-
-## 10. Accessibility (WCAG 2.2 AA)
-
-Erişilebilirlik, özellik değil gerekliliktir. INDOLES'in tasarım sistemi WCAG 2.2 AA seviyesini taban olarak alır — her renk kombinasyonu, her interactive element ve her hareket bu standarda uyar.
-
-### Kontrast Tablosu
-
-Tüm metin + arka plan kombinasyonlarının kontrast oranları:
-
-| Kombinasyon | Kontrast | WCAG AA | Kullanım Notu |
-|-------------|----------|---------|---------------|
-| ink-900 on paper | ~14:1 | AAA | Başlıklar, bold vurgu |
-| ink-700 on paper | ~8.8:1 | AAA | Body metin, tablo |
-| ink-500 on paper | ~4.6:1 | AA | Caption, meta, yardımcı metin |
-| ink-300 on paper | ~2.2:1 | Fail | Yalnızca placeholder/disabled (muaf) |
-| brand-700 on paper | ~6.8:1 | AA | Body link, primary button text | 
-| brand-500 on paper | ~4.3:1 | AA-large | Yalnızca large text (≥18px), icon, border |
-| paper on brand-700 | ~6.8:1 | AA | Primary button üzerindeki metin |
-| paper on brand-800 | ~8.9:1 | AAA | Hover state button metin |
-| success-700 on paper | ~7.6:1 | AAA | Success metin |
-| success-500 on paper | ~4.9:1 | AA | Success icon, large text |
-| warning-700 on paper | ~5.1:1 | AA | Warning metin |
-| warning-500 on paper | ~3.0:1 | Fail-text | Yalnızca icon/border (non-text 3:1 OK) |
-| danger-700 on paper | ~8.5:1 | AAA | Error metin |
-| danger-500 on paper | ~5.7:1 | AA | Error icon, border |
-| success-700 on success-50 | ~7.2:1 | AAA | Alert box içi metin |
-| warning-700 on warning-50 | ~5.0:1 | AA | Alert box içi metin |
-| danger-700 on danger-50 | ~8.0:1 | AAA | Alert box içi metin |
-
-**Uygulama kuralı:** Yeni bir renk kombinasyonu kullanılmadan önce kontrast oranı bu tabloya eklenir ve AA doğrulaması yapılır.
-
-### Focus State Tasarımı
-
-Tüm interactive element'ler (button, input, link, select, checkbox, radio, tab, accordion trigger) için:
-
-```css
-:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 2px var(--paper),       /* ring-offset: 2px, paper rengi */
-    0 0 0 4px var(--brand-500);   /* ring: 2px, brand rengi */
-}
-```
-
-Tailwind karşılığı: `focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-paper`
-
-| Parametre | Değer | Gerekçe |
-|-----------|-------|---------|
-| Tetikleme | `focus-visible` | Yalnızca keyboard nav'da görünür, mouse click'te gizli |
-| Ring kalınlık | 2px | WCAG 2.2 minimum 1.5px, 2px güvenli marj |
-| Ring renk | brand-500 | Marka tutarlılığı, paper üzerinde yeterli görünürlük |
-| Ring offset | 2px | Ring'i element kenarından ayırarak görünürlük artırır |
-| Offset renk | paper (#FBFAF7) | Ring ile element arasında kağıt rengi boşluk |
-
-Focus ring tüm component'lerde tutarlıdır — component bazlı farklılaşma yoktur. Destructive button'da bile brand-500 ring kullanılır (focus != semantic anlam).
-
-### Keyboard Navigation
-
-| Öğe | Klavye Davranışı |
-|-----|-----------------|
-| Button | Enter veya Space ile tetikleme |
-| Link | Enter ile tetikleme |
-| Dropdown/Select | Arrow keys ile seçenekler arası, Enter ile seçim, Escape ile kapatma |
-| Modal/Dialog | Escape ile kapatma, Tab focus'u modal içinde kilitli (focus trap) |
-| Accordion | Enter veya Space ile aç/kapa, Arrow keys ile accordion'lar arası |
-| Tab group | Arrow keys ile tablar arası, Tab ile tab panel'e geçiş |
-| Toast | Otomatik kaybolma dışında, focus'lanabilir değil (aria-live ile duyurulur) |
-
-### Semantic HTML ve ARIA
-
-| Prensip | Kural |
-|---------|-------|
-| Semantic HTML önce | `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, `<header>`, `<footer>` — ARIA landmark yerine native element |
-| Heading hiyerarşisi | Sıralı: H1 → H2 → H3, atlama yok (H1 → H3 yasak) |
-| Button vs. Link | Navigasyon = `<a>`, aksiyon = `<button>` — `<div onClick>` yasak |
-| Görsel metin | Her `<img>` için anlamlı `alt` veya dekoratif ise `alt=""` + `role="presentation"` |
-| Form | Her input'un `<label>` ile ilişkilendirilmesi zorunlu (`htmlFor` + `id`) |
-| Live region | Toast ve dinamik içerik için `aria-live="polite"`, acil hatalar için `aria-live="assertive"` |
-| Skip link | Sayfa başında gizli "İçeriğe atla" linki — keyboard kullanıcılar için |
-
-### Renk Körlüğü Uyumu
-
-Tek renk disiplini (Bölüm 3) doğal olarak renk körlüğü dostudur: bilgi asla yalnızca renkle iletilmez. Ek kurallar:
-
-- Grafiklerde renk + pattern (çizgi stili, dolgu pattern'ı) birlikte kullanılır
-- Semantic renklerde ikon + metin birlikte: sadece kırmızı border yetmez, yanında hata ikonu + hata metni gerekir
-- Success/danger ayrımı yalnızca renk ile değil, ikon (check mark / X) ile de yapılır
-- Data visualization'da brand scale'in farklı tonları (500, 300, 700) yeterli açıklık farkı sağlar — ek renk kategorisi gerekmez
-
-### prefers-reduced-motion
-
-Bölüm 7'de detaylandırıldı. Özet: tüm motion süreleri pratikte sıfıra düşer, scroll reveal'lar anında görünür, skeleton pulse korunabilir.
-
-### prefers-color-scheme
-
-Faz 1'de dark mode yoktur. `prefers-color-scheme: dark` algılansa bile light tema uygulanır. Kullanıcıya "dark mode ileride gelecek" gibi bir bildirim gösterilmez — sessizce light kalır.
-
----
-
-## 11. Stitch Belgesi Taşıma/Reddetme Notları
-
-INDOLES'in önceki tasarım referans belgesi (Stitch belgesi) bu design system'e dönüştürülürken bazı kararlar korunmuş, bazıları reddedilmiştir. Detaylı gerekçeler `docs/decisions/ADR-002-stitch-design-reject.md`'de yer alır. Aşağıda özet.
-
-### Taşınan Kararlar
-
-| Karar | Bu Belgedeki Karşılığı |
-|-------|------------------------|
-| Asimetrik layout prensibi | Bölüm 4 — editorial section'larda 8/4, 7/5 split |
-| Logo mavisi birincil interaction anchor | Bölüm 3 — brand-500 (#567B97) |
-| Pure black yasağı | Bölüm 3 — ink-900 (#1A1F24) kullanılır |
-| Standart shadow yasağı | Bölüm 5 — soft/tonal shadow, ink-900 bazlı |
-| Tutarlı icon stroke weight | Bölüm 8 — Light (1.5px), Lucide |
-| "Interface crowd etme" prensibi | Bölüm 4 — spacing-2 (8px) normal birim, zero-divider |
-| Zero-divider policy | Bölüm 4 + 6 — listelerde çizgi yok, hairline yalnızca editorial section ayraçlarında |
-
-### Reddedilen Kararlar
-
-| Karar | Ret Gerekçesi |
-|-------|---------------|
-| Dark base surface (#767779) | WCAG AA fail, editorial-light dille çelişir |
-| Deep Sea Blue + Industrial Slate palette | Tech-SaaS dark dili, INDOLES editorial-light dili değil |
-| Particle flow animations | Performans yükü, 2020-2022 trend'i, editorial değil |
-| Glassmorphism (24px backdrop blur) | Performans + Safari/iOS sorunları + editorial değil |
-| Gradient CTA (135° linear) | Flat disiplin tercih edildi |
-| All Caps button + letter-spacing | 2010'lar tech dili, editorial sentence-case kararı ile çelişir |
-| Tertiary kahverengi (#57390c) | Tek renk disiplini kararıyla çelişir |
-| Overlapping negative margin cards | Responsive fail riski, bakım zorluğu |
-
----
-
-## 12. Açık Sorular
-
-- **Dark mode timeline:** Faz 2'de değerlendirilecek. Gerekirse ADR ile karar alınır, ayrı token seti oluşturulur.
-- **Özel fotoğraf prodüksiyonu:** Launch'a kadar fotoğraf yerine tipografik ve geometrik çözümler kullanılır. Özel çekim prodüksiyonu launch sonrası planlanır.
-- **Fraunces italic kullanımı:** Şu an yalnızca regular (upright) tanımlı. İtalic varyantın pullquote veya emphasis'te kullanılıp kullanılmayacağı implementation sırasında değerlendirilir.
-- **Component Storybook:** Faz 2'de opsiyonel. Faz 1'de component katalogu doğrudan kod ve bu belge üzerinden yönetilir.
-- **Motion library alternatifi:** Framer Motion bundle size'ı büyükse, CSS-only animation'lara geçiş ADR ile değerlendirilir.
-- **Tailwind v4 @theme entegrasyonu:** tokens.ts'in Tailwind v4'ün CSS-first config yapısıyla nasıl bağlanacağı `05-tech-architecture.md`'de detaylandırılır.
-
----
-
-## 13. Cinematic Hero Zone (istisna bölge)
-
-> **Kapsam:** Bu bölüm **sadece anasayfanın ilk 100vh hero alanı** için geçerlidir. Diğer tüm sayfalar ve hero sonrası section'lar light editorial paleti kullanmaya devam eder. Karar gerekçesi: `docs/decisions/ADR-003-cinematic-hero-zone.md`.
-
-### 13.1 Amaç
-İlk saniyede ziyaretçiye "INDOLES: prestij + cesur teknoloji" izlenimi vermek. TIWIS benzeri dark metallic blue dalga arkaplan, floating glass nav, massive wordmark kompozisyonu.
-
-### 13.2 Palet (yalnız hero zone'da kullanılır)
-
-| Token | Hex | Kullanım |
-|---|---|---|
-| `hero.void` | `#05080F` | En derin karanlık — gradient alt ucu |
-| `hero.deep` | `#0A1628` | Ana dark navy — base |
-| `hero.metal` | `#1B3A5C` | Metallic mid-tone — blob katmanı |
-| `hero.light` | `#3B6FA0` | Işık spot rengi — mouse-tracked highlight |
-| `hero.paper` | `#F5F3EE` | Wordmark + tagline text |
-| `hero.accent` | `#A8BECE` | Hover/focus underline (hero zone'unda link accent) |
-
-Hero palette'i `brand.*` token'larından **bağımsızdır** — marka mavisi `brand-500` değişmemiştir.
-
-### 13.3 Motion
-
-- **Yaklaşım:** Canvas 2D, 3 radial-gradient blob. İki blob sinüs-bazlı yavaş drift, bir blob mouse-tracked. Canvas 0.5x render scale; CSS `filter: blur(40px)` ile metallic bulutsu geçiş.
-- **Frame rate:** `requestAnimationFrame`, 60fps hedef. Hero zone'dan scroll ile çıkıldığında loop durur (IntersectionObserver).
-- **Accessibility:**
-  - `prefers-reduced-motion: reduce` → motion durur, statik gradient mesh gösterilir.
-  - Viewport width < 768px → motion disable (pil + perf), statik fallback.
-- **Mouse interaction:** `pointermove` ile ana "ışık" blob'unun konumu güncellenir. Lerp ile yumuşak takip.
-
-### 13.4 Floating glass nav
-
-| Özellik | Değer |
+| Token | Kullanım |
 |---|---|
-| Konum | `position: fixed; top: 16px; left: 50%; translate-x: -50%` |
-| Background | `rgba(251, 250, 247, 0.06)` (hero üstünde) → `rgba(251, 250, 247, 0.85)` (scroll sonrası) |
-| Backdrop-filter | `blur(16px) saturate(140%)` |
-| Border | `1px solid rgba(245, 243, 238, 0.12)` (hero üstü), `1px solid var(--color-surface-2)` (scroll sonrası) |
-| Radius | `full` (pill) |
-| Padding | 8px 20px |
-| Typography | `body-sm`, medium weight |
-| Text color | `hero.paper` (hero) → `ink-700` (scroll sonrası) |
+| `shadow-sm` | Sessiz kart, ayrık liste öğesi |
+| `shadow-md` | Standart kart |
+| `shadow-lg` | Öne çıkan kart, modal |
+| `shadow-xl` | Popup, en üst katman |
+| `shadow-3d` | İç highlight + hairline + iki ambient katman — nav ve hizmet kartı |
 
-### 13.5 Hero içeriği (kompozisyon)
+`shadow-3d` deseni: `inset beyaz highlight` → `0 0 0 1px teal hairline` → `orta mesafe` → `uzak yayılım`. Bu dört katman "basılı kart" hissini üretir; tek katmanlı gölge bunun yerini tutmaz.
 
-- **Wordmark:** `INDOLES` — Fraunces, `clamp(5rem, 12vw, 12rem)`, weight 500, letter-spacing -0.04em, color `hero.paper`. Position: bottom-left, 48px inset.
-- **Tagline:** 2 satır, `body-lg`, color `hero.paper`. Position: sağ orta, max-width 32ch.
-- **CTA pill (opsiyonel):** Sol orta, outline beyaz pill, `body-sm`.
+---
 
-### 13.6 Hero → Light geçişi
+## 6. Primitives
 
-Hero zone (100vh) biter bitmez bir sonraki section **tam light** paletle açılır. Arada gri ara tonu, gradient fade yok — sharp cut, editorial sadelikle. Sadece floating nav rengi ~80vh noktasında opaklaşmaya başlar.
+Tek kaynak: `globals.css`. Sayfa kodunda yeniden icat edilmez.
 
-### 13.7 Performans bütçesi
-- Hero canvas JS: < 8 KB gzipped
-- İlk paint'te canvas boş başlar, ilk `requestAnimationFrame`'de dolar (FOUC engelleme için CSS fallback gradient)
-- LCP kandidatı wordmark veya tagline — canvas **LCP'ye girmez**
+### `.eyebrow`
+Mono, 11px, uppercase, `tracking-label`, teal-700. Solunda 22px hairline (`::before`). Varyantlar: `.eyebrow-gold` (dark yüzey), `.eyebrow-bare` (çizgisiz, chip içi).
 
-### 13.8 Accessibility kontrolleri
-- Wordmark vs `hero.deep`: kontrast ≈ 15:1 ✓ AA+
-- Floating nav text vs `hero.deep`: kontrast ≈ 13:1 ✓ AA+
-- `prefers-reduced-motion` respect edilir
-- `aria-hidden` → canvas'a uygulanır (decorative), wordmark semantic `<h1>`
+### `.btn`
+14px Inter medium, 14/22px padding, `radius-md`, dört katmanlı gölge, `0.4s var(--ease-out)` geçiş.
+
+| Varyant | Zemin | Hover |
+|---|---|---|
+| `.btn-primary` | ink-900 | ink-700 + `translateY(-2px)` + derin gölge |
+| `.btn-ghost` | beyaz gradient + ink-200 kenar | teal-700 kenar ve metin |
+| `.btn-invert` | beyaz (dark yüzey için) | gold-400 |
+| `.btn-lg` | 18/28px padding, 15px | — |
+
+`.arrow` alt elemanı hover'da `translate(2px, -2px)` yapar — bu hareket markanın imzasıdır, tüm CTA'larda aynıdır.
+
+### `.reveal`
+`opacity 0 → 1` + `translateY(24px) → 0`, 1s. `.d1`–`.d5` gecikme sınıfları. Tek bir `RevealObserver` (layout seviyesinde) `.in` sınıfını ekler; her bölüm kendi observer'ını kurmaz. `prefers-reduced-motion` altında anında görünür.
+
+### `.mono` / `.tabular` / `.divider` / `.grain` / `.marquee-track`
+Sırasıyla: mono aile, tabular rakam, gradient hairline ayraç, SVG turbulence dokusu, 60s sonsuz yatay kayış.
+
+---
+
+## 7. Motion
+
+| Token | Değer | Nerede |
+|---|---|---|
+| `--ease-out` | `cubic-bezier(0.16, 1, 0.3, 1)` | Varsayılan — güçlü çıkış yavaşlaması |
+| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | Simetrik geçişler |
+
+| Süre | Değer | Nerede |
+|---|---|---|
+| fast | 300ms | Hover, focus, renk |
+| base | 400ms | Buton, kart, nav |
+| slow | 600ms | Kart yükselme, timeline dolumu |
+| reveal | 1000ms | Scroll reveal |
+
+### Motion envanteri
+
+| Mekanizma | Bölüm | Notlar |
+|---|---|---|
+| `WaveCanvas` | Hero, CTA, Vizyon, iç sayfa başlığı | Canvas 2D, 3–6 katman sinüs dolgusu + 3 kontur çizgisi, fare takipli. `light` ve `dark` tonu var |
+| `ParticleField` | Metodoloji | 35 nokta + 120px altı mesafede bağlantı çizgisi. Ağ metaforu |
+| Sticky yatay track | Hizmetler | Dikey scroll → `translate3d` yatay. ≤900px kapalı |
+| Sticky timeline | Metodoloji | Scroll oranı → aktif aşama. ≤900px kapalı |
+| Parallax | Vakalar | Görsel `translateY(±24px)`, `scale(1.08)` |
+| Kelime mürekkeplemesi | Manifesto | Scroll ilerledikçe kelimeler `rgb(26 43 52 / .22)` → `ink-900` |
+| Sayaç | Vizyon | `1 - (1-p)³` easing, 1600ms, viewport'a girince |
+| Marquee | Referanslar | 60s linear, hover'da durur |
+
+**`prefers-reduced-motion` sözleşmesi:** tüm animasyon ve geçişler 0.01ms'ye iner, `.reveal` anında görünür, canvas döngüleri tek kare çizip durur, sayaç doğrudan hedef değere atlar, team slider otomatik dönmez. Bu bir "nice to have" değil, kabul kriteridir.
+
+---
+
+## 8. Sayfa Mimarisi
+
+### Chrome
+
+| Katman | Davranış |
+|---|---|
+| `TopBar` | `position: fixed`, 36px, ink-900. Telefon, e-posta, konum, saat, sosyal, dil. ≤960px'te konum ve saat gizlenir, ≤640px'te metinler düşer, ikonlar kalır |
+| `SiteNav` | `position: fixed`, top 52px, ortalanmış pill, genişlik `calc((100% - 32px) * 0.9)`, max 1404px. Scroll >40px'te sıkışır ve blur artar. ≤960px'te hamburger + çekmece |
+| `SiteFooter` | ink-900, 4 kolon + bülten + mega INDOLES filigranı (`rgb(255 255 255 / .04)`, `aria-hidden`) |
+| Skip link | `#main`'e atlar, yalnız `:focus-visible`'da görünür |
+
+**Sabit chrome sonucu:** scroll'la başlayan her bölümün üst boşluğu TopBar (36) + Nav (~68) + nefesi karşılamalıdır. Sticky bölümler `padding-top: 148px`, iç sayfa başlığı `.page-hero` 200px kullanır.
+
+### Anasayfa bölüm sırası
+
+| # | Bölüm | İşlevi | Persona-aware |
+|---|---|---|---|
+| 1 | Hero | Vaat + persona chip + iki CTA | **Evet** |
+| 2 | Referans marquee | Kanıt — 15 marka | Hayır |
+| 3 | Manifesto | Duruş | Hayır |
+| 4 | Kadro slider | İnsan | Hayır |
+| 5 | Üç pillar | Kapsam | **Evet** |
+| 6 | Hizmet track | Derinlik — 12 disiplin | **Evet** (kart açıklamaları) |
+| 7 | Metodoloji | Yöntem — INDOLES Frame | Hayır |
+| 8 | Vakalar | Sonuç | **Evet** (başlık, lede) |
+| 9 | Sektörler | Alan | Hayır |
+| 10 | Vizyon | Hedef | Hayır |
+| 11 | Kapanış CTA | Aksiyon | **Evet** |
+
+Sıra bir argümandır: *ne vaat ediyoruz → kimler güveniyor → neye inanıyoruz → kimiz → ne yapıyoruz → nasıl yapıyoruz → ne oldu → nerede → nereye → başla.* Bölüm eklenirken bu akıştaki yeri gerekçelendirilir.
+
+### İç sayfa
+
+`V2PageHeader` (breadcrumb + eyebrow + başlık + sağ kolonda lede, dekorsuz) →
+içerik bölümleri (`.ds-container`, zeminsiz) → `ContactCallout`. Arkada blob
+`page` modunda sessizce durur. Ayrıntı §12.10.
+
+> Eski `PageHeader` (`.page-hero` + dalga zemin) ADR-017 ile kullanımdan kalktı.
+
+---
+
+## 9. Erişilebilirlik
+
+- WCAG 2.2 AA zorunlu. Kontrast tablosu §3'te.
+- Focus: `2px solid teal-700`, 2px offset, `radius-md`. Tarayıcı varsayılanı kullanılmaz.
+- Her `<section>` ya `aria-labelledby` ile başlığına bağlıdır ya da `aria-label` taşır.
+- Dekoratif her şey (`WaveCanvas`, `ParticleField`, filigran, ok ikonları, glyph'ler, mega wordmark) `aria-hidden="true"`.
+- Slider'larda ok butonları ve nokta göstergeleri gerçek `<button>`'dır, `aria-label` taşır; aktif nokta `aria-current`.
+- Marquee'nin ikinci kopyası `aria-hidden` ve `alt=""` — ekran okuyucu logoları iki kez okumaz.
+- Manifesto'nun kelime kelime renklenen metni: kapsayıcıda `aria-label` ile tam cümle, kelimeler `aria-hidden`.
+- Touch hedefi minimum 44×44px (`.ts-arrow`, `.f-btn`, nav burger bu ölçüde).
+- Skip link zorunlu.
+
+---
+
+## 10. İçerik Dürüstlüğü Kuralı
+
+Arayüzde görünen her sayı doğrulanabilir olmalıdır.
+
+- Metrikler ya gerçek bir vaka çalışmasından (`cases.ts`) ya da içerik katmanından türetilir (`PILLARS.length` gibi).
+- "20.000+ ekip", "140+ dönüşüm", "%98 memnuniyet" tarzı kaynaksız rakamlar sisteme girmez.
+- Kaynağı belirsiz bir veri gerekiyorsa ya alan boş bırakılır ya da `TODO(burak)` ile işaretlenip kod yorumunda gerekçesi yazılır (`src/lib/content/company.ts` örneği).
+
+Bu kural estetik değil, `03-brand-voice-tone.md`'deki "kanıt-odaklı ses" ilkesinin arayüz karşılığıdır.
+
+---
+
+## 11. Değişiklik Protokolü
+
+1. Yeni bir değer mi gerekiyor? → `docs/04` (bu dosya) güncellenir.
+2. → `src/lib/design/tokens.ts` güncellenir.
+3. → `src/styles/globals.css` `@theme` bloğu senkronlanır.
+4. → Component yazılır.
+
+Ham hex, ham px ve ham easing değeri component dosyasına yazılmaz. İstisna: `sections.css` içindeki `rgb(… / alpha)` kullanımları — bunlar token renklerinin alpha varyantlarıdır ve her biri yorumda hangi token'dan geldiğini söyler.
+
+---
+
+## 12. Motion ve Etkileşim Katmanı (v2 blob anasayfası)
+
+> **Kapsam:** Bu bölüm `/tr/v2` prototipinde uygulanan sürekli-sahne mimarisini
+> tanımlar. Karar kaydı: `docs/decisions/ADR-016-v2-blob-design-direction.md`.
+> §1–11 (renk, tipografi, spacing, elevation) aynen geçerlidir — v2 token
+> katmanını olduğu gibi devralır.
+
+### 12.1 Sürekli sahne ilkesi
+
+Bölümler bağımsız bloklar değil, **tek bir sahnenin evreleri**dir. Sahneyi
+taşıyan öğe sayfa boyunca hiç unmount edilmeyen bir `position: fixed` WebGL
+canvas'tır. Yeni bir bölüm eklenirken sorulacak soru "bu blok nereye girer"
+değil, "bu evrede sahne ne yapar" olmalıdır.
+
+### 12.2 Katman sözleşmesi
+
+| z | Katman |
+|---|---|
+| 0 | Arka metin katmanı + dekoratif yörünge halkaları |
+| 10 | WebGL canvas (`fixed`, `pointer-events: none`) |
+| 20 | Tüm normal içerik — nav, başlıklar, kartlar, grid |
+| 50 | Custom cursor |
+| 60 | Skip link |
+
+Bu sıralama "gövdenin içinden renkli metin görünüyor" etkisinin tek
+mekanizmasıdır; refraction veya post-processing yoktur.
+
+**Kritik not:** Etki için ön katmanda YALNIZ vurgu harfleri bulunur, arka
+katmanda harflerin tamamı siyah durur. Ters kurgu (renkli arkada, siyah önde)
+opak bir gövdeyle hiçbir şey göstermez — iki katman da kaybolur.
+
+### 12.3 Koreografi
+
+Blob'un yolu `components/v2/webgl/choreography.ts` içinde 7 keyframe olarak
+tanımlıdır: `x`/`y` (ekran merkezine oran), `scale` (viewport yüksekliğine
+oran), `noiseAmp`, `opacity`.
+
+Kurallar:
+- Her segment, kendi çapasının üstünden **bir sonraki çapanın üstüne** kadar
+  scrub'lanır. Aralıklar bu tanımla ardışıktır ve çakışmaz.
+- `start`/`end` **fonksiyon** olarak verilir; her `refresh`'te yeniden
+  hesaplanır. Sabit oranlar sayfa uzayınca geçersiz kalır.
+- Bölüm id'si koreografinin çapasıdır. Id değişirse `choreography.ts` de
+  değişmelidir.
+- Son segment için `maxScroll − 0.6×viewport` payı ayrılır; kısa bir kapanış
+  bölümü aksi halde scroll'un dışında kalır.
+
+### 12.4 Yüzey dili
+
+Blob'un "sıvı" okuması üç şeyden gelir; üçü birden gerekir:
+
+1. **Düşük dereceli harmonik salınım** (l=2/l=3, oransız hızlarda) — gövdeyi
+   bütün olarak esnetir, yüzeye yumru eklemez.
+2. **Düşük frekanslı FBM** — birkaç büyük lob, çakıl dokusu değil.
+3. **Fark edilir zaman ilerlemesi** — çok yavaş bir noise donmuş cisim okur.
+
+Renk: teal + gold'dan türetilmiş 5 duraklı gradyan, shader içinde %50 beyaza
+lift. Kenarlarda fresnel rim, iki lobelı specular (geniş + sıkı), hiçbir bölge
+saf siyaha inmez.
+
+### 12.5 İşaretçi etkileşimi
+
+- Yumuşatma **saniye başına** hesaplanır (`1 − exp(−rate·delta)`), kare başına
+  değil — 120Hz ekranda kare-başına sabit lerp gerçek zamanda yarı hızda çalışır.
+- Takip hızı mesafeyle artar, ama kare başına alınabilecek yol tavanlıdır
+  (`mouseMaxStep`); tavansız yetişme ışınlanma gibi görünür.
+- Hız kare başına ölçülür, olay başına değil — olay sayısı tarayıcıya bağlıdır.
+- Gövde döndüğü için dünya→obje dönüşümü `worldToLocal()` ile yapılır; konum ve
+  ölçeği elle çıkarmak rotasyonu atlar ve çukur cursor'dan kayar.
+
+### 12.6 Performans bütçesi
+
+Vertex shader'da normal yeniden hesabı deformasyon fonksiyonunu vertex başına
+**üç kez** çağırır. Geometri detayı seçilirken bu çarpan hesaba katılmalıdır.
+
+| Karar | Değer | Gerekçe |
+|---|---|---|
+| `IcosahedronGeometry` detail | 32 | 96'da 564.540 vertex × 9 noise = frame başına 5M çağrı |
+| Vertex FBM oktavı | 2 | Üçüncü oktav 3× bedelle geliyor, düşük frekansta katkısı yok |
+| Fragment noise | yok | Renk lekesi vertex'te örneklenip varying ile taşınır |
+| DPR tavanı | 1.75 | Retina'da 2 → 1.75 fragment yükünü ~%23 düşürür |
+| `will-change` | yok | 54 harfin her biri ayrı compositing katmanı oluyordu |
+
+### 12.7 Dar ekran ve reduced-motion
+
+| Mekanizma | ≤900px | `prefers-reduced-motion` |
+|---|---|---|
+| Blob | Ölçek ×0.5, dikey offset +0.3 | Noise %70 yavaş, dönüş durur |
+| Harf saçılması | Kapalı, yalnız fade | Kapalı |
+| Custom cursor | Hiç mount edilmez | Mount edilir, hareket eder |
+| Lenis | Aktif | Kapalı, native scroll |
+| Yatay hizmet track'i | **Snap slider** | **Snap slider** |
+| Kart etiketleri | Kalıcı görünür (`hover: none`) | Kalıcı görünür |
+| Kolon parallax'ı | Kapalı | Kapalı |
+
+**Yatay track kuralı:** Bu mekanizma dekorasyon değil, portföyün tek gezinme
+aracıdır. Hareket kısıtlıyken doğru davranış animasyonu kaldırmak değil,
+mekanizmayı native scroll'a çeviren slider'a düşmektir. Aynı ilke başka bir
+scroll-bağlı gezinme eklenirse de geçerlidir: **içeriğe erişimi animasyona
+bağlama.**
+
+### 12.8 İçerik dürüstlüğü — geçici görseller
+
+Geçici stok görseller `alt=""` ile dekoratif işaretlenir. İçeriği doğrulanmamış
+bir görsele betimleyici alt metin yazmak yanlış bilgi üretir; kartın erişilebilir
+adı zaten başlıktan gelir. Orijinal görsel geldiğinde gerçek alt metin yazılır.
+Bu, §10'daki içerik dürüstlüğü kuralının görsel karşılığıdır.
+
+### 12.9 Chrome — siyah şerit ve nav
+
+Chrome sayfanın değil **layout'un** parçasıdır. Hero'nun içinde yaşayan bir nav,
+tasarım tüm siteye yayıldığında iç sayfalarda yok olur; bu yüzden şerit ve nav
+`V2Chrome`'un `chrome` slot'undan mount edilir.
+
+| Katman | Kural |
+|---|---|
+| Siyah şerit | Sayfanın en üstü, `position: fixed`, `--v2-topbar-h` |
+| Nav | Şeridin altı, sabit, `--v2-nav-h` |
+| Logo | 56px — nav'ın ağırlık merkezi, scroll'da küçülmez |
+| Yüzey | Tepede saydam → scroll'da krem (`0.96`) + hairline |
+| Aksiyonlar | Dil değiştirici (ikincil) + CTA (ink pill, birincil) |
+
+**Sabit chrome akıştan çıkar.** İki yükseklik `v2.css`'te değişken olarak
+tanımlanır; `.v2-root` `padding-top` ile boşluğu telafi eder ve hero
+`min-height`'ı aynı değişkeni düşer. Üç yerde ayrı sabit tutulmaz — biri
+değişince diğer ikisi sessizce bozulur.
+
+**Saydamlık okunabilirliğe tabidir.** Nav tepede saydam kalır ki hero
+kompozisyonuna girmesin. Scroll'da yüzey kazanır: `backdrop-filter` tek başına
+8.5rem punto bir başlığı yutmuyor, opaklık gerekiyor. Ölçüm: `0.82`'de alttaki
+metin nav'ın içinden okunuyordu, `0.96`'da temiz.
+
+**Çekmece açıkken nav da opaklaşır.** Saydam kalırsa arkadaki sahne logonun ve
+kapatma düğmesinin arkasından görünür, çekmece havada durur.
+
+**Kapalı çekmece `inert`'tir.** `display: none` geçiş animasyonunu öldürür;
+`inert` görünürlüğü kapatırken klavye sırasını ve ekran okuyucuyu da temizler.
+
+**Dil değiştirici bulunulan sayfayı korur.** Kök sayfaya atmak kullanıcının
+yerini kaybettirir. Segment çevirisi `lib/i18n/locale-href.ts`'tedir: yalnız ilk
+segment map edilir, slug taşınır.
+
+### 12.10 İç sayfa dili (ADR-017)
+
+v2 tüm siteye taşındığında iç sayfaların anasayfayı taklit etmesi gerekmez;
+aynı **malzemeden** yapılmış olması gerekir.
+
+| Katman | Anasayfa | İç sayfa |
+|---|---|---|
+| Blob | Anlatının kendisi — 7 duraklı koreografi | Sessiz eşlikçi — sabit konum, 0.26 opaklık |
+| Başlık | İki katmanlı, blob'un içinden geçer | `V2PageHeader` — tek katman, dekorsuz |
+| Zemin | Krem tuval | Aynı krem tuval |
+| Kart | Yarı saydam beyaz | Aynı (`.v2-surface`) |
+
+**Krem tuval tektir.** Bölüm seviyesinde opak zemin kullanılmaz. `bg-paper`
+sayfanın rengiyle birebir aynıydı (#FAFAF7); tek yaptığı arkadaki katmanı
+örtmekti. Yeni bir bölüm yazarken zemin vermeyin — vermek istiyorsanız
+gerekçesi kontrast olmalı, alışkanlık değil.
+
+**Kartlarda `backdrop-filter` yok.** Bir iç sayfada onlarca kart olabiliyor;
+hepsini ayrı compositing katmanına promote etmek §12.6'daki performans
+bütçesini deler. Yarı saydamlık krem zeminin üstünde zaten yeterli.
+
+**Blob okuma kolonuna girmez.** Konumu ölçümle bulunur, tahminle değil: iki
+ayrı turda önce sayfa başlığının lede'ini, sonra paket sayfasının fiyat
+kolonunu örttüğü görülüp geri çekildi. Yeni bir sayfa düzeni eklendiğinde aynı
+kontrol yapılır — "arkada duruyor" varsayımı yeterli değil.

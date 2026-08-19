@@ -5,7 +5,20 @@
 > **Statü:** Onaylı — implementasyon için kaynak doküman.
 > **Bağlı belgeler:** `04-design-system-principles.md`, `docs/decisions/ADR-001-agent-orchestration.md`, `docs/decisions/ADR-002-stitch-design-reject.md`.
 
-> **Son güncelleme:** 2026-04-17 — ADR-006 kapsamında Sanity referansları kaldırıldı; içerik artık statik TS + MDX ile tutulur.
+> **Son güncelleme:** 2026-08-19 — ADR-015 (design system v2) sonrası doğrulama.
+>
+> **Doğrulama notu (2026-08-19):** §3.2 (brief → tRPC), §3.3 (rezervasyon webhook),
+> §3.4 (AI chatbot tool call) ve §3.6 (ödeme) şemaları kaldırılmış katmanlara
+> aittir ve **uygulanmamıştır** — yalnızca tarihsel bağlam için duruyorlar.
+> Geçerli akışlar §3.1 ve §3.5'tir.
+>
+> **Route sayısı düzeltmesi:** §1.3 "2 REST Route Handler" diyor; diskte 5 route
+> vardır: `/api/contact` ve `/api/visitor-profile` (canlı), `/api/health` (ops
+> probe), `/api/upload` ve `/api/webhooks/cal` (**TODO stub** — implementasyonu
+> yok, `webhooks/cal` kaldırılmış Inngest'e trigger atmaya çalışıyor). İkisi
+> temizlenmeli veya tamamlanmalı.
+>
+> ADR-006 kapsamında Sanity referansları kaldırıldı; içerik statik TS + MDX'tir.
 
 ---
 

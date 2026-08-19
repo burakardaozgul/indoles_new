@@ -1,6 +1,6 @@
 # ADR-013: Popup Altkatman — tRPC → REST, DB → Mail+PostHog
 
-**Durum:** Önerildi
+**Durum:** Accepted — uygulandı (kod doğrulaması: 2026-08-19)
 **Tarih:** 2026-04-17
 **Karar sahibi:** Burak Arda Özgül
 **Bağlı:** `docs/superpowers/specs/2026-04-17-entry-popup-design.md`, `docs/superpowers/specs/2026-04-17-simplification-design.md` §5.1

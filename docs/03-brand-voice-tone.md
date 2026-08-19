@@ -134,6 +134,37 @@ Persona-aware sayfalarda copy iki versiyon olarak yazılır ve `messages/{tr,en}
 
 ## 3. Ton Matrisi: Sayfa Tipi x Persona x İçerik Versiyonu
 
+> **Güncelleme: 2026-08-19, ADR-015.** Tasarım sistemi v2'ye geçerken ton
+> matrisi **değişmedi** ama uygulandığı yüzeylerin adları değişti. Yeni
+> anasayfa bölümlerinin persona karşılıkları:
+>
+> | v1 bölüm adı | v2 bölüm adı | Persona-aware |
+> |---|---|---|
+> | Hero | Hero | Evet |
+> | Pillars | Üç pillar | Evet |
+> | Proof | Vakalar | Evet (başlık + lede) |
+> | Packages | — (paket kartları `/paketler`'e taşındı) | Evet, `/paketler` üzerinde |
+> | FinalCTA | Kapanış CTA | Evet |
+> | — | Hizmet track (yeni) | Evet (12 hizmet açıklaması) |
+> | — | Manifesto, Kadro, Metodoloji, Sektörler, Vizyon (yeni) | Hayır — orta ton |
+>
+> Anasayfada artık paket kartı bölümü yoktur; paket copy'si `/paketler` ve
+> `/paketler/[slug]` üzerinde persona-aware olarak yaşamaya devam eder.
+>
+> **Güncelleme: 2026-08-19, ADR-016.** v2 (blob) anasayfasında persona
+> davranışı korunur ve iki yüzeyde çalışır: **üç pillar** (başlık, lede,
+> tagline, açıklama) ve **hizmet portföyü** (12 hizmetin kart açıklaması).
+> Hero, statement, kadro, vaka ve kapanış CTA orta tondadır — hero'nun copy'si
+> kanonik konumlandırma cümlesidir ve alıcıya göre değişmez, statement ise
+> kurumun kendi sesidir.
+>
+> Uyarı: v2 route'u entry popup'ı mount etmez; persona yalnızca ana sitede
+> seçilebilir, v2 cookie'yi okur. Terfi sırasında popup v2 layout'una
+> bağlanmalıdır (ADR-016 §Migrasyon, madde 3).
+> Yeni orta-ton bölümlerin gerekçesi: manifesto ve vizyon kurumun *kendi*
+> sesidir (alıcıya göre değişmez); kadro ve metodoloji olgusal içeriktir.
+
+
 | Sayfa Tipi | Versiyon | Persona 1A (Sanayici CEO) | Persona 1B (Sanayi Yöneticisi) | Persona 2 (Ticaret/Perakende) | Persona 3 (Scale-up) | Notlar |
 |------------|----------|---------------------------|-------------------------------|-------------------------------|----------------------|--------|
 | Homepage hero | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Persona switch sonrası |

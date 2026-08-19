@@ -16,6 +16,7 @@ import { ExistingBookingState } from "./ExistingBookingState";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { BrandLogo } from "../../brand/brand-logo";
 import { writePopupCookie, computeExpiresAt } from "../../../lib/popup/cookie";
+import { setPersonaSlug } from "@/lib/hooks/use-persona";
 import { trackPopupEvent } from "../../../lib/popup/analytics";
 import { submitVisitorProfile } from "../../../lib/popup/api";
 
@@ -146,6 +147,8 @@ export function EntryPopup({
   const handleStage1 = (p: PersonaSlug) => {
     trackPopupEvent("popup_stage1_selected", { persona: p, time_on_stage_ms: Date.now() - stageStart });
     setPersona(p);
+    // Merceği hemen kur: popup kapandığında sayfa doğru tonda olsun.
+    setPersonaSlug(p);
     setStage("stage2");
     setStageStart(Date.now());
   };

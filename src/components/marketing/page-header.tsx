@@ -1,47 +1,53 @@
 import type React from "react";
 import { cn } from "@/lib/utils/cn";
 import { Breadcrumbs, type Crumb } from "./breadcrumbs";
+import { WaveCanvas } from "./wave-canvas";
 
 /**
- * Inner page hero — editorial, daha sakin. Homepage'deki cinematic'e karşılık.
- * Breadcrumbs + eyebrow + Fraunces display headline + optional lede.
+ * İç sayfa başlığı — anasayfa hero'sunun sakin karşılığı.
+ *
+ * Sabit TopBar + Nav'ın altında kalmaması için üst boşluk `.page-hero`
+ * sınıfından gelir (bkz. `sections.css`). Dalga zemin hero ile aynı ailedendir
+ * ama tek katman ve düşük yoğunlukta çalışır — iç sayfa başlığı içeriği
+ * bastırmaz.
  */
 export function PageHeader({
   eyebrow,
   title,
   lede,
   breadcrumbs,
-  tone = "paper",
+  wave = true,
 }: {
   eyebrow?: React.ReactNode;
   title: React.ReactNode;
   lede?: React.ReactNode;
   breadcrumbs?: Crumb[];
-  tone?: "paper" | "surface";
+  /** Dalga zeminini kapat — çok uzun başlıklarda okunabilirlik için. */
+  wave?: boolean;
 }) {
   return (
-    <section
-      className={cn(
-        "border-b border-surface-2",
-        tone === "surface" ? "bg-surface-1" : "bg-paper"
-      )}
-    >
-      <div className="mx-auto max-w-[1440px] px-6 md:px-12 pt-14 md:pt-20 pb-16 md:pb-24">
+    <section className="page-hero">
+      {wave ? (
+        <div className="absolute inset-0 opacity-60" aria-hidden="true">
+          <WaveCanvas intensity={0.5} tone="light" layers={3} />
+        </div>
+      ) : null}
+
+      <div className={cn("ds-container relative z-10")}>
         {breadcrumbs ? (
           <div className="mb-10">
             <Breadcrumbs crumbs={breadcrumbs} />
           </div>
         ) : null}
-        {eyebrow ? (
-          <p className="typography-label uppercase tracking-widest text-ink-500">
-            {eyebrow}
-          </p>
-        ) : null}
-        <h1 className="typography-display-xl mt-6 max-w-[22ch] text-ink-900">
+
+        {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
+
+        <h1 className="typography-display-lg mt-6 max-w-[20ch] text-ink-900">
           {title}
         </h1>
+
         {lede ? (
-          <p className="typography-body-lg mt-8 max-w-prose-editorial text-ink-700">
+          <p className="typography-body-lg mt-8 max-w-[62ch] text-ink-600">
             {lede}
           </p>
         ) : null}

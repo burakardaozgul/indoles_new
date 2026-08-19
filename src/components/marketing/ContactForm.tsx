@@ -31,7 +31,7 @@ function Field({ name, label, type = 'text', register, error }: FieldProps) {
       <input
         type={type}
         {...register(name)}
-        className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 bg-paper focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
+        className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
       />
       {error && <p className="typography-caption text-danger-700 mt-1">{error}</p>}
     </div>
@@ -56,7 +56,7 @@ function Select({ name, label, options, register, error }: SelectProps) {
       <label className="typography-label text-ink-700">{label}</label>
       <select
         {...register(name)}
-        className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 bg-paper focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
+        className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
       >
         <option value="" />
         {options.map((opt) => {
@@ -117,7 +117,7 @@ export function ContactForm({ locale }: { locale: 'tr' | 'en' }) {
 
   if (state === 'success') {
     return (
-      <div className="bg-surface-1 border border-surface-2 rounded-2xl p-10 text-center">
+      <div className="v2-surface border border-surface-2 rounded-2xl p-10 text-center">
         <h3 className="typography-h3 text-ink-900">
           {locale === 'tr' ? 'Mesajın elimizde.' : 'We got your message.'}
         </h3>
@@ -208,7 +208,7 @@ export function ContactForm({ locale }: { locale: 'tr' | 'en' }) {
         <textarea
           {...register('message')}
           rows={5}
-          className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 bg-paper focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
+          className="mt-2 w-full border border-surface-2 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-500 typography-body-md text-ink-900"
         />
         {errors.message && (
           <p className="typography-caption text-danger-700 mt-1">

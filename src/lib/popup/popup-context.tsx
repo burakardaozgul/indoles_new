@@ -30,6 +30,10 @@ export function PopupProvider({ children }: { children: React.ReactNode }) {
   const [initial, setInitial] = React.useState<PopupInitial>(DEFAULT_INITIAL);
 
   React.useEffect(() => {
+    const isIframe = typeof window !== "undefined" && 
+      (window.self !== window.top || new URLSearchParams(window.location.search).get("iframe") === "true");
+    if (isIframe) return;
+    
     if (!shouldShowPopup()) return;
     const t = setTimeout(() => setOpen(true), TRIGGER_DELAY_MS);
     return () => clearTimeout(t);

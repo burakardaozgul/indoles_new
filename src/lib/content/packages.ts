@@ -3,7 +3,12 @@ import type { PackageContent } from "./types";
 export const PACKAGES: PackageContent[] = [
   {
     slug: { tr: "buyume-sprinti", en: "growth-sprint" },
+    kind: "sprint",
     name: { tr: "Büyüme Sprinti", en: "Growth Sprint" },
+    descriptor: {
+      tr: "Kanal teşhisi ve 90 günlük büyüme planı",
+      en: "Channel diagnosis and a 90-day growth plan",
+    },
     pillar: "growth",
     durationWeeks: 4,
     pricing: { TRY: 240000, EUR: 7500, USD: 8200 },
@@ -13,8 +18,8 @@ export const PACKAGES: PackageContent[] = [
         en: "Which channel carries which growth potential — documented with ROI projection and priority ranking.",
       },
       commerce: {
-        tr: "3 haftada büyüme kanalı haritası. CAC'ı düşürecek, ROAS'ı artıracak kanalı ve bütçe dağılımını net olarak belirleriz.",
-        en: "Growth channel map in 3 weeks. We pinpoint which channel to fund to lower CAC and lift ROAS — with budget allocation.",
+        tr: "4 haftada büyüme kanalı haritası. CAC'ı düşürecek, ROAS'ı artıracak kanalı ve bütçe dağılımını net olarak belirleriz.",
+        en: "Growth channel map in 4 weeks. We pinpoint which channel to fund to lower CAC and lift ROAS — with budget allocation.",
       },
     },
     summary: {
@@ -66,7 +71,7 @@ export const PACKAGES: PackageContent[] = [
         tr: [
           "Sprint raporu (30+ sayfa): kanal teşhisi, strateji gerekçesi, 90 günlük yol haritası ve bütçe dağılımı",
           "Medya planı (Q1): kanal, bütçe, hedef ve ölçüm çerçevesiyle birlikte",
-          "Test backlog (ilk 8 hafta): her test için hipotez, öncelik puanı ve başarı kriteri",
+          "Test listesi (ilk 8 hafta): her test için hipotez, öncelik puanı ve başarı kriteri",
         ],
         en: [
           "Sprint report (30+ pages): channel diagnosis, strategy rationale, 90-day roadmap and budget allocation",
@@ -78,7 +83,7 @@ export const PACKAGES: PackageContent[] = [
         tr: [
           "Sprint raporu (30+ sayfa): kanal teşhisi, strateji ve 90 günlük yol haritası — teslimden 48 saat içinde paylaşılır",
           "Medya planı (Q1): kanal, bütçe, hedef metrik ve ölçüm çerçevesi",
-          "Test backlog (8 hafta): her test için hipotez, öncelik puanı ve beklenen dönüşüm etkisi",
+          "Test listesi (8 hafta): her test için hipotez, öncelik puanı ve beklenen dönüşüm etkisi",
         ],
         en: [
           "Sprint report (30+ pages): channel diagnosis, strategy and 90-day roadmap — shared within 48 hours of delivery",
@@ -138,7 +143,7 @@ export const PACKAGES: PackageContent[] = [
             en: "No. Once the report is delivered, the engagement is complete. Whether to continue is entirely your decision. No additional process is needed to pause or stop.",
           },
           commerce: {
-            tr: "Test backlog ve medya planı iç ekibinize hazır devredilir. İstersen retainer'a geçeriz ve biz yürütürüz; istemezsen belgeler elinde — sen veya ajansın devam eder.",
+            tr: "Test listesi ve medya planı iç ekibinize hazır devredilir. İstersen retainer'a geçeriz ve biz yürütürüz; istemezsen belgeler elinde — sen veya ajansın devam eder.",
             en: "The test backlog and media plan are handed over to your team, ready to use. If you want to continue with us on retainer, we execute. If not, the docs are yours — your team or agency takes it from there.",
           },
         },
@@ -150,9 +155,14 @@ export const PACKAGES: PackageContent[] = [
       tr: "dijital-donusum-teshisi",
       en: "digital-transformation-audit",
     },
+    kind: "diagnose",
     name: {
       tr: "Dijital Dönüşüm Teşhisi",
       en: "Digital Transformation Audit",
+    },
+    descriptor: {
+      tr: "Sahada süreç incelemesi ve önceliklendirilmiş yol haritası",
+      en: "On-site process review and a prioritised roadmap",
     },
     pillar: "transform",
     durationWeeks: 3,
@@ -182,7 +192,7 @@ export const PACKAGES: PackageContent[] = [
         tr: [
           "Sahada 3-5 süreç gözlemi (üretim, planlama, satın alma, lojistik veya finans) — operatör ve yönetici gözlemi birlikte",
           "Süreç sahipleriyle yapılandırılmış görüşme (5-10 kişi) — darboğaz, beklenti ve uygulama direnci belirlenir",
-          "As-is süreç haritaları: her incelenen süreç için akış diyagramı, el değiştirme noktaları ve gecikme kaynaklarıyla",
+          "Mevcut durum (as-is) süreç haritaları: her incelenen süreç için akış diyagramı, el değiştirme noktaları ve gecikme kaynaklarıyla",
           "ROI projeksiyonuyla önceliklendirilmiş 3-5 pilot önerisi — her öneri için tahmini maliyet, süre ve verim kazanımı",
           "6 aylık uygulama yol haritası (3 faz, Gantt formatı) — kime ne zaman ne düşer, onay mekanizması dahil",
         ],
@@ -198,7 +208,7 @@ export const PACKAGES: PackageContent[] = [
         tr: [
           "Sipariş akışı, envanter ve müşteri iletişim süreçlerinin haritalanması — tıkanma noktaları ve gecikme kaynakları belirlenir",
           "Operasyon ekibiyle görüşme (3-6 kişi) — günlük darboğazlar, el işi yükü ve ölçekleme engelleri",
-          "As-is operasyon haritaları: her süreç için akış diyagramı, elle yapılan adımlar ve sistemsiz noktalar",
+          "Mevcut durum (as-is) operasyon haritaları: her süreç için akış diyagramı, elle yapılan adımlar ve sistemsiz noktalar",
           "ROI projeksiyonuyla sıralanan 3-5 otomasyon önerisi — sipariş başına zaman kazanımı ve yıllık operasyon tasarrufu",
           "6 aylık uygulama yol haritası — hangi araç, ne zaman, kim kurar, büyüme hedefine ne kadar katkı sağlar",
         ],
@@ -215,7 +225,7 @@ export const PACKAGES: PackageContent[] = [
       industrial: {
         tr: [
           "Teşhis raporu (40+ sayfa): as-is süreç haritaları, bulgular, öncelikli pilot önerileri ve gerekçeleri",
-          "Her pilot için ayrı spec dokümanı: kapsam, tahmini bütçe, teknik gereksinim ve başarı kriterleri",
+          "Her pilot için ayrı teknik şartname (spec): kapsam, tahmini bütçe, teknik gereksinim ve başarı kriterleri",
           "Yol haritası Gantt chart (3 faz): sorumlular, zaman dilimleri ve onay adımlarıyla birlikte",
         ],
         en: [
@@ -227,7 +237,7 @@ export const PACKAGES: PackageContent[] = [
       commerce: {
         tr: [
           "Teşhis raporu (40+ sayfa): operasyon haritası, bulgular ve öncelikli otomasyon önerileri",
-          "Her öneri için ayrı spec: araç seçimi, entegrasyon gereksinimi, tahmini maliyet ve beklenen etki",
+          "Her öneri için ayrı teknik şartname: araç seçimi, entegrasyon gereksinimi, tahmini maliyet ve beklenen etki",
           "Yol haritası (3 faz): hangi otomasyon önce, hangi büyüme hedefine hizmet eder",
         ],
         en: [
@@ -291,7 +301,7 @@ export const PACKAGES: PackageContent[] = [
             en: "Yes. The audit scope covers every digital process, including AI. A finding of 'AI is not suitable here' is also a valuable diagnosis — it prevents a misplaced investment.",
           },
           commerce: {
-            tr: "Evet. Her öneri için spec dokümanı ve araç seçimi hazır teslim edilir. Kendi ekibinle başlayabilirsin ya da uygulama için devam paketine geçebiliriz.",
+            tr: "Evet. Her öneri için teknik şartname ve araç seçimi hazır teslim edilir. Kendi ekibinle başlayabilirsin ya da uygulama için devam paketine geçebiliriz.",
             en: "Yes. A spec document and tool selection are delivered ready to use for each recommendation. You can start with your own team, or move into an implementation package with us.",
           },
         },
@@ -300,7 +310,12 @@ export const PACKAGES: PackageContent[] = [
   },
   {
     slug: { tr: "ai-pilot", en: "ai-pilot" },
+    kind: "pilot",
     name: { tr: "AI Pilot", en: "AI Pilot" },
+    descriptor: {
+      tr: "Tek kullanım senaryosunda, sahada test edilen AI prototipi",
+      en: "An AI prototype for one use case, tested in the field",
+    },
     pillar: "transform",
     durationWeeks: 6,
     pricing: { TRY: 480000, EUR: 15000, USD: 16500 },
@@ -327,7 +342,7 @@ export const PACKAGES: PackageContent[] = [
     scope: {
       industrial: {
         tr: [
-          "Use case seçimi ve değer doğrulaması — en fazla iki adayla başlanır, veri ve iş etkisi kriterlerine göre biri seçilir",
+          "Kullanım senaryosu seçimi ve değer doğrulaması — en fazla iki adayla başlanır, veri ve iş etkisi kriterlerine göre biri seçilir",
           "Veri envanteri ve kalite kontrolü — mevcut veri kaynakları, eksiklikler ve temizleme gereksinimi belirlenir",
           "Model seçimi (büyük dil modeli / klasik makine öğrenmesi / hibrit) — gerekçe ve tahmini performans beklentisiyle",
           "Prototip ve arayüz geliştirme — operatör veya son kullanıcının doğrudan kullanabileceği düzeyde",
@@ -343,7 +358,7 @@ export const PACKAGES: PackageContent[] = [
       },
       commerce: {
         tr: [
-          "Use case seçimi — en yüksek dönüşüm veya LTV etkisi verecek problemi veriyle belirleriz, en fazla iki aday",
+          "Kullanım senaryosu seçimi — en yüksek dönüşüm veya LTV etkisi verecek problemi veriyle belirleriz, en fazla iki aday",
           "Veri envanteri ve kalite kontrolü — mevcut müşteri, ürün ve sipariş verisi; eksiklikler ve temizleme planı",
           "Model seçimi (öneri motoru / sınıflandırma / büyük dil modeli) — gerekçe ve beklenen metrik etkisiyle",
           "Prototip ve arayüz geliştirme — pazarlama ekibi veya müşteri doğrudan kullanabilir",
@@ -431,7 +446,12 @@ export const PACKAGES: PackageContent[] = [
   },
   {
     slug: { tr: "mvp-build", en: "mvp-build" },
+    kind: "build",
     name: { tr: "MVP Build", en: "MVP Build" },
+    descriptor: {
+      tr: "İlk değer getiren sürümün inşası ve canlıya alınması",
+      en: "Building and deploying the first value-delivering version",
+    },
     pillar: "build",
     durationWeeks: 8,
     pricing: { TRY: 720000, EUR: 22500, USD: 24500 },
@@ -458,7 +478,7 @@ export const PACKAGES: PackageContent[] = [
     scope: {
       industrial: {
         tr: [
-          "Ürün spec ve kullanıcı hikayeleri — iş gereksinimlerinden teknik spec'e, öncelik sırası ve kapsam sınırı belirlenerek",
+          "Ürün şartnamesi ve kullanıcı hikayeleri — iş gereksinimlerinden teknik spec'e, öncelik sırası ve kapsam sınırı belirlenerek",
           "UI/UX tasarım — marka kimliğiyle tutarlı, operatör veya son kullanıcı için optimize edilmiş",
           "Frontend ve backend geliştirme — TypeScript monolit varsayılan; erken mimari borcu alınmadan ölçeklenebilir temel",
           "Canlıya alma ve gözlemleme kurulumu — production ortamına alım, izleme ve uyarı sistemi dahil",
@@ -474,7 +494,7 @@ export const PACKAGES: PackageContent[] = [
       },
       commerce: {
         tr: [
-          "Ürün spec ve kullanıcı hikayeleri — büyüme hedefinize göre önceliklendirilmiş, kapsam sınırlı ilk versiyon",
+          "Ürün şartnamesi ve kullanıcı hikayeleri — büyüme hedefinize göre önceliklendirilmiş, kapsam sınırlı ilk versiyon",
           "UI/UX tasarım — dönüşüm odaklı, marka kimliğiyle tutarlı, mobil öncelikli",
           "Frontend ve backend geliştirme — TypeScript monolit, erken ölçekleme borcu almadan piyasaya çıkış hızı",
           "Deploy ve gözlemleme kurulumu — production ortamına alım, performans izleme ve uyarı sistemi",

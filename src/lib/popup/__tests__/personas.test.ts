@@ -48,18 +48,18 @@ describe("getPersonaDef", () => {
 
 describe("getPersonaLocalizedLabel", () => {
   it("TR donusum-teknoloji label döner", () => {
-    expect(getPersonaLocalizedLabel("donusum-teknoloji", "tr")).toBe("Dönüşüm ve Teknoloji");
+    expect(getPersonaLocalizedLabel("donusum-teknoloji", "tr")).toBe("Sanayi ve üretim");
   });
 
   it("EN donusum-teknoloji label döner", () => {
-    expect(getPersonaLocalizedLabel("donusum-teknoloji", "en")).toBe("Transformation & Technology");
+    expect(getPersonaLocalizedLabel("donusum-teknoloji", "en")).toBe("Industry & manufacturing");
   });
 
   it("TR buyume-pazarlar label döner", () => {
-    expect(getPersonaLocalizedLabel("buyume-pazarlar", "tr")).toBe("Büyüme ve Yeni Pazarlar");
+    expect(getPersonaLocalizedLabel("buyume-pazarlar", "tr")).toBe("Ticaret ve perakende");
   });
 
   it("EN buyume-pazarlar label döner", () => {
-    expect(getPersonaLocalizedLabel("buyume-pazarlar", "en")).toBe("Growth & New Markets");
+    expect(getPersonaLocalizedLabel("buyume-pazarlar", "en")).toBe("Commerce & retail");
   });
 });

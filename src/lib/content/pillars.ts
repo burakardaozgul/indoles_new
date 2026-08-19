@@ -420,3 +420,18 @@ export const PILLARS: PillarContent[] = [
 export function getPillar(key: string): PillarContent | null {
   return PILLARS.find((p) => p.key === key) ?? null;
 }
+
+/**
+ * Hizmetlerin global sırası — `ServiceIllustration` diyagramını seçer.
+ *
+ * Tek kaynak olmak zorunda: diyagram indeksi iki ayrı yerde `flatMap` ile
+ * hesaplanırsa, bir pillar'a hizmet eklendiğinde diyagramlar sessizce kayar
+ * ve kimse fark etmez.
+ */
+export const SERVICE_ORDER: string[] = PILLARS.flatMap((p) =>
+  p.services.map((s) => s.slug),
+);
+
+export function serviceIndex(slug: string): number {
+  return SERVICE_ORDER.indexOf(slug);
+}

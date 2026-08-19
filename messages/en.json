@@ -17,7 +17,7 @@
       "packages": "Packages",
       "caseStudies": "Case studies",
       "consultants": "Consultants",
-      "articles": "Articles",
+      "articles": "Knowledge Library",
       "contact": "Contact",
       "about": "About",
       "signIn": "Sign in",
@@ -157,7 +157,7 @@
         },
         "commerce": {
           "eyebrow": "02 — Proof",
-          "headline": "No outcome, no result.",
+          "headline": "If it isn't a number, it isn't a result.",
           "lede": "Filter by problem type. Find the case closest to your bottleneck — growth metric, conversion rate or operational speed — then measure your own potential.",
           "featured": {
             "summary": "Planning time down 42%. Shipping reliability doubled. Deployed in 8 weeks. We digitized the full workflow of spreadsheet-based production planning: resource allocation errors eliminated, operator dashboard running in real time."
@@ -202,53 +202,45 @@
         }
       ]
     },
-    "packages": {
-      "eyebrow": "03 — Packages",
-      "headline": "Fixed scope. Fixed time.\nFixed price.",
-      "lede": "The front door to larger engagements. Like a SaaS starter plan — step in, see value, grow.",
+    "unlockPotential": {
       "_personas": {
         "industrial": {
-          "eyebrow": "03 — Packages",
-          "headline": "Fixed scope, fixed time, fixed price.",
-          "lede": "The diagnostic and strategy entry point for larger engagements. Methodology transparent, scope contained, budget predictable. Results are visible; the decision to proceed stays with you."
+          "eyebrow": "Why now?",
+          "headline": "Delaying technology transformation means losing competitiveness by 2028.",
+          "description": "Industries that adopted ERP five years late still haven't closed the export margin gap. The AI window will close faster — 2026–2027 is the critical adoption period for enterprise applications.",
+          "cta": "Let's evaluate your transformation plan",
+          "metrics": [
+            {
+              "value": "12–18%",
+              "label": "Average cost reduction",
+              "sublabel": "Range observed across client projects"
+            },
+            {
+              "value": "8 weeks",
+              "label": "Pilot project timeline",
+              "sublabel": "From analysis to implementation in one cycle"
+            }
+          ]
         },
         "commerce": {
-          "eyebrow": "03 — Packages",
-          "headline": "Fixed scope. Fixed time.\nFixed price.",
-          "lede": "The fast entry point to larger engagements. Set your metric target, pick a package, start. Like a starter plan — step in, see value, scale."
+          "eyebrow": "Why now?",
+          "headline": "The era of free growth is over. Without a structural system, growth stalls.",
+          "description": "Organic reach halves every year. Ad spend rises but ROAS doesn't follow. The window to escape price wars is open — brands that build now will outpace price competition tomorrow.",
+          "cta": "Let's build your growth plan together",
+          "metrics": [
+            {
+              "value": "30–50%",
+              "label": "Conversion lift",
+              "sublabel": "When CRO meets brand architecture"
+            },
+            {
+              "value": "4 weeks",
+              "label": "First results",
+              "sublabel": "Within the Growth Sprint package"
+            }
+          ]
         }
-      },
-      "priceFromSuffix": "starting",
-      "items": [
-        {
-          "slug": "growth-sprint",
-          "name": "Growth Sprint",
-          "pillar": "Growth",
-          "duration": "4 weeks",
-          "priceFrom": "€1,500"
-        },
-        {
-          "slug": "digital-transformation-audit",
-          "name": "Digital Transformation Audit",
-          "pillar": "Transform",
-          "duration": "3 weeks",
-          "priceFrom": "€950"
-        },
-        {
-          "slug": "ai-pilot",
-          "name": "AI Pilot",
-          "pillar": "Transform",
-          "duration": "6 weeks",
-          "priceFrom": "€2,900"
-        },
-        {
-          "slug": "mvp-build",
-          "name": "MVP Build",
-          "pillar": "Build",
-          "duration": "8 weeks",
-          "priceFrom": "€4,200"
-        }
-      ]
+      }
     },
     "manifesto": {
       "quote": "No prescription without diagnosis. Business is understood first; technology is called second.",
@@ -265,15 +257,15 @@
           "lede": "Three entry points by commitment level. We don't prescribe without diagnosing — whichever door you choose, the first step is understanding the problem.",
           "paths": {
             "chat": {
-              "description": "Describe your problem in a few sentences to the AI advisor. A first assessment comes back instantly, calibrated to your industry and scale.",
-              "cta": "Start the diagnosis"
+              "description": "Define your priority in a few questions. A package and advisor suited to your scale and sector come back immediately.",
+              "cta": "Start the intro"
             },
             "booking": {
               "description": "30 minutes with an expert. We open the problem together and define which pillar to start from and what the concrete next step looks like.",
               "cta": "Schedule a call"
             },
             "brief": {
-              "description": "Describe the project step by step. A proposed approach, relevant package and estimated impact come back within 48 hours.",
+              "description": "Describe the project step by step. Approach, matching package and estimated impact come back within one business day.",
               "cta": "Send the brief"
             }
           }
@@ -284,7 +276,7 @@
           "lede": "Three entry speeds. If you're ready, start today — if not, talk first, decide after.",
           "paths": {
             "chat": {
-              "description": "Describe the problem in a few sentences to the AI. A first read on where your growth bottleneck is comes back instantly.",
+              "description": "Name your bottleneck in a few questions. The package and advisor that fit come straight back.",
               "cta": "Start now"
             },
             "booking": {
@@ -292,7 +284,7 @@
               "cta": "Build the plan"
             },
             "brief": {
-              "description": "Write the project step by step. Which package fits and expected impact come back within 48 hours.",
+              "description": "Write out the project step by step. Which package to start from and the estimated impact come back within one business day.",
               "cta": "Fill the brief"
             }
           }
@@ -301,10 +293,10 @@
       "paths": {
         "chat": {
           "commitment": "Low commitment",
-          "label": "AI chat",
-          "description": "A few sentences to the AI. A first take comes back instantly.",
-          "meta": "5 min · No commitment · Instant",
-          "cta": "Start chat"
+          "label": "Quick intro",
+          "description": "Tell us what you're after in a few questions; get a package and advisor suggestion straight back.",
+          "meta": "2 minutes · No commitment · Instant",
+          "cta": "Start the intro"
         },
         "booking": {
           "commitment": "Medium commitment",
@@ -316,8 +308,8 @@
         "brief": {
           "commitment": "High commitment",
           "label": "Detailed brief",
-          "description": "Describe the project step by step. Proposal and package fit within 48 hours.",
-          "meta": "15 min · No commitment · 48-hour reply",
+          "description": "Describe the project step by step. Approach and package recommendation come back within one business day.",
+          "meta": "15 minutes · No commitment · One business day",
           "cta": "Fill the brief"
         }
       }
@@ -351,23 +343,23 @@
       "loading": "Sending..."
     },
     "stage1": {
-      "title": "Who are you?",
-      "subtitle": "Tell us a bit so we can show you what's relevant.",
-      "helper": "Pick what fits best — you can change it later."
+      "title": "First, who we're talking to.",
+      "subtitle": "One question, so we show you the right thing.",
+      "helper": "Pick the closer one — it can be changed later."
     },
     "persona": {
       "donusum-teknoloji": {
-        "label": "I'm looking for AI, Automation, and Technology Transformation",
-        "description": "Automate manual processes, integrate AI at the core, and build your data infrastructure.",
+        "label": "Industry & manufacturing",
+        "description": "Operational transformation through process, data and AI. Production, supply, planning.",
         "descriptionPoints": [
           "Automating manual operations",
           "Bringing AI into production and business processes",
-          "Building data infrastructure and driving digital transformation"
+          "Building data infrastructure and digital transformation"
         ]
       },
       "buyume-pazarlar": {
-        "label": "I'm looking for Growth, Brand Awareness, and New Markets",
-        "description": "Expand market share, sharpen brand perception, and break into new geographies and channels.",
+        "label": "Commerce & retail",
+        "description": "Brand, channels and conversion connected into one growth system.",
         "descriptionPoints": [
           "Expanding market share, growing revenue",
           "Strengthening brand awareness and perception",
@@ -376,16 +368,16 @@
       }
     },
     "stage2": {
-      "title": "Which situations do you face often?",
-      "subtitle": "Pick 3.",
-      "fifoHint": "You can pick up to 3. Earliest selection was removed."
+      "title": "Which of these sound familiar?",
+      "subtitle": "Pick three.",
+      "fifoHint": "Three at a time. The earliest pick was dropped."
     },
     "stage3": {
-      "title": "Got it. What's next?",
+      "title": "Noted. What's next?",
       "subtitle": "Talk directly with the right advisor.",
-      "bookingCta": "Book a 1-hour free session",
-      "bookingHelper": "Pick a slot on Cal.com — it goes on your calendar.",
-      "contactCta": "We'll reach out to you",
+      "bookingCta": "Book a 1-hour discovery call",
+      "bookingHelper": "Pick a time on Cal.com and it lands in your calendar. No commitment.",
+      "contactCta": "Have us reach out",
       "contactHelper": "We'll reply within one business day."
     },
     "form": {
@@ -404,9 +396,9 @@
     },
     "success": {
       "bookingTitle": "You're on the calendar.",
-      "bookingBody": "Details are in your email.",
+      "bookingBody": "You'll find the details in your inbox.",
       "contactTitle": "Thanks.",
-      "contactBody": "We'll be in touch within 1 business day.",
+      "contactBody": "We'll be in touch within one business day.",
       "close": "Close"
     },
     "chip": {
@@ -415,10 +407,10 @@
     },
     "booking": {
       "consultantCardTitle": "Your point of contact",
-      "slotNotSelected": "No date selected yet",
+      "slotNotSelected": "No day selected yet",
       "slotSelected": "{date} · {time}",
-      "selectDatePrompt": "Select a day below",
-      "selectTimePrompt": "Choose your preferred time",
+      "selectDatePrompt": "Pick a day below",
+      "selectTimePrompt": "Pick the time that suits you",
       "disabledDayHint": "Weekends and past dates are unavailable",
       "submitCta": "Submit meeting request"
     },
@@ -449,6 +441,38 @@
       "body": "Details are in your email.",
       "reschedule": "Reschedule your meeting",
       "rescheduleHelper": "Pick a new slot to move your session."
+    }
+  },
+  "pages": {
+    "services": {
+      "industrial": {
+        "title": "Three disciplines, 12 areas of expertise.",
+        "lede": "Growth, Transform and Build are not separate teams — they are three arms of one discipline that shares the same spine from diagnosis to delivery."
+      },
+      "commerce": {
+        "title": "Twelve levers for growth.",
+        "lede": "Growth, Transform and Build are three arms of one revenue engine. Which lever comes first is a question the metrics answer."
+      }
+    },
+    "packages": {
+      "industrial": {
+        "title": "Fixed scope, fixed time, fixed price.",
+        "lede": "The diagnostic and strategy entry point to larger engagements. Transparent methodology, bounded scope, predictable budget. You see the outcome; the decision to go further stays with you."
+      },
+      "commerce": {
+        "title": "Fixed scope. Fixed time. Fixed price.",
+        "lede": "The fast front door to larger engagements. Set the metric target, pick the package, start. Like a starter plan: get in, see the value, scale."
+      }
+    },
+    "cases": {
+      "industrial": {
+        "title": "Similar scale, similar bottleneck.",
+        "lede": "Cases are ordered by problem type, not industry. Find the one closest to your own picture and judge on concrete ground what a similar programme would mean for you."
+      },
+      "commerce": {
+        "title": "Find your own bottleneck here.",
+        "lede": "Problem type, not industry. Growth metric, conversion rate or operational speed — open the case closest to whatever is holding you back."
+      }
     }
   }
 }

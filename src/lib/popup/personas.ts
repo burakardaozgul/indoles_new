@@ -8,6 +8,18 @@ export type PersonaDef = {
   descriptionKey: string;
 };
 
+/**
+ * İki persona — eksen **kitle**dir, ihtiyaç değil.
+ *
+ * Slug'lar ilk kurguda ihtiyaç ekseninden geldi (`donusum-teknoloji` /
+ * `buyume-pazarlar`) ve cookie ile e-posta bildirimlerinde yaşadığı için
+ * korunuyor. Etiketler ve popup metni 2026-08-19'da kitle eksenine çevrildi:
+ * otomasyon arayan bir e-ticaret markası "dönüşüm"ü seçtiğinde tüm site ona
+ * sanayi dilinde konuşuyordu (bkz. docs/15-content-audit.md §A5).
+ *
+ * İçerik katmanındaki karşılıkları: `donusum-teknoloji` → `industrial`,
+ * `buyume-pazarlar` → `commerce` (`lib/hooks/use-persona.ts`).
+ */
 export const PERSONAS: readonly PersonaDef[] = [
   {
     slug: "donusum-teknoloji",
@@ -43,12 +55,12 @@ export function getPersonaLabel(slug: PersonaSlug): string {
 
 const PERSONA_LABELS: Record<PersonaSlug, { tr: string; en: string }> = {
   "donusum-teknoloji": {
-    tr: "Dönüşüm ve Teknoloji",
-    en: "Transformation & Technology",
+    tr: "Sanayi ve üretim",
+    en: "Industry & manufacturing",
   },
   "buyume-pazarlar": {
-    tr: "Büyüme ve Yeni Pazarlar",
-    en: "Growth & New Markets",
+    tr: "Ticaret ve perakende",
+    en: "Commerce & retail",
   },
 };
 

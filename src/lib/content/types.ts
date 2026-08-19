@@ -34,7 +34,19 @@ export type PillarContent = {
 export type PackageContent = {
   slug: Localized<string>;
   name: Localized<string>;
+  /**
+   * Adın tek satırlık karşılığı. "MVP Build" ve "AI Pilot" gibi adlar
+   * geleneksel sanayi alıcısı için opak; açıklaması yalnız detay sayfasındaydı
+   * (docs/15-content-audit.md §D8). Liste sayfasında adın hemen altında durur.
+   */
+  descriptor: Localized<string>;
   pillar: Pillar;
+  /**
+   * Taahhüdün şekli — paket listesindeki geometrik şemayı seçer
+   * (`package-diagram.tsx`). Süreden veya fiyattan türetilmez; paketin ne tür
+   * bir iş olduğu yazıyla belirtilir.
+   */
+  kind: "diagnose" | "sprint" | "pilot" | "build";
   durationWeeks: number;
   pricing: { TRY: number; EUR: number; USD: number };
   outcome: PersonaText;
@@ -88,4 +100,16 @@ export type ConsultantContent = {
   pillars: Pillar[];
   expertise: string[];
   linkedinUrl?: string;
+  /** Takım slider'ındaki portre bloğunda gösterilen baş harfler. */
+  initials: string;
+  /**
+   * Portre bloğunun tonu. Fotoğraf gelene kadar her kişiyi ayrıştıran
+   * tek değişken bu — palette dışı bir renk kategorisi değil, portre
+   * jeneratörünün girdisi.
+   */
+  portraitTone: string;
+  /** Takım slider'ında büyük punto gösterilen tek cümle. */
+  quote: Localized<string>;
+  /** Kadro listesinde sıralama; küçük olan önce gelir. */
+  order: number;
 };

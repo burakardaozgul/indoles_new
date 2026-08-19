@@ -8,7 +8,7 @@ export const CASES: CaseStudyContent[] = [
     problemType: "digital_transformation",
     pillar: "transform",
     title: {
-      tr: "Üretim planlamada 42% süre kısalması.",
+      tr: "Üretim planlamada %42 süre kısalması.",
       en: "42% shorter production planning cycle.",
     },
     lead: {

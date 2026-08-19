@@ -17,7 +17,7 @@
       "packages": "Paketler",
       "caseStudies": "Vakalar",
       "consultants": "Danışmanlar",
-      "articles": "Yazılar",
+      "articles": "Bilgi Kütüphanesi",
       "contact": "İletişim",
       "about": "Hakkımızda",
       "signIn": "Giriş yap",
@@ -46,20 +46,20 @@
       "personas": {
         "donusum-teknoloji": {
           "editorial": {
-            "before": "Sanayi için ",
-            "emphasisA": "teknoloji dönüşümü",
-            "middle": "",
-            "emphasisB": "",
+            "before": "Endüstri v5.0 - 6.0 ",
+            "emphasisA": "Teknoloji Dönüşümü",
+            "middle": ", ",
+            "emphasisB": "Akıllı Fabrikalar, Verimli Üretim",
             "after": "."
           },
           "support": "Süreç, veri ve AI'yi işin ritmine eşler. Teşhis önce, teknoloji sonra — verim ölçülebilir artar."
         },
         "buyume-pazarlar": {
           "editorial": {
-            "before": "Ticaret için ",
-            "emphasisA": "agresif büyüme",
-            "middle": "",
-            "emphasisB": "",
+            "before": "Markalar için ",
+            "emphasisA": "yeni pazarlar",
+            "middle": " ve ",
+            "emphasisB": "agresif büyüme",
             "after": "."
           },
           "support": "Marka, performans ve deneyimi tek ritimde ölçeklendirir. Kanal değil — sistem; büyüme ölçülebilir gelir."
@@ -166,7 +166,7 @@
       },
       "featured": {
         "clientLabel": "Seçilmiş vaka",
-        "title": "Üretim planlamada 42% süre kısalması.",
+        "title": "Üretim planlamada %42 süre kısalması.",
         "summary": "Excel-tabanlı üretim planlamayı uçtan uca dijitalleştirdik. Kaynak tahsis hatası neredeyse sıfırlandı, sevkiyat güvenilirliği iki katına çıktı.",
         "metrics": [
           {
@@ -202,53 +202,45 @@
         }
       ]
     },
-    "packages": {
-      "eyebrow": "03 — Paketler",
-      "headline": "Sabit kapsam. Sabit süre.\nSabit fiyat.",
-      "lede": "Büyük iş birliklerinin giriş kapısı. Bir SaaS'ın starter plan'ı gibi — içeri gir, değer gör, büyü.",
+    "unlockPotential": {
       "_personas": {
         "industrial": {
-          "eyebrow": "03 — Paketler",
-          "headline": "Sabit kapsam, sabit süre, sabit fiyat.",
-          "lede": "Büyük iş birliklerinin teşhis ve strateji giriş kapısı. Metodoloji şeffaf, kapsam sınırlı, bütçe öngörülebilir. Sonuç görülür, ilerleme kararı firmaya kalır."
+          "eyebrow": "Neden şimdi?",
+          "headline": "Teknoloji dönüşümünü ertelemek, 2028'de rekabet edemez olmak demek.",
+          "description": "ERP'yi 5 yıl geç alan sanayi, ihracatta marj farkını hâlâ kapatamadı. AI'da aynı gecikme çok daha hızlı vurur — 2026-2027, kurumsal uygulamanın kritik penceresi. Bu pencereyi kaçıran firma, rakibinin operasyonel maliyetiyle rekabet edemeyecek.",
+          "cta": "Dönüşüm planını birlikte değerlendirelim",
+          "metrics": [
+            {
+              "value": "%12-18",
+              "label": "Ortalama maliyet düşüşü",
+              "sublabel": "Müşteri projelerinde gözlemlenen aralık"
+            },
+            {
+              "value": "8 hafta",
+              "label": "Pilot proje süresi",
+              "sublabel": "Analiz'den uygulamaya tek döngü"
+            }
+          ]
         },
         "commerce": {
-          "eyebrow": "03 — Paketler",
-          "headline": "Sabit kapsam. Sabit süre.\nSabit fiyat.",
-          "lede": "Büyük iş birliklerinin hızlı giriş kapısı. Metrik hedefinizi belirle, paketi seç, başla. Starter plan gibi: içeri gir, değer gör, ölçekle."
+          "eyebrow": "Neden şimdi?",
+          "headline": "Bedava büyüme dönemi bitti. Yapısal sistem olmadan büyüme duruyor.",
+          "description": "Organik erişim her yıl yarıya düşüyor. Reklam bütçesi artıyor ama ROAS takip etmiyor. Fiyat savaşından çıkış penceresi açık — şimdi marka kuran, yarın fiyat rekabetinden çıkar.",
+          "cta": "Büyüme planını birlikte çıkaralım",
+          "metrics": [
+            {
+              "value": "%30-50",
+              "label": "Dönüşüm artışı",
+              "sublabel": "CRO + marka mimarisi birleşince"
+            },
+            {
+              "value": "4 hafta",
+              "label": "İlk sonuçlar",
+              "sublabel": "Büyüme Sprinti paketinde"
+            }
+          ]
         }
-      },
-      "priceFromSuffix": "başlangıç",
-      "items": [
-        {
-          "slug": "buyume-sprinti",
-          "name": "Büyüme Sprinti",
-          "pillar": "Growth",
-          "duration": "4 hafta",
-          "priceFrom": "₺240.000"
-        },
-        {
-          "slug": "dijital-donusum-teshisi",
-          "name": "Dijital Dönüşüm Teşhisi",
-          "pillar": "Transform",
-          "duration": "3 hafta",
-          "priceFrom": "₺180.000"
-        },
-        {
-          "slug": "ai-pilot",
-          "name": "AI Pilot",
-          "pillar": "Transform",
-          "duration": "6 hafta",
-          "priceFrom": "₺480.000"
-        },
-        {
-          "slug": "mvp-build",
-          "name": "MVP Build",
-          "pillar": "Build",
-          "duration": "8 hafta",
-          "priceFrom": "₺720.000"
-        }
-      ]
+      }
     },
     "manifesto": {
       "quote": "Teşhis olmadan reçete yazmayız. İş önce anlaşılır, sonra teknoloji çağrılır.",
@@ -265,15 +257,15 @@
           "lede": "Taahhüt seviyesine göre üç giriş kapısı. Teşhis olmadan reçete yazmayız — hangi kapıdan girerseniz girin, ilk adım problemi anlamaktır.",
           "paths": {
             "chat": {
-              "description": "AI danışman ile probleminizi birkaç cümlede tanımlayın. Sektörünüze ve büyüklüğünüze göre ilk değerlendirme anında döner.",
-              "cta": "Teşhisi başlat"
+              "description": "Birkaç soruda önceliğinizi tanımlayın. Ölçeğinize ve sektörünüze uygun paket ve danışman önerisi hemen döner.",
+              "cta": "Tanışmayı başlat"
             },
             "booking": {
               "description": "Bir uzmanla 30 dakika. Problemi birlikte açalım, hangi pillar'dan başlanacağını ve somut bir sonraki adımı belirleyelim.",
               "cta": "Görüşmeyi planla"
             },
             "brief": {
-              "description": "Projeyi adım adım tarif edin. 48 saat içinde yaklaşım, uygun paket ve tahmini etki döner.",
+              "description": "Projeyi adım adım tarif edin. 1 iş günü içinde yaklaşım, uygun paket ve tahmini etki döner.",
               "cta": "Brief gönderin"
             }
           }
@@ -284,7 +276,7 @@
           "lede": "Üç farklı giriş hızı. Hazır hissediyorsan bugün başla — hazır değilsen önce konuş, sonra karar ver.",
           "paths": {
             "chat": {
-              "description": "AI asistanla birkaç cümlede problemi tanımla. Büyüme darboğazın nerede olduğuna dair ilk yaklaşım anında döner.",
+              "description": "Birkaç soruda darboğazını söyle. Sana uygun paket ve danışman önerisi anında döner.",
               "cta": "Şimdi başla"
             },
             "booking": {
@@ -292,7 +284,7 @@
               "cta": "Planı kur"
             },
             "brief": {
-              "description": "Projeyi adım adım yaz. 48 saat içinde hangi paketten başlanacağı ve tahmini etki sana döner.",
+              "description": "Projeyi adım adım yaz. 1 iş günü içinde hangi paketten başlanacağı ve tahmini etki sana döner.",
               "cta": "Brief doldur"
             }
           }
@@ -301,10 +293,10 @@
       "paths": {
         "chat": {
           "commitment": "Düşük taahhüt",
-          "label": "AI sohbet",
-          "description": "AI asistan ile birkaç cümlede problem tanımı. İlk yaklaşım anında geri döner.",
-          "meta": "5 dakika · Taahhütsüz · Anında",
-          "cta": "Sohbete başla"
+          "label": "Hızlı tanışma",
+          "description": "Birkaç soruda ne aradığınızı söyleyin; uygun paket ve danışman önerisi hemen dönsün.",
+          "meta": "2 dakika · Taahhütsüz · Anında",
+          "cta": "Tanışmayı başlat"
         },
         "booking": {
           "commitment": "Orta taahhüt",
@@ -316,8 +308,8 @@
         "brief": {
           "commitment": "Yüksek taahhüt",
           "label": "Detaylı brief",
-          "description": "Projeyi adım adım tarif. 48 saat içinde yaklaşım ve paket önerisi döner.",
-          "meta": "15 dakika · Taahhütsüz · 48 saat yanıt",
+          "description": "Projeyi adım adım tarif edin. 1 iş günü içinde yaklaşım ve paket önerisi döner.",
+          "meta": "15 dakika · Taahhütsüz · 1 iş günü yanıt",
           "cta": "Brief doldur"
         }
       }
@@ -346,45 +338,45 @@
       "back": "Geri",
       "next": "Devam et",
       "close": "Kapat",
-      "keepBrowsing": "Şimdilik gezinmeye devam et",
+      "keepBrowsing": "Şimdilik gezinmeye devam edin",
       "submit": "Gönder",
       "loading": "Gönderiliyor..."
     },
     "stage1": {
-      "title": "Kimsin?",
-      "subtitle": "Seni daha iyi tanıyalım ki doğru içerikleri gösterelim.",
-      "helper": "Hangisi sana daha yakın? Sonra değiştirebilirsin."
+      "title": "Önce sizi tanıyalım.",
+      "subtitle": "Doğru içeriği gösterebilmemiz için tek soru.",
+      "helper": "Hangisi daha yakınsa. Sonradan değiştirilebilir."
     },
     "persona": {
       "donusum-teknoloji": {
-        "label": "AI, Otomasyon ve Teknoloji Dönüşümü Arıyorum",
-        "description": "Manuel süreçleri otomatize et, AI'ı işin kalbine entegre et, veri altyapını inşa et.",
+        "label": "Sanayi ve üretim",
+        "description": "Süreç, veri ve AI ile operasyonel dönüşüm. Üretim, tedarik, planlama.",
         "descriptionPoints": [
-          "Manuel operasyonları otomatize etmek",
+          "Manuel operasyonları otomatikleştirmek",
           "AI'ı üretim ve iş süreçlerine uygulamak",
-          "Veri altyapısı ve dijital dönüşüm inşa etmek"
+          "Veri altyapısı ve dijital dönüşüm kurmak"
         ]
       },
       "buyume-pazarlar": {
-        "label": "Büyüme, Marka Bilinirliği ve Yeni Pazarlar Arıyorum",
-        "description": "Pazar payını genişlet, marka algısını güçlendir, yeni coğrafya ve kanallara aç.",
+        "label": "Ticaret ve perakende",
+        "description": "Marka, kanal ve dönüşümün tek bir büyüme sistemine bağlanması.",
         "descriptionPoints": [
-          "Pazar payını genişletmek, gelir büyütmek",
+          "Pazar payını genişletmek, geliri büyütmek",
           "Marka bilinirliğini ve algısını güçlendirmek",
           "Yeni coğrafya veya kanallara açılmak"
         ]
       }
     },
     "stage2": {
-      "title": "Hangi durumları sıklıkla yaşıyorsun?",
-      "subtitle": "3 tanesini seç.",
-      "fifoHint": "3 sorun seçebilirsin. İlk seçimin çıkarıldı."
+      "title": "Hangi durumlar tanıdık geliyor?",
+      "subtitle": "Üç tanesini seçin.",
+      "fifoHint": "En fazla üç seçim. İlk seçim listeden çıkarıldı."
     },
     "stage3": {
-      "title": "Seçimini kaydettik. Sıradaki adım?",
-      "subtitle": "Sana uygun bir danışmanla doğrudan konuşalım.",
-      "bookingCta": "1 saatlik ücretsiz görüşme rezerve et",
-      "bookingHelper": "Cal.com'da slot seç, takvimine eklensin.",
+      "title": "Seçiminizi kaydettik. Sıradaki adım?",
+      "subtitle": "Uygun bir danışmanla doğrudan konuşalım.",
+      "bookingCta": "1 saatlik keşif görüşmesi planla",
+      "bookingHelper": "Cal.com'da uygun saati seçin, takviminize eklensin. Taahhütsüz.",
       "contactCta": "Biz sizinle iletişime geçelim",
       "contactHelper": "1 iş günü içinde geri dönüş yapacağız."
     },
@@ -404,7 +396,7 @@
     },
     "success": {
       "bookingTitle": "Takvime aldık.",
-      "bookingBody": "Detayları e-postanda bulacaksın.",
+      "bookingBody": "Detayları e-postanızda bulacaksınız.",
       "contactTitle": "Teşekkürler.",
       "contactBody": "1 iş günü içinde ulaşacağız.",
       "close": "Kapat"
@@ -415,10 +407,10 @@
     },
     "booking": {
       "consultantCardTitle": "Görüşmeye katılacak kişi",
-      "slotNotSelected": "Henüz bir gün seçmedin",
+      "slotNotSelected": "Henüz bir gün seçilmedi",
       "slotSelected": "{date} · {time}",
-      "selectDatePrompt": "Aşağıdan bir gün seç",
-      "selectTimePrompt": "Tercih ettiğin saati seç",
+      "selectDatePrompt": "Aşağıdan bir gün seçin",
+      "selectTimePrompt": "Tercih ettiğiniz saati seçin",
       "disabledDayHint": "Hafta sonları ve geçmiş günler seçilemez",
       "submitCta": "Görüşme talebini ilet"
     },
@@ -449,6 +441,38 @@
       "body": "Detaylar e-postanızda mevcut.",
       "reschedule": "Rezervasyonu yeniden planla",
       "rescheduleHelper": "Farklı bir zaman seçerek görüşmenizi ilerletin."
+    }
+  },
+  "pages": {
+    "services": {
+      "industrial": {
+        "title": "Üç disiplin, 12 uzmanlık.",
+        "lede": "Growth, Transform ve Build ayrı ekipler değil; teşhisten uygulamaya aynı omurgayı paylaşan tek bir disiplinin üç kolu."
+      },
+      "commerce": {
+        "title": "Büyüme için 12 kaldıraç.",
+        "lede": "Growth, Transform ve Build tek bir büyüme motorunun üç kolu. Hangi kaldıraç önce — cevabı metrik verir."
+      }
+    },
+    "packages": {
+      "industrial": {
+        "title": "Sabit kapsam, sabit süre, sabit fiyat.",
+        "lede": "Büyük iş birliklerinin teşhis ve strateji giriş kapısı. Metodoloji şeffaf, kapsam sınırlı, bütçe öngörülebilir. Sonuç görülür, ilerleme kararı firmaya kalır."
+      },
+      "commerce": {
+        "title": "Sabit kapsam. Sabit süre. Sabit fiyat.",
+        "lede": "Büyük iş birliklerinin hızlı giriş kapısı. Metrik hedefini belirle, paketi seç, başla. Starter plan gibi: içeri gir, değer gör, ölçekle."
+      }
+    },
+    "cases": {
+      "industrial": {
+        "title": "Benzer ölçek, benzer darboğaz.",
+        "lede": "Vakaları sektöre göre değil problem tipine göre diziyoruz. Kendi tablonuza en yakın olanı bulun, benzer bir programın sizde ne anlama geleceğini somut zeminde değerlendirin."
+      },
+      "commerce": {
+        "title": "Kendi darboğazını burada bul.",
+        "lede": "Sektör değil, problem tipi. Büyüme metriği, dönüşüm oranı veya operasyon hızı — hangisi seni tutuyorsa ona en yakın vakayı aç."
+      }
     }
   }
 }

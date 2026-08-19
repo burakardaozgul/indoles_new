@@ -1,101 +1,93 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { BrandLogo } from "@/components/brand/brand-logo";
-import { BrandWatermark } from "@/components/brand/brand-watermark";
+import { COMPANY } from "@/lib/content/company";
 
+/**
+ * Siyah footer + dev INDOLES filigranı.
+ * Filigran dekoratif: `aria-hidden` ve seçilemez.
+ */
 export async function SiteFooter({ locale }: { locale: "tr" | "en" }) {
   const t = await getTranslations({ locale, namespace: "common" });
   const year = new Date().getFullYear();
+  const isTr = locale === "tr";
 
-  const columns: Array<{
-    title: string;
-    links: Array<{ label: string; href: string }>;
-  }> = [
+  const columns = [
     {
       title: t("nav.services"),
       links: [
         { label: "Growth", href: `/${locale}/hizmetler/growth` },
         { label: "Transform", href: `/${locale}/hizmetler/transform` },
         { label: "Build", href: `/${locale}/hizmetler/build` },
-        {
-          label: locale === "tr" ? "Tüm hizmetler" : "All services",
-          href: `/${locale}/hizmetler`,
-        },
-      ],
-    },
-    {
-      title: locale === "tr" ? "Keşfet" : "Discover",
-      links: [
+        { label: isTr ? "Tüm hizmetler" : "All services", href: `/${locale}/hizmetler` },
         { label: t("nav.packages"), href: `/${locale}/paketler` },
-        { label: t("nav.caseStudies"), href: `/${locale}/vakalar` },
-        { label: t("nav.articles"), href: `/${locale}/yazilar` },
-        { label: t("nav.consultants"), href: `/${locale}/danismanlar` },
       ],
     },
     {
       title: t("footer.company"),
       links: [
         { label: t("nav.about"), href: `/${locale}/hakkimizda` },
+        { label: t("nav.caseStudies"), href: `/${locale}/vakalar` },
+        { label: t("nav.consultants"), href: `/${locale}/danismanlar` },
         { label: t("nav.contact"), href: `/${locale}/iletisim` },
-        { label: "Studio", href: `/studio` },
+      ],
+    },
+    {
+      title: isTr ? "Kaynaklar" : "Resources",
+      links: [
+        { label: t("nav.articles"), href: `/${locale}/yazilar` },
+        { label: isTr ? "Gizlilik ve KVKK" : "Privacy & GDPR", href: `/${locale}/gizlilik-kvkk` },
       ],
     },
   ];
 
   return (
-    <footer
-      className="relative bg-ink-900 text-paper border-t border-ink-700 overflow-hidden"
-      style={{ colorScheme: "dark" }}
-    >
-      <BrandWatermark tone="dark" side="right" opacity={0.035} />
+    <footer className="footer-sec">
+      <div className="ds-container">
+        <div className="grid grid-cols-1 gap-12 border-b border-white/10 pb-20 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:gap-14">
+          <div>
+            <Link href={`/${locale}`} className="inline-flex" aria-label="INDOLES">
+              <BrandLogo variant="dark-bg" height={48} />
+            </Link>
+            <p className="mono mt-4 mb-5 text-[10px] tracking-[0.2em] text-gold-400">
+              EVOLVE · BUILD · GROW
+            </p>
+            <p className="mb-7 max-w-[38ch] text-sm leading-relaxed text-white/55">
+              {t("tagline")}
+            </p>
 
-      {/* Top: logo + tagline + columns */}
-      <div className="relative z-10 mx-auto max-w-[1440px] px-6 md:px-12 pt-20 md:pt-24 pb-16 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-10">
-        {/* Brand + tagline */}
-        <div className="md:col-span-5 lg:col-span-4">
-          <BrandLogo variant="dark-bg" height={44} />
-          <p className="typography-body-md text-paper/70 mt-8 max-w-[36ch]">
-            {t("tagline")}
-          </p>
-          <div className="mt-10 space-y-3 typography-body-sm">
-            <div>
-              <span className="typography-label uppercase tracking-widest text-paper/40 block mb-1">
-                {locale === "tr" ? "Yazışma" : "Correspondence"}
-              </span>
-              <a
-                href="mailto:hello@indoles.com.tr"
-                className="text-paper hover:text-paper/80 transition-colors"
-              >
-                hello@indoles.com.tr
-              </a>
-            </div>
-            <div>
-              <span className="typography-label uppercase tracking-widest text-paper/40 block mb-1">
-                {locale === "tr" ? "Konum" : "Location"}
-              </span>
-              <span className="text-paper/80">
-                {locale === "tr"
-                  ? "İstanbul, Türkiye"
-                  : "Istanbul, Turkey"}
-              </span>
-            </div>
+            <form className="f-form" action={`mailto:${COMPANY.email}`} method="post">
+              <label htmlFor="footer-email" className="sr-only">
+                {isTr ? "E-posta adresiniz" : "Your email address"}
+              </label>
+              <input
+                id="footer-email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                placeholder={isTr ? "E-posta adresiniz" : "Your email address"}
+                className="f-input"
+              />
+              <button type="submit" className="f-btn" aria-label={isTr ? "Bültene abone ol" : "Subscribe to newsletter"}>
+                <svg viewBox="0 0 14 14" width="14" height="14" aria-hidden="true">
+                  <path d="M3 11 L11 3 M5 3 H11 V9" stroke="currentColor" strokeWidth="1.4" fill="none" />
+                </svg>
+              </button>
+            </form>
+            <p className="mt-3 text-xs text-white/40">
+              {isTr ? "Ayda bir — teşhis, metot, sonuç." : "Monthly — diagnosis, method, outcome."}
+            </p>
           </div>
-        </div>
 
-        {/* Sitemap columns */}
-        <div className="md:col-span-7 lg:col-span-5 grid grid-cols-3 gap-6 md:gap-10">
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className="typography-label uppercase tracking-widest text-paper/40">
+              <h2 className="mono mb-6 text-[11px] font-medium tracking-[0.14em] text-white">
                 {col.title}
-              </h3>
-              <ul className="mt-5 space-y-3 typography-body-sm">
+              </h2>
+              <ul className="flex flex-col gap-2.5">
                 {col.links.map((l) => (
                   <li key={l.href}>
-                    <Link
-                      href={l.href}
-                      className="text-paper/80 hover:text-paper transition-colors"
-                    >
+                    <Link href={l.href} className="text-sm text-white/60 transition-colors hover:text-white">
                       {l.label}
                     </Link>
                   </li>
@@ -105,64 +97,33 @@ export async function SiteFooter({ locale }: { locale: "tr" | "en" }) {
           ))}
         </div>
 
-        {/* Newsletter */}
-        <div className="md:col-span-12 lg:col-span-3">
-          <h3 className="typography-label uppercase tracking-widest text-paper/40">
-            {locale === "tr" ? "Bülten" : "Newsletter"}
-          </h3>
-          <p className="typography-body-sm text-paper/70 mt-4 max-w-[36ch]">
-            {locale === "tr"
-              ? "Ayda bir — teşhis, metot, sonuç."
-              : "Monthly — diagnosis, method, outcome."}
+        <div className="grid grid-cols-1 items-center gap-6 pt-8 pb-10 md:grid-cols-[1fr_auto_1fr]">
+          <p className="mono text-[11px] tracking-[0.1em] text-white/40">
+            © {year} {COMPANY.legalName} · {isTr ? "İstanbul, Türkiye" : "Istanbul, Turkey"}
           </p>
-          <form className="mt-5 flex items-stretch gap-2">
-            <input
-              type="email"
-              placeholder={
-                locale === "tr" ? "E-posta adresi" : "Email address"
-              }
-              className="flex-1 min-w-0 h-11 bg-paper/[0.06] border border-paper/15 rounded-lg px-4 typography-body-sm text-paper placeholder:text-paper/40 focus-visible:outline-none focus-visible:border-paper/40"
-            />
-            <button
-              type="button"
-              className="shrink-0 h-11 px-5 rounded-lg bg-paper text-ink-900 hover:bg-paper/90 transition-colors typography-body-sm font-medium"
-            >
-              {locale === "tr" ? "Abone ol" : "Subscribe"}
-            </button>
-          </form>
-          <p className="typography-caption text-paper/40 mt-3">
-            {locale === "tr"
-              ? "Spam yok. İstediğiniz zaman ayrılabilirsiniz."
-              : "No spam. Unsubscribe anytime."}
-          </p>
-        </div>
-      </div>
-
-      {/* Bottom: copyright + legal */}
-      <div className="relative z-10 border-t border-paper/10">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 typography-caption">
-          <div className="text-paper/50">
-            © {year} {t("footer.legalName")}. {t("footer.rights")}
-          </div>
-          <nav className="flex items-center gap-6 text-paper/50">
-            <Link href="#" className="hover:text-paper transition-colors">
+          <nav className="mono flex justify-center gap-6 text-[11px] tracking-[0.1em]" aria-label={isTr ? "Yasal" : "Legal"}>
+            <Link href={`/${locale}/gizlilik-kvkk`} className="text-white/50 transition-colors hover:text-white">
+              {isTr ? "Gizlilik" : "Privacy"}
+            </Link>
+            <Link href={`/${locale}/gizlilik-kvkk`} className="text-white/50 transition-colors hover:text-white">
               KVKK
             </Link>
-            <Link href="#" className="hover:text-paper transition-colors">
-              {locale === "tr" ? "Gizlilik" : "Privacy"}
-            </Link>
-            <Link href="#" className="hover:text-paper transition-colors">
-              {locale === "tr" ? "Çerezler" : "Cookies"}
-            </Link>
             <a
-              href="https://www.linkedin.com/company/indoles"
+              href={COMPANY.social.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-paper transition-colors"
+              className="text-white/50 transition-colors hover:text-white"
             >
               LinkedIn ↗
             </a>
           </nav>
+          <p className="mono text-[11px] tracking-[0.1em] text-white/40 md:text-right">
+            {t("footer.rights")}
+          </p>
+        </div>
+
+        <div className="f-mega" aria-hidden="true">
+          INDOLES
         </div>
       </div>
     </footer>

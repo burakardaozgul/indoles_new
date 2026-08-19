@@ -21,6 +21,9 @@ export const routing = defineRouting({
     },
     "/iletisim": { tr: "/iletisim", en: "/contact" },
     "/hakkimizda": { tr: "/hakkimizda", en: "/about" },
+    // Yasal sayfa `pathnames`'te yoktu: EN'de `/en/gizlilik-kvkk` olarak
+    // yayınlanıyor ve sitemap'e hiç girmiyordu. Migrasyonla birlikte eklendi.
+    "/gizlilik-kvkk": { tr: "/gizlilik-kvkk", en: "/privacy" },
   },
 });
 

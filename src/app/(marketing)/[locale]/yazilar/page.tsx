@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { ARTICLES } from "@/lib/content/articles";
 import { getConsultantBySlug } from "@/lib/content/consultants";
@@ -37,12 +37,12 @@ export default async function ArticlesIndex({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
           { label: tCommon("nav.articles") },
         ]}
-        eyebrow={loc === "tr" ? "Yazılar" : "Journal"}
+        eyebrow={tCommon("nav.articles")}
         title={
           loc === "tr"
             ? "Danışman kaleminden."
@@ -56,8 +56,8 @@ export default async function ArticlesIndex({
       />
 
       {/* Featured article */}
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-20 md:py-28">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-20 md:py-28">
           <Link
             href={`/${locale}/yazilar/${featured.slug[loc]}`}
             className="group grid grid-cols-1 md:grid-cols-12 gap-10"
@@ -75,7 +75,7 @@ export default async function ArticlesIndex({
               </p>
             </div>
             <div className="md:col-span-9">
-              <h2 className="typography-display-xl text-ink-900 max-w-[24ch] group-hover:text-brand-800 transition-colors">
+              <h2 className="typography-h1 text-ink-900 max-w-[24ch] group-hover:text-brand-800 transition-colors">
                 {featured.title[loc]}
               </h2>
               <p className="typography-body-lg text-ink-700 mt-6 max-w-prose-editorial">
@@ -87,8 +87,8 @@ export default async function ArticlesIndex({
       </section>
 
       {/* Other articles list */}
-      <section className="bg-surface-1">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-20 md:py-28">
+      <section className="v2-surface">
+        <div className="ds-container py-20 md:py-28">
           <ol className="border-t border-surface-2">
             {rest.map((a) => {
               const author = getConsultantBySlug(a.authorSlug);
@@ -96,7 +96,7 @@ export default async function ArticlesIndex({
                 <li key={a.slug[loc]} className="border-b border-surface-2">
                   <Link
                     href={`/${locale}/yazilar/${a.slug[loc]}`}
-                    className="group grid grid-cols-1 md:grid-cols-12 gap-6 py-10 md:py-12 hover:bg-paper transition-colors px-0 md:px-4 -mx-0 md:-mx-4 rounded-lg"
+                    className="group grid grid-cols-1 md:grid-cols-12 gap-6 py-10 md:py-12 hover:transition-colors px-0 md:px-4 -mx-0 md:-mx-4 rounded-lg"
                   >
                     <div className="md:col-span-2 typography-label uppercase tracking-widest text-brand-700">
                       {CATEGORY_LABELS[a.category]![loc]}

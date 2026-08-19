@@ -2,15 +2,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Phone } from "lucide-react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
-import { getConsultantBySlug, CONSULTANTS } from "@/lib/content/consultants";
+import { getConsultantBySlug, BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
 import { getPillar } from "@/lib/content/pillars";
 import { ARTICLES } from "@/lib/content/articles";
 
 export async function generateStaticParams() {
-  return CONSULTANTS.flatMap((c) =>
+  return BOOKABLE_CONSULTANTS.flatMap((c) =>
     (["tr", "en"] as const).map((locale) => ({ locale, slug: c.slug }))
   );
 }
@@ -31,10 +31,10 @@ export default async function ConsultantDetail({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
-          { label: tCommon("nav.consultants"), href: `/${locale}/danismanlar` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
+          { label: tCommon("nav.consultants"), href: "/danismanlar" },
           { label: c.name },
         ]}
         eyebrow={c.title[loc]}
@@ -42,12 +42,18 @@ export default async function ConsultantDetail({
         lede={c.shortBio[loc]}
       />
 
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+      <section className="border-b border-ink-100 ">
+        <div className="ds-container py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
           <aside className="md:col-span-4">
-            <div className="bg-surface-1 rounded-2xl p-8 sticky top-24">
-              <div className="w-20 h-20 rounded-full bg-ink-900 text-paper grid place-items-center typography-h1">
-                {c.name.charAt(0)}
+            <div className="v2-surface rounded-2xl p-8 sticky top-24">
+              <div
+                className="grid h-20 w-20 place-items-center rounded-lg font-display text-3xl font-light text-white"
+                style={{
+                  background: `linear-gradient(140deg, ${c.portraitTone}, var(--color-teal-900))`,
+                }}
+                aria-hidden="true"
+              >
+                {c.initials}
               </div>
               <h2 className="typography-h1 text-ink-900 mt-6">{c.name}</h2>
               <p className="typography-body-sm text-ink-500 mt-1">
@@ -56,7 +62,7 @@ export default async function ConsultantDetail({
               <dl className="mt-8 space-y-4">
                 <div>
                   <dt className="typography-label uppercase tracking-widest text-ink-500">
-                    Pillar
+                    {loc === "tr" ? "Disiplin" : "Pillar"}
                   </dt>
                   <dd className="mt-2 flex flex-wrap gap-2">
                     {c.pillars.map((p) => {
@@ -64,7 +70,7 @@ export default async function ConsultantDetail({
                       return (
                         <span
                           key={p}
-                          className="typography-caption text-brand-700 border border-surface-3 rounded-full px-3 py-1"
+                          className="mono rounded-md border border-ink-200 px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-teal-700"
                         >
                           {pillar?.name[loc]}
                         </span>
@@ -101,7 +107,16 @@ export default async function ConsultantDetail({
           </aside>
 
           <div className="md:col-span-8">
-            <span className="typography-label uppercase tracking-widest text-ink-500">
+            <figure className="mb-14 border-l-2 border-teal-700 pl-8">
+              <blockquote className="ts-quote max-w-none">
+                {c.quote[loc]}
+              </blockquote>
+              <figcaption className="mono mt-5 text-[11px] uppercase tracking-[0.18em] text-ink-500">
+                {c.name}
+              </figcaption>
+            </figure>
+
+            <span className="eyebrow">
               {loc === "tr" ? "Biyografi" : "Biography"}
             </span>
             <div className="mt-6 space-y-6 max-w-prose-editorial">
@@ -122,7 +137,7 @@ export default async function ConsultantDetail({
                     <li key={a.slug[loc]} className="border-b border-surface-2">
                       <Link
                         href={`/${locale}/yazilar/${a.slug[loc]}`}
-                        className="group block py-6 hover:bg-surface-1 transition-colors -mx-4 px-4 rounded-lg"
+                        className="group block py-6 hover:v2-surface transition-colors -mx-4 px-4 rounded-lg"
                       >
                         <h3 className="typography-h3 text-ink-900 group-hover:text-brand-800">
                           {a.title[loc]}

@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { MethodSection } from "@/components/marketing/method-section";
+import { TeamSlider } from "@/components/marketing/team-slider";
+import { VisionSection } from "@/components/marketing/vision-section";
 import { CONSULTANTS } from "@/lib/content/consultants";
 
 export default async function AboutPage({
@@ -63,9 +66,9 @@ export default async function AboutPage({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
           { label: tCommon("nav.about") },
         ]}
         eyebrow={loc === "tr" ? "Hakkımızda" : "About"}
@@ -82,13 +85,13 @@ export default async function AboutPage({
       />
 
       {/* Manifesto */}
-      <section className="bg-surface-1 border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+      <section className="v2-surface border-b border-surface-2">
+        <div className="ds-container py-24 md:py-32">
           <div className="max-w-[40ch] mx-auto text-center">
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {loc === "tr" ? "Manifesto" : "Manifesto"}
             </span>
-            <blockquote className="typography-display-xl mt-8 text-ink-900 leading-[1.15]">
+            <blockquote className="typography-h1 mt-8 text-ink-900 leading-[1.15]">
               {loc === "tr"
                 ? "Teşhis olmadan reçete yazmayız. İş önce anlaşılır, sonra teknoloji çağrılır."
                 : "No prescription without diagnosis. Business is understood first; technology is called second."}
@@ -98,14 +101,14 @@ export default async function AboutPage({
       </section>
 
       {/* Values */}
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
             <div className="md:col-span-4">
               <span className="typography-label uppercase tracking-widest text-ink-500">
                 {loc === "tr" ? "Değerler" : "Values"}
               </span>
-              <h2 className="typography-display-lg mt-4 text-ink-900">
+              <h2 className="typography-h2 mt-4 text-ink-900">
                 {loc === "tr"
                   ? "Nasıl çalıştığımız."
                   : "How we work."}
@@ -138,12 +141,12 @@ export default async function AboutPage({
       </section>
 
       {/* Team */}
-      <section className="bg-surface-1 border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+      <section className="v2-surface border-b border-surface-2">
+        <div className="ds-container py-24 md:py-32">
           <span className="typography-label uppercase tracking-widest text-ink-500">
             {loc === "tr" ? "Ekip" : "Team"}
           </span>
-          <h2 className="typography-display-lg mt-4 text-ink-900">
+          <h2 className="typography-h2 mt-4 text-ink-900">
             {loc === "tr"
               ? "İç ekip. Küratörlü."
               : "Internal team. Curated."}
@@ -159,7 +162,7 @@ export default async function AboutPage({
               <Link
                 key={c.slug}
                 href={`/${locale}/danismanlar/${c.slug}`}
-                className="group bg-paper border border-surface-2 rounded-2xl p-10 flex flex-col min-h-[240px] hover:bg-surface-2/60 transition-colors"
+                className="group border border-surface-2 rounded-2xl p-10 flex flex-col min-h-[240px] hover:v2-surface-2/60 transition-colors"
               >
                 <header className="flex items-center gap-6">
                   <div className="w-16 h-16 rounded-full bg-ink-900 text-paper grid place-items-center typography-h2">
@@ -182,6 +185,12 @@ export default async function AboutPage({
           </div>
         </div>
       </section>
+
+      {/* Eski anasayfadan taşındı (ADR-017): yöntem, kadro ve vizyon
+          anasayfanın ritmini bozuyordu; kurumsal anlatının doğal yeri burası. */}
+      <MethodSection locale={loc} />
+      <TeamSlider locale={loc} />
+      <VisionSection locale={loc} />
 
       <ContactCallout locale={loc} />
     </>

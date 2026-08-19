@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Lexend, Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "@/styles/globals.css";
+import "@/styles/sections.css";
 
-const fraunces = Fraunces({
+const lexend = Lexend({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-heading-serif",
+  variable: "--font-display-sans",
   display: "swap",
-  axes: ["opsz"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const inter = Inter({
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FBFAF7",
+  themeColor: "#FAFAF7",
   width: "device-width",
   initialScale: 1,
 };
@@ -48,8 +49,28 @@ export default function RootLayout({
   return (
     <html
       suppressHydrationWarning
-      className={`${fraunces.variable} ${inter.variable} ${jetbrains.variable}`}
+      className={`${lexend.variable} ${inter.variable} ${jetbrains.variable}`}
     >
+      <head>
+        {/* Persona merceğini ilk boyamadan ÖNCE kök elemana yazar.
+            Persona-aware metinler iki varyantı da DOM'a basar ve doğrusunu
+            CSS seçer (bkz. globals.css `[data-persona-variant]`). React'in
+            kendisi seçemez: sunucu `industrial` render eder, istemci cookie'yi
+            okuyup `commerce` render ederse hydration uyuşmazlığı olur.
+            Bu yüzden seçim CSS'e, cookie okuma da bu senkron script'e ait. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var m=document.cookie.match(/(?:^|; )indoles_persona=([^;]+)/);" +
+              "var v=m&&decodeURIComponent(m[1]);" +
+              "if(!v){var p=document.cookie.match(/(?:^|; )indoles_popup_state=([^;]+)/);" +
+              "if(p){v=(JSON.parse(decodeURIComponent(p[1]))||{}).persona}}" +
+              "if(v==='buyume-pazarlar'||v==='donusum-teknoloji'){" +
+              "document.documentElement.setAttribute('data-persona'," +
+              "v==='buyume-pazarlar'?'commerce':'industrial')}}catch(e){}",
+          }}
+        />
+      </head>
       <body>
         {children}
         <Script

@@ -1,5 +1,5 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { CalcomEmbed } from "@/components/marketing/CalcomEmbed";
 import { ContactForm } from "@/components/marketing/ContactForm";
 
@@ -15,16 +15,16 @@ export default async function ContactPage({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
           { label: tCommon("nav.contact") },
         ]}
         eyebrow={loc === "tr" ? "İletişim" : "Contact"}
         title={
           loc === "tr"
             ? "30 dakikada birlikte bir kağıda bakalım."
-            : "Let's look at a single page together, in 30 minutes."
+            : "Thirty minutes, one page, one clear next step."
         }
         lede={
           loc === "tr"
@@ -33,19 +33,46 @@ export default async function ContactPage({
         }
       />
 
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
           {/* Cal.com embed */}
           <div className="md:col-span-7">
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {loc === "tr" ? "Takvim" : "Calendar"}
             </span>
-            <h2 className="typography-display-lg mt-4 text-ink-900">
+            <h2 className="typography-h2 mt-4 text-ink-900">
               {loc === "tr" ? "Slot seç." : "Pick a slot."}
             </h2>
             <div className="mt-10">
               <CalcomEmbed />
             </div>
+            {/* Takvim yüklenmezse ziyaretçi çıkışsız kalmasın: "Slot seç."
+                başlığının altında her zaman iki alternatif duruyor. */}
+            <p className="typography-body-sm text-ink-500 mt-6 max-w-prose-editorial">
+              {loc === "tr" ? (
+                <>
+                  Takvim açılmıyorsa{" "}
+                  <a
+                    href="mailto:hello@indoles.com.tr"
+                    className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
+                  >
+                    hello@indoles.com.tr
+                  </a>{" "}
+                  adresine yazabilir veya yandaki formu doldurabilirsiniz.
+                </>
+              ) : (
+                <>
+                  If the calendar doesn&apos;t load, write to{" "}
+                  <a
+                    href="mailto:hello@indoles.com.tr"
+                    className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
+                  >
+                    hello@indoles.com.tr
+                  </a>{" "}
+                  or use the form alongside.
+                </>
+              )}
+            </p>
           </div>
 
           {/* Contact info + form */}

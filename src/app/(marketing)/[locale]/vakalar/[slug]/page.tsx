@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { getCaseBySlug, CASES } from "@/lib/content/cases";
 import { getPillar } from "@/lib/content/pillars";
@@ -31,10 +31,10 @@ export default async function CaseDetail({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
-          { label: tCommon("nav.caseStudies"), href: `/${locale}/vakalar` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
+          { label: tCommon("nav.caseStudies"), href: "/vakalar" },
           { label: c.clientName[loc] },
         ]}
         eyebrow={`${c.clientSector[loc]} — ${pillar?.name[loc]}`}
@@ -43,8 +43,8 @@ export default async function CaseDetail({
       />
 
       {/* Metrics */}
-      <section className="bg-surface-1 border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-20">
+      <section className="v2-surface border-b border-surface-2">
+        <div className="ds-container py-16 md:py-20">
           <dl className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
             {c.metrics.map((m) => (
               <div key={m.label[loc]}>
@@ -52,7 +52,7 @@ export default async function CaseDetail({
                   {m.label[loc]}
                 </dt>
                 <dd
-                  className="typography-display-xl mt-4 text-ink-900"
+                  className="typography-h1 mt-4 text-ink-900"
                   style={{ fontVariationSettings: '"opsz" 9' }}
                 >
                   {m.value}
@@ -64,8 +64,8 @@ export default async function CaseDetail({
       </section>
 
       {/* Challenge / Approach / Outcome */}
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-3">
               <span className="typography-label uppercase tracking-widest text-ink-500">
@@ -138,10 +138,10 @@ export default async function CaseDetail({
 
       {/* Testimonial */}
       {c.testimonial && (
-        <section className="bg-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+        <section className="v2-surface-2">
+          <div className="ds-container py-24 md:py-32">
             <figure className="max-w-[36ch] mx-auto text-center">
-              <blockquote className="typography-display-xl text-ink-900 leading-[1.15]">
+              <blockquote className="typography-h1 text-ink-900 leading-[1.15]">
                 {c.testimonial.quote[loc]}
               </blockquote>
               <figcaption className="typography-label uppercase tracking-widest text-ink-500 mt-10">
@@ -154,10 +154,10 @@ export default async function CaseDetail({
 
       {/* Related */}
       {related.length > 0 && (
-        <section className="bg-paper border-t border-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-20 md:py-24">
+        <section className="border-t border-surface-2">
+          <div className="ds-container py-20 md:py-24">
             <div className="flex items-end justify-between flex-wrap gap-4">
-              <h2 className="typography-display-lg text-ink-900">
+              <h2 className="typography-h2 text-ink-900">
                 {loc === "tr" ? "Benzer vakalar" : "Related cases"}
               </h2>
               <Link
@@ -175,7 +175,7 @@ export default async function CaseDetail({
                 <Link
                   key={r.slug}
                   href={`/${locale}/vakalar/${r.slug}`}
-                  className="group bg-surface-1 border border-surface-2 rounded-2xl p-8 hover:bg-surface-2/60 transition-colors"
+                  className="group v2-surface border border-surface-2 rounded-2xl p-8 hover:v2-surface-2/60 transition-colors"
                 >
                   <h3 className="typography-h2 text-ink-900 group-hover:text-brand-800">
                     {r.title[loc]}

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { getArticleBySlug, ARTICLES } from "@/lib/content/articles";
 import { getConsultantBySlug } from "@/lib/content/consultants";
@@ -48,10 +48,10 @@ export default async function ArticleDetail({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
-          { label: tCommon("nav.articles"), href: `/${locale}/yazilar` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
+          { label: tCommon("nav.articles"), href: "/yazilar" },
           { label: CATEGORY_LABELS[a.category]![loc] },
         ]}
         eyebrow={`${CATEGORY_LABELS[a.category]![loc]} — ${a.readingMinutes} ${
@@ -62,8 +62,8 @@ export default async function ArticleDetail({
       />
 
       {/* Meta strip */}
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-6 flex flex-wrap items-center gap-4 typography-caption text-ink-500">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-6 flex flex-wrap items-center gap-4 typography-caption text-ink-500">
           {author && (
             <>
               <Link
@@ -72,11 +72,11 @@ export default async function ArticleDetail({
               >
                 {author.name}
               </Link>
-              <span className="w-px h-3 bg-surface-3" aria-hidden />
+              <span className="w-px h-3 v2-surface-3" aria-hidden />
             </>
           )}
           <span>{formatDate(a.publishedAt, loc)}</span>
-          <span className="w-px h-3 bg-surface-3" aria-hidden />
+          <span className="w-px h-3 v2-surface-3" aria-hidden />
           <span>
             {a.readingMinutes} {loc === "tr" ? "dakika okuma" : "min read"}
           </span>
@@ -84,8 +84,8 @@ export default async function ArticleDetail({
       </section>
 
       {/* Body */}
-      <article className="bg-paper">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-24">
+      <article >
+        <div className="ds-container py-16 md:py-24">
           <div className="mx-auto max-w-[680px]">
             {a.body[loc].map((para, i) => (
               <p
@@ -101,8 +101,8 @@ export default async function ArticleDetail({
 
       {/* Author card */}
       {author && (
-        <section className="bg-surface-1 border-t border-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-20">
+        <section className="v2-surface border-t border-surface-2">
+          <div className="ds-container py-16 md:py-20">
             <div className="max-w-[680px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
               <div className="md:col-span-3">
                 <div className="w-20 h-20 rounded-full bg-ink-900 text-paper grid place-items-center typography-h2">
@@ -133,9 +133,9 @@ export default async function ArticleDetail({
 
       {/* Related */}
       {related.length > 0 && (
-        <section className="bg-paper border-t border-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-20 md:py-24">
-            <h2 className="typography-display-lg text-ink-900">
+        <section className="border-t border-surface-2">
+          <div className="ds-container py-20 md:py-24">
+            <h2 className="typography-h2 text-ink-900">
               {loc === "tr" ? "İlgili yazılar" : "Related articles"}
             </h2>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -143,7 +143,7 @@ export default async function ArticleDetail({
                 <Link
                   key={r.slug[loc]}
                   href={`/${locale}/yazilar/${r.slug[loc]}`}
-                  className="group bg-surface-1 border border-surface-2 rounded-2xl p-8 hover:bg-surface-2/60 transition-colors"
+                  className="group v2-surface border border-surface-2 rounded-2xl p-8 hover:v2-surface-2/60 transition-colors"
                 >
                   <span className="typography-label uppercase tracking-widest text-brand-700">
                     {CATEGORY_LABELS[r.category]![loc]}

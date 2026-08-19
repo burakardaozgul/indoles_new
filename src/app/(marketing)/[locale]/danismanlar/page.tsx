@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
-import { CONSULTANTS } from "@/lib/content/consultants";
+import { CONSULTANTS_ORDERED } from "@/lib/content/consultants";
 import { getPillar } from "@/lib/content/pillars";
 
 export default async function ConsultantsIndex({
@@ -17,9 +17,9 @@ export default async function ConsultantsIndex({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
           { label: tCommon("nav.consultants") },
         ]}
         eyebrow={loc === "tr" ? "Danışmanlar" : "Consultants"}
@@ -35,21 +35,27 @@ export default async function ConsultantsIndex({
         }
       />
 
-      <section className="bg-paper">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+      <section >
+        <div className="ds-container py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {CONSULTANTS.map((c) => (
+            {CONSULTANTS_ORDERED.map((c) => (
               <Link
                 key={c.slug}
                 href={`/${locale}/danismanlar/${c.slug}`}
-                className="group bg-surface-1 border border-surface-2 rounded-2xl p-10 md:p-12 flex flex-col min-h-[340px] hover:bg-surface-2/60 transition-colors"
+                className="group flex min-h-[340px] flex-col rounded-xl border border-ink-200 v2-surface p-10 shadow-sm transition-shadow hover:shadow-md md:p-12"
               >
                 <header className="flex items-center gap-6">
-                  <div className="w-16 h-16 rounded-full bg-ink-900 text-paper grid place-items-center typography-h2">
-                    {c.name.charAt(0)}
+                  <div
+                    className="grid h-16 w-16 shrink-0 place-items-center rounded-lg font-display text-2xl font-light text-white"
+                    style={{
+                      background: `linear-gradient(140deg, ${c.portraitTone}, var(--color-teal-900))`,
+                    }}
+                    aria-hidden="true"
+                  >
+                    {c.initials}
                   </div>
                   <div>
-                    <h2 className="typography-h1 text-ink-900 group-hover:text-brand-800 transition-colors">
+                    <h2 className="typography-h2 text-ink-900 group-hover:text-brand-800 transition-colors">
                       {c.name}
                     </h2>
                     <p className="typography-body-sm text-ink-500 mt-1">
@@ -66,7 +72,7 @@ export default async function ConsultantsIndex({
                     return (
                       <span
                         key={p}
-                        className="typography-caption text-brand-700 border border-surface-3 rounded-full px-3 py-1"
+                        className="mono rounded-md border border-ink-200 px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-teal-700"
                       >
                         {pillar?.name[loc]}
                       </span>

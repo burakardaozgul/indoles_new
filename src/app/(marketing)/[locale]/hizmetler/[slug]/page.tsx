@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
+import { PillarMark } from "@/components/marketing/pillar-mark";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { PersonaText } from "@/components/marketing/persona-text";
+import { PersonaSwitch } from "@/components/marketing/persona-switch";
 import { getPillar, PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
@@ -33,20 +35,34 @@ export default async function PillarDetail({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
-          { label: tCommon("nav.services"), href: `/${locale}/hizmetler` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
+          { label: tCommon("nav.services"), href: "/hizmetler" },
           { label: pillar.name[loc] },
         ]}
-        eyebrow={pillar.tagline.industrial[loc]}
+        eyebrow={
+          <PersonaText
+            industrial={pillar.tagline.industrial[loc]}
+            commerce={pillar.tagline.commerce[loc]}
+          />
+        }
         title={pillar.name[loc]}
         lede={pillar.heroLede[loc]}
+        aside={
+          /* Pillar'ın imza geometrisi — `/hizmetler` listesindekinin büyüğü.
+             Sayfaya girildiğinde hangi disiplinde olunduğu okumadan belli.
+             Altında persona merceği: bu sayfanın metni ona göre değişiyor. */
+          <div className="flex flex-col gap-6">
+            <PillarMark pillar={pillar.key} className="w-[200px] h-auto" />
+            <PersonaSwitch locale={loc} />
+          </div>
+        }
       />
 
       {/* Metrics strip */}
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-20">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-16 md:py-20">
           <dl className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
             {pillar.metrics.map((m) => (
               <div key={m.label[loc]}>
@@ -54,7 +70,7 @@ export default async function PillarDetail({
                   {m.label[loc]}
                 </dt>
                 <dd
-                  className="typography-display-xl mt-4 text-ink-900"
+                  className="typography-h1 mt-4 text-ink-900"
                   style={{ fontVariationSettings: '"opsz" 9' }}
                 >
                   {m.value}
@@ -68,29 +84,32 @@ export default async function PillarDetail({
       {/* Methodology */}
       <section
         aria-labelledby="methodology-heading"
-        className="bg-surface-1 border-b border-surface-2"
+        className="v2-surface border-b border-surface-2"
       >
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+        <div className="ds-container py-24 md:py-32">
           <span className="typography-label uppercase tracking-widest text-ink-500">
             {loc === "tr" ? "Yöntem" : "Method"}
           </span>
           <h2
             id="methodology-heading"
-            className="typography-display-lg mt-4 max-w-[22ch] text-ink-900"
+            className="typography-h2 mt-4 max-w-[22ch] text-ink-900"
           >
             {loc === "tr"
               ? "Teşhis olmadan reçete yok."
               : "No prescription without diagnosis."}
           </h2>
           <p className="typography-body-lg text-ink-700 mt-6 max-w-prose-editorial">
-            {pillar.description.industrial[loc]}
+            <PersonaText
+              industrial={pillar.description.industrial[loc]}
+              commerce={pillar.description.commerce[loc]}
+            />
           </p>
 
-          <ol className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-px bg-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
+          <ol className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-px v2-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
             {pillar.methodology.map((m) => (
               <li
                 key={m.step}
-                className="bg-paper p-8 md:p-10 flex flex-col min-h-[240px]"
+                className="p-8 md:p-10 flex flex-col min-h-[240px]"
               >
                 <span className="typography-label uppercase tracking-widest text-brand-700">
                   {m.step}
@@ -110,9 +129,9 @@ export default async function PillarDetail({
       {/* Services */}
       <section
         aria-labelledby="services-heading"
-        className="bg-paper border-b border-surface-2"
+        className="border-b border-surface-2"
       >
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+        <div className="ds-container py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
             <div className="md:col-span-4">
               <span className="typography-label uppercase tracking-widest text-ink-500">
@@ -120,7 +139,7 @@ export default async function PillarDetail({
               </span>
               <h2
                 id="services-heading"
-                className="typography-display-lg mt-4 text-ink-900"
+                className="typography-h2 mt-4 text-ink-900"
               >
                 {loc === "tr"
                   ? "İşin merkezindeki uzmanlık."
@@ -142,7 +161,10 @@ export default async function PillarDetail({
                       </div>
                       <div className="md:col-span-7">
                         <p className="typography-body-md text-ink-700">
-                          {s.shortDescription.industrial[loc]}
+                          <PersonaText
+                            industrial={s.shortDescription.industrial[loc]}
+                            commerce={s.shortDescription.commerce[loc]}
+                          />
                         </p>
                       </div>
                     </div>
@@ -156,14 +178,14 @@ export default async function PillarDetail({
 
       {/* Packages */}
       {relatedPackages.length > 0 && (
-        <section className="bg-surface-1 border-b border-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+        <section className="v2-surface border-b border-surface-2">
+          <div className="ds-container py-24 md:py-32">
             <div className="flex items-end justify-between flex-wrap gap-6">
               <div>
                 <span className="typography-label uppercase tracking-widest text-ink-500">
                   {loc === "tr" ? "Paketler" : "Packages"}
                 </span>
-                <h2 className="typography-display-lg mt-4 max-w-[22ch] text-ink-900">
+                <h2 className="typography-h2 mt-4 max-w-[22ch] text-ink-900">
                   {loc === "tr"
                     ? "Hızlı giriş kapıları."
                     : "Fast entry doors."}
@@ -185,7 +207,7 @@ export default async function PillarDetail({
                 <Link
                   key={pkg.slug[loc]}
                   href={`/${locale}/paketler/${pkg.slug[loc]}`}
-                  className="group bg-paper border border-surface-2 rounded-2xl p-8 md:p-10 flex flex-col min-h-[260px] hover:bg-surface-2/60 transition-colors"
+                  className="group border border-surface-2 rounded-2xl p-8 md:p-10 flex flex-col min-h-[260px] hover:v2-surface-2/60 transition-colors"
                 >
                   <header className="flex items-center justify-between">
                     <span className="typography-label uppercase tracking-widest text-brand-700">
@@ -224,14 +246,14 @@ export default async function PillarDetail({
 
       {/* Featured case */}
       {relatedCase && (
-        <section className="bg-paper border-b border-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+        <section className="border-b border-surface-2">
+          <div className="ds-container py-24 md:py-32">
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {tProof("featured.clientLabel")}
             </span>
             <div className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-10">
               <div className="md:col-span-7">
-                <h2 className="typography-display-xl text-ink-900 max-w-[20ch]">
+                <h2 className="typography-h1 text-ink-900 max-w-[20ch]">
                   {relatedCase.title[loc]}
                 </h2>
                 <p className="typography-body-lg text-ink-700 mt-6 max-w-prose-editorial">
@@ -248,14 +270,14 @@ export default async function PillarDetail({
                 </Link>
               </div>
               <div className="md:col-span-5">
-                <dl className="grid grid-cols-1 gap-px bg-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
+                <dl className="grid grid-cols-1 gap-px v2-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
                   {relatedCase.metrics.map((m) => (
-                    <div key={m.label[loc]} className="bg-surface-1 p-8">
+                    <div key={m.label[loc]} className="v2-surface p-8">
                       <dt className="typography-label uppercase tracking-widest text-ink-500">
                         {m.label[loc]}
                       </dt>
                       <dd
-                        className="typography-display-lg mt-3 text-ink-900"
+                        className="typography-h2 mt-3 text-ink-900"
                         style={{ fontVariationSettings: '"opsz" 9' }}
                       >
                         {m.value}

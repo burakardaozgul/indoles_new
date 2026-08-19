@@ -2,25 +2,22 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex items-center justify-center px-6">
-      <div className="max-w-prose text-center space-y-6">
-        <p className="typography-label uppercase text-ink-500">404</p>
+    <main className="grid min-h-screen place-items-center bg-bg px-6 py-40">
+      <div className="max-w-[60ch] space-y-6 text-center">
+        <span className="eyebrow eyebrow-bare mono">404</span>
         <h1 className="typography-display-lg">Aradığın sayfa burada değil.</h1>
-        <p className="typography-body-lg text-ink-700">
+        <p className="typography-body-lg mx-auto max-w-[52ch] text-ink-600">
           Bağlantı eski olabilir ya da yanlış yazılmış olabilir. Buradan geri
           dönebilirsin.
         </p>
-        <div className="flex items-center justify-center gap-4 pt-2">
-          <Link
-            href="/tr"
-            className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
-          >
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+          <Link href="/tr" className="btn btn-primary">
             Anasayfaya dön
+            <svg className="arrow" viewBox="0 0 14 14" aria-hidden="true">
+              <path d="M3 11 L11 3 M5 3 H11 V9" stroke="currentColor" strokeWidth="1.4" fill="none" />
+            </svg>
           </Link>
-          <Link
-            href="/tr/iletisim"
-            className="text-ink-500 hover:text-ink-900"
-          >
+          <Link href="/tr/iletisim" className="btn btn-ghost">
             İletişim
           </Link>
         </div>

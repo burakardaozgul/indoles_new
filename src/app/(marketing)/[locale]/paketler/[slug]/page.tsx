@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Phone } from "lucide-react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/marketing/page-header";
+import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { PersonaText, PersonaListItems } from "@/components/marketing/persona-text";
@@ -41,10 +41,10 @@ export default async function PackageDetail({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: "INDOLES", href: `/${locale}` },
-          { label: tCommon("nav.packages"), href: `/${locale}/paketler` },
+      <V2PageHeader
+        crumbs={[
+          { label: "INDOLES", href: "/" },
+          { label: tCommon("nav.packages"), href: "/paketler" },
           { label: pkg.name[loc] },
         ]}
         eyebrow={`${pillar?.name[loc]} — ${pkg.durationWeeks} ${
@@ -60,8 +60,8 @@ export default async function PackageDetail({
       />
 
       {/* Price + summary */}
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-10">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-16 md:py-20 grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-8">
             <p className="typography-body-lg text-ink-700 max-w-prose-editorial">
               <PersonaText
@@ -75,20 +75,20 @@ export default async function PackageDetail({
                 {tCommon("cta.bookConsultation")}
               </PopupCTAButton>
               <Link
-                href="/app/brief/yeni"
-                className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:bg-surface-1 transition-colors typography-body-md"
+                href={`/${locale}/iletisim`}
+                className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:v2-surface transition-colors typography-body-md"
               >
                 {tCommon("cta.submitBrief")}
               </Link>
             </div>
           </div>
           <aside className="md:col-span-4">
-            <div className="bg-surface-1 rounded-2xl p-8">
+            <div className="v2-surface rounded-2xl p-8">
               <div className="typography-label uppercase tracking-widest text-ink-500">
                 {loc === "tr" ? "Başlangıç fiyatı" : "Starting from"}
               </div>
               <div
-                className="typography-display-lg mt-4 text-ink-900"
+                className="typography-h2 mt-4 text-ink-900"
                 style={{ fontVariationSettings: '"opsz" 9' }}
               >
                 {priceFormatted}
@@ -113,13 +113,13 @@ export default async function PackageDetail({
       </section>
 
       {/* Scope */}
-      <section className="bg-surface-1 border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10">
+      <section className="v2-surface border-b border-surface-2">
+        <div className="ds-container py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-4">
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {loc === "tr" ? "Kapsam" : "Scope"}
             </span>
-            <h2 className="typography-display-lg mt-4 text-ink-900">
+            <h2 className="typography-h2 mt-4 text-ink-900">
               {loc === "tr" ? "Ne dahil?" : "What's included?"}
             </h2>
           </div>
@@ -136,8 +136,8 @@ export default async function PackageDetail({
       </section>
 
       {/* Deliverables + Who for */}
-      <section className="bg-paper border-b border-surface-2">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <section className="border-b border-surface-2">
+        <div className="ds-container py-24 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {loc === "tr" ? "Teslim edilenler" : "Deliverables"}
@@ -173,13 +173,13 @@ export default async function PackageDetail({
 
       {/* FAQ */}
       {pkg.faq.length > 0 && (
-        <section className="bg-surface-1 border-b border-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+        <section className="v2-surface border-b border-surface-2">
+          <div className="ds-container py-24 md:py-32">
             <div className="max-w-[720px]">
               <span className="typography-label uppercase tracking-widest text-ink-500">
                 FAQ
               </span>
-              <h2 className="typography-display-lg mt-4 text-ink-900">
+              <h2 className="typography-h2 mt-4 text-ink-900">
                 {loc === "tr" ? "Sık sorulan." : "Frequently asked."}
               </h2>
               <div className="mt-12 divide-y divide-surface-2 border-y border-surface-2">
@@ -212,14 +212,14 @@ export default async function PackageDetail({
 
       {/* Related case */}
       {relatedCase && (
-        <section className="bg-paper border-b border-surface-2">
-          <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-24 md:py-32">
+        <section className="border-b border-surface-2">
+          <div className="ds-container py-24 md:py-32">
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {loc === "tr" ? "İlgili vaka" : "Related case"}
             </span>
             <div className="mt-6 grid grid-cols-1 md:grid-cols-12 gap-10">
               <div className="md:col-span-7">
-                <h2 className="typography-display-xl text-ink-900 max-w-[20ch]">
+                <h2 className="typography-h1 text-ink-900 max-w-[20ch]">
                   {relatedCase.title[loc]}
                 </h2>
                 <p className="typography-body-lg text-ink-700 mt-6 max-w-prose-editorial">

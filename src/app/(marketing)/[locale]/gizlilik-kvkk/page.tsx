@@ -1,5 +1,5 @@
 import { setRequestLocale, getTranslations } from 'next-intl/server';
-import { PageHeader } from '@/components/marketing/page-header';
+import { V2PageHeader } from '@/components/v2/chrome/V2PageHeader';
 import { ContactCallout } from '@/components/marketing/contact-callout';
 
 const KVKK_TR = `# Gizlilik ve KVKK Aydınlatma Metni
@@ -61,9 +61,11 @@ function parseMarkdown(content: string) {
 
     if (line.startsWith('# ')) {
       elements.push(
-        <h1 key={i} className="typography-display-lg mt-0 mb-8 text-ink-900">
+        // `h1` değil: sayfanın tek `h1`'i V2PageHeader'da. Belgedeki her
+        // bölüm başlığı `h2` olmalı, aksi hâlde sayfada dokuz `h1` oluyor.
+        <h2 key={i} className="typography-h2 mt-0 mb-8 text-ink-900">
           {line.replace(/^# /, '')}
-        </h1>
+        </h2>
       );
     } else if (line.startsWith('## ')) {
       elements.push(
@@ -138,9 +140,9 @@ export default async function KvkkPage({
 
   return (
     <>
-      <PageHeader
-        breadcrumbs={[
-          { label: 'INDOLES', href: `/${locale}` },
+      <V2PageHeader
+        crumbs={[
+          { label: 'INDOLES', href: "/" },
           { label: loc === 'tr' ? 'Gizlilik' : 'Privacy' },
         ]}
         eyebrow={loc === 'tr' ? 'Yasal' : 'Legal'}
@@ -152,8 +154,8 @@ export default async function KvkkPage({
         }
       />
 
-      <article className="bg-paper">
-        <div className="mx-auto max-w-[1440px] px-6 md:px-12 py-16 md:py-24">
+      <article >
+        <div className="ds-container py-16 md:py-24">
           <div className="mx-auto max-w-[680px]">
             {parseMarkdown(content)}
           </div>

@@ -45,6 +45,11 @@ const STATIC_ROUTES: Array<{
     priority: 0.5,
     changeFrequency: "yearly",
   },
+  {
+    path: { tr: "/tr/gizlilik-kvkk", en: "/en/privacy" },
+    priority: 0.3,
+    changeFrequency: "yearly",
+  },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

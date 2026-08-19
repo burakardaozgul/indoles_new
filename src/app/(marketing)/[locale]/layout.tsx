@@ -3,10 +3,13 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/lib/i18n/routing";
-import { SiteTopNav } from "@/components/layout/site-top-nav";
-import { SiteFooter } from "@/components/layout/site-footer";
 import { PopupProvider } from "@/lib/popup/popup-context";
-import { SectionNavigator } from "@/components/layout/section-navigator";
+import { RevealObserver } from "@/components/marketing/reveal-observer";
+import { V2Chrome } from "@/components/v2/V2Chrome";
+import { V2TopBar } from "@/components/v2/chrome/V2TopBar";
+import { V2Nav, type V2NavLink } from "@/components/v2/chrome/V2Nav";
+import { V2Footer } from "@/components/v2/chrome/V2Footer";
+import "@/styles/v2.css";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -27,13 +30,15 @@ const META = {
   },
   en: {
     title: {
-      default: "INDOLES — Business growth consultancy",
+      default: "INDOLES — Business transformation studio, Istanbul",
       template: "%s — INDOLES",
     },
+    // Çeviri değil, yeniden yazım: EN arama niyeti "transformation consultancy
+    // Turkey" ve "manufacturing digital transformation" ekseninde (docs/03 §7).
     description:
-      "Technology transformation for industry, aggressive growth for commerce. No prescription without diagnosis — business first, technology second.",
-    ogTitle: "Industry transformation, commerce growth — INDOLES",
-    ogDescription: "Business growth consultancy. Diagnosis first, technology second.",
+      "Strategy, design and engineering under one roof: digital transformation for manufacturers, growth systems for commerce brands. Fixed-scope packages from 3 weeks.",
+    ogTitle: "Transformation for industry, growth for commerce — INDOLES",
+    ogDescription: "An Istanbul business-building studio. We diagnose before we prescribe, and we stay through implementation.",
     ogLocale: "en_US",
     altLocale: "tr_TR",
   },
@@ -98,26 +103,40 @@ export default async function MarketingLayout({
     getTranslations({ locale, namespace: "common" }),
   ]);
 
-  const links = [
-    { href: `/${locale}/hizmetler`, label: t("nav.services") },
-    { href: `/${locale}/paketler`, label: t("nav.packages") },
-    { href: `/${locale}/vakalar`, label: t("nav.caseStudies") },
-    { href: `/${locale}/yazilar`, label: t("nav.articles") },
-    { href: `/${locale}/iletisim`, label: t("nav.contact") },
+  const loc = locale as "tr" | "en";
+
+  // Danışmanlar bilinçli olarak yok: kadro Hakkımızda ile birleştirilecek
+  // (Burak, 2026-08-19). `/danismanlar` duruyor, footer'dan erişilebilir.
+  const links: V2NavLink[] = [
+    { href: "/hakkimizda", label: t("nav.about") },
+    { href: "/hizmetler", label: t("nav.services") },
+    { href: "/paketler", label: t("nav.packages") },
+    { href: "/vakalar", label: t("nav.caseStudies") },
+    { href: "/yazilar", label: t("nav.articles") },
   ];
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <PopupProvider>
-        <div className="min-h-screen flex flex-col">
-          <SiteTopNav
-            locale={locale as "tr" | "en"}
-            links={links}
-            ctaLabel={t("cta.bookConsultation")}
-          />
-          <main className="flex-1">{children}</main>
-          <SiteFooter locale={locale as "tr" | "en"} />
-          <SectionNavigator />
+        <div className="v2-root">
+          <V2Chrome
+            skipLabel={loc === "tr" ? "İçeriğe geç" : "Skip to content"}
+            chrome={
+              <>
+                <V2TopBar locale={loc} />
+                <V2Nav
+                  locale={loc}
+                  links={links}
+                  ctaLabel={t("cta.bookConsultation")}
+                  menuLabel={loc === "tr" ? "Menü" : "Menu"}
+                />
+              </>
+            }
+            footer={<V2Footer locale={loc} />}
+          >
+            {children}
+          </V2Chrome>
+          <RevealObserver />
         </div>
       </PopupProvider>
     </NextIntlClientProvider>

@@ -6,18 +6,7 @@ import { CasesSection } from "@/components/marketing/cases-section";
 import { PersonaText } from "@/components/marketing/persona-text";
 import { PersonaSwitch } from "@/components/marketing/persona-switch";
 import { CASES } from "@/lib/content/cases";
-import { getPillar } from "@/lib/content/pillars";
-
-const PROBLEM_LABELS: Record<string, { tr: string; en: string }> = {
-  efficiency_loss: { tr: "Verim kaybı", en: "Efficiency loss" },
-  cost_optimization: { tr: "Maliyet optimizasyonu", en: "Cost optimization" },
-  market_expansion: { tr: "Pazara açılma", en: "Market expansion" },
-  digital_transformation: {
-    tr: "Dijital dönüşüm",
-    en: "Digital transformation",
-  },
-  customer_acquisition: { tr: "Müşteri edinimi", en: "Customer acquisition" },
-};
+import { CaseCard, PROBLEM_LABELS } from "@/components/marketing/case-card";
 
 export default async function CaseIndex({
   params,
@@ -105,42 +94,9 @@ export default async function CaseIndex({
       <section className="v2-surface">
         <div className="ds-container py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {others.map((c) => {
-              const pillar = getPillar(c.pillar);
-              return (
-                <Link
-                  key={c.slug}
-                  href={`/${locale}/vakalar/${c.slug}`}
-                  className="group border border-surface-2 rounded-2xl p-8 md:p-10 flex flex-col min-h-[340px] hover:v2-surface-2/40 transition-colors"
-                >
-                  <header className="flex items-center justify-between">
-                    <span className="typography-label uppercase tracking-widest text-ink-500">
-                      {PROBLEM_LABELS[c.problemType]![loc]}
-                    </span>
-                    <span className="typography-caption text-brand-700">
-                      {pillar?.name[loc]}
-                    </span>
-                  </header>
-                  <h3 className="typography-h2 mt-8 text-ink-900 group-hover:text-brand-800 transition-colors">
-                    {c.title[loc]}
-                  </h3>
-                  <p className="typography-body-sm text-ink-500 mt-4 line-clamp-3">
-                    {c.lead[loc]}
-                  </p>
-                  <div className="mt-auto pt-8 flex items-center justify-between">
-                    <span className="typography-caption text-ink-500">
-                      {c.clientSector[loc]}
-                    </span>
-                    <span
-                      aria-hidden
-                      className="text-ink-500 group-hover:text-brand-700 group-hover:translate-x-1 transition-all"
-                    >
-                      →
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
+            {others.map((c) => (
+              <CaseCard key={c.slug} c={c} locale={loc} />
+            ))}
           </div>
         </div>
       </section>

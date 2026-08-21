@@ -1,14 +1,120 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { CaseMetricBand } from "@/components/marketing/case-metric-band";
+import { CaseGallery, CaseHeroMedia } from "@/components/marketing/case-media";
+import { CaseFlowDiagram } from "@/components/marketing/case-flow";
+import { CaseCard } from "@/components/marketing/case-card";
 import { getCaseBySlug, CASES } from "@/lib/content/cases";
 import { getPillar } from "@/lib/content/pillars";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { breadcrumbLd, organizationLd } from "@/lib/seo/json-ld";
+import type { Locale } from "@/lib/content/types";
+
+function casePaths(slug: string) {
+  return {
+    tr: `/tr/vakalar/${slug}`,
+    en: `/en/case-studies/${slug}`,
+  };
+}
 
 export async function generateStaticParams() {
   return CASES.flatMap((c) =>
     (["tr", "en"] as const).map((locale) => ({ locale, slug: c.slug }))
+  );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const loc = locale as Locale;
+  const c = getCaseBySlug(slug);
+  if (!c) return {};
+
+  return buildMetadata({
+    title: `${c.clientName[loc]} — ${c.title[loc]}`,
+    description: c.lead[loc],
+    paths: casePaths(c.slug),
+    locale: loc,
+  });
+}
+
+/**
+ * Künye — başlığın sağ kolonu. Müşteri logosu + projenin ölçülebilir
+ * kimliği (yıl, süre, disiplinler). Mono etiketler docs/04 "ölçü görünür"
+ * kuralını taşır.
+ */
+function CaseFacts({
+  c,
+  loc,
+  labels,
+}: {
+  c: NonNullable<ReturnType<typeof getCaseBySlug>>;
+  loc: Locale;
+  labels: {
+    period: string;
+    duration: string;
+    weeks: string;
+    months: string;
+    services: string;
+  };
+}) {
+  // Bir yılı aşan işler haftayla anlatılmaz: "65 hafta" okunmuyor, "15 ay"
+  // okunuyor. Eşik 16 hafta (~4 ay); altı hafta, üstü ay.
+  const long = c.durationWeeks >= 16;
+  const durationValue = long
+    ? `${Math.round(c.durationWeeks / 4.345)} ${labels.months}`
+    : `${c.durationWeeks} ${labels.weeks}`;
+  return (
+    <div className="flex flex-col gap-6">
+      {c.clientLogo ? (
+        <Image
+          src={c.clientLogo}
+          alt={c.clientName[loc]}
+          width={240}
+          height={120}
+          className="h-14 w-auto self-start object-contain md:h-16"
+        />
+      ) : null}
+      <dl className="grid grid-cols-2 gap-x-8 gap-y-4">
+        {c.period ? (
+          <div>
+            <dt className="typography-label uppercase tracking-widest text-ink-500">
+              {labels.period}
+            </dt>
+            <dd className="typography-body-sm mono mt-1 text-ink-700">
+              {c.period[loc]}
+            </dd>
+          </div>
+        ) : null}
+        <div>
+          <dt className="typography-label uppercase tracking-widest text-ink-500">
+            {labels.duration}
+          </dt>
+          <dd className="typography-body-sm mono mt-1 text-ink-700">
+            {durationValue}
+          </dd>
+        </div>
+        {c.services ? (
+          <div className="col-span-2">
+            <dt className="typography-label uppercase tracking-widest text-ink-500">
+              {labels.services}
+            </dt>
+            <dd className="typography-body-sm mt-1 text-ink-700">
+              {c.services[loc].join(" · ")}
+            </dd>
+          </div>
+        ) : null}
+      </dl>
+    </div>
   );
 }
 
@@ -19,7 +125,7 @@ export default async function CaseDetail({
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const loc = locale as "tr" | "en";
+  const loc = locale as Locale;
   const c = getCaseBySlug(slug);
   if (!c) notFound();
 
@@ -29,8 +135,24 @@ export default async function CaseDetail({
     (x) => x.slug !== c.slug && x.pillar === c.pillar
   ).slice(0, 3);
 
+  const tr = loc === "tr";
+
   return (
     <>
+      <JsonLd
+        graph={[
+          organizationLd(),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            {
+              name: tCommon("nav.caseStudies"),
+              path: tr ? "/tr/vakalar" : "/en/case-studies",
+            },
+            { name: c.clientName[loc], path: casePaths(c.slug)[loc] },
+          ]),
+        ]}
+      />
+
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },
@@ -40,36 +162,43 @@ export default async function CaseDetail({
         eyebrow={`${c.clientSector[loc]} — ${pillar?.name[loc]}`}
         title={c.title[loc]}
         lede={c.lead[loc]}
+        aside={
+          <CaseFacts
+            c={c}
+            loc={loc}
+            labels={{
+              period: tr ? "Dönem" : "Period",
+              duration: tr ? "Süre" : "Duration",
+              weeks: tr ? "hafta" : "weeks",
+              months: tr ? "ay" : "months",
+              services: tr ? "Disiplinler" : "Disciplines",
+            }}
+          />
+        }
       />
 
-      {/* Metrics */}
-      <section className="v2-surface border-b border-surface-2">
-        <div className="ds-container py-16 md:py-20">
-          <dl className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16">
-            {c.metrics.map((m) => (
-              <div key={m.label[loc]}>
-                <dt className="typography-label uppercase tracking-widest text-ink-500">
-                  {m.label[loc]}
-                </dt>
-                <dd
-                  className="typography-h1 mt-4 text-ink-900"
-                  style={{ fontVariationSettings: '"opsz" 9' }}
-                >
-                  {m.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+      {c.heroMedia ? <CaseHeroMedia item={c.heroMedia} locale={loc} /> : null}
 
-      {/* Challenge / Approach / Outcome */}
+      {/* Ölçüm bandı yalnız sayısal metriği olan vakada basılır — boş bir
+          band "ölçmedik" demenin en gürültülü yoludur (docs/04 §10). */}
+      {c.metrics.length > 0 ? (
+        <CaseMetricBand
+          eyebrow={tr ? "Ölçüm kaydı" : "Measured results"}
+          metrics={c.metrics.map((m) => ({
+            value: m.value,
+            label: m.label[loc],
+            context: m.context?.[loc],
+          }))}
+        />
+      ) : null}
+
+      {/* Problem / Yaklaşım / Sonuç */}
       <section className="border-b border-surface-2">
         <div className="ds-container py-24 md:py-32">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-3">
               <span className="typography-label uppercase tracking-widest text-ink-500">
-                01 — {loc === "tr" ? "Problem" : "Challenge"}
+                01 — {tr ? "Problem" : "Challenge"}
               </span>
             </div>
             <ul className="md:col-span-9 space-y-4">
@@ -78,10 +207,21 @@ export default async function CaseDetail({
                   key={i}
                   className="typography-body-lg text-ink-700 max-w-prose-editorial flex gap-4"
                 >
-                  <span
+                  {/* Kırık ölçüm işareti — problem maddeleri "çalışmayan şey"dir */}
+                  <svg
                     aria-hidden
-                    className="mt-3 w-1.5 h-1.5 rounded-full bg-danger-500 shrink-0"
-                  />
+                    viewBox="0 0 14 14"
+                    width="14"
+                    height="14"
+                    className="mt-2.5 shrink-0 text-danger-500"
+                  >
+                    <path
+                      d="M3 3l8 8M11 3l-8 8"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                    />
+                  </svg>
                   <span>{p}</span>
                 </li>
               ))}
@@ -93,21 +233,32 @@ export default async function CaseDetail({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-3">
               <span className="typography-label uppercase tracking-widest text-ink-500">
-                02 — {loc === "tr" ? "Yaklaşım" : "Approach"}
+                02 — {tr ? "Yaklaşım" : "Approach"}
               </span>
             </div>
-            <ol className="md:col-span-9 space-y-6">
-              {c.approach[loc].map((p, i) => (
-                <li key={i} className="flex gap-4">
-                  <span className="typography-label tracking-widest text-brand-700 shrink-0">
-                    0{i + 1}
-                  </span>
-                  <span className="typography-body-lg text-ink-700 max-w-prose-editorial">
-                    {p}
-                  </span>
-                </li>
-              ))}
-            </ol>
+            <div className="md:col-span-9">
+              <ol className="space-y-6">
+                {c.approach[loc].map((p, i) => (
+                  <li key={i} className="flex gap-4">
+                    <span className="typography-label tracking-widest text-brand-700 shrink-0">
+                      0{i + 1}
+                    </span>
+                    <span className="typography-body-lg text-ink-700 max-w-prose-editorial">
+                      {p}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+
+              {/* Mekanizma diyagramı — yaklaşımın iş sırası tek bakışta */}
+              {c.approachFlow ? (
+                <CaseFlowDiagram
+                  steps={c.approachFlow[loc]}
+                  icons={c.approachFlowIcons}
+                  label={tr ? "İş sırası" : "Sequence of work"}
+                />
+              ) : null}
+            </div>
           </div>
 
           <hr className="border-surface-2 my-16 md:my-24" />
@@ -115,7 +266,7 @@ export default async function CaseDetail({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-3">
               <span className="typography-label uppercase tracking-widest text-ink-500">
-                03 — {loc === "tr" ? "Sonuç" : "Outcome"}
+                03 — {tr ? "Sonuç" : "Outcome"}
               </span>
             </div>
             <ul className="md:col-span-9 space-y-4">
@@ -124,10 +275,23 @@ export default async function CaseDetail({
                   key={i}
                   className="typography-body-lg text-ink-700 max-w-prose-editorial flex gap-4"
                 >
-                  <span
+                  {/* Onay işareti — sonuç maddeleri ölçülmüş kayıttır */}
+                  <svg
                     aria-hidden
-                    className="mt-3 w-1.5 h-1.5 rounded-full bg-success-500 shrink-0"
-                  />
+                    viewBox="0 0 14 14"
+                    width="14"
+                    height="14"
+                    className="mt-2.5 shrink-0 text-success-500"
+                  >
+                    <path
+                      d="M2.5 7.5 6 11l5.5-8"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                   <span>{p}</span>
                 </li>
               ))}
@@ -136,12 +300,21 @@ export default async function CaseDetail({
         </div>
       </section>
 
+      {c.media && c.media.length > 0 ? (
+        <CaseGallery
+          items={c.media}
+          locale={loc}
+          heading={tr ? "Saha kaydı" : "Field record"}
+        />
+      ) : null}
+
       {/* Testimonial */}
       {c.testimonial && (
         <section className="v2-surface-2">
           <div className="ds-container py-24 md:py-32">
-            <figure className="max-w-[36ch] mx-auto text-center">
-              <blockquote className="typography-h1 text-ink-900 leading-[1.15]">
+            {/* Geniş kolon + h2 ölçeği: alıntı en fazla ~3 satırda kalır */}
+            <figure className="mx-auto max-w-4xl text-center">
+              <blockquote className="typography-h2 text-ink-900 leading-[1.3]">
                 {c.testimonial.quote[loc]}
               </blockquote>
               <figcaption className="typography-label uppercase tracking-widest text-ink-500 mt-10">
@@ -158,7 +331,7 @@ export default async function CaseDetail({
           <div className="ds-container py-20 md:py-24">
             <div className="flex items-end justify-between flex-wrap gap-4">
               <h2 className="typography-h2 text-ink-900">
-                {loc === "tr" ? "Benzer vakalar" : "Related cases"}
+                {tr ? "Benzer vakalar" : "Related cases"}
               </h2>
               <Link
                 href={`/${locale}/vakalar`}
@@ -172,18 +345,7 @@ export default async function CaseDetail({
             </div>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((r) => (
-                <Link
-                  key={r.slug}
-                  href={`/${locale}/vakalar/${r.slug}`}
-                  className="group v2-surface border border-surface-2 rounded-2xl p-8 hover:v2-surface-2/60 transition-colors"
-                >
-                  <h3 className="typography-h2 text-ink-900 group-hover:text-brand-800">
-                    {r.title[loc]}
-                  </h3>
-                  <p className="typography-caption text-ink-500 mt-4">
-                    {r.clientSector[loc]}
-                  </p>
-                </Link>
+                <CaseCard key={r.slug} c={r} locale={loc} />
               ))}
             </div>
           </div>

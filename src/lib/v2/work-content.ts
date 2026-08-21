@@ -8,14 +8,9 @@ import type { Locale } from "@/lib/content/types";
  * gelir — tek kaynak orasıdır. Bu dosya yalnızca v2 kartının ihtiyaç duyduğu
  * iki ek alanı ekler: görsel ve disiplin etiketleri.
  *
- * GÖRSELLER GEÇİCİ — Unsplash stok. Burak orijinalleri verdiğinde tek
- * yapılacak: `image` alanlarını `/work/<dosya>.jpg` ile değiştirmek ve
- * `next.config.ts`'teki `images.unsplash.com` remote pattern'ını kaldırmak.
- *
- * ERİŞİLEBİLİRLİK: geçici görseller `alt=""` ile dekoratif işaretlenir.
- * İçerikleri doğrulanmadığı için betimleyici bir alt metin yazmak yanlış bilgi
- * üretirdi; kartın erişilebilir adı zaten vaka başlığından geliyor. Orijinal
- * görseller gelince her birine gerçek alt metin yazılmalı.
+ * Görseller gerçek vaka medyasından gelir (`public/work/<slug>/`, ADR-019).
+ * Anonim vakaların Unsplash geçiciydi; gerçek vakalarla birlikte kalktı.
+ * Eski siteden kalan 6 vaka eklendikçe buraya kart kaydı da eklenir.
  */
 export type WorkTag = {
   /** Disiplin işareti — ● marka, △ geliştirme, ◇ veri/AI */
@@ -25,7 +20,7 @@ export type WorkTag = {
 
 export type WorkCard = {
   slug: string;
-  /** TODO(burak): orijinal görselle değiştir. */
+  /** `public/work/<slug>/` altındaki gerçek vaka görseli. */
   image: string;
   tags: WorkTag[];
 };
@@ -41,25 +36,37 @@ const TAG = {
 
 /** `cases.ts` slug'larıyla eşleşir; eşleşmeyen vaka karta çıkmaz. */
 const CARD_META: Record<string, Omit<WorkCard, "slug">> = {
-  "uretim-planlama-dijitallestirme": {
-    image:
-      "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&q=70&w=1200",
-    tags: [TAG.data, TAG.ai, TAG.ops],
+  "soylu-avm-e-ticaret-buyume": {
+    image: "/work/soylu-avm/vitrin.jpg",
+    tags: [TAG.growth, TAG.data, TAG.brand],
   },
-  "e-ticaret-organik-trafik": {
-    image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=70&w=1200",
+  "gymwolves-12-kat-satis": {
+    image: "/work/gymwolves/kampanya-kapak.jpg",
+    tags: [TAG.growth, TAG.brand, TAG.data],
+  },
+  "mkcomputer-dropshipping-otomasyonu": {
+    image: "/work/mkcomputer/kapak.jpg",
+    tags: [TAG.dev, TAG.ops, TAG.data],
+  },
+  "istanbul-ortez-protez-arama-gorunurlugu": {
+    image: "/work/istanbul-ortez-protez/kapak.jpg",
+    tags: [TAG.growth, TAG.brand, TAG.dev],
+  },
+  "fyr-luks-dekorasyon-lansmani": {
+    image: "/work/fyr/kapak.jpg",
     tags: [TAG.brand, TAG.growth, TAG.dev],
   },
-  "perakende-envanter-gorunurlugu": {
-    image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=70&w=1200",
-    tags: [TAG.data, TAG.ops, TAG.dev],
+  "sim-baski-ihracat-icerigi": {
+    image: "/work/sim/kapak.jpg",
+    tags: [TAG.dev, TAG.growth, TAG.ai],
   },
-  "isletme-maliyeti-optimizasyonu": {
-    image:
-      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=70&w=1200",
-    tags: [TAG.ai, TAG.data, TAG.ops],
+  "meccanotecnica-umbra-teklif-portali": {
+    image: "/work/meccanotecnica/kapak.jpg",
+    tags: [TAG.dev, TAG.ops, TAG.growth],
+  },
+  "odorgo-kategori-yaratma": {
+    image: "/work/odorgo/icindekiler.png",
+    tags: [TAG.brand, TAG.growth, TAG.dev],
   },
 };
 

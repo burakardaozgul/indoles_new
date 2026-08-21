@@ -33,7 +33,7 @@ export function ConsultantCard({ locale, selectedDate, selectedTime }: Props) {
 
       <div className="flex items-center gap-3">
         {/* Profile photo or initials fallback */}
-        {!photoError ? (
+        {BOOKING_CONSULTANT.photoPath && !photoError ? (
           <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0">
             <Image
               src={BOOKING_CONSULTANT.photoPath}

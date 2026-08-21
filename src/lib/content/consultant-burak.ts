@@ -8,7 +8,8 @@ export const BOOKING_CONSULTANT = {
   lastName: 'Özgül',
   titleTR: 'Kurucu & CTO',
   titleEN: 'Founder & CTO',
-  photoPath: '/brand/burak.jpg',
+  /** Portre dosyası eklendiğinde doldurulur; boşken kart baş harflere düşer. */
+  photoPath: '',
   initials: 'BÖ',
 } as const;
 

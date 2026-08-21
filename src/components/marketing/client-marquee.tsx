@@ -9,7 +9,7 @@ import Image from "next/image";
  */
 const LOGOS = [
   { file: "Turkcell.png", name: "Turkcell", h: 72 },
-  { file: "TurkTelekım-Logo.png", name: "Türk Telekom", h: 85 },
+  { file: "TurkTelekim-Logo.png", name: "Türk Telekom", h: 85 },
   { file: "Evyap_logo.png", name: "Evyap", h: 100 },
   { file: "Lalorraine.png", name: "La Lorraine", h: 85 },
   { file: "Komagene-logo.png", name: "Komagene", h: 100 },
@@ -18,7 +18,7 @@ const LOGOS = [
   { file: "Fyr.png", name: "Fyr Luxury", h: 78 },
   { file: "pavelsis.png", name: "Pavelsis", h: 100 },
   { file: "Kocabas.png", name: "Kocabaş Mandıra", h: 78 },
-  { file: "Taç.png", name: "Taç", h: 78 },
+  { file: "Tac.png", name: "Taç", h: 78 },
   { file: "gymwolves-logo.png", name: "Gymwolves", h: 60 },
   { file: "MKC.png", name: "MK Computer", h: 72 },
   { file: "Sim.png", name: "Sim Baskı", h: 100 },

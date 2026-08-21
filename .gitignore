@@ -65,3 +65,6 @@ Thumbs.db
 
 # Superpowers brainstorm cache
 .superpowers/
+
+# claude code — kisisel izin listesi (agent ve skill tanimlari takipli kalir)
+.claude/settings.local.json

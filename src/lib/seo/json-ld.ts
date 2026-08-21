@@ -18,7 +18,7 @@ export function organizationLd() {
     name: "INDOLES",
     legalName: "İndoles Yazılım A.Ş.",
     url: SITE_URL,
-    logo: absoluteUrl("/logo.svg"),
+    logo: absoluteUrl("/brand/indoles-logo-dark.png"),
     address: { "@type": "PostalAddress", addressCountry: "TR" },
   };
 }

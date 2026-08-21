@@ -66,7 +66,9 @@ export function CustomCursor() {
     <div
       ref={dotRef}
       aria-hidden="true"
-      className="pointer-events-none fixed left-0 top-0 z-50 rounded-full bg-ink-900 will-change-transform"
+      // z-60: dialog portal'ı z-50'de; cursor onun altında kalırsa popup içinde
+      // fare tamamen kaybolur (`cursor:none` global). Katman sözleşmesi v2.css'te.
+      className="pointer-events-none fixed left-0 top-0 z-60 rounded-full bg-ink-900 will-change-transform"
       style={{
         width: size,
         height: size,

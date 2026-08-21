@@ -49,11 +49,11 @@ Bunun üç sonucu var:
 | URL yapısı | Düz: `/tr/hizmetler/{slug}` | İç içe (`/hizmetler/growth/{slug}`) — hizmeti pillar'a kalıcı çiviler, pillar değişiminde 301 gerektirir |
 | Slug | Locale başına ayrı (`Localized<string>`) | Tek TR slug — EN tarafında arama hacmi olan terimi kaybeder |
 | Sayfa derinliği | Tam — 9 blok, ~700-900 kelime | Orta (6 blok) — uzun kuyruk ve AI alıntı yüzeyini daraltır |
-| Persona kapsamı | **Yaklaşım A:** kanonik gövde + 2 hedefli persona slotu | Tam persona — indekslenebilir metni ikiye katlar, `FAQPage` şemasını geçersizleştirir (§6) |
+| Persona kapsamı | **Detay sayfasında persona yok** — tamamen orta ton | Kanonik gövde + 2 persona slotu ve tam persona; ikisi de docs/03'ün hizmet detay için verdiği "orta ton, tek versiyon" kararıyla çelişiyordu (§6) |
 | İçerik yerleşimi | Hizmet başına bir dosya, `content/services/` | `pillars.ts` içine gömme — dosya ~150KB'a çıkar |
 | SEO kapsamı | Genel `lib/seo` + hizmet ailesine uygulama | Tüm site — 12 sayfanın teslimini geciktirir |
 | Copy üretimi | Pilot → onay → kalan 11 | 12'si birden — ton yanlışsa 12 sayfa revize |
-| Hizmet metriği | Olgusal taahhüt (süre/ekip/giriş paketi) | Performans metriği — uydurma iddia, GEO'da riskli |
+| Hizmet metriği | Yok — taahhüt şeridi 2026-08-20 gate'inde kaldırıldı | Performans metriği — uydurma iddia, GEO'da riskli; olgusal taahhüt — gate'te gereksiz bulundu |
 
 ---
 
@@ -154,20 +154,22 @@ export type ServiceContent = {
   pillar: Pillar;
   name: Localized<string>;
 
-  /** Kart metni — `pillars.ts`'ten taşındı. Persona-aware kalır. */
+  /**
+   * Kart metni — `pillars.ts`'ten taşındı. Persona-aware KALIR: bu alan
+   * detay sayfasında değil, `/hizmetler` listesinde ve anasayfa kartında
+   * render edilir; docs/03 o iki yüzeyi persona-aware sayıyor.
+   */
   shortDescription: PersonaText;
 
-  /** Hero, 1. cümle. Kanonik — H1'in hemen altında, tek ses. */
+  /** Hero lede — iki cümle, tek ses. */
   lede: Localized<string>;
-  /** Hero, 2. cümle. Persona slot 1. */
-  ledePersona: PersonaText;
 
-  /** "Bu sayfa kimin için" — 3 durum sinyali. Persona slot 2. */
-  signals: PersonaList;
+  /** "Bu sayfa kimin için" — 3 durum sinyali. Tek ses. */
+  signals: Localized<string[]>;
 
   scope: {
-    includes: Localized<string[]>;   // 6-8
-    excludes: Localized<string[]>;   // 3-4
+    includes: Array<{ title: Localized<string>; description: Localized<string> }>;  // 6-8
+    excludes: Localized<string[]>;   // 3-4, kısa
   };
 
   method: Array<{
@@ -179,13 +181,8 @@ export type ServiceContent = {
 
   deliverables: Array<{
     kind: ServiceDeliverableKind;
-    label: Localized<string>;
-  }>;
-
-  /** Üç olgusal taahhüt. Performans metriği DEĞİL — §5.6. */
-  commitments: Array<{
-    value: Localized<string>;
-    label: Localized<string>;
+    title: Localized<string>;
+    description: Localized<string>;
   }>;
 
   /** Tek sesli. Persona-aware olamaz — §6.3. */
@@ -236,27 +233,35 @@ Tüketiciler (`ServicesScroll`, `/hizmetler`, pillar detay) bu türetilmiş list
 
 ## 5. Sayfa İskeleti
 
-Dokuz blok. Her blok ters piramit: ilk cümle tanımı verir, sonrası açar.
+Sekiz blok. Her blok ters piramit: ilk cümle tanımı verir, sonrası açar.
+
+> **Revizyon (2026-08-20, pilot gate):** İlk tasarım dokuz bloktu ve düz
+> listelerle metin ağırlıklıydı. Burak'ın geri bildirimiyle: taahhüt şeridi
+> kaldırıldı; kapsam ve teslim maddeleri başlık + açıklama çiftine döndü;
+> hero `V2PageHeader`ın "lede sağ sütunda" düzeninden çıkıp tek kolon okuma
+> akışına geçti, illüstrasyon "teşhis föyü" (köşe işaretli çerçeve + mono
+> altyazı) olarak monte edildi; ton KOBİ alıcısına göre sadeleşti.
 
 ### 5.1 Hero
 
-- Breadcrumb (mevcut `V2PageHeader` `crumbs` API'si): `INDOLES › Hizmetler › {Pillar} › {Hizmet}`
+Özel hero — `V2PageHeader` kullanılmaz: onun "lede sağ sütunda, end hizalı" düzeni başlık, breadcrumb ve açıklamayı koparıyordu (Burak, 2026-08-20). Okuma tek kolondan akar:
+
+- Breadcrumb: `INDOLES / Hizmetler / {Hizmet}` — küçük, en üstte
 - Eyebrow: `{Pillar adı} · Hizmet {NN} / 12`
-- **H1:** hizmet adı. Sayfadaki tek `h1`.
-- Lede: `lede` (kanonik) + `ledePersona` (persona)
-- Aside: `ServiceIllustration` büyük ölçekte + `PersonaSwitch`
-- CTA: birincil "Görüşme planla" (`PopupCTAButton`), ikincil ilgili pakete
+- **H1:** hizmet adı, `typography-display-lg` — pagehead'in 5.25rem ölçeği değil. Sayfadaki tek `h1`.
+- Lede: H1'in hemen altında, iki cümle, tek ses
+- CTA satırı: birincil "Görüşme planla" (`PopupCTAButton`), ikincil ilgili pakete
+- Sağda **teşhis föyü** — sayfanın imza öğesi: `ServiceIllustration` köşe işaretli çerçeveli levhada, altında mono altyazı (`Şema — {ad}` · `{NN}/12`). `PersonaSwitch` yok — sayfada persona'ya göre değişen metin bulunmadığı için anahtar yanıltıcı olurdu
 
 ### 5.2 Kimin için
 
-`h2` — "Bu üç durumdan biri sizdeyse". `signals` üç madde, persona-aware. Ziyaretçinin kendini teşhis ettiği blok; AI motorlarının en sık alıntıladığı yapı.
+`h2` — "Bu üç durumdan biri sizdeyse". `signals` üç madde, tek sesli. Ziyaretçinin kendini teşhis ettiği blok; AI motorlarının en sık alıntıladığı yapı.
+
+Üç sinyal hem sanayi hem ticaret alıcısının tanıyacağı durumları kapsar — birini seçip diğerini dışarıda bırakmaz. Orta ton kuralı burada en çok zorlanan yer: durum cümlesi somut kalmalı ama tek bir alıcı tipine daralmamalı.
 
 ### 5.3 Kapsam
 
-İki sütun, `h2` + iki `h3`:
-
-- **Kapsar** — 6-8 madde (`scope.includes`)
-- **Kapsamaz** — 3-4 madde (`scope.excludes`)
+`h2` + iki `h3`. **Kapsar** 6-8 madde, başlık + açıklama çifti olarak kartlarda (`Array<{title, description}>`) — başlık taranır, açıklama derinlik verir. **Kapsamaz** 3-4 kısa madde, kenarda sessiz sütun.
 
 "Kapsamaz" sütunu bilinçli. İki işlevi var: satış öncesi beklenti hizalar, ve GEO'da ayrıştırıcı sinyal üretir — rakip hizmet sayfalarında bulunmayan cümleler alıntılanmaya daha yatkın.
 
@@ -266,13 +271,13 @@ Dokuz blok. Her blok ters piramit: ilk cümle tanımı verir, sonrası açar.
 
 ### 5.5 Çıktılar
 
-`dl`. 5-7 kalem, her birinde tür etiketi (döküman / sistem / eğitim / erişim). Somut isim listesi — uzun kuyruk aramaların indiği yer ("pazarlama audit raporu", "ERP entegrasyon şeması").
+`dl`, kart gridi. 5-7 kalem, her biri başlık + açıklama + tür rozeti (döküman / sistem / eğitim / erişim). Somut isim listesi — uzun kuyruk aramaların indiği yer ("denetim raporu", "kanal karnesi").
 
-### 5.6 Taahhüt şeridi
+### 5.6 Taahhüt şeridi — kaldırıldı (2026-08-20)
 
-Üç olgu: **tipik süre · ekip şekli · giriş paketi**.
+İlk tasarımda üç olgu (tipik süre · ekip şekli · giriş paketi) vardı; pilot gate'te Burak bloğu gereksiz buldu, blokla birlikte `commitments` alanı tipten de silindi.
 
-Pillar sayfalarındaki metrik şeridinin (`3.2× ROAS`) hizmet düzeyinde karşılığı yok ve üretilmeyecek. Doğrulanamayan sayı GEO'da özel olarak riskli: AI motoru ya pasajı atar ya da iddiayı yanlış atfeder; ikincisi marka için daha kötü. Gerçek hizmet düzeyinde metrik verisi geldiğinde bu blok tipi değişebilir.
+Uydurma metrik yasağı geçerliliğini korur: doğrulanamayan sayı GEO'da özel olarak riskli — AI motoru ya pasajı atar ya da iddiayı yanlış atfeder. Gerçek hizmet metriği geldiğinde (§14) sayfaya metrik şeridi *yeniden* eklenebilir; bu spec'i geçersiz kılmaz, `ServiceContent`e yeni alan ekler.
 
 ### 5.7 SSS
 
@@ -294,35 +299,40 @@ Mevcut `ContactCallout`. Yeni bileşen yok.
 
 ---
 
-## 6. Persona Sınırı (Yaklaşım A)
+## 6. Persona Sınırı
 
-### 6.1 Tespit
+### 6.1 Karar
 
-`PersonaText` her iki varyantı da DOM'a basar; görüneni `globals.css:485` `display:none` ile seçer. Ekranda doğru davranış — hydration uyuşmazlığını ve FOIC'i birlikte çözüyor. Ama crawler ve LLM ham HTML okur.
+**Hizmet detay sayfasında persona yok.** Sayfa baştan sona orta tonda, tek sesli yazılır.
 
-### 6.2 Her bloğu persona-aware yapmanın maliyeti
-
-1. 12 sayfanın indekslenebilir metni ikiye katlanır, yarısı gizli.
-2. Yan yana çelişen iki cümle oluşur — AI motoru hangisini alıntılayacağını bilemez.
-3. `FAQPage` şeması "görünen metinle eşleşme" kuralını ihlal eder: iki cevap görünür, şemada bir tane var.
-
-### 6.3 Karar
-
-Persona **iki slotla sınırlanır**: `ledePersona` (hero 2. cümle) ve `signals` ("kimin için"). Diğer her şey tek sesli.
+Bu karar `docs/03-brand-voice-tone.md` §1'deki ton tablosuyla uyumludur: hizmet detay sayfaları için "orta ton, tek versiyon" zaten seçilmiş, ADR-014 notu bunu "kesin olarak" pekiştirmiştir. İlk tasarımda iki persona slotu (`ledePersona`, `signals`) öneriliyordu; belge ile çeliştiği tespit edilince belgeyi güncellemek yerine belgeye uyuldu (Burak, 2026-08-19).
 
 | Yüzey | Ses |
 |---|---|
-| H1, meta title/description | kanonik |
-| Hero lede 1. cümle | kanonik |
-| Hero lede 2. cümle | **persona** |
-| Kimin için | **persona** |
-| Kapsam, yöntem, çıktılar, taahhüt | kanonik |
-| SSS | kanonik |
-| JSON-LD | kanonik |
+| Hizmet detay sayfasının tamamı | tek |
+| `/hizmetler` listesi (hero + pillar blokları + 12 kart) | persona-aware |
+| Anasayfa hizmet kartı | persona-aware |
 
-Ölçülebilir eşik: sayfa metninin **≤%20**'si çift varyant. Audit script'i bunu doğrular (§9).
+`ServiceContent.shortDescription` bu yüzden `PersonaText` olarak **kalır** — ama detay sayfasında değil, yalnız liste ve anasayfa kartında render edilir.
 
-Persona sistemi ziyaretçi için tam da satın alma niyetinin ayrıştığı yerde — "bu benim durumum mu" sorusunda — çalışmaya devam eder. Bilgi katmanı tek ses konuşur.
+### 6.2 Kararı destekleyen ikinci gerekçe
+
+Belgenin gerekçesi bakım yükü ve ton tekrarı riskiydi. Bağımsız olarak GEO tarafı da aynı sonuca çıkıyor:
+
+`PersonaText` her iki varyantı da DOM'a basar; görüneni `globals.css:485` `display:none` ile seçer. Ekranda doğru davranış — hydration uyuşmazlığını ve FOIC'i birlikte çözüyor. Ama crawler ve LLM ham HTML okur. Detay sayfasını persona-aware yapmak:
+
+1. 12 sayfanın indekslenebilir metnini şişirir, fazlası gizli.
+2. Yan yana çelişen cümleler üretir — AI motoru hangisini alıntılayacağını bilemez.
+3. `FAQPage` şemasının "görünen metinle eşleşme" kuralını ihlal eder: iki cevap görünür, şemada bir tane var.
+
+Tek ses bu üçünü birden ortadan kaldırıyor.
+
+### 6.3 Sonuçları
+
+- `PersonaSwitch` hizmet detay sayfasına **konmaz**: değişecek metin yokken anahtar sunmak ziyaretçiyi yanıltır.
+- `signals` ve `lede` düz `Localized<string>` / `Localized<string[]>`.
+- Audit script'i persona metnini bir eşik değil bir **ihlal** olarak ölçer: hizmet detay sayfasında `[data-persona-variant]` bulunması FAIL'dir (§9). Böylece ileride bir bileşen sessizce persona metni sızdırırsa yakalanır.
+- "Kimin için" bloğu her iki alıcıyı da kapsayacak şekilde yazılır. Orta tonun en çok zorlandığı yer burası: durum cümlesi somut kalmalı ama tek bir alıcı tipine daralmamalı.
 
 ---
 
@@ -406,7 +416,7 @@ Dev sunucudan render edilmiş HTML'i çeker, denetler:
 | Başlık sırası | atlama yok |
 | SSS cevabı | ≥40 kelime, anafora kalıbı yok |
 | İç link | ≥6; komşu hizmetlere ≥3 |
-| Persona çift metni | sayfa metninin ≤%20'si |
+| Persona çift metni | hizmet detayda hiç yok (`[data-persona-variant]` = 0) |
 | `alt` metni | dekoratif olmayan her görselde |
 | Varlık kontrolü | `seo.entities` maddelerinin her biri metinde geçiyor |
 
@@ -506,4 +516,4 @@ next.config.ts                                   → 7 adet 308 redirect
 
 **Hizmet düzeyinde gerçek metrik.** *(Burak, 2026-08-19: metrikler sonra verilecek — bu iş olgusal taahhüt şeridiyle tamamlanır.)*
 
-**Kapsam:** §5.6 uydurma sayıyı reddediyor ve olgusal taahhüde düşüyor. Elde doğrulanabilir hizmet metriği (ör. "ortalama CRO testi kazanma oranı") varsa taahhüt şeridi metrik şeridine dönüşebilir — bu spec'i geçersizleştirmez, `commitments` alanının içeriğini değiştirir.
+**Kapsam:** taahhüt şeridi 2026-08-20 gate'inde tamamen kaldırıldı (§5.6). Doğrulanabilir hizmet metriği geldiğinde sayfaya metrik şeridi eklenebilir — yeni alan, yeni blok; uydurma sayı yasağı aynen geçerli.

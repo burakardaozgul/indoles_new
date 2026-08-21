@@ -80,7 +80,9 @@ Her lokalize sayfa `<head>`'ine:
 - Slug karşılığı olmayan sayfalarda hreflang çift yönlü olmaz — eksik locale hreflang'e girmez.
 - Admin, dashboard, studio gibi auth-gated sayfalarda hreflang yok (index'lenmez).
 
-Implementasyon: `src/lib/seo/generateAlternates.ts` helper'ı; her RSC sayfasında `generateMetadata`'da çağrılır.
+Implementasyon: `src/lib/seo/alternates.ts` → `buildAlternates(paths, locale)`; `src/lib/seo/metadata.ts` → `buildMetadata()` bunu sarmalar ve her RSC sayfasının `generateMetadata`'sında çağrılır (ADR-018).
+
+> **Durum (2026-08-20):** Uygulandığı yerler — `/hizmetler`, 3 pillar sayfası, 12 hizmet detayı. Paket, vaka, yazı ve danışman sayfaları henüz metadata'sız; aynı kütüphaneyi kullanacaklar.
 
 ---
 
@@ -95,6 +97,8 @@ Implementasyon: `src/lib/seo/generateAlternates.ts` helper'ı; her RSC sayfasın
 ```
 
 ### 4.2 Üretim
+
+> **Durum (2026-08-20):** `sitemap.ts` statik route'lara ek olarak 3 pillar (priority 0.9) ve 12 hizmet detayını (0.8) hreflang üçlüsüyle üretiyor. Taban adres `src/lib/seo/site.ts`teki `SITE_URL` — `robots.ts` ve `metadataBase` de aynı kaynaktan okur (ADR-018 §6).
 
 Next.js `sitemap.ts` file convention ile dynamic:
 
@@ -321,7 +325,11 @@ Her iç sayfada sayfa hiyerarşisini gösterir.
 
 Paket ve pillar sayfalarında FAQ varsa.
 
-Helper: `src/lib/seo/jsonLd.ts` — tip bazlı generator'lar.
+Helper: `src/lib/seo/json-ld.ts` — `organizationLd`, `breadcrumbLd`, `faqLd`, `webPageLd`, `serviceLd`. Düğümler tek `@graph` altında `src/lib/seo/JsonLd.tsx` ile basılır; `@id` referansları (Organization) böyle çözülür.
+
+`faqLd` boş listede `null` döner — soru içermeyen `FAQPage` geçersizdir ve Search Console'da uyarı üretir. `JsonLd` null düğümleri eler.
+
+> **Not:** Google FAQ rich result'larını 2023'te devlet/sağlık sitelerine daralttı; şema SERP'te görsel kazanç getirmiyor. Yine de yayınlanıyor çünkü GEO tarafında birinci sınıf sinyal — AI motorları soru-cevap bloklarını doğrudan alıntılıyor (ADR-018).
 
 ---
 

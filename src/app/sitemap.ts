@@ -1,4 +1,8 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/seo/site";
+import { SERVICES } from "@/lib/content/services";
+import { PILLARS } from "@/lib/content/pillars";
+import { CASES } from "@/lib/content/cases";
 
 const STATIC_ROUTES: Array<{
   path: { tr: string; en: string };
@@ -52,27 +56,77 @@ const STATIC_ROUTES: Array<{
   },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://indoles.com.tr";
+/**
+ * Tek girdi kurucusu — hem statik hem dinamik route'lar buradan geçer.
+ *
+ * hreflang üçlüsü her girdide zorunlu: eksik alternatif, iki dilli sayfanın
+ * yalnız bir dilinin indekslenmesine yol açıyor.
+ */
+function entry(
+  path: { tr: string; en: string },
+  locale: "tr" | "en",
+  priority: number,
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"],
+): MetadataRoute.Sitemap[number] {
+  const baseUrl = SITE_URL;
+  return {
+    url: `${baseUrl}${path[locale]}`,
+    lastModified: new Date(),
+    priority,
+    changeFrequency,
+    alternates: {
+      languages: {
+        tr: `${baseUrl}${path.tr}`,
+        en: `${baseUrl}${path.en}`,
+        "x-default": `${baseUrl}${path.tr}`,
+      },
+    },
+  };
+}
 
+export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
+
   for (const route of STATIC_ROUTES) {
     for (const locale of ["tr", "en"] as const) {
-      entries.push({
-        url: `${baseUrl}${route.path[locale]}`,
-        lastModified: new Date(),
-        priority: route.priority,
-        changeFrequency: route.changeFrequency,
-        alternates: {
-          languages: {
-            tr: `${baseUrl}${route.path.tr}`,
-            en: `${baseUrl}${route.path.en}`,
-            "x-default": `${baseUrl}${route.path.tr}`,
-          },
-        },
-      });
+      entries.push(
+        entry(route.path, locale, route.priority, route.changeFrequency),
+      );
     }
   }
+
+  // Pillar sayfaları — kümenin tepesi, hizmet detaylarından bir kademe önde.
+  for (const pillar of PILLARS) {
+    const path = {
+      tr: `/tr/hizmetler/${pillar.key}`,
+      en: `/en/services/${pillar.key}`,
+    };
+    for (const locale of ["tr", "en"] as const) {
+      entries.push(entry(path, locale, 0.9, "weekly"));
+    }
+  }
+
+  // 12 hizmet detayı — slug locale başına farklı (docs/08 §2).
+  for (const service of SERVICES) {
+    const path = {
+      tr: `/tr/hizmetler/${service.slug.tr}`,
+      en: `/en/services/${service.slug.en}`,
+    };
+    for (const locale of ["tr", "en"] as const) {
+      entries.push(entry(path, locale, 0.8, "monthly"));
+    }
+  }
+
+  // Vaka detayları — slug locale'den bağımsız, segment çevrilir (ADR-019).
+  for (const c of CASES) {
+    const path = {
+      tr: `/tr/vakalar/${c.slug}`,
+      en: `/en/case-studies/${c.slug}`,
+    };
+    for (const locale of ["tr", "en"] as const) {
+      entries.push(entry(path, locale, 0.8, "monthly"));
+    }
+  }
+
   return entries;
 }

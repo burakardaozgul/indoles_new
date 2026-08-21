@@ -62,84 +62,6 @@ export const PILLARS: PillarContent[] = [
         },
       },
     ],
-    services: [
-      {
-        slug: "marka-stratejisi",
-        name: {
-          tr: "Marka stratejisi ve pazarlama danışmanlığı",
-          en: "Brand strategy & marketing advisory",
-        },
-        shortDescription: {
-          industrial: {
-            tr: "Pazar konumlandırması, ton ve mesaj mimarisi. İhracat pazarından saha satış ekibine tutarlı marka anlatısı — marka değeri ölçülebilir kılınır.",
-            en: "Market positioning, tone and message architecture. A consistent brand narrative from export markets to the field sales team — brand value made measurable.",
-          },
-          commerce: {
-            tr: "Marka konumlandırması, ses ve ton sistemi. Funnel'ın her adımında — reklamdan landing page'e, e-postadan ürün sayfasına — tutarlı mesaj.",
-            en: "Brand positioning, voice and tone system. Consistent messaging across every funnel step — ad to landing page, email to product page.",
-          },
-        },
-      },
-      {
-        slug: "performans-pazarlama",
-        name: { tr: "Performans pazarlama", en: "Performance marketing" },
-        shortDescription: {
-          industrial: {
-            tr: "Google, LinkedIn, sektörel medya — B2B alıcıya ulaşan kanallar. Her bütçe satırı iş hedefiyle eşleşir; ihracat pazarı için ayrı strateji.",
-            en: "Google, LinkedIn, trade media — channels that reach B2B buyers. Every budget line mapped to a business outcome; separate strategy for export markets.",
-          },
-          commerce: {
-            tr: "Google, Meta, TikTok — her kanalda CAC hedefi, ROAS takibi, bütçe optimizasyonu. Audience segmentasyonu ve creative testi birlikte yürür.",
-            en: "Google, Meta, TikTok — CAC target, ROAS tracking, budget optimisation on every channel. Audience segmentation and creative testing run in parallel.",
-          },
-        },
-      },
-      {
-        slug: "cro",
-        name: {
-          tr: "CRO — dönüşüm optimizasyonu",
-          en: "CRO — conversion optimization",
-        },
-        shortDescription: {
-          industrial: {
-            tr: "Kurumsal alıcı davranışı analizi, A/B testi, ısı haritası. Mevcut trafik içinden teklif ve fiyat talebi dönüşümünü artırır.",
-            en: "Corporate buyer behaviour analysis, A/B testing, heatmaps. Increases quote and price request conversion from existing traffic.",
-          },
-          commerce: {
-            tr: "Sepet terk analizi, checkout optimizasyonu, ürün sayfası A/B testi. Aynı trafik, daha yüksek dönüşüm oranı ve ortalama sipariş değeri.",
-            en: "Cart abandonment analysis, checkout optimisation, product page A/B testing. Same traffic — higher conversion rate and average order value.",
-          },
-        },
-      },
-      {
-        slug: "e-ticaret",
-        name: { tr: "E-ticaret", en: "E-commerce" },
-        shortDescription: {
-          industrial: {
-            tr: "B2B e-ihracat platformu, tedarikçi portalı veya distribütör ağı. ERP entegrasyonu ve toplu sipariş akışı dahil — kurumsal satın almaya hazır sistem.",
-            en: "B2B e-export platform, supplier portal or distributor network. ERP integration and bulk order flow included — system ready for corporate procurement.",
-          },
-          commerce: {
-            tr: "Shopify, headless veya custom storefront — dönüşüm odaklı kurulum. Ödeme, lojistik ve envanter entegrasyonu büyüme için ölçeklenebilir şekilde yapılandırılır.",
-            en: "Shopify, headless or custom storefront — conversion-led setup. Payment, logistics and inventory integration structured to scale with growth.",
-          },
-        },
-      },
-      {
-        slug: "ui-ux-tasarim",
-        name: { tr: "UI/UX tasarım", en: "UI/UX design" },
-        shortDescription: {
-          industrial: {
-            tr: "Kurumsal kimliği taşıyan, B2B alıcıda güven inşa eden tasarım dili. Her sayfa marka anlatısıyla tutarlı — stok şablonun ötesinde.",
-            en: "A design language that carries corporate identity and builds trust with B2B buyers. Every page consistent with the brand narrative — beyond stock templates.",
-          },
-          commerce: {
-            tr: "Dönüşüm odaklı sayfa tasarımı ve kullanıcı akışı. Marka kimliği ile UI tutarlılığı aynı anda — ürün sayfasından checkout'a kadar.",
-            en: "Conversion-led page design and user flow. Brand identity and UI consistency together — from product page to checkout.",
-          },
-        },
-      },
-    ],
     metrics: [
       {
         value: "3.2×",
@@ -213,78 +135,6 @@ export const PILLARS: PillarContent[] = [
         description: {
           tr: "Pilot çalışırsa iç ekibe teslim. Danışmanın gitmesi başarının parçasıdır.",
           en: "If the pilot works, hand off to the internal team. The consultant leaving is part of success.",
-        },
-      },
-    ],
-    services: [
-      {
-        slug: "ai-danismanlik",
-        name: { tr: "AI danışmanlığı", en: "AI advisory" },
-        shortDescription: {
-          industrial: {
-            tr: "Üretim kalite kontrolü, talep tahmini veya bakım planlaması — nerede AI, nerede klasik otomasyon, nerede hiçbiri. Teşhis + pilot, maliyet ve verim etkisi ölçülür.",
-            en: "Production quality control, demand forecasting or maintenance scheduling — where AI fits, where it doesn't. Diagnosis and pilot; cost and efficiency impact measured.",
-          },
-          commerce: {
-            tr: "Ürün öneri motoru, sepet terk tahmini, müşteri segmentasyonu — dönüşüm ve LTV etkisi ölçülen AI. Teşhis + pilot + canlı sistem.",
-            en: "Product recommendation engine, cart abandonment prediction, customer segmentation — AI with measurable conversion and LTV impact. Diagnosis, pilot, production.",
-          },
-        },
-      },
-      {
-        slug: "dijital-donusum",
-        name: { tr: "Dijital dönüşüm", en: "Digital transformation" },
-        shortDescription: {
-          industrial: {
-            tr: "ERP modernizasyonu, üretim planlama, tedarik zinciri — hangi sistemin hangi sırayla kurulacağı ROI projeksiyonuyla belirlenir. Hepsi değil, doğrusu.",
-            en: "ERP modernisation, production planning, supply chain — which system to build in which order is determined by ROI projection. Not all of it; the right part.",
-          },
-          commerce: {
-            tr: "Sipariş-ERP-envanter senkronizasyonu, OMS kurulumu, lojistik entegrasyonu — operasyonel sürtünme kaldırılır, sipariş hacmi büyümeyi kesmez.",
-            en: "Order-ERP-inventory sync, OMS setup, logistics integration — operational friction removed so order volume no longer caps growth.",
-          },
-        },
-      },
-      {
-        slug: "is-otomasyonlari",
-        name: { tr: "İş otomasyonları", en: "Business automation" },
-        shortDescription: {
-          industrial: {
-            tr: "Üretim raporlama, satın alma onayı, kalite kontrol akışı — KVKK ve denetim uyumlu, kalıcı iş akışları. Pilot sonrası iç ekibe teslim edilir.",
-            en: "Production reporting, procurement approval, quality control flow — permanent workflows, audit-ready and compliant. Handed over to the internal team after pilot.",
-          },
-          commerce: {
-            tr: "Sipariş işleme, iade akışı, müşteri bildirimi, kampanya tetikleyicileri — elle iş sıfırlanır, operasyon sipariş hacmiyle birlikte büyür.",
-            en: "Order processing, returns flow, customer notifications, campaign triggers — manual work eliminated, operations scale with order volume.",
-          },
-        },
-      },
-      {
-        slug: "is-zekasi",
-        name: { tr: "İş zekası", en: "Business intelligence" },
-        shortDescription: {
-          industrial: {
-            tr: "Üretim KPI'ları, maliyet analizi, tedarik zinciri görünürlüğü — tek gösterge panelinde. Yönetim her hafta aynı verilere bakarak karar verir.",
-            en: "Production KPIs, cost analysis, supply chain visibility — in one dashboard. Leadership makes decisions from the same data every week.",
-          },
-          commerce: {
-            tr: "Kanal bazlı ROAS ve CAC, ürün marjı analizi, müşteri segmenti performansı — büyüme kararları veriyle desteklenir, tahminle değil.",
-            en: "Channel-level ROAS and CAC, product margin analysis, customer segment performance — growth decisions backed by data, not guesswork.",
-          },
-        },
-      },
-      {
-        slug: "isletme-muhendisligi",
-        name: { tr: "İşletme mühendisliği", en: "Operations engineering" },
-        shortDescription: {
-          industrial: {
-            tr: "Fabrika süreç haritalama ve darboğaz analizi. Kapasite yatırımı yapmadan verim kazanımı için önce akış diyagramı, sonra araç.",
-            en: "Factory process mapping and bottleneck analysis. Flowchart before tooling — efficiency gains without capacity investment.",
-          },
-          commerce: {
-            tr: "Fulfillment sürecinden müşteri iletişimine — operasyonel darboğaz tespit edilir, büyüme öncesi altyapı hazır hale getirilir.",
-            en: "From fulfilment process to customer communication — operational bottleneck identified, infrastructure readied before scaling.",
-          },
         },
       },
     ],
@@ -364,42 +214,6 @@ export const PILLARS: PillarContent[] = [
         },
       },
     ],
-    services: [
-      {
-        slug: "ozel-yazilim-ve-mobil",
-        name: {
-          tr: "Özel yazılım ve mobil uygulama",
-          en: "Custom software & mobile apps",
-        },
-        shortDescription: {
-          industrial: {
-            tr: "Özel ERP modülü, üretim takip sistemi veya iç araç. TypeScript monolit varsayılan — erken karmaşıklık borcu almadan, iç ekibe teslim edilebilir.",
-            en: "Custom ERP module, production tracking system or internal tool. TypeScript monolith by default — no early complexity debt, built to hand over to the internal team.",
-          },
-          commerce: {
-            tr: "Müşteri mobil uygulaması, headless storefront veya özel e-ticaret backend. Kullanıcıya hızlı çıkış, ölçüme hazır altyapı.",
-            en: "Customer mobile app, headless storefront or custom e-commerce backend. Fast to market, wired for measurement from the start.",
-          },
-        },
-      },
-      {
-        slug: "teknoloji-ve-altyapi",
-        name: {
-          tr: "Teknoloji ve altyapı danışmanlığı",
-          en: "Technology & infrastructure advisory",
-        },
-        shortDescription: {
-          industrial: {
-            tr: "On-premise, cloud veya hibrit — veri egemenliği, KVKK uyumu ve uzun vadeli bakım maliyeti birlikte değerlendirilir. Bağımlılık riski önceden tartışılır.",
-            en: "On-premise, cloud or hybrid — data sovereignty, regulatory compliance and long-term maintenance cost evaluated together. Dependency risk discussed upfront.",
-          },
-          commerce: {
-            tr: "AWS, Vercel, self-host — büyüme hedefine ve trafiğe göre doğru seçim. Ölçeklendirme maliyeti ve lock-in riski önceden açılır.",
-            en: "AWS, Vercel, self-host — the right pick for your growth target and traffic. Scale cost and lock-in risk discussed before any commitment.",
-          },
-        },
-      },
-    ],
     metrics: [
       {
         value: "8 hafta",
@@ -419,19 +233,4 @@ export const PILLARS: PillarContent[] = [
 
 export function getPillar(key: string): PillarContent | null {
   return PILLARS.find((p) => p.key === key) ?? null;
-}
-
-/**
- * Hizmetlerin global sırası — `ServiceIllustration` diyagramını seçer.
- *
- * Tek kaynak olmak zorunda: diyagram indeksi iki ayrı yerde `flatMap` ile
- * hesaplanırsa, bir pillar'a hizmet eklendiğinde diyagramlar sessizce kayar
- * ve kimse fark etmez.
- */
-export const SERVICE_ORDER: string[] = PILLARS.flatMap((p) =>
-  p.services.map((s) => s.slug),
-);
-
-export function serviceIndex(slug: string): number {
-  return SERVICE_ORDER.indexOf(slug);
 }

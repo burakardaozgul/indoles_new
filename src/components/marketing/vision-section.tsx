@@ -3,6 +3,7 @@
 import * as React from "react";
 import { WaveCanvas } from "./wave-canvas";
 import { PILLARS } from "@/lib/content/pillars";
+import { SERVICE_ORDER } from "@/lib/content/services";
 import { PACKAGES } from "@/lib/content/packages";
 import { CLIENT_LOGO_COUNT } from "@/lib/content/clients";
 
@@ -54,7 +55,7 @@ export function VisionSection({ locale }: { locale: "tr" | "en" }) {
     return () => io.disconnect();
   }, []);
 
-  const serviceCount = PILLARS.reduce((n, p) => n + p.services.length, 0);
+  const serviceCount = SERVICE_ORDER.length;
 
   const stats = [
     { n: PILLARS.length, suffix: "", l: isTr ? "disiplin, tek omurga" : "disciplines, one spine" },

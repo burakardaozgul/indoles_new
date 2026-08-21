@@ -13,8 +13,9 @@
 ## Global Constraints
 
 - **Dil:** Kod yorumları ve testler Türkçe yazılır (mevcut kod tabanı kuralı). Yorum *ne* değil *neden* anlatır.
-- **Persona sınırı:** Yalnız `ledePersona` ve `signals` persona-aware olabilir. Diğer her alan tek sesli. Sayfa metninin en çok **%20**'si çift varyant (spec §6.3).
-- **Uydurma yok:** Hizmet düzeyinde performans metriği (ROAS, CAC, yüzde artış) yazılmaz. `commitments` olgusaldır: tipik süre, ekip şekli, giriş paketi (spec §5.6, §14 — Burak, 2026-08-19).
+- **Persona sınırı:** Hizmet detay sayfasında persona **yok** — sayfa baştan sona orta ton, tek ses (docs/03 §1 ton tablosu, ADR-014). `shortDescription` persona-aware kalır ama yalnız `/hizmetler` listesinde ve anasayfa kartında render edilir. Detay sayfasında `[data-persona-variant]` bulunması audit FAIL'idir.
+- **Uydurma yok:** Hizmet düzeyinde performans metriği (ROAS, CAC, yüzde artış) yazılmaz (spec §5.6, §14).
+- **Pilot gate revizyonu (2026-08-20):** Taahhüt bloğu ve `commitments` alanı kaldırıldı. Kapsam ve teslim maddeleri başlık + açıklama çifti (`{title, description}`). Ton KOBİ alıcısına göre sade: kısa cümle, para/satış somutluğu, jargon ilk geçtiği yerde günlük dille açıklanır. Hero tek kolon akış + "teşhis föyü" (V2PageHeader kullanılmaz); şablon 8 blok. Task 6-8'deki hizmetler BU kalıpla yazılır — pilotun revize hâli tek referanstır.
 - **EN copy çeviri değil, yeniden yazımdır** (docs/03 §7).
 - **Karakter sınırı:** `seo.title` ≤60, `seo.description` ≤160 — TR ve EN ayrı ayrı.
 - **Mevcut metne dokunma:** Faz 1-4 boyunca `pillars.ts` yalnız okunur. Refactor Task 9'da (spec §4.4).
@@ -716,12 +717,30 @@ describe("SERVICES bütünlüğü", () => {
     );
   });
 
-  it("relatedServices var olan slug'lara işaret eder ve kendini içermez", () => {
+  it("relatedServices kendine referans vermez", () => {
+    for (const s of SERVICES) {
+      for (const ref of s.relatedServices) {
+        expect(ref, `${s.slug.tr} kendine referans veriyor`).not.toBe(s.slug.tr);
+      }
+    }
+  });
+
+  it("relatedServices üç komşu belirtir", () => {
+    for (const s of SERVICES) {
+      expect(s.relatedServices.length, s.slug.tr).toBe(3);
+    }
+  });
+
+  // Bütünlük kontrolü küme tamamlanınca açılır: içerik dosyaları sırayla
+  // yazılıyor ve komşu referansları henüz yazılmamış hizmetleri gösteriyor.
+  // Kontrolün sessizce kapalı kalması mümkün değil — SERVICE_ORDER'ın 12
+  // hizmet içerdiğini ayrı bir test doğruluyor (Task 8).
+  it("küme tamamlandığında relatedServices var olan slug'lara işaret eder", () => {
+    if (SERVICES.length < 12) return;
     const known = new Set(SERVICES.map((s) => s.slug.tr));
     for (const s of SERVICES) {
       for (const ref of s.relatedServices) {
         expect(known, `${s.slug.tr} → ${ref}`).toContain(ref);
-        expect(ref, `${s.slug.tr} kendine referans veriyor`).not.toBe(s.slug.tr);
       }
     }
   });
@@ -804,12 +823,10 @@ describe("içerik blokları dolu", () => {
     }
   });
 
-  it("kimin-için 3 sinyaldir, her persona ve dilde", () => {
+  it("kimin-için 3 sinyaldir, her dilde", () => {
     for (const s of SERVICES) {
-      for (const p of ["industrial", "commerce"] as const) {
-        for (const loc of LOCALES) {
-          expect(s.signals[p][loc].length, `${s.slug.tr}/${p}/${loc}`).toBe(3);
-        }
+      for (const loc of LOCALES) {
+        expect(s.signals[loc].length, `${s.slug.tr}/${loc}`).toBe(3);
       }
     }
   });
@@ -855,27 +872,36 @@ export type ServiceDeliverableKind = "document" | "system" | "training" | "acces
 /**
  * Bir hizmetin detay sayfasını taşıyan içerik.
  *
- * Persona sınırı bilinçli: yalnız `shortDescription`, `ledePersona` ve
- * `signals` iki varyantlı. `PersonaText` her iki varyantı da DOM'a bastığı
- * için (globals.css → persona merceği), her bloğu persona-aware yapmak
- * indekslenebilir metni ikiye katlar ve `FAQPage` şemasını görünen metinle
- * uyumsuz hâle getirir (spec §6).
+ * Ton orta, ses tek: hizmet detay sayfaları docs/03 §1 ton tablosunda
+ * "orta ton, tek versiyon" olarak sabitlenmiş (ADR-014). Yalnız
+ * `shortDescription` iki varyantlı ve o da bu sayfada değil, listede
+ * kullanılıyor.
+ *
+ * Gerekçe iki yönlü: belge bakım yükünü ve ton tekrarını gösteriyor,
+ * GEO tarafı da aynı yere çıkıyor — `PersonaText` her iki varyantı da
+ * DOM'a bastığı için (globals.css → persona merceği) persona-aware bir
+ * detay sayfası indekslenebilir metni şişirir ve `FAQPage` şemasını
+ * görünen metinle uyumsuz kılar (spec §6).
  */
 export type ServiceContent = {
   slug: Localized<string>;
   pillar: Pillar;
   name: Localized<string>;
 
-  /** Anasayfa/liste kartı metni. `pillars.ts`'ten kopyalandı. */
+  /**
+   * Anasayfa/liste kartı metni. `pillars.ts`'ten kopyalandı.
+   *
+   * Persona-aware KALIR — ama detay sayfasında değil, `/hizmetler`
+   * listesinde ve anasayfa kartında render edilir. docs/03 o iki yüzeyi
+   * persona-aware sayıyor, hizmet detayını orta ton.
+   */
   shortDescription: PersonaText;
 
-  /** Hero 1. cümle — kanonik, H1'in altında. */
+  /** Hero lede — iki cümle, tek ses. */
   lede: Localized<string>;
-  /** Hero 2. cümle — persona slot 1. */
-  ledePersona: PersonaText;
 
-  /** "Bu üç durumdan biri sizdeyse" — persona slot 2. Tam 3 madde. */
-  signals: PersonaList;
+  /** "Bu üç durumdan biri sizdeyse" — tam 3 madde, tek ses. */
+  signals: Localized<string[]>;
 
   scope: {
     /** 6-8 madde. */
@@ -948,8 +974,7 @@ export type ServiceContent = {
 | `slug` | `{ tr: "performans-pazarlama", en: "performance-marketing" }` |
 | `pillar` | `"growth"` |
 | `lede` | Tek cümle, kanonik: performans pazarlamanın INDOLES'te ne olduğu. Kanal adı geçer (Google, Meta, LinkedIn) |
-| `ledePersona` | industrial: B2B/ihracat ekseni · commerce: CAC/ROAS ekseni |
-| `signals` | Persona başına 3 durum cümlesi, "…isteniyorsa" değil "…oluyorsa" kipinde — teşhis, temenni değil |
+| `signals` | 3 durum cümlesi, "…isteniyorsa" değil "…oluyorsa" kipinde — teşhis, temenni değil. Hem sanayi hem ticaret alıcısının tanıyacağı durumlar; biri seçilip diğeri dışarıda bırakılmaz |
 | `scope.includes` | 6-8: kanal denetimi, hesap yapısı, audience segmentasyonu, creative test döngüsü, bütçe dağılımı, ölçüm/attribution kurulumu, raporlama ritmi |
 | `scope.excludes` | 3-4: içerik üretimi (ayrı hizmet), organik SEO (ayrı), marka kimliği tasarımı (`marka-stratejisi`), influencer sözleşme yönetimi |
 | `method` | 01 Hesap ve veri denetimi · 02 Kanal hipotezi ve bütçe · 03 Test döngüsü · 04 Ölçek ve devir. Her adımın `output`'u somut bir artefakt |
@@ -1169,10 +1194,10 @@ Dokuz blok, spec §5 sırasına birebir uyar. Yapı kuralları:
 
 - Sayfada **tek `h1`** — `V2PageHeader`'ın `title`'ı. Blok başlıkları `h2`, alt başlıklar `h3`. Atlama yok.
 - Bölüm sırası: Hero → Kimin için → Kapsam → Yöntem → Çıktılar → Taahhüt → SSS → İlgili → CTA
-- Persona yalnız iki yerde: hero lede 2. cümle (`PersonaText`), kimin-için (`PersonaListItems variant="bullet"`)
+- Persona **hiç yok**: `PersonaText`, `PersonaListItems` ve `PersonaSwitch` bu şablonda kullanılmaz. Değişecek metin yokken persona anahtarı sunmak ziyaretçiyi yanıltır
 - Yöntem `<ol>`, çıktılar `<dl>`, kapsam `<ul>` (ScopeColumns)
 - SSS `<details>`/`<summary>` — `paketler/[slug]/page.tsx:186-200`'deki desenin aynısı
-- Hero aside: `<ServiceIllustration index={serviceOrderIndex(service.slug.tr)} />` + `<PersonaSwitch />`
+- Hero aside: yalnız `<ServiceIllustration index={serviceOrderIndex(service.slug.tr)} />`
 - İlgili bölümü dört grup: paket → vaka → komşu 3 hizmet → yazı. Komşu hizmet linkleri `service.relatedServices`'ten, `getService(slug, "tr")` ile çözülüp **çağıran locale'in slug'ıyla** linklenir
 - Her bölüm `aria-labelledby` ile başlığına bağlanır
 - CTA: mevcut `<ContactCallout locale={locale} />`
@@ -1181,10 +1206,9 @@ Bölüm sınıfları mevcut desenden alınır: `className="border-b border-surfa
 
 - [ ] **Step 6: `pillar-detail.tsx` yaz**
 
-`src/app/(marketing)/[locale]/hizmetler/[slug]/page.tsx`'in mevcut gövdesini (metrics → methodology → services → packages → featured case → CTA) **davranışını değiştirmeden** bileşene taşı. İki değişiklik:
+`src/app/(marketing)/[locale]/hizmetler/[slug]/page.tsx`'in mevcut gövdesini (metrics → methodology → services → packages → featured case → CTA) **davranışını değiştirmeden** bileşene taşı. İmza `params` yerine `{ pillar, locale }` alır; gövde aynen kalır.
 
-1. `pillar.services` yerine `getServicesByPillar(pillar.key)` kullan; hizmet adları artık ilgili hizmet sayfasına **link** olur
-2. `getTranslations` çağrıları prop olarak dışarıdan gelir (bileşen server component kalır, kendi çevirisini çekebilir)
+**`getServicesByPillar`a burada geçilmez.** Plan başlangıçta bu geçişi buraya koyuyordu; hatalıydı. `SERVICES` bu noktada yalnız pilot hizmeti içerdiği için Growth pillar sayfası beş hizmet yerine bir hizmet gösterirdi — Task 8'e kadar süren bir regresyon. Hizmet listesi `pillar.services`ten okunmaya devam eder; geçiş 12 içerik dosyası tamamlandıktan sonra Task 9'da yapılır (spec §4.4'teki geçici çoğullama penceresi tam olarak bunun içindir).
 
 - [ ] **Step 7: `page.tsx`'i ince çözücüye indirge**
 
@@ -1469,12 +1493,14 @@ describe("auditHtml", () => {
     expect(rules(auditHtml(page(), EXPECT))).toContain("json-ld-types");
   });
 
-  it("persona çift metni %20'yi aşarsa yakalar", () => {
-    const dup = Array.from({ length: 40 }, (_, i) =>
-      `<span data-persona-variant="commerce">kelime${i} tekrar eden uzun metin</span>`,
-    ).join("");
-    const html = page().replace("</body>", `${dup}</body>`);
-    expect(rules(auditHtml(html, EXPECT))).toContain("persona-ratio");
+  it("sayfaya sızmış persona metnini yakalar", () => {
+    // Hizmet detay tek sesli; bir bileşen sessizce PersonaText kullanırsa
+    // metin ikiye katlanır ve FAQPage şeması görünen metinle ayrışır.
+    const html = page().replace(
+      "</body>",
+      '<span data-persona-variant="commerce">CAC düşer</span></body>',
+    );
+    expect(rules(auditHtml(html, EXPECT))).toContain("persona-leak");
   });
 
   it("yetersiz iç link sayısını yakalar", () => {
@@ -1507,7 +1533,7 @@ Kurallar — her biri `Finding` üretir, `rule` alanı testteki adlarla **birebi
 | `faq-answer` | Cevap <40 kelime veya anafora kalıbıyla başlıyorsa |
 | `internal-links` | Site içi `<a href>` sayısı `minInternalLinks`'in altındaysa |
 | `sibling-links` | `siblingHrefs`'ten `minSiblingLinks` kadarı yoksa |
-| `persona-ratio` | `[data-persona-variant]` metni toplam gövde metninin >%20'siyse |
+| `persona-leak` | Sayfada `[data-persona-variant]` bulunuyorsa — hizmet detay tek sesli olmalı |
 | `img-alt` | `aria-hidden` olmayan `<img>`de `alt` yoksa |
 | `entities` | `expectations.entities` maddelerinden biri gövde metninde geçmiyorsa |
 
@@ -1558,7 +1584,7 @@ git commit -m "feat(seo): audit script'i ve pilot sayfa raporu"
 
 ---
 
-### 🚦 GATE: Burak onayı
+### GATE: Burak onayı
 
 Task 6'ya geçmeden **dur**. Burak'a sun:
 

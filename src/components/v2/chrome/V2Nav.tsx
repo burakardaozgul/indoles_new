@@ -5,6 +5,30 @@ import { gsap } from "gsap";
 import { BrandLogo } from "@/components/brand/brand-logo";
 import { Link, usePathname } from "@/lib/i18n/navigation";
 import { localeHref } from "@/lib/i18n/locale-href";
+
+/**
+ * Dil değiştiricinin hedef adresi.
+ *
+ * Birincil kaynak sayfanın kendi `hreflang` alternate link'i: lokalize
+ * slug'lı dinamik sayfalarda (`/tr/hizmetler/performans-pazarlama` ↔
+ * `/en/services/performance-marketing`) doğru karşılığı yalnız sayfa bilir
+ * ve metadata'sıyla zaten beyan ediyor. next-intl'in `usePathname`'i burada
+ * şablonu döndürür (`/hizmetler/[slug]`) — önceki kurgu bu yüzden
+ * `/en/services/[slug]` gibi ölü linkler üretiyordu.
+ *
+ * Alternate etiketi olmayan sayfalarda (henüz metadata'sız route'lar)
+ * `localeHref` segment çevirisine düşülür.
+ */
+function useAlternateHref(other: "tr" | "en", pathname: string): string | null {
+  const [href, setHref] = React.useState<string | null>(null);
+  React.useEffect(() => {
+    const link = document.querySelector<HTMLLinkElement>(
+      `link[rel="alternate"][hreflang="${other}"]`,
+    );
+    setHref(link ? new URL(link.href).pathname : null);
+  }, [other, pathname]);
+  return href;
+}
 import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
 import { NAV } from "@/lib/v2/anim-config";
 import { cn } from "@/lib/utils/cn";
@@ -52,6 +76,7 @@ export function V2Nav({
   // davranışı buydu ve ADR-014 persona akışının giriş kapısı odur.
   const { openPopup } = usePopup();
   const other = locale === "tr" ? "en" : "tr";
+  const alternateHref = useAlternateHref(other, pathname);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > NAV.surfaceAfter);
@@ -140,7 +165,7 @@ export function V2Nav({
 
         <div className="v2-nav-actions" data-nav-item>
           <a
-            href={localeHref(pathname, other)}
+            href={alternateHref ?? localeHref(pathname, other)}
             className="v2-nav-locale"
             hrefLang={other}
             aria-label={locale === "tr" ? "Switch to English" : "Türkçe'ye geç"}
@@ -206,7 +231,7 @@ export function V2Nav({
           ))}
         </ul>
         <div className="v2-nav-drawer-foot">
-          <a href={localeHref(pathname, other)} className="v2-nav-locale" hrefLang={other}>
+          <a href={alternateHref ?? localeHref(pathname, other)} className="v2-nav-locale" hrefLang={other}>
             <span aria-hidden="true" className="is-current">
               {locale.toUpperCase()}
             </span>

@@ -1,11 +1,48 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { IndustriesSection } from "@/components/marketing/industries-section";
 import { PersonaText } from "@/components/marketing/persona-text";
 import { PersonaSwitch } from "@/components/marketing/persona-switch";
-import { PILLARS, serviceIndex } from "@/lib/content/pillars";
+import { PILLARS } from "@/lib/content/pillars";
+import { SERVICES, getServicesByPillar, serviceOrderIndex } from "@/lib/content/services";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
+import { absoluteUrl } from "@/lib/seo/site";
+import type { Locale } from "@/lib/content/types";
+
+const PATHS = { tr: "/tr/hizmetler", en: "/en/services" };
+
+const META = {
+  tr: {
+    title: "Hizmetler",
+    description:
+      "Growth, Transform ve Build disiplinlerinde 12 uzmanlık. Marka stratejisinden yapay zekâya, e-ticaretten altyapıya — her hizmetin kapsamı yazılı.",
+  },
+  en: {
+    title: "Services",
+    description:
+      "Twelve areas of expertise across Growth, Transform and Build. From brand strategy to AI, e-commerce to infrastructure — every scope in writing.",
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  return buildMetadata({
+    title: META[loc].title,
+    description: META[loc].description,
+    paths: PATHS,
+    locale: loc,
+  });
+}
 import { PillarMark } from "@/components/marketing/pillar-mark";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
 
@@ -20,8 +57,38 @@ export default async function ServicesIndex({
   const tCommon = await getTranslations({ locale, namespace: "common" });
   const tPage = await getTranslations({ locale, namespace: "pages.services" });
 
+  const servicesRoot = loc === "tr" ? "hizmetler" : "services";
+
   return (
     <>
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: META[loc].title,
+            description: META[loc].description,
+            path: PATHS[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            { name: META[loc].title },
+          ]),
+          {
+            // Kümenin tepesi yapraklarını sayar: ajan 12 hizmetin
+            // tamamını tek düğümden görebiliyor.
+            "@type": "ItemList",
+            name: META[loc].title,
+            numberOfItems: SERVICES.length,
+            itemListElement: SERVICES.map((s, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: s.name[loc],
+              url: absoluteUrl(`/${loc}/${servicesRoot}/${s.slug[loc]}`),
+            })),
+          },
+        ]}
+      />
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },
@@ -88,8 +155,8 @@ export default async function ServicesIndex({
                     />
                   </p>
                   <ul className="mt-10 border-t border-surface-2">
-                    {p.services.map((s) => (
-                      <li key={s.slug} className="border-b border-surface-2">
+                    {getServicesByPillar(p.key).map((s) => (
+                      <li key={s.slug.tr} className="border-b border-surface-2">
                         <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-4 py-6">
                           {/* Diyagramlar zaten yazılmıştı ama yalnız anasayfada
                               görünüyordu (ADR-017 sonrası denetim bulgusu). */}
@@ -97,12 +164,19 @@ export default async function ServicesIndex({
                             {/* `ServiceIllustration` %100 genişlik/yükseklik
                                 veriyor — ölçüsü olan bir kap gerekiyor. */}
                             <div className="w-[92px] aspect-[200/140] opacity-75">
-                              <ServiceIllustration index={serviceIndex(s.slug)} />
+                              <ServiceIllustration index={serviceOrderIndex(s.slug.tr)} />
                             </div>
                           </div>
                           <div className="md:col-span-4">
+                            {/* Ad artık hizmet sayfasına link — topikal
+                                kümenin tepesi yapraklarına bağlanıyor. */}
                             <h3 className="typography-h3 text-ink-900">
-                              {s.name[loc]}
+                              <Link
+                                href={`/${locale}/${loc === "tr" ? "hizmetler" : "services"}/${s.slug[loc]}`}
+                                className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
+                              >
+                                {s.name[loc]}
+                              </Link>
                             </h3>
                           </div>
                           <div className="md:col-span-6">

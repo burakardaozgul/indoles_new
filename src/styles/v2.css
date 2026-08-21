@@ -5,8 +5,19 @@
      z-0   hero'nun RENKLİ metin katmanı + dekoratif dashed çemberler
      z-10  WebGL canvas (fixed, pointer-events:none)
      z-20  tüm normal içerik (siyah metin, grid, kart, nav)
-     z-50  custom cursor
+     z-50  dialog/popup (Radix portal)
+     z-60  skip link + custom cursor — cursor dialog'un da üstünde kalmalı,
+           yoksa `cursor:none` altında popup içinde fare görünmez oluyor
    ============================================================================ */
+
+/* R3F, Canvas'ın iç sarmalayıcısına inline `pointer-events:auto` basıyor ve
+   üstteki `pointer-events-none` katmanını geri açıyor — tüm sayfada tıklama
+   kanvasa gidiyordu (SSS akordeonu bu yüzden açılmıyordu). Kanvas dekoratif;
+   fare etkileşimi window dinleyicisinden geliyor (use-mouse), raycaster yok. */
+[data-blob-canvas],
+[data-blob-canvas] * {
+  pointer-events: none !important;
+}
 
 .v2-root {
   /* Blob gradyan paleti — teal + gold'dan türetildi (ADR-015 tek accent

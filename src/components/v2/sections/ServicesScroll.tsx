@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { PILLARS } from "@/lib/content/pillars";
+import { SERVICES, SERVICE_ORDER } from "@/lib/content/services";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
 import { PersonaText } from "@/components/marketing/persona-text";
 import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
@@ -29,20 +30,27 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
 
   const isTr = locale === "tr";
 
+  /**
+   * Kartlar `SERVICE_ORDER` sırasında dizilir ve artık pillar sayfasına
+   * değil hizmet sayfasına gider. Kart metni hizmet içeriğinden okunur —
+   * `pillars.ts` ile ikinci bir kopya tutulmuyor.
+   */
   const services = React.useMemo(
     () =>
-      PILLARS.flatMap((p) =>
-        p.services.map((s) => ({
-          slug: s.slug,
-          pillarKey: p.key,
-          pillarName: p.name[locale],
-          name: s.name[locale],
-          desc: {
-            industrial: s.shortDescription.industrial[locale],
-            commerce: s.shortDescription.commerce[locale],
-          },
-        })),
-      ),
+      SERVICE_ORDER.map((slug) => SERVICES.find((s) => s.slug.tr === slug))
+        .filter((s): s is (typeof SERVICES)[number] => s !== undefined)
+        .map((s) => {
+          const pillar = PILLARS.find((p) => p.key === s.pillar)!;
+          return {
+            slug: s.slug[locale],
+            pillarName: pillar.name[locale],
+            name: s.name[locale],
+            desc: {
+              industrial: s.shortDescription.industrial[locale],
+              commerce: s.shortDescription.commerce[locale],
+            },
+          };
+        }),
     [locale],
   );
 
@@ -208,7 +216,7 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
                 </p>
 
                 <Link
-                  href={`/${locale}/hizmetler/${s.pillarKey}`}
+                  href={`/${locale}/${locale === "tr" ? "hizmetler" : "services"}/${s.slug}`}
                   className="v2-svc-link mono"
                   data-cursor="hover"
                 >

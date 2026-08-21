@@ -103,7 +103,8 @@ Dil değiştirici ve CTA çekmecenin altında tekrarlanır.
 /{locale}                          Anasayfa (11 bölüm — bkz. §5)
 ├── /hakkimizda                    Hakkımızda
 ├── /hizmetler                     Pillar + 12 hizmet listesi
-│   └── /hizmetler/[slug]          Pillar detay: growth | transform | build
+│   └── /hizmetler/[slug]          Pillar detay (growth | transform | build)
+│                                  VEYA hizmet detayı (12 hizmet) — ADR-018
 ├── /paketler                      4 ürünleşmiş paket
 │   └── /paketler/[slug]           Paket detay
 ├── /vakalar                       Vaka çalışmaları (problem tipine göre)
@@ -170,7 +171,8 @@ Ortak yapı: `PageHeader` (breadcrumb + eyebrow + display başlık + lede, düş
 | Sayfa | Bölümler | Persona-aware |
 |---|---|---|
 | `/hizmetler` | Hero, 3 pillar bloğu (her biri: tagline, açıklama, metodoloji, hizmet listesi) | **Evet** (ADR-014) |
-| `/hizmetler/[slug]` | Pillar hero, metodoloji, hizmet detayları, ilgili paket ve vakalar | Orta ton (ADR-014) |
+| `/hizmetler/[slug]` — pillar | Pillar hero, metodoloji, hizmet listesi (linkli), ilgili paket ve vakalar | Orta ton (ADR-014) |
+| `/hizmetler/[slug]` — hizmet | Hero + teşhis föyü, kimin için, kapsam, yöntem, teslim listesi, SSS, ilgili içerik (ADR-018) | Orta ton, tek versiyon |
 | `/paketler` | Hero, 4 paket kartı (isim, pillar, süre, fiyat, outcome) | **Evet** |
 | `/paketler/[slug]` | Hero, kapsam, çıktılar, kimin için, SSS, fiyat, CTA | **Evet** |
 | `/vakalar` | Hero, problem-tipi filtresi, vaka kartları | Orta ton |
@@ -255,6 +257,5 @@ Vaka breadcrumb'ında problem-tipi ara kırılımı **uygulanmadı** — 4 vaka 
 ## 10. Açık Sorular
 
 - Nav bağlantılarının `next-intl` `Link`'ine geçirilmesi (307 atlamasını kaldırır)
-- `/hizmetler/[slug]`'ın tekil hizmet detayına genişletilmesi — içerik hacmi arttığında yeniden değerlendirilir
 - Vaka listelemesinde problem-tipi filtresinin UI'ı (şu an tüm vakalar listeleniyor)
 - Yazı sayısı 15'i geçtiğinde kategori taksonomisi

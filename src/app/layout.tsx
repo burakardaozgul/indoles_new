@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { getLocale } from "next-intl/server";
 import { Lexend, Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { SITE_URL } from "@/lib/seo/site";
 import "@/styles/globals.css";
 import "@/styles/sections.css";
 
@@ -24,9 +26,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"
-  ),
+  metadataBase: new URL(SITE_URL),
   applicationName: "INDOLES",
   authors: [{ name: "İndoles Yazılım A.Ş." }],
   robots: {
@@ -41,13 +41,21 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  /**
+   * `lang` kök layout'ta basılmak zorunda ve önceden hiç basılmıyordu.
+   * Sonucu: CSS `text-transform: uppercase` Türkçe kural bilmeden çalışıyor,
+   * "Hizmet" → "HIZMET", "Eğitim" → "EĞITIM" oluyordu (İ/ı ayrımı kayıp).
+   * Locale, [locale] segmentinin üstündeki bu layout'a middleware'den gelir.
+   */
+  const locale = await getLocale();
   return (
     <html
+      lang={locale}
       suppressHydrationWarning
       className={`${lexend.variable} ${inter.variable} ${jetbrains.variable}`}
     >

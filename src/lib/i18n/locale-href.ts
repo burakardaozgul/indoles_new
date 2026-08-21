@@ -7,10 +7,14 @@ import { routing } from "./routing";
  * dil değiştirmek locale ön ekini değiştirmekten ibaret değildir. Ham
  * `/${locale}` linki kullanıcıyı her seferinde ana sayfaya atıyordu.
  *
- * Burada yalnız **ilk segment** çevrilir, kalanı olduğu gibi taşınır: slug'lar
- * tek kaynaktan gelir ve iki dilde aynıdır (`/tr/hizmetler/veri-altyapisi` ↔
- * `/en/services/veri-altyapisi`). Haritada olmayan segmentler (ör. `/v2`)
- * çevrilmeden geçer — çevirisi olmayan route'lar için doğru davranış budur.
+ * Burada yalnız **ilk segment** çevrilir, kalanı olduğu gibi taşınır.
+ *
+ * Bu bir FALLBACK'tir: lokalize slug'lı dinamik sayfalarda
+ * (`/tr/hizmetler/performans-pazarlama` ↔ `/en/services/performance-marketing`)
+ * doğru karşılığı yalnız sayfanın kendisi bilir ve `hreflang` alternate
+ * link'iyle beyan eder — dil değiştirici önce onu okur (`V2Nav`,
+ * `useAlternateHref`). Alternate etiketi olmayan sayfalar buraya düşer;
+ * haritada olmayan segmentler çevrilmeden geçer.
  */
 const SEGMENTS: Record<string, { tr: string; en: string }> = (() => {
   const out: Record<string, { tr: string; en: string }> = {};

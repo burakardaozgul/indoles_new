@@ -1,4 +1,23 @@
+import { SITE_URL } from "@/lib/seo/site";
+import { SERVICES } from "@/lib/content/services";
+import type { Pillar } from "@/lib/content/types";
+
 export const dynamic = "force-static";
+
+/**
+ * Bir pillar'ın hizmetlerini "- Ad: URL" satırları olarak yazar.
+ *
+ * Önceki hâl hizmetleri yalnız ADIYLA sayıyordu, hiçbirine link vermiyordu:
+ * ajan hizmetin varlığını görüyor ama sayfasını bulamıyordu
+ * (spec §8.5). URL'ler `SERVICES`ten türetilir — slug değişirse llms.txt
+ * sessizce eskimez.
+ */
+function serviceLines(pillar: Pillar, locale: "tr" | "en"): string {
+  const root = locale === "tr" ? "hizmetler" : "services";
+  return SERVICES.filter((s) => s.pillar === pillar)
+    .map((s) => `- ${s.name[locale]}: ${SITE_URL}/${locale}/${root}/${s.slug[locale]}`)
+    .join("\n");
+}
 
 /**
  * İki dilli: EN sürüm ayrı bir dosya değil, aynı belgenin ikinci bölümü.
@@ -19,22 +38,13 @@ const body = `# INDOLES
 ## Üç disiplin
 
 ### Growth — Agresif Büyüme
-- Marka stratejisi ve pazarlama danışmanlığı
-- Performans pazarlama
-- CRO
-- E-ticaret
-- UI/UX tasarım
+${serviceLines("growth", "tr")}
 
 ### Transform — Dijital ve İşletme Dönüşümü
-- AI danışmanlığı
-- Dijital dönüşüm
-- İş otomasyonları
-- İş zekası
-- İşletme mühendisliği
+${serviceLines("transform", "tr")}
 
 ### Build — Teknoloji ve Ürün
-- Özel yazılım ve mobil uygulama
-- Teknoloji ve altyapı danışmanlığı
+${serviceLines("build", "tr")}
 
 ## İletişim
 - Görüşme ve brief: https://indoles.com.tr/tr/iletisim
@@ -62,22 +72,13 @@ const body = `# INDOLES
 ## Three disciplines
 
 ### Growth
-- Brand strategy and marketing advisory
-- Performance marketing
-- CRO
-- E-commerce
-- UI/UX design
+${serviceLines("growth", "en")}
 
 ### Transform
-- AI advisory
-- Digital transformation
-- Business automation
-- Business intelligence
-- Operations engineering
+${serviceLines("transform", "en")}
 
 ### Build
-- Custom software and mobile apps
-- Technology and infrastructure advisory
+${serviceLines("build", "en")}
 
 ## Contact
 - Calls and briefs: https://indoles.com.tr/en/contact

@@ -47,6 +47,51 @@ export function breadcrumbLd(items: Array<{ name: string; path?: string }>) {
  * Boş listede `null` döner — soru içermeyen FAQPage geçersiz ve Search
  * Console'da uyarı üretir. `JsonLd` bileşeni null düğümleri eliyor.
  */
+/**
+ * Article (ADR-020). `dateModified` verilmezse `datePublished` kullanılır —
+ * modified alanını boş bırakmak bazı araçlarda "hiç güncellenmedi" yerine
+ * "bilinmiyor" okunuyor.
+ */
+export function articleLd({
+  headline,
+  description,
+  path,
+  locale,
+  datePublished,
+  dateModified,
+  authorName,
+  authorPath,
+}: {
+  headline: string;
+  description: string;
+  path: string;
+  locale: string;
+  datePublished: string;
+  dateModified?: string | undefined;
+  authorName?: string | undefined;
+  authorPath?: string | undefined;
+}) {
+  return {
+    "@type": "Article",
+    headline,
+    description,
+    inLanguage: locale,
+    mainEntityOfPage: absoluteUrl(path),
+    datePublished,
+    dateModified: dateModified ?? datePublished,
+    ...(authorName
+      ? {
+          author: {
+            "@type": "Person",
+            name: authorName,
+            ...(authorPath ? { url: absoluteUrl(authorPath) } : {}),
+          },
+        }
+      : {}),
+    publisher: { "@id": ORG_ID },
+  };
+}
+
 export function faqLd(items: Array<{ question: string; answer: string }>) {
   if (items.length === 0) return null;
   return {

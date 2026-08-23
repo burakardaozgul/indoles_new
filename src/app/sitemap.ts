@@ -3,6 +3,7 @@ import { SITE_URL } from "@/lib/seo/site";
 import { SERVICES } from "@/lib/content/services";
 import { PILLARS } from "@/lib/content/pillars";
 import { CASES } from "@/lib/content/cases";
+import { ARTICLES } from "@/lib/content/articles";
 
 const STATIC_ROUTES: Array<{
   path: { tr: string; en: string };
@@ -125,6 +126,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
     for (const locale of ["tr", "en"] as const) {
       entries.push(entry(path, locale, 0.8, "monthly"));
+    }
+  }
+
+  // Journal yazıları — slug locale başına farklı (ADR-020).
+  for (const article of ARTICLES) {
+    const path = {
+      tr: `/tr/yazilar/${article.slug.tr}`,
+      en: `/en/articles/${article.slug.en}`,
+    };
+    for (const locale of ["tr", "en"] as const) {
+      entries.push(entry(path, locale, 0.7, "monthly"));
     }
   }
 

@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/dijital-pazarlama-hizmetleri", destination: "/tr/hizmetler/performans-pazarlama", permanent: true },
       { source: "/cro-donusum-orani-optimizasyonu", destination: "/tr/hizmetler/cro", permanent: true },
-      { source: "/donusum-optimizasyonu-yontemleri", destination: "/tr/hizmetler/cro", permanent: true },
+      { source: "/donusum-optimizasyonu-yontemleri", destination: "/tr/yazilar/donusum-optimizasyonu-yontemleri", permanent: true },
       { source: "/e-ticaret-danismanligi", destination: "/tr/hizmetler/e-ticaret", permanent: true },
       { source: "/kreatif-hizmetler", destination: "/tr/hizmetler/ui-ux-tasarim", permanent: true },
       { source: "/mobil-uygulama-ve-yazilim-cozumleri", destination: "/tr/hizmetler/ozel-yazilim-ve-mobil", permanent: true },
@@ -37,6 +37,22 @@ const nextConfig: NextConfig = {
       { source: "/portfolyo/fyr-luks-ev-dekorasyon", destination: "/tr/vakalar/fyr-luks-dekorasyon-lansmani", permanent: true },
       { source: "/portfolyo/luks-parekende-partnerleri-ile-marka-anlasmasi", destination: "/tr/vakalar/feruza-luks-perakende-anlasmasi", permanent: true },
       { source: "/portfolyo/yapay-zeka-destekli-web-icerikleri", destination: "/tr/vakalar/sim-baski-ihracat-icerigi", permanent: true },
+      // Eski blog → journal (ADR-020). Yazı taşındıkça satır eklenir.
+      { source: "/dijital-cagda-gerilla-pazarlama-evrimi", destination: "/tr/yazilar/dijital-cagda-gerilla-pazarlama-evrimi", permanent: true },
+      { source: "/basarili-pazarlama-icin-insan-psikolojisinde-ustalasmak", destination: "/tr/yazilar/basarili-pazarlama-icin-insan-psikolojisinde-ustalasmak", permanent: true },
+      { source: "/isa-ilk-pazarlama-marka-muhendisi", destination: "/tr/yazilar/isa-ilk-pazarlama-marka-muhendisi", permanent: true },
+      { source: "/gercek-e-ticaret-ajansinin-etkisi", destination: "/tr/yazilar/gercek-e-ticaret-ajansinin-etkisi", permanent: true },
+      { source: "/7-onemli-performans-pazarlama-hatasi", destination: "/tr/yazilar/7-onemli-performans-pazarlama-hatasi", permanent: true },
+      { source: "/ugc-kullanimi-ve-sosyal-kanit", destination: "/tr/yazilar/ugc-kullanimi-ve-sosyal-kanit", permanent: true },
+      { source: "/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru", destination: "/tr/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru", permanent: true },
+      { source: "/2026-web-tasarim-trendleri", destination: "/tr/yazilar/2026-web-tasarim-trendleri", permanent: true },
+      { source: "/sadece-trafik-degil-ciro-isteyenler-icin-2026-performans-pazarlama-trendleri", destination: "/tr/yazilar/sadece-trafik-degil-ciro-isteyenler-icin-2026-performans-pazarlama-trendleri", permanent: true },
+      { source: "/kucuk-isletmeler-icin-rfm-analizi-ile-satislari-artirma-rehberi", destination: "/tr/yazilar/kucuk-isletmeler-icin-rfm-analizi-ile-satislari-artirma-rehberi", permanent: true },
+      { source: "/reklam-maliyetleri-artarken-buyumenin-sirri-ltv-optimizasyonu", destination: "/tr/yazilar/reklam-maliyetleri-artarken-buyumenin-sirri-ltv-optimizasyonu", permanent: true },
+      { source: "/dijitalde-olceklenmek-isteyen-kobiler-icin-5-adimli-yeni-yil-stratejisi", destination: "/tr/yazilar/dijitalde-olceklenmek-isteyen-kobiler-icin-5-adimli-yeni-yil-stratejisi", permanent: true },
+      { source: "/satis-ekibinizin-vaktini-harcamayin-b2bde-kaliteli-lead-toplama-rehberi", destination: "/tr/yazilar/satis-ekibinizin-vaktini-harcamayin-b2bde-kaliteli-lead-toplama-rehberi", permanent: true },
+      { source: "/yapay-zeka-aramalarinda-nasil-one-cikarsiniz", destination: "/tr/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz", permanent: true },
+      { source: "/neden-profesyonel-video-sart", destination: "/tr/yazilar/neden-profesyonel-video-sart", permanent: true },
     ];
   },
 

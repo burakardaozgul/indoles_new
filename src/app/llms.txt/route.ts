@@ -1,5 +1,7 @@
 import { SITE_URL } from "@/lib/seo/site";
 import { SERVICES } from "@/lib/content/services";
+import { CASES } from "@/lib/content/cases";
+import { ARTICLES } from "@/lib/content/articles";
 import type { Pillar } from "@/lib/content/types";
 
 export const dynamic = "force-static";
@@ -17,6 +19,31 @@ function serviceLines(pillar: Pillar, locale: "tr" | "en"): string {
   return SERVICES.filter((s) => s.pillar === pillar)
     .map((s) => `- ${s.name[locale]}: ${SITE_URL}/${locale}/${root}/${s.slug[locale]}`)
     .join("\n");
+}
+
+/**
+ * Vaka satırları: müşteri adı + başlık + URL. Ajanın "INDOLES kimlerle
+ * çalışmış, ne sonuç almış" sorusuna liste sayfasını gezmeden cevap
+ * bulabilmesi için başlık metrik taşır (spec §8.5 ile aynı gerekçe).
+ */
+function caseLines(locale: "tr" | "en"): string {
+  const root = locale === "tr" ? "vakalar" : "case-studies";
+  return CASES.map(
+    (c) => `- ${c.clientName[locale]} — ${c.title[locale]} ${SITE_URL}/${locale}/${root}/${c.slug}`
+  ).join("\n");
+}
+
+/** Yazı satırları: başlık + URL; güncellenen yazı güncelleme yılını taşır. */
+function articleLines(locale: "tr" | "en"): string {
+  const root = locale === "tr" ? "yazilar" : "articles";
+  return ARTICLES.map((a) => {
+    const updated = a.updatedAt
+      ? locale === "tr"
+        ? ` (${a.updatedAt.slice(0, 4)}'da güncellendi)`
+        : ` (updated ${a.updatedAt.slice(0, 4)})`
+      : "";
+    return `- ${a.title[locale]}${updated} ${SITE_URL}/${locale}/${root}/${a.slug[locale]}`;
+  }).join("\n");
 }
 
 /**
@@ -45,6 +72,12 @@ ${serviceLines("transform", "tr")}
 
 ### Build — Teknoloji ve Ürün
 ${serviceLines("build", "tr")}
+
+## Vaka çalışmaları
+${caseLines("tr")}
+
+## Yazılar
+${articleLines("tr")}
 
 ## İletişim
 - Görüşme ve brief: https://indoles.com.tr/tr/iletisim
@@ -79,6 +112,12 @@ ${serviceLines("transform", "en")}
 
 ### Build
 ${serviceLines("build", "en")}
+
+## Case studies
+${caseLines("en")}
+
+## Articles
+${articleLines("en")}
 
 ## Contact
 - Calls and briefs: https://indoles.com.tr/en/contact

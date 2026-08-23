@@ -152,11 +152,36 @@ export type CaseStudyContent = {
   };
 };
 
+/**
+ * Yazı gövdesinin blok modeli (ADR-020). Düz paragraf dizisi blog
+ * migrasyonunu taşımıyordu: eski yazılar başlık hiyerarşisi, liste ve alıntı
+ * içeriyor; GEO için içindekiler (h2 çapaları) ve soru-cevap yapısı gerekiyor.
+ * MDX yerine tipli bloklar: bağımlılık yok, çeviri pariteleri typecheck'te
+ * yakalanıyor, TOC ve JSON-LD bloklardan türetiliyor.
+ */
+export type ArticleBlock =
+  | { type: "p"; text: Localized<string> }
+  /** `id` içindekiler çapasıdır — kebab-case, locale'den bağımsız. */
+  | { type: "h2"; id: string; text: Localized<string> }
+  | { type: "h3"; text: Localized<string> }
+  | { type: "list"; ordered?: boolean; items: Array<Localized<string>> }
+  | { type: "quote"; text: Localized<string> };
+
 export type ArticleContent = {
   slug: Localized<string>;
   title: Localized<string>;
   excerpt: Localized<string>;
-  body: Localized<string[]>;
+  blocks: ArticleBlock[];
+  /**
+   * Yayın sonrası içerik güncellemesi (ADR-020). `updatedAt` meta şeritte
+   * rozet, `updateNote` gövde başında kutu olarak görünür; JSON-LD
+   * `dateModified` buradan beslenir. Eski tarihli bilgi güncellenmeden
+   * yeniden yayımlanmaz — güncellenen yazı bunu okura açıkça söyler.
+   */
+  updatedAt?: string;
+  updateNote?: Localized<string>;
+  /** Soru-cevap bloğu — sayfada açık metin, JSON-LD'de FAQPage. */
+  faq?: Array<{ question: Localized<string>; answer: Localized<string> }>;
   category: Pillar | "industry";
   tags: string[];
   authorSlug: string;

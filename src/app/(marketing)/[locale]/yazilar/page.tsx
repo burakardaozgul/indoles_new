@@ -3,6 +3,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { ARTICLES } from "@/lib/content/articles";
+import { localeHref } from "@/lib/i18n/locale-href";
 import { getConsultantBySlug } from "@/lib/content/consultants";
 
 const CATEGORY_LABELS: Record<string, { tr: string; en: string }> = {
@@ -59,7 +60,7 @@ export default async function ArticlesIndex({
       <section className="border-b border-surface-2">
         <div className="ds-container py-20 md:py-28">
           <Link
-            href={`/${locale}/yazilar/${featured.slug[loc]}`}
+            href={localeHref(`/yazilar/${featured.slug[loc]}`, loc)}
             className="group grid grid-cols-1 md:grid-cols-12 gap-10"
           >
             <div className="md:col-span-3">
@@ -95,7 +96,7 @@ export default async function ArticlesIndex({
               return (
                 <li key={a.slug[loc]} className="border-b border-surface-2">
                   <Link
-                    href={`/${locale}/yazilar/${a.slug[loc]}`}
+                    href={localeHref(`/yazilar/${a.slug[loc]}`, loc)}
                     className="group grid grid-cols-1 md:grid-cols-12 gap-6 py-10 md:py-12 hover:transition-colors px-0 md:px-4 -mx-0 md:-mx-4 rounded-lg"
                   >
                     <div className="md:col-span-2 typography-label uppercase tracking-widest text-brand-700">

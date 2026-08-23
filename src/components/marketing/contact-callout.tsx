@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Phone } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { PopupCTAButton } from "./PopupCTAButton";
+import { localeHref } from "@/lib/i18n/locale-href";
 
 /**
  * Ortak sayfa sonu CTA şeridi — her inner page'de tekrar etmesin diye tek
@@ -30,7 +31,7 @@ export async function ContactCallout({ locale }: { locale: "tr" | "en" }) {
           {/* `/app/brief/yeni` ADR-008 ile kaldırıldı ama link 13 sayfada
               duruyordu ve 404 veriyordu. Brief formu artık /iletisim içinde. */}
           <Link
-            href={`/${locale}/iletisim`}
+            href={localeHref("/iletisim", locale)}
             className="inline-flex items-center gap-2 text-paper typography-body-sm"
           >
             <span className="underline underline-offset-4 decoration-paper/40 hover:decoration-paper">

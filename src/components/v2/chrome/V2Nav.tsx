@@ -19,6 +19,18 @@ import { localeHref } from "@/lib/i18n/locale-href";
  * Alternate etiketi olmayan sayfalarda (henüz metadata'sız route'lar)
  * `localeHref` segment çevirisine düşülür.
  */
+/**
+ * SSR fallback'i: dinamik sayfada `usePathname` route ŞABLONUNU döndürür
+ * (`/yazilar/[slug]`) ve `localeHref` bunu `/en/articles/[slug]` gibi ölü bir
+ * linke çevirir. Alternate henüz DOM'dan okunamadıysa ve yol şablon
+ * içeriyorsa hedef locale'in köküne düş — hydrate olunca gerçek alternate
+ * devreye girer; crawl edilen SSR HTML'inde ölü href kalmaz.
+ */
+function safeFallbackHref(pathname: string, other: "tr" | "en"): string {
+  if (pathname.includes("[")) return `/${other}`;
+  return localeHref(pathname, other);
+}
+
 function useAlternateHref(other: "tr" | "en", pathname: string): string | null {
   const [href, setHref] = React.useState<string | null>(null);
   React.useEffect(() => {
@@ -165,7 +177,7 @@ export function V2Nav({
 
         <div className="v2-nav-actions" data-nav-item>
           <a
-            href={alternateHref ?? localeHref(pathname, other)}
+            href={alternateHref ?? safeFallbackHref(pathname, other)}
             className="v2-nav-locale"
             hrefLang={other}
             aria-label={locale === "tr" ? "Switch to English" : "Türkçe'ye geç"}
@@ -231,7 +243,7 @@ export function V2Nav({
           ))}
         </ul>
         <div className="v2-nav-drawer-foot">
-          <a href={alternateHref ?? localeHref(pathname, other)} className="v2-nav-locale" hrefLang={other}>
+          <a href={alternateHref ?? safeFallbackHref(pathname, other)} className="v2-nav-locale" hrefLang={other}>
             <span aria-hidden="true" className="is-current">
               {locale.toUpperCase()}
             </span>

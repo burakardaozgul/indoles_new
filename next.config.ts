@@ -6,6 +6,23 @@ import path from "node:path";
 const withNextIntl = createNextIntlPlugin("./src/lib/i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  /**
+   * Streaming metadata KAPALI.
+   *
+   * Next 15 varsayılanı metadata'yı shell akışından sonra basar; etiketleri
+   * `<head>`'e React istemcide taşır. Bloklayan (head'e basan) sürüm yalnız
+   * `htmlLimitedBots` listesindeki botlara gider ve o listede Googlebot da,
+   * hiçbir AI crawler'ı da yok — GPTBot/ClaudeBot/PerplexityBot JS
+   * çalıştırmadığı için canonical, hreflang, title ve OG etiketlerini hiç
+   * görmüyordu. GEO stratejisi (docs/strateji/) AI cevap motorlarında
+   * alıntılanmayı ana kaldıraç saydığı için bu kabul edilemez.
+   *
+   * Buradaki kalıp tüm user-agent'ları bloklayan sürüme alır. Sayfalar SSG
+   * olduğundan
+   * maliyeti yok: metadata build anında zaten çözülüyor.
+   */
+  htmlLimitedBots: /.*/,
+
   reactStrictMode: true,
   typedRoutes: true,
   outputFileTracingRoot: path.join(__dirname),
@@ -24,9 +41,23 @@ const nextConfig: NextConfig = {
       { source: "/cro-donusum-orani-optimizasyonu", destination: "/tr/hizmetler/cro", permanent: true },
       { source: "/donusum-optimizasyonu-yontemleri", destination: "/tr/yazilar/donusum-optimizasyonu-yontemleri", permanent: true },
       { source: "/e-ticaret-danismanligi", destination: "/tr/hizmetler/e-ticaret", permanent: true },
-      { source: "/kreatif-hizmetler", destination: "/tr/hizmetler/ui-ux-tasarim", permanent: true },
+      { source: "/web-tasarim-ui-ux-tasarimi", destination: "/tr/hizmetler/ui-ux-tasarim", permanent: true },
+      { source: "/sosyal-medya-pazarlama", destination: "/tr/hizmetler/marka-stratejisi", permanent: true },
+      // Eski "kreatif hizmetler" tek bir hizmete değil Growth pillar'ının
+      // tamamına karşılık geliyor (Ek A). UI/UX kendi eski URL'inden
+      // (`/web-tasarim-ui-ux-tasarimi`) doğrudan hizmet sayfasına gidiyor.
+      { source: "/kreatif-hizmetler", destination: "/tr/hizmetler/growth", permanent: true },
       { source: "/mobil-uygulama-ve-yazilim-cozumleri", destination: "/tr/hizmetler/ozel-yazilim-ve-mobil", permanent: true },
       { source: "/our-services", destination: "/en/services", permanent: true },
+      // Eski kurumsal ve liste sayfaları. Konu eşleşmesi birebir: takım →
+      // hakkımızda, bilgi kütüphanesi → yazılar, referans/müşteri listeleri →
+      // vakalar. `/iletisim` middleware'in geçici yönlendirmesiyle de
+      // çalışıyordu; kalıcı kural açık yazıldı ki link equity 301 aktarılsın.
+      { source: "/takimimiz", destination: "/tr/hakkimizda", permanent: true },
+      { source: "/bilgi-kutuphanemiz", destination: "/tr/yazilar", permanent: true },
+      { source: "/musterilerimiz", destination: "/tr/vakalar", permanent: true },
+      { source: "/referanslarimiz", destination: "/tr/vakalar", permanent: true },
+      { source: "/iletisim", destination: "/tr/iletisim", permanent: true },
       // Eski portfolyo → yeni vaka sayfaları (ADR-019). Vakalar taşındıkça
       // buraya birer satır eklenir; taşınmayanlar (Turkcell, CaffeBO) 404'te
       // kalır — konu dışı yönlendirme soft-404 sayılır.
@@ -37,6 +68,9 @@ const nextConfig: NextConfig = {
       { source: "/portfolyo/fyr-luks-ev-dekorasyon", destination: "/tr/vakalar/fyr-luks-dekorasyon-lansmani", permanent: true },
       { source: "/portfolyo/luks-parekende-partnerleri-ile-marka-anlasmasi", destination: "/tr/vakalar/feruza-luks-perakende-anlasmasi", permanent: true },
       { source: "/portfolyo/yapay-zeka-destekli-web-icerikleri", destination: "/tr/vakalar/sim-baski-ihracat-icerigi", permanent: true },
+      // Portfolyo kategori arşivleri tekil vakaya karşılık gelmiyor; konu
+      // eşleşmesi korunduğu için vaka listesine gider, soft-404 sayılmaz.
+      { source: "/portfolyo-kategori/:slug*", destination: "/tr/vakalar", permanent: true },
       // Eski blog → journal (ADR-020). Yazı taşındıkça satır eklenir.
       { source: "/dijital-cagda-gerilla-pazarlama-evrimi", destination: "/tr/yazilar/dijital-cagda-gerilla-pazarlama-evrimi", permanent: true },
       { source: "/basarili-pazarlama-icin-insan-psikolojisinde-ustalasmak", destination: "/tr/yazilar/basarili-pazarlama-icin-insan-psikolojisinde-ustalasmak", permanent: true },
@@ -53,6 +87,8 @@ const nextConfig: NextConfig = {
       { source: "/satis-ekibinizin-vaktini-harcamayin-b2bde-kaliteli-lead-toplama-rehberi", destination: "/tr/yazilar/satis-ekibinizin-vaktini-harcamayin-b2bde-kaliteli-lead-toplama-rehberi", permanent: true },
       { source: "/yapay-zeka-aramalarinda-nasil-one-cikarsiniz", destination: "/tr/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz", permanent: true },
       { source: "/neden-profesyonel-video-sart", destination: "/tr/yazilar/neden-profesyonel-video-sart", permanent: true },
+      // Blog kategori arşivleri aynı mantıkla journal listesine gider.
+      { source: "/category/:slug*", destination: "/tr/yazilar", permanent: true },
     ];
   },
 

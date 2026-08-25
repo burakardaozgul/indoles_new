@@ -6,6 +6,42 @@ import { MethodSection } from "@/components/marketing/method-section";
 import { TeamSlider } from "@/components/marketing/team-slider";
 import { VisionSection } from "@/components/marketing/vision-section";
 import { CONSULTANTS } from "@/lib/content/consultants";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
+import type { Locale } from "@/lib/content/types";
+
+
+const PATHS = { tr: "/tr/hakkimizda", en: "/en/about" };
+
+const META = {
+  tr: {
+    title: "Hakkımızda — iş geliştirme danışmanlığı",
+    description:
+      "INDOLES, sanayi şirketlerinin teknoloji ihtiyacıyla ticaret markalarının büyüme ihtiyacını tek disiplinde çözer. Teşhis olmadan reçete yok, sahiplikli teslim.",
+  },
+  en: {
+    title: "About — one discipline, two axes",
+    description:
+      "INDOLES answers industrial technology needs and commerce growth needs inside one consulting discipline. No prescription without diagnosis, delivery you inherit.",
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  return buildMetadata({
+    title: META[loc].title,
+    description: META[loc].description,
+    paths: PATHS,
+    locale: loc,
+  });
+}
 
 export default async function AboutPage({
   params,
@@ -66,6 +102,22 @@ export default async function AboutPage({
 
   return (
     <>
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: META[loc].title,
+            description: META[loc].description,
+            path: PATHS[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            { name: tCommon("nav.about") },
+          ]),
+        ]}
+      />
+
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },

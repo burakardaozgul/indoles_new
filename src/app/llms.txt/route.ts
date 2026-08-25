@@ -7,7 +7,8 @@ import type { Pillar } from "@/lib/content/types";
 export const dynamic = "force-static";
 
 /**
- * Bir pillar'ın hizmetlerini "- Ad: URL" satırları olarak yazar.
+ * Bir pillar'ın hizmetlerini llmstxt.org biçiminde
+ * "- [Ad](URL): açıklama" satırları olarak yazar.
  *
  * Önceki hâl hizmetleri yalnız ADIYLA sayıyordu, hiçbirine link vermiyordu:
  * ajan hizmetin varlığını görüyor ama sayfasını bulamıyordu
@@ -17,7 +18,10 @@ export const dynamic = "force-static";
 function serviceLines(pillar: Pillar, locale: "tr" | "en"): string {
   const root = locale === "tr" ? "hizmetler" : "services";
   return SERVICES.filter((s) => s.pillar === pillar)
-    .map((s) => `- ${s.name[locale]}: ${SITE_URL}/${locale}/${root}/${s.slug[locale]}`)
+    .map(
+      (s) =>
+        `- [${s.name[locale]}](${SITE_URL}/${locale}/${root}/${s.slug[locale]}): ${s.seo.description[locale]}`,
+    )
     .join("\n");
 }
 
@@ -29,7 +33,8 @@ function serviceLines(pillar: Pillar, locale: "tr" | "en"): string {
 function caseLines(locale: "tr" | "en"): string {
   const root = locale === "tr" ? "vakalar" : "case-studies";
   return CASES.map(
-    (c) => `- ${c.clientName[locale]} — ${c.title[locale]} ${SITE_URL}/${locale}/${root}/${c.slug}`
+    (c) =>
+      `- [${c.clientName[locale]} — ${c.title[locale]}](${SITE_URL}/${locale}/${root}/${c.slug})`,
   ).join("\n");
 }
 
@@ -42,7 +47,7 @@ function articleLines(locale: "tr" | "en"): string {
         ? ` (${a.updatedAt.slice(0, 4)}'da güncellendi)`
         : ` (updated ${a.updatedAt.slice(0, 4)})`
       : "";
-    return `- ${a.title[locale]}${updated} ${SITE_URL}/${locale}/${root}/${a.slug[locale]}`;
+    return `- [${a.title[locale]}](${SITE_URL}/${locale}/${root}/${a.slug[locale]})${updated}: ${a.excerpt[locale]}`;
   }).join("\n");
 }
 
@@ -80,15 +85,15 @@ ${caseLines("tr")}
 ${articleLines("tr")}
 
 ## İletişim
-- Görüşme ve brief: https://indoles.com.tr/tr/iletisim
+- [Görüşme ve brief](${SITE_URL}/tr/iletisim)
 - E-posta: hello@indoles.com.tr
 
 ## Kaynaklar
-- Hizmetler: https://indoles.com.tr/tr/hizmetler
-- Paketler: https://indoles.com.tr/tr/paketler
-- Vaka çalışmaları: https://indoles.com.tr/tr/vakalar
-- Yazılar: https://indoles.com.tr/tr/yazilar
-- Site haritası: https://indoles.com.tr/sitemap.xml
+- [Hizmetler](${SITE_URL}/tr/hizmetler)
+- [Paketler](${SITE_URL}/tr/paketler)
+- [Vaka çalışmaları](${SITE_URL}/tr/vakalar)
+- [Yazılar](${SITE_URL}/tr/yazilar)
+- [Site haritası](${SITE_URL}/sitemap.xml)
 
 ---
 
@@ -120,15 +125,15 @@ ${caseLines("en")}
 ${articleLines("en")}
 
 ## Contact
-- Calls and briefs: https://indoles.com.tr/en/contact
+- [Calls and briefs](${SITE_URL}/en/contact)
 - Email: hello@indoles.com.tr
 
 ## Resources
-- Services: https://indoles.com.tr/en/services
-- Packages: https://indoles.com.tr/en/packages
-- Case studies: https://indoles.com.tr/en/case-studies
-- Articles: https://indoles.com.tr/en/articles
-- Sitemap: https://indoles.com.tr/sitemap.xml
+- [Services](${SITE_URL}/en/services)
+- [Packages](${SITE_URL}/en/packages)
+- [Case studies](${SITE_URL}/en/case-studies)
+- [Articles](${SITE_URL}/en/articles)
+- [Sitemap](${SITE_URL}/sitemap.xml)
 `;
 
 export function GET() {

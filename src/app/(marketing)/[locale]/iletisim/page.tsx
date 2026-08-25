@@ -2,6 +2,46 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { CalcomEmbed } from "@/components/marketing/CalcomEmbed";
 import { ContactForm } from "@/components/marketing/ContactForm";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import {
+  breadcrumbLd,
+  professionalServiceLd,
+  webPageLd,
+} from "@/lib/seo/json-ld";
+import type { Locale } from "@/lib/content/types";
+
+
+const PATHS = { tr: "/tr/iletisim", en: "/en/contact" };
+
+const META = {
+  tr: {
+    title: "İletişim — 30 dakikalık ön görüşme",
+    description:
+      "Takvimden slot seçin ya da formu doldurun. 30 dakikalık ön görüşme taahhütsüz: somut problem, somut yön. Satış sunumu değil, teşhis konuşması yapıyoruz.",
+  },
+  en: {
+    title: "Contact — book a 30-minute call",
+    description:
+      "Pick a slot from the calendar or send the form. The 30-minute intro call carries no commitment: a concrete problem, a concrete direction, a diagnosis.",
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  return buildMetadata({
+    title: META[loc].title,
+    description: META[loc].description,
+    paths: PATHS,
+    locale: loc,
+  });
+}
 
 export default async function ContactPage({
   params,
@@ -15,6 +55,25 @@ export default async function ContactPage({
 
   return (
     <>
+      {/* `professionalServiceLd` Organization'ın yerine geçer, yanına değil:
+          aynı `@id`yi taşıyor ve adres/geo/çalışma saati alanlarıyla onu
+          zenginleştiriyor (bkz. json-ld.ts gerekçesi). */}
+      <JsonLd
+        graph={[
+          professionalServiceLd(),
+          webPageLd({
+            name: META[loc].title,
+            description: META[loc].description,
+            path: PATHS[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            { name: tCommon("nav.contact") },
+          ]),
+        ]}
+      />
+
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },

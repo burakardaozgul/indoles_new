@@ -2,8 +2,45 @@ import Link from "next/link";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
-import { CONSULTANTS_ORDERED } from "@/lib/content/consultants";
+import { CONSULTANTS_ORDERED, BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
 import { getPillar } from "@/lib/content/pillars";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
+import { absoluteUrl } from "@/lib/seo/site";
+import type { Locale } from "@/lib/content/types";
+
+
+const PATHS = { tr: "/tr/danismanlar", en: "/en/consultants" };
+
+const META = {
+  tr: {
+    title: "Danışman kadrosu — davetle kurulmuş ekip",
+    description:
+      `${BOOKABLE_CONSULTANTS.length} kişilik iç ekip: marka stratejisi, dijital dönüşüm, yapay zeka, tasarım ve prodüksiyon. Açık marketplace değil; projeye sizinle birlikte giren danışmanlar.`,
+  },
+  en: {
+    title: "Consultants — an invitation-only team",
+    description:
+      `A ${BOOKABLE_CONSULTANTS.length}-person internal team covering brand strategy, digital transformation, AI, design and production. Not a marketplace: people who join the project with you.`,
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  return buildMetadata({
+    title: META[loc].title,
+    description: META[loc].description,
+    paths: PATHS,
+    locale: loc,
+  });
+}
 
 export default async function ConsultantsIndex({
   params,
@@ -17,6 +54,36 @@ export default async function ConsultantsIndex({
 
   return (
     <>
+      {/* Koleksiyon sayfası ajanlara tek düğümden okunsun: hangi
+          öğeler var, kaç tane ve nereye gidiyorlar. */}
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: META[loc].title,
+            description: META[loc].description,
+            path: PATHS[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            { name: tCommon("nav.consultants") },
+          ]),
+          {
+            "@type": "ItemList",
+            name: META[loc].title,
+            numberOfItems: BOOKABLE_CONSULTANTS.length,
+            itemListElement: BOOKABLE_CONSULTANTS.map((k, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: k.name,
+              url: absoluteUrl(
+                `/${loc}/${loc === "tr" ? "danismanlar" : "consultants"}/${k.slug}`
+              ),
+            })),
+          },
+        ]}
+      />
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },

@@ -42,9 +42,12 @@ export async function generateMetadata({
   // `services-content.test.ts` bu çakışmayı build'den önce yakalıyor.
   const pillar = getPillar(slug);
   if (pillar) {
+    // Görünen ad ("Growth") marka mimarisinin parçası ve sayfada değişmez;
+    // arama başlığı ondan ayrı tutulur (denetim T-10). `seo` verilmemişse
+    // eski davranışa düşülür.
     return buildMetadata({
-      title: pillar.name[loc],
-      description: pillar.heroLede[loc],
+      title: pillar.seo?.title[loc] ?? pillar.name[loc],
+      description: pillar.seo?.description[loc] ?? pillar.heroLede[loc],
       paths: pillarPaths(pillar.key),
       locale: loc,
     });

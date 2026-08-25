@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { CaseMetricBand } from "@/components/marketing/case-metric-band";
 import { CaseGallery, CaseHeroMedia } from "@/components/marketing/case-media";
@@ -11,9 +12,18 @@ import { CaseFlowDiagram } from "@/components/marketing/case-flow";
 import { CaseCard } from "@/components/marketing/case-card";
 import { getCaseBySlug, CASES } from "@/lib/content/cases";
 import { getPillar } from "@/lib/content/pillars";
+import { SERVICES } from "@/lib/content/services";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
-import { breadcrumbLd, organizationLd } from "@/lib/seo/json-ld";
+import { TrackView } from "@/components/analytics/track-view";
+import { caseViewEvent } from "@/lib/analytics/view-events";
+import {
+  breadcrumbLd,
+  caseStudyLd,
+  faqLd,
+  organizationLd,
+  webPageLd,
+} from "@/lib/seo/json-ld";
 import type { Locale } from "@/lib/content/types";
 
 function casePaths(slug: string) {
@@ -29,6 +39,25 @@ export async function generateStaticParams() {
   );
 }
 
+type CaseStudy = NonNullable<ReturnType<typeof getCaseBySlug>>;
+
+/**
+ * Arama başlığı — sayfada görünen "müşteri + başlık" bileşiminden ayrı
+ * (`CaseStudyContent.seo`).
+ *
+ * Fallback `clientName — title`: alanı doldurulmamış vaka eski davranışını
+ * korur. `seo.title` müşteri adını kendi içinde taşır — birleştirme
+ * yapılmaz, çünkü 50 karakterlik bütçeyi yazan kişi yönetir.
+ */
+function seoTitle(c: CaseStudy, loc: Locale): string {
+  return c.seo?.title?.[loc] ?? `${c.clientName[loc]} — ${c.title[loc]}`;
+}
+
+/** Fallback `lead`: 185-399 karakter olabilir, `seo.description` 140-160. */
+function seoDescription(c: CaseStudy, loc: Locale): string {
+  return c.seo?.description?.[loc] ?? c.lead[loc];
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -40,10 +69,32 @@ export async function generateMetadata({
   if (!c) return {};
 
   return buildMetadata({
-    title: `${c.clientName[loc]} — ${c.title[loc]}`,
-    description: c.lead[loc],
+    title: seoTitle(c, loc),
+    description: seoDescription(c, loc),
     paths: casePaths(c.slug),
     locale: loc,
+  });
+}
+
+/**
+ * Künyedeki disiplinlerin hizmet sayfası bağlantıları (denetim L-01).
+ *
+ * `serviceSlugs` TR slug tutar; URL locale'e göre `SERVICES` kaydından
+ * çözülür — iki dilli yol elle kurulmaz. Bilinmeyen slug elenir; sessiz
+ * kaybı `cases-content.test.ts` yakalar.
+ */
+function caseServiceLinks(slugs: string[] | undefined, loc: Locale) {
+  if (!slugs) return [];
+  const root = loc === "tr" ? "hizmetler" : "services";
+  return slugs.flatMap((slug) => {
+    const service = SERVICES.find((s) => s.slug.tr === slug);
+    if (!service) return [];
+    return [
+      {
+        name: service.name[loc],
+        href: `/${loc}/${root}/${service.slug[loc]}`,
+      },
+    ];
   });
 }
 
@@ -73,6 +124,7 @@ function CaseFacts({
   const durationValue = long
     ? `${Math.round(c.durationWeeks / 4.345)} ${labels.months}`
     : `${c.durationWeeks} ${labels.weeks}`;
+  const serviceLinks = caseServiceLinks(c.serviceSlugs, loc);
   return (
     <div className="flex flex-col gap-6">
       {c.clientLogo ? (
@@ -109,7 +161,21 @@ function CaseFacts({
               {labels.services}
             </dt>
             <dd className="typography-body-sm mt-1 text-ink-700">
-              {c.services[loc].join(" · ")}
+              {/* Hizmet karşılığı yazılmış vakada künye hizmet sayfalarına
+                  bağlanır; yazılmamışsa serbest metin listesi kalır. */}
+              {serviceLinks.length > 0
+                ? serviceLinks.map((s, i) => (
+                    <span key={s.href}>
+                      {i > 0 ? " · " : null}
+                      <Link
+                        href={s.href}
+                        className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
+                      >
+                        {s.name}
+                      </Link>
+                    </span>
+                  ))
+                : c.services[loc].join(" · ")}
             </dd>
           </div>
         ) : null}
@@ -131,25 +197,71 @@ export default async function CaseDetail({
 
   const pillar = getPillar(c.pillar);
   const tCommon = await getTranslations({ locale, namespace: "common" });
-  const related = CASES.filter(
-    (x) => x.slug !== c.slug && x.pillar === c.pillar
-  ).slice(0, 3);
+  /**
+   * Önce aynı pillar, sonra diğerleri. Katı pillar filtresi tek vakası olan
+   * bir disiplinde bölümü tamamen boşaltıyordu (transform'da tek vaka var):
+   * kanıt sayfası hiçbir yere link vermeden bitiyordu. Sıralama korunur,
+   * boşluk diğer vakalarla doldurulur.
+   */
+  const others = CASES.filter((x) => x.slug !== c.slug);
+  const related = [
+    ...others.filter((x) => x.pillar === c.pillar),
+    ...others.filter((x) => x.pillar !== c.pillar),
+  ].slice(0, 3);
 
   const tr = loc === "tr";
 
+  /**
+   * Şema görseli: kart kapağı önce gelir — 4:3 kırpımı için seçildiği için
+   * merkezinde okunabilir kompozisyon garantili. Kapak yoksa sayfa başındaki
+   * geniş görsele düşülür; video/youtube'da poster karesi kullanılır çünkü
+   * `Article.image` durağan bir görsel bekler.
+   */
+  const ldImage =
+    (c.cover?.type === "image" ? c.cover.src : c.cover?.poster) ??
+    (c.heroMedia?.type === "image" ? c.heroMedia.src : c.heroMedia?.poster);
+
   return (
     <>
+      <TrackView event={caseViewEvent(c)} />
       <JsonLd
         graph={[
           organizationLd(),
+          webPageLd({
+            name: seoTitle(c, loc),
+            description: seoDescription(c, loc),
+            path: casePaths(c.slug)[loc],
+            locale: loc,
+          }),
           breadcrumbLd([
             { name: "INDOLES", path: `/${loc}` },
             {
               name: tCommon("nav.caseStudies"),
               path: tr ? "/tr/vakalar" : "/en/case-studies",
             },
-            { name: c.clientName[loc], path: casePaths(c.slug)[loc] },
+            // Son kırıntı yol taşımaz — mevcut sayfa kendine link olmaz
+            // (`breadcrumbLd` sözleşmesi, seo-json-ld.test.ts).
+            { name: c.clientName[loc] },
           ]),
+          caseStudyLd({
+            // `headline` görünen başlık kalır — şema sayfadaki içerikle
+            // eşleşmek zorunda; kısaltma yalnız arama yüzeyine uygulanır.
+            headline: c.title[loc],
+            description: seoDescription(c, loc),
+            path: casePaths(c.slug)[loc],
+            locale: loc,
+            clientName: c.clientName[loc],
+            clientSector: c.clientSector[loc],
+            imagePath: ldImage,
+          }),
+          // Şema yalnız sayfada basılan sorulardan üretilir; `faqLd` boş
+          // listede null döner ve `JsonLd` onu grafikten eler.
+          faqLd(
+            (c.faq ?? []).map((f) => ({
+              question: f.question[loc],
+              answer: f.answer[loc],
+            })),
+          ),
         ]}
       />
 
@@ -185,7 +297,7 @@ export default async function CaseDetail({
         <CaseMetricBand
           eyebrow={tr ? "Ölçüm kaydı" : "Measured results"}
           metrics={c.metrics.map((m) => ({
-            value: m.value,
+            value: m.value[loc],
             label: m.label[loc],
             context: m.context?.[loc],
           }))}
@@ -324,6 +436,27 @@ export default async function CaseDetail({
           </div>
         </section>
       )}
+
+      {/* SSS — vakanın kendi anlatısından çıkan sorular. Render
+          `FaqAccordion`'da tekilleşti. Bölüm "Benzer vakalar"dan önce durur:
+          sayfanın gezinti başlığı olmayan tek H2'si burada. */}
+      {c.faq && c.faq.length > 0 ? (
+        <section aria-labelledby="sss" className="v2-surface border-t border-surface-2">
+          <div className="ds-container py-20 md:py-24">
+            <h2 id="sss" className="typography-h2 scroll-mt-32 text-ink-900">
+              {tr ? "Sık sorulan sorular" : "Frequently asked questions"}
+            </h2>
+            <FaqAccordion
+              surface="case"
+              className="mt-10 max-w-prose-editorial"
+              items={c.faq.map((f) => ({
+                question: f.question[loc],
+                answer: f.answer[loc],
+              }))}
+            />
+          </div>
+        </section>
+      ) : null}
 
       {/* Related */}
       {related.length > 0 && (

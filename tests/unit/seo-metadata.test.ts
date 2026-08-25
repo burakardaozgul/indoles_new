@@ -66,3 +66,30 @@ describe("buildMetadata", () => {
     );
   });
 });
+
+describe("OG görselinin alt metni", () => {
+  it("TR sayfada Türkçe", () => {
+    const meta = buildMetadata({
+      title: "X",
+      description: "d",
+      paths: { tr: "/tr/x", en: "/en/x" },
+      locale: "tr",
+    });
+    const image = (meta.openGraph as { images: Array<{ alt: string }> }).images[0]!;
+    expect(image.alt).toMatch(/İş geliştirme/);
+  });
+
+  it("EN sayfada İngilizce", () => {
+    // Alt metin her sayfada Türkçe sabitti; EN paylaşımlarda ve ekran
+    // okuyucularda yanlış dilde görünüyordu.
+    const meta = buildMetadata({
+      title: "X",
+      description: "d",
+      paths: { tr: "/tr/x", en: "/en/x" },
+      locale: "en",
+    });
+    const image = (meta.openGraph as { images: Array<{ alt: string }> }).images[0]!;
+    expect(image.alt).toMatch(/[Bb]usiness/);
+    expect(image.alt).not.toMatch(/İş geliştirme/);
+  });
+});

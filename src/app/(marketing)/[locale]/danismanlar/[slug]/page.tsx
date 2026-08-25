@@ -8,11 +8,88 @@ import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { getConsultantBySlug, BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
 import { getPillar } from "@/lib/content/pillars";
 import { ARTICLES } from "@/lib/content/articles";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import {
+  breadcrumbLd,
+  organizationLd,
+  personLd,
+  webPageLd,
+} from "@/lib/seo/json-ld";
+import type { Metadata } from "next";
+import type { Locale } from "@/lib/content/types";
+
+/**
+ * Yalnız `BOOKABLE_CONSULTANTS` için sayfa üretilir. Liste Chief Mood Officer'ı
+ * (ofis köpeği) bilinçli olarak dışlıyor — bu kapı olmadan o slug on-demand
+ * render edilip 200 dönüyor, sitemap dışı yetim bir sayfa oluşuyordu.
+ */
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   return BOOKABLE_CONSULTANTS.flatMap((c) =>
     (["tr", "en"] as const).map((locale) => ({ locale, slug: c.slug }))
   );
+}
+
+
+/**
+ * `dynamicParams = false` bu rotada tek başına yetmiyor: bilinmeyen slug'ın
+ * 404'ü aslında aşağıdaki `notFound()` çağrısından geliyor, framework
+ * kapısından değil. Bu yüzden "kimin sayfası var" kararı burada, veriye
+ * bakarak veriliyor — render moduna bağlı kalmıyor.
+ */
+function bookableOrNull(slug: string) {
+  const c = getConsultantBySlug(slug);
+  if (!c) return null;
+  return BOOKABLE_CONSULTANTS.some((b) => b.slug === c.slug) ? c : null;
+}
+
+function consultantPaths(slug: string) {
+  return { tr: `/tr/danismanlar/${slug}`, en: `/en/consultants/${slug}` };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const loc = locale as Locale;
+  const c = bookableOrNull(slug);
+  if (!c) return {};
+
+  // Biyografiler 60-230 karakter arası değişiyor: sabit bir şablon kimi
+  // profilde 160'ı aşıyor, kimindeyse 90'da kalıyordu. Cümleler sığdıkça
+  // eklenir — kesme yapılmadığı için açıklama hiçbir zaman yarım kalmaz.
+  const pillars = c.pillars
+    .map((k) => getPillar(k)?.name[loc])
+    .filter(Boolean)
+    .join(", ");
+  const candidates = [
+    ...c.shortBio[loc].split(/(?<=\.)\s+/).filter(Boolean),
+    ...c.longBio[loc],
+    loc === "tr"
+      ? `INDOLES kadrosunda odak: ${pillars}.`
+      : `Focus on the INDOLES team: ${pillars}.`,
+  ];
+  let description = `${c.name} — ${c.title[loc]}.`;
+  for (const sentence of candidates) {
+    if (`${description} ${sentence}`.length <= 160) {
+      description = `${description} ${sentence}`;
+    }
+  }
+
+  // Unvanın ilk parçası başlığa girer: "Kurucu · Marka Stratejisti ve
+  // Kreatif Direktör" tam haliyle "%s — INDOLES" şablonuyla 60'ı aşıyor.
+  const shortTitle = c.title[loc].split(" · ")[0];
+
+  return buildMetadata({
+    title: `${c.name} — ${shortTitle}`,
+    description,
+    paths: consultantPaths(c.slug),
+    locale: loc,
+  });
 }
 
 export default async function ConsultantDetail({
@@ -23,14 +100,46 @@ export default async function ConsultantDetail({
   const { locale, slug } = await params;
   setRequestLocale(locale);
   const loc = locale as "tr" | "en";
-  const c = getConsultantBySlug(slug);
+  const c = bookableOrNull(slug);
   if (!c) notFound();
 
   const tCommon = await getTranslations({ locale, namespace: "common" });
   const authoredArticles = ARTICLES.filter((a) => a.authorSlug === c.slug);
 
+  const paths = consultantPaths(c.slug);
+
   return (
     <>
+      {/* Kadro, E-E-A-T'nin taşıyıcısı: her danışman ayrı bir varlık olarak
+          Organization'a bağlanır (docs/strateji §5). */}
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: `${c.name} — ${c.title[loc]}`,
+            description: c.shortBio[loc],
+            path: paths[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            {
+              name: tCommon("nav.consultants"),
+              path: loc === "tr" ? "/tr/danismanlar" : "/en/consultants",
+            },
+            { name: c.name },
+          ]),
+          personLd({
+            name: c.name,
+            jobTitle: c.title[loc],
+            description: c.shortBio[loc],
+            path: paths[loc],
+            sameAs: c.linkedinUrl,
+            knowsAbout: c.expertise,
+          }),
+        ]}
+      />
+
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },
@@ -99,7 +208,10 @@ export default async function ConsultantDetail({
                   </div>
                 )}
               </dl>
-              <PopupCTAButton className="mt-8 inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm w-full">
+              <PopupCTAButton
+                source="consultant-detail"
+                className="mt-8 inline-flex items-center justify-center gap-2 h-11 px-5 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-sm w-full"
+              >
                 <Phone size={16} aria-hidden />
                 {tCommon("cta.bookConsultation")}
               </PopupCTAButton>

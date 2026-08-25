@@ -7,6 +7,28 @@ import { Pillars } from "@/components/v2/sections/Pillars";
 import { ServicesScroll } from "@/components/v2/sections/ServicesScroll";
 import { FeaturedWork } from "@/components/v2/sections/FeaturedWork";
 import { Outro } from "@/components/v2/sections/Outro";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { organizationLd, webSiteLd, webPageLd } from "@/lib/seo/json-ld";
+
+/**
+ * Grafiğin insan-okur alanları.
+ *
+ * `layout.tsx`teki `generateMetadata` META sabiti export edilmiyor; şema
+ * metni oradaki `title.default` ve `description` ile birebir aynı tutulmalı.
+ * Ayrışırsa sayfanın görünen vaadi ile makine-okur vaadi çelişir.
+ */
+const LD_META = {
+  tr: {
+    name: "INDOLES — İş geliştirme danışmanlığı",
+    description:
+      "Sanayiye teknoloji dönüşümü, ticarete agresif büyüme. Teşhis olmadan reçete yazmayız — iş önce anlaşılır, teknoloji sonra çağrılır.",
+  },
+  en: {
+    name: "INDOLES — Business transformation studio, Istanbul",
+    description:
+      "Strategy, design and engineering under one roof: digital transformation for manufacturers, growth systems for commerce brands. Fixed-scope packages from 3 weeks.",
+  },
+} as const;
 
 /**
  * Anasayfa — ADR-016 ile onaylanan sürekli-sahne kurgusu.
@@ -34,6 +56,21 @@ export default async function HomePage({
 
   return (
     <>
+      {/* Ana sayfa en çok bağlantı alan sayfa: marka varlığının (Organization)
+          ve yayının (WebSite) tanımlandığı yer burası (docs/17 §4.2 [G-05]). */}
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webSiteLd(),
+          webPageLd({
+            name: LD_META[loc].name,
+            description: LD_META[loc].description,
+            path: `/${loc}`,
+            locale: loc,
+          }),
+        ]}
+      />
+
       <Hero locale={loc} />
       <Statement locale={loc} />
       <About locale={loc} />

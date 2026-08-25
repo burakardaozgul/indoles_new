@@ -16,18 +16,28 @@ import type { Locale } from "@/lib/content/types";
 
 const PATHS = { tr: "/tr/hizmetler", en: "/en/services" };
 
+/**
+ * Başlık "Hizmetler" değil: bu sayfa keyword haritasında (docs/strateji/
+ * Keyword-Planner) "iş geliştirme" kümesinin hedefi ve o kelime 1B-10B
+ * bandında, rekabeti düşük — TR setindeki en büyük alınabilir hacim.
+ * Görünen sayfa başlığı ("Hizmetler") V2PageHeader'da olduğu gibi kalır;
+ * değişen yalnız arama yüzeyi.
+ */
 const META = {
   tr: {
-    title: "Hizmetler",
+    title: "İş geliştirme danışmanlığı — 12 uzmanlık",
     description:
-      "Growth, Transform ve Build disiplinlerinde 12 uzmanlık. Marka stratejisinden yapay zekâya, e-ticaretten altyapıya — her hizmetin kapsamı yazılı.",
+      "Growth, Transform ve Build disiplinlerinde 12 uzmanlık: marka stratejisinden yapay zeka danışmanlığına, e-ticaretten altyapıya. Kapsamı yazılı.",
   },
   en: {
-    title: "Services",
+    title: "Business development consultancy — 12 disciplines",
     description:
-      "Twelve areas of expertise across Growth, Transform and Build. From brand strategy to AI, e-commerce to infrastructure — every scope in writing.",
+      "Twelve areas of expertise across Growth, Transform and Build: brand strategy, AI advisory, e-commerce, custom software, infrastructure. Scope in writing.",
   },
 } as const;
+
+/** Sayfa üstünde görünen başlık — arama başlığından ayrı tutulur. */
+const HEADING = { tr: "Hizmetler", en: "Services" } as const;
 
 export async function generateMetadata({
   params,
@@ -65,20 +75,20 @@ export default async function ServicesIndex({
         graph={[
           organizationLd(),
           webPageLd({
-            name: META[loc].title,
+            name: HEADING[loc],
             description: META[loc].description,
             path: PATHS[loc],
             locale: loc,
           }),
           breadcrumbLd([
             { name: "INDOLES", path: `/${loc}` },
-            { name: META[loc].title },
+            { name: HEADING[loc] },
           ]),
           {
             // Kümenin tepesi yapraklarını sayar: ajan 12 hizmetin
             // tamamını tek düğümden görebiliyor.
             "@type": "ItemList",
-            name: META[loc].title,
+            name: HEADING[loc],
             numberOfItems: SERVICES.length,
             itemListElement: SERVICES.map((s, i) => ({
               "@type": "ListItem",

@@ -7,6 +7,46 @@ import { PersonaText } from "@/components/marketing/persona-text";
 import { PersonaSwitch } from "@/components/marketing/persona-switch";
 import { CASES } from "@/lib/content/cases";
 import { CaseCard, PROBLEM_LABELS } from "@/components/marketing/case-card";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
+import { absoluteUrl } from "@/lib/seo/site";
+import type { Locale } from "@/lib/content/types";
+
+
+const PATHS = { tr: "/tr/vakalar", en: "/en/case-studies" };
+
+/**
+ * Sayı içerikten türer. "On iş" elle yazılmıştı ve gerçek sayı dokuzdu —
+ * vaka eklendikçe/çıktıkça sessizce eskiyen bir iddia. `docs/04` §10:
+ * sayfada görünen her rakam doğrulanabilir olmalı.
+ */
+const META = {
+  tr: {
+    title: "Vaka çalışmaları — ölçülen sonuçlar",
+    description: `${CASES.length} iş, rakamlarıyla birlikte: 20× ROAS, 1,5 milyon dolar ciro, ilk sayfa sıralaması. Her vakada problem, izlenen yöntem ve ölçülen sonuç yazılı.`,
+  },
+  en: {
+    title: "Case studies — measured outcomes",
+    description: `${CASES.length} engagements with the numbers attached: 20× ROAS, $1.5M in revenue, first-page rankings. Every case records the problem, the method and what changed.`,
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  return buildMetadata({
+    title: META[loc].title,
+    description: META[loc].description,
+    paths: PATHS,
+    locale: loc,
+  });
+}
 
 export default async function CaseIndex({
   params,
@@ -24,6 +64,36 @@ export default async function CaseIndex({
 
   return (
     <>
+      {/* Koleksiyon sayfası ajanlara tek düğümden okunsun: hangi
+          öğeler var, kaç tane ve nereye gidiyorlar. */}
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: META[loc].title,
+            description: META[loc].description,
+            path: PATHS[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            { name: tCommon("nav.caseStudies") },
+          ]),
+          {
+            "@type": "ItemList",
+            name: META[loc].title,
+            numberOfItems: CASES.length,
+            itemListElement: CASES.map((c, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: c.title[loc],
+              url: absoluteUrl(
+                `/${loc}/${loc === "tr" ? "vakalar" : "case-studies"}/${c.slug}`
+              ),
+            })),
+          },
+        ]}
+      />
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },
@@ -80,7 +150,7 @@ export default async function CaseIndex({
                       className="typography-h2 mt-3 text-ink-900"
                       style={{ fontVariationSettings: '"opsz" 9' }}
                     >
-                      {m.value}
+                      {m.value[loc]}
                     </dd>
                   </div>
                 ))}

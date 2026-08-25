@@ -2,6 +2,9 @@ import { describe, it, expect } from "vitest";
 import sitemap from "@/app/sitemap";
 import { SERVICES } from "@/lib/content/services";
 import { PILLARS } from "@/lib/content/pillars";
+import { PACKAGES } from "@/lib/content/packages";
+import { CONSULTANTS, BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
+import { ARTICLES } from "@/lib/content/articles";
 import { SITE_URL } from "@/lib/seo/site";
 
 const entries = sitemap();
@@ -39,6 +42,74 @@ describe("sitemap", () => {
 
   it("URL'ler benzersizdir", () => {
     expect(new Set(urls).size).toBe(urls.length);
+  });
+
+  it("4 paketin iki dildeki detay URL'ini içerir", () => {
+    for (const p of PACKAGES) {
+      expect(urls).toContain(`${SITE_URL}/tr/paketler/${p.slug.tr}`);
+      expect(urls).toContain(`${SITE_URL}/en/packages/${p.slug.en}`);
+    }
+  });
+
+  it("rezervasyona açık danışmanların detay URL'ini içerir", () => {
+    expect(BOOKABLE_CONSULTANTS.length).toBeGreaterThan(0);
+    for (const c of BOOKABLE_CONSULTANTS) {
+      expect(urls).toContain(`${SITE_URL}/tr/danismanlar/${c.slug}`);
+      expect(urls).toContain(`${SITE_URL}/en/consultants/${c.slug}`);
+    }
+  });
+
+  it("pillar'ı olmayan kadro kaydı sitemap'e girmez", () => {
+    // `generateStaticParams` de `BOOKABLE_CONSULTANTS`ten üretiliyor: sitemap
+    // orada olmayan bir profili verirse doğrudan 404'e link vermiş olur.
+    const excluded = CONSULTANTS.filter((c) => c.pillars.length === 0);
+    expect(excluded.length).toBeGreaterThan(0);
+    for (const c of excluded) {
+      expect(urls).not.toContain(`${SITE_URL}/tr/danismanlar/${c.slug}`);
+      expect(urls).not.toContain(`${SITE_URL}/en/consultants/${c.slug}`);
+    }
+  });
+
+  it("paket detayına 0.7, danışman detayına 0.6 priority verir", () => {
+    const pkg = entries.find((e) => e.url.endsWith("/tr/paketler/mvp-build"));
+    const person = entries.find((e) =>
+      e.url.endsWith("/tr/danismanlar/burak-ozgul"),
+    );
+    expect(pkg?.priority).toBe(0.7);
+    expect(person?.priority).toBe(0.6);
+  });
+
+  it("lastmod tek bir build anına sabitlenmiş değildir", () => {
+    const stamps = new Set(
+      entries.map((e) => new Date(e.lastModified as Date).toISOString()),
+    );
+    expect(stamps.size).toBeGreaterThan(1);
+  });
+
+  it("makale lastmod'u updatedAt, yoksa publishedAt'tir", () => {
+    for (const a of ARTICLES) {
+      const e = entries.find(
+        (x) => x.url === `${SITE_URL}/tr/yazilar/${a.slug.tr}`,
+      );
+      expect(e, a.slug.tr).toBeTruthy();
+      expect(new Date(e!.lastModified as Date).toISOString()).toBe(
+        new Date(a.updatedAt ?? a.publishedAt).toISOString(),
+      );
+    }
+  });
+
+  it("yazı URL'lerinin tamamı yayında olan bir makaleye karşılık gelir", () => {
+    // Silinen demo yazıların izi kalmasın: sitemap yalnız içerik katmanından
+    // türetildiği sürece bu doğru kalır, sabit liste eklenirse düşer.
+    const live = new Set([
+      ...ARTICLES.map((a) => `${SITE_URL}/tr/yazilar/${a.slug.tr}`),
+      ...ARTICLES.map((a) => `${SITE_URL}/en/articles/${a.slug.en}`),
+    ]);
+    const found = urls.filter(
+      (u) => u.includes("/yazilar/") || u.includes("/articles/"),
+    );
+    expect(found.length).toBe(ARTICLES.length * 2);
+    for (const u of found) expect(live.has(u)).toBe(true);
   });
 
   it("x-default her zaman TR'yi gösterir", () => {

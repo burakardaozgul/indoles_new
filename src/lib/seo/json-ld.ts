@@ -1,3 +1,4 @@
+import { COMPANY } from "@/lib/content/company";
 import type { Locale } from "@/lib/content/types";
 import { SITE_URL, absoluteUrl } from "./site";
 
@@ -9,9 +10,27 @@ import { SITE_URL, absoluteUrl } from "./site";
  */
 const ORG_ID = `${SITE_URL}/#organization`;
 
+/**
+ * WebSite düğümünün sabit kimliği. Organization'dan ayrı bir varlıktır:
+ * biri yayıncı tüzel kişi, diğeri yayının kendisi.
+ */
+const WEBSITE_ID = `${SITE_URL}/#website`;
+
 const IN_LANGUAGE: Record<Locale, string> = { tr: "tr-TR", en: "en-US" };
 
+/**
+ * `sameAs`: markanın doğrulanabilir dış profilleri.
+ *
+ * AI motorları entity'yi çapraz kaynak tutarlılığından öğreniyor
+ * (docs/strateji §5); LinkedIn/Instagram/X adresleri zaten `COMPANY.social`
+ * içinde tek kaynakta duruyordu, şema onları yalnızca işaret ediyor.
+ * Boş bir `sameAs` dizisi "profil yok" değil "bağ kurulamadı" okunduğu için
+ * hiç basılmaz.
+ */
 export function organizationLd() {
+  const sameAs: string[] = Object.values(COMPANY.social).filter(
+    (url) => url.length > 0,
+  );
   return {
     "@type": "Organization",
     "@id": ORG_ID,
@@ -20,6 +39,78 @@ export function organizationLd() {
     url: SITE_URL,
     logo: absoluteUrl("/brand/indoles-logo-dark.png"),
     address: { "@type": "PostalAddress", addressCountry: "TR" },
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  };
+}
+
+/**
+ * WebSite — yayının kendisi.
+ *
+ * `locale` almaz: tek site iki dilde yayınlanıyor ve düğümün `@id`si her
+ * sayfada aynı. Sayfa başına farklı `inLanguage` basmak aynı varlık hakkında
+ * çelişen ifadeler üretirdi; `serviceLd` ile aynı gerekçe. Sayfanın kendi
+ * dili `WebPage.inLanguage`de duruyor.
+ *
+ * `potentialAction`/`SearchAction` YOK: site içi arama yok, olmayan bir
+ * özelliği şemada iddia etmek yanlış veridir.
+ */
+export function webSiteLd() {
+  return {
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    name: "INDOLES",
+    url: SITE_URL,
+    inLanguage: [IN_LANGUAGE.tr, IN_LANGUAGE.en],
+    publisher: { "@id": ORG_ID },
+  };
+}
+
+/**
+ * ProfessionalService — iletişim sayfasının yerel işletme yüzü.
+ *
+ * `@id` bilerek `ORG_ID`: INDOLES tek lokasyonlu, ProfessionalService da
+ * Organization'ın alt tipi. Ayrı bir `@id` açmak aynı şirketi iki varlığa
+ * bölerdi. Bu yüzden iletişim sayfasında `organizationLd()` yerine bu
+ * kullanılır — grafikte aynı `@id`den iki düğüm bulunmaz.
+ *
+ * `telephone` 2026-08-24'te eklendi: numara o tarihe kadar placeholder
+ * desenindeydi ve doğrulanmamış numara şemaya girmez. Artık künyeyle aynı
+ * kaynaktan geliyor — NAP tutarlılığı ancak böyle korunur.
+ *
+ * Basılmayan alan: `streetAddress`. Açık adres teyit edilmedi; adres
+ * yalnız sayfada görünen şehir kırılımında kalır. Eksik alan, uydurulmuş
+ * alandan iyidir.
+ */
+export function professionalServiceLd() {
+  return {
+    ...organizationLd(),
+    "@type": "ProfessionalService",
+    email: COMPANY.email,
+    telephone: COMPANY.phone,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "İstanbul",
+      addressCountry: "TR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      // `COMPANY.geo` insan-okur biçimde ("41.0082° N"); şema ondalık
+      // derece ister. Değer şehir kırılımında, adresle aynı hassasiyette.
+      latitude: parseFloat(COMPANY.geo.lat),
+      longitude: parseFloat(COMPANY.geo.lon),
+    },
+    areaServed: "TR",
+    availableLanguage: ["tr", "en"],
+    // `COMPANY.hours` ("Pzt–Cum 09:00–18:00") aynı bilginin görünen ikizi;
+    // ikisi ayrışırsa test yakalar (tests/unit/seo-json-ld.test.ts).
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "18:00",
+      },
+    ],
   };
 }
 
@@ -61,6 +152,8 @@ export function articleLd({
   dateModified,
   authorName,
   authorPath,
+  articleSection,
+  keywords,
 }: {
   headline: string;
   description: string;
@@ -70,6 +163,10 @@ export function articleLd({
   dateModified?: string | undefined;
   authorName?: string | undefined;
   authorPath?: string | undefined;
+  /** Yazının konu kümesi — insan-okur etiket (ADR-021). */
+  articleSection?: string | undefined;
+  /** Uzun kuyruk etiketler; virgülle birleşir (schema.org `keywords`). */
+  keywords?: string[] | undefined;
 }) {
   return {
     "@type": "Article",
@@ -79,6 +176,10 @@ export function articleLd({
     mainEntityOfPage: absoluteUrl(path),
     datePublished,
     dateModified: dateModified ?? datePublished,
+    // Konu ve etiketler cevap motorlarına yazının hangi kümeye ait olduğunu
+    // söyler (ADR-021). Boşsa alan hiç basılmaz — boş dizi şema gürültüsü.
+    ...(articleSection ? { articleSection } : {}),
+    ...(keywords && keywords.length > 0 ? { keywords: keywords.join(", ") } : {}),
     ...(authorName
       ? {
           author: {
@@ -89,6 +190,100 @@ export function articleLd({
         }
       : {}),
     publisher: { "@id": ORG_ID },
+  };
+}
+
+/**
+ * Vaka çalışması — `Article` olarak (docs/08 §8.4).
+ *
+ * schema.org'da CaseStudy yok; Google'ın tanıdığı en yakın tip `Article`.
+ * `about` müşteriyi ve sektörü varlık olarak bağlar — vakanın kime ait
+ * olduğu böyle makine-okunur hâle gelir.
+ *
+ * Tarih alanları opsiyonel ve verilmezse hiç basılmaz: vaka içeriğinde
+ * (`CaseStudyContent`) ISO tarih yok, yalnız insan-okur `period` var.
+ * Tarih uydurmak yanlış şemadır; eksik alan doğru şemadan iyidir.
+ *
+ * Metrikler (`1,5M $`, `+%150` gibi) bilerek dışarıda: `Article`ın bunları
+ * doğru taşıyan bir alanı yok. Serbest metni `Rating`/`QuantitativeValue`
+ * kılığına sokmak şema doğruluğunu alan sayısına feda etmek olurdu.
+ */
+export function caseStudyLd({
+  headline,
+  description,
+  path,
+  locale,
+  clientName,
+  clientSector,
+  imagePath,
+  datePublished,
+  dateModified,
+}: {
+  headline: string;
+  description: string;
+  path: string;
+  locale: Locale;
+  clientName: string;
+  clientSector: string;
+  imagePath?: string | undefined;
+  datePublished?: string | undefined;
+  dateModified?: string | undefined;
+}) {
+  return {
+    "@type": "Article",
+    headline,
+    description,
+    inLanguage: IN_LANGUAGE[locale],
+    mainEntityOfPage: absoluteUrl(path),
+    url: absoluteUrl(path),
+    about: [
+      { "@type": "Organization", name: clientName },
+      { "@type": "Thing", name: clientSector },
+    ],
+    author: { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+    ...(imagePath ? { image: absoluteUrl(imagePath) } : {}),
+    ...(datePublished
+      ? { datePublished, dateModified: dateModified ?? datePublished }
+      : {}),
+  };
+}
+
+/**
+ * Person — danışman detay sayfası.
+ *
+ * Kadro, E-E-A-T çarpanının taşıyıcısı (docs/strateji §5: "kadro = 10
+ * entity"). `worksFor` her danışmanı aynı Organization düğümüne bağlar;
+ * `sameAs` yalnız gerçekten LinkedIn profili olan isimde basılır.
+ *
+ * `@id` sayfa URL'ine çapalı (`#person`): WebPage düğümü sayfanın kendisi,
+ * Person sayfanın konusu — ikisi aynı `@id`yi paylaşamaz.
+ */
+export function personLd({
+  name,
+  jobTitle,
+  description,
+  path,
+  sameAs,
+  knowsAbout,
+}: {
+  name: string;
+  jobTitle: string;
+  description: string;
+  path: string;
+  sameAs?: string | undefined;
+  knowsAbout: string[];
+}) {
+  return {
+    "@type": "Person",
+    "@id": `${absoluteUrl(path)}#person`,
+    name,
+    jobTitle,
+    description,
+    url: absoluteUrl(path),
+    worksFor: { "@id": ORG_ID },
+    ...(sameAs ? { sameAs: [sameAs] } : {}),
+    ...(knowsAbout.length > 0 ? { knowsAbout } : {}),
   };
 }
 

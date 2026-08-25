@@ -12,6 +12,38 @@ export type PageSeoInput = {
   ogType?: "website" | "article";
 };
 
+/**
+ * Varsayılan OG görseli — kaynağı `src/app/opengraph-image.tsx`.
+ *
+ * Burada açıkça verilmesi gerekiyor: bir sayfa `openGraph` alanını tanımladığı
+ * anda kök segmentteki dosya-tabanlı görsel devralınmıyor. Sonuç, her sayfada
+ * `twitter:card=summary_large_image` olmasına rağmen hiçbir sayfada `og:image`
+ * bulunmaması — paylaşımlar görselsiz boş kart olarak render ediliyordu.
+ * `metadataBase` bu göreli yolu mutlaklaştırır.
+ */
+export const OG_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "INDOLES — İş geliştirme danışmanlığı",
+} as const;
+
+/**
+ * Görselin alt metni sayfanın dilinde olmalı.
+ *
+ * `OG_IMAGE.alt` her sayfada Türkçeydi; EN paylaşımlarda ve ekran
+ * okuyucularda yanlış dilde okunuyordu. Görselin kendisi tek (marka kartı),
+ * değişen yalnız açıklaması.
+ */
+const OG_ALT: Record<Locale, string> = {
+  tr: "INDOLES — İş geliştirme danışmanlığı",
+  en: "INDOLES — Business development consultancy",
+};
+
+export function ogImage(locale: Locale) {
+  return { ...OG_IMAGE, alt: OG_ALT[locale] };
+}
+
 const OG_LOCALE: Record<Locale, string> = { tr: "tr_TR", en: "en_US" };
 const ALT_LOCALE: Record<Locale, string> = { tr: "en_US", en: "tr_TR" };
 
@@ -43,9 +75,11 @@ export function buildMetadata({
       locale: OG_LOCALE[locale],
       alternateLocale: ALT_LOCALE[locale],
       url: canonical,
+      images: [ogImage(locale)],
     },
     twitter: {
       card: "summary_large_image",
+      images: [OG_IMAGE.url],
       site: "@indoles",
       title,
       description,

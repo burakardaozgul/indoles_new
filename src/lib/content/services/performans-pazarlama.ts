@@ -296,6 +296,79 @@ export const performansPazarlama: ServiceContent = {
         en: "Ad accounts and all data are always opened in your name and stay with you. INDOLES connects with administrator access; when the engagement ends the access is closed, and the account history along with everything the platforms have learned remains yours. Setups where the agency owns the account make leaving expensive — so we never build them.",
       },
     },
+    {
+      question: {
+        tr: "Performans pazarlama nedir?",
+        en: "What is performance marketing?",
+      },
+      answer: {
+        tr: "Performans pazarlama, her reklam harcamasının ne getirdiğini ölçen ve bütçeyi bu ölçüme göre dağıtan çalışma biçimidir. Gösterim ve tıklama sayısı yerine tek soru sorulur: bu kanal kaç müşteri kazandırdı ve kaça mal oldu. INDOLES her kanalı bu soruyla tek tek ölçer; kazandıran kanal büyür, kazandırmayan kapanır.",
+        en: "Performance marketing measures what every unit of ad spend returns and allocates budget according to that measurement. Instead of impressions and clicks, one question is asked: how many customers did this channel win, and at what cost. INDOLES measures each channel against that question; the ones that earn grow, the ones that do not are closed.",
+      },
+    },
+    {
+      question: {
+        tr: "ROAS nedir ve nasıl takip ediliyor?",
+        en: "What is ROAS and how do you track it?",
+      },
+      answer: {
+        tr: "ROAS, harcanan reklam bütçesinin kaç lira satış getirdiğini gösteren orandır. INDOLES bunu kanal karnesinde tutar ve hangi satışın hangi reklamdan geldiğini gösteren dönüşüm takibiyle besler; ölçüm doğru kurulmazsa rapordaki ROAS de doğru olmaz. Oran haftalık panelde beş temel sayıdan biri olarak izlenir ve bütçe tavanı kararlarını bu sayı belirler.",
+        en: "ROAS is the ratio showing how much revenue each unit of ad spend returns. INDOLES keeps it in the channel scorecard and feeds it with conversion tracking that ties each sale to the ad that produced it; if the measurement is wrong, so is the reported ROAS. The ratio sits among the five core numbers on the weekly dashboard, and budget ceiling decisions follow it.",
+      },
+    },
+    {
+      question: {
+        tr: "Müşteri edinme maliyeti nasıl hesaplanıyor?",
+        en: "How do you calculate customer acquisition cost?",
+      },
+      answer: {
+        tr: "Müşteri edinme maliyeti, bir kanalın harcaması o kanaldan gelen müşteri sayısına bölünerek çıkar. INDOLES bu sayıyı kanal başına ayrı tutar, çünkü toplam ortalama pahalı kanalın ucuz kanalın arkasına saklanmasına izin verir. Hesabın dayandığı dönüşüm takibi önce doğrulanır; yanlış eşleşen bir satış kanal karnesinin tamamını bozar.",
+        en: "Customer acquisition cost is a channel's spend divided by the customers that channel produced. INDOLES keeps the figure per channel, because a blended average lets an expensive channel hide behind a cheap one. The conversion tracking behind the calculation is validated first; one wrongly attributed sale distorts the whole scorecard.",
+      },
+    },
+    {
+      question: {
+        tr: "Reklam bütçesi artırma ve durdurma kararını kim veriyor?",
+        en: "Who decides to raise or stop ad budget?",
+      },
+      answer: {
+        tr: "Kararı kural verir, içgüdü değil. Kanal başına aylık tavan, artırma eşiği ve durdurma koşulu bütçe planında baştan yazılır; kanal karnesi eşiği geçtiğinde bütçe artar, altına düştüğünde durur. Kural yazılı olduğu için her ay yeniden tartışma açılmaz ve harcama kararı tek bir kişinin sezgisine bağlı kalmaz.",
+        en: "Rules decide, not instinct. The monthly ceiling per channel, the threshold for scaling up and the condition for stopping are written into the budget plan up front; when the scorecard clears the threshold, budget rises, and when it drops below, spend stops. Because the rule is written down, the argument does not reopen every month and the decision does not rest on one person's judgement.",
+      },
+    },
+    {
+      question: {
+        tr: "Reklam görsellerini ve videolarını siz mi üretiyorsunuz?",
+        en: "Do you produce the ad creative and video?",
+      },
+      answer: {
+        tr: "Görsel ve video prodüksiyonu bu hizmetin kapsamı dışında, ayrı bir üretim işidir. INDOLES hangi görselin, hangi mesajın ve hangi teklifin test edileceğini kurgular, testi yürütür ve kazananı sayılarla seçer. Üretimi kendi ekibiniz ya da çalıştığınız yapımcı üstlenir; test düzeni ne üretileceğini de netleştirir.",
+        en: "Image and video production sits outside this scope; it is a separate production job. INDOLES designs which visual, which message and which offer gets tested, runs the test and picks the winner on the numbers. Your own team or your production partner makes the assets, and the testing routine tells them what to make.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda performans pazarlama yanlış tercih olur?",
+        en: "When is performance marketing the wrong choice?",
+      },
+      answer: {
+        tr: "Site gelen ziyaretçiyi satışa çeviremiyorsa reklam bütçesi kayıp noktalarını büyütmekten başka bir işe yaramaz; önce dönüşüm optimizasyonu gerekir. Şirket kime, hangi farkla sattığını anlatamıyorsa reklam metni de anlatamaz ve o iş marka stratejisinde başlar. Organik sıralama hedefleniyorsa bu hizmet o alanı kapsamaz, çünkü kapsam ücretli kanallarla sınırlı.",
+        en: "If the site cannot turn arriving visitors into sales, ad budget only enlarges the leaks — conversion optimisation comes first. If the company cannot say who it sells to and with what difference, the ad copy cannot say it either, and that work starts with brand strategy. If the goal is organic ranking, this service does not cover it, because the scope stays on paid channels.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      question: {
+        tr: "Performans pazarlama ajansı ile danışmanlık arasındaki fark nedir?",
+        en: "What is the difference between a performance marketing agency and consulting?",
+      },
+      answer: {
+        tr: "Performans pazarlama ajansı reklam hesabını yönetir ve harcamayı büyütür; danışmanlık hangi kanalın ne kadar bütçeyi hak ettiğine veriyle karar verir. INDOLES ikisini ayırmaz ama sırayı sabitler: dönüşüm takibi kurulmadan hiçbir kampanya ölçeklenmez, çünkü ölçülmeyen harcamayı büyütmek kaybı da büyütür. Kanal kararı ROAS ve CAC kıyaslamasından çıkar, tercihten değil.",
+        en: "A performance marketing agency manages the ad account and grows the spend; consulting decides with data how much budget each channel deserves. INDOLES does not separate the two but fixes the order: no campaign scales before conversion tracking is in place, because growing unmeasured spend grows the loss as well. The channel decision comes out of ROAS and CAC benchmarking rather than preference.",
+      },
+    },
   ],
 
   seo: {
@@ -304,8 +377,8 @@ export const performansPazarlama: ServiceContent = {
       en: "Performance marketing management",
     },
     description: {
-      tr: "Google Ads, Meta ve LinkedIn reklamlarını tek düzende yöneten performans pazarlama hizmeti. Kazandıran kanal büyür, boşa giden harcama kapanır.",
-      en: "Performance marketing across Google Ads, Meta and LinkedIn run as one accountable budget. Winning channels scale; wasted spend gets shut off.",
+      tr: "Google Ads danışmanlığından Meta ve TikTok'a, reklam hesaplarını tek karneyle yöneten performans pazarlama. Dönüşüm takibi kurulur, boşa giden harcama kapanır.",
+      en: "Performance marketing across Google Ads, Meta, LinkedIn and TikTok, run as one accountable budget. Conversion tracking fixed first, then wasted spend shut off.",
     },
     entities: {
       tr: [

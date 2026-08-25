@@ -14,7 +14,7 @@ export const cro: ServiceContent = {
   pillar: "growth",
   name: {
     tr: "CRO — dönüşüm optimizasyonu",
-    en: "CRO — conversion optimization",
+    en: "CRO — conversion optimisation",
   },
 
   shortDescription: {
@@ -286,6 +286,79 @@ export const cro: ServiceContent = {
         en: "Conversion optimisation does not require a redesign, and in most cases it is better that it does not. A redesign changes too much at once, which makes it impossible to measure what actually worked. INDOLES works step by step on the existing site; if the analysis does show a structural problem, a redesign is proposed separately, with its reasoning.",
       },
     },
+    {
+      question: {
+        tr: "A/B testi nedir ve ne zaman kurulur?",
+        en: "What is an A/B test and when do you run one?",
+      },
+      answer: {
+        tr: "A/B testi, aynı sayfanın iki versiyonunu eşzamanlı yayınlayıp hangisinin daha çok dönüşüm getirdiğini ölçen yöntemdir. INDOLES her testi önce hipoteze çevirir — neyi, neden değiştiriyoruz, hangi sonucu bekliyoruz — sonra kurar. Test yeterli veri toplanana kadar çalışır; kazanan varyant yayına alınır, kaybeden kayda geçer.",
+        en: "An A/B test publishes two versions of the same page at once and measures which one converts better. INDOLES turns every test into a hypothesis first — what are we changing, why, and what result do we expect — then builds it. The test runs until it has enough data; the winning variant goes live and the losing one is recorded.",
+      },
+    },
+    {
+      question: {
+        tr: "Sepet terk oranını düşürmek bu hizmete dahil mi?",
+        en: "Is reducing cart abandonment part of this service?",
+      },
+      answer: {
+        tr: "Evet, sepet terk analizi ve checkout optimizasyonu kapsamın içinde. Form ve checkout denetiminde gereksiz alanlar, belirsiz hata mesajları ve zorunlu üyelik gibi tamamlamayı düşüren engeller tek tek çıkarılır. Trafiğin çoğu mobilden geliyorsa mobil akış ayrı ele alınır, çünkü dönüşümün kazanılacağı yer orasıdır.",
+        en: "Yes — cart abandonment analysis and checkout optimisation sit inside the scope. The form and checkout audit lists completion blockers one by one: unnecessary fields, vague error messages, forced sign-up. If most traffic is mobile, the mobile flow is handled separately, because that is where conversion has to be won.",
+      },
+    },
+    {
+      question: {
+        tr: "Isı haritası analizi neyi gösterir?",
+        en: "What does heatmap analysis show?",
+      },
+      answer: {
+        tr: "Isı haritası, ziyaretçinin sayfada nereye tıkladığını ve nereye kadar indiğini gösterir; analitik sayıların söylemediği davranışı ortaya koyar. INDOLES bunu gerçek ziyaretçi kayıtlarıyla birlikte okur, çünkü tek başına tıklama haritası niyeti açıklamaz. Çıkan bulgular vazgeçme noktaları listesine ve her noktanın tahmini kayıp payına dönüşür.",
+        en: "A heatmap shows where visitors click and how far down the page they scroll — the behaviour that analytics numbers leave out. INDOLES reads it alongside real session recordings, because a click map on its own does not explain intent. The findings become the drop-off list and the estimated loss at each point.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim ekibimizden kim, ne kadar zaman ayırır?",
+        en: "Who from our side is involved, and how much of their time?",
+      },
+      answer: {
+        tr: "Siteye ve ölçüm araçlarına erişim verebilecek bir teknik kişi ile karar alabilecek bir iş sahibi yeterli. Teknik kişi test kurulumu ve yayına alma adımlarında, iş sahibi hipotez sıralaması ve sonuç kararlarında devreye girer. Devir oturumunda test kurma, okuma ve karar verme düzeni iç ekibe aktarılır.",
+        en: "One technical person who can grant access to the site and the measurement tools, plus one decision-maker on the business side. The technical person is needed at setup and release; the decision-maker joins hypothesis prioritisation and the result calls. At the handover session the in-house team learns to set up, read and decide on tests.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda dönüşüm optimizasyonu yanlış tercih olur?",
+        en: "When is conversion optimisation the wrong choice?",
+      },
+      answer: {
+        tr: "Site neredeyse hiç ziyaretçi almıyorsa sıra yanlış başlamış demektir; önce trafik gerekir ve o iş performans pazarlama hizmetinde. Sayfalar saniyelerce açılmıyorsa sorun ikna değil altyapıdır, hız çalışması teknoloji ve altyapı hizmetinde ele alınır. Ürün ya da fiyat pazara oturmamışsa test yanlış soruya doğru cevap verir.",
+        en: "If the site barely gets visitors, the order is wrong — traffic comes first, and that sits with performance marketing. If pages take seconds to load, the problem is infrastructure rather than persuasion, and speed work belongs to technology and infrastructure. If the product or the price has not found its market, a test answers the wrong question well.",
+      },
+    },
+    {
+      question: {
+        tr: "Çalışma bittiğinde ne kalıyor, testleri kim sürdürür?",
+        en: "What is left when the work ends, and who keeps testing?",
+      },
+      answer: {
+        tr: "Geriye çalışır hâlde bir A/B test kurulumu, doğrulanmış dönüşüm ölçümü, sıraya dizilmiş test listesi ve test takvimi şablonu kalır. Sonuç raporu hangi testin ne getirdiğini, hangisinin getirmediğini kayda geçirir. Devir oturumundan sonra döngüyü iç ekip yürütür; amaç tek seferlik iyileştirme değil, çalışan bir düzen bırakmak.",
+        en: "You keep a working A/B testing setup, validated conversion measurement, a prioritised test backlog and a testing calendar template. The results report records which test delivered and which did not. After the handover session the in-house team runs the loop; the aim is a running routine, not a one-off improvement.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      question: {
+        tr: "CRO ajansı ile dönüşüm optimizasyonu danışmanlığı arasındaki fark nedir?",
+        en: "What is the difference between a CRO agency and conversion optimisation consulting?",
+      },
+      answer: {
+        tr: "CRO ajansı çoğunlukla test kurar ve rapor teslim eder; dönüşüm optimizasyonu danışmanlığı kaybın nerede olduğunu bulup o noktanın düzeltilmesini üstlenir. INDOLES ikinci yolu izler: önce ölçüm altyapısı onarılır, sonra kayıp noktaları oturum kaydı ve ısı haritasıyla saptanır, her düzeltme A/B testiyle doğrulanır. Fark teslim edilen şeyde görünür — rapor değil, ölçülmüş bir dönüşüm artışı.",
+        en: "A CRO agency typically sets up tests and delivers a report; conversion optimisation consulting takes on finding where the loss happens and fixing that point. INDOLES follows the second path: the measurement setup is repaired first, drop-off points are located through session recordings and heatmaps, and each fix is validated with an A/B test. The difference shows in what gets delivered — a measured conversion lift rather than a report.",
+      },
+    },
   ],
 
   seo: {
@@ -294,8 +367,8 @@ export const cro: ServiceContent = {
       en: "CRO — conversion rate optimisation",
     },
     description: {
-      tr: "Mevcut trafikten daha fazla satış çıkaran dönüşüm oranı optimizasyonu. Vazgeçme noktaları ölçülür, A/B testiyle tek tek düzeltilir.",
-      en: "Conversion rate optimisation that gets more sales from existing traffic. Drop-off points measured, then fixed one by one with A/B testing.",
+      tr: "Mevcut trafikten daha fazla satış çıkaran dönüşüm oranı optimizasyonu. Sepet terk ve form vazgeçme noktaları ölçülür, A/B testiyle tek tek düzeltilir.",
+      en: "Conversion rate optimisation that gets more sales from existing traffic. Cart and checkout drop-off measured on recordings, then fixed with A/B testing.",
     },
     entities: {
       tr: [

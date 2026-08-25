@@ -46,7 +46,7 @@ export const CONSULTANTS: ConsultantContent[] = [
       "Marka stratejisi",
       "Performans pazarlama",
       "Büyüme mimarisi",
-      "AI danışmanlığı",
+      "yapay zeka danışmanlığı",
     ],
     linkedinUrl: "https://www.linkedin.com/in/burakardaozgul",
   },
@@ -121,8 +121,8 @@ export const CONSULTANTS: ConsultantContent[] = [
       en: "A good project is like a choreography nobody notices.",
     },
     shortBio: {
-      tr: "Londra ofisinden uluslararası projelerin işletim sorumlusu. Çok dilli ekipler, farklı zaman dilimleri ve kültürler arasında akışı aksatmadan kurgulayan bir operasyon insanı.",
-      en: "Runs international project operations from the London office. An operations person who keeps the flow intact across multilingual teams, time zones and cultures.",
+      tr: "Uluslararası projelerin işletim sorumlusu. Çok dilli ekipler, farklı zaman dilimleri ve kültürler arasında akışı aksatmadan kurgulayan bir operasyon insanı.",
+      en: "Runs international project operations. An operations person who keeps the flow intact across multilingual teams, time zones and cultures.",
     },
     longBio: {
       tr: [

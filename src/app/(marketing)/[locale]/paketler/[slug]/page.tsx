@@ -3,12 +3,26 @@ import Link from "next/link";
 import { Phone } from "lucide-react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { PersonaText, PersonaListItems } from "@/components/marketing/persona-text";
 import { getPackageBySlug, PACKAGES } from "@/lib/content/packages";
 import { getPillar } from "@/lib/content/pillars";
 import { CASES } from "@/lib/content/cases";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { TrackView } from "@/components/analytics/track-view";
+import { packageViewEvent } from "@/lib/analytics/view-events";
+import {
+  breadcrumbLd,
+  faqLd,
+  organizationLd,
+  serviceLd,
+  webPageLd,
+} from "@/lib/seo/json-ld";
+import type { Metadata } from "next";
+import type { Locale } from "@/lib/content/types";
 
 export async function generateStaticParams() {
   return PACKAGES.flatMap((p) =>
@@ -17,6 +31,75 @@ export async function generateStaticParams() {
       slug: p.slug[locale],
     }))
   );
+}
+
+
+function packagePaths(pkg: NonNullable<ReturnType<typeof getPackageBySlug>>) {
+  return {
+    tr: `/tr/paketler/${pkg.slug.tr}`,
+    en: `/en/packages/${pkg.slug.en}`,
+  };
+}
+
+/**
+ * Sayfanın başlığı ve tanımı — `generateMetadata` ile `WebPage` düğümünün
+ * ortak kaynağı. İkisi ayrı yazıldığında SERP snippet'i ile şemadaki
+ * `description` ayrışıyordu; AI motorları bu iki alanı çapraz okuyor.
+ */
+function packageMeta(
+  pkg: NonNullable<ReturnType<typeof getPackageBySlug>>,
+  loc: Locale
+) {
+  const price =
+    loc === "tr"
+      ? `₺ ${pkg.pricing.TRY.toLocaleString("tr-TR")}`
+      : `€ ${pkg.pricing.EUR.toLocaleString("en-US")}`;
+
+  const head =
+    loc === "tr"
+      ? `${pkg.descriptor.tr}. ${pkg.durationWeeks} haftada sabit kapsam ve sabit fiyat: ${price}.`
+      : `${pkg.descriptor.en}. Fixed scope and a fixed price in ${pkg.durationWeeks} weeks: ${price}.`;
+
+  // Paket adları ve tanımları farklı uzunlukta; tek bir sabit kuyruk kimi
+  // pakette 160'ı aşıyordu. Uzun kuyruk sığmazsa kısası kullanılır.
+  const tails =
+    loc === "tr"
+      ? [
+          "Teslimler, haftalık plan ve devir sırası önden yazılı.",
+          "Teslimler ve devir planı önden yazılı.",
+        ]
+      : [
+          "Deliverables, the weekly plan and the handover order are written up front.",
+          "Deliverables and handover are written up front.",
+        ];
+  const tail = tails.find((t) => `${head} ${t}`.length <= 160);
+
+  return {
+    title: `${pkg.name[loc]} — ${pkg.durationWeeks} ${
+      loc === "tr" ? "hafta" : "weeks"
+    }`,
+    description: tail ? `${head} ${tail}` : head,
+  };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const loc = locale as Locale;
+  const pkg = getPackageBySlug(slug, loc);
+  if (!pkg) return {};
+
+  const { title, description } = packageMeta(pkg, loc);
+
+  return buildMetadata({
+    title,
+    description,
+    paths: packagePaths(pkg),
+    locale: loc,
+  });
 }
 
 export default async function PackageDetail({
@@ -39,8 +122,58 @@ export default async function PackageDetail({
       ? `₺ ${pkg.pricing.TRY.toLocaleString("tr-TR")}`
       : `€ ${pkg.pricing.EUR.toLocaleString("en-US")}`;
 
+  const paths = packagePaths(pkg);
+  const meta = packageMeta(pkg, loc);
+
   return (
     <>
+      {/* Sayfa sabit fiyat, sabit süre ve on bir soruluk bir SSS taşıyor;
+          üçü de şemayla ifade edilebilir bilgi. `Service.hasOfferCatalog`
+          fiyatı `packages.ts`ten birebir okur, ikinci bir kaynak tutulmaz. */}
+      <TrackView event={packageViewEvent(pkg)} />
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: meta.title,
+            description: meta.description,
+            path: paths[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            {
+              name: tCommon("nav.packages"),
+              path: loc === "tr" ? "/tr/paketler" : "/en/packages",
+            },
+            { name: pkg.name[loc], path: paths[loc] },
+          ]),
+          serviceLd({
+            name: pkg.name[loc],
+            description: pkg.descriptor[loc],
+            serviceType: pillar?.name[loc] ?? pkg.name[loc],
+            path: paths[loc],
+            offers: [
+              {
+                name: pkg.name[loc],
+                priceTRY: pkg.pricing.TRY,
+                durationWeeks: pkg.durationWeeks,
+                path: paths[loc],
+              },
+            ],
+          }),
+          // Şema artık sayfada görünen metnin aynısını taşıyor (ADR-022).
+          // Persona-aware olduğu dönemde yalnız sanayici varyantı basılıyordu
+          // ve ticaret merceğindeki ziyaretçi ekranda başka bir cevap
+          // okuyordu — Google'ın FAQ kuralı bu ayrışmayı kabul etmiyor.
+          faqLd(
+            pkg.faq.map((f) => ({
+              question: f.question[loc],
+              answer: f.answer[loc],
+            }))
+          ),
+        ]}
+      />
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },
@@ -70,7 +203,11 @@ export default async function PackageDetail({
               />
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
-              <PopupCTAButton className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md">
+              <PopupCTAButton
+                source="package-detail"
+                pillar={pkg.pillar}
+                className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md"
+              >
                 <Phone size={16} aria-hidden />
                 {tCommon("cta.bookConsultation")}
               </PopupCTAButton>
@@ -173,38 +310,31 @@ export default async function PackageDetail({
 
       {/* FAQ */}
       {pkg.faq.length > 0 && (
-        <section className="v2-surface border-b border-surface-2">
+        <section
+          aria-labelledby="paket-sss"
+          className="v2-surface border-b border-surface-2"
+        >
           <div className="ds-container py-24 md:py-32">
             <div className="max-w-[720px]">
               <span className="typography-label uppercase tracking-widest text-ink-500">
                 FAQ
               </span>
-              <h2 className="typography-h2 mt-4 text-ink-900">
+              <h2
+                id="paket-sss"
+                className="typography-h2 mt-4 scroll-mt-32 text-ink-900"
+              >
                 {loc === "tr" ? "Sık sorulan." : "Frequently asked."}
               </h2>
-              <div className="mt-12 divide-y divide-surface-2 border-y border-surface-2">
-                {pkg.faq.map((f) => (
-                  <details key={f.question[loc]} className="group py-6">
-                    <summary className="cursor-pointer list-none flex items-center justify-between gap-4">
-                      <span className="typography-h3 text-ink-900">
-                        {f.question[loc]}
-                      </span>
-                      <span
-                        aria-hidden
-                        className="text-ink-500 typography-body-md transition-transform group-open:rotate-45"
-                      >
-                        +
-                      </span>
-                    </summary>
-                    <p className="typography-body-md text-ink-700 mt-4 max-w-prose-editorial">
-                      <PersonaText
-                        industrial={f.answer.industrial[loc]}
-                        commerce={f.answer.commerce[loc]}
-                      />
-                    </p>
-                  </details>
-                ))}
-              </div>
+              {/* Cevaplar persona-aware: `FaqAccordion` `answer`ı ReactNode
+                  aldığı için `PersonaText` doğrudan geçebiliyor. */}
+              <FaqAccordion
+              surface="package"
+                className="mt-12"
+                items={pkg.faq.map((f) => ({
+                  question: f.question[loc],
+                  answer: f.answer[loc],
+                }))}
+              />
             </div>
           </div>
         </section>

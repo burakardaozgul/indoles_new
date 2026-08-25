@@ -261,6 +261,66 @@ export const isletmeMuhendisligi: ServiceContent = {
         en: "Verification comes from comparing before-and-after measurements; the work is not complete until the improvement shows in numbers. INDOLES also leaves a few tracking metrics so you can see whether the gain still holds months later. An improvement that does not last amounts to the same thing as none at all.",
       },
     },
+    {
+      question: {
+        tr: "İşletme mühendisliği nedir?",
+        en: "What is operations engineering?",
+      },
+      answer: {
+        tr: "İşletme mühendisliği, mevcut kapasiteden daha fazlasını çıkarma işidir. Süreç ilk temastan teslimata kadar sahada izlenerek çizilir, her adımın işlem ve bekleme süresi ölçülür, akışı sınırlayan adım hesapla bulunur. Yeni makine veya yeni personel ancak bu ölçüm gerektiğini gösterirse konuşulur. Ölçümün sonunda teorik kapasiteyle gerçekleşen arasındaki fark çıkar; o boşluk çoğu şirkette yatırımsız kazanç alanıdır.",
+        en: "Operations engineering is the work of getting more out of the capacity a company already has. The process is drawn from on-site observation, from first contact to delivery; the processing and waiting time of each step is measured, and the step that limits the flow is identified by calculation. New machines or new hires come up only if that measurement shows they are needed.",
+      },
+    },
+    {
+      question: {
+        tr: "Darboğaz nasıl bulunuyor?",
+        en: "How is the bottleneck found?",
+      },
+      answer: {
+        tr: "Darboğaz tartışmayla değil süre ölçümüyle bulunur: her adımın işlem süresi ve adımlar arasındaki bekleme ayrı ayrı kaydedilir. Bekleme süresi çoğu zaman işlem süresinden uzun çıkar, bu yüzden yalnız makine hızına bakan analiz yanıltır. Akışı hangi adım sınırlıyorsa tüm hattın hızı odur; iyileştirme başka yerde yapılırsa toplam süre değişmez.",
+        en: "The bottleneck is found by timing, not by argument: the processing time of each step and the waiting between steps are recorded separately. Waiting usually turns out longer than processing, which is why an analysis that looks only at machine speed misleads. Whichever step limits the flow sets the pace of the whole line; improving anywhere else leaves the total time unchanged.",
+      },
+    },
+    {
+      question: {
+        tr: "ERP kurulumu bu hizmetin içinde mi?",
+        en: "Does this service include an ERP build?",
+      },
+      answer: {
+        tr: "Yazılım seçimi ve kurulumu bu hizmetin dışında; burada yapılan iş süreci ölçmek, darboğazı bulmak ve akışı düzenlemektir. Hangi sistemin hangi sırayla kurulacağı kararı dijital dönüşüm hizmetinde, yatırım getirisi projeksiyonuyla verilir. Sıra bilinçli: tanımsız bir sürecin üzerine kurulan yazılım aynı karışıklığı daha pahalı hâle getirir.",
+        en: "Software selection and installation sit outside this service; the work here is measuring the process, finding the bottleneck and reorganising the flow. Which system gets built in what order is decided under digital transformation, against an ROI projection. The order is deliberate: software laid over an undefined process only makes the same confusion more expensive.",
+      },
+    },
+    {
+      question: {
+        tr: "İyileştirme senaryoları arasında seçim nasıl yapılıyor?",
+        en: "How is one improvement scenario chosen over another?",
+      },
+      answer: {
+        tr: "Her darboğaz için iki üç seçenek maliyeti, uygulama süresi ve beklenen kazancıyla yan yana sunulur. Yatırım gerektirmeyen seçenekler her zaman önce değerlendirilir, çünkü teorik ve gerçek kapasite arasındaki boşluk çoğu kez para harcamadan kapanır. Seçimi yapan şirkettir; INDOLES karşılaştırma tablosunu ve gerekçeleri sağlar.",
+        en: "For each bottleneck, two or three options are laid side by side with their cost, implementation time and expected gain. Options requiring no investment are always assessed first, because the gap between theoretical and actual capacity often closes without spending. The company makes the choice; INDOLES supplies the comparison table and the reasoning.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim ekibimizden kim katılır?",
+        en: "Who from our team is involved?",
+      },
+      answer: {
+        tr: "Saha gözleminde işi fiilen yapan operatör ve vardiya sorumluları gerekir; prosedür dokümanıyla gerçek akış arasındaki farkı onlar gösterir. Ölçüm cihazı kurulacaksa planı planlama ekibiyle birlikte çizilir ve vardiya arasına alınır. Ekip oturumunda saha ve planlama ekibine akış okuma ile ölçümü sürdürme aktarılır.",
+        en: "On-site observation needs the operators who actually do the work and the shift supervisors; they are the ones who show the gap between the procedure document and the real flow. If measuring equipment has to be installed, the plan is drawn with the planning team and scheduled between shifts. At the team session, reading the flow and keeping the measurement going are passed to the shop-floor and planning teams.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda işletme mühendisliği yanlış tercih olur?",
+        en: "When is operations engineering the wrong choice?",
+      },
+      answer: {
+        tr: "Sipariş gelmiyorsa sorun akışta değil talepte; hattı hızlandırmak boş kapasiteyi büyütmekten başka bir işe yaramaz. Beklenti iş sağlığı ve güvenliği danışmanlığı, kalite sertifikasyonu veya fabrika yerleşimi projelendirmesiyse bunların hepsi kapsam dışı. Makine ve ekipman tedariki de yapılmaz; INDOLES ihtiyacı sayıyla gösterir, satın almayı üstlenmez.",
+        en: "If orders are not coming in, the problem is demand rather than flow, and speeding up the line only enlarges idle capacity. If the expectation is occupational health and safety consulting, quality certification or factory layout engineering, all of those fall outside the scope. Machinery and equipment procurement is not part of it either; INDOLES shows the need with numbers but does not handle the purchase.",
+      },
+    },
   ],
 
   seo: {
@@ -269,8 +329,8 @@ export const isletmeMuhendisligi: ServiceContent = {
       en: "Operations engineering and process analysis",
     },
     description: {
-      tr: "Mevcut kapasiteden fazlasını çıkaran işletme mühendisliği. Süreç haritalanır, darboğaz ölçülür, yatırımsız kazanç önce değerlendirilir.",
-      en: "Operations engineering that gets more from existing capacity. Processes mapped, bottlenecks measured, zero-investment gains considered first.",
+      tr: "Mevcut kapasiteden fazlasını çıkaran işletme mühendisliği ve süreç iyileştirme danışmanlığı. Darboğaz sahada ölçülür, yatırımsız kazanç önce değerlendirilir.",
+      en: "Operations engineering and process improvement consulting that get more from existing capacity. Bottlenecks timed on site, zero-investment gains taken first.",
     },
     entities: {
       tr: [

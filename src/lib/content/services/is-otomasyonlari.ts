@@ -260,6 +260,66 @@ export const isOtomasyonlari: ServiceContent = {
         en: "Flows are built with tools the in-house team can edit, and the handover session covers how to change them. The operating guide documents where each flow lives and how to modify it. Coming back to INDOLES for a simple change is not necessary — the aim is a working routine, not dependency.",
       },
     },
+    {
+      question: {
+        tr: "İş süreçleri otomasyonu nedir, bir iş nasıl aday oluyor?",
+        en: "What is business process automation, and how does a task qualify?",
+      },
+      answer: {
+        tr: "İş süreçleri otomasyonu, her gün elle yapılan tekrarlı işleri sistemin kendisinin yapmasıdır. Bir iş aday olabilmek için tekrarlı olmalı, adımları ve karar noktaları tanımlanabilmeli ve ölçülebilir bir saat kaybı yaratmalı. Envanter aşamasında her tekrarlı işin haftalık saat maliyeti ölçülür; sıralama tahminle değil bu ölçümle yapılır.",
+        en: "Automating a business process means handing the repetitive work people do by hand every day over to the system. To qualify, a task has to repeat, have definable steps and decision points, and cost a measurable number of hours. During the inventory, the weekly hour cost of each repetitive task is measured, and the ranking follows that measurement rather than a guess.",
+      },
+    },
+    {
+      question: {
+        tr: "Onay akışları nasıl kuruluyor?",
+        en: "How are approval flows set up?",
+      },
+      answer: {
+        tr: "Satın alma, izin veya fiyat onayı tanımlı bir sıraya bağlanır; kimin sırada olduğu ve ne kadar beklediği herkese görünür olur. Akış çizilirken karar noktalarının yanı sıra istisnalar da baştan tanımlanır, çünkü istisnası yazılmamış bir onay akışı ilk ay tıkanır. Onay geciktiğinde ilgili kişiye bildirim gider, iş e-posta zincirinde kaybolmaz.",
+        en: "Purchase, leave or pricing approvals are tied to a defined queue, and whose turn it is and how long it has waited become visible to everyone. When the flow is drawn, exceptions are defined alongside the decision points, because an approval flow with no written exceptions jams in its first month. If an approval stalls, a notification goes out and the request does not disappear into an email chain.",
+      },
+    },
+    {
+      question: {
+        tr: "Yapay zeka otomasyonu ile bu hizmet aynı şey mi?",
+        en: "Is this the same as AI automation?",
+      },
+      answer: {
+        tr: "Aynı şey değil. Bu hizmet kuralları belli, adımları tanımlanabilen işleri otomatikleştirir; sonuç her seferinde aynı ve öngörülebilir olur. İş tahmin, sınıflandırma ya da metin yorumu gerektiriyorsa devreye yapay zeka danışmanlığı girer ve orada önce veri hazırlığı ile fayda-maliyet hesabı yapılır. Kural tabanlı bir akış aynı sonucu veriyorsa ucuz olan seçilir.",
+        en: "No. This service automates work with clear rules and definable steps, so the outcome is the same and predictable every time. If the task needs prediction, classification or interpreting text, AI advisory takes over, and there the data readiness check and cost-benefit calculation come first. Where a rule-based flow produces the same result, the cheaper option wins.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim ekibimizden kim, ne kadar zaman ayırır?",
+        en: "Who from our team is involved, and for how long?",
+      },
+      answer: {
+        tr: "İşi bugün elle yapan kişi ve o işin sahibi gerekir; akış şeması iş sahibiyle doğrulanmadan kodlamaya geçilmez. Paralel dönemde aynı iş bir süre hem elle hem otomatik yürür, bu da ekipten kısa süreli ek bir kontrol eforu ister. Devir oturumunda akışı izleyecek ve basit değişiklikleri yapacak kişiler eğitilir.",
+        en: "You need the person who does the task by hand today and the owner of that task; no code is written before the flow diagram is confirmed with the owner. During the parallel period the same work runs both manually and automatically for a while, which asks a short stretch of extra checking from the team. At the handover session, the people who will monitor the flow and make simple changes are trained.",
+      },
+    },
+    {
+      question: {
+        tr: "Otomasyonun işe yaradığını nasıl ölçeriz?",
+        en: "How do we know the automation worked?",
+      },
+      answer: {
+        tr: "Ölçü baştan konur: envanterde o işin haftalık kaç saat yediği yazılır, kurulumdan sonra aynı sayı yeniden ölçülür. Paralel dönem karşılaştırma raporu ayrıca doğruluğu gösterir — elle çıkan sonuçla otomatik çıkan sonuç yan yana konur. İki sayı da yazılı kaldığı için otomasyonun getirisi tartışmaya değil kayda dayanır.",
+        en: "The measure is set up front: the inventory records how many hours a week the task consumes, and the same number is measured again after the build. The parallel-period comparison report also shows accuracy, placing the manual result next to the automated one. Both numbers stay on record, so the return is settled by evidence rather than argument.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda iş otomasyonu yanlış tercih olur?",
+        en: "When is business automation the wrong choice?",
+      },
+      answer: {
+        tr: "İşin nasıl yürüdüğü henüz tanımlı değilse otomasyon erken gelir; tanımsız bir süreç otomatikleştirilince yalnızca daha hızlı karışır. Mevcut sistemler baştan yazılmak zorundaysa iş özel yazılım hizmetine geçer, çünkü bu kapsam yeniden yazmayı içermez. Fiziksel robot ve üretim hattı donanımı da kapsam dışı kalır.",
+        en: "If how the work runs is not yet defined, automation comes too early — an undefined process only gets confused faster once automated. If the existing systems have to be rewritten, the work moves to custom software, because this scope does not include rewriting. Physical robots and production line hardware also fall outside it.",
+      },
+    },
   ],
 
   seo: {
@@ -268,8 +328,8 @@ export const isOtomasyonlari: ServiceContent = {
       en: "Business automation consulting",
     },
     description: {
-      tr: "Elle yapılan tekrarlı işleri sistemin yapmasını sağlayan iş otomasyonu. Mevcut araçlar bağlanır, akışlar iç ekibe devredilir.",
-      en: "Business automation that hands repetitive manual work to the system. Existing tools connected, flows handed to your in-house team.",
+      tr: "Elle yapılan tekrarlı işleri sistemin yapmasını sağlayan iş süreçleri otomasyonu. Onay akışları kurulur, mevcut araçlar bağlanır, düzen iç ekibe geçer.",
+      en: "Business process automation that hands repetitive manual work to the system. Approval flows built, existing tools connected, the routine given to your team.",
     },
     entities: {
       tr: [

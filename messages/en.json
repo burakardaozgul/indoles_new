@@ -473,6 +473,31 @@
         "title": "Find your own bottleneck here.",
         "lede": "Problem type, not industry. Growth metric, conversion rate or operational speed — open the case closest to whatever is holding you back."
       }
+    },
+    "articles": {
+      "eyebrow": "Knowledge library",
+      "title": "From the consultant's desk.",
+      "lede": "Diagnosis, method, outcome — not campaigns. Filter by topic; pieces run 5-10 minutes.",
+      "filter": {
+        "groupLabel": "Filter by topic",
+        "all": "All",
+        "allBlurb": "Field-tested method pieces on growth, transformation and building.",
+        "resultCount": "{count} articles.",
+        "empty": "No articles on this topic yet.",
+        "clear": "Back to all articles"
+      },
+      "list": {
+        "minRead": "min read",
+        "updated": "Updated"
+      }
     }
+  },
+  "consent": {
+    "regionLabel": "Cookie preference",
+    "title": "We use analytics cookies.",
+    "body": "To see which pages actually help. No advertising trackers, no profiling.",
+    "accept": "Accept",
+    "reject": "Essential only",
+    "policyLabel": "Cookies and privacy"
   }
 }

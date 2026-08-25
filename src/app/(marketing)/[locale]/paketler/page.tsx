@@ -7,6 +7,12 @@ import { PersonaSwitch } from "@/components/marketing/persona-switch";
 import { PackageDiagram } from "@/components/marketing/package-diagram";
 import { PACKAGES } from "@/lib/content/packages";
 import { getPillar } from "@/lib/content/pillars";
+import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { JsonLd } from "@/lib/seo/JsonLd";
+import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
+import { absoluteUrl } from "@/lib/seo/site";
+import type { Locale } from "@/lib/content/types";
 
 /**
  * Paketler — taahhüt ekseni.
@@ -20,6 +26,37 @@ import { getPillar } from "@/lib/content/pillars";
  * taahhüdünün şeklini anlatan bir şeması var. Fiyat puntosu da taahhütle
  * kademelenir — 2.7 katlık fark okunmadan hissedilsin.
  */
+
+const PATHS = { tr: "/tr/paketler", en: "/en/packages" };
+
+const META = {
+  tr: {
+    title: "Paketler — sabit kapsam, sabit fiyat",
+    description:
+      "Dört ürünleşmiş paket: teşhis, sprint, pilot, inşa. Süre 3-8 hafta, fiyat 180-720 bin TL. Her paketin kapsamı, teslimleri ve haftalık planı önden yazılı.",
+  },
+  en: {
+    title: "Packages — fixed scope, fixed price",
+    description:
+      "Four productised engagements: audit, sprint, pilot, build. Three to eight weeks, €5,500 to €22,500. Scope, deliverables and the weekly plan are written down.",
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  return buildMetadata({
+    title: META[loc].title,
+    description: META[loc].description,
+    paths: PATHS,
+    locale: loc,
+  });
+}
+
 export default async function PackagesIndex({
   params,
 }: {
@@ -44,6 +81,36 @@ export default async function PackagesIndex({
 
   return (
     <>
+      {/* Koleksiyon sayfası ajanlara tek düğümden okunsun: hangi
+          öğeler var, kaç tane ve nereye gidiyorlar. */}
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: META[loc].title,
+            description: META[loc].description,
+            path: PATHS[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: "INDOLES", path: `/${loc}` },
+            { name: tCommon("nav.packages") },
+          ]),
+          {
+            "@type": "ItemList",
+            name: META[loc].title,
+            numberOfItems: PACKAGES.length,
+            itemListElement: PACKAGES.map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: p.name[loc],
+              url: absoluteUrl(
+                `/${loc}/${loc === "tr" ? "paketler" : "packages"}/${p.slug[loc]}`
+              ),
+            })),
+          },
+        ]}
+      />
       <V2PageHeader
         crumbs={[
           { label: "INDOLES", href: "/" },

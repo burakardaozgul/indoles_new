@@ -267,6 +267,66 @@ export const markaStratejisi: ServiceContent = {
         en: "In industrial companies branding is a question of trust rather than advertising: a buyer awarding a million-lira supply contract is choosing who to work with. On that side INDOLES builds positioning on references, capacity and delivery assurance, and in export markets keeps the same narrative consistent across languages. The vocabulary used for consumer brands is not applied here.",
       },
     },
+    {
+      question: {
+        tr: "Marka konumlandırma nedir?",
+        en: "What is brand positioning?",
+      },
+      answer: {
+        tr: "Marka konumlandırma, şirketin kim için, hangi işi, hangi farkla yaptığını söyleyen tek cümledir. INDOLES bu cümleyi rakip haritası üzerinde açık alan bularak seçer ve seçimin gerekçesini yazılı bırakır. Konumlandırma cümlesi sonrasında yazılan her metnin — teklif, reklam, satış sunumu — çıkış noktası olur.",
+        en: "Brand positioning is the single sentence that states who a company serves, which job it does and with what difference. INDOLES picks that sentence by finding open ground on a competitor map, and writes down the reasoning behind the choice. Every text produced afterwards — proposal, ad, sales deck — starts from it.",
+      },
+    },
+    {
+      question: {
+        tr: "Rebranding düşünüyoruz, bu hizmet onu kapsıyor mu?",
+        en: "We are considering a rebrand — does this service cover it?",
+      },
+      answer: {
+        tr: "Rebranding'in strateji tarafı bu hizmetin içinde, görsel tarafı dışında. Konumlandırma, mesaj mimarisi ve ses-ton kılavuzu üretilir; logo ve kurumsal kimlik tasarımı ayrı bir kreatif kapsamdır. Sıra önemlidir: görsel kimlik strateji netleşmeden yenilenirse eski karışıklık yeni bir görüntüyle devam eder. Yeni anlatı satış sunumuna ve web sitesine uygulanmadan da iş bitmiş sayılmaz.",
+        en: "This service covers the strategy side of a rebrand, not the visual side. It produces positioning, message architecture and a voice and tone guide; logo and corporate identity design are a separate creative scope. Order matters: refreshing the visuals before the strategy is settled carries the old confusion into a new look.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim tarafımızdan kimler katılıyor?",
+        en: "Who takes part from our side?",
+      },
+      answer: {
+        tr: "Dinleme adımında yönetim, satış ekibi ve mevcut müşteriler katılır; üçü de farklı bir gerçeği anlatır. Yönetim ne sattığını, satış ekibi sahada neyin tuttuğunu, müşteri ise neden satın aldığını söyler ve aradaki fark çalışmanın malzemesi olur. Devir oturumunda satış ve pazarlama ekibi yeni dili kullanmayı öğrenir.",
+        en: "The listening step involves management, the sales team and existing customers; each of the three tells a different truth. Management says what the company sells, the sales team says what actually lands in the field, and the customer says why they bought — and the gap between them is the raw material. At the handover session sales and marketing learn to use the new language.",
+      },
+    },
+    {
+      question: {
+        tr: "Pazarlama ajansımız varken bu hizmet nasıl çalışır?",
+        en: "How does this work when we already have a marketing agency?",
+      },
+      answer: {
+        tr: "Ajansla çakışma olmaz, çünkü bu hizmet reklam yayını ve bütçe yönetimi yapmaz. INDOLES konumlandırmayı, mesaj mimarisini ve ton kurallarını üretir; ajans bunları kampanya metnine uygular. Ortak çerçeve yazılı olduğu için ajans her kampanyada mesajı yeniden icat etmek zorunda kalmaz. Ajans değişse bile çerçeve şirkette kaldığından anlatı sıfırdan kurulmaz.",
+        en: "There is no overlap, because this service does not run ads or manage budget. INDOLES produces the positioning, the message architecture and the tone rules; the agency applies them in campaign copy. With the shared frame written down, the agency stops reinventing the message for every campaign.",
+      },
+    },
+    {
+      question: {
+        tr: "Pazarlama önceliklendirmesi neye göre yapılıyor?",
+        en: "How are marketing priorities decided?",
+      },
+      answer: {
+        tr: "Öncelik, her kanalın hangi mesajı hangi alıcıya taşıdığına ve beklenen getirisine göre belirlenir. Çıktı bir sıralamadır: hangi kanal, hangi mesajla, hangi sırayla — ve önerilen bütçe dağılımı. Amaç bütçeyi her yere yaymak değil, en çok getiren kanala yönlendirmek. Sıralama pazar ve rakip okumasında bulunan açık alana dayanır, kanal modasına değil.",
+        en: "Priority follows which message each channel carries to which buyer, and what return it is expected to bring. The output is an ordered list: which channel, with which message, in what sequence — plus a suggested budget split. The point is not to spread budget everywhere but to send it where it returns most.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda marka stratejisi yanlış tercih olur?",
+        en: "When is brand strategy the wrong choice?",
+      },
+      answer: {
+        tr: "Sorun anlatıda değil üründe veya teslimatta ise marka stratejisi yanlış sırada gelir; net bir anlatı, tutmayan bir vaadi daha görünür kılar. Şirket kime sattığını henüz denemediyse müşteri görüşmesi yapacak malzeme de yoktur, önce satış denemesi gerekir. Yalnızca logo veya basılı materyal yenilenecekse bu iş kreatif tarafa aittir.",
+        en: "If the problem sits in the product or the delivery rather than the story, brand strategy comes in the wrong order — a clear story only makes a broken promise more visible. If the company has not yet tested who it sells to, there is nothing to interview customers about, and selling comes first. If only a logo or print material needs refreshing, that work belongs to the creative side.",
+      },
+    },
   ],
 
   seo: {
@@ -275,8 +335,8 @@ export const markaStratejisi: ServiceContent = {
       en: "Brand strategy consulting",
     },
     description: {
-      tr: "Konumlandırma, mesaj mimarisi ve ton kılavuzu üreten marka stratejisi danışmanlığı. Satış ekibi ve reklam aynı cümleyi kurar.",
-      en: "Brand strategy consulting that produces positioning, message architecture and a tone guide — so sales and advertising make the same case.",
+      tr: "Müşteri görüşmeleriyle başlayan marka stratejisi ve marka danışmanlığı. Konumlandırma, mesaj mimarisi ve ton kılavuzu; satış ile reklam aynı cümleyi kurar.",
+      en: "Brand strategy and brand positioning consulting built on customer interviews. Positioning, message architecture and a tone guide sales and advertising share.",
     },
     entities: {
       tr: [

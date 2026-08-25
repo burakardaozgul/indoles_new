@@ -126,12 +126,12 @@ describe("SEO alan sınırları", () => {
     }
   });
 
-  it("seo.description her dilde 80-160 karakter", () => {
+  it("seo.description her dilde 150-160 karakter", () => {
     for (const s of SERVICES) {
       for (const loc of LOCALES) {
         const len = s.seo.description[loc].length;
         expect(len, `${s.slug.tr}/${loc} kısa (${len})`).toBeGreaterThanOrEqual(
-          80,
+          150,
         );
         expect(len, `${s.slug.tr}/${loc} uzun (${len})`).toBeLessThanOrEqual(
           160,
@@ -188,10 +188,13 @@ describe("içerik blokları dolu", () => {
     }
   });
 
-  it("SSS 4-6 sorudur", () => {
+  it("SSS en az 10, en fazla 12 sorudur", () => {
+    // Alt sınır 10: her hizmet sayfası SSS'i tek başına bir cevap yüzeyi
+    // olarak çalışmalı (uzun kuyruk sorgular + FAQPage şeması). Üst sınır 12:
+    // bunun ötesi sayfada okunmaz hâle gelir ve soru tekrarı başlar.
     for (const s of SERVICES) {
-      expect(s.faq.length, s.slug.tr).toBeGreaterThanOrEqual(4);
-      expect(s.faq.length, s.slug.tr).toBeLessThanOrEqual(6);
+      expect(s.faq.length, s.slug.tr).toBeGreaterThanOrEqual(10);
+      expect(s.faq.length, s.slug.tr).toBeLessThanOrEqual(12);
     }
   });
 

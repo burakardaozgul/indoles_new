@@ -15,175 +15,6 @@ import type { ArticleContent } from "./types";
  */
 export const ARTICLES: ArticleContent[] = [
   {
-    slug: {
-      tr: "dijital-donusum-nereden-baslar",
-      en: "where-digital-transformation-begins",
-    },
-    title: {
-      tr: "Dijital dönüşüm nereden başlar?",
-      en: "Where does digital transformation begin?",
-    },
-    excerpt: {
-      tr: "ERP'den değil. AI'dan değil. Sürecinden başlar. Üç soru, bir yol.",
-      en: "Not with ERP. Not with AI. With process. Three questions, one path.",
-    },
-    blocks: [
-      {
-        type: "p",
-        text: {
-          tr: "Şirketlerin büyük çoğunluğu dijital dönüşümü yanlış yerden başlatır. \"ERP alalım\" veya \"AI yapalım\" cümleleri çözüm değil; teşhis eksikliğinin semptomudur.",
-          en: "Most companies start digital transformation in the wrong place. Phrases like \"let's get an ERP\" or \"let's do AI\" aren't solutions — they're symptoms of missing diagnosis.",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "Doğru başlangıç üç soruyla olur: Hangi süreç bize en çok para kaybettiriyor? Hangi süreçte veri zaten var ama kullanılmıyor? Hangi süreci ölçmezsek şirket olarak ne olduğunu anlayamıyoruz?",
-          en: "The right starting point is three questions: Which process costs us the most money? Which process already has data that isn't being used? Which process, if we don't measure it, leaves us blind as a company?",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "Bu üç sorunun cevabını yan yana koyarsan, dijitalleştirilecek ilk süreci bulmuşsun demektir. Gerisi seçim değil, sıralama meselesidir.",
-          en: "Put the answers side by side, and you've found the first process to digitize. The rest is sequencing, not choice.",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "Dijital dönüşüm bir kampanya değildir. Yıllardır aynı iş akışını süren bir şirket, tek bir teknoloji projesiyle değişmez. İlk süreç pilot olur, ikinci ve üçüncü süreç bu pilotun öğrettiği yöntemle hızlanır, dördüncüden itibaren şirket dönüşmüş sayılır.",
-          en: "Digital transformation isn't a campaign. A company running the same workflow for years won't change through a single technology project. The first process is the pilot; the second and third accelerate using what the pilot taught; by the fourth, the company has transformed.",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "INDOLES'ın Transform pillar'ında izlediğimiz yol tam budur: Teşhis → Audit → Pilot → Ölçek + bilgi aktarımı. Her adım bir öncekinin üzerine kurulur; atlanmaz.",
-          en: "That's exactly the path we follow in INDOLES's Transform pillar: Diagnose → Audit → Pilot → Scale + knowledge transfer. Each step builds on the previous; no skipping.",
-        },
-      },
-    ],
-    category: "transform",
-    tags: ["dijital-donusum", "metodoloji", "sanayi"],
-    authorSlug: "burak-ozgul",
-    publishedAt: "2026-03-18",
-    readingMinutes: 3,
-  },
-  {
-    slug: {
-      tr: "buyume-sadece-reklamla-olmaz",
-      en: "growth-is-more-than-ads",
-    },
-    title: {
-      tr: "Büyüme sadece reklamla olmaz.",
-      en: "Growth is more than ads.",
-    },
-    excerpt: {
-      tr: "Performans bütçesini ikiye katlayıp büyüyemeyen e-ticaretçiler için dört test.",
-      en: "Four tests for e-commerce brands who doubled their performance budget and still didn't grow.",
-    },
-    blocks: [
-      {
-        type: "p",
-        text: {
-          tr: "Performans pazarlama bütçesini her ay biraz daha artıran ama büyümeyen e-ticaretçiler bir noktada aynı soruya takılır: başka ne yapmalıyız?",
-          en: "E-commerce brands raising their performance budget month after month without growing eventually arrive at the same question: what else should we do?",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "Cevap genellikle bütçede değil, funnel'da. Dört hızlı test:",
-          en: "The answer is usually not in the budget but in the funnel. Four quick tests:",
-        },
-      },
-      {
-        type: "list",
-        ordered: true,
-        items: [
-          {
-            tr: "Ürün sayfasındaki dönüşüm oranı sektör ortalamasının altındaysa, trafik değil sayfa problemidir.",
-            en: "If product page conversion is below industry average, it's a page problem, not a traffic problem.",
-          },
-          {
-            tr: "Marka aramasından gelen trafik toplamın %60'ının üstündeyse, görünürlük değil marka bilinirliği problemidir.",
-            en: "If brand search is above 60% of total traffic, the issue is awareness, not visibility.",
-          },
-          {
-            tr: "Tekrarlayan müşteri oranı %15'in altındaysa, edinim değil tutma problemidir.",
-            en: "If repeat customer rate is below 15%, it's retention, not acquisition.",
-          },
-          {
-            tr: "Kanal dağılımında tek kanal %50'nin üstündeyse, o kanal düştüğünde iş düşer. Dağılım şarttır.",
-            en: "If one channel holds above 50% of the mix, the business falls when the channel does. Diversification is required.",
-          },
-        ],
-      },
-      {
-        type: "p",
-        text: {
-          tr: "Bu dört testin herhangi birine \"evet\" diyorsan, performans bütçesini artırmak kaybı büyütür. Önce sorunu bul.",
-          en: "If the answer is \"yes\" to any of these, increasing the performance budget magnifies the loss. Find the problem first.",
-        },
-      },
-    ],
-    category: "growth",
-    tags: ["buyume", "e-ticaret", "funnel"],
-    authorSlug: "burak-ozgul",
-    publishedAt: "2026-02-24",
-    readingMinutes: 3,
-  },
-  {
-    slug: {
-      tr: "ai-pilot-neden-basarisiz-olur",
-      en: "why-ai-pilots-fail",
-    },
-    title: {
-      tr: "AI pilotu neden başarısız olur?",
-      en: "Why AI pilots fail.",
-    },
-    excerpt: {
-      tr: "Model değil. Veri değil. Çoğunlukla: kullanıcı.",
-      en: "Not the model. Not the data. Usually: the user.",
-    },
-    blocks: [
-      {
-        type: "p",
-        text: {
-          tr: "AI pilot projelerinin büyük çoğunluğu prototip aşamasında durur. Sebep model kalitesi değil, kullanıcı adaptasyonu.",
-          en: "Most AI pilot projects stall at the prototype stage. The reason isn't model quality — it's user adoption.",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "Model mükemmel çalışır ama kimse günlük iş akışının bir parçası olarak kullanmıyorsa pilot başarısızdır. Teknoloji problemi çözüldüğünde, değişim problemi başlamış olur.",
-          en: "The model may work perfectly, but if no one uses it as part of their daily workflow, the pilot has failed. Once the technology problem is solved, the change-management problem begins.",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "Başarılı AI pilot için üç kural: (1) tek kullanım senaryosu, (2) kullanıcıyla birlikte tasarım, (3) gerçek saha testi — demo değil.",
-          en: "Three rules for a successful AI pilot: (1) single use case, (2) design together with the user, (3) real field test — not a demo.",
-        },
-      },
-      {
-        type: "p",
-        text: {
-          tr: "\"Çalışıyor\" cümlesi ile \"kullanılıyor\" cümlesi arasında bir uçurum var. Pilot başarılıysa, ikincisi olduğu kesindir.",
-          en: "There's a chasm between \"it works\" and \"it's used\". A successful pilot is firmly on the second side.",
-        },
-      },
-    ],
-    category: "transform",
-    tags: ["ai", "pilot", "degisim-yonetimi"],
-    authorSlug: "burak-ozgul",
-    publishedAt: "2026-01-30",
-    readingMinutes: 3,
-  },
-  {
     // Eski blogdan taşındı (2024-07-27); Ağustos 2026'da AI çağı bölümü ve
     // SSS eklenerek güncellendi. TR slug eski URL ile aynı — redirect tek
     // adımda çözülür (next.config.ts).
@@ -303,7 +134,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Etkili bir gerilla kampanyası için markanın, kitlesinin davranışları ve tercihleri hakkında gerçek içgörü toplaması gerekir. Bu, temel demografinin ötesine geçmek demektir: tüketici eylemini yönlendiren motivasyonu, duyguyu ve deneyimi anlamak. Veri analitiği ve sosyal dinleme araçları tam burada devreye girer — sosyal medya konuşmaları, çevrimiçi yorumlar ve müşteri geri bildirimi analiz edildiğinde trendler, karşılanmamış ihtiyaçlar ve kampanyanın konuşacağı gerçek dert ortaya çıkar.",
-          en: "An effective guerrilla campaign requires real insight into the audience's behavior and preferences. That means going beyond basic demographics: understanding the motivation, emotion and experience driving consumer action. Data analytics and social listening tools come in exactly here — analyze social conversations, online reviews and customer feedback, and the trends, unmet needs and the real pain the campaign should speak to come to the surface.",
+          en: "An effective guerrilla campaign requires real insight into the audience's behaviour and preferences. That means going beyond basic demographics: understanding the motivation, emotion and experience driving consumer action. Data analytics and social listening tools come in exactly here — analyse social conversations, online reviews and customer feedback, and the trends, unmet needs and the real pain the campaign should speak to come to the surface.",
         },
       },
       {
@@ -325,7 +156,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Kampanyanın dehası, deneyimi kişiselleştirmesindeydi. Şişede kendi adını gören her tüketiciyle kişisel bir bağ kuruldu; anlatı basit ama güçlüydü: bir kola paylaşmak, sevdiklerinle bağ kurmak ve anı özel kılmak demek. İçgörü tarafında Coca-Cola her pazardaki en popüler isimleri veri analitiğiyle seçti, sosyal dinlemeyle kampanyanın etkisini gerçek zamanlı izledi ve gerektiğinde ayar yaptı. Sonuç rakamlara da yansıdı: satış artışı, yaygın sosyal medya etkileşimi ve markayla tüketici arasında yenilenen duygusal bağ.",
-          en: "The genius of the campaign was personalization. Every consumer who saw their own name on a bottle formed a personal connection; the narrative was simple but strong: sharing a Coke means bonding with the people you love and making the moment special. On the insight side, Coca-Cola picked the most popular names in each market through data analytics, tracked the campaign's impact in real time through social listening, and adjusted as needed. The results showed in the numbers: a lift in sales, widespread social engagement and a renewed emotional bond between brand and consumer.",
+          en: "The genius of the campaign was personalisation. Every consumer who saw their own name on a bottle formed a personal connection; the narrative was simple but strong: sharing a Coke means bonding with the people you love and making the moment special. On the insight side, Coca-Cola picked the most popular names in each market through data analytics, tracked the campaign's impact in real time through social listening, and adjusted as needed. The results showed in the numbers: a lift in sales, widespread social engagement and a renewed emotional bond between brand and consumer.",
         },
       },
       {
@@ -378,7 +209,7 @@ export const ARTICLES: ArticleContent[] = [
         items: [
           {
             tr: "Teknolojiden yararlanın: AR, kısa video ve üretken AI araçları erişiminizi katlar — ama aracı değil, fikri merkeze koyun.",
-            en: "Use technology: AR, short video and generative AI tools multiply your reach — but put the idea at the center, not the tool.",
+            en: "Use technology: AR, short video and generative AI tools multiply your reach — but put the idea at the centre, not the tool.",
           },
           {
             tr: "İlgi çekici bir hikâye anlatın: kitlenizde duygusal düzeyde yankı uyandıran bir anlatı, kampanyayı unutulmaz kılar ve paylaşımı tetikler.",
@@ -413,7 +244,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "What is guerrilla marketing?",
         },
         answer: {
-          tr: "Gerilla pazarlama; büyük medya bütçesi yerine yaratıcılığa, sürprize ve alışılmadık mecralara dayanan pazarlama yaklaşımıdır. Amaç, hedef kitlenin beklemediği bir yerde ve anda unutulmaz bir marka deneyimi yaratmaktır. Terim, Jay Conrad Levinson'ın 1984 tarihli \"Guerrilla Marketing\" kitabıyla yaygınlaştı.",
+          tr: "Gerilla pazarlama; büyük medya bütçesi yerine yaratıcılığa, sürprize ve alışılmadık mecralara dayanan pazarlama yaklaşımıdır. Amaç, hedef kitlenin beklemediği bir yerde ve anda unutulmaz bir marka deneyimi yaratmaktır. Terim, Jay Conrad Levinson'ın 1984 tarihli \"Guerrilla Marketing\" kitabıyla yaygınlaştı. Bugün yöntem dijital araçlarla birleşti; ölçülebilirlik de bu birleşmeyle geldi.",
           en: "Guerrilla marketing is an approach that relies on creativity, surprise and unconventional channels instead of a big media budget. The goal is to create an unforgettable brand experience where and when the audience least expects it. The term spread with Jay Conrad Levinson's 1984 book \"Guerrilla Marketing\".",
         },
       },
@@ -423,7 +254,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "Is guerrilla marketing suitable for small businesses?",
         },
         answer: {
-          tr: "Evet — hatta yöntem tam olarak bunun için doğdu. Gerilla pazarlamanın girdisi bütçe değil fikirdir: yerel bir stunt, doğru kurgulanmış bir kısa video ve paylaşan bir topluluk, küçük bir işletmeye büyük medya bütçelerinin satın alamayacağı bir görünürlük kazandırabilir.",
+          tr: "Evet — hatta yöntem tam olarak bunun için doğdu. Gerilla pazarlamanın girdisi bütçe değil fikirdir: yerel bir stunt, doğru kurgulanmış bir kısa video ve paylaşan bir topluluk, küçük bir işletmeye büyük medya bütçelerinin satın alamayacağı bir görünürlük kazandırabilir. Belirleyici olan bütçe kalemi değil, fikrin paylaşılmaya değer olup olmadığıdır.",
           en: "Yes — in fact, the method was born for exactly this. The input of guerrilla marketing is the idea, not the budget: a local stunt, a well-framed short video and a community that shares can give a small business visibility that big media budgets can't buy.",
         },
       },
@@ -447,12 +278,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "Better than ever. With feeds full of AI-generated content, an authentic experience lived in the real world stands out more easily. The bonus: everything written about a campaign worth talking about keeps the brand alive for years inside AI engines' answers (ChatGPT, Gemini, Perplexity) — guerrilla marketing is GEO's most natural source.",
         },
       },
+      {
+        question: {
+          tr: "Gerilla pazarlama kampanyasına nereden başlanır?",
+          en: "Where do you start a guerrilla marketing campaign?",
+        },
+        answer: {
+          tr: "İçgörüden başlanır, fikirden değil. Önce veri analitiği ve sosyal dinlemeyle kitlenizin motivasyonunu, tercihlerini ve gerçek derdini çıkarın; kampanya fikri bu derdin üzerine kurulur. Mecra ve teknoloji seçimi en sona kalır, çünkü doğru fikir yanlış mecrada bile konuşulur, yanlış fikir doğru mecrada bile duyulmaz.",
+          en: "Start with insight, not with the idea. Use analytics and social listening to surface what actually motivates your audience, what they prefer and what frustrates them; the campaign idea gets built on top of that. Channel and technology come last, because the right idea still gets talked about in the wrong channel, while the wrong idea stays silent in the right one.",
+        },
+      },
+      {
+        question: {
+          tr: "Gerilla pazarlama ile geleneksel reklam arasındaki fark nedir?",
+          en: "What is the difference between guerrilla marketing and traditional advertising?",
+        },
+        answer: {
+          tr: "Geleneksel reklam dikkati satın alır, gerilla pazarlama dikkati kazanır. Birincisi erişimi medya bütçesiyle ölçekler ve mesajı tekrar ederek yerleştirir; ikincisi beklenmedik bir an kurar ve dağıtımın büyük kısmını paylaşan kitleye bırakır. İkisi rakip değil: gerilla işi konuşmayı başlatır, ücretli mecra o konuşmayı sürdürür.",
+          en: "Traditional advertising buys attention; guerrilla marketing earns it. The first scales reach with a media budget and plants the message through repetition; the second builds an unexpected moment and hands most of the distribution to the people who share it. They are not rivals: a guerrilla stunt starts the conversation and paid media keeps it going.",
+        },
+      },
+      {
+        question: {
+          tr: "Gerilla pazarlama kampanyasının başarısı nasıl ölçülür?",
+          en: "How do you measure the success of a guerrilla campaign?",
+        },
+        answer: {
+          tr: "Dijital araçlar sokak pazarlamasını tarihinde ilk kez ölçülebilir kıldı: erişim, paylaşım, marka adının arama hacmi ve kampanya sonrası satış eğrisi birlikte okunur. 2026'da listeye bir kalem daha eklendi — yapay zeka motorlarındaki görünürlük, yani kampanyanız sorulduğunda ChatGPT, Gemini ve Perplexity'nin markanızı anıp anmadığı. Tek bir metrik yetmez.",
+          en: "Digital tools made street marketing measurable for the first time in its history: reach, shares, branded search volume and the post-campaign sales curve get read together. In 2026 one more line joined the list — visibility inside AI engines, meaning whether ChatGPT, Gemini and Perplexity name your brand when someone asks about the category. No single metric is enough on its own.",
+        },
+      },
+      {
+        question: {
+          tr: "Gerilla pazarlamada en sık yapılan hata nedir?",
+          en: "What is the most common mistake in guerrilla marketing?",
+        },
+        answer: {
+          tr: "Aracı fikrin önüne koymak. Artırılmış gerçeklik, kısa video ve üretken yapay zeka erişimi katlar; ama herkesin aynı araçlara eriştiği bir ortamda fark hâlâ fikirde. İkinci sık hata sahicilikten kopmaktır: markanın değerleriyle çelişen bir stunt dikkat çeker ama arkasında güven bırakmaz, çoğu zaman da açıklama yapmak zorunda bırakır.",
+          en: "Putting the tool ahead of the idea. Augmented reality, short video and generative AI multiply reach, but where everyone has the same tools the difference still comes from the idea. The second common mistake is losing authenticity: a stunt that contradicts the brand's values draws attention without leaving trust behind, and usually forces an apology afterwards.",
+        },
+      },
+      {
+        question: {
+          tr: "Artırılmış gerçeklik ve kısa video bir kampanyaya ne katar?",
+          en: "What do augmented reality and short video add to a campaign?",
+        },
+        answer: {
+          tr: "Sahadaki anı ölçeğe bağlarlar. Bir şehirde kurgulanan artırılmış gerçeklik temelli hazine avı katılımcıyı hem sokakta hem çevrimiçi meşgul eder; kısa video ise o anı sahada bulunmayan milyonlara taşır. 2024'te tamamlayıcı olan kısa video ve mikro-influencer dağıtımı bugün ana kanal — stunt'ı çeken kitle, kampanyanın medya bütçesidir.",
+          en: "They connect the moment on the ground to real scale. An AR-based treasure hunt staged across a city keeps participants engaged both on the street and online; short video then carries that moment to millions who were never there. What was a supporting channel in 2024 — short video and micro-influencers — is now the main one: the crowd filming the stunt is the campaign's media budget.",
+        },
+      },
+      {
+        question: {
+          tr: "Kişiselleştirme bir gerilla kampanyasını nasıl büyütür?",
+          en: "How does personalisation grow a guerrilla campaign?",
+        },
+        answer: {
+          tr: "Kitleyi izleyicilikten katılımcılığa geçirerek. Coca-Cola'nın \"Share a Coke\" kampanyası şişedeki ikonik logoyu yaygın isimlerle değiştirdi; kendi adını gören her tüketici kampanyanın taşıyıcısına dönüştü. İsim seçimi duyguyla değil veriyle yapıldı — her pazardaki en popüler isimler analitikle belirlendi, etki sosyal dinlemeyle gerçek zamanlı izlendi ve kampanya gerektiğinde ayarlandı.",
+          en: "By moving the audience from watching to taking part. Coca-Cola's \"Share a Coke\" swapped the iconic logo on the bottle for common first names, and every consumer who found their own name became a carrier of the campaign. The names were not picked on instinct — analytics selected the most popular ones per market, social listening tracked the effect in real time, and the campaign was adjusted as it ran.",
+        },
+      },
     ],
     category: "growth",
+    topic: "marka-hikaye",
     tags: ["gerilla-pazarlama", "hikaye-anlaticiligi", "growth-hacking"],
-    authorSlug: "burak-ozgul",
+    authorSlug: "cagri-erdogan",
     publishedAt: "2024-07-27",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "Gerilla pazarlama: dijital çağda ne değişti",
+        en: "Guerrilla marketing in the digital age",
+      },
+      description: {
+        tr: "Levinson'ın 1984'te adını koyduğu yöntem bugün growth hacking'in atası sayılıyor. Share a Coke örneği, yapay zeka çağının kuralları ve beş uygulama ipucu.",
+        en: "Levinson named the tactic in 1984; today it underpins growth hacking. What the Share a Coke campaign proved, and five rules for running one in the AI era.",
+      },
+    },
   },
 
   {
@@ -579,7 +481,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Bugün aynı işi veri analitiği, sosyal dinleme ve müşteri geri bildirimi yapıyor. Netflix'in başarısı izleme alışkanlıklarını okuyup içeriği kişiye uyarlamasına dayanır; Amazon kişiselleştirilmiş öneriden özel reklama kadar her adımı müşteri içgörüsüyle kurar. Ölçek değişti, ilke değişmedi: kitlenizi derinden tanımadan etkili strateji kuramazsınız.",
-          en: "Today the same job is done by data analytics, social listening and customer feedback. Netflix's success rests on reading viewing habits and tailoring content to the person; Amazon builds every step, from personalized recommendations to targeted ads, on customer insight. The scale changed, the principle didn't: you can't build an effective strategy without knowing your audience deeply.",
+          en: "Today the same job is done by data analytics, social listening and customer feedback. Netflix's success rests on reading viewing habits and tailoring content to the person; Amazon builds every step, from personalised recommendations to targeted ads, on customer insight. The scale changed, the principle didn't: you can't build an effective strategy without knowing your audience deeply.",
         },
       },
       {
@@ -587,7 +489,7 @@ export const ARTICLES: ArticleContent[] = [
         items: [
           {
             tr: "Segmentlere ayırın: kitlenizi davranış, demografi ve psikografiye göre bölün; strateji segment başına netleşir.",
-            en: "Segment: divide your audience by behavior, demographics and psychographics; strategy sharpens per segment.",
+            en: "Segment: divide your audience by behaviour, demographics and psychographics; strategy sharpens per segment.",
           },
           {
             tr: "Kişiselleştirin: içgörüyü, her segment için daha alakalı mesajlar kurmak üzere kullanın.",
@@ -618,7 +520,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Modern karşılıkları biliyorsunuz: kıtlık, sosyal kanıt, karşılıklılık, otorite. Lüks markalar sınırlı üretim ve süreli tekliflerle aciliyet yaratır; çevrimiçi yorumlar ve kullanıcı içerikleri satın alma kararını sosyal kanıtla döndürür. Bunlar numara değil, insan davranışının sabitleridir — doğru kullanıldığında güven kurar, yanlış kullanıldığında markayı yakar.",
-          en: "You know the modern counterparts: scarcity, social proof, reciprocity, authority. Luxury brands create urgency with limited runs and timed offers; online reviews and user content turn purchase decisions on social proof. These are not tricks but constants of human behavior — used right they build trust, used wrong they burn the brand.",
+          en: "You know the modern counterparts: scarcity, social proof, reciprocity, authority. Luxury brands create urgency with limited runs and timed offers; online reviews and user content turn purchase decisions on social proof. These are not tricks but constants of human behaviour — used right they build trust, used wrong they burn the brand.",
         },
       },
       {
@@ -661,14 +563,14 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "İçgörü tarafında Netflix ve Amazon'un veri oyunu artık KOBİ'lerin de elinde: AI destekli analiz araçları segmentasyonu ve kişiselleştirmeyi ölçekledi. Ve yeni bir dinleyici geldi: dil modelleri. İnsanlar markaları artık ChatGPT'ye, Gemini'ye ve Perplexity'ye soruyor; bu motorlar da hikâyesi net anlatılmış, hakkında tutarlı konuşulan markaları aktarıyor. Sezar'ın Senato'su bugün kısmen bir dil modelinin cevabı — hikâyeniz orada da anlatılmaya değer olmalı.",
-          en: "On the insight side, the data game of Netflix and Amazon is now in the hands of SMBs too: AI-assisted analytics scaled segmentation and personalization. And a new listener arrived: language models. People now ask ChatGPT, Gemini and Perplexity about brands, and these engines relay the brands whose stories are told clearly and spoken about consistently. Caesar's Senate today is partly a language model's answer — your story has to be worth telling there too.",
+          en: "On the insight side, the data game of Netflix and Amazon is now in the hands of SMBs too: AI-assisted analytics scaled segmentation and personalisation. And a new listener arrived: language models. People now ask ChatGPT, Gemini and Perplexity about brands, and these engines relay the brands whose stories are told clearly and spoken about consistently. Caesar's Senate today is partly a language model's answer — your story has to be worth telling there too.",
         },
       },
       {
         type: "p",
         text: {
           tr: "Bir uyarıyla: psikolojik ilkeler AI hedeflemeyle birleşince güç katlanır — sorumluluk da. Kıtlığı uydurmak, sosyal kanıtı satın almak, kişiselleştirmeyi manipülasyona çevirmek her zamankinden kolay ve her zamankinden görünür. Sezar'ın sonunu hatırlayın: güveni kaybetmenin bedeli ağırdır.",
-          en: "One warning: when psychological principles meet AI targeting, the power multiplies — and so does the responsibility. Faking scarcity, buying social proof, turning personalization into manipulation is easier than ever and more visible than ever. Remember how Caesar ended: losing trust carries a heavy price.",
+          en: "One warning: when psychological principles meet AI targeting, the power multiplies — and so does the responsibility. Faking scarcity, buying social proof, turning personalisation into manipulation is easier than ever and more visible than ever. Remember how Caesar ended: losing trust carries a heavy price.",
         },
       },
       {
@@ -701,7 +603,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "Why is storytelling so effective in marketing?",
         },
         answer: {
-          tr: "Çünkü insan beyni gerçekleri değil, anlatıları hatırlar. Bilgi bombardımanı altındaki bir kitlede duygusal bağ kuran tek format hikâyedir: karakteri, çatışması ve çözümü olan bir anlatı, ürün özelliklerinin asla ulaşamayacağı bir hatırlanırlık ve sadakat üretir.",
+          tr: "Çünkü insan beyni gerçekleri değil, anlatıları hatırlar. Bilgi bombardımanı altındaki bir kitlede duygusal bağ kuran tek format hikâyedir: karakteri, çatışması ve çözümü olan bir anlatı, ürün özelliklerinin asla ulaşamayacağı bir hatırlanırlık ve sadakat üretir. Apple ürün özelliği saymaz, statükoya meydan okumayı anlatır; Nike spordan değil insan ruhundan söz eder.",
           en: "Because the human brain remembers narratives, not facts. For an audience under information bombardment, story is the only format that builds emotional connection: a narrative with character, conflict and resolution produces recall and loyalty that product features can never reach.",
         },
       },
@@ -711,7 +613,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "How do you build a brand story?",
         },
         answer: {
-          tr: "Üç adımda: kitlenizin acı noktalarını ve değerlerini tanıyın, hikâyeye bağ kurulabilir karakterler koyun (müşteri, çalışan veya markanın kendisi) ve bir anlatı yayı kurun — başlangıç, çatışma, çözüm. Hikâye markanın değil, müşterinin dönüşümünü anlatmalıdır.",
+          tr: "Üç adımda: kitlenizin acı noktalarını ve değerlerini tanıyın, hikâyeye bağ kurulabilir karakterler koyun (müşteri, çalışan veya markanın kendisi) ve bir anlatı yayı kurun — başlangıç, çatışma, çözüm. Hikâye markanın değil, müşterinin dönüşümünü anlatmalıdır. Görseli de anlatının parçası sayın: Sezar'ın betimleyici dili neyse, bugünün videosu ve fotoğrafı odur.",
           en: "In three steps: know your audience's pain points and values, put relatable characters in the story (a customer, an employee or the brand itself) and build a narrative arc — beginning, conflict, resolution. The story should tell the customer's transformation, not the brand's.",
         },
       },
@@ -735,12 +637,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "More than ever. Generative AI made content production unlimited; differentiation now lives in the good story and the real insight. And there's a new listener: people ask language models about brands, and those engines relay the brands with clear stories that are spoken about consistently. Same principles, bigger stage.",
         },
       },
+      {
+        question: {
+          tr: "Müşteri içgörüsü nasıl toplanır?",
+          en: "How do you gather customer insight?",
+        },
+        answer: {
+          tr: "Üç kaynaktan: veri analitiği, sosyal dinleme ve doğrudan müşteri geri bildirimi. Sezar içgörüyü danışmanlarından, halka açık forumlardan ve hatta düşmanlarından toplardı; bugünün karşılığı panel verisi, sosyal medya konuşmaları ve satın almayan müşteriyle yapılan görüşmedir. Toplanan veri işe yaramaz kalır, ta ki kitleyi davranış, demografi ve psikografiye göre segmentlere bölene kadar.",
+          en: "From three sources: analytics, social listening and direct customer feedback. Caesar gathered insight from advisors, public forums and even his rivals; today that means dashboard data, social conversations and interviews with the customers who did not buy. Collected data stays useless until you split the audience into segments by behaviour, demographics and psychographics.",
+        },
+      },
+      {
+        question: {
+          tr: "Segmentasyon ile kişiselleştirme arasındaki fark nedir?",
+          en: "What is the difference between segmentation and personalisation?",
+        },
+        answer: {
+          tr: "Segmentasyon kitleyi böler, kişiselleştirme mesajı o bölüme göre yazar. Önce davranışa, demografiye ve psikografiye göre gruplar çıkarılır; sonra her grup için ayrı bir cümle kurulur ve kampanya performansı segment bazında izlenir. Sıra ters çevrilirse ortaya kime söylendiği belirsiz, herkese aynı gelen ve hiç kimseye değmeyen bir mesaj çıkar.",
+          en: "Segmentation splits the audience; personalisation writes the message for the split. First you group people by behaviour, demographics and psychographics, then you write a separate line for each group and track campaign performance per segment. Reverse that order and you end up with a message that reads the same to everyone and lands on no one.",
+        },
+      },
+      {
+        question: {
+          tr: "Kıtlık ilkesi pazarlamada nasıl doğru kullanılır?",
+          en: "How do you use the scarcity principle correctly?",
+        },
+        answer: {
+          tr: "Yalnızca gerçek olduğunda. Sınırlı üretim, gerçekten azalan stok veya tarihi belli bir teklif duyurmak bilgilendirmedir ve müşterinin karar vermesini kolaylaştırır. Uydurma bir sayaç ise kısa vadede tıklama, uzun vadede güven kaybı üretir — bir kez yakalanan blöf, ilkeyi markanız için kalıcı olarak işlemez hale getirir.",
+          en: "Only when it is real. Announcing a limited run, a genuinely depleting stock or an offer with a fixed end date is information, and it makes the decision easier for the customer. A fabricated countdown buys clicks now and costs trust later — once the bluff is caught, the principle stops working for your brand for good.",
+        },
+      },
+      {
+        question: {
+          tr: "Bir marka otoritesini nasıl kurar?",
+          en: "How does a brand build authority?",
+        },
+        answer: {
+          tr: "Satarak değil, öğreterek. Kitlenizi gerçekten bilgilendiren içerik ürettiğinizde otorite ilkesi kendiliğinden çalışır; uzmanlığını göstermiş bir markanın tavsiyesi karar anında daha ağır basar. Karşılıklılık da aynı mantığın parçasıdır: gerçek değer taşıyan bir rehber veya ücretsiz deneme, karşılığını talep etmeden verildiği için geri döner.",
+          en: "By teaching, not by selling. Publish content that genuinely informs your audience and the authority principle does its own work — advice from a brand that has shown its expertise carries more weight at the moment of decision. Reciprocity belongs to the same logic: a guide or free trial with real value comes back to you precisely because you did not demand anything for it.",
+        },
+      },
+      {
+        question: {
+          tr: "Küçük bir işletme bu ilkeleri hangi bütçeyle uygular?",
+          en: "What budget does a small business need to apply these principles?",
+        },
+        answer: {
+          tr: "Fark artık bütçede değil, disiplinde. Netflix'in ve Amazon'un yıllarca ayrıcalığı olan veri oyunu bugün küçük işletmelerin de elinde: yapay zeka destekli analiz araçları segmentasyonu ve kişiselleştirmeyi ölçekledi ve ucuzlattı. Kalan iş insana ait — hangi segmentin hangi derdi olduğunu anlamak ve ona gerçek bir hikâye anlatmak para değil dikkat ister.",
+          en: "The gap today is discipline, not budget. The data game that belonged to Netflix and Amazon for years is now within reach of small businesses: AI-assisted analysis tools scaled segmentation and personalisation and made them cheap. What is left is human work — understanding which segment carries which problem and telling it a real story costs attention, not money.",
+        },
+      },
+      {
+        question: {
+          tr: "Pazarlamada hangi duygular karar vermeyi tetikler?",
+          en: "Which emotions actually drive purchase decisions?",
+        },
+        answer: {
+          tr: "Kararları duygular yönetir, gerekçeleri akıl sonradan yazar. Sahada en çok işe yarayan dörtlü neşe, nostalji, heyecan ve empatidir; hangisinin çalışacağını ürün değil, kitlenin o üründen beklediği his belirler. Duyguyu seçmeden önce tek bir soruyu cevaplayın: müşteri bu ürünü aldığında kendini nasıl hissetmek istiyor?",
+          en: "Emotion drives the decision and reason writes the justification afterwards. The four that work most reliably are joy, nostalgia, excitement and empathy; which one lands is set by the feeling the audience expects from the product, not by the product itself. Before choosing an emotion, answer one question: how does the customer want to feel once they own it?",
+        },
+      },
     ],
     category: "growth",
+    topic: "marka-hikaye",
     tags: ["hikaye-anlatimi", "pazarlama-psikolojisi", "marka-yonetimi"],
-    authorSlug: "burak-ozgul",
+    authorSlug: "cagri-erdogan",
     publishedAt: "2024-07-30",
     readingMinutes: 5,
+    seo: {
+      title: {
+        tr: "Pazarlama psikolojisi: Roma'dan üç kalıcı ders",
+        en: "Marketing psychology: three lessons from Rome",
+      },
+      description: {
+        tr: "Sezar'ın MÖ 44'te kullandığı üç kaldıraç hâlâ çalışıyor: hikâye anlatımı, gerçek müşteri içgörüsü ve karar anını yöneten psikoloji. Her birini örnekle açıyoruz.",
+        en: "Caesar moved a republic in 44 BC with story, audience insight and decision psychology. The same three levers still decide whether marketing lands or bounces.",
+      },
+    },
   },
 
   {
@@ -886,11 +859,11 @@ export const ARTICLES: ArticleContent[] = [
           },
           {
             tr: "Barbie (2023): Mattel ve Warner Bros. filmi bir kültürel olaya çevirdi — pembe dalga, yüzü aşkın marka işbirliği, Airbnb'de kiralanabilir Malibu Rüya Evi ve kendiliğinden doğan \"Barbenheimer\" mizahı. Film 1,4 milyar doları aşan hasılatla yılın en büyük gişesi oldu; 64 yaşındaki marka yeniden kültürün merkezine oturdu.",
-            en: "Barbie (2023): Mattel and Warner Bros. turned the film into a cultural event — a pink wave, over a hundred brand collaborations, a bookable Malibu DreamHouse on Airbnb and the self-born \"Barbenheimer\" meme. The film topped $1.4 billion as the year's biggest box office, putting a 64-year-old brand back at the center of culture.",
+            en: "Barbie (2023): Mattel and Warner Bros. turned the film into a cultural event — a pink wave, over a hundred brand collaborations, a bookable Malibu DreamHouse on Airbnb and the self-born \"Barbenheimer\" meme. The film topped $1.4 billion as the year's biggest box office, putting a 64-year-old brand back at the centre of culture.",
           },
           {
             tr: "Spotify Wrapped (her aralık): kullanıcının kendi yıllık dinleme verisini paylaşılabilir bir hikâyeye çeviren kampanya, her yıl sosyal medyayı tek başına domine ediyor. Mesel gücü kişiselleştirmede: herkes kendi hikâyesinin kahramanı olduğu için milyonlarca kişi markanın reklamını gönüllü yapıyor.",
-            en: "Spotify Wrapped (every December): by turning each user's own listening data into a shareable story, the campaign single-handedly dominates social media every year. Its parable power lies in personalization: everyone is the hero of their own story, so millions volunteer to advertise the brand.",
+            en: "Spotify Wrapped (every December): by turning each user's own listening data into a shareable story, the campaign single-handedly dominates social media every year. Its parable power lies in personalisation: everyone is the hero of their own story, so millions volunteer to advertise the brand.",
           },
         ],
       },
@@ -1008,7 +981,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "Why does brand vision matter so much?",
         },
         answer: {
-          tr: "Çünkü vizyon, her kararın filtresi olarak çalışır: hangi ürün, hangi kanal, hangi ton. Net vizyonu olan marka tutarlı kalır; tutarlılık zamanla güvene, güven sadakate dönüşür. Vizyonu bulanık marka ise her trende savrulur ve kitlesi onu tarif edemez hale gelir.",
+          tr: "Çünkü vizyon, her kararın filtresi olarak çalışır: hangi ürün, hangi kanal, hangi ton. Net vizyonu olan marka tutarlı kalır; tutarlılık zamanla güvene, güven sadakate dönüşür. Vizyonu bulanık marka ise her trende savrulur ve kitlesi onu tarif edemez hale gelir. Apple'ın teknolojiyi erişilebilir kılma vizyonu bunun en bilinen örneğidir.",
           en: "Because vision works as the filter for every decision: which product, which channel, which tone. A brand with a clear vision stays consistent; consistency becomes trust over time, and trust becomes loyalty. A brand with a blurry vision drifts with every trend until its audience can no longer describe it.",
         },
       },
@@ -1018,7 +991,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "How does a small brand build a community?",
         },
         answer: {
-          tr: "Takipçi saymayı bırakıp ilişki kurarak. İlk yüz müşterinizle birebir konuşun, onları kararlarınıza ortak edin, katkılarını görünür kılın. Harley'nin kabilesi de Lego'nun inşacıları da böyle başladı: topluluk, kitleye yayın yapmakla değil, az sayıda insana derinden bağlanmakla kurulur.",
+          tr: "Takipçi saymayı bırakıp ilişki kurarak. İlk yüz müşterinizle birebir konuşun, onları kararlarınıza ortak edin, katkılarını görünür kılın. Harley'nin kabilesi de Lego'nun inşacıları da böyle başladı: topluluk, kitleye yayın yapmakla değil, az sayıda insana derinden bağlanmakla kurulur. Sadakat ve güven ancak bu derinlikten sonra ölçeğe taşınır.",
           en: "By dropping follower counts and building relationships. Talk one-on-one with your first hundred customers, involve them in your decisions, make their contributions visible. Harley's tribe and Lego's builders both started this way: community is built by bonding deeply with a few people, not by broadcasting to a crowd.",
         },
       },
@@ -1028,16 +1001,87 @@ export const ARTICLES: ArticleContent[] = [
           en: "Does influencer marketing actually work?",
         },
         answer: {
-          tr: "Doğru kurulduğunda evet — çünkü mekanizma iki bin yıldır aynı: mesaj, güvenilen seslerin taşıdığı mevcut ağlarda yayılır. Kritik koşul değer uyumudur; kitlesi ne kadar küçük olursa olsun markanın değerleriyle örtüşen bir ses, uyumsuz bir mega-influencer'dan daha fazla güven taşır.",
+          tr: "Doğru kurulduğunda evet — çünkü mekanizma iki bin yıldır aynı: mesaj, güvenilen seslerin taşıdığı mevcut ağlarda yayılır. Kritik koşul değer uyumudur; kitlesi ne kadar küçük olursa olsun markanın değerleriyle örtüşen bir ses, uyumsuz bir mega-influencer'dan daha fazla güven taşır. Glossier sadık müşteri tabanını tam olarak bu yolla kurdu.",
           en: "When set up right, yes — because the mechanism has been the same for two thousand years: messages spread through existing networks carried by trusted voices. The critical condition is value alignment; a voice that matches the brand's values, however small its audience, carries more trust than a mismatched mega-influencer.",
+        },
+      },
+      {
+        question: {
+          tr: "Marka vizyonu nasıl yazılır?",
+          en: "How do you write a brand vision?",
+        },
+        answer: {
+          tr: "Tek cümlede, ürünü değil varoluş nedenini anlatarak. Apple'ın vizyonu teknolojiyi erişilebilir kılmaktı, Amazon'unki dünyanın en müşteri odaklı şirketi olmaktı — ikisi de ürün listesi değil. Japonların İkigai kavramı aynı soruyu sorar: neden varsınız? Cevabınız her ürün, kanal ve ton kararını süzecek kadar net değilse vizyon henüz yazılmamıştır.",
+          en: "In one sentence, describing why you exist rather than what you sell. Apple's vision was making technology accessible; Amazon's was becoming the most customer-centric company on earth — neither is a product list. The Japanese idea of Ikigai asks the same question: why are you here? If the answer is not sharp enough to filter every product, channel and tone decision, the vision is not written yet.",
+        },
+      },
+      {
+        question: {
+          tr: "Mesel nedir, markalar neden mesel anlatmalı?",
+          en: "What is a parable and why should brands tell them?",
+        },
+        answer: {
+          tr: "Mesel, karmaşık bir fikri basit ve bağ kurulabilir bir hikâyeye indiren anlatı biçimidir. Akılda kalır ve anlatılması kolaydır; matbaa öncesi bir çağda mesajı kıtalar arası taşıyan şey tam olarak buydu. Marka karşılığı nettir: kimse özellik listesi paylaşmaz, insanlar iyi anlatılmış bir hikâyeyi paylaşır.",
+          en: "A parable is a narrative that compresses a complex idea into a simple, relatable story. It sticks and it is easy to retell, which is exactly how a message crossed continents in an age before printing. The brand equivalent is straightforward: nobody shares a feature list, people share a story that was told well.",
+        },
+      },
+      {
+        question: {
+          tr: "Ethos, pathos ve logos pazarlamada ne işe yarar?",
+          en: "What are ethos, pathos and logos good for in marketing?",
+        },
+        answer: {
+          tr: "Aristoteles'in üç ikna kaldıracıdır: ethos güvenilirlik, pathos duygu, logos mantık. İyi bir mesel üçünü aynı anda taşır — anlatıcının yaşamıyla tutarlılığı ethos'u, hikâyenin insani çekirdeği pathos'u, çıkarılan ders logos'u kurar. Marka anlatısını denetlerken bu üçlüyü kontrol listesi gibi kullanın; eksik olan hangisiyse ikna orada kırılır.",
+          en: "They are Aristotle's three levers of persuasion: ethos is credibility, pathos is emotion, logos is reason. A good parable carries all three at once — the teller's consistency builds ethos, the human core of the story builds pathos, and the lesson builds logos. Use the trio as a checklist when auditing brand narrative: whichever one is missing is where persuasion breaks.",
+        },
+      },
+      {
+        question: {
+          tr: "Bir marka ne zaman kendini yeniden konumlandırmalı?",
+          en: "When should a brand reposition itself?",
+        },
+        answer: {
+          tr: "Mesaj doğru kaldığı hâlde kitleye ulaşmıyorsa. Donanım üreticisi IBM yazılım ve danışmanlığa, DVD kiralayan Netflix yayıncılığa geçti; ikisi de ürününü değil, kitlesinin bulunduğu yeri takip etti. Uyarlanabilirlik mesajı sulandırmak değildir — çiftçiyle, balıkçıyla ve din bilginiyle aynı öz farklı dillerde konuşulur.",
+          en: "When the message is still right but no longer reaching anyone. IBM moved from hardware to software and consulting, Netflix moved from DVD rental to streaming; both followed where their audience was rather than what they used to sell. Adapting is not diluting — the same core gets spoken in different languages to the farmer, the fisherman and the scholar.",
+        },
+      },
+      {
+        question: {
+          tr: "Spotify Wrapped neden her yıl çalışıyor?",
+          en: "Why does Spotify Wrapped work every year?",
+        },
+        answer: {
+          tr: "Kampanyanın kahramanı marka değil, kullanıcının kendisi olduğu için. Wrapped, kişinin kendi yıllık dinleme verisini paylaşılabilir bir hikâyeye çevirir ve milyonlarca kişi markanın reklamını gönüllü yapar. Mesel gücü buradadır: veri kişiselleştiğinde anlatıya dönüşür, anlatı paylaşıldığında medya bütçesi markadan kullanıcıya geçer. Her aralık tekrarlanması da tesadüf değil; ritüel hâline gelen kampanya beklenti üretir.",
+          en: "Because the hero of the campaign is the user, not the brand. Wrapped turns a person's own year of listening into a shareable story, and millions advertise the brand voluntarily. That is the parable effect at work: personalised data becomes narrative, and once narrative is shared, the media budget moves from the brand to the audience.",
+        },
+      },
+      {
+        question: {
+          tr: "Bir marka mesajı kanal değiştiğinde nasıl ayakta kalır?",
+          en: "How does a brand message survive a change of channel?",
+        },
+        answer: {
+          tr: "Formatı değil, özü sağlam tutarak. Mesaj yayılımı dört kez sıçradı — Roma'nın yol ağı, Gutenberg'in matbaası, internet ve şimdi üretken yapay zeka; her seferinde taşıyıcı değişti, taşınan şey değişmedi. Net vizyonu, gerçek topluluğu ve iyi hikâyesi olan marka her yeni kanalda yeniden yayılır, çünkü kalıcılık anlatılmaya değer olmaktır.",
+          en: "By keeping the core intact rather than the format. The spread of messages has jumped four times — Rome's road network, Gutenberg's press, the internet and now generative AI; the carrier changed each time, what was carried did not. A brand with a clear vision, a real community and a good story spreads again on every new channel, because lasting means being worth retelling.",
         },
       },
     ],
     category: "growth",
+    topic: "marka-hikaye",
     tags: ["hikaye-anlatimi", "markalasma", "viral-pazarlama"],
     authorSlug: "burak-ozgul",
     publishedAt: "2024-08-01",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "Marka mühendisliği: iki bin yıllık markalaşma",
+        en: "Brand engineering: a two-thousand-year lesson",
+      },
+      description: {
+        tr: "Net vizyon, topluluk, mesel ve ağ — dört ilke. Blair Cadısı'ndan Barbie'ye modern kampanyalar aynı iskeleti kullanıyor; marka stratejisi buradan okunur.",
+        en: "Vision, community, parable, network — four principles. From Blair Witch to Barbie, modern campaigns reuse the same skeleton, and brand strategy follows it.",
+      },
+    },
   },
 
   {
@@ -1096,7 +1140,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "E-ticaret son on yılda katlanarak büyüdü — buna büyük patlama diyelim. Ve bugünlerde büyüme doğrusal değil, parabolik. Bir zamanlar küçük bir çevrimiçi kitapçı olan Amazon, bugün e-ticaret dünyasını yönetiyor. Bu sıçramayı mümkün kılan şey, pazar eğilimlerinin ve tüketici davranışının doğru okunmasıydı.",
-          en: "E-commerce has grown exponentially over the past decade — call it the big bang. And these days the growth is not linear but parabolic. Amazon, once a small online bookstore, now runs the e-commerce world. What made that leap possible was reading market trends and consumer behavior correctly.",
+          en: "E-commerce has grown exponentially over the past decade — call it the big bang. And these days the growth is not linear but parabolic. Amazon, once a small online bookstore, now runs the e-commerce world. What made that leap possible was reading market trends and consumer behaviour correctly.",
         },
       },
       {
@@ -1167,7 +1211,7 @@ export const ARTICLES: ArticleContent[] = [
           },
           {
             tr: "Özel geliştirme: kişiselleştirilmiş öneri, dinamik fiyatlama, otomatik pazarlama akışları — rekabet avantajının kodla kurulan kısmı.",
-            en: "Custom development: personalized recommendations, dynamic pricing, automated marketing flows — the part of your competitive edge built in code.",
+            en: "Custom development: personalised recommendations, dynamic pricing, automated marketing flows — the part of your competitive edge built in code.",
           },
         ],
       },
@@ -1235,7 +1279,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Gelir tarafında iş, iyi yağlanmış bir makinedir: ürün sayfasından ödemeye her parça sorunsuz çalışmalı. Dönüşüm oranı optimizasyonu, üst satış ve çapraz satış bu makinenin dişlileridir. [OdorGo vakamızda](/vakalar/odorgo-kategori-yaratma) siteyi tam bu mantıkla kurduk: ziyaretçi hangi kanaldan hangi sayfaya girerse girsin, ikna edici bilgiyi alıp doğrudan satış adımına iner. Görünürlük tarafında ise SEO ve reklam, fırtınalı denizdeki deniz feneriniz — gemileri kıyıya o ışık çağırır.",
-          en: "On the revenue side the business is a well-oiled machine: every part from product page to checkout must run smoothly. Conversion rate optimization, upselling and cross-selling are the gears. In [our OdorGo case](/vakalar/odorgo-kategori-yaratma) we built the site on exactly this logic: whichever channel and page a visitor lands on, they get the convincing information and descend straight to the purchase step. On the visibility side, SEO and ads are your lighthouse in a stormy sea — that light is what calls the ships to shore.",
+          en: "On the revenue side the business is a well-oiled machine: every part from product page to checkout must run smoothly. Conversion rate optimisation, upselling and cross-selling are the gears. In [our OdorGo case](/vakalar/odorgo-kategori-yaratma) we built the site on exactly this logic: whichever channel and page a visitor lands on, they get the convincing information and descend straight to the purchase step. On the visibility side, SEO and ads are your lighthouse in a stormy sea — that light is what calls the ships to shore.",
         },
       },
       {
@@ -1265,7 +1309,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "E-ticarette başarı bir varış noktası değil, sürekli büyüme ve yenilenme sürecidir. Pazarı anlayarak, doğru uzmanlıktan yararlanarak ve stratejik optimizasyonu düzenli uygulayarak işinizin tam potansiyelini ortaya çıkarabilirsiniz. Sabah 05.00 bildirimleri bir şans değil, mühendislik işidir — ve bu yazıdaki her örnek, artık adıyla ve rakamıyla [vaka sayfalarımızda](/vakalar) duruyor.",
-          en: "Success in e-commerce is not a destination but a continuous process of growth and renewal. Understand the market, draw on the right expertise, apply strategic optimization consistently, and you can unlock your business's full potential. Those 5 a.m. notifications are not luck but engineering — and every example in this article now stands, named and numbered, on [our case pages](/vakalar).",
+          en: "Success in e-commerce is not a destination but a continuous process of growth and renewal. Understand the market, draw on the right expertise, apply strategic optimisation consistently, and you can unlock your business's full potential. Those 5 a.m. notifications are not luck but engineering — and every example in this article now stands, named and numbered, on [our case pages](/vakalar).",
         },
       },
       {
@@ -1284,7 +1328,7 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Çevrimiçi işin her katmanını tek çatı altında optimize eder: pazar araştırması ve strateji, platform ve yazılım altyapısı, ölçüm kurulumu, dijital pazarlama kanallarının yönetimi, dönüşüm optimizasyonu ve marka kimliği. Değerinin kaynağı, farklı sektörlerden edindiği tecrübeyi projenize aktarmasıdır — müşteriye ulaşmakla müşteriden kazanmak arasındaki süreçler her sektörde aynıdır.",
-          en: "It optimizes every layer of an online business under one roof: market research and strategy, platform and software infrastructure, measurement setup, digital marketing channels, conversion optimization and brand identity. Its value comes from carrying experience across industries into your project — the processes between reaching a customer and earning from one are the same in every industry.",
+          en: "It optimises every layer of an online business under one roof: market research and strategy, platform and software infrastructure, measurement setup, digital marketing channels, conversion optimisation and brand identity. Its value comes from carrying experience across industries into your project — the processes between reaching a customer and earning from one are the same in every industry.",
         },
       },
       {
@@ -1304,7 +1348,7 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Özellik listesine değil üç kritere bakın: bugünkü operasyonunuzu taşıyor mu, iki yıl sonraki ölçeğinizi kaldırır mı, ekosistemi (ödeme, kargo, pazaryeri entegrasyonları) pazarınıza uygun mu? Türkiye'de satan bir marka için İKAS ve Shopify güçlü başlangıçlardır; büyük katalog ve özel iş akışı gerektiren işlerde WooCommerce, Magento veya özel geliştirme devreye girer. Platform kararı geri dönüşü en pahalı karardır — kurulumdan önce verilmelidir.",
-          en: "Look past the feature list at three criteria: does it carry your operation today, will it hold your scale two years from now, and does its ecosystem (payments, shipping, marketplace integrations) fit your market? For a brand selling in Türkiye, İKAS and Shopify are strong starting points; large catalogs and custom workflows call for WooCommerce, Magento or custom development. The platform decision is the most expensive one to reverse — make it before the build.",
+          en: "Look past the feature list at three criteria: does it carry your operation today, will it hold your scale two years from now, and does its ecosystem (payments, shipping, marketplace integrations) fit your market? For a brand selling in Türkiye, İKAS and Shopify are strong starting points; large catalogues and custom workflows call for WooCommerce, Magento or custom development. The platform decision is the most expensive one to reverse — make it before the build.",
         },
       },
       {
@@ -1317,12 +1361,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "Three questions are enough: \"What have you done at a similar scale, and can I see the numbers?\" (proof), \"What would the first 90 days look like for my business?\" (approach) and \"What won't you do?\" (honesty). Walk away from any agency that can't show numbers, prices before planning, or claims to do everything.",
         },
       },
+      {
+        question: {
+          tr: "E-ticaret ajansı ile tek bir uzman arasında nasıl seçim yapılır?",
+          en: "Agency or a single specialist: how do you choose?",
+        },
+        answer: {
+          tr: "Sorunun tek kanalda mı sistemde mi olduğuna bakarak. Reklam hesabınız kötü yönetiliyorsa iyi bir uzman yeter; trafik geliyor ama satış gelmiyorsa sorun platform, ölçüm, huni ve marka arasında dağılmıştır ve tek kişi bu katmanları aynı anda tutamaz. Müşteriye ulaşmakla o müşteriden kazanmak arasındaki süreçler her sektörde aynı olduğu için, sistemi kuran ekip birikimini bir projeden diğerine taşır.",
+          en: "By asking whether the problem sits in one channel or across the system. If the ad account is badly run, a good specialist is enough; if traffic arrives but sales do not, the problem is spread across platform, measurement, funnel and brand, and one person cannot hold those layers at once. Because the steps between reaching a customer and earning from that customer are the same in every sector, a team that builds systems carries its learning from one project to the next.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret ajansıyla ilk 90 günde ne yapılır?",
+          en: "What happens in the first 90 days with an e-commerce agency?",
+        },
+        answer: {
+          tr: "Sıra bellidir: önce ölçüm, sonra altyapı, sonra kampanya. SOYLU AVM vakasında piksel ve dönüşüm izleme kampanyadan önce sıfırdan kuruldu; 6 günde 1,5 milyon dolarlık sonucu mümkün kılan ilk adım tam olarak buydu. Görüşmede ajanstan bunu isteyin — ilk 90 günün adım sırasını, fiyat konuşmasından önce.",
+          en: "The order is fixed: measurement first, then infrastructure, then campaigns. In the SOYLU AVM case, pixel and conversion tracking were rebuilt from scratch before any campaign went live, and that first step is what made 1.5 million dollars in six days possible. Ask an agency for exactly this in the first meeting — the sequence of the first 90 days, before the price conversation.",
+        },
+      },
+      {
+        question: {
+          tr: "Marka kimliği e-ticaret satışına gerçekten etki eder mi?",
+          en: "Does brand identity really affect e-commerce sales?",
+        },
+        answer: {
+          tr: "Doygun kategorilerde belirleyici olur. Feruza Elegance klasik çizgiden modern-lüks bir kimliğe taşındığında Türkiye'nin tanınmış butik perakende zincirlerinden birinin raflarına girdi — değişen ürün değil, ürünün nasıl konumlandığıydı. Kimlik her temas noktasında aynı anlatıyı sürdürdüğünde konuşma fiyat tartışmasından tercih tartışmasına kayar.",
+          en: "In saturated categories it decides the outcome. When Feruza Elegance moved from a classic look to a modern-luxury identity, it earned shelf space in one of Turkey's well-known boutique retail chains — the product did not change, its positioning did. When identity carries the same story across every touchpoint, the conversation shifts from price to preference.",
+        },
+      },
+      {
+        question: {
+          tr: "Büyük katalog ve otomasyon gerektiren e-ticarette ne değişir?",
+          en: "What changes in e-commerce with a large catalogue and heavy automation?",
+        },
+        answer: {
+          tr: "İşin merkezi pazarlamadan mühendisliğe kayar. Almanya'daki müşterimiz MKComputer için kurduğumuz dropshipping platformu 200.000 ürünü 5 dakikada senkronluyor ve sipariş yönlendirmeyi insan müdahalesi olmadan yapıyor. Bu ölçekte platform seçimi bir tercih değil kısıttır: stok, fiyat ve sipariş akışını taşıyamayan altyapı en iyi kampanyayı bile geri alınamaz hatalara çevirir.",
+          en: "The centre of gravity shifts from marketing to engineering. The dropshipping platform we built for our German client MKComputer syncs 200,000 products in five minutes and routes orders without human intervention. At that scale the platform choice is a constraint rather than a preference: infrastructure that cannot carry stock, price and order flow turns even the best campaign into irreversible errors.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret ajansı çalışması ne kadar sürede sonuç verir?",
+          en: "How long before an e-commerce agency produces results?",
+        },
+        answer: {
+          tr: "Ölçümün ne kadar sağlam olduğuna ve kategoriye göre değişir. FYR lansmanında 12 aylık ciro hedefi ilk 3 ayda geçildi; SOYLU AVM'de ölçüm önceden kurulduğu için sonuç 6 günde okundu. Buna karşılık organik görünürlük ve marka bilinirliği ay değil çeyrek ister — hızlı sonuç isteyen bütçeyi reklam tarafına, kalıcı sonuç isteyen bütçeyi içerik ve altyapı tarafına ayırın.",
+          en: "It depends on how solid the measurement is and on the category. In the FYR launch a 12-month revenue target was passed in the first three months; at SOYLU AVM measurement was already in place, so results were readable within six days. Organic visibility and brand awareness, by contrast, take quarters rather than months — put the budget that needs speed into ads and the budget that needs durability into content and infrastructure.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret ajansına ayrılan bütçe nasıl değerlendirilir?",
+          en: "How should you judge the budget you give an e-commerce agency?",
+        },
+        answer: {
+          tr: "Ücretin kendisine değil, getirdiği sonuca bakarak. Doğru soru \"aylık ne kadar\" değil, \"bu harcama hangi metriği ne kadar hareket ettirdi\" — FYR'de reklam getirisi 20 katın üzerinde seyretti ve bu rakam ajans ücretini gider kalemi olmaktan çıkardı. Ajans ücretini reklam bütçesinden ayrı izleyin; ikisi karıştığında hangisinin işe yaradığı görünmez olur.",
+          en: "By looking at the result it produces, not at the fee. The right question is not \"how much per month\" but \"which metric did this spend move, and by how much\" — at FYR the return on ad spend held above 20x, which took the agency fee out of the cost column. Track the fee separately from the media budget; once the two are mixed, you can no longer see which one is working.",
+        },
+      },
     ],
     category: "growth",
+    topic: "e-ticaret",
     tags: ["e-ticaret", "e-ticaret-danismanligi", "donusum-optimizasyonu"],
     authorSlug: "burak-ozgul",
     publishedAt: "2024-08-06",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "E-ticaret ajansı ne değiştirir? Üç aylık kanıt",
+        en: "What a real e-commerce agency actually changes",
+      },
+      description: {
+        tr: "Altyapı, ölçüm, yaratıcılık ve büyüme dört başlıkta. FYR'de 12 aylık ciro hedefi 3 ayda geçti; e-ticaret danışmanlığı seçerken hangi kanıtı istemelisiniz?",
+        en: "Infrastructure, measurement, creative, growth. FYR cleared a 12-month revenue target in 3 months — what to demand from ecommerce consultancy before signing.",
+      },
+    },
   },
 
   {
@@ -1381,7 +1496,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Birçok büyük marka \"bilinirliği artırmak\" veya \"trafiği yükseltmek\" gibi geniş hedeflerle kampanya başlatır. Kulağa iyi gelir ama ölçülemez. Lüks bir perakende markası, yüksek profilli bir influencer kampanyasına milyonlar aktarmış, sonradan dönüşüm için ölçülebilir KPI belirlemediklerini fark etmişti. Sonuç: etkileyici etkileşim oranları, ama ölçülebilir satış artışı yok.",
-          en: "Many big brands launch campaigns with broad goals like \"raise awareness\" or \"increase traffic\". Sounds nice, measures nothing. A luxury retail brand once poured millions into a high-profile influencer campaign, only to realize afterwards they had set no measurable conversion KPIs. The result: impressive engagement rates, no measurable lift in sales.",
+          en: "Many big brands launch campaigns with broad goals like \"raise awareness\" or \"increase traffic\". Sounds nice, measures nothing. A luxury retail brand once poured millions into a high-profile influencer campaign, only to realise afterwards they had set no measurable conversion KPIs. The result: impressive engagement rates, no measurable lift in sales.",
         },
       },
       {
@@ -1413,7 +1528,7 @@ export const ARTICLES: ArticleContent[] = [
         id: "hata-2-mobil-optimizasyonu-ihmal",
         text: {
           tr: "Hata 2: Mobil optimizasyonu ihmal etmek",
-          en: "Mistake 2: Neglecting mobile optimization",
+          en: "Mistake 2: Neglecting mobile optimisation",
         },
       },
       {
@@ -1432,7 +1547,7 @@ export const ARTICLES: ArticleContent[] = [
           },
           {
             tr: "Yükleme hızını optimize edin: Google'ın klasik araştırmasına göre mobil ziyaretçilerin %53'ü, üç saniyeden uzun yüklenen siteyi terk ediyor.",
-            en: "Optimize load speed: per Google's classic research, 53% of mobile visitors abandon a site that takes longer than three seconds.",
+            en: "Optimise load speed: per Google's classic research, 53% of mobile visitors abandon a site that takes longer than three seconds.",
           },
           {
             tr: "Mobil deneyimi düzenli test edin — gerçek cihazlarda, gerçek bağlantı hızlarında.",
@@ -1484,14 +1599,14 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Bir zamanlar reklam sadece açık hava panosuydu, sonra gazete, sonra televizyon geldi. O çağda reklamın işe yaramasını yalnızca umut edebilirdik. Bugünse hedef kitlemize günün her anında ulaşabiliyoruz — ve tüketici de bu anlaşmanın farkında: karşılığında kişiselleştirilmiş, alakalı içerik bekliyor. Tanınmış bir kozmetik markası, tüm tabanına aynı genel bülteni gönderdiği için etkileşimde sert bir düşüş yaşadı; segmentasyona ve tercihe göre uyarlanmış dinamik içeriğe geçince tıklama oranı %20 arttı, sadakat gözle görülür yükseldi.",
-          en: "Advertising was once just a billboard, then newspapers, then television. In that era you could only hope the ad worked. Today we can reach our audience at any moment of the day — and consumers know the deal: in return they expect personalized, relevant content. A well-known cosmetics brand saw engagement drop sharply after sending the same generic newsletter to its whole base; switching to segmentation and preference-driven dynamic content lifted click-through by 20% and visibly raised loyalty.",
+          en: "Advertising was once just a billboard, then newspapers, then television. In that era you could only hope the ad worked. Today we can reach our audience at any moment of the day — and consumers know the deal: in return they expect personalised, relevant content. A well-known cosmetics brand saw engagement drop sharply after sending the same generic newsletter to its whole base; switching to segmentation and preference-driven dynamic content lifted click-through by 20% and visibly raised loyalty.",
         },
       },
       {
         type: "p",
         text: {
           tr: "Kişiselleştirmenin ileri vitesi yeniden hedeflemedir: [GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) kitle segmentlere ayrıldı, düşük performanslı setler kapatıldı ve yeniden hedeflemeyle çapraz satış kuruldu — üç ayda 12 kat satışın dişlilerinden biri buydu.",
-          en: "The higher gear of personalization is retargeting: in [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis) the audience was segmented, underperforming sets were closed and cross-selling was built on retargeting — one of the gears behind 12× sales in three months.",
+          en: "The higher gear of personalisation is retargeting: in [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis) the audience was segmented, underperforming sets were closed and cross-selling was built on retargeting — one of the gears behind 12× sales in three months.",
         },
       },
       {
@@ -1506,7 +1621,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Ücretli reklam trafik getirir; ama organik strateji olmadan ona yaslanmak, ısınmadan sürat koşusu yapmaya benzer — buharınız hızla tükenir. Büyük bir e-ticaret platformu, yalnız ücretli reklama odaklanıp içerik ve SEO'yu ihmal ettiği için büyümesinin durduğunu görmüştü. Tersi de mümkün: [SIM Baskı Malzemeleri](/vakalar/sim-baski-ihracat-icerigi) içerik programı ve yeniden kurulan altyapıyla organik trafiğini 6 ayda 15 katına çıkardı. Denge şart: ücretli hız verir, organik kalıcılık.",
-          en: "Paid ads bring traffic; but leaning on them without an organic strategy is like sprinting without a warm-up — you run out of steam fast. A large e-commerce platform once watched its growth stall after focusing only on paid and neglecting content and SEO. The reverse is also possible: [SIM Printing Suppliers](/vakalar/sim-baski-ihracat-icerigi) grew organic traffic 15× in 6 months through a content program and a rebuilt stack. Balance is mandatory: paid buys speed, organic buys permanence.",
+          en: "Paid ads bring traffic; but leaning on them without an organic strategy is like sprinting without a warm-up — you run out of steam fast. A large e-commerce platform once watched its growth stall after focusing only on paid and neglecting content and SEO. The reverse is also possible: [SIM Printing Suppliers](/vakalar/sim-baski-ihracat-icerigi) grew organic traffic 15× in 6 months through a content programme and a rebuilt stack. Balance is mandatory: paid buys speed, organic buys permanence.",
         },
       },
       {
@@ -1536,7 +1651,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Markalar yeni müşteri edinmeye o kadar odaklanır ki eldekini beslemeyi unutur. Oysa sadakat programı, satın alma sonrası takip ve kişiye özel teklif; tek seferlik bir alışverişle ömür boyu müşteri arasındaki farktır. Mutlu ve tekrar eden müşteri, zamanla markanın savunucusuna dönüşür — en ucuz pazarlama kanalınız odur.",
-          en: "Brands get so focused on acquiring new customers that they forget to nurture the ones they have. Yet loyalty programs, post-purchase follow-up and personal offers are the difference between a one-off purchase and a lifetime customer. A happy repeat customer becomes the brand's advocate over time — your cheapest marketing channel.",
+          en: "Brands get so focused on acquiring new customers that they forget to nurture the ones they have. Yet loyalty programmes, post-purchase follow-up and personal offers are the difference between a one-off purchase and a lifetime customer. A happy repeat customer becomes the brand's advocate over time — your cheapest marketing channel.",
         },
       },
       {
@@ -1551,7 +1666,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Bu yazıyı 2024'te yayımladık ve dürüst olalım: yedi hatanın yedisi de hâlâ sahada. Değişen, hataların maliyeti oldu. Kampanya yönetimi büyük ölçüde AI'ya devredildi — Performance Max ve Advantage+ tarzı otomasyonlar bütçeyi kendisi optimize ediyor. Kulağa güvenli geliyor; değil. Yanlış KPI verilen bir otomasyon, yanlış hedefe kusursuz bir hızla koşar. Hata 1 artık daha pahalı.",
-          en: "We published this piece in 2024 and let's be honest: all seven mistakes are still in the field. What changed is their cost. Campaign management has largely been handed to AI — Performance Max and Advantage+ style automations optimize budgets on their own. Sounds safe; it isn't. An automation fed the wrong KPI runs toward the wrong target with flawless speed. Mistake 1 is now more expensive.",
+          en: "We published this piece in 2024 and let's be honest: all seven mistakes are still in the field. What changed is their cost. Campaign management has largely been handed to AI — Performance Max and Advantage+ style automations optimise budgets on their own. Sounds safe; it isn't. An automation fed the wrong KPI runs toward the wrong target with flawless speed. Mistake 1 is now more expensive.",
         },
       },
       {
@@ -1573,7 +1688,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Bu tuzaklara düşmek kolay; fark edip düzeltmekse stratejinizi dağınık bir çaba yığınından iyi yağlanmış bir makineye çevirir. Net KPI, mobil öncelik, veri disiplini, kişiselleştirme, ücretli-organik dengesi, tutarlı mesaj ve elde tutma — yedisi birden çalıştığında pazarlama bütçesi gider olmaktan çıkar, motor olur. Sonuçta mesele oyunda olmak değil, oyunu kazanmaktır.",
-          en: "Falling into these traps is easy; spotting and fixing them turns your strategy from a scattered pile of effort into a well-oiled machine. Clear KPIs, mobile first, data discipline, personalization, the paid-organic balance, consistent messaging and retention — when all seven run together, the marketing budget stops being a cost and becomes an engine. In the end, the game isn't about playing; it's about winning.",
+          en: "Falling into these traps is easy; spotting and fixing them turns your strategy from a scattered pile of effort into a well-oiled machine. Clear KPIs, mobile first, data discipline, personalisation, the paid-organic balance, consistent messaging and retention — when all seven run together, the marketing budget stops being a cost and becomes an engine. In the end, the game isn't about playing; it's about winning.",
         },
       },
       {
@@ -1591,8 +1706,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "What is performance marketing?",
         },
         answer: {
-          tr: "Sonucu ölçülebilir dijital pazarlama disiplinidir: bütçe; tıklama, dönüşüm, satış gibi izlenebilir çıktılara bağlanır ve kampanyalar bu veriye göre sürekli optimize edilir. Marka bilinirliği reklamcılığından farkı, her liranın hangi sonucu ürettiğinin bilinmesidir.",
-          en: "It's the discipline of digital marketing with measurable outcomes: budget is tied to trackable results — clicks, conversions, sales — and campaigns are continuously optimized against that data. The difference from awareness advertising is knowing what result every unit of spend produces.",
+          tr: "Sonucu ölçülebilir dijital pazarlama disiplinidir: bütçe; tıklama, dönüşüm, satış gibi izlenebilir çıktılara bağlanır ve kampanyalar bu veriye göre sürekli optimize edilir. Marka bilinirliği reklamcılığından farkı, her liranın hangi sonucu ürettiğinin bilinmesidir. Kanal olarak arama, sosyal medya, görüntülü reklam ve e-posta kullanılır; ortak payda kanal değil, sonucun izlenebilir olmasıdır.",
+          en: "It's the discipline of digital marketing with measurable outcomes: budget is tied to trackable results — clicks, conversions, sales — and campaigns are continuously optimised against that data. The difference from awareness advertising is knowing what result every unit of spend produces.",
         },
       },
       {
@@ -1602,7 +1717,7 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Ölçüm zinciri: net KPI (Hata 1) + veri analitiği (Hata 3). Çünkü diğer beş hata, ölçüm sağlamsa verinin içinde görünür ve düzeltilir; ölçüm yoksa hiçbiri teşhis edilemez. AI otomasyonları çağında bu ikili daha da kritikleşti — yanlış hedefe kusursuz optimizasyon yapılır.",
-          en: "The measurement chain: clear KPIs (Mistake 1) plus data analytics (Mistake 3). Because if measurement is solid, the other five mistakes show up in the data and get fixed; without it, none can be diagnosed. In the age of AI automations this pair became even more critical — the wrong target gets optimized flawlessly.",
+          en: "The measurement chain: clear KPIs (Mistake 1) plus data analytics (Mistake 3). Because if measurement is solid, the other five mistakes show up in the data and get fixed; without it, none can be diagnosed. In the age of AI automations this pair became even more critical — the wrong target gets optimised flawlessly.",
         },
       },
       {
@@ -1611,8 +1726,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "How do you set a good KPI?",
         },
         answer: {
-          tr: "Üç özellik arayın: spesifik (\"satışta %10 artış\", \"5 kat ROAS\"), ölçülebilir (CTR, dönüşüm oranı, CAC gibi izlenebilir metrikler) ve zamana bağlı (net son tarih, uzun vadeli hedefte kısa vadeli kıyas noktaları). \"Bilinirliği artırmak\" bir KPI değil, dilektir.",
-          en: "Look for three properties: specific (\"10% sales lift\", \"5× ROAS\"), measurable (trackable metrics like CTR, conversion rate, CAC) and time-bound (a clear deadline, with short-term benchmarks for long-term goals). \"Raising awareness\" is not a KPI; it's a wish.",
+          tr: "Üç özellik arayın: spesifik (\"satışta %10 artış\", \"5 kat ROAS\"), ölçülebilir (CTR, dönüşüm oranı, CAC gibi izlenebilir metrikler) ve zamana bağlı (net son tarih, uzun vadeli hedefte kısa vadeli kıyas noktaları). \"Bilinirliği artırmak\" bir KPI değil, dilektir. Hedefi yazarken kime ait olduğunu da yazın; sahibi olmayan KPI takip edilmez.",
+          en: "Look for three properties: specific (\"10% sales lift\", \"5× ROAS\"), measurable (trackable metrics like CTR, conversion rate, CAC) and time-bound (a clear deadline, with short-term benchmarks for long-term goals). \"Raising awareness\" is not a KPI; it's a wish. Write down who owns each target as well; a KPI without an owner never gets tracked.",
         },
       },
       {
@@ -1622,15 +1737,86 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Sabit bir oran yok; işlev ayrımı var. Ücretli kanal hız ve test imkânı satın alır, organik kanal (SEO, içerik ve 2026'da GEO) kalıcılık ve biriken varlık kurar. Sağlıklı işaret şudur: ücretli reklamı bir ay kapattığınızda gelir sıfıra düşüyorsa, organik ayağınız yok demektir — denge kurulmamıştır.",
-          en: "There's no fixed ratio; there's a division of labor. Paid buys speed and testing capacity; organic (SEO, content and, in 2026, GEO) builds permanence and compounding assets. The healthy test: if turning paid off for a month drops revenue to zero, you have no organic leg — the balance doesn't exist.",
+          en: "There's no fixed ratio; there's a division of labour. Paid buys speed and testing capacity; organic (SEO, content and, in 2026, GEO) builds permanence and compounding assets. The healthy test: if turning paid off for a month drops revenue to zero, you have no organic leg — the balance doesn't exist.",
+        },
+      },
+      {
+        question: {
+          tr: "ROAS nedir ve nasıl hesaplanır?",
+          en: "What is ROAS and how is it calculated?",
+        },
+        answer: {
+          tr: "ROAS (reklam harcamasının getirisi), reklamdan gelen geliri o reklama harcanan tutara bölerek bulunur; 5 kat ROAS, harcanan her 1 liranın 5 lira gelir ürettiği anlamına gelir. KPI olarak kullanışlıdır çünkü hem spesifik hem ölçülebilirdir. Tek başına yetmez: ROAS geliri ölçer, kârı değil — marj düşükse yüksek ROAS bile zarar gizleyebilir.",
+          en: "ROAS (return on ad spend) is revenue from advertising divided by the amount spent on it; a 5x ROAS means every 1 lira spent produced 5 lira of revenue. It works well as a KPI because it is both specific and measurable. It is not sufficient on its own: ROAS measures revenue rather than profit, so with thin margins even a high ROAS can hide a loss.",
+        },
+      },
+      {
+        question: {
+          tr: "Mobil optimizasyon reklam performansını ne kadar etkiler?",
+          en: "How much does mobile optimisation affect ad performance?",
+        },
+        answer: {
+          tr: "Doğrudan ve sert etkiler. Mobil trafik toplam trafiğin %70'inin üzerinde seyrederken mobili ihmal etmek, pazarlama hattınızın yarıdan fazlasını kapatmak demektir; Google'ın klasik araştırmasına göre mobil ziyaretçilerin %53'ü üç saniyeden uzun yüklenen siteyi terk ediyor. Reklam bütçesi tıklamayı satın alır, mobil sayfa o tıklamayı ya dönüşüme çevirir ya çöpe atar.",
+          en: "Directly and hard. With mobile above 70% of total traffic, neglecting it means shutting down more than half of your marketing line; Google's well-known research found that 53% of mobile visitors abandon a page that takes longer than three seconds to load. The ad budget buys the click — the mobile page decides whether that click converts or is thrown away.",
+        },
+      },
+      {
+        question: {
+          tr: "Kişiselleştirme ile yeniden hedefleme arasındaki fark nedir?",
+          en: "What is the difference between personalisation and retargeting?",
+        },
+        answer: {
+          tr: "Kişiselleştirme mesajı segmentin tercihine göre yazar, yeniden hedefleme ise mesajı davranışa göre zamanlar. Tanınmış bir kozmetik markası herkese aynı bülteni göndermeyi bırakıp segmente ve tercihe göre dinamik içeriğe geçtiğinde tıklama oranı %20 arttı. GYMWOLVES vakasında ikinci vitese geçildi: kitle segmentlere ayrıldı, düşük performanslı setler kapatıldı ve yeniden hedeflemeyle çapraz satış kuruldu.",
+          en: "Personalisation writes the message around a segment's preferences; retargeting times the message around behaviour. When a well-known cosmetics brand stopped sending one newsletter to its whole base and moved to dynamic content by segment and preference, click-through rose 20%. The GYMWOLVES case shifted into the higher gear: the audience was segmented, weak ad sets were switched off and cross-selling was built through retargeting.",
+        },
+      },
+      {
+        question: {
+          tr: "Tutarlı marka mesajı bir performans metriği midir?",
+          en: "Is consistent brand messaging a performance metric?",
+        },
+        answer: {
+          tr: "Doğrudan metrik değil, ama ölçtüğünüz her metriğin katsayısıdır. Marka sesi kanaldan kanala dalgalandığında müşterinin kafası karışır ve aynı bütçe aynı kitleye daha zayıf bir hatırlanırlıkla ulaşır. Çözümü mekaniktir: tonu, sesi ve mesajı tanımlayan bir marka stil rehberi yazın ve dijitalde, basılıda ve mağazada tek bir marka deneyimi bırakın.",
+          en: "Not a metric in itself, but a multiplier on every metric you do measure. When brand voice drifts from channel to channel the customer gets confused, and the same budget reaches the same audience with weaker recall. The fix is mechanical: write a style guide that defines tone, voice and message, then hold one brand experience across digital, print and store.",
+        },
+      },
+      {
+        question: {
+          tr: "Kendi hesabımda bu yedi hatayı nasıl denetlerim?",
+          en: "How do I audit these seven mistakes in my own account?",
+        },
+        answer: {
+          tr: "Ölçümden başlayıp yukarı doğru okuyun. Şu üç soruya yazılı cevap verin: her kampanyanın zamana bağlı bir KPI'ı var mı, dönüşüm izleme her kanalda doğru veri veriyor mu, reklamı bir ay kapatsanız gelir ayakta kalır mı? Bu üçü netleştiğinde kalan dört hata — mobil, kişiselleştirme, mesaj tutarlılığı ve elde tutma — verinin içinde kendiliğinden görünür hale gelir.",
+          en: "Read it from measurement upward. Answer three questions in writing: does every campaign have a time-bound KPI, does conversion tracking return correct data on every channel, and would revenue survive a month with the ads switched off? Once those three are clear, the remaining four mistakes — mobile, personalisation, message consistency and retention — surface on their own inside the data.",
+        },
+      },
+      {
+        question: {
+          tr: "Küçük bütçeli bir işletme hangi hatadan başlamalı?",
+          en: "Which mistake should a small-budget business fix first?",
+        },
+        answer: {
+          tr: "Ölçümden — çünkü küçük bütçede yanlış yere harcanan her lira oransal olarak daha pahalıdır. Net bir KPI ve çalışan bir dönüşüm izleme kurmak yazılım maliyeti değil karar disiplini işidir ve bir öğleden sonrada başlatılabilir. Bu ikisi ayakta değilken bütçeyi büyütmek, aynı hatayı yalnızca daha hızlı tekrarlamaktan başka bir şey yapmaz.",
+          en: "With measurement — on a small budget, every lira spent in the wrong place costs proportionally more. Setting one clear KPI and getting conversion tracking to work is a matter of decision discipline rather than software spend, and it can be started in an afternoon. Until those two stand, raising the budget only repeats the same mistake faster.",
         },
       },
     ],
     category: "growth",
+    topic: "performans-pazarlama",
     tags: ["performans-pazarlama", "dijital-pazarlama", "kpi"],
     authorSlug: "burak-ozgul",
     publishedAt: "2024-10-07",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "Performans pazarlamada 7 pahalı hata",
+        en: "7 costly performance marketing mistakes",
+      },
+      description: {
+        tr: "Mobil trafiğin %70'i aşan payını ihmal etmekten ROAS hedefsiz bütçeye: her hatanın maliyeti, sahadan kanıtı ve çıkış yolu tek tek yazılı duruyor.",
+        en: "From ignoring the 70% of traffic that arrives on mobile to spending without a ROAS target: what each mistake costs, and the exact way out of every one.",
+      },
+    },
   },
 
   {
@@ -1641,11 +1827,11 @@ export const ARTICLES: ArticleContent[] = [
     // ile aynı.
     slug: {
       tr: "donusum-optimizasyonu-yontemleri",
-      en: "landing-page-optimization-guide",
+      en: "landing-page-optimisation-guide",
     },
     title: {
       tr: "Maksimum dönüşüm için açılış sayfanızı nasıl optimize edersiniz?",
-      en: "How do you optimize your landing page for maximum conversion?",
+      en: "How do you optimise your landing page for maximum conversion?",
     },
     excerpt: {
       tr: "Reklam mükemmel, trafik tavan — ama dönüşüm yok. Sorun çoğu zaman trafikte değil, açılış sayfasında. Yedi kural, gerçek rakamlarla: başlık değişiminden %25, CTA'dan %30, sadelikten %40.",
@@ -1812,7 +1998,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Yerel bir perakendecinin sayfası, görsel optimizasyonu ve eklenti temizliğiyle 7 saniyeden 2,5 saniyeye indi: hemen çıkma %20 azaldı, dönüşüm %15 arttı. Çıtanın 2026 hali için [SIM vakamıza](/vakalar/sim-baski-ihracat-icerigi) bakın: beş dilli sitenin açılışı bir saniyenin altında.",
-          en: "A local retailer's page dropped from 7 seconds to 2.5 through image optimization and plugin cleanup: bounce fell 20%, conversion rose 15%. For the 2026 version of the bar, see [our SIM case](/vakalar/sim-baski-ihracat-icerigi): a five-language site loading in under a second.",
+          en: "A local retailer's page dropped from 7 seconds to 2.5 through image optimisation and plugin cleanup: bounce fell 20%, conversion rose 15%. For the 2026 version of the bar, see [our SIM case](/vakalar/sim-baski-ihracat-icerigi): a five-language site loading in under a second.",
         },
       },
       {
@@ -1842,7 +2028,7 @@ export const ARTICLES: ArticleContent[] = [
         id: "kural-7-mobil-optimizasyon",
         text: {
           tr: "Kural 7: Mobil optimizasyon tartışmaya kapalı",
-          en: "Rule 7: Mobile optimization is non-negotiable",
+          en: "Rule 7: Mobile optimisation is non-negotiable",
         },
       },
       {
@@ -1879,14 +2065,14 @@ export const ARTICLES: ArticleContent[] = [
         id: "surekli-optimizasyon",
         text: {
           tr: "Sonuç: sürekli optimizasyon",
-          en: "Conclusion: continuous optimization",
+          en: "Conclusion: continuous optimisation",
         },
       },
       {
         type: "p",
         text: {
           tr: "Açılış sayfası optimizasyonu bir proje değil, süreçtir. Her ince ayar, her A/B testi ve her içgörü sizi daha yüksek dönüşüme ve daha iyi ROI'ye yaklaştırır. Sayfanıza evrilen bir varlık gibi yaklaşın: kullanıcı davranışına ve pazar trendlerine göre sürekli iyileştirin. CTA dilini ayarlamak veya düzeni sadeleştirmek gibi küçük değişiklikler bile önemli iyileştirmeler sağlar — yukarıdaki rakamlar bunun kanıtı.",
-          en: "Landing page optimization is not a project but a process. Every tweak, every A/B test and every insight moves you toward higher conversion and better ROI. Treat your page as an evolving asset: keep improving it against user behavior and market trends. Even small changes like adjusting CTA language or simplifying the layout deliver real gains — the numbers above are the proof.",
+          en: "Landing page optimisation is not a project but a process. Every tweak, every A/B test and every insight moves you toward higher conversion and better ROI. Treat your page as an evolving asset: keep improving it against user behaviour and market trends. Even small changes like adjusting CTA language or simplifying the layout deliver real gains — the numbers above are the proof.",
         },
       },
       {
@@ -1901,10 +2087,10 @@ export const ARTICLES: ArticleContent[] = [
       {
         question: {
           tr: "Dönüşüm oranı optimizasyonu (CRO) nedir?",
-          en: "What is conversion rate optimization (CRO)?",
+          en: "What is conversion rate optimisation (CRO)?",
         },
         answer: {
-          tr: "Siteye gelen mevcut trafiğin daha büyük bir bölümünü hedeflenen eyleme (satın alma, form, kayıt) dönüştürme disiplinidir. Trafik satın almanın aksine CRO, elinizdeki ziyaretçiden daha fazla değer üretir — bu yüzden reklam bütçesi büyümeden geliri büyütebilen tek kaldıraçtır.",
+          tr: "Siteye gelen mevcut trafiğin daha büyük bir bölümünü hedeflenen eyleme (satın alma, form, kayıt) dönüştürme disiplinidir. Trafik satın almanın aksine CRO, elinizdeki ziyaretçiden daha fazla değer üretir — bu yüzden reklam bütçesi büyümeden geliri büyütebilen tek kaldıraçtır. Ölçüsü nettir: aynı trafikte dönüşüm oranı yükseliyorsa çalışıyor demektir.",
           en: "It's the discipline of converting a larger share of existing traffic into the targeted action (purchase, form, signup). Unlike buying traffic, CRO produces more value from the visitors you already have — which makes it the one lever that can grow revenue without growing ad budget.",
         },
       },
@@ -1914,7 +2100,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "What should I fix first on a landing page?",
         },
         answer: {
-          tr: "Sırasıyla üç şeyi kontrol edin: sayfa hızı (yavaşsa gerisinin önemi yok), değer önerisinin netliği (ilk saniyelerde ne sattığınız anlaşılıyor mu) ve CTA'nın görünürlüğü. Bu üçü sağlamsa gerisi — sosyal kanıt, düzen, form — A/B testiyle sırayla iyileştirilir.",
+          tr: "Sırasıyla üç şeyi kontrol edin: sayfa hızı (yavaşsa gerisinin önemi yok), değer önerisinin netliği (ilk saniyelerde ne sattığınız anlaşılıyor mu) ve CTA'nın görünürlüğü. Bu üçü sağlamsa gerisi — sosyal kanıt, düzen, form — A/B testiyle sırayla iyileştirilir. Sıra önemli, çünkü yavaş açılan bir sayfada en iyi başlık bile okunmaz.",
           en: "Check three things in order: page speed (if it's slow, nothing else matters), the clarity of the value proposition (is it obvious within seconds what you sell) and the visibility of the CTA. With those three solid, the rest — social proof, layout, forms — gets improved in sequence through A/B testing.",
         },
       },
@@ -1935,15 +2121,86 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Sektöre, trafiğin kaynağına ve eylemin ağırlığına göre değişir: e-ticarette %2-4 bandı yaygın ortalamadır, iyi optimize edilmiş sayfalar %5'in üzerine çıkar; form tabanlı B2B sayfalarında %10 üzeri görülebilir. Asıl ölçüt sektör tablosu değil, kendi geçmişinizdir: bu ayın oranı geçen aydan yüksekse doğru yoldasınız.",
-          en: "It varies by industry, traffic source and the weight of the action: 2-4% is the common average in e-commerce, well-optimized pages exceed 5%, and form-based B2B pages can go above 10%. The real benchmark isn't an industry table but your own history: if this month's rate beats last month's, you're on the right path.",
+          en: "It varies by industry, traffic source and the weight of the action: 2-4% is the common average in e-commerce, well-optimised pages exceed 5%, and form-based B2B pages can go above 10%. The real benchmark isn't an industry table but your own history: if this month's rate beats last month's, you're on the right path.",
+        },
+      },
+      {
+        question: {
+          tr: "A/B testi nedir?",
+          en: "What is an A/B test?",
+        },
+        answer: {
+          tr: "A/B testi, bir sayfanın iki versiyonunu aynı anda gerçek trafiğe göstererek hangisinin daha çok dönüştürdüğünü ölçen yöntemdir. Değiştirilen tek bir öğe olur — başlık, buton metni, düzen — ve karar fikirle değil veriyle verilir. Hiçbir açılış sayfası ilk seferde doğru kurulmadığı için test bir proje değil, süregelen bir alışkanlıktır.",
+          en: "An A/B test shows two versions of a page to live traffic at the same time and measures which one converts better. Only one element changes — a headline, a button label, a layout — and the decision comes from data rather than opinion. Because no landing page is right the first time, testing is a habit rather than a project.",
+        },
+      },
+      {
+        question: {
+          tr: "Sayfa hızı dönüşümü ne kadar etkiler?",
+          en: "How much does page speed affect conversion?",
+        },
+        answer: {
+          tr: "Ölçülebilir biçimde etkiler. Çalıştığımız yerel bir perakendecinin sayfası görsel optimizasyonu ve eklenti temizliğiyle 7 saniyeden 2,5 saniyeye indi; hemen çıkma %20 azaldı, dönüşüm %15 arttı. 2026'da çıta daha yukarıda — üç saniyenin altı taban, hedef Core Web Vitals'ın yeşil bandı; SIM vakasında beş dilli sitenin açılışı bir saniyenin altında kaldı.",
+          en: "Measurably. A local retailer we worked with brought page load from 7 seconds down to 2.5 through image optimisation and plugin cleanup; bounce fell 20% and conversion rose 15%. In 2026 the bar sits higher — under three seconds is the floor and the target is the green band of Core Web Vitals; in the SIM case a five-language site loads in under a second.",
+        },
+      },
+      {
+        question: {
+          tr: "Form ve ödeme adımındaki terk nasıl azaltılır?",
+          en: "How do you reduce form and checkout abandonment?",
+        },
+        answer: {
+          tr: "Alan sayısını ve adım sayısını düşürerek. Bir B2B yazılım şirketi sayfasını sadeleştirip form alanlarını azalttığında potansiyel müşteri gönderimleri %40 arttı; aynı mantık ödeme akışında da işler, çünkü mobil form ne kadar kısaysa tamamlanma o kadar yüksektir. Kalan sürtünmeyi güven işaretleri kapatır — yorumlar, güven rozetleri ve müşteri logoları şüpheyi son adımda eritir.",
+          en: "By cutting the number of fields and steps. When a B2B software company simplified its page and reduced form fields, lead submissions rose 40%; the same logic holds at checkout, because the shorter the mobile form, the higher the completion rate. Trust signals close the remaining friction — reviews, badges and customer logos dissolve doubt at the final step.",
+        },
+      },
+      {
+        question: {
+          tr: "A/B testi için ne kadar trafik ve süre gerekir?",
+          en: "How much traffic and time does an A/B test need?",
+        },
+        answer: {
+          tr: "Anlamlı bir farkı okuyacak kadar. Sabit bir sayı vermek yanıltıcı olur; gereken trafik mevcut dönüşüm oranınıza ve beklediğiniz farkın büyüklüğüne göre değişir — dönüşüm oranı ne kadar düşükse o kadar çok ziyaretçi gerekir. Pratik kural şu: testi en az bir tam haftaya yayın ki gün içi ve hafta içi davranış farkları dengelensin, ve erken görünen bir fark için testi kapatmayın.",
+          en: "Enough to read a real difference. A fixed number would be misleading; the traffic you need depends on your current conversion rate and on how large a difference you expect — the lower the rate, the more visitors it takes. A practical rule: run the test across at least one full week so daily and weekday patterns even out, and never stop it early because a gap looks promising.",
+        },
+      },
+      {
+        question: {
+          tr: "Sosyal kanıt bir açılış sayfasına nasıl yerleştirilir?",
+          en: "Where does social proof belong on a landing page?",
+        },
+        answer: {
+          tr: "Karar anının yanına. Müşteri yorumları, vaka çalışmaları, güven rozetleri ve müşteri logoları üçüncü taraf doğrulaması olarak çalışır; çalıştığımız bir e-öğrenme platformu iş birliği yaptığı üniversitelerin logolarını eklediğinde dönüşüm %15 arttı. Kanıtı sayfanın en altına gömmeyin — CTA'nın hemen çevresinde, ziyaretçi güvenli olup olmadığını düşündüğü anda görünmeli.",
+          en: "Next to the moment of decision. Reviews, case studies, trust badges and customer logos act as third-party verification; an e-learning platform we worked with added the logos of its partner universities and conversion rose 15%. Do not bury the proof at the bottom of the page — it belongs around the CTA, visible exactly when the visitor wonders whether this is safe.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka motorlarından gelen ziyaretçi için açılış sayfası nasıl kurulur?",
+          en: "How do you build a landing page for visitors coming from AI engines?",
+        },
+        answer: {
+          tr: "Değer önerisini açık metin olarak sayfaya yazarak. Trafik artık yapay zeka motorlarından da geliyor ve bu motorlar sayfanızı özetleyip kullanıcıya anlatıyor; vaadiniz bir görselin içine gömülüyse motor onu okuyamaz. OdorGo vakasında siteyi tam bu mantıkla kurduk: hangi kanaldan hangi sayfaya girilirse girilsin ikna edici bilgi metin olarak orada duruyor.",
+          en: "By writing the value proposition into the page as plain text. Traffic now also arrives from AI engines, and those engines summarise your page back to the user; if your promise lives inside an image, the engine cannot read it. We built the OdorGo site on exactly this logic: whichever channel a visitor lands from, the persuasive information sits there as text.",
         },
       },
     ],
     category: "growth",
+    topic: "cro",
     tags: ["donusum-optimizasyonu", "cro", "ui-ux"],
     authorSlug: "burak-ozgul",
     publishedAt: "2024-10-13",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "Landing page optimizasyonu: dönüşüm için 7 kural",
+        en: "Landing page optimisation: 7 conversion rules",
+      },
+      description: {
+        tr: "Değer önerisi, eylem çağrısı, sosyal kanıt, hız ve A/B testi. Ölçülmüş kazanımlar: başlıkta %25, çağrıda %30, form sadeliğinde %40 dönüşüm artışı.",
+        en: "Value proposition, call to action, social proof, speed and A/B testing. Measured gains: 25% from a headline, 30% from a CTA, 40% from a simpler form.",
+      },
+    },
   },
 
   {
@@ -2010,14 +2267,14 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "İnsan davranışı, modern dijital çağda bile en eski atalarımıza dayanan içgüdülerden etkilenir. Nörobilim ve psikoloji araştırmaları, sosyal onaylanma ve aidiyetin temel insani ihtiyaçlar olduğunu gösteriyor. Başkalarının bir ürünü kullandığını veya onayladığını gördüğümüzde, hayatta kalma içgüdüsüne dayanan bilinçaltı bir tepki tetiklenir: popüler ve güvenilen şeyin güvenli olduğunu hissetmeye meyilliyiz. \"Sürü etkisi\" üzerine çalışmalar, başkalarının bir şeyi onayladığını gözlemlediğimizde beynin ödül kimyasalı dopamini salgıladığını ortaya koyuyor.",
-          en: "Human behavior, even in the modern digital age, is shaped by instincts that go back to our earliest ancestors. Neuroscience and psychology research shows social approval and belonging are fundamental human needs. When we see others using or endorsing a product, a subconscious response rooted in survival instinct fires: we tend to feel that what is popular and trusted is safe. Studies of the \"herd effect\" show the brain releases dopamine — its reward chemical — when we observe others endorsing something.",
+          en: "Human behaviour, even in the modern digital age, is shaped by instincts that go back to our earliest ancestors. Neuroscience and psychology research shows social approval and belonging are fundamental human needs. When we see others using or endorsing a product, a subconscious response rooted in survival instinct fires: we tend to feel that what is popular and trusted is safe. Studies of the \"herd effect\" show the brain releases dopamine — its reward chemical — when we observe others endorsing something.",
         },
       },
       {
         type: "p",
         text: {
           tr: "Journal of Consumer Research'te yayımlanan bilinen bir çalışma, akran onayının satın alma davranışını nasıl etkilediğini vurguladı: ürüne otantik kullanıcı geri bildirimi eşlik ettiğinde, araştırmacıların \"benim gibi\" önyargısı dediği zihinsel kısayol devreye girer. Bize benzeyen insanlara güvenme ve onların seçimlerinin bizimle alakalı olduğuna inanma olasılığımız daha yüksektir. UGC'nin başarılı olduğu yer tam burası: gerçek insanları, gerçek durumlarda, gerçek seçimler yaparken gösterir — ve bu, psikolojik düzeyde yankı bulur.",
-          en: "A well-known study published in the Journal of Consumer Research highlighted how peer endorsement shapes purchase behavior: when authentic user feedback accompanies a product, a mental shortcut researchers call the \"like-me\" bias kicks in. We are more likely to trust people who resemble us and to believe their choices are relevant to ours. This is exactly where UGC succeeds: it shows real people, in real situations, making real choices — and that resonates at a psychological level.",
+          en: "A well-known study published in the Journal of Consumer Research highlighted how peer endorsement shapes purchase behaviour: when authentic user feedback accompanies a product, a mental shortcut researchers call the \"like-me\" bias kicks in. We are more likely to trust people who resemble us and to believe their choices are relevant to ours. This is exactly where UGC succeeds: it shows real people, in real situations, making real choices — and that resonates at a psychological level.",
         },
       },
       {
@@ -2197,7 +2454,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "UGC ve sosyal kanıt, içerik stratejisindeki dönüşümün merkezinde. Müşterisini dinleyen, paylaşan ve onunla arkadaş gibi bağ kuran markalar; pasif tüketicilerden değil, sadık savunuculardan oluşan bir topluluk kazanıyor. Markanızın mesajı şu olsun: sizi görüyoruz, sizi duyuyoruz ve sizinle birlikte büyümek için buradayız. Markalar ve kitleler arkadaş olarak bağ kurduğunda pazarlama yalnız başarılı olmaz — anlamlı hale gelir.",
-          en: "UGC and social proof sit at the center of the transformation in content strategy. Brands that listen to their customers, share with them and bond with them like friends earn a community of loyal advocates rather than passive consumers. Let your brand's message be: we see you, we hear you, and we're here to grow with you. When brands and audiences bond as friends, marketing doesn't just succeed — it becomes meaningful.",
+          en: "UGC and social proof sit at the centre of the transformation in content strategy. Brands that listen to their customers, share with them and bond with them like friends earn a community of loyal advocates rather than passive consumers. Let your brand's message be: we see you, we hear you, and we're here to grow with you. When brands and audiences bond as friends, marketing doesn't just succeed — it becomes meaningful.",
         },
       },
       {
@@ -2215,8 +2472,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "What is UGC (user-generated content)?",
         },
         answer: {
-          tr: "Markanın değil, gerçek kullanıcıların ürettiği içeriktir: paket açılış videoları, yorumlar, fotoğraflar, deneyim hikâyeleri. Gücü prodüksiyon kalitesinden değil sahiciliğinden gelir — izleyen kişi ekranda kendine benzeyen birini görür ve \"benim gibi\" önyargısı devreye girer.",
-          en: "Content produced by real users rather than the brand: unboxing videos, reviews, photos, experience stories. Its power comes from authenticity, not production quality — the viewer sees someone like themselves on screen, and the \"like-me\" bias kicks in.",
+          tr: "Markanın değil, gerçek kullanıcıların ürettiği içeriktir: paket açılış videoları, yorumlar, fotoğraflar, deneyim hikâyeleri. Gücü prodüksiyon kalitesinden değil sahiciliğinden gelir — izleyen kişi ekranda kendine benzeyen birini görür ve \"benim gibi\" önyargısı devreye girer. Marka açısından işlevi, kendi anlatısını müşterinin ağzından doğrulatmak ve ürünü gerçek bir hayatın içinde göstermektir.",
+          en: "Content produced by real users rather than the brand: unboxing videos, reviews, photos, experience stories. Its power comes from authenticity, not production quality — the viewer sees someone like themselves on screen, and the \"like-me\" bias kicks in. For the brand, its function is to have its own claims confirmed in the customer's words and to show the product inside a real life.",
         },
       },
       {
@@ -2225,8 +2482,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "Does UGC replace traditional content?",
         },
         answer: {
-          tr: "Hayır — ikisi farklı iş görür. Profesyonel içerik marka güvenilirliğini ve kaliteyi kurar; UGC bu yapının üzerine özgünlük katmanını ekler. Yalnız cilalı içerik mesafeli, yalnız UGC ise otoritesiz kalır. Doğru strateji ikisini birlikte çalıştırır.",
-          en: "No — they do different jobs. Professional content builds brand credibility and quality; UGC adds the authenticity layer on top of that structure. Polished content alone feels distant; UGC alone lacks authority. The right strategy runs both together.",
+          tr: "Hayır — ikisi farklı iş görür. Profesyonel içerik marka güvenilirliğini ve kaliteyi kurar; UGC bu yapının üzerine özgünlük katmanını ekler. Yalnız cilalı içerik mesafeli, yalnız UGC ise otoritesiz kalır. Doğru strateji ikisini birlikte çalıştırır. Pratikte sıra şudur: profesyonel içerik yapıyı kurar, kullanıcı içeriği o yapının üzerine biner.",
+          en: "No — they do different jobs. Professional content builds brand credibility and quality; UGC adds the authenticity layer on top of that structure. Polished content alone feels distant; UGC alone lacks authority. The right strategy runs both together. In practice the order is simple: professional content builds the structure and user content sits on top of it.",
         },
       },
       {
@@ -2235,7 +2492,7 @@ export const ARTICLES: ArticleContent[] = [
           en: "Why is social proof so effective?",
         },
         answer: {
-          tr: "Çünkü nörolojik temeli var: başkalarının bir şeyi onayladığını gözlemlemek beynin ödül kimyasalı dopamini tetikler ve \"popüler olan güvenlidir\" içgüdüsünü harekete geçirir. Seçenek bolluğunda sosyal kanıt karar yorgunluğunu azaltır — yüzlerce yorumu olan ürün, içgüdüsel olarak daha az riskli hissettirir.",
+          tr: "Çünkü nörolojik temeli var: başkalarının bir şeyi onayladığını gözlemlemek beynin ödül kimyasalı dopamini tetikler ve \"popüler olan güvenlidir\" içgüdüsünü harekete geçirir. Seçenek bolluğunda sosyal kanıt karar yorgunluğunu azaltır — yüzlerce yorumu olan ürün, içgüdüsel olarak daha az riskli hissettirir. Etkisi kararı hızlandırmakla kalmaz, alıcının pişmanlık riskini de düşürür.",
           en: "Because it has a neurological basis: observing others endorse something triggers dopamine — the brain's reward chemical — and activates the instinct that what is popular is safe. Amid an abundance of options, social proof reduces decision fatigue — a product with hundreds of reviews instinctively feels less risky.",
         },
       },
@@ -2249,12 +2506,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "It starts with asking: request an experience share in the post-purchase email, put a small note inviting sharing inside the package, feature the best content on your own channels and reward contributors (contests, reshares, discounts). The first ten authentic pieces produce more trust than a hundred polished posts.",
         },
       },
+      {
+        question: {
+          tr: "Hangi UGC türleri en çok işe yarar?",
+          en: "Which types of UGC work best?",
+        },
+        answer: {
+          tr: "Ürünün gerçek hayatta nasıl kullanıldığını gösterenler. Paket açılış videoları, kullanıcı fotoğrafları ve hikâye odaklı referanslar en güçlü üçlüdür; yıldız puanı bir özet verir ama ürünün bir hayatı nasıl etkilediğini anlatan ayrıntılı müşteri hikâyesi ikna eder. Format değil bağlam belirleyicidir: izleyen kişi kendini o sahnede görebiliyorsa içerik çalışır.",
+          en: "The ones that show the product in real use. Unboxing videos, customer photos and story-driven testimonials are the strongest three; a star rating gives a summary, but a detailed customer story about how the product affected a life is what persuades. Context decides, not format: if the viewer can picture themselves in the scene, the content works.",
+        },
+      },
+      {
+        question: {
+          tr: "Mikro-influencer ile büyük influencer arasında nasıl seçim yapılır?",
+          en: "How do you choose between a micro-influencer and a big name?",
+        },
+        answer: {
+          tr: "Takipçi sayısına değil, kitle uyumuna bakarak. Mikro-influencer'lar küçük ama yüksek etkileşimli kitleleriyle daha ilişkilenebilir dururlar ve niş topluluklarda paylaşılan bir kimlik kurarlar. Büyük isim erişim satın alır ama ilişkilenebilirliği satın alamaz — ürününüz bir topluluğun içinde konuşuluyorsa, o topluluğun kendi sesi daha uzağa gider.",
+          en: "By audience fit rather than follower count. Micro-influencers hold small but highly engaged audiences, read as more relatable and build a shared identity inside niche communities. A big name buys reach but cannot buy relatability — if your product is discussed inside a community, that community's own voice travels further.",
+        },
+      },
+      {
+        question: {
+          tr: "Yorumlar ve referanslar sitede nasıl sunulmalı?",
+          en: "How should reviews and testimonials be presented on a site?",
+        },
+        answer: {
+          tr: "Puanı değil, hikâyeyi öne çıkararak. Yıldız ortalaması bir eşik bilgisidir; asıl ikna, ürünün somut bir durumu nasıl değiştirdiğini anlatan ayrıntılı müşteri hikâyesinden gelir. Görsel kanıtı yanına koyun — gerçek kullanıcı fotoğrafı ve videosu, ürünün bir yaşam tarzına nasıl oturduğunu metnin anlatamayacağı hızda gösterir.",
+          en: "By leading with the story rather than the score. An average rating is threshold information; the persuasion comes from a detailed customer account of how the product changed a concrete situation. Put visual proof beside it — real user photos and videos show how the product fits into a life faster than any paragraph can.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka ile üretilmiş sahte kullanıcı içeriği kullanılabilir mi?",
+          en: "Can you use AI-generated fake user content?",
+        },
+        answer: {
+          tr: "Kullanılmamalı. Yapay zeka her şeyi üretebilir; üretemediği tek şey \"benim gibi biri\"dir ve kitleler sentetik içeriği ayırt etmeyi hızla öğrendi. Yapay zeka avatarlarla çekilmiş sahte-UGC denemeleri, yakalandığı anda markaya sahicilik borcu olarak geri döndü — kamera kalitesi düşük olabilir, güven düşük olamaz.",
+          en: "It should not be used. AI can generate anything except \"someone like me\", and audiences have learned to spot synthetic content quickly. Fake UGC shot with AI avatars has come back on brands as an authenticity debt the moment it was caught — the camera quality can be low, the trust cannot.",
+        },
+      },
+      {
+        question: {
+          tr: "Marka dostluğu profesyonellikten ödün vermek midir?",
+          en: "Does brand friendliness mean giving up professionalism?",
+        },
+        answer: {
+          tr: "Hayır — ödün verilen şey mesafe, profesyonellik değil. Marka dostluğu, sesin sıcak, ilişkilenebilir ve insani olması demektir: kurumsal jargon yerine net cümleler, yorumlara verilen gerçek yanıtlar, ekibi ve süreci gösteren kamera arkası kesitleri. Duolingo eğitici içerik sunarken esprili bir kimlik kurdu ve kullanıcılarını ürüne değil paylaşılan bir deneyime bağladı.",
+          en: "No — what gets dropped is distance, not professionalism. Brand friendship means a warm, relatable and human voice: plain sentences instead of corporate jargon, real replies in the comments, behind-the-scenes glimpses of the team and the process. Duolingo built a witty identity while still teaching, and tied its users to a shared experience rather than to a product.",
+        },
+      },
+      {
+        question: {
+          tr: "Sosyal kanıt yapay zeka motorlarındaki görünürlüğü etkiler mi?",
+          en: "Does social proof affect visibility in AI engines?",
+        },
+        answer: {
+          tr: "Evet, doğrudan. İnsanlar bir ürünün iyi olup olmadığını artık ChatGPT'ye ve Perplexity'ye soruyor; bu motorlar cevabı gerçek kullanıcı yorumlarından, tartışmalardan ve bağımsız içerikten damıtıyor. Hakkında sahici konuşulan marka yanıtlarda da güvenle anılıyor — yani kullanıcı içeriği yalnızca reklam kreatifi değil, motorların okuduğu bir kanıt katmanıdır.",
+          en: "Yes, directly. People now ask ChatGPT and Perplexity whether a product is any good, and those engines distil the answer from real reviews, discussions and independent content. A brand that people genuinely talk about gets named with confidence in those answers — which makes user content an evidence layer the engines read, not just ad creative.",
+        },
+      },
     ],
     category: "growth",
+    topic: "marka-hikaye",
     tags: ["ugc", "sosyal-kanit", "noropazarlama"],
-    authorSlug: "burak-ozgul",
+    authorSlug: "cagri-erdogan",
     publishedAt: "2024-11-14",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "UGC ve sosyal kanıt reklamdan neden güçlü?",
+        en: "UGC and social proof: why they beat ads",
+      },
+      description: {
+        tr: "Nörobilim, cilalı reklam yerine neden müşteri yorumuna güvendiğinizi açıklıyor. GoPro ve Airbnb örnekleri, yapay zeka çağında sahiciliğin yeni ölçüsü.",
+        en: "Neuroscience explains why a customer review outweighs a polished ad. The GoPro and Airbnb playbooks, and what authenticity now costs brands in the AI age.",
+      },
+    },
   },
   {
     // Eski blogdan taşındı (2024-08-03). "8 soru" formatı yazının kimliği —
@@ -2367,7 +2695,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Uzun bir sefere çıkmak üzeresiniz. Tahmine değil, hassas haritaya ve düzgün çalışan bir cihaza güvenen bir seyrüsefer uzmanı istemez miydiniz? Pazarlamada o cihaz veridir. Ajansın tahmine dayalı analitikten gerçek zamanlı kampanya optimizasyonuna kadar net bir yaklaşımı olmalı — ve bu yaklaşım sizin işinize göre uyarlanmış olmalı, sunumda hazır duran genel bir şema değil.",
-          en: "You're about to set out on a long voyage. Wouldn't you want a navigator who trusts a precise chart and a working instrument rather than a guess? In marketing, that instrument is data. The agency should have a clear approach from predictive analytics to real-time campaign optimization — and that approach should be shaped around your business, not a generic diagram already sitting in the deck.",
+          en: "You're about to set out on a long voyage. Wouldn't you want a navigator who trusts a precise chart and a working instrument rather than a guess? In marketing, that instrument is data. The agency should have a clear approach from predictive analytics to real-time campaign optimisation — and that approach should be shaped around your business, not a generic diagram already sitting in the deck.",
         },
       },
       {
@@ -2409,7 +2737,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Cevapta şunu arayın: ajans kitleyi demografiyle mi tarif ediyor, davranışla mı? \"25-45 yaş, kadın, büyükşehir\" bir hedefleme ayarıdır. \"Satın almadan önce üç kez fiyat karşılaştırıp yorum okuyor\" bir içgörüdür.",
-          en: "Listen for this: does the agency describe the audience by demographics or by behavior? \"Women, 25-45, metro areas\" is a targeting setting. \"They compare prices three times and read reviews before buying\" is an insight.",
+          en: "Listen for this: does the agency describe the audience by demographics or by behaviour? \"Women, 25-45, metro areas\" is a targeting setting. \"They compare prices three times and read reviews before buying\" is an insight.",
         },
       },
       {
@@ -2431,7 +2759,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Yapay zeka stratejinin, uygulamanın ve optimizasyonun her katmanına girdi; ajansın hem bugün hem önümüzdeki iki yıl için net bir çerçevesi olmalı. Bir danışmanlık projesinde, müşteri segmentasyonu ve kişiselleştirme için yapay zekayı işin içine gömen bir ajans gözlemledim: hedefleme isabeti arttı, müşteri deneyimi düzeldi, dönüşüm oranı bunu takip etti.",
-          en: "AI has entered every layer of strategy, execution and optimization; the agency should have a clear framework both for today and for the next two years. On one consulting project I watched an agency embed AI into customer segmentation and personalization: targeting accuracy improved, the customer experience improved, and the conversion rate followed.",
+          en: "AI has entered every layer of strategy, execution and optimisation; the agency should have a clear framework both for today and for the next two years. On one consulting project I watched an agency embed AI into customer segmentation and personalisation: targeting accuracy improved, the customer experience improved, and the conversion rate followed.",
         },
       },
       {
@@ -2701,12 +3029,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "When three signals arrive together. One: reports repeat the same metrics with the same commentary three months running, with no recommendations. Two: you discover the bad news yourself; the agency doesn't raise it. Three: new ideas come from you and the agency only executes. A single drop in performance isn't a reason — seasons, markets and competitors all fluctuate. But if all three signals appear in the same quarter, the issue is the relationship, not the campaign. Before switching, restate your expectations in writing and watch one more quarter — because changing agencies carries a handover cost: the brief, the access and the learning curve all restart from zero. Don't decide without putting that cost in the plan.",
         },
       },
+      {
+        question: {
+          tr: "Ajans görüşmesine nasıl hazırlanılır?",
+          en: "How do you prepare for an agency meeting?",
+        },
+        answer: {
+          tr: "Üç şeyi yazılı hale getirerek: bu yıl hangi iş sonucunu istediğinizi, elinizdeki kısıtları (bütçe, ekip, teknik borç) ve hangi kararı kimin verdiğini. Sekiz soruyu sormadan önce bunlar netse ajansın cevabı da somutlaşır; belirsiz bir brief genel bir sunumu davet eder. Görüşmeye reklam paneli ve analitik erişimlerinizi de hazırlayın — ajansın ilk teşhisi oradan çıkar.",
+          en: "By putting three things in writing: the business result you want this year, the constraints you are working under (budget, team, technical debt) and who signs off on what. Get those clear before asking the eight questions and the agency's answers get concrete too; a vague brief invites a generic pitch. Bring access to your ad accounts and analytics as well — that is where the first real diagnosis comes from.",
+        },
+      },
+      {
+        question: {
+          tr: "Ajans raporlaması nasıl olmalı?",
+          en: "What should agency reporting look like?",
+        },
+        answer: {
+          tr: "Şeffaf, düzenli ve karar üretebilir. Sıklığı, formatı ve hangi metriğe öncelik verildiğini sözleşmeden önce netleştirin; asıl ayırt edici soru şudur: kötü haberi kim, ne zaman söylüyor? Raporun içinde ajansın kendi hatasını yazdığı bir bölüm yoksa o rapor bir performans değerlendirmesi değil, bir vitrindir.",
+          en: "Transparent, regular and capable of producing decisions. Settle the frequency, the format and which metrics take priority before signing; the real differentiator is a simpler question — who reports bad news, and when? If the report has no section where the agency writes down its own mistakes, it is not a performance review, it is a shop window.",
+        },
+      },
+      {
+        question: {
+          tr: "Ajansın yapay zekayı doğru kullandığını nasıl anlarım?",
+          en: "How do I tell whether an agency uses AI well?",
+        },
+        answer: {
+          tr: "Tek bir soruyla: son üç ayda yapay zekayı hangi işi hızlandırmak için kullandınız ve hangi kararı bilerek insana bıraktınız? Üretimi hızlandırmak — görsel, ilk taslak, kampanya verisi taraması — iyidir. Ama hangi kategoride oynanacağı, hangi müşteriden vazgeçileceği ve hangi fiyat konumunun savunulacağı karardır; bu kararları modele devreden ajans size rakiplerinizin ortalamasını satar.",
+          en: "With a single question: in the last three months, which task did you use AI to speed up, and which decision did you deliberately keep human? Speeding up production — visuals, first drafts, scanning campaign data — is good. But which category to play in, which customer to walk away from and which price position to defend are decisions; an agency that hands those to a model is selling you the average of your competitors.",
+        },
+      },
+      {
+        question: {
+          tr: "Ajans sektörümü bilmiyorsa sorun olur mu?",
+          en: "Is it a problem if the agency does not know my sector?",
+        },
+        answer: {
+          tr: "Bilmemesi değil, bilmediğini saklaması sorundur. Sektöre özgü kısıtları baştan bilen bir ekip strateji süresini kısaltır — İstanbul Ortez Protez işinde hastanın nasıl arama yaptığını anlamadan yazılan hiçbir sayfa ilk üçe çıkmadı. Bilmediğini söyleyip nasıl öğreneceğini anlatan ajans, her sektörde çalıştığını söyleyenden daha güvenlidir.",
+          en: "The problem is not the gap, it is hiding the gap. A team that already understands the sector's constraints shortens the strategy phase — in the İstanbul Ortez Protez project, no page reached the top three until we understood how patients actually search. An agency that admits what it does not know and explains how it will learn is safer than one that claims to work in every sector.",
+        },
+      },
+      {
+        question: {
+          tr: "Kriz planı neden sözleşmeden önce sorulmalı?",
+          en: "Why should you ask about the crisis plan before signing?",
+        },
+        answer: {
+          tr: "Krizde ortaya çıkan şey ajansın yeteneği değil refleksidir, ve refleks kriz anında pazarlık edilmez. Görüşmede üç şeyi net sorun: gece yarısı ulaşılabilen sorumlu kim, onayı kim veriyor, ilk yirmi dört saatte hangi adımlar sabit? Kriz planı yazılı değilse yoktur; iyi yönetilen bir kriz ise markanın şeffaflık tarafını güçlendiren bir ana dönüşebilir.",
+          en: "What shows up in a crisis is reflex, not talent, and reflexes cannot be negotiated mid-crisis. Ask three things directly: who is reachable at midnight, who approves, and which steps are fixed in the first twenty-four hours? If the crisis plan is not written down it does not exist; a well-handled crisis, on the other hand, can become the moment that strengthens a brand's transparency.",
+        },
+      },
+      {
+        question: {
+          tr: "Ajansın verdiği kitle içgörüsü iyi mi, nasıl anlarım?",
+          en: "How do I judge the quality of an agency's audience insight?",
+        },
+        answer: {
+          tr: "Kitleyi demografiyle mi davranışla mı tarif ettiğine bakın. \"25-45 yaş, kadın, büyükşehir\" bir hedefleme ayarıdır; \"satın almadan önce üç kez fiyat karşılaştırıp yorum okuyor\" bir içgörüdür. İkinci cümle hangi sayfanın yazılacağını, hangi kanalın önceleneceğini ve hangi itirazın karşılanacağını değiştirir — içgörü stratejiyi değiştirmiyorsa içgörü değildir.",
+          en: "Look at whether they describe the audience by demographics or by behaviour. \"Women, 25-45, metropolitan\" is a targeting setting; \"compares prices three times and reads reviews before buying\" is an insight. The second sentence changes which page gets written, which channel gets priority and which objection gets answered — if an insight does not change the strategy, it is not one.",
+        },
+      },
     ],
     category: "growth",
+    topic: "is-gelistirme",
     tags: ["ajans-secimi", "performans-pazarlama", "ai"],
     authorSlug: "burak-ozgul",
     publishedAt: "2024-08-03",
     readingMinutes: 9,
+    seo: {
+      title: {
+        tr: "Pazarlama ajansı seçimi: sorulacak 8 soru",
+        en: "Choosing a marketing agency: 8 questions",
+      },
+      description: {
+        tr: "Dijital reklam ajansı ile tedarikçi arasındaki fark ilk görüşmede duyulur: kanıt, hedefleme, yapay zeka kullanımı ve kriz anı. Her cevapta ne aranır?",
+        en: "A digital advertising agency and a vendor sound different in the first meeting: evidence, targeting, AI use, crisis handling. What to listen for in each.",
+      },
+    },
   },
   // Eski blogdan taşındı (indoles_eski/wp-icerik/yazilar/2026-web-tasarim-trendleri.md,
 // 2025-12-04). "Buraya tıklayın" kırık CTA'ları ve ":)" suratları temizlendi;
@@ -2867,7 +3266,7 @@ export const ARTICLES: ArticleContent[] = [
       type: "p",
       text: {
         tr: "Yıllardır \"mobil öncelikli\" tasarımı konuşuyoruz. Ama 2026'da masaüstü artık mobilin bir uzantısı; trafiğin büyük çoğunluğu — birçok sektörde yüzde 80'i aşan bir payla — mobil cihazlardan geliyor. Bu dünyada tasarım süreçleri başparmak dostu navigasyon üzerine kurulmalı. Responsive tasarım artık yeterli değil — kullanıcının mobildeki davranış psikolojisi, masaüstünden tamamen farklı.",
-        en: "We've talked about \"mobile-first\" design for years. But in 2026, desktop is the extension of mobile, not the other way around; the vast majority of traffic — well over 80% in many industries — arrives from mobile devices. In this world, design has to be built on thumb-friendly navigation from the start. Responsive design alone isn't enough anymore — user behavior on mobile is a different psychology from desktop, not a smaller version of it.",
+        en: "We've talked about \"mobile-first\" design for years. But in 2026, desktop is the extension of mobile, not the other way around; the vast majority of traffic — well over 80% in many industries — arrives from mobile devices. In this world, design has to be built on thumb-friendly navigation from the start. Responsive design alone isn't enough anymore — user behaviour on mobile is a different psychology from desktop, not a smaller version of it.",
       },
     },
     {
@@ -2906,7 +3305,7 @@ export const ARTICLES: ArticleContent[] = [
       type: "p",
       text: {
         tr: "[Meccanotecnica Umbra Türkiye'nin teklif portalında](/vakalar/meccanotecnica-umbra-teklif-portali) bunu tam bu ihtiyaç için kurduk. Alıcı bir mühendis; kataloğu gezmek değil, kendi tesisine uygun salmastrayı saniyeler içinde bulmak istiyor. Komut paleti araması, ürün bulma akışını doğrudan teklif adımına bağladı — sonuç, teklif taleplerinde 10 kat artış oldu. Fonksiyonel güzellik dediğimiz şey tam olarak bu: kullanıcının varlığını hissetmediği, onu hedefine en kısa yoldan taşıyan arayüz.",
-        en: "We built exactly this into [Meccanotecnica Umbra Türkiye's quote portal](/vakalar/meccanotecnica-umbra-teklif-portali). The buyer here is an engineer; they don't want to browse a catalog, they want to find the seal that fits their own plant in seconds. Command-palette search tied product discovery straight to the quote step — the result was a 10× increase in quote requests. That's what we mean by functional beauty: an interface whose presence you never feel, one that carries you to your goal by the shortest path.",
+        en: "We built exactly this into [Meccanotecnica Umbra Türkiye's quote portal](/vakalar/meccanotecnica-umbra-teklif-portali). The buyer here is an engineer; they don't want to browse a catalogue, they want to find the seal that fits their own plant in seconds. Command-palette search tied product discovery straight to the quote step — the result was a 10× increase in quote requests. That's what we mean by functional beauty: an interface whose presence you never feel, one that carries you to your goal by the shortest path.",
       },
     },
     {
@@ -2957,7 +3356,7 @@ export const ARTICLES: ArticleContent[] = [
       type: "p",
       text: {
         tr: "2026 web tasarım trendleri sadece göze hoş gelen renk paletleri veya modern fontlar değil. Trend; milisaniyelerle yarışan, SEO uyumlu, dönüşüm oranı yüksek ve reklam bütçesini koruyan stratejik bir altyapı inşası. İşletmenizi büyütmek istiyorsanız, web tasarımını \"görsel bir iş\" olarak görmeyi bırakıp performans ve teknoloji stratejinizin merkezine koymanız gerekiyor.",
-        en: "2026's web design trends aren't just pleasing color palettes or modern fonts. The trend is building a strategic foundation that races against milliseconds, is SEO-aligned, converts well and protects the ad budget. If you want to grow the business, web design needs to stop being \"a visual job\" and move to the center of your performance and technology strategy.",
+        en: "2026's web design trends aren't just pleasing color palettes or modern fonts. The trend is building a strategic foundation that races against milliseconds, is SEO-aligned, converts well and protects the ad budget. If you want to grow the business, web design needs to stop being \"a visual job\" and move to the centre of your performance and technology strategy.",
       },
     },
     {
@@ -3009,12 +3408,83 @@ export const ARTICLES: ArticleContent[] = [
         en: "No — and that's a firm answer. The performance- and accessibility-based trends (speed, mobile fit, readability) are a universal requirement; skipping them brings a direct penalty. But aesthetic trends — a color palette, a layout fashion, this month's popular animation style — should never come before your brand identity. When everyone builds the same \"clean\" site from the same component library, following the trend as-is doesn't set you apart from competitors — it does the opposite. Brand identity comes before trend.",
       },
     },
+    {
+      question: {
+        tr: "Core Web Vitals nedir?",
+        en: "What are Core Web Vitals?",
+      },
+      answer: {
+        tr: "Google'ın kullanıcı deneyimini ölçtüğü üç metriktir. LCP, sayfanın ana içeriğinin ekrana geldiği anı işaretleyerek algılanan yükleme hızını gösterir; INP, sayfanın kullanıcı etkileşimlerine ne kadar hızlı yanıt verdiğini ölçer; CLS ise yükleme sırasında öğelerin ne kadar yerinden oynadığını, yani görsel kararlılığı gösterir. Üçü birlikte artık bir tavsiye değil eşiktir.",
+        en: "They are the three metrics Google uses to measure user experience. LCP marks the moment the page's main content appears, standing in for perceived load speed; INP measures how quickly the page responds to interaction; CLS shows how much elements shift during loading, meaning visual stability. Together they are a threshold rather than a recommendation.",
+      },
+    },
+    {
+      question: {
+        tr: "Yavaş bir site reklam maliyetini nasıl artırır?",
+        en: "How does a slow site raise your ad costs?",
+      },
+      answer: {
+        tr: "İki yönden. Google Ads, açılış sayfası yavaş açılan reklamların kalite puanını düşürür; aynı sıralama için rakiplerinizden daha yüksek tıklama başına maliyet ödersiniz. İkincisi doğrudan gelir kaybıdır: Amazon verilerine göre sayfa yüklemesindeki her 100 milisaniyelik gecikme satışlarda yüzde birlik bir kayba yol açıyor. Yavaş siteye yüksek bütçeli reklam vermek, deposu delik bir arabaya benzin doldurmaktır.",
+        en: "In two directions. Google Ads lowers the quality score of ads whose landing page loads slowly, so you pay a higher cost per click than competitors for the same position. The second is straight revenue loss: Amazon's data shows every 100 milliseconds of added load time costs about one percent of sales. Running a large budget against a slow site is filling a car with a leaking tank.",
+      },
+    },
+    {
+      question: {
+        tr: "Site hızı nasıl ölçülür ve hedef ne olmalı?",
+        en: "How do you measure site speed and what should the target be?",
+      },
+      answer: {
+        tr: "Ölçüm Core Web Vitals üzerinden yapılır ve laboratuvar testi değil gerçek kullanıcı verisi esas alınır. 2025 sonunda üç saniyenin altı iddialı bir hedefti; 2026 ortasında rakip sitelerin çoğu zaten bu bandın altında ve fark milisaniyelerde ölçülüyor. Kendi projelerimizde bir saniyenin altını hedefliyoruz — SIM Baskı Malzemeleri'nin beş dilli sitesi yayın sonrasında da o bandın altında kaldı.",
+        en: "You measure through Core Web Vitals, and field data from real users counts more than a lab test. At the end of 2025, under three seconds was an ambitious target; by mid-2026 most competing sites already sit below that band and the gap is measured in milliseconds. We target under one second in our own projects — SIM Printing Suppliers' five-language site stayed below that band after launch as well.",
+      },
+    },
+    {
+      question: {
+        tr: "Mobil uyumlu tasarım ile mobil öncelikli tasarım arasındaki fark nedir?",
+        en: "What is the difference between responsive and mobile-first design?",
+      },
+      answer: {
+        tr: "Mobil uyumlu tasarım masaüstü sayfayı küçük ekrana sığdırır; mobil öncelikli tasarım kararı doğrudan küçük ekranda verir. 2026'da trafiğin büyük çoğunluğu — birçok sektörde yüzde 80'i aşan bir payla — mobilden geldiği için ikincisi zorunlu hale geldi. Pratik karşılığı başparmak bölgesidir: satın al, teklif iste ve ara gibi birincil eylemler ekranın alt yarısında, tek elle ulaşılabilecek noktada durmalı.",
+        en: "Responsive design fits a desktop page onto a small screen; mobile-first design makes the decision on the small screen from the start. With the large majority of traffic now arriving from mobile — above 80% in many sectors — the second one became mandatory in 2026. In practice it means the thumb zone: primary actions like buy, request a quote and call belong in the lower half of the screen, reachable with one hand.",
+      },
+    },
+    {
+      question: {
+        tr: "Kod hijyeni nedir, neden bakım maliyetini belirler?",
+        en: "What is code hygiene and why does it drive maintenance cost?",
+      },
+      answer: {
+        tr: "Kod hijyeni, sitenin görünmeyen tarafındaki sadeliktir: gereksiz JavaScript kütüphanelerinin, optimize edilmemiş devasa görsellerin ve şişirilmiş hazır temaların temizlenmesi. Bir site ön yüzünde ne kadar sade görünürse görünsün arka planda bu yükü taşıyorsa kirlidir ve görsel sadelik yalnızca makyaj kalır. Temiz kodlanmamış site her güncellemede yeniden ücret çıkarır.",
+        en: "Code hygiene is simplicity on the invisible side of a site: clearing out unnecessary JavaScript libraries, unoptimised oversized images and bloated off-the-shelf themes. However clean the front end looks, a site carrying that weight underneath is dirty, and the visual simplicity is only makeup. A site that was not coded cleanly bills you again at every update.",
+      },
+    },
+    {
+      question: {
+        tr: "Komut paleti her siteye gerekli mi?",
+        en: "Does every site need a command palette?",
+      },
+      answer: {
+        tr: "Hayır — katalog derinliği ve kullanıcının aceleciliği belirler. Linear, Vercel ve Stripe'ın popülerleştirdiği komut paleti, kullanıcı menüde gezinmek yerine aradığını doğrudan bulmak istediğinde işe yarar. Meccanotecnica Umbra'nın teklif portalında alıcı bir mühendisti ve kendi tesisine uygun salmastrayı saniyeler içinde bulmak istiyordu; arama katmanı ürün bulma akışını doğrudan teklif adımına bağladı ve teklif talepleri 10 katına çıktı.",
+        en: "No — catalogue depth and how hurried the user is decide it. The command palette popularised by Linear, Vercel and Stripe pays off when people want to find something directly instead of navigating a menu. On Meccanotecnica Umbra's quote portal the buyer was an engineer who needed the right mechanical seal for their plant in seconds; the search layer wired product discovery straight into the quote step and requests rose tenfold.",
+      },
+    },
   ],
   category: "growth",
+  topic: "ui-ux",
   tags: ["web-tasarim", "core-web-vitals", "mobil-tasarim"],
-  authorSlug: "burak-ozgul",
+  authorSlug: "sude-albayrak",
   publishedAt: "2025-12-04",
   readingMinutes: 8,
+  seo: {
+    title: {
+      tr: "2026 UI/UX tasarım trendleri: hız ve mobil",
+      en: "2026 UI/UX design trends: speed and mobile",
+    },
+    description: {
+      tr: "Amazon verisi net: her 100 milisaniyelik gecikme satışın yüzde birini götürüyor. Kod hijyeni, mobil zorunluluk ve arayüz tasarımında komut deneyimi.",
+      en: "Amazon measured it: every 100 ms of load delay costs 1% of sales. Code hygiene, mobile as a requirement, and the command-driven interface design of 2026.",
+    },
+  },
 },
   {
     // Eski blogdan taşındı (2025-12-08). "2026 trendleri" yazısı 2026'nın
@@ -3087,7 +3557,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "E-ticaret yöneticilerinin bu tuzağa düşmesi tesadüf değil; tamamen insan psikolojisinin bir oyunu. Davranış biliminde buna hedonik adaptasyon diyoruz. Beynimiz yeni uyaranlara ve ödüllere büyük bir dopamin salgılar. Siteye gelen yeni bir ziyaretçinin ilk siparişi, işletme sahibi için heyecan kaynağıdır. Sizi zaten tanıyan sadık bir müşterinin sessiz ve düzenli alışverişi ise aynı heyecanı yaratmaz.",
-          en: "It's no accident that e-commerce managers fall into this trap; it's a trick of human psychology. In behavioral science we call it hedonic adaptation. Our brains release a burst of dopamine for novel stimuli and rewards. A first-time visitor's first order thrills the business owner. The quiet, regular purchase of a loyal customer who already knows you produces nothing of the sort.",
+          en: "It's no accident that e-commerce managers fall into this trap; it's a trick of human psychology. In behavioural science we call it hedonic adaptation. Our brains release a burst of dopamine for novel stimuli and rewards. A first-time visitor's first order thrills the business owner. The quiet, regular purchase of a loyal customer who already knows you produces nothing of the sort.",
         },
       },
       {
@@ -3247,7 +3717,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "h3",
         text: {
           tr: "Kişiselleştirme paradoksu ve RAS etkisi",
-          en: "The personalization paradox and the RAS effect",
+          en: "The personalisation paradox and the RAS effect",
         },
       },
       {
@@ -3274,14 +3744,14 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "İkinci yaklaşım müşteride bilişsel kolaylık yaratır. Müşteri düşünmek zorunda kalmaz, çünkü siz onun yerine düşünüp seçenekleri daraltmışsınızdır. Kişiselleştirme bir nezaket değil, bir yük azaltma tekniğidir.",
-          en: "The second approach creates cognitive ease. The customer doesn't have to think, because you thought for them and narrowed the options. Personalization isn't a courtesy; it's a technique for removing load.",
+          en: "The second approach creates cognitive ease. The customer doesn't have to think, because you thought for them and narrowed the options. Personalisation isn't a courtesy; it's a technique for removing load.",
         },
       },
       {
         type: "h3",
         text: {
           tr: "Davranışsal tetikleyiciler: sepette unutulan ürün değil, kaçan fırsat",
-          en: "Behavioral triggers: not a forgotten cart, a missed opportunity",
+          en: "Behavioural triggers: not a forgotten cart, a missed opportunity",
         },
       },
       {
@@ -3352,7 +3822,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Robert Cialdini'nin meşhur karşılıklılık ilkesi, birinin bize yaptığı iyiliğe karşı kendimizi borçlu hissetmemizdir. Kutudan sipariş edilmemiş küçük bir hediye çıkması — bir avuç jelibon, bir sticker, bir tester ürün ya da elle yazılmış bir teşekkür notu — müşteride pozitif bir şok yaratır. Bu jest zihinde bir borçluluk hissi bırakır ve müşteri o borcu iki şekilde öder: markayı tekrar tercih ederek ve kutunun fotoğrafını paylaşarak. İkincisi bedava reklamdır.",
-          en: "Robert Cialdini's famous reciprocity principle is our sense of owing something to whoever did us a favor. An unordered little gift falling out of the box — a handful of jelly beans, a sticker, a tester, a handwritten thank-you note — creates a positive shock. That gesture leaves a sense of debt, and the customer settles it in two ways: by choosing the brand again, and by photographing the box and sharing it. The second one is free advertising.",
+          en: "Robert Cialdini's famous reciprocity principle is our sense of owing something to whoever did us a favour. An unordered little gift falling out of the box — a handful of jelly beans, a sticker, a tester, a handwritten thank-you note — creates a positive shock. That gesture leaves a sense of debt, and the customer settles it in two ways: by choosing the brand again, and by photographing the box and sharing it. The second one is free advertising.",
         },
       },
       {
@@ -3443,7 +3913,7 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Bütçe dağıtımının büyük ölçüde algoritmaya geçmesi. Performance Max ve Advantage+ tarzı otomasyonlar hangi kanala, hangi kitleye, ne kadar harcanacağına kendisi karar veriyor. Bu, reklamcının işini kaldırmadı; işin yerini değiştirdi. Artık kritik karar, algoritmaya hangi hedefi öğrettiğinizdir. \"Dönüşüm adedi\" verirseniz ucuz ve kârsız sipariş üretir; gelir ve marj verirseniz kârlı müşteriyi arar. Yani 2026'nın değişimi teknik değil, tanımsal: neyi başarı saydığınızı yazmak, kampanyayı kurmaktan daha belirleyici hale geldi.",
-          en: "Budget allocation has largely moved to the algorithm. Performance Max and Advantage+ style automations decide for themselves which channel, which audience and how much. That didn't remove the marketer's job; it moved it. The critical decision now is which objective you teach the algorithm. Feed it \"conversion count\" and it produces cheap, unprofitable orders; feed it revenue and margin and it hunts for profitable customers. So the 2026 shift isn't technical but definitional: writing down what counts as success matters more than building the campaign.",
+          en: "Most budget allocation has moved to the algorithm. Performance Max and Advantage+ style automations decide for themselves which channel, which audience and how much. That didn't remove the marketer's job; it moved it. The critical decision now is which objective you teach the algorithm. Feed it \"conversion count\" and it produces cheap, unprofitable orders; feed it revenue and margin and it hunts for profitable customers. So the 2026 shift isn't technical but definitional: writing down what counts as success matters more than building the campaign.",
         },
       },
       {
@@ -3476,12 +3946,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "It depends on your product's natural purchase cycle. In categories measured in weeks — cosmetics, food — you'll see the first signals within one or two months; in categories measured in years, like furniture or appliances, seeing the effect takes a full cycle. The general rule: retention investment takes at least one purchase cycle to return, but unlike ad spend it compounds — the effect doesn't stop the moment you stop. Since it varies by industry and basket size, quoting a single number would be misleading; measure your own repeat purchase rate every quarter.",
         },
       },
+      {
+        question: {
+          tr: "Delik kova sendromu nedir?",
+          en: "What is the leaky bucket syndrome?",
+        },
+        answer: {
+          tr: "Kovaya sürekli yeni su taşıyıp dibindeki delikten sızanı fark etmemektir: işletme yeni müşteri edinmeye büyük efor harcarken arka kapıdan çıkan müşteriyi görmez. Sonucu tabloda net görünür — ciro artar, kârlılık yerinde sayar, çünkü kârın büyük kısmı reklam açık artırmasına geri döner. Deliği kapatmadan bütçe büyütmek, aynı sonucu daha pahalıya almaktır.",
+          en: "It means constantly carrying new water into the bucket while ignoring what leaks out of the bottom: the business spends heavily on acquiring customers and never sees the ones walking out the back door. The result is visible in the numbers — revenue grows while profitability stalls, because most of the margin flows back into the ad auction. Growing the budget before patching the hole just buys the same result at a higher price.",
+        },
+      },
+      {
+        question: {
+          tr: "Edinme ve elde tutma arasında bütçe nasıl paylaştırılmalı?",
+          en: "How should budget be split between acquisition and retention?",
+        },
+        answer: {
+          tr: "Sabit bir oran seçmek yerine sırayı düzeltin. Çoğu e-ticaret işletmesi bütçesinin yaklaşık %80'ini yeni müşteri bulmaya, %20'sini eldekini tutmaya harcıyor; ticaretin matematiği bunun tersini fısıldıyor, çünkü mevcut müşteriye ulaşmanın maliyeti bir e-posta, yeni müşteriye ulaşmanın maliyeti bir açık artırmadır. Pratik kural: kova sağlamken edinmeye harcayın, delikken önce deliği kapatın.",
+          en: "Fix the sequence instead of picking a fixed ratio. Most e-commerce businesses spend roughly 80% of the budget on finding new customers and 20% on keeping the ones they have; the maths of trade whispers the opposite, because reaching an existing customer costs an email while reaching a new one costs an auction. Practical rule: spend on acquisition while the bucket holds, and patch the hole first when it does not.",
+        },
+      },
+      {
+        question: {
+          tr: "Peak-End kuralı e-ticarette ne işe yarar?",
+          en: "What is the peak-end rule good for in e-commerce?",
+        },
+        answer: {
+          tr: "İnsan beyni bir deneyimi süresine veya ortalamasına göre değil, en yoğun anına ve nasıl bittiğine göre hatırlar. E-ticarette son, müşterinin kargoyu teslim alıp kutuyu açtığı andır; o an sıradansa tüm alışveriş sıradan olarak kodlanır. Kutu bu yüzden pazarlama bütçesinin en ucuz ve en ihmal edilen kalemidir.",
+          en: "The brain remembers an experience by its most intense moment and by how it ended, not by how long it lasted or how it averaged out. In e-commerce the ending is the moment the parcel arrives and the box opens; if that moment is ordinary, the whole purchase gets filed as ordinary. That makes packaging the cheapest and most neglected line in the marketing budget.",
+        },
+      },
+      {
+        question: {
+          tr: "Satın alma sonrası deneyim nasıl tasarlanır?",
+          en: "How do you design the post-purchase experience?",
+        },
+        answer: {
+          tr: "Dört temas noktasını sırayla yazarak: teslimat bildirimi, kutunun kendisi, içinden çıkan küçük jest ve ilk hafta gönderilen takip mesajı. \"Kargoya verildi\" yerine \"paketini özenle hazırladık, yola çıktı\" demek aynı bilgiyi verir ama farklı bir duygu bırakır. Kutudan çıkan sipariş edilmemiş küçük bir hediye karşılıklılık ilkesini çalıştırır; müşteri o borcu tekrar sipariş vererek ve kutunun fotoğrafını paylaşarak öder.",
+          en: "By writing out four touchpoints in order: the shipping notification, the box itself, the small gesture inside it and the follow-up message in the first week. Saying \"we packed your order with care, it is on its way\" instead of \"shipped\" delivers the same information but leaves a different feeling. An unordered little gift in the box triggers reciprocity, and the customer repays it by ordering again and by photographing the box.",
+        },
+      },
+      {
+        question: {
+          tr: "Sepette unutulan ürün mesajı nasıl yazılır?",
+          en: "How should an abandoned-cart message be written?",
+        },
+        answer: {
+          tr: "Hatırlatma olarak değil, bir gerekçeyle. Standart \"sepette ürün unuttun\" cümlesi sıkıcıdır; kıtlık ilkesini kullanan \"sepetindeki ürünler seni bekliyor ama stoklarımız hızla azalıyor\" hafif bir kaybetme korkusu kurar ve eyleme geçme ihtimalini yükseltir. Tek koşul var: stok gerçekten azalmıyorsa bu cümleyi kurmayın — bir kez yakalanan blöf sadakatin kendisini bitirir.",
+          en: "As a reason, not a reminder. The standard \"you left something in your cart\" is dull; a scarcity-based line such as \"the items in your cart are waiting, but stock is running low\" creates a mild fear of loss and raises the odds of action. One condition applies: do not write it unless stock really is running low — a bluff, once caught, ends loyalty itself.",
+        },
+      },
+      {
+        question: {
+          tr: "Elde tutmanın çalıştığını hangi metrikle görürüm?",
+          en: "Which metric shows that retention is working?",
+        },
+        answer: {
+          tr: "Tekrar satın alma oranıyla — ve onu üç ayda bir ölçerek. Tek bir kampanyanın etkisine değil, aynı müşteri grubunun ikinci ve üçüncü siparişe geçiş oranına bakın; kova tamir edildiyse bu oran yükselir. Reklam harcamasının aksine elde tutma yatırımı birikimlidir: durdurduğunuzda etkisi anında bitmez, bu yüzden ölçüm de aylık değil çeyreklik okunur.",
+          en: "With the repeat-purchase rate, measured every three months. Look at the share of the same customer cohort moving to a second and third order rather than at any single campaign; if the bucket is fixed, that share rises. Unlike ad spend, retention investment compounds — its effect does not stop the day you stop, which is why it should be read by quarter rather than by month.",
+        },
+      },
     ],
     category: "growth",
+    topic: "performans-pazarlama",
     tags: ["retention", "rfm-analizi", "musteri-deneyimi"],
     authorSlug: "burak-ozgul",
     publishedAt: "2025-12-08",
     readingMinutes: 10,
+    seo: {
+      title: {
+        tr: "2026 performans pazarlama trendleri: yıl ortası",
+        en: "2026 performance marketing trends at mid-year",
+      },
+      description: {
+        tr: "E-ticarette bütçenin %80'i yeni müşteriye, %20'si eldekine gidiyor. Müşteri edinme maliyeti artarken kovayı tamir etmenin 90 günlük sırası burada.",
+        en: "E-commerce spends about 80% of budget chasing new customers and 20% keeping them. As customer acquisition cost climbs, here is the 90-day repair order.",
+      },
+    },
   },
   // Kaynak: indoles_eski/wp-icerik/yazilar/kucuk-isletmeler-icin-rfm-analizi-ile-satislari-artirma-rehberi.md (2025-12-16)
 // Değişiklik: h2/h3 hiyerarşisi ve 4 liste bloğu eklendi (segment kodları,
@@ -3697,7 +4238,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Analizi yaptınız — peki şimdi ne yapacaksınız? Davranışsal psikolojiyi kullanarak her segmente farklı bir dille konuşma zamanı.",
-          en: "You've run the analysis — now what? Time to use behavioral psychology and speak to each segment in its own language.",
+          en: "You've run the analysis — now what? Time to use behavioural psychology and speak to each segment in its own language.",
         },
       },
       {
@@ -3806,12 +4347,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "It depends on your purchase frequency. For an e-commerce business bought from weekly, refreshing monthly makes sense; for a product or service bought a few times a year, every three to six months may be enough. What matters more than a fixed calendar is catching the moments when segments visibly shift — after a campaign or a season, for instance.",
         },
       },
+      {
+        question: {
+          tr: "RFM puanlaması nasıl yapılır?",
+          en: "How do you score customers with RFM?",
+        },
+        answer: {
+          tr: "Her müşteriye üç kriterde 1'den 5'e puan verirsiniz. 5 puan en iyileri gösterir — en son gelen, en sık gelen, en çok harcayan; 1 puan en zayıfları — en eskiden gelmiş, tek sefer gelmiş, az harcamış. Puanları yan yana yazdığınızda 5-5-5 veya 1-1-1 gibi bir segment kodu çıkar ve müşteri listeniz sıralanabilir hale gelir.",
+          en: "You score every customer from 1 to 5 on each of the three criteria. A 5 marks the best — the most recent, the most frequent, the highest spending; a 1 marks the weakest — longest absent, single purchase, low spend. Written side by side, the scores produce a segment code such as 5-5-5 or 1-1-1, and the customer list becomes sortable.",
+        },
+      },
+      {
+        question: {
+          tr: "RFM segmentleri nelerdir?",
+          en: "What are the RFM segments?",
+        },
+        answer: {
+          tr: "Dört grup pratikte işin çoğunu görür. Şampiyonlar (5-5-5) dün gelmiş, sık geliyor ve çok harcıyor; sadıklar düzenli gelir ama henüz o kadar taze veya yüksek harcamalı değildir; uykudakiler (R=2 veya 3) eskiden geliyordu, arayı açtı; risk grubu (R=1, F=4 veya 5) eskiden en iyi müşterinizdi ve şimdi sizi terk etti. Bir de 1-1-1 kayıp grubu vardır.",
+          en: "Four groups do most of the work in practice. Champions (5-5-5) bought recently, buy often and spend a lot; loyalists buy regularly but are not yet as recent or as high-spending; the sleeping ones (R=2 or 3) used to come and have drifted away; the at-risk group (R=1, F=4 or 5) used to be your best customer and has just left. There is also the 1-1-1 lost group.",
+        },
+      },
+      {
+        question: {
+          tr: "Şampiyon müşterilere indirim gönderilmeli mi?",
+          en: "Should champion customers get discounts?",
+        },
+        answer: {
+          tr: "Hayır — onların ihtiyacı indirim değil takdirdir. Zaten yarın da gelecek bir müşteriye kupon göndermek marjınızı boşuna yakar; yerine statü ve ayrıcalık verin: yeni ürünleri ilk onlar görsün, özel bir teşekkür notu veya küçük bir hediye gönderin. Bu jest karşılıklılık ilkesini tetikler ve markanızı başkalarına anlatmalarını sağlar.",
+          en: "No — what they need is recognition, not a discount. Sending a coupon to someone who was coming back tomorrow anyway just burns margin; give status and access instead: let them see new products first, send a thank-you note or a small gift. That gesture triggers reciprocity and turns them into people who talk about you.",
+        },
+      },
+      {
+        question: {
+          tr: "Risk grubundaki müşteri nasıl geri kazanılır?",
+          en: "How do you win back an at-risk customer?",
+        },
+        answer: {
+          tr: "Süreli ve gerçekten cazip bir teklifle, gecikmeden. Risk grubu (R=1, F=4 veya 5) kırmızı alarm bölgesidir: eskiden en iyi müşterinizdi, şimdi gelmiyor ve genellikle bunu kimse fark etmiyor. Kaybedilmiş sadık bir müşteriyi geri kazanmak yeni bir müşteri bulmaktan çok daha ucuzdur; uykudakilere ise indirim yerine samimi bir hatırlatma çoğu zaman yeter.",
+          en: "With a time-bound offer that is genuinely worth taking, and without delay. The at-risk group (R=1, F=4 or 5) is the red alert zone: they used to be your best customer, they have stopped coming, and usually nobody notices. Winning back a lapsed loyal customer costs far less than finding a new one; for the sleeping group, a warm reminder is often enough without any discount.",
+        },
+      },
+      {
+        question: {
+          tr: "RFM ile 80/20 kuralının ilişkisi nedir?",
+          en: "How does RFM relate to the 80/20 rule?",
+        },
+        answer: {
+          tr: "RFM, Pareto ilkesinin kendi listenizdeki karşılığını görünür kılar. Cironuzun büyük kısmı müşterilerinizin küçük bir diliminden gelir; RFM o dilimi isimleriyle çıkarır. Herkese aynı %10 indirimi gönderdiğinizde iki yönlü kaybedersiniz: zaten gelecek olan sadık müşteriye boşuna para harcarsınız, sizi çoktan unutmuş müşteriye ise %10 yetmez.",
+          en: "RFM makes the Pareto principle visible inside your own list. Most of your revenue comes from a small slice of your customers, and RFM puts names on that slice. Sending everyone the same 10% discount loses on both ends: you spend money on loyalists who were coming anyway, and 10% is nowhere near enough to wake up the ones who forgot you.",
+        },
+      },
+      {
+        question: {
+          tr: "Hizmet veren bir işletme RFM kullanabilir mi?",
+          en: "Can a service business use RFM?",
+        },
+        answer: {
+          tr: "Evet — tek koşul, tarih ve tutar içeren bir işlem kaydı tutmanız. Yöntem ürünle değil davranışla ilgilenir: bir diş kliniği, bir muhasebe bürosu veya bir kuaför de son randevu tarihini, randevu sıklığını ve toplam harcamayı aynı 1-5 skalasında puanlayabilir. Randevu döngüsü uzun olan hizmetlerde yenilik eşiklerini kendi döngünüze göre esnetin; aksi hâlde herkes riskli görünür.",
+          en: "Yes — the only requirement is a transaction record with dates and amounts. The method cares about behaviour rather than the product: a dental clinic, an accounting firm or a hair salon can score last visit, visit frequency and total spend on the same 1-5 scale. Where the service cycle is long, widen the recency thresholds to match that cycle, otherwise everyone will look at risk.",
+        },
+      },
     ],
     category: "growth",
+    topic: "musteri-elde-tutma",
     tags: ["rfm-analizi", "musteri-segmentasyonu", "kucuk-isletmeler"],
-    authorSlug: "burak-ozgul",
+    authorSlug: "can-aydinlik",
     publishedAt: "2025-12-16",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "RFM analizi: küçük işletmeler için satış rehberi",
+        en: "RFM analysis: a sales guide for small businesses",
+      },
+      description: {
+        tr: "Yenilik, sıklık ve harcama sütunlarını 1'den 5'e puanlayın; müşteri segmentasyonu tek tabloda çıksın. Şampiyonlar, uykudakiler ve risk grubu ayrışır.",
+        en: "Score recency, frequency and monetary value from 1 to 5 and customer segmentation appears in one sheet: champions, sleepers and the at-risk group split.",
+      },
+    },
   },
   // Eski blogdan taşındı (2025-12-16). "Delik kova sendromu" bu yazının
   // kimliği olarak merkeze alındı: yeni h2 + quote bloğu (temasal akraba —
@@ -3822,11 +4434,11 @@ export const ARTICLES: ArticleContent[] = [
   {
     slug: {
       tr: "reklam-maliyetleri-artarken-buyumenin-sirri-ltv-optimizasyonu",
-      en: "ltv-optimization-secret-to-growth",
+      en: "ltv-optimisation-secret-to-growth",
     },
     title: {
       tr: "Reklam maliyetleri artarken büyümenin sırrı: LTV optimizasyonu",
-      en: "As ad costs climb, growth's secret is LTV optimization",
+      en: "As ad costs climb, growth's secret is LTV optimisation",
     },
     excerpt: {
       tr: "Reklam panelinde harcama yukarı, karlılıkta çizgi aşağı — e-ticaret yöneticilerinin ortak kâbusu bu. Çare daha fazla reklam değil: müşteriyi bir kez kazanıp bırakmak yerine, yaşam boyu değerini (LTV) büyütmek.",
@@ -3849,7 +4461,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Eskiden parayı reklam musluğuna açıp ciroyu izlemek yeterliydi. Artık oyunun kuralları değişti: sadece \"yeni müşteri\" peşinde koşmak, pahalı bir hobiye dönüştü. Bu yazı reklam bütçesini yakmadan büyümenin mühendisliğini anlatıyor — müşteri yaşam boyu değerini (LTV) optimize etmeyi.",
-          en: "It used to be enough to open the ad tap and watch revenue follow. The rules changed: chasing only \"new customers\" turned into an expensive hobby. This piece is about the engineering of growth that doesn't burn the ad budget — optimizing customer lifetime value (LTV).",
+          en: "It used to be enough to open the ad tap and watch revenue follow. The rules changed: chasing only \"new customers\" turned into an expensive hobby. This piece is about the engineering of growth that doesn't burn the ad budget — optimising customer lifetime value (LTV).",
         },
       },
       {
@@ -3947,14 +4559,14 @@ export const ARTICLES: ArticleContent[] = [
         id: "davranis-bilimiyle-sadakat",
         text: {
           tr: "Davranış bilimiyle sadakat inşası",
-          en: "Building loyalty with behavioral science",
+          en: "Building loyalty with behavioural science",
         },
       },
       {
         type: "p",
         text: {
           tr: "Müşteriler yalnızca ürününüz \"iyi\" olduğu için sadık kalmaz. İnsan beyni alışkanlığı ve ödülü sever; davranışsal ekonomi prensipleriyle müşteriyi markaya bağlayabilirsiniz.",
-          en: "Customers don't stay loyal just because your product is \"good.\" The human brain loves habit and reward — behavioral economics gives you the levers to bond a customer to your brand.",
+          en: "Customers don't stay loyal just because your product is \"good.\" The human brain loves habit and reward — behavioural economics gives you the levers to bond a customer to your brand.",
         },
       },
       {
@@ -3975,21 +4587,21 @@ export const ARTICLES: ArticleContent[] = [
         type: "h3",
         text: {
           tr: "Kişiselleştirme yanılgısı",
-          en: "The personalization fallacy",
+          en: "The personalisation fallacy",
         },
       },
       {
         type: "p",
         text: {
           tr: "\"Merhaba Ahmet\" diye başlayan e-posta artık kişiselleştirme sayılmıyor. Gerçek kişiselleştirme, davranışı analiz edip ihtiyaç oluşmadan çözüm sunmaktır. Müşteri üç ay önce bir koşu ayakkabısı aldıysa, bugün ona yeni bir ayakkabı satmaya çalışmak yerine koşu çorabı veya beslenme jeli önermek \"seni tanıyorum\" mesajı verir.",
-          en: "An email opening with \"Hi John\" isn't personalization anymore. Real personalization reads behavior and answers a need before it's felt. A customer who bought running shoes three months ago doesn't need another pair pitched today — running socks or an energy gel says \"I know you\" instead.",
+          en: "An email opening with \"Hi John\" isn't personalisation anymore. Real personalisation reads behaviour and answers a need before it's felt. A customer who bought running shoes three months ago doesn't need another pair pitched today — running socks or an energy gel says \"I know you\" instead.",
         },
       },
       {
         type: "p",
         text: {
           tr: "Kişiselleştirilmiş çapraz satış teoride kolay, kurulumu zor: [GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) kitle segmentlere ayrıldı, düşük performanslı reklam setleri kapatıldı ve yeniden hedeflemeyle çapraz satış kuruldu — üç ayda satışın 12 katına çıktığı sonucun dişlilerinden biri buydu.",
-          en: "Personalized cross-sell is simple in theory, hard to build: in [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis) the audience was segmented, underperforming ad sets were closed, and retargeting was used to build cross-sell — one of the gears behind sales going up 12× in three months.",
+          en: "Personalised cross-sell is simple in theory, hard to build: in [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis) the audience was segmented, underperforming ad sets were closed, and retargeting was used to build cross-sell — one of the gears behind sales going up 12× in three months.",
         },
       },
       {
@@ -4039,7 +4651,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Reklam maliyetlerinin arttığı bu dönemde işletmenizin hayatta kalması avcılık yeteneğinize değil, çiftçilik sabrınıza ve mühendisliğinize bağlı. LTV optimizasyonu bir metrik değil, işletmenizin sigortası.",
-          en: "In a period of rising ad costs, your business's survival depends less on hunting skill and more on farming patience and engineering. LTV optimization isn't a metric — it's your business's insurance policy.",
+          en: "In a period of rising ad costs, your business's survival depends less on hunting skill and more on farming patience and engineering. LTV optimisation isn't a metric — it's your business's insurance policy.",
         },
       },
       {
@@ -4078,25 +4690,96 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Yeni müşteri kazanmaktan daha hızlı ve ucuz olan yol, elinizdeki müşteriyi harekete geçirmektir. RFM analiziyle \"ikinci siparişe yakın\" segmenti çıkarın, onlara hedefli bir teklif veya hatırlatma gönderin; iade ve destek süreçlerindeki sürtünmeyi azaltın. Bu iki adım genelde haftalar içinde ölçülebilir sonuç verir — yeni bir sadakat programı kurmak ise aylar alabilir.",
-          en: "The fastest, cheapest lever is activating the customers you already have, not chasing new ones. Use RFM analysis to isolate the segment sitting just before a second order, send them a targeted offer or reminder, and strip friction out of returns and support. Those two moves usually show measurable results within weeks — building a new loyalty program from scratch can take months.",
+          en: "The fastest, cheapest lever is activating the customers you already have, not chasing new ones. Use RFM analysis to isolate the segment sitting just before a second order, send them a targeted offer or reminder, and strip friction out of returns and support. Those two moves usually show measurable results within weeks — building a new loyalty programme from scratch can take months.",
         },
       },
       {
         question: {
           tr: "LTV optimizasyonu hangi işletmeler için kritik?",
-          en: "Which businesses is LTV optimization critical for?",
+          en: "Which businesses is LTV optimisation critical for?",
         },
         answer: {
           tr: "Tekrar satın alma döngüsü olan her işletme için — e-ticaret, abonelik/SaaS modelleri ve D2C markalar başta gelir. Reklam maliyetleri arttıkça önemi büyüyor, çünkü CAC'i karşılayan tek şey LTV. Tek seferlik yüksek bilet satışlarında (örneğin bir kereye mahsus büyük yatırım ürünlerinde) LTV'nin ağırlığı azalır, ama tavsiye ve referans değeri üzerinden yine de hesaba katılmalıdır.",
           en: "Any business with a repeat-purchase cycle — e-commerce, subscription/SaaS models and D2C brands lead the list. Its importance grows as ad costs rise, because LTV is the only thing that offsets CAC. For one-off, high-ticket sales (a single large investment purchase, for example) LTV carries less weight, but it should still be counted through referral and word-of-mouth value.",
         },
       },
+      {
+        question: {
+          tr: "CAC (müşteri edinme maliyeti) nedir ve nasıl hesaplanır?",
+          en: "What is CAC (customer acquisition cost) and how is it calculated?",
+        },
+        answer: {
+          tr: "CAC, bir yeni müşteri kazanmak için harcadığınız toplam tutardır: belirli bir dönemdeki pazarlama ve satış giderlerini o dönemde kazanılan yeni müşteri sayısına bölersiniz. Reklam harcaması tek kalem değildir — ajans ücreti, araç abonelikleri ve satış ekibinin maliyeti de hesaba girer, yoksa CAC olduğundan düşük görünür. Meta ve Google'da CAC her yıl arttığı için bu rakam tek başına değil, LTV ile birlikte okunur.",
+          en: "CAC is the total you spend to win one new customer: take marketing and sales costs for a period and divide by the new customers gained in it. Ad spend is not the only line — agency fees, tool subscriptions and the cost of the sales team belong in there too, otherwise CAC looks lower than it is. Since CAC on Meta and Google rises every year, the number only means something read alongside LTV.",
+        },
+      },
+      {
+        question: {
+          tr: "Churn oranı LTV'yi nasıl etkiler?",
+          en: "How does churn affect LTV?",
+        },
+        answer: {
+          tr: "Doğrudan ve sert. LTV'nin basit hesabı ortalama sipariş değerini, satın alma sıklığını ve müşteri ömrünü çarpar; müşteri kaybetme oranı bu üçüncü çarpanı kısaltarak LTV'yi aşağı çeker. Bunun pratik sonucu şu: sepet büyüklüğünü artırmadan da LTV yükseltebilirsiniz — müşteriyi bir sipariş daha elde tutmak, ortalama sepeti büyütmekten çoğu zaman daha ucuzdur.",
+          en: "Directly and hard. The simple LTV formula multiplies average order value, purchase frequency and customer lifetime; churn shortens that third factor and pulls LTV down. The practical consequence is that you can raise LTV without raising basket size — holding a customer for one more order is usually cheaper than growing the average cart.",
+        },
+      },
+      {
+        question: {
+          tr: "Abonelik modeli LTV'yi neden yükseltir?",
+          en: "Why does a subscription model raise LTV?",
+        },
+        answer: {
+          tr: "Satın alma kararını tekrar tekrar aldırmadığı için. Başarılı markalar ürünü bir tercih olmaktan çıkarıp refleks haline getirir; abonelikte müşteri kararı bir kez verir, gerisi otomatikleşir. Alışkanlık döngüsünün mantığı budur: müşterinin hayatında tetikleyici oluştuğunda — kahvem bitti, cildim kurudu — akla gelen ilk yer markanız olur.",
+          en: "Because it stops the customer from having to decide again and again. Strong brands move a product from being a choice to being a reflex; with a subscription the decision is made once and the rest runs itself. That is the habit loop at work: when the trigger appears in the customer's life — I am out of coffee, my skin is dry — your brand is the first place that comes to mind.",
+        },
+      },
+      {
+        question: {
+          tr: "İlk siparişte zarar etmek mantıklı mı?",
+          en: "Does it make sense to lose money on the first order?",
+        },
+        answer: {
+          tr: "LTV'yi biliyorsanız mantıklı, bilmiyorsanız tehlikeli. İlk siparişte kâr etme devri kapandı; kâr artık ikinci, üçüncü ve onuncu siparişte saklı. Ama bu hesabı yapabilmek için müşterinin yaşam boyu değerini ve ikinci sipariş oranını ölçüyor olmanız gerekir — ölçmeden ilk siparişte zarara razı olmak strateji değil temennidir.",
+          en: "Sensible if you know your LTV, dangerous if you do not. The era of profiting on the first order is over; the profit now sits in the second, third and tenth. But making that calculation requires that you actually measure lifetime value and second-order rate — accepting a loss on the first order without measuring is a wish rather than a strategy.",
+        },
+      },
+      {
+        question: {
+          tr: "Elde tutmayı artırmak için ilk hangi sürtünme kaldırılır?",
+          en: "Which friction should you remove first to improve retention?",
+        },
+        answer: {
+          tr: "Satın alma sonrası olanlar. Müşteri tutmanın en kolay yolu, gitmelerine sebep olan engelleri kaldırmaktır: iade süreci zor mu, müşteri hizmetlerine ulaşmak imkânsız mı, kargo durumu görünüyor mu? Kötü bir satış sonrası deneyim en iyi pazarlama kampanyasını bile siler; bu yüzden sürtünme temizliği yeni bir sadakat programı kurmaktan önce gelir.",
+          en: "The friction that comes after the purchase. The easiest way to keep customers is removing the obstacles that make them leave: is returning an item hard, is customer service unreachable, is shipping status visible? A bad post-purchase experience erases even the best campaign, which is why clearing friction comes before building a loyalty programme.",
+        },
+      },
+      {
+        question: {
+          tr: "Çapraz satış önerileri nasıl kurulur?",
+          en: "How do you build cross-sell recommendations?",
+        },
+        answer: {
+          tr: "Aynı ürünü tekrar satmaya çalışarak değil, bir sonraki ihtiyacı önceden görerek. Müşteri üç ay önce koşu ayakkabısı aldıysa bugün ona yeni bir ayakkabı önermek onu tanımadığınızı söyler; koşu çorabı veya beslenme jeli önermek tanıdığınızı söyler. Gerçek kişiselleştirme adla hitap etmek değil, davranışı okuyup ihtiyaç oluşmadan önce öneriyi masaya koymaktır.",
+          en: "Not by selling the same product again, but by seeing the next need before it appears. If someone bought running shoes three months ago, offering another pair today says you do not know them; offering running socks or an energy gel says you do. Real personalisation is not using a first name — it is reading behaviour and putting the recommendation on the table before the need is felt.",
+        },
+      },
     ],
     category: "growth",
+    topic: "musteri-elde-tutma",
     tags: ["ltv-optimizasyonu", "musteri-sadakati", "cac"],
-    authorSlug: "burak-ozgul",
+    authorSlug: "can-aydinlik",
     publishedAt: "2025-12-16",
     readingMinutes: 5,
+    seo: {
+      title: {
+        tr: "LTV optimizasyonu nedir, nasıl hesaplanır?",
+        en: "LTV optimisation: what it is, how to grow it",
+      },
+      description: {
+        tr: "Sağlıklı bölge 3:1 — CAC'a harcanan her birime karşılık yaşam boyu değerde üç birim. Hesabın adımları, kırılma noktaları ve tekrar satın almayı büyütmek.",
+        en: "The healthy band is 3:1 — three units of lifetime value for every unit of customer acquisition cost. How to calculate it and how to grow repeat purchase.",
+      },
+    },
   },
   // Kaynak: indoles_eski/wp-icerik/yazilar/dijitalde-olceklenmek-isteyen-kobiler-icin-5-adimli-yeni-yil-stratejisi.md (2025-12-21).
 // Değişiklik: "yeni yıl stratejisi" çerçevesi (Aralık 2025'e bağlı, 2026'nın
@@ -4228,21 +4911,21 @@ export const ARTICLES: ArticleContent[] = [
       type: "p",
       text: {
         tr: "Dijitalde ölçeklenmenin yakıtı güvendir. İnsanlar tanımadıkları ve uzmanlığına inanmadıkları markalardan alışveriş yapmaz. Ürün paylaşmak tek başına yetmez; sektörünüzle ilgili \"nasıl yapılır\" içerikleri ve rehber yazılarla sizi sadece bir satıcı değil, sorunu gerçekten çözen taraf konumuna taşıyan bir otorite kurmalısınız.",
-        en: "Trust is the fuel of digital scale. People don't buy from brands they don't recognize or trust. Sharing product photos isn't enough on its own — \"how to\" content and guides in your field build you into an authority, not just a seller but the party that actually solves the problem.",
+        en: "Trust is the fuel of digital scale. People don't buy from brands they don't recognise or trust. Sharing product photos isn't enough on its own — \"how to\" content and guides in your field build you into an authority, not just a seller but the party that actually solves the problem.",
       },
     },
     {
       type: "p",
       text: {
         tr: "Sosyal kanıt da bu otoritenin parçasıdır: başkalarının sizin hakkınızda söylediği, sizin söylediğinizden daha ağır basar. Müşteri yorumlarını ve gerçek sonuçları stratejinizin merkezine koyun.",
-        en: "Social proof is part of that authority too: what others say about you carries more weight than what you say about yourself. Put customer reviews and real results at the center of your strategy.",
+        en: "Social proof is part of that authority too: what others say about you carries more weight than what you say about yourself. Put customer reviews and real results at the centre of your strategy.",
       },
     },
     {
       type: "p",
       text: {
         tr: "Bu mantığın en somut kanıtı arama sonuçlarında görünür. [İstanbul Ortez Protez vakamızda](/vakalar/istanbul-ortez-protez-arama-gorunurlugu) içeriği hem klasik SEO hem GEO (AI arama motorları için optimizasyon) için kurduk — soru-cevap yapısı, teknik derinlik, AI motorlarının doğrudan alıntılayabileceği kendine yeten pasajlar. On beş ayda öncelikli aramalarda ilk 3'e çıktık; reklamla desteklenen kelimelerde ayda ortalama 10 yeni hasta geldi. Küçük bir işletme için bu, büyük bir reklam bütçesinden daha ucuz ve daha kalıcı bir görünürlük kanalıdır.",
-        en: "The most concrete proof of this logic shows up in search results. In [our İstanbul Ortez Protez case](/vakalar/istanbul-ortez-protez-arama-gorunurlugu) we built content for classic SEO and GEO (optimization for AI search engines) alike — Q&A structure, technical depth, self-contained passages AI engines can cite directly. In fifteen months we reached the top 3 for priority searches; ad-supported terms brought an average of 10 new patients a month. For a small business, that's a cheaper and more durable visibility channel than a large ad budget.",
+        en: "The most concrete proof of this logic shows up in search results. In [our İstanbul Ortez Protez case](/vakalar/istanbul-ortez-protez-arama-gorunurlugu) we built content for classic SEO and GEO (optimisation for AI search engines) alike — Q&A structure, technical depth, self-contained passages AI engines can cite directly. In fifteen months we reached the top 3 for priority searches; ad-supported terms brought an average of 10 new patients a month. For a small business, that's a cheaper and more durable visibility channel than a large ad budget.",
       },
     },
     {
@@ -4315,7 +4998,7 @@ export const ARTICLES: ArticleContent[] = [
       type: "p",
       text: {
         tr: "Siz de reklam harcamalarınızı bir piyango olmaktan çıkarıp, veriye ve insan davranışına dayanan bir büyüme motoruna dönüştürebilirsiniz. Nereden başlayacağınızdan emin değilseniz, [vaka çalışmalarımıza](/vakalar) göz atın ya da [dijital dönüşüm hizmetimize](/hizmetler/dijital-donusum) bakın — hangi adımın işiniz için öncelik olduğunu birlikte belirleriz.",
-        en: "You too can turn ad spend from a lottery ticket into a growth engine built on data and human behavior. If you're not sure where to start, take a look at [our case studies](/vakalar) or [our digital transformation service](/hizmetler/dijital-donusum) — together we'll work out which step is the priority for your business.",
+        en: "You too can turn ad spend from a lottery ticket into a growth engine built on data and human behaviour. If you're not sure where to start, take a look at [our case studies](/vakalar) or [our digital transformation service](/hizmetler/dijital-donusum) — together we'll work out which step is the priority for your business.",
       },
     },
   ],
@@ -4360,12 +5043,83 @@ export const ARTICLES: ArticleContent[] = [
         en: "It depends on the channel. Ads and content give their first signals within weeks; search visibility and brand awareness take months — in our İstanbul Ortez Protez case, reaching the top 3 for priority keywords took fifteen months. SMEs expecting early results often abandon the right channel too soon; patience is cheaper here than fixing a strategy mistake later.",
       },
     },
+    {
+      question: {
+        tr: "Psikografik analiz nedir, demografiden farkı ne?",
+        en: "What is psychographic analysis and how does it differ from demographics?",
+      },
+      answer: {
+        tr: "Demografi müşterinin kim olduğunu, psikografi neden satın aldığını söyler. \"25-45 yaş arası, İstanbul'da yaşayan kadınlar\" buzdağının görünen kısmıdır; ilgi alanı, değer yargısı ve yaşam tarzı ise satın alma kararını gerçekten belirleyen kısımdır. Müşteri ürünü ihtiyacı olduğu için değil, o ürüne sahip olduğunda hissedeceği duygu için alır — reklam metni bu duyguya göre yazılır.",
+        en: "Demographics tell you who the customer is; psychographics tell you why they buy. \"Women aged 25-45 living in Istanbul\" is the visible tip of the iceberg, while interests, values and lifestyle are what actually drive the purchase. People do not buy a product because they need it, they buy it for how owning it will feel — and that feeling is what the ad copy gets written around.",
+      },
+    },
+    {
+      question: {
+        tr: "Bilişsel yük nedir, sitede nasıl azaltılır?",
+        en: "What is cognitive load and how do you reduce it on a site?",
+      },
+      answer: {
+        tr: "Bilişsel yük, bir görevi tamamlamak için harcanan zihinsel çabadır; yükseldikçe satın almaktan vazgeçme oranı artar. Hick Yasası nedenini açıklar: seçenek sayısı arttıkça karar verme süresi uzar. Pratik üç kontrol: siteye giren biri 3 saniyede ne sattığınızı anlıyor mu, sepetten ödemeye kaç adım var (4'ten fazlaysa hangisi gerçekten gerekli), ödeme için üyelik zorunlu mu?",
+        en: "Cognitive load is the mental effort a task demands, and the higher it goes, the more people abandon the purchase. Hick's law explains why: the more options there are, the longer the decision takes. Three practical checks: can a first-time visitor tell what you sell within three seconds, how many steps run from cart to payment (if more than four, which ones are truly necessary), and is registration required to pay?",
+      },
+    },
+    {
+      question: {
+        tr: "Kayıptan kaçınma ilkesi reklam metnine nasıl girer?",
+        en: "How does loss aversion enter ad copy?",
+      },
+      answer: {
+        tr: "Kazanç vaadini kayıp uyarısına çevirerek. İnsan beyni bir şeyi kazanmanın mutluluğundan çok elindekini kaybetme korkusuna tepki verir; \"bunu kazanın\" diye konuşan bir metin yerine \"bunu kaybetmeyin\" diye konuşan metin çoğu zaman daha çok satar. Koşul aynı kalır: kayıp gerçek olmalı — uydurulmuş bir kaçırma korkusu kısa vadede tıklama, uzun vadede güven kaybı üretir.",
+        en: "By turning a promise of gain into a warning about loss. The brain reacts more strongly to losing what it already has than to gaining something new, so copy that says \"do not lose this\" often outsells copy that says \"win this\". The condition stays the same: the loss has to be real — a manufactured fear of missing out buys clicks now and costs trust later.",
+      },
+    },
+    {
+      question: {
+        tr: "Küçük bir işletme içerik otoritesini nasıl kurar?",
+        en: "How does a small business build content authority?",
+      },
+      answer: {
+        tr: "Ürün paylaşmayı bırakıp soru cevaplayarak. Sektörünüzle ilgili nasıl yapılır içerikleri ve rehber yazılar sizi satıcı konumundan sorunu çözen taraf konumuna taşır; sosyal kanıt bu otoritenin ikinci ayağıdır, çünkü başkalarının söylediği sizin söylediğinizden ağır basar. İstanbul Ortez Protez vakasında içeriği hem klasik arama hem yapay zeka motorları için kurduk; on beş ayda öncelikli aramalarda ilk 3'e çıktık ve ayda ortalama 10 yeni hasta geldi.",
+        en: "By answering questions instead of posting products. How-to content and guides in your field move you from seller to the party that solves the problem; social proof is the second leg, because what others say outweighs what you say. In the İstanbul Ortez Protez case we built content for classic search and AI engines at once; priority terms reached the top three in fifteen months and around 10 new patients arrived per month.",
+      },
+    },
+    {
+      question: {
+        tr: "Bir KOBİ hangi işleri otomatikleştirmeli?",
+        en: "Which tasks should an SME automate?",
+      },
+      answer: {
+        tr: "Her gün elle tekrarlanan işleri. Gece geç saatte gelen soruya anında yanıt veren bir sohbet sistemi, müşterinin son alışverişinden bir süre sonra ürününün bitmiş olabileceğini hatırlatan bir CRM ve her gün elle yazılan tekrar e-postaları ilk sıradaki adaylardır. Araç seçimi ekip büyüklüğünüze uygun olmalı — on kişilik bir işletmenin kuracağı otomasyon, yüz kişilik bir işletmeninkiyle aynı olmaz.",
+        en: "The ones your team repeats by hand every day. A chat system that answers a question arriving late at night, a CRM that reminds a customer some weeks after their last order that they may be running out, and the emails someone retypes daily are the first candidates. Match the tool to your team size — the automation a ten-person business needs is not the one a hundred-person business needs.",
+      },
+    },
+    {
+      question: {
+        tr: "Satışlar düşünce reklam bütçesi kesilmeli mi?",
+        en: "Should you cut the ad budget when sales drop?",
+      },
+      answer: {
+        tr: "Kesmek yerine denetleyin. KOBİ'lerin en sık yaptığı hata reklamı bir gider kalemi sayıp daralma anında ilk ondan vazgeçmektir; oysa doğru kurulmuş bir reklam sistemi içine koyduğunuzdan fazlasını geri veren bir makinedir. Karar ROAS ve LTV ile verilir: bütçeyi her hafta kazanan kreatife ve kazanan kitleye kaydırın, kaybedeni hızla kapatın — FYR lansmanında reklam getirisi 20 katın üzerinde seyretti.",
+        en: "Audit it instead of cutting it. The most common SME mistake is treating advertising as a cost line and dropping it first when things tighten, when a properly built ad system returns more than you put in. Decide with ROAS and LTV: move the budget weekly toward the winning creative and the winning audience and shut the losers down fast — in the FYR launch, return on ad spend held above 20x.",
+      },
+    },
   ],
   category: "growth",
+  topic: "is-gelistirme",
   tags: ["kobi-dijitallesme", "buyume-stratejisi", "musteri-edinimi"],
-  authorSlug: "burak-ozgul",
+  authorSlug: "can-aydinlik",
   publishedAt: "2025-12-21",
   readingMinutes: 6,
+  seo: {
+    title: {
+      tr: "KOBİ'lerde dijital dönüşüm: 12 ayda 5 adım",
+      en: "Digital transformation for SMEs: 5 steps",
+    },
+    description: {
+      tr: "Veri, arayüz, içerik, bütçe ve yapay zeka otomasyonu — sırası değişmeyen adımlar. FYR'de 12 aylık ciro hedefi ilk 3 ayda geçildi; izlenen sıra buydu.",
+      en: "Data, storefront, content, budget, AI automation — steps in a fixed order. FYR cleared a 12-month revenue target in its first 3 months on the same path.",
+    },
+  },
 },
   // Eski blogdan taşındı (2025-12-22, WP kaynağı: satis-ekibinizin-vaktini-harcamayin-b2bde-...).
 // SLA açıklaması ve MQL/SQL/ICP terimlerine ilk-kullanımda parantez açıklaması eklendi;
@@ -4491,7 +5245,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Satışçınız sabah kimi arayacağına nasıl karar veriyor — rastgele mi? Bunu şansa bırakmayın. Davranışlara puan verin, yalnızca eşiği geçenleri arayın.",
-          en: "How does your salesperson decide who to call first thing in the morning — at random? Don't leave it to chance. Score behavior, and only call the ones who clear the threshold.",
+          en: "How does your salesperson decide who to call first thing in the morning — at random? Don't leave it to chance. Score behaviour, and only call the ones who clear the threshold.",
         },
       },
       {
@@ -4631,7 +5385,7 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Üç göstergeye birlikte bakılır: ICP uyumu (firma doğru profile giriyor mu), davranışsal puan (lead scoring — hangi sayfaları gezdi, hangi eylemleri yaptı) ve satışın geri bildirimi (SQL'den fırsata, fırsattan kapanışa geçiş oranı). Tek bir 'doğru' eşik yoktur; sektöre ve satış döngüsünün uzunluğuna göre değişir. Önemli olan bu üç göstergeyi ayrı ayrı değil, birlikte ve düzenli olarak izlemektir.",
-          en: "Three signals matter together: ICP fit (does the company match your ideal profile), behavioral score (lead scoring — which pages they visited, what actions they took), and sales feedback (the conversion rate from SQL to opportunity, and opportunity to close). There's no single 'right' threshold — it depends on your industry and sales cycle length. What matters is tracking all three signals together, consistently, not in isolation.",
+          en: "Three signals matter together: ICP fit (does the company match your ideal profile), behavioural score (lead scoring — which pages they visited, what actions they took), and sales feedback (the conversion rate from SQL to opportunity, and opportunity to close). There's no single 'right' threshold — it depends on your industry and sales cycle length. What matters is tracking all three signals together, consistently, not in isolation.",
         },
       },
       {
@@ -4651,15 +5405,86 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Kesin bir sayı vermek yanıltıcı olur; B2B satış döngüsü genellikle tüketici satışından uzundur ve karar birden fazla kişiden geçer. Yaygın gözlem, genellikle altı ile on arasında değişen birden fazla temas noktasından bahseder — ama karar komitesinin büyüklüğü ve ürünün karmaşıklığı bu sayıyı ciddi şekilde değiştirir; kısacası sektöre göre değişir. Pratik çıkarım şu: tek seferde arayıp ulaşamadığınız kişiyi 'kötü lead' saymak yerine, davranışını lead scoring ile zaman içinde izlemek daha doğru sonuç verir.",
-          en: "A precise number would be misleading — B2B sales cycles usually run longer than consumer ones, and the decision passes through more than one person. The common observation cites multiple touchpoints, often somewhere around six to ten, but committee size and product complexity shift that number considerably — in short, it depends on the industry. The practical takeaway: instead of writing off someone you couldn't reach in one call as a \"bad lead\", track their behavior over time with lead scoring.",
+          en: "A precise number would be misleading — B2B sales cycles usually run longer than consumer ones, and the decision passes through more than one person. The common observation cites multiple touchpoints, often somewhere around six to ten, but committee size and product complexity shift that number considerably — in short, it depends on the industry. The practical takeaway: instead of writing off someone you couldn't reach in one call as a \"bad lead\", track their behaviour over time with lead scoring.",
+        },
+      },
+      {
+        question: {
+          tr: "ICP (ideal müşteri profili) nedir, nasıl çıkarılır?",
+          en: "What is an ICP (ideal customer profile) and how do you define one?",
+        },
+        answer: {
+          tr: "ICP, kişiyi değil şirketi tanımlayan profildir ve demografik değil firmografik verilerle çizilir. Üç soruyla başlar: ciro büyüklüğü nedir, teknoloji veya dış hizmet bütçesi var mı, çalışan sayısı ne kadar ve satın alma kararını kim veriyor? Asıl faydalı soru kimi istediğiniz değil kimi istemediğinizdir — istenmeyenler listesi reklam hedeflemesine ve form filtrelerine girdiğinde çöp lead kapıda kalır.",
+          en: "An ICP describes the company rather than the person, and it is drawn with firmographic instead of demographic data. It starts with three questions: what is the revenue band, is there a budget for technology or outside services, how many employees are there and who signs off on the purchase? The more useful question is not who you want but who you do not want — once that list feeds ad targeting and form filters, junk leads stop at the door.",
+        },
+      },
+      {
+        question: {
+          tr: "Lead scoring nasıl kurulur?",
+          en: "How do you set up lead scoring?",
+        },
+        answer: {
+          tr: "Davranışlara puan verip yalnızca eşiği geçenleri aratarak. Örnek bir tablo: fiyat sayfasını gezdi +20, ürün demosunu izledi +15, blog yazılarına baktı +5, kariyer sayfasına tıkladı −50, hizmet vermediğiniz bir ülkeden giriş yaptı −100. Eşiğe — örneğin 70 puana — ulaşan lead satışçıya otomatik bildirim olarak gitsin ve puanlamayı çeyrek başına gözden geçirin, çünkü hangi davranışın satın almayı öngördüğü zamanla değişir.",
+          en: "By scoring behaviour and only calling the ones that clear the threshold. A sample table: visited the pricing page +20, watched the product demo +15, read blog posts +5, clicked the careers page −50, visited from a country you do not serve −100. When a lead crosses the threshold — say 70 points — send the salesperson an automatic alert, and review the scoring each quarter, because which behaviours predict a purchase changes over time.",
+        },
+      },
+      {
+        question: {
+          tr: "Smarketing nedir?",
+          en: "What is smarketing?",
+        },
+        answer: {
+          tr: "Smarketing, satış ve pazarlama ekiplerinin aynı dili konuşmasıdır. Lead'lerin kötü olduğunu söyleyen satışçıyla satamadıklarını söyleyen pazarlamacı arasındaki kavgayı bitirmenin yolu, MQL ve SQL tanımlarını iki tarafın da imzaladığı bir metne bağlamaktan geçer. İletişim çift yönlü olmalı: satış ekibi gelen lead'lerin kalitesini pazarlamaya raporlayabilmeli, böylece toplantı kim haklıydı tartışmasından eşiği nereye çekelim konuşmasına döner.",
+          en: "Smarketing is sales and marketing speaking the same language. Ending the fight between the rep who says the leads are bad and the marketer who says sales cannot close starts with definitions of MQL and SQL that both sides have signed off. The feedback has to run both ways: sales must be able to report lead quality back to marketing, so the meeting turns from who was right into where the threshold should sit.",
+        },
+      },
+      {
+        question: {
+          tr: "SLA satış ve pazarlama arasında ne işe yarar?",
+          en: "What does an SLA do between sales and marketing?",
+        },
+        answer: {
+          tr: "Uyumun iyi niyetten çıkıp taahhüde dönmesini sağlar. SLA (hizmet seviyesi anlaşması) iki tarafa da sayı verir: pazarlama belirli sürede kaç MQL üreteceğini, satış ilk temasını kaç saat içinde kuracağını yazar. Yazılı bir eşik olmadığında hızlı dönüldüğü ve kaliteli lead gönderildiği iddiaları ölçülemez kalır ve suçlama döngüsü baştan başlar.",
+          en: "It turns alignment from goodwill into commitment. An SLA (service level agreement) puts a number on both sides: marketing writes how many MQLs it will produce in a given period, sales writes how many hours it has to make first contact. Without a written threshold, claims about fast responses and good leads stay unmeasurable and the blame loop restarts.",
+        },
+      },
+      {
+        question: {
+          tr: "B2B formunda kaç soru sorulmalı?",
+          en: "How many questions should a B2B form ask?",
+        },
+        answer: {
+          tr: "Meraklıyı eleyecek kadar, alıcıyı yormayacak kadar. B2B'de isim ve e-posta yetmez; bütçe ve başlangıç tarihi gibi sorular görüldüğünde meraklı formu terk eder, gerçek alıcı doldurur. Sürtünmeyi tek bir uzun forma sıkıştırmak zorunda değilsiniz — kademeli profil oluşturmayla ilk temasta kısa form yeterli, derinleşen sorular ikinci ve üçüncü temasta gelir.",
+          en: "Enough to filter out browsers, not enough to tire a buyer. In B2B, name and email are not enough; questions about budget and start date make the merely curious leave while the real buyer completes the form. You do not have to compress the friction into one long form — with progressive profiling, a short form is fine at first contact and the deeper questions arrive on the second and third.",
+        },
+      },
+      {
+        question: {
+          tr: "Kibir metrikleri (vanity metrics) nedir?",
+          en: "What are vanity metrics?",
+        },
+        answer: {
+          tr: "Kibir metrikleri, rakamı büyüyen ama geliri büyütmeyen ölçülerdir; B2B'de en yaygını toplam lead sayısıdır. Şirketler bu tuzağa art niyetle değil ölçüm alışkanlığıyla düşer: lead sayısı toplantıda gösterilmesi kolay bir rakamdır, gelir dönüşümü ise haftalar sonra ve dolaylı görünür. Panoda tutulacak doğru ölçüler ICP uyumu, MQL'den SQL'e geçiş oranı ve kapanış oranıdır.",
+          en: "Vanity metrics are numbers that grow without growing revenue; in B2B the most common one is total lead count. Companies fall into it out of measurement habit rather than bad faith: lead count is easy to show in a meeting, while revenue conversion appears weeks later and indirectly. The right measures for the dashboard are ICP fit, MQL-to-SQL conversion and close rate.",
         },
       },
     ],
     category: "growth",
+    topic: "performans-pazarlama",
     tags: ["b2b-lead-kalitesi", "lead-scoring", "smarketing"],
     authorSlug: "burak-ozgul",
     publishedAt: "2025-12-22",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "B2B lead kalitesi: ICP, lead scoring ve huni",
+        en: "B2B lead quality: ICP, scoring and the funnel",
+      },
+      description: {
+        tr: "Bin lead kutlanır, satış sıfıra yakın kapatır. Profili daraltın, davranışı puanlayın, 70 eşiğinde bildirim kurun; süreç otomasyonu teklifi 10 katına çıkardı.",
+        en: "A thousand leads, almost no deals. Narrow the profile, score behaviour, alert sales at 70 points; process automation lifted quote requests tenfold here.",
+      },
+    },
   },
   // Eski blogdan taşındı (2026-01-14, "yapay-zeka-aramalarinda-nasil-one-cikarsiniz").
   // Emre anlatısı ve kıtlık çerçevesi aynen korundu. Eklenenler: GEO tanım bölümü
@@ -4763,7 +5588,7 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Alanın adı henüz oturmadı: kimi \"AI SEO\" diyor, kimi \"LLM optimizasyonu\". Üçü de aynı işi tarif ediyor. Biz GEO demeyi tercih ediyoruz, çünkü optimize ettiğimiz şey artık arama motoru değil, yanıtı üreten motorun kendisi.",
-          en: "The field hasn't settled on a name: some say \"AI SEO\", others \"LLM optimization\". All three describe the same work. We prefer GEO, because what we optimize for is no longer the search engine but the engine that generates the answer.",
+          en: "The field hasn't settled on a name: some say \"AI SEO\", others \"LLM optimization\". All three describe the same work. We prefer GEO, because what we optimise for is no longer the search engine but the engine that generates the answer.",
         },
       },
       {
@@ -4885,7 +5710,7 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "[Meccanotecnica Umbra'da](/vakalar/meccanotecnica-umbra-teklif-portali) bir adım öteye gittik. İçeriği yalnız dışarıdaki modelin okuması için değil, sitenin kendi modelinin kullanması için kurduk: mühendis tesisini anlatıyor, AI teknik danışman tüm fabrikaya uygun donanımı tek formda çıkarıyor. SEO ve GEO mimarisi dört dilde (TR, EN, AR, RU) aynı anda kuruldu. Teklif talebi 10 katına çıktı, yanıt süresi yüzde doksan kısaldı. AI-native yaklaşımın tarifi budur: yapay zekaya görünmekle yetinmeyip yapay zekayı kendi satış sürecinizin içine koymak — bu da artık [AI danışmanlığı](/hizmetler/ai-danismanlik) tarafının işi.",
+          tr: "[Meccanotecnica Umbra'da](/vakalar/meccanotecnica-umbra-teklif-portali) bir adım öteye gittik. İçeriği yalnız dışarıdaki modelin okuması için değil, sitenin kendi modelinin kullanması için kurduk: mühendis tesisini anlatıyor, AI teknik danışman tüm fabrikaya uygun donanımı tek formda çıkarıyor. SEO ve GEO mimarisi dört dilde (TR, EN, AR, RU) aynı anda kuruldu. Teklif talebi 10 katına çıktı, yanıt süresi yüzde doksan kısaldı. AI-native yaklaşımın tarifi budur: yapay zekaya görünmekle yetinmeyip yapay zekayı kendi satış sürecinizin içine koymak — bu da artık [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) tarafının işi.",
           en: "At [Meccanotecnica Umbra](/vakalar/meccanotecnica-umbra-teklif-portali) we went a step further. We structured the content not only for the model outside to read but for the site's own model to use: the engineer describes their plant and an AI technical advisor lays out equipment for the whole facility in a single form. The SEO and GEO architecture was built in four languages (TR, EN, AR, RU) at once. Quote requests rose tenfold and response time fell by ninety percent. That is what AI-native means in practice: not settling for being visible to AI, but placing AI inside your own sales process — which is where [AI advisory](/hizmetler/ai-danismanlik) takes over.",
         },
       },
@@ -4957,15 +5782,96 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "Süre sektöre, rekabete ve sitenin mevcut teknik durumuna göre değişir; kesin bir takvim veren herkese temkinli yaklaşın. Kendi ölçtüğümüz iki uç şöyle: SIM Baskı Malzemeleri'nde site yeniden kurulup içerik programı yürütüldükten sonra altı ayda organik trafik 15 katına çıktı ve AI motorlarındaki görünürlük sıfırdan 40 bine ulaştı. İstanbul Ortez Protez'de ise tıbbi alanın rekabeti ve güven eşiği nedeniyle öncelikli kelimelerde ilk 3'e çıkmak on beş ay sürdü. Pratikte ilk sinyaller (yanıtlarda anılma, uzun kuyruklu sorularda görünme) genellikle 2-3 ay içinde okunmaya başlar; kalıcı konum için altı aydan uzun bir içerik programı gerekir.",
-          en: "It depends on the sector, the competition and the site's current technical state; be wary of anyone who gives you a fixed calendar. Two ends of our own measured range: at SIM Printing Suppliers, after the site was rebuilt and the content program ran, organic traffic grew 15× in six months and visibility across AI engines went from zero to 40,000. At İstanbul Ortez Protez, the competition and trust threshold of a medical field meant reaching the top 3 for priority terms took fifteen months. In practice the first signals — being mentioned in answers, surfacing on long-tail questions — usually become readable within 2-3 months; a durable position takes a content program running longer than six.",
+          en: "It depends on the sector, the competition and the site's current technical state; be wary of anyone who gives you a fixed calendar. Two ends of our own measured range: at SIM Printing Suppliers, after the site was rebuilt and the content programme ran, organic traffic grew 15× in six months and visibility across AI engines went from zero to 40,000. At İstanbul Ortez Protez, the competition and trust threshold of a medical field meant reaching the top 3 for priority terms took fifteen months. In practice the first signals — being mentioned in answers, surfacing on long-tail questions — usually become readable within 2-3 months; a durable position takes a content programme running longer than six.",
+        },
+      },
+      {
+        question: {
+          tr: "Google AI Overviews nedir?",
+          en: "What is Google AI Overviews?",
+        },
+        answer: {
+          tr: "AI Overviews, Google'ın arama sonuçlarının üstünde gösterdiği ve birden çok kaynaktan derlenen üretilmiş yanıttır. Kullanıcı on mavi link yerine tek bir cevap görür ve o cevabın içinde birkaç marka kaynak olarak anılır. Sonucu net: sıralamada birinci olmak yanıtın içinde anılmayı garanti etmiyor — yapay zeka arama optimizasyonu bu yüzden ayrı bir iş kalemi hâline geldi.",
+          en: "AI Overviews is the generated answer Google shows above its search results, assembled from several sources. Instead of ten blue links the user sees a single answer, and a handful of brands get named inside it as sources. The consequence is clear: ranking first no longer guarantees being cited in the answer — which is why optimising for AI search became its own line of work.",
+        },
+      },
+      {
+        question: {
+          tr: "GEO, yapay zeka SEO'su ve answer engine optimization aynı şey mi?",
+          en: "Are GEO, AI SEO and answer engine optimization the same thing?",
+        },
+        answer: {
+          tr: "Büyük ölçüde evet — alanın adı henüz oturmadı. GEO (üretken motor optimizasyonu), yapay zeka SEO'su, answer engine optimization ve LLM optimizasyonu terimleri aynı işi tarif ediyor: içeriği üretken arama sistemlerinin okuyup alıntılayabileceği biçimde kurmak. Biz GEO demeyi tercih ediyoruz, çünkü optimize ettiğimiz şey artık arama motoru değil, yanıtı üreten motorun kendisi.",
+          en: "Largely yes — the field has not settled on a name. GEO (generative engine optimization), AI SEO, AI search optimization, ChatGPT SEO, answer engine optimization and LLM optimization all describe the same work: shaping content so generative search systems can read and cite it. We prefer GEO, because what we optimise for is no longer the search engine but the engine generating the answer.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt nedir, sitemde olmalı mı?",
+          en: "What is llms.txt and should my site have one?",
+        },
+        answer: {
+          tr: "llms.txt, sitenin kökünde duran ve dil modellerine içeriğinizin haritasını sade metin olarak veren bir dosya önerisidir; robots.txt'nin üretken motorlar için düşünülmüş karşılığı gibi çalışır. Eklemek düşük maliyetlidir ve zarar vermez, ama tek başına kaynak gösterilmeyi sağlamaz — hiçbir motor bunu bir sıralama garantisi olarak ilan etmedi. Önce yapıyı kurun: soru biçiminde başlıklar, kendine yeten pasajlar, metnin içine yerleştirilmiş rakamlar.",
+          en: "llms.txt is a proposed file that sits at the root of a site and hands language models a plain-text map of your content; it works roughly the way robots.txt does, but aimed at generative engines. Adding it is cheap and harmless, yet it will not get you cited on its own — no engine has declared it a ranking guarantee. Build the structure first: question-shaped headings, self-contained passages and numbers written into the text.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka motorlarındaki görünürlüğüm nasıl ölçülür?",
+          en: "How do you measure visibility inside AI engines?",
+        },
+        answer: {
+          tr: "İki katmanda. Birincisi elle yapılan teşhis: kategorinizin üç zor sorusunu ChatGPT'ye, Gemini'ye ve Perplexity'ye müşterinizin soracağı gibi sorun, kimin adının geçtiğine ve hangi sayfanın kaynak gösterildiğine bakın — o üç ekran görüntüsü hiçbir araca para vermeden alınan en dürüst rekabet analizidir. İkincisi düzenli takip: yanıtlarda anılma sıklığı zaman içinde izlenir, SIM Baskı Malzemeleri'nde bu sayı sıfırdan 40 bine çıktı.",
+          en: "On two levels. First, a manual diagnosis: ask the three hardest questions in your category to ChatGPT, Gemini and Perplexity the way your customer would, then look at whose name appears and which page is cited — those three screenshots are the most honest competitive analysis you can get without paying for a tool. Second, regular tracking: how often you are named gets followed over time, and at SIM Printing Suppliers that number went from zero to 40,000.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka aramaları organik trafiği azaltıyor mu?",
+          en: "Are AI searches reducing organic traffic?",
+        },
+        answer: {
+          tr: "Bazı sitelerde sert biçimde azaltıyor. Kullanıcı cevabı yanıtın içinde aldığında tıklamaya ihtiyaç duymuyor; bu yazıdaki e-ticaret yöneticisinin panelinde iki yıldır düzenli artan trafik birkaç hafta içinde %70 eridi ve sitede bozulan hiçbir şey yoktu. Kaybı geri almanın yolu daha çok içerik üretmek değil, yanıtın içinde anılan taraf olmak — tıklama azalsa bile markanız cevabın içinde geçiyorsa konuşmanın içindesiniz.",
+          en: "On some sites, sharply. When the answer arrives inside the response, the user has no reason to click; the e-commerce manager in this article watched two years of steady traffic drop 70% in a few weeks with nothing broken on the site. The way back is not publishing more content, it is becoming the party named inside the answer — even with fewer clicks, if your brand appears in the response you are still in the conversation.",
+        },
+      },
+      {
+        question: {
+          tr: "Sorgular neden uzadı, bu içerik planını nasıl değiştirir?",
+          en: "Why did queries get longer and how does that change a content plan?",
+        },
+        answer: {
+          tr: "Kullanıcı yapay zekayı araç değil asistan saydığı ve derdini olduğu gibi anlattığı için. Eski dünyada spor ayakkabı modelleri üç kelimeydi; bugün diz ağrısı, günlük koşu mesafesi ve taban teknolojisini tek cümlede birleştiren yirmi üç kelimelik bir brief var. Sorgu bütçeyi, kısıtı ve itirazı aynı cümlede taşıdığı için kazanan içerik anahtar kelimeyi en çok tekrarlayan değil, kısıtı en net karşılayan oluyor.",
+          en: "Because users treat AI as an assistant rather than a tool and describe their problem as it is. In the old world \"running shoe models\" was three words; today a single sentence combines knee pain, daily running distance and midsole technology into a twenty-three-word brief. Since the query carries budget, constraint and objection at once, the winning content is the one that answers the constraint most clearly rather than the one repeating the keyword most often.",
+        },
+      },
+      {
+        question: {
+          tr: "GEO küçük işletmeler ve B2B için de geçerli mi?",
+          en: "Does GEO apply to small businesses and B2B too?",
+        },
+        answer: {
+          tr: "Evet — alıcı ne kadar çok soru soruyorsa yanıt asistanı o kadar belirleyici oluyor. İstanbul Ortez Protez'de aynı yapıyı güvenin en pahalı olduğu alanda kurduk: tıbbi ürünlerde soru-cevap mimarisi, teknik derinlik ve alıntılanabilir pasajlar. On beş ayda öncelikli kelimelerde organik ilk 3'e çıktık ve ayda ortalama 10 yeni hasta geldi; aynı mimari teknik satış yapan bir üretici için de çalışıyor.",
+          en: "Yes — the more questions a buyer asks, the more decisive the answer assistant becomes. At İstanbul Ortez Protez we built the same structure in the field where trust is most expensive: a question-and-answer architecture for medical products, technical depth and quotable passages. Priority terms reached the organic top three in fifteen months and around 10 new patients arrived per month; the same architecture holds for a manufacturer selling technically.",
         },
       },
     ],
     category: "growth",
+    topic: "geo",
     tags: ["geo", "ai-seo", "icerik-stratejisi"],
     authorSlug: "burak-ozgul",
     publishedAt: "2026-01-14",
     readingMinutes: 7,
+    seo: {
+      title: {
+        tr: "Yapay zeka arama optimizasyonu: GEO rehberi",
+        en: "Generative engine optimization: AI search guide",
+      },
+      description: {
+        tr: "ChatGPT ve Google AI Overviews sizi neden anmıyor? Trafiği %70 eriyen sitede bozulan bir şey yoktu. Yanıt-öncelikli mimari, sahadan ölçülmüş kanıtla.",
+        en: "Why do ChatGPT and Google AI Overviews skip you? One site lost 70% of traffic with nothing broken. Answer-first architecture, proven with field numbers.",
+      },
+    },
   },
   // Kaynak: indoles_eski/wp-icerik/yazilar/neden-profesyonel-video-sart.md
   // ("Abi Telefonla Çekeriz Demeyin: Neden Profesyonel Video Şart?", 2026-01-15, ~560 kelime).
@@ -5216,8 +6122,8 @@ export const ARTICLES: ArticleContent[] = [
       },
       {
         question: {
-          tr: "Telefon çekimi ne zaman yeterli?",
-          en: "When is a phone shoot actually enough?",
+          tr: "Hangi içerikler telefonla çekilebilir?",
+          en: "Which kinds of content can be shot on a phone?",
         },
         answer: {
           tr: "Kamera arkası paylaşımlar, düşük bütçeli test içerikleri, fuar veya lansman gibi anlık paylaşımlar ve UGC tarzı müşteri deneyimi içeriklerinde telefon gerçek bir araçtır — hatta bazen cila fazla bile olur. Markanın en görünür yüzü olan ana reklam filmi veya lansman videosu için önerilmez; orada ilk izlenim tek şansta kurulur.",
@@ -5244,12 +6150,83 @@ export const ARTICLES: ArticleContent[] = [
           en: "It depends on scope and planning, but a professional shoot usually yields more than one film: the flagship commercial, platform-specific cuts, social edits and stills can all come from the same day. When one shoot feeds dozens of channels, as it did at OdorGo, the per-unit cost should be measured against the whole family of content it produces — not against a single video.",
         },
       },
+      {
+        question: {
+          tr: "Prodüksiyon ortağı seçerken nelere bakılmalı?",
+          en: "What should you look for when choosing a production partner?",
+        },
+        answer: {
+          tr: "Üç şeye: geçmiş işlerin gerçek rakamı, benzer ölçekte bir referans ve tek çekimden kaç farklı içerik çıkacağının net bir planı. Her şeyi yaptığını söyleyen ekipten değil, bu üçünü somut cevaplayandan güven duyun. Reel'i güzel olan her ekip sizin kategorinizi anlatmayı bilmez — benzer bir markada hangi iş sonucunu ürettiklerini sorun.",
+          en: "Three things: real numbers from past work, a reference at a comparable scale and a clear plan for how many separate pieces one shoot will produce. Trust the team that answers those three concretely, not the one that says it does everything. A good showreel does not mean they can tell your category's story — ask which business result they produced for a comparable brand.",
+        },
+      },
+      {
+        question: {
+          tr: "Halo etkisi nedir, videoyla ne ilgisi var?",
+          en: "What is the halo effect and what does it have to do with video?",
+        },
+        answer: {
+          tr: "Halo etkisi, izleyicinin tek bir özelliğe dair izlenimini bütüne yayması demektir; videoda bu, teknik kaliteyi doğrudan ürün kalitesiyle özdeşleştirmek olarak görünür. Görüntüdeki parazit veya kötü ışık, bilinçaltında markanın detaya önem vermediği mesajını tetikler. Tersi de doğru: profesyonel bir prodüksiyon tek kelime söylemeden işin ciddiye alındığını fısıldar.",
+          en: "The halo effect is when an impression about one attribute spreads to the whole; in video it shows up as viewers equating technical quality with product quality. Noise in the image or bad lighting triggers a subconscious note that the brand does not care about detail. The reverse holds too: a professional production whispers that the work is taken seriously, without a word being spoken.",
+        },
+      },
+      {
+        question: {
+          tr: "Ses kalitesi neden görüntüden daha az affediyor?",
+          en: "Why is bad audio less forgivable than a soft image?",
+        },
+        answer: {
+          tr: "İzleyici bulanık bir kareyi genelde tolere eder, cızırtılı bir sesi etmez. Yankılı veya parazitli ses konuşmacının güvenilirliğini birlikte aşağı çeker; söylenen doğru olsa bile inandırıcılığı azalır. Profesyonel ekiplerin bütçenin bir kısmını mikrofona, akustiğe ve ses tasarımına ayırmasının sebebi budur — reklamı izleyenin kulağı, gözünden daha eleştirmen.",
+          en: "A viewer usually tolerates a slightly soft image but not a crackling soundtrack. Echoey or noisy audio drags the speaker's credibility down with it; even a true statement lands as less believable. That is why professional teams put part of the budget into microphones, acoustics and sound design — the ear watching an ad is a harsher critic than the eye.",
+        },
+      },
+      {
+        question: {
+          tr: "Senaryo mu görüntü kalitesi mi önce gelir?",
+          en: "Which comes first, the script or the image quality?",
+        },
+        answer: {
+          tr: "İkisi ayrı ayrı değil birlikte çalışır; içerik videonun ruhu, kalite ise bedenidir. Harika bir fikir kötü bir uygulamayla harcanır, yüksek çözünürlük de zayıf bir fikri kurtarmaz. Telefonla çekim yapmak mümkün ama ne yaptığını bilen ellerde anlam kazanır — ekipman iyileşti, fark kapanmadı; lensin kalitesinden bakışın kalitesine taşındı.",
+          en: "They do not work separately: content is the soul of a video and quality is its body. A great idea is wasted by poor execution, and high resolution will not rescue a weak idea. Shooting on a phone is possible but only means something in hands that know what they are doing — the gear got better, the gap did not close, it moved from the quality of the lens to the quality of the eye.",
+        },
+      },
+      {
+        question: {
+          tr: "Video prodüksiyonu tek başına bir kategori kurabilir mi?",
+          en: "Can video production create a category on its own?",
+        },
+        answer: {
+          tr: "Kurabilir — OdorGo bunun kanıtı. Koku giderici, Türkiye'de tüketici farkındalığı sıfır olan bir kategoriydi; arama hacmi yoktu ve performans pazarlaması tek başına işe yaramazdı, önce talebin kendisi kurulmalıydı. Kategoriyi anlattığımız yer reklam filmleriydi; bu filmler dijital kanallarda 10 milyonun üzerinde izlendi ve sekiz ayın sonunda marka 10 milyon TL ciroya ulaşıp MacroCenter, Migros ve Happy Center raflarına girdi.",
+          en: "It can — OdorGo is the proof. Odour eliminators were a category with zero consumer awareness in Turkey; there was no search volume and performance marketing alone would not have worked, because demand itself had to be built first. The films carried the category; they were watched more than 10 million times across digital channels, and after eight months the brand reached 10 million lira in revenue and shelf space at MacroCenter, Migros and Happy Center.",
+        },
+      },
+      {
+        question: {
+          tr: "Video yatırımının geri dönüşü nasıl ölçülür?",
+          en: "How do you measure the return on a video investment?",
+        },
+        answer: {
+          tr: "İzlenme sayısıyla değil, videonun beslediği iş sonucuyla. OdorGo'da ölçüt 10 milyon izlenme değil, sekiz ayda kurulan kategori ve 10 milyon TL ciroydu; GYMWOLVES'te sporcularla çekilen görsel kanıt kampanyayı besledi ve satış üç ayda 12 katına çıktı; FYR Luxury'de prodüksiyon marka pozisyonunu kurdu ve 12 aylık ciro hedefi 3 ayda geçildi. Ölçümü doğru kurmanın yolu, çekimden önce videonun hangi adımı hızlandıracağını yazmaktır.",
+          en: "Not by view count, but by the business result the video feeds. At OdorGo the measure was not 10 million views but a category built in eight months and 10 million lira in revenue; at GYMWOLVES visual proof shot with athletes fed the campaign and sales rose twelvefold in three months; at FYR Luxury production set the brand position and a 12-month revenue target was passed in three. The way to measure properly is to write down, before the shoot, which step the video is meant to accelerate.",
+        },
+      },
     ],
     category: "growth",
+    topic: "video-kreatif",
     tags: ["video-produksiyon", "reklam-filmi", "marka-algisi"],
-    authorSlug: "burak-ozgul",
+    authorSlug: "mert-kaplan",
     publishedAt: "2026-01-15",
     readingMinutes: 6,
+    seo: {
+      title: {
+        tr: "Profesyonel video ve reklam filmi neden şart?",
+        en: "Why professional video production is worth it",
+      },
+      description: {
+        tr: "OdorGo, olmayan bir kategoride sekiz ayda 10 milyon TL ciroya ulaştı; filmler 10 milyonu aştı. Marka konumlandırma, prodüksiyon eşiği ve telefonun sınırı.",
+        en: "OdorGo built a 10 million lira category in eight months and its films passed 10 million views. Brand positioning, production thresholds, phone-shoot limits.",
+      },
+    },
   },
 ];
 

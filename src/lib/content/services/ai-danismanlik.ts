@@ -1,7 +1,7 @@
 import type { ServiceContent } from "../types";
 
 /**
- * AI danışmanlığı — Transform.
+ * Yapay zeka danışmanlığı — Transform.
  *
  * Bu hizmetin ton riski en yüksek olanı: alan hype'la dolu. Metin bilinçli
  * olarak "AI her derde deva" iddiasının karşısında duruyor — "nerede AI,
@@ -13,7 +13,7 @@ import type { ServiceContent } from "../types";
 export const aiDanismanlik: ServiceContent = {
   slug: { tr: "ai-danismanlik", en: "ai-consulting" },
   pillar: "transform",
-  name: { tr: "AI danışmanlığı", en: "AI advisory" },
+  name: { tr: "Yapay zeka danışmanlığı", en: "AI advisory" },
 
   shortDescription: {
     industrial: {
@@ -27,13 +27,13 @@ export const aiDanismanlik: ServiceContent = {
   },
 
   lede: {
-    tr: "AI danışmanlığı, yapay zekânın nerede gerçekten para kazandırdığını, nerede pahalı bir oyuncak olduğunu ayırma işidir. INDOLES işe teknolojiyle değil, hangi işin ne kadar zaman ve para yediğini ölçerek başlar.",
+    tr: "Yapay zeka danışmanlığı, bu teknolojinin nerede gerçekten para kazandırdığını, nerede pahalı bir oyuncak olduğunu ayırma işidir. INDOLES işe araçtan değil, hangi işin ne kadar zaman ve para yediğini ölçmekten başlar.",
     en: "AI advisory is the work of separating where artificial intelligence genuinely pays off from where it is an expensive toy. INDOLES starts not with the technology but by measuring which tasks consume how much time and money.",
   },
 
   signals: {
     tr: [
-      "Herkes yapay zekâdan bahsediyor, nereden başlanacağı belli değil.",
+      "Herkes yapay zekadan bahsediyor, nereden başlanacağı belli değil.",
       "Aynı işi her gün elle yapan bir ekip var ve iş hacmiyle birlikte büyüyor.",
       "Elinizde yıllardır biriken veri var ama karar alırken kullanılmıyor.",
     ],
@@ -49,7 +49,7 @@ export const aiDanismanlik: ServiceContent = {
       {
         title: { tr: "Aday iş listesi", en: "Candidate task list" },
         description: {
-          tr: "Hangi işler tekrarlı, kurallı ve veriye dayalı? Yapay zekâya aday olabilecek işler somut isimleriyle çıkarılır.",
+          tr: "Hangi işler tekrarlı, kurallı ve veriye dayalı? Yapay zekaya aday olabilecek işler somut isimleriyle çıkarılır.",
           en: "Which tasks are repetitive, rule-bound and data-driven? Candidate tasks are listed by their concrete names.",
         },
       },
@@ -63,7 +63,7 @@ export const aiDanismanlik: ServiceContent = {
       {
         title: { tr: "Veri hazırlığı denetimi", en: "Data readiness check" },
         description: {
-          tr: "Elinizdeki veri yeterli mi, temiz mi, erişilebilir mi? Yapay zekâ projelerinin çoğu bu adımda tıkanır.",
+          tr: "Elinizdeki veri yeterli mi, temiz mi, erişilebilir mi? Yapay zeka projelerinin çoğu bu adımda tıkanır.",
           en: "Is your data sufficient, clean and accessible? Most AI projects stall at exactly this step.",
         },
       },
@@ -101,7 +101,7 @@ export const aiDanismanlik: ServiceContent = {
         "Sıfırdan model eğitimi ve akademik araştırma çalışmaları",
         "Veri etiketleme operasyonunun sürekli yürütülmesi",
         "GPU sunucu tedariki ve donanım işletmesi",
-        "Üçüncü taraf yapay zekâ servislerinin aylık kullanım bedelleri",
+        "Üçüncü taraf yapay zeka servislerinin aylık kullanım bedelleri",
       ],
       en: [
         "Training models from scratch and academic research work",
@@ -217,11 +217,11 @@ export const aiDanismanlik: ServiceContent = {
   faq: [
     {
       question: {
-        tr: "Yapay zekâ bizim işimize gerçekten uyar mı?",
+        tr: "Yapay zeka bizim işimize gerçekten uyar mı?",
         en: "Would AI actually suit our business?",
       },
       answer: {
-        tr: "Yapay zekâ her işe uymaz ve INDOLES bu hizmette önce uymadığı yerleri eler. Tekrarlı, kurallı ve yeterli veriye sahip işlerde yapay zekâ karşılığını verir; tek seferlik, yargı gerektiren veya verisi olmayan işlerde vermez. Envanter çalışmasının sonunda hangi işin aday olduğunu ve hangisinin olmadığını gerekçesiyle görürsünüz.",
+        tr: "Yapay zeka her işe uymaz ve INDOLES bu hizmette önce uymadığı yerleri eler. Tekrarlı, kurallı ve yeterli veriye sahip işlerde yapay zeka karşılığını verir; tek seferlik, yargı gerektiren veya verisi olmayan işlerde vermez. Envanter çalışmasının sonunda hangi işin aday olduğunu ve hangisinin olmadığını gerekçesiyle görürsünüz.",
         en: "AI does not suit every business, and in this service INDOLES first rules out where it does not. It pays off on repetitive, rule-bound tasks with enough data behind them, and does not on one-off work, judgement calls or tasks with no data. At the end of the inventory you see which tasks qualify and which do not, with the reasoning.",
       },
     },
@@ -231,7 +231,7 @@ export const aiDanismanlik: ServiceContent = {
         en: "Do we have enough data, and how do we know?",
       },
       answer: {
-        tr: "Veri hazırlığı denetimi tam olarak bunu cevaplar: mevcut kayıtların miktarı, kalitesi ve erişilebilirliği incelenir. Yapay zekâ projelerinin çoğu model yüzünden değil veri yüzünden tıkanır, o yüzden bu adım pilotdan önce gelir. Veri yetersizse INDOLES önce toplama düzenini kurmayı önerir; eksik veriyle pilot başlatmaz.",
+        tr: "Veri hazırlığı denetimi tam olarak bunu cevaplar: mevcut kayıtların miktarı, kalitesi ve erişilebilirliği incelenir. Yapay zeka projelerinin çoğu model yüzünden değil veri yüzünden tıkanır, o yüzden bu adım pilotdan önce gelir. Veri yetersizse INDOLES önce toplama düzenini kurmayı önerir; eksik veriyle pilot başlatmaz.",
         en: "The data readiness check answers exactly this: the volume, quality and accessibility of existing records are examined. Most AI projects stall on data rather than models, which is why this step comes before any pilot. If data is insufficient, INDOLES proposes building the collection routine first and does not start a pilot on incomplete data.",
       },
     },
@@ -241,7 +241,7 @@ export const aiDanismanlik: ServiceContent = {
         en: "Do you train a custom model for us?",
       },
       answer: {
-        tr: "Çoğu iş için sıfırdan model eğitmek gereksiz ve pahalıdır; hazır servisler veya kural tabanlı otomasyon aynı sonucu çok daha ucuza verir. INDOLES yöntem seçiminde en ucuz çalışan yolu tercih eder ve gerekçesini yazar. Sıfırdan model eğitimi ve akademik araştırma bu hizmetin kapsamı dışındadır.",
+        tr: "Çoğu iş için sıfırdan model eğitmek gereksiz ve pahalıdır; hazır servisler veya kural tabanlı otomasyon aynı sonucu çok daha ucuza verir. INDOLES yöntem seçiminde en ucuz çalışan yolu tercih eder ve gerekçesini yazar. Bir yapay zeka ajansı ya da danışmanı seçerken de aynı soruyu sorun: hangi yöntemi neden seçtiğini yazıyor mu? Sıfırdan model eğitimi ve akademik araştırma bu hizmetin kapsamı dışındadır.",
         en: "For most tasks, training a model from scratch is unnecessary and expensive; off-the-shelf services or rule-based automation give the same result far more cheaply. In method selection INDOLES picks the cheapest thing that works and writes down why. Training models from scratch and academic research sit outside this service.",
       },
     },
@@ -265,22 +265,96 @@ export const aiDanismanlik: ServiceContent = {
         en: "When choosing the processing method, which data goes where is discussed up front and written down. Where sensitive data is involved, solutions running on your own infrastructure are evaluated; if a third-party service is used, exactly what gets sent is stated explicitly. Data protection compliance is an input to method selection, not a check added afterwards.",
       },
     },
+    {
+      question: {
+        tr: "Yapay zeka danışmanlığı nedir, hangi adımlardan oluşur?",
+        en: "What is AI advisory and what are its steps?",
+      },
+      answer: {
+        tr: "Yapay zeka danışmanlığı, bu teknolojinin nerede kazandırdığını, nerede pahalı bir oyuncak kaldığını ayırma işidir. Çalışma dört adımda yürür: ekiplerin zamanının nereye gittiğini çıkaran iş envanteri, fayda ve veri hazırlığına göre eleme, kısa listenin ilk işi üzerinde gerçek veriyle pilot, sonra ölçüme dayalı yaygınlaştırma ya da durdurma kararı. İşe araçtan değil, hangi işin ne kadar zaman ve para yediğini ölçmekten başlanır.",
+        en: "AI advisory is the work of separating where this technology earns from where it stays an expensive toy. It runs in four steps: a task inventory showing where team time goes, a filter on benefit and data readiness, a pilot with real data on the top item of the shortlist, then a rollout or stop decision based on measurement. It starts from measuring which task costs how much time and money, not from picking a tool.",
+      },
+    },
+    {
+      question: {
+        tr: "ChatGPT gibi hazır servisleri mevcut sistemlerimize bağlıyor musunuz?",
+        en: "Do you connect ready-made services like ChatGPT to our systems?",
+      },
+      answer: {
+        tr: "Evet, hazır servis bağlama yöntem seçeneklerinden biri ve çoğu işte en ucuz çalışan yol odur. Yöntem seçiminde hazır servis, kural tabanlı otomasyon ve özel model karşılaştırılır; hangisinin seçildiği gerekçesiyle yazılır. Hazır servis kullanılacaksa hangi bilginin nereye gönderildiği baştan belirtilir, aylık kullanım bedelleri ise hizmet bedelinden ayrı kalır.",
+        en: "Yes — connecting a ready-made service is one of the method options, and for most tasks it is the cheapest thing that works. Method selection compares ready-made services, rule-based automation and a custom model, and the choice is written down with its reasoning. If a ready-made service is used, which data goes where is stated up front, and its monthly usage fees stay separate from the service fee.",
+      },
+    },
+    {
+      question: {
+        tr: "Yapay zeka maliyeti neye göre belirleniyor?",
+        en: "What determines the cost of an AI project?",
+      },
+      answer: {
+        tr: "Maliyet iki kalemden oluşur: bir defalık kurulum ve her ay tekrar eden işletme gideri. Fizibilite hesabında her aday iş için bu iki kalem, kazanılacak zamanla yan yana konur; getirmeyen iş listeden çıkar. Üçüncü taraf servislerin aylık kullanım bedelleri ve donanım tedariki hizmet bedeline dahil değil, ayrı kalemler olarak gösterilir.",
+        en: "Cost has two parts: a one-off build and a recurring monthly running cost. In the feasibility calculation both are set beside the time each candidate task would save, and anything that does not return drops off the list. Monthly fees for third-party services and hardware procurement are not included in the service fee; they are shown as separate lines.",
+      },
+    },
+    {
+      question: {
+        tr: "KOBİ ölçeğinde yapay zeka mantıklı mı?",
+        en: "Does AI make sense at SME scale?",
+      },
+      answer: {
+        tr: "Kararı şirket büyüklüğü değil, işin tekrarlılığı ve verisi belirler. Her gün aynı işi elle yapan küçük bir ekipte kazanılan zaman oransal olarak daha görünürdür, çünkü o iş toplam kapasitenin büyük bölümünü tutar. INDOLES ölçekten bağımsız olarak aynı eleme sırasını uygular; aday iş listesi kısa çıkarsa çalışma da kısa olur.",
+        en: "Company size does not decide it — how repetitive the task is and what data exists do. In a small team doing the same job by hand every day, the time saved is proportionally more visible, because that job takes up a large share of total capacity. INDOLES applies the same filter regardless of scale; if the candidate list comes out short, so does the engagement.",
+      },
+    },
+    {
+      question: {
+        tr: "Pilot canlıya alındıktan sonra sistemi kim işletir?",
+        en: "Who operates the system after the pilot goes live?",
+      },
+      answer: {
+        tr: "Sistemi iç ekibiniz işletir; INDOLES bunun için işletme eğitimi verir ve yazılı kılavuz bırakır. Eğitim üç şeyi kapsar: sistemi izleme, hata durumunu tanıma ve müdahale etme. Ölçüm raporu doğruluk oranını ve hata durumlarını kayda geçirdiği için ekip neyin normal, neyin müdahale gerektiren sapma olduğunu bilerek başlar.",
+        en: "Your in-house team runs it; INDOLES provides operating training and leaves a written guide. The training covers three things: monitoring the system, recognising a failure state and intervening. Because the measurement report records the accuracy rate and the failure cases, the team starts out knowing what is normal and what is a deviation worth acting on.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda yapay zeka yanlış tercih olur?",
+        en: "When is AI the wrong choice?",
+      },
+      answer: {
+        tr: "Tek seferlik, yargı gerektiren veya verisi olmayan işlerde yapay zeka karşılığını vermez ve eleme adımında listeden çıkar. Aynı sonucu kural tabanlı bir otomasyon getiriyorsa daha ucuz olan seçilir; süreç otomasyonu iş otomasyonları hizmetinde yürür. Sorun karar almak için veriyi görememekse gereken şey model değil raporlamadır ve iş zekası hizmetine girer.",
+        en: "For one-off tasks, tasks requiring judgement, or tasks with no data, AI does not pay off and drops out at the filtering step. If rule-based automation produces the same result, the cheaper option wins, and that work runs under business automation. If the real problem is not seeing the data behind decisions, the answer is reporting rather than a model, and that belongs to business intelligence.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      question: {
+        tr: "Yapay zeka firmaları ile yapay zeka danışmanı arasındaki fark nedir?",
+        en: "What is the difference between AI companies and an AI consultant?",
+      },
+      answer: {
+        tr: "Yapay zeka firmaları genellikle bir ürün satar; yapay zeka danışmanı o ürüne ihtiyaç olup olmadığına önce karar verir. INDOLES satıcı değildir ve hiçbir model sağlayıcısıyla komisyon ilişkisi yoktur; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık kontrolü bağımsız yürütülür. \"Burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktıdır — boşa yatırım engellenmiş olur.",
+        en: "AI companies and AI consulting firms generally sell a product; an AI consultant first decides whether that product is needed at all. INDOLES is not a vendor and holds no commission relationship with any model provider; the candidate task list, the cost-benefit calculation and the data readiness check are run independently. A finding of \"AI is not needed here\" is a valid output too, because it prevents a misplaced investment.",
+      },
+    },
   ],
 
   seo: {
     title: {
-      tr: "AI danışmanlığı ve pilot uygulama",
-      en: "AI advisory and pilot builds",
+      tr: "Yapay zeka danışmanlığı ve pilot uygulama",
+      en: "Artificial intelligence consulting and pilots",
     },
     description: {
-      tr: "Yapay zekânın nerede kazandırdığını ölçen AI danışmanlığı. Aday iş listesi, fayda-maliyet hesabı ve gerçek veriyle pilot uygulama.",
-      en: "AI advisory that measures where artificial intelligence actually pays off. Candidate tasks, cost-benefit analysis and a pilot on real data.",
+      tr: "Kurumsal yapay zeka danışmanlığı, bu teknolojinin nerede kazandırdığını ölçer. Aday iş listesi, fayda-maliyet hesabı ve gerçek veriyle pilot uygulama.",
+      en: "AI consultancy that measures where artificial intelligence actually pays off. Candidate tasks, cost-benefit analysis, a data readiness check and a live pilot.",
     },
     entities: {
       tr: [
         "INDOLES",
-        "AI danışmanlığı",
-        "yapay zekâ",
+        "yapay zeka danışmanlığı",
+        "yapay zeka ajansı",
+        "yapay zeka",
         "pilot",
         "veri hazırlığı",
       ],

@@ -2,21 +2,26 @@
  * Kurumsal künye — tek kaynak.
  *
  * TopBar, footer, iletişim sayfası, JSON-LD ve e-posta şablonları buradan okur.
+ * Tek kaynak olması NAP tutarlılığının (lokal SEO'nun temeli) önkoşulu:
+ * numara ya da adres iki yerde ayrı yazılsaydı Google iki farklı işletme
+ * görürdü.
  *
- * DİKKAT — doğrulanmamış alanlar:
- *   `phone` ve `locations` değerleri Claude Studio tasarım dosyasından geldi ve
- *   gerçek veriyle teyit edilmedi. Telefon numarası placeholder desenindedir
- *   (111 22 33). Canlıya çıkmadan önce Burak'ın onaylaması gerekir.
+ * `phone` ve `locations` 2026-08-24'te Burak tarafından doğrulandı; önceki
+ * değerler tasarım dosyasından gelen yer tutuculardı ve canlıda duruyordu.
  */
 export const COMPANY = {
   legalName: "İndoles Yazılım A.Ş.",
   brand: "INDOLES",
-  /** TODO(burak): gerçek numarayla değiştir — bu placeholder. */
-  phone: "+90 212 111 22 33",
+  phone: "+90 536 247 60 12",
   email: "hello@indoles.com.tr",
   careersEmail: "career@indoles.com.tr",
-  /** TODO(burak): Londra/Dubai varlığını teyit et. */
-  locations: ["Levent, İstanbul", "London", "Dubai"],
+  /**
+   * Yalnız doğrulanmış lokasyon. Londra ve Dubai künyede duruyordu ama
+   * teyit edilemedi (Burak, 2026-08-24) — doğrulanmamış lokasyon hem yanlış
+   * veri hem Google'ın yerel spam politikasına aykırı, hem de premium
+   * konumlandırmanın dayandığı güveni aşındırıyor.
+   */
+  locations: ["Levent, İstanbul"],
   hours: {
     tr: "Pzt–Cum 09:00–18:00",
     en: "Mon–Fri 09:00–18:00",

@@ -3,9 +3,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { getArticleBySlug, ARTICLES } from "@/lib/content/articles";
 import { getConsultantBySlug } from "@/lib/content/consultants";
+import { getTopic } from "@/lib/content/topics";
 import { SERVICES } from "@/lib/content/services";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
@@ -27,12 +29,6 @@ export async function generateStaticParams() {
   );
 }
 
-const CATEGORY_LABELS: Record<string, { tr: string; en: string }> = {
-  growth: { tr: "Büyüme", en: "Growth" },
-  transform: { tr: "Dönüşüm", en: "Transform" },
-  build: { tr: "Yapım", en: "Build" },
-  industry: { tr: "Endüstri", en: "Industry" },
-};
 
 function articlePaths(a: ArticleContent) {
   return {
@@ -52,6 +48,21 @@ function metaDescription(excerpt: string): string {
   return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
 }
 
+/**
+ * Arama başlığı — sayfada görünen H1'den ayrı (`ArticleContent.seo`).
+ *
+ * Editoryal başlıklar 61-109 karakter; SERP 60'ta keser. `seo.title` varsa
+ * o kullanılır, yoksa görünen başlığa düşülür — alanı doldurulmamış yazı
+ * eski davranışını korur.
+ */
+function seoTitle(a: ArticleContent, loc: Locale): string {
+  return a.seo?.title?.[loc] ?? a.title[loc];
+}
+
+function seoDescription(a: ArticleContent, loc: Locale): string {
+  return a.seo?.description?.[loc] ?? metaDescription(a.excerpt[loc]);
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -63,8 +74,8 @@ export async function generateMetadata({
   if (!a) return {};
 
   return buildMetadata({
-    title: a.title[loc],
-    description: metaDescription(a.excerpt[loc]),
+    title: seoTitle(a, loc),
+    description: seoDescription(a, loc),
     paths: articlePaths(a),
     locale: loc,
     ogType: "article",
@@ -192,9 +203,16 @@ export default async function ArticleDetail({
 
   const author = getConsultantBySlug(a.authorSlug);
   const tCommon = await getTranslations({ locale, namespace: "common" });
-  const related = ARTICLES.filter(
-    (x) => x.slug[loc] !== a.slug[loc] && x.category === a.category
-  ).slice(0, 3);
+  // İlgili yazılar konuya göre seçilir (ADR-021). Pillar'a göre seçmek 16
+  // yazının 16'sı "growth" olduğu için rastgele üç yazı demekti. Konu üç
+  // yazıyı doldurmuyorsa kalanı en yeni yazılarla tamamlanır — boş bölüm
+  // basmaktansa zayıf ilgi daha iyi.
+  const others = ARTICLES.filter((x) => x.slug[loc] !== a.slug[loc]);
+  const sameTopic = others.filter((x) => x.topic === a.topic);
+  const filler = others
+    .filter((x) => x.topic !== a.topic)
+    .sort((x, y) => y.publishedAt.localeCompare(x.publishedAt));
+  const related = [...sameTopic, ...filler].slice(0, 3);
 
   const tr = loc === "tr";
   const paths = articlePaths(a);
@@ -224,14 +242,19 @@ export default async function ArticleDetail({
             { name: a.title[loc], path: paths[loc] },
           ]),
           articleLd({
+            // `headline` bilinçli olarak görünen başlık: şema, sayfadaki
+            // içerikle eşleşmek zorunda (Google structured data kuralı).
+            // Kısaltılmış arama başlığı yalnız `<title>` ve OG'ye gider.
             headline: a.title[loc],
-            description: a.excerpt[loc],
+            description: seoDescription(a, loc),
             path: paths[loc],
             locale: loc,
             datePublished: a.publishedAt,
             dateModified: a.updatedAt,
             authorName: author?.name,
             authorPath,
+            articleSection: getTopic(a.topic).label[loc],
+            keywords: a.tags,
           }),
           a.faq
             ? faqLd(
@@ -248,9 +271,9 @@ export default async function ArticleDetail({
         crumbs={[
           { label: "INDOLES", href: "/" },
           { label: tCommon("nav.articles"), href: "/yazilar" },
-          { label: CATEGORY_LABELS[a.category]![loc] },
+          { label: getTopic(a.topic).label[loc] },
         ]}
-        eyebrow={`${CATEGORY_LABELS[a.category]![loc]} — ${a.readingMinutes} ${
+        eyebrow={`${getTopic(a.topic).label[loc]} — ${a.readingMinutes} ${
           tr ? "dk okuma" : "min read"
         }`}
         title={a.title[loc]}
@@ -347,8 +370,9 @@ export default async function ArticleDetail({
               <BlockRenderer key={i} block={block} loc={loc} />
             ))}
 
-            {/* SSS — açık metin; details/summary değil, AI motorları ve
-                ekran okuyucular kapalı içeriği atlayabiliyor */}
+            {/* SSS — render `FaqAccordion`'da tekilleşti; native `<details>`
+                metni ham HTML'de bıraktığı için crawler görünürlüğü korunur
+                (gerekçe o dosyada). İçindekiler bu bölüme `#sss` ile bağlanır. */}
             {a.faq ? (
               <section aria-labelledby="sss" className="mt-16">
                 <h2
@@ -357,21 +381,14 @@ export default async function ArticleDetail({
                 >
                   {tr ? "Sık sorulan sorular" : "Frequently asked questions"}
                 </h2>
-                <dl className="mt-8 space-y-8">
-                  {a.faq.map((f, i) => (
-                    <div
-                      key={i}
-                      className="border-b border-surface-2 pb-8 last:border-b-0"
-                    >
-                      <dt className="typography-h3 text-ink-900">
-                        {f.question[loc]}
-                      </dt>
-                      <dd className="typography-body-lg mt-3 text-ink-700">
-                        {f.answer[loc]}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
+                <FaqAccordion
+              surface="article"
+                  className="mt-8"
+                  items={a.faq.map((f) => ({
+                    question: f.question[loc],
+                    answer: f.answer[loc],
+                  }))}
+                />
               </section>
             ) : null}
           </div>
@@ -425,7 +442,7 @@ export default async function ArticleDetail({
                   className="group v2-surface border border-surface-2 rounded-2xl p-8 hover:v2-surface-2/60 transition-colors"
                 >
                   <span className="typography-label uppercase tracking-widest text-brand-700">
-                    {CATEGORY_LABELS[r.category]![loc]}
+                    {getTopic(r.topic).label[loc]}
                   </span>
                   <h3 className="typography-h2 mt-4 text-ink-900 group-hover:text-brand-800">
                     {r.title[loc]}

@@ -266,6 +266,79 @@ export const uiUxTasarim: ServiceContent = {
         en: "Design source files are handed over in editable form at the end of the engagement; nothing stays locked in an INDOLES account. That way, if you work with another designer later, you do not have to start over. The design system is delivered the same way, so the in-house team can build new pages themselves.",
       },
     },
+    {
+      question: {
+        tr: "UX denetimi yapıyor musunuz, yoksa yalnız yeni tasarım mı?",
+        en: "Do you run UX audits, or only new design work?",
+      },
+      answer: {
+        tr: "Mevcut ekranlar varsa çalışma onların üzerinden geçilerek başlar; kullanıcının nerede zorlandığı çıkarılır ve engeller listelenir. Bu adımın çıktısı kullanıcı akışı şeması ile mevcut engellerin listesidir, yani denetim yeni tasarımın ön koşulu olarak zaten yapılır. Bulgular yeniden tasarım gerektirmiyorsa bunu da yazılı söyleriz.",
+        en: "If screens already exist, the work starts by going through them: where users struggle is mapped and the blockers are listed. The output of that step is a user flow map plus a list of existing blockers, so the audit happens as a precondition of any new design. If the findings do not call for a redesign, we say so in writing.",
+      },
+    },
+    {
+      question: {
+        tr: "Mobil uygulama tasarımı da yapıyor musunuz?",
+        en: "Do you design mobile apps as well?",
+      },
+      answer: {
+        tr: "Mobil ekran tasarımı kapsamdadır ve küçük ekran sonradan uyarlanan bir versiyon değil, ayrı tasarlanan bir düzen olarak ele alınır. Uygulamanın geliştirilmesi bu hizmetin dışında; kodlama özel yazılım ve mobil hizmetinde yürür. İki iş birlikte alınırsa tek takvimde birleştirilir ve teslim dosyası doğrudan geliştirme ekibine gider.",
+        en: "Mobile screen design is in scope, and the small screen is treated as its own layout rather than a version adapted afterwards. Building the app sits outside this service; the coding runs under custom software and mobile. Taken together, the two are merged into one schedule and the handoff file goes straight to the build team.",
+      },
+    },
+    {
+      question: {
+        tr: "Tasarım sistemi nedir, neden kuruluyor?",
+        en: "What is a design system and why build one?",
+      },
+      answer: {
+        tr: "Tasarım sistemi, buton, kart ve form gibi tekrar eden parçaların tek yerde tanımlandığı kaynaktır. Sistem kurulduğunda yeni bir sayfa sıfırdan tasarlanmaz, mevcut parçalardan kurulur; sayfalar arası tutarsızlık da kaynağında biter. Sistem düzenlenebilir hâlde teslim edildiği için iç ekip yeni sayfaları kendisi çıkarabilir.",
+        en: "A design system is the single source where repeating parts — buttons, cards, forms — are defined once. With it in place a new page is assembled from existing parts rather than drawn from scratch, and inconsistency between pages ends at the source. The system is handed over in editable form, so the in-house team can produce new pages itself.",
+      },
+    },
+    {
+      question: {
+        tr: "Erişilebilirlik neye göre kontrol ediliyor?",
+        en: "How is accessibility checked?",
+      },
+      answer: {
+        tr: "Renk kontrastı, yazı boyutu ve klavye ile kullanım denetlenir. Bu üç başlık okunabilirliği yalnız engelli kullanıcı için değil, küçük ekranda ve güneş altında bakan herkes için belirler. Kontrol tasarım aşamasında yapılır, çünkü kodlama başladıktan sonra düzeltmek renk ve yerleşim kararlarını yeniden açmayı gerektirir.",
+        en: "Colour contrast, type size and keyboard operation are checked. Those three decide readability not only for users with impairments but for anyone on a small screen or in bright sunlight. The check happens during design, because fixing it after coding starts means reopening colour and layout decisions.",
+      },
+    },
+    {
+      question: {
+        tr: "Ekranlardaki metinleri kim yazıyor?",
+        en: "Who writes the text on the screens?",
+      },
+      answer: {
+        tr: "İçerik ve metin yazımı bu hizmetin kapsamı dışında; metni siz ya da metin yazarınız sağlar. Tasarım gerçek metinle ilerler, çünkü yer tutucu yazıyla çizilen ekran canlıda çoğu zaman taşar ya da boş kalır. Marka dilinin de yazılı hâle gelmesi gerekiyorsa ses ve ton kılavuzu marka stratejisi hizmetinde üretilir.",
+        en: "Content and copywriting sit outside this scope; you or your copywriter supply the text. Design proceeds with real copy, because a screen drawn around placeholder text usually overflows or looks empty once live. If the brand language itself needs writing down, the voice and tone guide is produced under brand strategy.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda UI/UX tasarım yanlış tercih olur?",
+        en: "When is UI/UX design the wrong choice?",
+      },
+      answer: {
+        tr: "Ziyaretçi siteye hiç gelmiyorsa tasarım kimseye görünmez; önce trafik gerekir ve o iş performans pazarlamada. Sorun tek bir adımdaki kayıpsa ölçüp düzeltmek yeniden tasarımdan hızlıdır ve dönüşüm optimizasyonu hizmetine girer. Yalnız logo ya da kurumsal kimlik yenilenecekse bu iş marka stratejisi kapsamında ele alınır.",
+        en: "If visitors never arrive, no one sees the design — traffic comes first, and that sits with performance marketing. If the loss is concentrated in one step, measuring and fixing it is faster than redesigning, and that belongs to conversion optimisation. If only a logo or corporate identity needs refreshing, that work is handled under brand strategy.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      question: {
+        tr: "UI/UX tasarım ajansı mı, tasarım danışmanlığı mı gerekir?",
+        en: "A UI/UX design agency or design consulting — which is needed?",
+      },
+      answer: {
+        tr: "UI/UX tasarım ajansı çoğunlukla ekran üretir; danışmanlık hangi ekranın neden gerektiğine karar verir. Bir UX ajansı ile çalışırken sorulacak ilk soru, teslim edilenin görsel mi yoksa karar mı olduğudur. UI tasarımı ve UX tasarımı da ayrı işlerdir: biri arayüzün görünümünü kurar, diğeri kullanıcının hangi adımda ne yapacağını. INDOLES ikisini birlikte teslim eder ve her kararın gerekçesini yazar.",
+        en: "A UI/UX design agency mostly produces screens; consulting decides which screen is needed and why. The first question when working with a UX agency is whether what gets delivered is a visual or a decision. UI design and UX design are separate jobs as well: one builds how the interface looks, the other builds what the user does at each step. INDOLES delivers both and writes down the rationale behind each decision.",
+      },
+    },
   ],
 
   seo: {
@@ -274,8 +347,8 @@ export const uiUxTasarim: ServiceContent = {
       en: "UI/UX design service",
     },
     description: {
-      tr: "Kullanıcı akışından tasarım sistemine, dönüşüm odaklı UI/UX tasarım. Mobil ayrı tasarlanır, dosyalar düzenlenebilir hâlde teslim edilir.",
-      en: "Conversion-led UI/UX design, from user flows to a design system. Mobile designed separately; files handed over fully editable.",
+      tr: "Kullanıcı akışından tasarım sistemine, dönüşüm odaklı UI/UX ve kullanıcı deneyimi tasarımı. Mobil ayrı çizilir, Figma dosyaları düzenlenebilir teslim edilir.",
+      en: "Conversion-led UI/UX and user experience design, from user flows to a design system. Mobile is drawn separately; Figma source files handed over fully editable.",
     },
     entities: {
       tr: [

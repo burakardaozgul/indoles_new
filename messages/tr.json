@@ -123,7 +123,7 @@
         "tagline": "Dijital ve işletme dönüşümü.",
         "description": "Süreç, veri ve otomasyonu işin hızına eşler. Verim ölçülebilir artar, maliyet görünür düşer.",
         "services": [
-          "AI Danışmanlığı",
+          "Yapay Zeka Danışmanlığı",
           "Dijital Dönüşüm",
           "İş Otomasyonları",
           "İş Zekası",
@@ -473,6 +473,31 @@
         "title": "Kendi darboğazını burada bul.",
         "lede": "Sektör değil, problem tipi. Büyüme metriği, dönüşüm oranı veya operasyon hızı — hangisi seni tutuyorsa ona en yakın vakayı aç."
       }
+    },
+    "articles": {
+      "eyebrow": "Bilgi kütüphanesi",
+      "title": "Danışman kaleminden.",
+      "lede": "Teşhis, metot, sonuç — kampanya değil. Konusuna göre süzün; yazılar 5-10 dakikalık.",
+      "filter": {
+        "groupLabel": "Konuya göre süz",
+        "all": "Tümü",
+        "allBlurb": "Büyüme, dönüşüm ve yapım üzerine sahadan çıkmış metot yazıları.",
+        "resultCount": "{count} yazı.",
+        "empty": "Bu konuda henüz yazı yok.",
+        "clear": "Tüm yazılara dön"
+      },
+      "list": {
+        "minRead": "dk okuma",
+        "updated": "Güncellendi"
+      }
     }
+  },
+  "consent": {
+    "regionLabel": "Çerez tercihi",
+    "title": "Ölçüm çerezi kullanıyoruz.",
+    "body": "Hangi sayfanın işe yaradığını görmek için. Reklam takibi yapmıyoruz, profil çıkarmıyoruz.",
+    "accept": "Kabul et",
+    "reject": "Yalnız gerekli olanlar",
+    "policyLabel": "Çerez ve KVKK aydınlatması"
   }
 }

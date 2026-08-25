@@ -267,6 +267,66 @@ export const teknolojiVeAltyapi: ServiceContent = {
         en: "Having a backup is not enough; it has to be restorable, and that is only known by trying. A common finding in practice is this: backups have been running for months but never restored, and when they are, they come back incomplete or corrupted. In this service INDOLES performs a real restore test and reports the result.",
       },
     },
+    {
+      question: {
+        tr: "Teknoloji ve altyapı danışmanlığı neyi kapsıyor?",
+        en: "What does technology and infrastructure advisory cover?",
+      },
+      answer: {
+        tr: "Hizmet, sistemlerin nerede çalışacağına ve bunun yıllık kaça mal olacağına karar vermeyi kapsar. Çalışma dört adımda yürür: envanter ve fatura dökümü, yük testi ile yedekten geri dönüş denemesi, bulut-şirket içi-karma seçeneklerinin üç yıllık maliyet ve çıkış bedeliyle karşılaştırılması, sonra adım adım geçiş planı. Seçim bugünkü fiyata göre değil, üç yıl sonra çıkmak istediğinizde ödeyeceğiniz bedele göre yapılır.",
+        en: "The service covers deciding where systems run and what that costs per year. It runs in four steps: an inventory with a billing breakdown, load testing plus a restore-from-backup trial, a comparison of cloud, on-premise and hybrid on three-year cost and exit cost, then a step-by-step migration plan. The choice follows what leaving will cost in three years, not today's price.",
+      },
+    },
+    {
+      question: {
+        tr: "Şirkette teknoloji kararı verecek kimse yok, bu hizmet o boşluğu doldurur mu?",
+        en: "We have no one to make technology decisions — does this fill that gap?",
+      },
+      answer: {
+        tr: "Hizmet karar noktalarında teknik değerlendirmeyi üstlenir: envanteri çıkarır, seçenekleri maliyet ve risk tablosuyla karşılaştırır ve gerekçeli öneriyi yazılı verir. Kalıcı bir teknik yöneticilik rolü üstlenmez; 7/24 yönetilen hizmet ve günlük sistem yöneticiliği kapsam dışında kalır. Bu ayrım karar kalitesini şirkette bırakmak için var — tablo ve gerekçe sizde durur, öneri onaysız uygulanmaz.",
+        en: "The service takes on the technical assessment at decision points: it builds the inventory, compares the options in a cost and risk table, and delivers a reasoned recommendation in writing. It does not take on a standing technical leadership role; 24/7 managed services and day-to-day system administration stay outside the scope. The split exists to keep decision quality inside the company — the table and the reasoning stay with you, and nothing is implemented without approval.",
+      },
+    },
+    {
+      question: {
+        tr: "Sistem yoğun günlerde yavaşlıyor, bunu nasıl tespit ediyorsunuz?",
+        en: "The system slows down on busy days — how do you diagnose that?",
+      },
+      answer: {
+        tr: "Sınırlar tahminle değil testle bulunur: yük testi yapılır, kaynak kullanımı ölçülür ve bir parça çöktüğünde ne olduğu denenir. Kapasite raporu sistemin nereye kadar dayandığını ve hangi halkanın önce koptuğunu gösterir. Bu ölçüm olmadan yapılan kapasite artırımı çoğu zaman yanlış yere para harcamaya çıkar.",
+        en: "Limits are found by testing rather than guessing: load tests are run, resource usage is measured, and what happens when one component fails is tried out. The capacity report shows how far the system holds and which link breaks first. Adding capacity without that measurement usually means spending money in the wrong place.",
+      },
+    },
+    {
+      question: {
+        tr: "Altyapı maliyetini nasıl düşürüyorsunuz?",
+        en: "How do you bring infrastructure cost down?",
+      },
+      answer: {
+        tr: "Önce dağınık faturalar tek tabloda toplanır; çoğu şirkette bu liste ilk kez bir arada görülür. Sonra gereksiz kaynak, kullanılmayan servis ve yanlış boyutlandırma tespit edilir — çoğu kurulumda hemen düşürülebilecek kalem çıkar. Kalıcı düşüş ise seçenek karşılaştırmasından gelir, çünkü orada üç yıllık toplam maliyet hesaplanır.",
+        en: "First the scattered bills are gathered into one table; in most companies that list is seen together for the first time. Then unused services, idle resources and wrong-sized capacity are identified — in most setups there are lines that can be cut immediately. The lasting reduction comes from the options comparison, because that is where three-year total cost is calculated.",
+      },
+    },
+    {
+      question: {
+        tr: "Güvenlik denetimi yapıyor musunuz?",
+        en: "Do you run a security review?",
+      },
+      answer: {
+        tr: "Temel bir güvenlik gözden geçirmesi kapsamda: erişim yetkileri, açık portlar ve güncelleme durumu incelenir, bulunan açıklar önceliklendirilerek listelenir. Sızma testi ve derinlemesine güvenlik sertifikasyonu bu hizmetin dışında; bunlar ayrı uzmanlık ve ayrı bir sözleşme gerektirir. Yedekleme tarafında ise gerçek bir geri yükleme testi yapılır, çünkü denenmemiş yedek yedek sayılmaz.",
+        en: "A baseline security review is included: access rights, open ports and patch status are examined, and the gaps found are listed in priority order. Penetration testing and in-depth security certification sit outside this service; they need separate expertise and a separate agreement. On the backup side an actual restore test is performed, because an untested backup does not count as a backup.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda bu hizmet yanlış tercih olur?",
+        en: "When is this service the wrong choice?",
+      },
+      answer: {
+        tr: "Beklenti sürekli bir sistem yöneticiliği ya da 7/24 yönetilen hizmetse bu kapsam onu karşılamaz. Sunucu, ağ ekipmanı ve donanım tedariki de yapılmaz; INDOLES ihtiyacı şartnameye yazar ama satın almayı üstlenmez. Sorun altyapıda değil yazılımın kendisindeyse iş özel yazılım hizmetine, süreçlerin dağınıklığındaysa dijital dönüşüm hizmetine geçer.",
+        en: "If the expectation is ongoing system administration or a 24/7 managed service, this scope does not provide it. Server, network equipment and hardware procurement are not part of it either; INDOLES writes the requirement into the specification but does not handle the purchase. If the problem lies in the software rather than the infrastructure, the work moves to custom software; if it lies in scattered processes, to digital transformation.",
+      },
+    },
   ],
 
   seo: {
@@ -275,8 +335,8 @@ export const teknolojiVeAltyapi: ServiceContent = {
       en: "Technology and infrastructure advisory",
     },
     description: {
-      tr: "Bulut, şirket içi veya karma kararını üç yıllık maliyet ve çıkış bedeliyle veren altyapı danışmanlığı. Yedekler test edilerek doğrulanır.",
-      en: "Infrastructure advisory deciding cloud, on-premise or hybrid on three-year cost and exit cost. Backups verified by real restore tests.",
+      tr: "Bulut, şirket içi veya karma kararını üç yıllık maliyet ve çıkış bedeliyle veren altyapı ve bilişim danışmanlığı. Yedekler geri yükleme testiyle doğrulanır.",
+      en: "IT and infrastructure advisory deciding cloud, on-premise or hybrid on three-year cost and exit cost. Backups verified by real restore tests, not by logs.",
     },
     entities: {
       tr: [

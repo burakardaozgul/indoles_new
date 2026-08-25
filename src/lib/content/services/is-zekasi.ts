@@ -262,6 +262,66 @@ export const isZekasi: ServiceContent = {
         en: "The dashboard is built to refresh automatically and needs no daily maintenance. If a source changes or a new question is added, the in-house team can make most changes using the reading guide and the handover session. INDOLES does not take on ongoing operations; the goal is a working routine, not a monthly invoice.",
       },
     },
+    {
+      question: {
+        tr: "İş zekası nedir?",
+        en: "What is business intelligence?",
+      },
+      answer: {
+        tr: "İş zekası, şirketin dağınık verilerini yönetimin her hafta baktığı tek bir tabloya indirmektir. Muhasebe, satış, üretim ve reklam verileri tek yerde toplanır; karar değiştiren sayılar bir ekranda, detay ise alt kırılımda durur. Panel yeni rapor üretmek için değil, o hafta neye bakılacağını söylemek için kurulur.",
+        en: "The work of business intelligence is bringing a company's scattered data down to one table that management looks at every week. Accounting, sales, production and advertising data are gathered in one place; the numbers that change decisions sit on one screen, with detail one level below. The dashboard exists to say what to look at this week, not to produce more reports.",
+      },
+    },
+    {
+      question: {
+        tr: "Raporlama otomasyonu bu hizmetin içinde mi?",
+        en: "Is automated reporting part of this service?",
+      },
+      answer: {
+        tr: "Evet, panel kendi kendine güncellenir ve periyodik raporlar e-postayla ilgili kişilere gider. Kimse dosya yükleyip yenilemek zorunda kalmaz, ay sonu raporu hazırlamak günler almaz. Günlük rapor hazırlama ve yorumlama operasyonunu sürekli yürütmek ise kapsam dışında; kurulan düzen bu işi zaten gereksiz kılar.",
+        en: "Yes — the dashboard refreshes itself and periodic reports go out by email to the people who need them. Nobody has to upload a file and rebuild it, and the month-end report no longer takes days. Running a permanent day-to-day reporting and commentary operation stays outside the scope; the setup makes that work unnecessary in the first place.",
+      },
+    },
+    {
+      question: {
+        tr: "Aynı soruya iki raporda iki farklı cevap çıkıyor, bu nasıl düzelir?",
+        en: "Two reports give two different answers to the same question — how is that fixed?",
+      },
+      answer: {
+        tr: "Fark neredeyse her zaman tanımdan doğar: iki rapor \"ciro\" ya da \"aktif müşteri\" derken farklı şeyi sayar. Tanım birliği adımında bu kavramlar şirket içinde tek anlama indirilir ve yazılı bir sözlüğe geçer. Panel bu sözlükten beslendiği için aynı soru bir daha iki cevap vermez.",
+        en: "The gap almost always comes from definitions: two reports counting different things while both say \"revenue\" or \"active customer\". In the definition alignment step those terms are reduced to one meaning across the company and written into a glossary. The dashboard is built on that glossary, so the same question stops returning two answers.",
+      },
+    },
+    {
+      question: {
+        tr: "Veri odaklı karar almaya nasıl geçiliyor?",
+        en: "How does a company move to data-driven decisions?",
+      },
+      answer: {
+        tr: "Geçiş panelle değil ritimle olur: haftalık toplantı panelin üzerinden yürütülmeye başlanır ve panel kullanılmadığı sürece kurulmuş sayılmaz. Okuma kılavuzu her sayının hangi eşikte ne anlama geldiğini ve ne yapılması gerektiğini yazar, böylece toplantı yorum tartışmasına dönmez. Yönetim oturumunda bu düzenin nasıl sürdürüleceği aktarılır.",
+        en: "The shift comes from rhythm, not from the dashboard: the weekly meeting starts running off the dashboard, and until it is used the build does not count as finished. The reading guide states what each number means at each threshold and what to do about it, so the meeting does not turn into a debate over interpretation. The leadership session passes on how to keep that rhythm going.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim tarafımızdan kim katılır?",
+        en: "Who takes part from our side?",
+      },
+      answer: {
+        tr: "Soru toplama adımında yönetim ve bölüm sorumluları katılır; her karar sorusunun bir sahibi olur. Veri ve tanım denetiminde muhasebe, satış ve üretim tarafından kaynaklara erişim verecek kişiler gerekir. Kurulum sonrasında haftalık toplantıyı yürütecek yönetim ekibi oturuma girer, çünkü paneli kullanacak olan onlar.",
+        en: "At the question-gathering step, management and department heads take part, and every decision question gets an owner. During the data and definition audit you need people who can grant access to the accounting, sales and production sources. After the build, the management team that will run the weekly meeting joins the session, because they are the ones who will use it.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda iş zekası yanlış tercih olur?",
+        en: "When is business intelligence the wrong choice?",
+      },
+      answer: {
+        tr: "Yönetimin cevap aradığı net bir soru yoksa panel kurmak yalnız ekran sayısını artırır; önce karar sorularının yazılması gerekir. Kaynak sistemlerdeki hatalı verinin geçmişe dönük temizlenmesi bu kapsamın dışında, dolayısıyla beklenti buysa iş yanlış yerde başlar. Panel kararı da vermez; analiz sonucuna göre karar alma sorumluluğu şirkette kalır.",
+        en: "If management has no clear question it wants answered, a dashboard only adds another screen — the decision questions have to be written first. Retroactively cleaning bad data in source systems sits outside this scope, so if that is the expectation, the work starts in the wrong place. The dashboard also does not decide; responsibility for the decisions stays with the company.",
+      },
+    },
   ],
 
   seo: {
@@ -270,8 +330,8 @@ export const isZekasi: ServiceContent = {
       en: "Business intelligence consulting",
     },
     description: {
-      tr: "Dağınık veriyi yönetimin haftalık baktığı tek panele indiren iş zekası. Karar sorularından başlanır, tanımlar birleştirilir.",
-      en: "Business intelligence that reduces scattered data to one weekly dashboard. Starts from decision questions and aligns definitions.",
+      tr: "Dağınık veriyi yönetimin haftalık baktığı tek panele indiren iş zekası ve raporlama otomasyonu. Karar sorularından başlanır, tanımlar sözlükte birleşir.",
+      en: "Business intelligence and reporting automation that reduce scattered data to one weekly dashboard. Starts from decision questions, aligns every definition.",
     },
     entities: {
       tr: [

@@ -283,16 +283,89 @@ export const eTicaret: ServiceContent = {
         en: "Platform accounts, the domain and — where custom development happened — the source code are registered to the company. INDOLES connects with administrator access and that access is removed when the work ends. Arrangements where the system sits in the agency's name raise the cost of leaving and create dependency, so they are never set up.",
       },
     },
+    {
+      question: {
+        tr: "Trendyol ve benzeri pazaryerleri kapsama giriyor mu?",
+        en: "Are marketplaces like Trendyol part of the scope?",
+      },
+      answer: {
+        tr: "Pazaryeri hesap yönetimi ve günlük ürün girişi bu hizmetin kapsamı dışında. Kapsam kendi mağazanızın kurulumu ve arkasındaki stok, muhasebe ve kargo bağlantısı üzerine kurulu; sipariş nereden gelirse gelsin tek akışta işlensin diye önce bu düzen kurulur. Pazaryeri operasyonunu iç ekibiniz ya da bu işe bakan bir ajans yürütür.",
+        en: "Marketplace account management and daily product entry sit outside this scope. The scope covers your own store and the stock, accounting and shipping links behind it; that order flow is built first so any order lands in one process, wherever it comes from. Marketplace operations stay with your in-house team or an agency that handles them.",
+      },
+    },
+    {
+      question: {
+        tr: "İKAS, Ticimax veya İdeaSoft gibi hazır altyapılarla çalışıyor musunuz?",
+        en: "Do you work with ready-made platforms like Shopify or WooCommerce?",
+      },
+      answer: {
+        tr: "Evet, İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları bu hizmetin içinde. Altyapı kararı marka tercihiyle değil ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla verilir, gerekçesi maliyet karşılaştırmasıyla yazılı sunulur. Mevcut altyapınız bu listedeyse kurulum sıfırdan değil, akış haritasında çıkan kopma noktalarından başlar.",
+        en: "Yes — İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds all sit inside this service. The platform decision follows product count, order volume and integration needs rather than brand preference, and the reasoning is presented with a cost comparison. If your current platform is on that list, the work starts from the breakpoints found in the flow map rather than from scratch.",
+      },
+    },
+    {
+      question: {
+        tr: "E-ihracat ve distribütör ağı için ayrı bir kurulum gerekiyor mu?",
+        en: "Does export selling or a distributor network need a separate build?",
+      },
+      answer: {
+        tr: "Ayrı bir mağaza gerekmez; B2B tarafı aynı kurulumun içinde bayi akışı olarak çalışır. Distribütöre özel fiyat listesi, toplu sipariş ekranı ve cari hesap görünürlüğü kurulur, kurumsal alıcı için vadeli ödeme ve e-fatura bağlantısı eklenir. Böylece toptan sipariş telefondan ve e-postadan siteye taşınır, satış ekibi sipariş yazmak yerine ilişki yönetir.",
+        en: "A separate store is not needed; the B2B side runs inside the same build as the dealer flow. Distributor-specific price lists, a bulk order screen and account balance visibility are set up, with deferred payment and e-invoicing added for corporate buyers. Wholesale ordering moves off the phone and out of email onto the site, and the sales team manages relationships instead of typing orders.",
+      },
+    },
+    {
+      question: {
+        tr: "Sipariş geldiğinde stok ve muhasebe nasıl güncelleniyor?",
+        en: "How do stock and accounting update when an order arrives?",
+      },
+      answer: {
+        tr: "Sipariş düştüğü anda stok otomatik iner ve muhasebeye tek kayıt gider; aynı veriyi iki yere elle girmek biter. Bağlantı kurulduktan sonra kargo gönderisi de kendiliğinden oluşur ve takip bilgisi müşteriye gider. Her entegrasyon yayına alınmadan önce gerçek siparişle test edilir, çünkü kağıt üzerinde çalışan bağlantı canlıda çalışmayabilir.",
+        en: "The moment an order lands, stock drops automatically and a single record goes to accounting; entering the same data twice by hand ends. Once the link is in place the shipment is created on its own and the tracking notice reaches the customer. Every integration is tested with a real order before go-live, because a link that works on paper can still fail in production.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim ekibimizden kim, hangi aşamada katılır?",
+        en: "Who from our side is involved, and at which stage?",
+      },
+      answer: {
+        tr: "Akış haritası aşamasında siparişi bugün elle takip eden kişiler katılır; kopma noktalarını en iyi onlar bilir. Entegrasyon aşamasında muhasebe ya da ERP tarafından erişim verecek bir sorumlu gerekir. Canlıya alma sonrasında mağazayı işletecek ekip ürün ekleme, sipariş yönetimi ve rapor okuma eğitimine girer; oturum kayıt altına alınır.",
+        en: "At the flow mapping stage, the people who track orders by hand today take part — they know the breakpoints best. At the integration stage you need someone who can grant access on the accounting or ERP side. After go-live, the team that will run the store is trained on adding products, managing orders and reading reports, and the session is recorded.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda e-ticaret kurulumu yanlış tercih olur?",
+        en: "When is an e-commerce build the wrong choice?",
+      },
+      answer: {
+        tr: "Depo ve sevkiyat tarafı henüz oturmadıysa mağaza kurmak sorunu büyütür; sistem eksik stoğu ve gecikmeyi hızlandırarak görünür kılar. Sorun sipariş akışında değil trafikte ise iş performans pazarlamada, gelen ziyaretçinin satın almamasında ise dönüşüm optimizasyonunda başlar. Ürün fotoğrafı ve içerik hazır değilse mağaza kurulur ama satış beklemek erken olur.",
+        en: "If warehouse and dispatch are not yet in order, a store makes the problem bigger — the system simply surfaces missing stock and delays faster. If the issue is traffic rather than order flow, the work starts with performance marketing; if visitors arrive but do not buy, it starts with conversion optimisation. If product photography and content are not ready, the store can be built, but expecting sales from it is early.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      question: {
+        tr: "E-ticaret ajansı ile e-ticaret danışmanı arasındaki fark nedir?",
+        en: "What is the difference between an e-commerce agency and an e-commerce consultant?",
+      },
+      answer: {
+        tr: "E-ticaret ajansı genellikle mağazayı kurar ve reklamı yönetir; e-ticaret danışmanı hangi altyapının, hangi entegrasyonun ve hangi sıranın işe yarayacağına karar verir. INDOLES kurulumu da yapar ama kararı önce verir: stok, muhasebe ve kargo akışı çizilmeden platform seçilmez. Yanlış platform seçimi ilk yılda değil ikinci yılda pahalıya patlar, o yüzden sıralama tersine çevrilmez.",
+        en: "An e-commerce agency usually builds the store and runs the ads; an e-commerce consultant decides which infrastructure, which integrations and which order will actually work. INDOLES does the build as well, but the decision comes first: no platform is chosen before the stock, accounting and shipping flows are drawn. A wrong platform choice costs in the second year rather than the first, so the sequence is never reversed.",
+      },
+    },
   ],
 
   seo: {
     title: {
-      tr: "E-ticaret kurulumu ve danışmanlığı",
+      tr: "E-ticaret danışmanlığı ve kurulumu",
       en: "E-commerce build and consulting",
     },
     description: {
-      tr: "Stok, muhasebe ve kargo entegre çalışan e-ticaret kurulumu. Shopify veya özel geliştirme; bayi ve toptan sipariş akışı dahil.",
-      en: "E-commerce builds with stock, accounting and shipping integrated. Shopify or custom, including dealer and wholesale order flows.",
+      tr: "Stok, muhasebe ve kargo entegre çalışan e-ticaret danışmanlığı ve kurulumu. İKAS, Ticimax, Shopify veya özel geliştirme; bayi ve toptan sipariş akışı dahil.",
+      en: "E-commerce consultancy and builds with stock, accounting and shipping integrated. Shopify, local platforms or custom code, plus dealer and wholesale flows.",
     },
     entities: {
       tr: [

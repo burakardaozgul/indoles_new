@@ -265,6 +265,66 @@ export const dijitalDonusum: ServiceContent = {
         en: "The observation and mapping stages never stop production; the INDOLES team watches on site without interrupting work. For system transitions, parallel running is used: the new system runs alongside the old for a period and the old one is retired only once accuracy is confirmed. The transition schedule follows the production plan, not the other way round.",
       },
     },
+    {
+      question: {
+        tr: "Dijital dönüşüm nedir?",
+        en: "What is digital transformation?",
+      },
+      answer: {
+        tr: "Dijital dönüşüm, şirketin hangi sistemi hangi sırayla kuracağına karar vermesidir. Karar sahada gözlemle çıkarılan mevcut durum haritasından ve en çok zaman kaybı, hata ve bekleme yaratan darboğazın ölçümünden doğar. Sıralamayı en modern teknoloji değil, en çok kaybettiren adım belirler. Her aşama kendi başına işe yarar hâlde bittiği için plan kâğıt üzerinde kalmaz.",
+        en: "Digital transformation is deciding which system a company builds, and in what order. The decision comes out of a current state map drawn from on-site observation and a measurement of the bottleneck causing the most lost time, errors and waiting. The order is set by the step that costs most, not by the newest technology.",
+      },
+    },
+    {
+      question: {
+        tr: "Endüstri 4.0 çalışmaları bu kapsama giriyor mu?",
+        en: "Does Industry 4.0 work fall inside this scope?",
+      },
+      answer: {
+        tr: "Endüstri 4.0 başlığı altında konuşulan işlerin çoğu — sistemlerin birbirine bağlanması, verinin elle taşınmasının bitmesi, üretim planlamanın tek kaynaktan yürümesi — darboğaz tespiti ve yol haritası adımlarında ele alınır. Donanım, sensör ve ağ ekipmanı tedariki kapsam dışı; INDOLES bu kalemleri şartnameye yazar ama satmaz. Hangi başlığın gerçekten gerektiği, yatırım getirisi projeksiyonuyla sıraya girer.",
+        en: "Most of what gets discussed under Industry 4.0 — linking systems together, ending manual data transfer, running production planning from a single source — is handled in the bottleneck and roadmap steps. Hardware, sensor and network equipment procurement is out of scope; INDOLES writes those items into the specification but does not sell them. Which of them is actually needed is ranked by the ROI projection.",
+      },
+    },
+    {
+      question: {
+        tr: "KOBİ ölçeğinde dijital dönüşüm nereden başlar?",
+        en: "Where does digital transformation start at SME scale?",
+      },
+      answer: {
+        tr: "En çok sıkışan yerden başlar, en görünür sistemden değil. Ölçekten bağımsız olarak aynı sıra izlenir: sahada gözlem, darboğazların getiriye göre sıralanması, sonra ilk adımın kurulumu. Küçük şirkette aday adım sayısı az olduğu için yol haritası da kısa çıkar ve ilk kazanım daha erken görünür.",
+        en: "It starts where the pressure is greatest, not with the most visible system. The same sequence applies at any scale: on-site observation, bottlenecks ranked by return, then building the first step. In a smaller company there are fewer candidate steps, so the roadmap comes out shorter and the first gain shows sooner.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim tarafımızdan kim, ne kadar zaman ayırır?",
+        en: "Who from your side is involved, and for how long?",
+      },
+      answer: {
+        tr: "Gözlem aşamasında işi fiilen yürüten kişiler katılır; yazılı prosedürle gerçek uygulama arasındaki farkı ancak onlar gösterir. Yol haritası ve bütçe yönetime sunulur, sıralama kararı orada alınır. Tedarikçi seçimine geçilirse teklif karşılaştırmasına satın alma tarafından bir kişinin katılması gerekir. İlk aşamanın kurulumunda ise o adımı günlük işletecek ekipten bir sorumlu devrede olur.",
+        en: "During observation, the people who actually run the work take part — only they can show the gap between the written procedure and real practice. The roadmap and budget are presented to management, where the sequencing decision is made. If vendor selection follows, someone from procurement needs to join the proposal comparison.",
+      },
+    },
+    {
+      question: {
+        tr: "Yol haritası çıktıktan sonra kurulumu kim yapar?",
+        en: "Who builds the systems once the roadmap is ready?",
+      },
+      answer: {
+        tr: "Yol haritasının ilk adımı INDOLES gözetiminde kurulur ve sonucu ölçülür; sonraki adımlar iç ekiple ya da seçilen tedarikçiyle devam eder. Bu ayrım bilinçli: kâğıt üzerinde kalan bir dönüşüm planı işe yaramaz, ama her aşamayı dışarıya bağlamak da şirketi bağımlı bırakır. Tedarikçiyle çalışılacaksa şartname, teklif karşılaştırması ve sözleşme kontrolü kapsamda kalır.",
+        en: "The first step of the roadmap is built under INDOLES supervision and its result measured; the later steps continue with your in-house team or the chosen vendor. The split is deliberate: a transformation plan that stays on paper is useless, but outsourcing every stage leaves the company dependent. If a vendor takes over, the specification, proposal comparison and contract review stay in scope.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda dijital dönüşüm danışmanlığı yanlış tercih olur?",
+        en: "When is digital transformation advisory the wrong choice?",
+      },
+      answer: {
+        tr: "Sorun tek bir tekrarlı işte yoğunlaşıyorsa yol haritası çıkarmak gereksiz gecikme yaratır; o iş doğrudan iş otomasyonları hizmetinde çözülür. Kararı zorlaştıran şey sistem eksikliği değil verinin görünmemesiyse iş zekası hizmetine gitmek daha kısa yoldur. Beklenti kurum içi değişim yönetimi ya da günlük sistem yöneticiliğiyse bunlar kapsam dışı kalır.",
+        en: "If the problem sits in a single repetitive task, drawing a roadmap only delays it — that task is handled directly under business automation. If what makes decisions hard is invisible data rather than missing systems, business intelligence is the shorter route. If the expectation is internal change management or day-to-day system administration, those fall outside the scope.",
+      },
+    },
   ],
 
   seo: {
@@ -273,8 +333,8 @@ export const dijitalDonusum: ServiceContent = {
       en: "Digital transformation consulting",
     },
     description: {
-      tr: "Hangi sistemin hangi sırayla kurulacağını yatırım getirisiyle belirleyen dijital dönüşüm danışmanlığı. Bağımsız — yazılım satışı yok.",
-      en: "Digital transformation consulting that decides which system to build in which order, by ROI. Independent — no software sales.",
+      tr: "Hangi sistemin hangi sırayla kurulacağını yatırım getirisiyle belirleyen dijital dönüşüm danışmanlığı. Endüstri 4.0 dahil, bağımsız — yazılım satışı yok.",
+      en: "Digital transformation consultancy that decides which system to build in which order, ranked by ROI. Industry 4.0 included. Independent — no software sales.",
     },
     entities: {
       tr: [

@@ -276,6 +276,79 @@ export const ozelYazilimVeMobil: ServiceContent = {
         en: "A mobile app is only necessary when something genuinely needs the phone: push notifications, camera or location use, offline operation. Without those, a mobile-friendly web application is both cheaper and updatable without waiting for store approval. INDOLES decides from the usage scenario and presents the reasoning with a cost comparison.",
       },
     },
+    {
+      question: {
+        tr: "MVP nedir, önce onunla mı başlamalıyız?",
+        en: "What is an MVP, and should we start with one?",
+      },
+      answer: {
+        tr: "MVP, sistemin işe yaradığını gösterecek en küçük çalışan sürümüdür. INDOLES geliştirmeyi zaten parçalara böler ve her parçayı çalışır hâlde teslim eder, dolayısıyla ilk kullanılabilir sürüm proje sonunda değil yolun başında ortaya çıkar. Erken çıkmanın değeri şurada: gerçek kullanıcıdan gelen geri bildirim, henüz yazılmamış parçaların kapsamını değiştirebilir.",
+        en: "An MVP is the smallest working version that shows the system does its job. INDOLES already splits development into parts and delivers each one working, so the first usable version appears early rather than at the end. The value of shipping early is concrete: feedback from real users can still change the scope of the parts not yet written.",
+      },
+    },
+    {
+      question: {
+        tr: "Hizmet bedeli dışında hangi giderler çıkar?",
+        en: "What costs arise beyond the service fee?",
+      },
+      answer: {
+        tr: "Üçüncü taraf servis ve API kullanım bedelleri, sunucu ile cihaz tedariki ve uygulama mağazası reklamları hizmet bedelinin dışında kalır. Bu kalemler kapsam dokümanında ayrı ayrı gösterilir, böylece aylık işletme gideri baştan bilinir. Teslim sonrası bakım da isteğe bağlı ayrı bir sözleşmeyle tanımlanır; zorunlu tutulmaz.",
+        en: "Third-party service and API usage fees, server and device procurement, and app store advertising all sit outside the service fee. These lines are itemised in the scope document so the monthly running cost is known up front. Maintenance after delivery is likewise defined in a separate, optional agreement rather than being made compulsory.",
+      },
+    },
+    {
+      question: {
+        tr: "Kendi yazılım ekibimiz varken nasıl çalışıyorsunuz?",
+        en: "How do you work when we already have a software team?",
+      },
+      answer: {
+        tr: "Geliştirme parçalara bölündüğü için iş bölüşülebilir: bazı parçalar INDOLES'te, bazıları sizin ekibinizde kalır ve teslim takvimi ortak yazılır. Kaynak kod, depo ve teknik doküman baştan firmanın adına durduğu için iç ekip her an devralabilir. Ekran tasarımları kodlamadan önce onaylandığından iki taraf aynı kapsam üzerinden çalışır.",
+        en: "Because development is split into parts, the work can be divided: some parts stay with INDOLES, others with your team, and the delivery schedule is written jointly. Source code, repository and technical documentation are held in the company's name from the start, so the in-house team can take over at any point. Screen designs are approved before coding, which keeps both sides on the same scope.",
+      },
+    },
+    {
+      question: {
+        tr: "Bizim tarafımızdan kim, ne kadar zaman ayırır?",
+        en: "Who from our side is involved, and how much time?",
+      },
+      answer: {
+        tr: "Kapsamı bilen bir iş sahibi ve sistemi kullanacak ekipten bir temsilci gerekir. İş sahibi kapsam dokümanını ve ekran tasarımlarını onaylar; temsilci haftalık çıkan sürümleri deneyip geri bildirim verir. Entegrasyon aşamasında muhasebe ya da ERP tarafından erişim verecek bir kişi, canlıya alma sonrasında ise kullanıcı ekibi eğitime katılır.",
+        en: "You need a business owner who knows the scope and one representative from the team that will use the system. The owner signs off the scope document and the screen designs; the representative tries the weekly releases and gives feedback. At the integration stage someone must grant access on the accounting or ERP side, and after launch the user team joins the training.",
+      },
+    },
+    {
+      question: {
+        tr: "İşin ilerlediğini nasıl takip ederiz?",
+        en: "How do we track that the work is progressing?",
+      },
+      answer: {
+        tr: "Her parça bitince gösterilir ve kullanılabilir hâlde teslim edilir; ilerleme aylık değil haftalık görünür. Parça bazlı teslim takvimi hangi parçanın ne zaman biteceğini baştan yazar, ilerleme kaydı da gerçekleşeni yanına koyar. Geri bildirim sonda değil yolda alındığı için sapma büyümeden görülür.",
+        en: "Each part is shown and handed over in usable form as it is finished, so progress is visible weekly rather than monthly. The part-by-part delivery schedule states up front when each piece lands, and the progress log records what actually happened beside it. Feedback comes during the build rather than at the end, so drift shows before it grows.",
+      },
+    },
+    {
+      question: {
+        tr: "Hangi durumda özel yazılım yanlış tercih olur?",
+        en: "When is custom software the wrong choice?",
+      },
+      answer: {
+        tr: "Hazır bir ürün işi büyük ölçüde karşılıyorsa yazmamak doğrudur; yazılan her satırın yıllara yayılan bakım maliyeti vardır ve bu maliyet ilk faturada görünmez. İş yalnız sistemler arası veri taşımaktan ibaretse iş otomasyonları hizmeti daha kısa yoldur. Sürecin nasıl yürüdüğü henüz tanımlı değilse kapsam yazılamaz ve proje yazılırken büyümeye devam eder.",
+        en: "If an off-the-shelf product covers most of the job, not writing it is the right call — every line written carries years of maintenance cost that never shows on the first invoice. If the work is only moving data between systems, business automation is the shorter route. If how the process runs is not yet defined, the scope cannot be written and the project keeps growing while it is built.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      question: {
+        tr: "Yazılım evi ile ürün ekibi arasındaki fark nedir?",
+        en: "What is the difference between a software development agency and a product team?",
+      },
+      answer: {
+        tr: "Yazılım evi genellikle briefi alır ve inşa eder; ürün ekibi kod yazılmadan önce neyin inşa edileceğine karar verir. Tedarikçiyi yalnız fiyata göre seçmek gerçek maliyeti gizler — o maliyet ikinci yılda bakım olarak geri gelir. INDOLES önce ürün şartnamesini yazar, sonra inşa eder ve kaynak kodu dokümantasyonuyla birlikte teslim eder; iş başka bir ekiple de sürdürülebilir.",
+        en: "A software development agency usually takes the brief and delivers the build; a product team decides what should be built before any code is written. Choosing a custom software development company or a mobile app development company on price alone hides the real cost, which arrives in the second year as maintenance. INDOLES writes the product spec first, then builds, and hands over the source code with its documentation so the work can continue with any team.",
+      },
+    },
   ],
 
   seo: {
@@ -284,8 +357,8 @@ export const ozelYazilimVeMobil: ServiceContent = {
       en: "Custom software and mobile app development",
     },
     description: {
-      tr: "İhtiyaca özel yazılım ve mobil uygulama geliştirme. Önce hazır çözüm elenir, kaynak kod ve doküman firmaya devredilir.",
-      en: "Custom software and mobile app development. Off-the-shelf options ruled out first; source code and documentation handed to you.",
+      tr: "İhtiyaca göre özel yazılım geliştirme, web ve mobil uygulama geliştirme. Önce hazır ürün elenir, sonra kaynak kod ve teknik doküman firmaya devredilir.",
+      en: "Custom software development plus web and mobile app development. Off-the-shelf products get ruled out first; source code and documentation stay with you.",
     },
     entities: {
       tr: [

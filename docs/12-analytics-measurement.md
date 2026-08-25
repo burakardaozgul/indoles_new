@@ -3,7 +3,19 @@
 > **Amaç:** INDOLES platformunun ürün analitiği, event taksonomisi, KPI tanımları ve dashboard stratejisini sabitlemek.
 >
 > **Bağlı belgeler:** `11-funnel-customer-flows.md`, `05-tech-architecture.md` §4.11.
-> **Ana araç:** PostHog (EU Cloud).
+> **Ana araç:** Google Analytics 4.
+
+> **Doğrulama notu (2026-08-24, ADR-021):** PostHog **kaldırıldı**; site tek
+> ölçüm sağlayıcıya (GA4) indi. Belgedeki **event taksonomisi ve KPI tanımları
+> geçerlidir** — sağlayıcıdan bağımsızdır. Sağlayıcıya özgü bölümler (session
+> replay, feature flag, `posthog-js` Web Vitals, `posthog-node` sunucu event'i)
+> **uygulanmamıştır** ve yalnız tarihsel bağlam için duruyor. Uygulamadaki
+> karşılıkları: `src/lib/analytics/ga.ts` (olay yazımı), `src/lib/analytics/events.ts`
+> (tipli taksonomi), `src/app/layout.tsx` (gtag yüklemesi).
+>
+> **§9 (KVKK ve Veri Koruma) 2026-08-24'te yeniden yazıldı ve uygulamayla
+> birebir günceldir.** §6 (dashboard), §7 (feature flag), §8 (A/B test) ve
+> §10 (entegrasyonlar) hâlâ PostHog dönemine aittir — uygulanmamıştır.
 
 ---
 
@@ -11,15 +23,15 @@
 
 | Alan | Karar | Gerekçe |
 |---|---|---|
-| Ürün analitiği | PostHog (EU Cloud) | Open source, self-serve, EU data residency, feature flags dahil |
-| GA4 | **Kullanılmayacak** | PostHog yeter; veri saçılması istemiyoruz |
-| Microsoft Clarity | **Kullanılmayacak** | PostHog session replay yeterli |
-| Session replay | PostHog (opt-in, maskeli) | KVKK uyumu için sensitive mask |
-| Feature flags | PostHog flags | Ayrı araç eklemeyiz |
-| Web Vitals | PostHog `posthog-js/lib/web-vitals` | RUM native |
-| Sunucu tarafı event | PostHog Node (`posthog-node`) | tRPC procedure'larında ölçüm |
-| Identification | Clerk userId ile identify | Anonim → user birleşimi |
-| Cookies | Opt-in (EEA için zorunlu) | KVKK compliance |
+| Ürün analitiği | **Google Analytics 4** | Tek sağlayıcı; ADR-021 |
+| PostHog | **Kullanılmayacak** | İki SDK paralel taşımanın bedeli (istemci bundle + ikinci veri işleyici) karşılığını vermedi; ADR-021 |
+| Microsoft Clarity | **Kullanılmayacak** | Üçüncü bir ölçüm sağlayıcısı eklenmiyor |
+| Session replay | **Yok** | Sağlayıcıyla birlikte kalktı; KVKK yüzeyi daraldı |
+| Feature flags | **Yok** | İhtiyaç doğduğunda ayrı karar |
+| Web Vitals | Vercel Speed Insights | Zaten kurulu; ayrı RUM SDK'sı eklenmiyor |
+| Sunucu tarafı event | **Yok** | Dönüşüm olayları istemcide GA4'e yazılır (`ContactForm`, `EntryPopup`); lead detayı e-posta bildirimiyle taşınır |
+| Identification | **Yok** | Clerk kaldırıldı (ADR-008); GA4 olayları kişi kimliği taşımaz (ADR-021) |
+| Cookies | Bölgesel opt-in — EEA + UK'de onay, diğer bölgelerde varsayılan açık | Consent Mode v2 ile uygulandı; **güncel mimari §9'da** |
 
 ---
 
@@ -27,14 +39,59 @@
 
 Event isimleri `snake_case`, **objeden fiile** formatında: `{object}_{verb}` (ör. `brief_submitted`, `chatbot_opened`). Properties camelCase.
 
+> Bu kural artık teste bağlı: `EVENT_NAMES` çalışma zamanında bir değer
+> olarak duruyor ve `src/lib/analytics/__tests__/events.test.ts` her adın
+> snake_case, ≤40 karakter ve `{obje}_{fiil}` biçiminde olduğunu doğruluyor.
+> Birleşim tipiyle listenin uyumunu derleyici kontrol ediyor.
+
+### 2.0 Uygulanan olaylar (2026-08-24)
+
+Aşağıdaki §2.1-2.5 tabloları **tasarım kapsamıdır**; bir kısmı hiç var olmayan
+özelliklere (brief akışı, checkout, teşhis araçları) aitti ve olduğu gibi
+duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
+
+| Olay | Nereden | Boyutlar |
+|---|---|---|
+| `page_view` | GA4 Enhanced Measurement | Yol, dil (otomatik) |
+| `service_viewed` | `service-detail.tsx` → `TrackView` | `slug` (TR), `pillar`, `locale` |
+| `pillar_viewed` | `pillar-detail.tsx` → `TrackView` | `pillar`, `locale` |
+| `package_viewed` | `paketler/[slug]` → `TrackView` | `packageSlug`, `pillar`, `price`, `currency` |
+| `case_study_viewed` | `vakalar/[slug]` → `TrackView` | `slug`, `problemType`, `pillar` |
+| `faq_opened` | `faq-accordion.tsx` | `surface`, `question` (≤100 kr.) |
+| `persona_axis_clicked` | `persona-switch.tsx` | `axis` |
+| `booking_cta_clicked` | `popup-context.tsx` → `openPopup` | `source`, `pillar?` |
+| `contact_form_submitted` | `ContactForm.tsx` | — |
+| 8 popup olayı | `entry-popup/EntryPopup.tsx` | `popup_shown`, `popup_stage1_selected`, `popup_stage2_submitted`, `popup_stage3_viewed`, `popup_booking_submitted`, `popup_contact_submitted`, `popup_kvkk_consent_given`, `popup_dismissed` |
+
+**İki tasarım kararı:**
+
+1. **Kimlik her zaman TR slug'ı.** Hizmet ve paket slug'ları dile göre
+   ayrışıyor; olayda `slug.en` gönderilseydi aynı varlık GA4'te iki satıra
+   bölünür ve hizmet bazlı toplam okunamazdı. Dil ayrı boyut olarak taşınır.
+   Eşleme `src/lib/analytics/view-events.ts`'te saf fonksiyonlarda ve testli
+   — sayfalar RSC olduğu için JSX içinde test edilemezdi.
+2. **CTA olayı tek noktadan.** Görüşme CTA'sını açan tek yol `openPopup`;
+   olay orada yazılır, yani atlanması imkânsız. `source` zorunlu ve kapalı
+   birleşim (`BookingCtaSource`) — yeni bir CTA adsız eklenemez, derlenmez.
+
+**Elle yazılmayanlar:** scroll derinliği, outbound tıklama, dosya indirme ve
+site içi arama GA4 Enhanced Measurement tarafından toplanıyor; ikinci kez
+yazmak olay sayısını şişirirdi.
+
+**Bilinçli eksik:** `article_viewed`. `page_view` yazının görüntülendiğini
+zaten söylüyor; eklenecek tek boyut ADR-021 konu etiketi olurdu ve içerik
+motoru (strateji §4) başlamadan okunacak veri üretmiyor. Dalga 8'de eklenir.
+
 ### 2.1 Sayfa ve navigasyon
 
 | Event | Properties | Ne zaman |
 |---|---|---|
-| `$pageview` | PostHog auto | Her sayfa yüklenmesinde |
+| `page_view` | GA4 Enhanced Measurement | Her sayfa yüklenmesinde |
 | `homepage_hero_viewed` | `persona` | Hero görünür olunca |
 | `persona_axis_clicked` | `axis: "industrial" \| "commerce"` | Anasayfada eksen CTA |
 | `pillar_viewed` | `pillar`, `locale` | Pillar sayfası görüntülenince |
+| `service_viewed` | `slug`, `pillar`, `locale` | Hizmet detay sayfası |
+| `faq_opened` | `surface`, `question` | Bir SSS sorusu açılınca |
 | `package_viewed` | `packageSlug`, `pillar`, `price`, `currency` | Paket detay |
 | `case_study_viewed` | `slug`, `problemType`, `pillar` | Case study detay |
 | `article_viewed` | `slug`, `category`, `readingTime` | Blog yazısı |
@@ -308,24 +365,69 @@ Her test: minimum 2 hafta çalıştır, minimum 100 conversion/varyant, p-value 
 
 ## 9. KVKK ve Veri Koruma
 
-### 9.1 Cookie banner
-- İlk ziyarette (EEA origin tespit) → banner.
-- Opt-in default `off` — kullanıcı "Kabul et" demeden PostHog çalışmaz.
-- Alternatif: "Gerekli olanlar" (Clerk session cookie) + "Analitik" + "Session replay" ayrı checkbox'lar.
-- Banner TR+EN.
+> **Güncelleme (2026-08-24):** Bu bölüm PostHog dönemine ait yazılmıştı ve
+> ADR-021'den (PostHog kaldırıldı, GA4 tek sağlayıcı) sonra geçersiz kalmıştı.
+> Session replay, Clerk session cookie ve PostHog saklama ayarlarına yapılan
+> atıflar kaldırıldı; yerine uygulanan Consent Mode v2 mimarisi yazıldı.
 
-### 9.2 Session replay masking
-- `input[type="password"]`, `input[type="email"]`, `[data-sensitive]` — hepsi masklı.
-- Brief form içeriği full mask.
-- Ödeme formu Stripe/iyzico iframe'de — zaten PostHog erişemez.
+### 9.1 Onay mimarisi — bölgesel Consent Mode v2
 
-### 9.3 Data retention
-- Event data: 2 yıl (PostHog settings).
-- Session replay: 30 gün.
-- User deletion: `posthog.reset()` + `userId` delete request API'den.
+Karar bölgesel: analitik çerezleri **EEA + Birleşik Krallık** ziyaretçileri
+için opt-in, diğer bölgelerde varsayılan açık (`docs/14` §3). Türkiye birincil
+pazar; oradaki ölçümün tamamını görebilmek organik büyüme işlerinin etkisini
+değerlendirmenin önkoşulu.
 
-### 9.4 IP anonymization
-- PostHog IP anonymization on (last octet masked).
+| Katman | Dosya | İş |
+|---|---|---|
+| Bölge listesi | `src/lib/consent/region.ts` | EEA 30 + GB = 31 ülke. Hem `gtag` `region` parametresini hem banner görünürlüğünü besleyen **tek kaynak** |
+| Açılış script'i | `src/lib/analytics/ga-bootstrap.ts` | İki `consent default` (bölgesel `denied`, genel `granted`) → `js` → `config` |
+| Bölge işareti | `src/lib/consent/middleware.ts` | `x-vercel-ip-country` → `indoles_region` çerezi |
+| Şerit | `src/components/marketing/consent-banner.tsx` | TR/EN, `role="region"`, iki eşit düğme |
+| Karar | `src/lib/consent/apply.ts` | `gtag('consent','update',{analytics_storage})` |
+| Popup kapısı | `src/lib/consent/gate.ts` | Şerit açıkken giriş popup'ı tetiklenmez |
+
+**Sıra kritik:** `consent default` komutları `gtag('config')`ten **önce**
+basılmalı. Sıra bozulursa hata çıkmaz, yalnız EEA ziyaretçisinin ilk
+`page_view`i onaysız gider — sessiz uyum hatası. Bu yüzden sıra testle
+korunuyor (`src/lib/analytics/__tests__/ga-bootstrap.test.ts`): test script'i
+gerçekten çalıştırıp `dataLayer` sırasını doğruluyor.
+
+**Reklam sinyalleri her bölgede `denied`.** Consent Mode v2 dört sinyalin de
+bildirilmesini istiyor, ama INDOLES bu site üzerinden Google reklam ürünü
+kullanmıyor — `ad_storage`, `ad_user_data`, `ad_personalization` açılmıyor ve
+onay da istenmiyor. Şeritteki "reklam takibi yapmıyoruz" cümlesi bu yüzden
+kodla doğrulanabilir bir iddia (`docs/04` §10).
+
+**Başarısızlık yönü güvenli.** Coğrafi başlık yoksa bölge `other` yazılır ve
+şerit çıkmaz; ama `gtag`in kendi `region` varsayılanı Google tarafında IP'ye
+baktığı için EEA ziyaretçisinin analitiği yine açılmaz. Yani hata durumunda
+fazla değil, **az** ölçüyoruz.
+
+### 9.2 Çerezler
+
+| Çerez | Tür | Süre | Onay gerekir mi |
+|---|---|---|---|
+| `indoles_persona` | Functional — okuma merceği tercihi | 6 ay | Hayır |
+| `indoles_popup_state` | Functional — giriş popup'ı funnel durumu | 30 gün / 6 ay | Hayır |
+| `indoles_region` | Functional — onay şeridinin bölge işareti | Oturum | Hayır |
+| `indoles_consent` | Functional — verilen kararın kaydı | 12 ay | Hayır (kararın kendisi) |
+| `_ga`, `_ga_*` | Analitik — GA4 | GA4 varsayılanı | **Evet (EEA/UK)** |
+
+Onay 12 ay sonra yeniden sorulur; EDPB rehberi süresiz onay beklemiyor.
+Ret de kaydedilir — kaydedilmezse "hayır" demek her sayfada tekrar sorulmak
+anlamına gelirdi.
+
+### 9.3 Veri saklama
+
+- Olay verisi: GA4 saklama ayarı 14 ay (veri sorumlusu Google Ireland Ltd.).
+- Session replay **yok** — böyle bir araç kullanılmıyor.
+- Kişiye bağlanabilir kayıt **yok**: ADR-021 ile sunucu tarafı `identify()`
+  kaldırıldı, GA4 olayları kimlik taşımıyor. Silme talebi mail arşivinde
+  karşılanır (`docs/14` §4).
+
+### 9.4 IP anonimleştirme
+
+GA4'te IP anonimleştirme varsayılan ve kapatılamaz; ayrıca ayar gerekmez.
 
 ---
 

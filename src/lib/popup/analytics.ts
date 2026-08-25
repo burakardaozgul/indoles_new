@@ -1,5 +1,5 @@
 import type { PersonaSlug, ProblemSlug } from "./types";
-import { posthog } from "../analytics/posthog";
+import { gaEvent } from "../analytics/ga";
 
 export type PopupEventMap = {
   popup_shown: { trigger_source: "initial" | "hero_chip" | "manual"; time_to_show_ms?: number };
@@ -14,10 +14,21 @@ export type PopupEventMap = {
   popup_kvkk_consent_given: { stage: "booking" | "contact" };
 };
 
+/**
+ * Popup olayları GA4'e gider (ADR-021).
+ *
+ * GA4 parametre değerleri skaler olmak zorunda; dizi taşıyan alanlar
+ * (`problems`) virgülle birleştirilir, `undefined` alanlar düşürülür.
+ */
 export function trackPopupEvent<K extends keyof PopupEventMap>(
   event: K,
   payload: PopupEventMap[K]
 ): void {
   if (typeof window === "undefined") return;
-  posthog.capture(event, payload as Record<string, unknown>);
+  const flat: Record<string, string | number | boolean> = {};
+  for (const [k, v] of Object.entries(payload as Record<string, unknown>)) {
+    if (v === undefined || v === null) continue;
+    flat[k] = Array.isArray(v) ? v.join(",") : (v as string | number | boolean);
+  }
+  gaEvent(event, flat);
 }

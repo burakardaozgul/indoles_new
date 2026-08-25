@@ -7,7 +7,11 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SECTIONS } from "@/lib/v2/anim-config";
 import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
-import { PersonaText } from "@/components/marketing/persona-text";
+import {
+  PersonaSeparator,
+  PersonaText,
+} from "@/components/marketing/persona-text";
+import { localeHref } from "@/lib/i18n/locale-href";
 
 const KEYS = ["growth", "transform", "build"] as const;
 
@@ -69,8 +73,13 @@ export function Pillars({ locale }: { locale: "tr" | "en" }) {
             <PersonaText {...both("eyebrow")} />
           </span>
           <h2 className="v2-pillars-title">
-            {(["industrial", "commerce"] as const).map((persona) => (
+            {/* `PersonaText` kullanılamıyor: başlık `\n` içeriyor ve satır
+                sonları `<br/>`a çevriliyor. Varyant sınırındaki ayırıcı
+                elle eklenir — gerekçe `persona-text.tsx`
+                `PersonaSeparator`da. */}
+            {(["industrial", "commerce"] as const).map((persona, pi) => (
               <span key={persona} data-persona-variant={persona}>
+                {pi > 0 && <PersonaSeparator />}
                 {p(persona, "headline")
                   .split("\n")
                   .map((line, i) => (
@@ -130,8 +139,11 @@ export function Pillars({ locale }: { locale: "tr" | "en" }) {
                 ))}
               </ul>
 
+              {/* `/en/hizmetler/...` 307 ile `/en/services/...`e gidiyordu.
+                  Pillar anahtarı (growth/transform/build) locale'den bağımsız,
+                  yalnız ilk segment çevrilir. */}
               <Link
-                href={`/${locale}/hizmetler/${key}`}
+                href={localeHref(`/hizmetler/${key}`, locale)}
                 className="v2-pillar-link"
                 data-cursor="hover"
               >

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { PillarMark } from "@/components/marketing/pillar-mark";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { PersonaText } from "@/components/marketing/persona-text";
 import { PersonaSwitch } from "@/components/marketing/persona-switch";
@@ -9,8 +10,11 @@ import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
 import { getServicesByPillar } from "@/lib/content/services";
 import { JsonLd } from "@/lib/seo/JsonLd";
+import { TrackView } from "@/components/analytics/track-view";
+import { pillarViewEvent } from "@/lib/analytics/view-events";
 import {
   breadcrumbLd,
+  faqLd,
   organizationLd,
   serviceLd,
   webPageLd,
@@ -48,8 +52,12 @@ export async function PillarDetail({
 
   return (
     <>
-      {/* FAQPage yok: pillar düzeyinde SSS verisi bulunmuyor ve boş şema
-          Search Console'da uyarı üretiyor (bkz. `faqLd`). */}
+      {/* `FAQPage` disiplin düzeyindeki SSS'ten üretilir. Sorular
+          `pillars.ts`teki `faq` alanında durur ve aşağıda açık metin olarak
+          da basılır — şema yalnız sayfada görünen soruyu taşır. Alan boşsa
+          `faqLd` null döner ve `JsonLd` düğümü grafikten eler; boş şema
+          Search Console'da uyarı üretiyor. */}
+      <TrackView event={pillarViewEvent(pillar, loc)} />
       <JsonLd
         graph={[
           organizationLd(),
@@ -76,6 +84,12 @@ export async function PillarDetail({
               path: `/${loc}/${loc === "tr" ? "paketler" : "packages"}/${p.slug[loc]}`,
             })),
           }),
+          faqLd(
+            (pillar.faq ?? []).map((f) => ({
+              question: f.question[loc],
+              answer: f.answer[loc],
+            })),
+          ),
         ]}
       />
       <V2PageHeader
@@ -292,6 +306,39 @@ export async function PillarDetail({
         </section>
       )}
 
+      {/* SSS — disiplin düzeyi. Render `FaqAccordion`'da tekilleşti; gerekçesi
+          (native `<details>` crawler'a görünür kalır) o dosyada yazılı.
+          Sorular hizmet sayfalarınınkini tekrarlamaz: burada "hangi disiplin
+          bana uygun" seviyesi cevaplanır. */}
+      {pillar.faq && pillar.faq.length > 0 && (
+        <section
+          aria-labelledby="sss"
+          className="border-b border-surface-2"
+        >
+          <div className="ds-container py-24 md:py-32">
+            <span className="typography-label uppercase tracking-widest text-ink-500">
+              {loc === "tr" ? "Sorular" : "Questions"}
+            </span>
+            <h2
+              id="sss"
+              className="typography-h2 mt-4 max-w-[22ch] scroll-mt-32 text-ink-900"
+            >
+              {loc === "tr"
+                ? "Sık sorulan sorular"
+                : "Frequently asked questions"}
+            </h2>
+            <FaqAccordion
+              surface="pillar"
+              className="mt-12 max-w-prose-editorial"
+              items={pillar.faq.map((f) => ({
+                question: f.question[loc],
+                answer: f.answer[loc],
+              }))}
+            />
+          </div>
+        </section>
+      )}
+
       {/* Featured case */}
       {relatedCase && (
         <section className="border-b border-surface-2">
@@ -328,7 +375,7 @@ export async function PillarDetail({
                         className="typography-h2 mt-3 text-ink-900"
                         style={{ fontVariationSettings: '"opsz" 9' }}
                       >
-                        {m.value}
+                        {m.value[loc]}
                       </dd>
                     </div>
                   ))}

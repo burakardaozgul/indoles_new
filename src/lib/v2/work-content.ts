@@ -82,7 +82,7 @@ export function getFeaturedWork(locale: Locale) {
       sector: c.clientSector[locale],
       client: c.clientName[locale],
       durationWeeks: c.durationWeeks,
-      metricValue: metric?.value ?? "",
+      metricValue: metric?.value[locale] ?? "",
       metricLabel: metric?.label[locale] ?? "",
       image: meta.image,
       tags: meta.tags.map((t) => ({ glyph: t.glyph, label: t.label[locale] })),

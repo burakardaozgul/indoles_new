@@ -155,10 +155,10 @@ function CaseItem({
 
           <dl className="my-3 grid grid-cols-2 gap-6 border-y border-ink-200 py-6">
             {metrics.map((m) => (
-              <div key={m.value} className="flex flex-col gap-1">
+              <div key={m.label[locale]} className="flex flex-col gap-1">
                 <dt className="sr-only">{m.label[locale]}</dt>
                 <dd className="font-display text-step-4 font-medium tracking-[-0.03em] text-teal-700 tabular">
-                  {m.value}
+                  {m.value[locale]}
                 </dd>
                 <span className="text-xs text-ink-500">{m.label[locale]}</span>
               </div>

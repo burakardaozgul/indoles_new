@@ -61,7 +61,7 @@ export function CaseCard({
           {/* Kartın ölçüsü: ilk metrik görselin üstünde mono rozet */}
           {metric ? (
             <span className="typography-caption mono absolute bottom-3 left-3 rounded-md bg-ink-900/80 px-2.5 py-1.5 tracking-widest text-white">
-              {metric.value} — {metric.label[locale]}
+              {metric.value[locale]} — {metric.label[locale]}
             </span>
           ) : null}
         </div>

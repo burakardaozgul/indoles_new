@@ -3,6 +3,9 @@
 import * as React from "react";
 import { EntryPopup } from "@/components/marketing/entry-popup/EntryPopup";
 import { shouldShowPopup, readPopupCookie } from "./cookie";
+import { whenConsentResolved } from "@/lib/consent/gate";
+import { track } from "@/lib/analytics/ga";
+import type { BookingCtaSource, Pillar } from "@/lib/analytics/events";
 import type { PopupStage, PersonaSlug, ProblemSlug } from "./types";
 
 const TRIGGER_DELAY_MS = 4000;
@@ -18,7 +21,17 @@ const DEFAULT_INITIAL: PopupInitial = { stage: "stage1", persona: null, problems
 
 type PopupContextValue = {
   open: boolean;
-  openPopup: () => void;
+  /**
+   * Görüşme CTA'sını açar ve `booking_cta_clicked` olayını yazar.
+   *
+   * `source` zorunlu: popup'ı açan tek yol bu fonksiyon olduğu için olay
+   * burada yazılınca atlanması imkânsız, ama hangi yüzeyin dönüştürdüğünü
+   * ancak çağıran söyleyebilir. Kapalı birleşim yeni bir CTA'nın adsız
+   * eklenmesini derleme zamanında engelliyor.
+   *
+   * `pillar` yalnız bilindiği yerde verilir (hizmet/paket detayı).
+   */
+  openPopup: (source: BookingCtaSource, pillar?: Pillar) => void;
   closePopup: () => void;
 };
 
@@ -35,11 +48,32 @@ export function PopupProvider({ children }: { children: React.ReactNode }) {
     if (isIframe) return;
     
     if (!shouldShowPopup()) return;
-    const t = setTimeout(() => setOpen(true), TRIGGER_DELAY_MS);
-    return () => clearTimeout(t);
+
+    /**
+     * Çerez şeridi karar bekliyorsa zamanlayıcı hiç başlamaz: iki katmanlı
+     * engel gören ziyaretçi ikisini birden kapatır ve hem onay hem lead
+     * kaybedilir. Karar verilince (`indoles:consent-resolved`) gecikme
+     * baştan işlemeye başlar.
+     */
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const stopWaiting = whenConsentResolved(() => {
+      timer = setTimeout(() => setOpen(true), TRIGGER_DELAY_MS);
+    });
+    return () => {
+      stopWaiting();
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
-  const openPopup = React.useCallback(() => {
+  const openPopup = React.useCallback((source: BookingCtaSource, pillar?: Pillar) => {
+    track({
+      name: "booking_cta_clicked",
+      // `pillar` tanımsızken alan hiç basılmaz: GA4 tanımsız değeri boş
+      // dizeye çevirir ve "pillar'sız CTA" ile "pillar'ı boş CTA" ayrımı
+      // kaybolur.
+      properties: pillar ? { source, pillar } : { source },
+    });
+
     const cookie = readPopupCookie();
     let next: PopupInitial = DEFAULT_INITIAL;
     if (cookie) {

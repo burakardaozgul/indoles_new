@@ -10,21 +10,26 @@ import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
 
 /** Kaynak dosyalar 1000×500; görünen yükseklik hücre içinde sabit. */
 const LOGOS = [
+  // Burak'ın öne çıkardığı sekiz marka, onun verdiği sırayla: ilk satırlar
+  // ızgarada en çok görülen yer.
+  { file: "TurkTelekim-Logo.png", name: "Türk Telekom" },
   { file: "Turkcell.png", name: "Turkcell" },
-  { file: "TurkTelekım-Logo.png", name: "Türk Telekom" },
   { file: "Evyap_logo.png", name: "Evyap" },
-  { file: "Lalorraine.png", name: "La Lorraine" },
   { file: "Komagene-logo.png", name: "Komagene" },
+  { file: "Lalorraine.png", name: "La Lorraine" },
+  { file: "Odorgo.png", name: "OdorGo" },
+  { file: "meccanotecnica.png", name: "Meccanotecnica" },
   { file: "gloria.png", name: "Gloria Perfume" },
+  // Eski siteden geri alındı.
+  { file: "Aslen.png", name: "Aslen" },
+  { file: "MiniKebapciEtiler.png", name: "MiniKebapçı Etiler" },
   { file: "Feruza.png", name: "Feruza" },
   { file: "Fyr.png", name: "Fyr Luxury" },
   { file: "pavelsis.png", name: "Pavelsis" },
   { file: "Kocabas.png", name: "Kocabaş Mandıra" },
-  { file: "Taç.png", name: "Taç" },
   { file: "gymwolves-logo.png", name: "Gymwolves" },
   { file: "MKC.png", name: "MK Computer" },
   { file: "Sim.png", name: "Sim Baskı" },
-  { file: "meccanotecnica.png", name: "Meccanotecnica" },
 ] as const;
 
 /**

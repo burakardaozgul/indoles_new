@@ -1,0 +1,102 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { PopupProvider, usePopup } from "../popup-context";
+import type { BookingCtaSource } from "@/lib/analytics/events";
+
+vi.mock("next-intl", () => ({
+  useTranslations: (ns?: string) => {
+    const t = (k: string) => `${ns ?? ""}.${k}`;
+    t.raw = () => [];
+    return t;
+  },
+  useLocale: () => "tr",
+}));
+
+global.fetch = vi.fn().mockResolvedValue({
+  ok: true,
+  json: async () => ({ ok: true, calComEmbedUrl: null }),
+}) as unknown as typeof fetch;
+
+const gtag = vi.fn();
+
+function Consumer({ source, pillar }: { source: BookingCtaSource; pillar?: "growth" | "transform" | "build" }) {
+  const { openPopup } = usePopup();
+  return (
+    <button type="button" onClick={() => openPopup(source, pillar)}>
+      aç
+    </button>
+  );
+}
+
+function renderWith(source: BookingCtaSource, pillar?: "growth" | "transform" | "build") {
+  return render(
+    <PopupProvider>
+      <Consumer source={source} {...(pillar ? { pillar } : {})} />
+    </PopupProvider>,
+  );
+}
+
+beforeEach(() => {
+  gtag.mockClear();
+  (window as unknown as { gtag?: unknown }).gtag = gtag;
+  (window as unknown as { turnstile: unknown }).turnstile = {
+    render: (_el: Element, opts: { callback: (t: string) => void }) => {
+      opts.callback("test-token");
+      return "widget-1";
+    },
+    remove: vi.fn(),
+  };
+});
+
+afterEach(() => {
+  delete (window as unknown as { gtag?: unknown }).gtag;
+});
+
+function bookingEvents() {
+  return gtag.mock.calls.filter((c) => c[1] === "booking_cta_clicked");
+}
+
+describe("openPopup — booking_cta_clicked", () => {
+  it("CTA'nın basıldığı yüzeyi olaya yazar", () => {
+    renderWith("nav");
+    fireEvent.click(screen.getByRole("button", { name: "aç" }));
+
+    expect(bookingEvents()).toHaveLength(1);
+    expect(bookingEvents()[0]?.[2]).toEqual({ source: "nav" });
+  });
+
+  it("verildiğinde pillar kırılımını da taşır", () => {
+    renderWith("service-detail", "transform");
+    fireEvent.click(screen.getByRole("button", { name: "aç" }));
+
+    expect(bookingEvents()[0]?.[2]).toEqual({
+      source: "service-detail",
+      pillar: "transform",
+    });
+  });
+
+  it("pillar verilmediğinde alanı hiç basmaz", () => {
+    // Tanımsız bir parametre GA4'te boş dize olarak görünür ve
+    // "pillar'ı olmayan CTA" ile "pillar'ı boş olan CTA" ayrımı kaybolur.
+    renderWith("contact-callout");
+    fireEvent.click(screen.getByRole("button", { name: "aç" }));
+
+    expect(bookingEvents()[0]?.[2]).not.toHaveProperty("pillar");
+  });
+
+  it("her tıklamada bir kez yazar", () => {
+    renderWith("nav-mobile");
+    const button = screen.getByRole("button", { name: "aç" });
+    fireEvent.click(button);
+    fireEvent.click(button);
+
+    expect(bookingEvents()).toHaveLength(2);
+  });
+
+  it("popup'ı da açar — ölçüm davranışı bozmaz", () => {
+    renderWith("package-detail");
+    fireEvent.click(screen.getByRole("button", { name: "aç" }));
+
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+});

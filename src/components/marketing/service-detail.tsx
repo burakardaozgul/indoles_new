@@ -11,21 +11,30 @@ import {
   Settings2,
 } from "lucide-react";
 import { PlatformBadge } from "@/lib/design/platform-icons";
+import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { ScopeColumns } from "@/components/marketing/scope-columns";
+import { ServiceCaseProof } from "@/components/marketing/service-case-proof";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
 import { PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
+import { TOPICS } from "@/lib/content/topics";
 import {
   SERVICE_ORDER,
   getService,
   serviceOrderIndex,
 } from "@/lib/content/services";
-import type { Locale, ServiceContent } from "@/lib/content/types";
+import type {
+  ArticleContent,
+  Locale,
+  ServiceContent,
+} from "@/lib/content/types";
 import { JsonLd } from "@/lib/seo/JsonLd";
+import { TrackView } from "@/components/analytics/track-view";
+import { serviceViewEvent } from "@/lib/analytics/view-events";
 import {
   breadcrumbLd,
   faqLd,
@@ -58,6 +67,8 @@ const COPY = {
     related: "Devamı",
     relatedPackages: "Bu hizmete giriş paketi",
     relatedCase: "İlgili vaka çalışması",
+    caseProof: "Bu işin sonucu",
+    caseProofSource: "Kaynak",
     relatedServices: "Komşu hizmetler",
     relatedArticles: "İlgili yazılar",
     bookCall: "Görüşme planla",
@@ -94,6 +105,8 @@ const COPY = {
     related: "Next",
     relatedPackages: "The entry package for this service",
     relatedCase: "Related case study",
+    caseProof: "What the work produced",
+    caseProofSource: "Source",
     relatedServices: "Neighbouring services",
     relatedArticles: "Related reading",
     bookCall: "Book a call",
@@ -137,6 +150,48 @@ const KIND_ICON = {
 } as const;
 
 /**
+ * Hizmete ait yazılar — konu ekseninden (ADR-021).
+ *
+ * Eski kural `a.category === service.pillar` idi ve yanlıştı: 16 yazının
+ * 16'sı `category: "growth"` (ADR-021 bağlam tablosu). Sonuç, beş growth
+ * hizmetinin aynı üç alakasız yazıyı göstermesi — CRO sayfası marka
+ * hikâyesi yazısına link veriyordu — ve yedi transform/build hizmetinde
+ * bloğun hiç basılmaması. Pillar bir yazı ekseni değil; ADR-021 zaten
+ * `topics.ts`'e her kümenin **tek hedef hizmet sayfasını** (`serviceSlug`)
+ * yazmıştı, kodda okunmuyordu. Artık okunuyor.
+ *
+ * Bir hizmete birden fazla konu bağlanabilir (`performans-pazarlama` hem
+ * kendi kümesini hem `musteri-elde-tutma`yı hedefler); hepsi havuza girer,
+ * en yeni üçü basılır.
+ *
+ * Yazı detayındaki kalıptan (`yazilar/[slug]/page.tsx`) bilinçli sapma:
+ * orada konu üç yazıyı doldurmazsa kalan **en yeni yazılarla tamamlanıyor**.
+ * Burada doldurma yok. Yazı okuyan okur "şunu da oku" önerisine toleranslı;
+ * hizmet sayfasındaki blok ise satış bağlamında bir yetkinlik iddiası —
+ * CRO sayfasında konuyla ilgisiz bir yazı göstermek iddianın kendisini
+ * çürütür. Hizmete bağlı konu ya da yazı yoksa `ServiceDetail` bloğu hiç
+ * basmaz (`relatedArticles.length > 0` koşulu).
+ *
+ * Bugünkü içerikle kapsama: `cro` 1, `e-ticaret` 1, `ui-ux-tasarim` 1,
+ * `marka-stratejisi` 3, `performans-pazarlama` 3 yazı; `ai-danismanlik`
+ * ve altı transform/build hizmeti 0 — `yapay-zeka` kümesinde henüz yazı
+ * yok (ADR-021'in işaret ettiği içerik boşluğu), diğerlerinin konusu yok.
+ */
+export function relatedArticlesForService(
+  serviceSlugTr: string,
+): ArticleContent[] {
+  const topicIds = TOPICS.filter((t) => t.serviceSlug === serviceSlugTr).map(
+    (t) => t.id,
+  );
+  if (topicIds.length === 0) return [];
+
+  return ARTICLES.filter((a) => topicIds.includes(a.topic))
+    .slice()
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .slice(0, 3);
+}
+
+/**
  * Hizmet detay şablonu — sekiz blok.
  *
  * Tek sesli: persona bileşenleri bilinçli olarak kullanılmıyor (docs/03 §1,
@@ -175,20 +230,26 @@ export function ServiceDetail({
 
   const relatedCase = CASES.find((c) => c.pillar === service.pillar);
 
+  /**
+   * Vakanın ölçülmüş sonucundan en fazla üçü hizmet sayfasının gövdesine
+   * girer (denetim bulgusu K-02). Metriksiz vaka — dizi boş olabilir —
+   * eski metin bağlantılı hâle düşer; rakam uydurulmaz (ADR-018).
+   */
+  const caseProofMetrics = (relatedCase?.metrics ?? []).slice(0, 3);
+
   /** Komşu hizmetler — henüz yazılmamış olanlar elenir (404 önlenir). */
   const siblings = service.relatedServices
     .map((slug) => getService(slug, "tr"))
     .filter((s): s is ServiceContent => s !== null);
 
-  const relatedArticles = ARTICLES.filter(
-    (a) => a.category === service.pillar,
-  ).slice(0, 3);
+  const relatedArticles = relatedArticlesForService(service.slug.tr);
 
   const orderIndex = serviceOrderIndex(service.slug.tr);
   const displayNo = String(orderIndex + 1).padStart(2, "0");
 
   return (
     <>
+      <TrackView event={serviceViewEvent(service, locale)} />
       <JsonLd
         graph={[
           organizationLd(),
@@ -280,7 +341,11 @@ export function ServiceDetail({
                 {service.lede[locale]}
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <PopupCTAButton className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md">
+                <PopupCTAButton
+                  source="service-detail"
+                  pillar={service.pillar}
+                  className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-ink-900 text-paper hover:bg-ink-700 transition-colors typography-body-md"
+                >
                   {t.bookCall}
                 </PopupCTAButton>
                 {relatedPackages[0] ? (
@@ -511,29 +576,13 @@ export function ServiceDetail({
             </h2>
           </div>
           <div className="lg:col-span-8">
-            <div className="border-t border-surface-2">
-              {service.faq.map((f) => (
-                <details
-                  key={f.question[locale]}
-                  className="group border-b border-surface-2 py-6"
-                >
-                  <summary className="flex items-start justify-between gap-6 cursor-pointer list-none">
-                    <h3 className="typography-h3 text-ink-900">
-                      {f.question[locale]}
-                    </h3>
-                    <span
-                      aria-hidden="true"
-                      className="text-ink-500 typography-body-md transition-transform group-open:rotate-45 shrink-0"
-                    >
-                      +
-                    </span>
-                  </summary>
-                  <p className="typography-body-md text-ink-700 mt-4 max-w-prose-editorial">
-                    {f.answer[locale]}
-                  </p>
-                </details>
-              ))}
-            </div>
+            <FaqAccordion
+              surface="service"
+              items={service.faq.map((f) => ({
+                question: f.question[locale],
+                answer: f.answer[locale],
+              }))}
+            />
           </div>
         </div>
       </section>
@@ -552,6 +601,22 @@ export function ServiceDetail({
           </h2>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+            {relatedCase && caseProofMetrics.length > 0 ? (
+              <ServiceCaseProof
+                heading={t.caseProof}
+                lead={relatedCase.lead[locale]}
+                sourceLabel={t.caseProofSource}
+                clientName={relatedCase.clientName[locale]}
+                caseTitle={relatedCase.title[locale]}
+                href={`/${locale}/${t.casesRoot}/${relatedCase.slug}`}
+                metrics={caseProofMetrics.map((m) => ({
+                  value: m.value[locale],
+                  label: m.label[locale],
+                  ...(m.context ? { context: m.context[locale] } : {}),
+                }))}
+              />
+            ) : null}
+
             {relatedPackages.length > 0 ? (
               <div>
                 <h3 className="typography-h3 text-ink-900 flex items-center gap-2.5">
@@ -599,7 +664,7 @@ export function ServiceDetail({
               </div>
             ) : null}
 
-            {relatedCase ? (
+            {relatedCase && caseProofMetrics.length === 0 ? (
               <div>
                 <h3 className="typography-h3 text-ink-900 flex items-center gap-2.5">
                   <ChartNoAxesColumn aria-hidden="true" size={18} strokeWidth={1.5} className="text-brand-700 shrink-0" />{t.relatedCase}</h3>

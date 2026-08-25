@@ -6,6 +6,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { FeaturedWork } from "@/lib/v2/work-content";
+import { localeHref } from "@/lib/i18n/locale-href";
 import { WORK } from "@/lib/v2/anim-config";
 import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
 
@@ -56,12 +57,26 @@ export function WorkCard({
 
   return (
     <article className="v2-card" ref={ref}>
-      <Link href={`/${locale}/vakalar/${item.slug}`} className="v2-card-link" data-cursor="hover">
+      {/* Segment locale'e göre çevrilir (`/vakalar` ↔ `/case-studies`).
+          Ham TR segmenti EN'de 307 zinciri üretiyordu: `/en/vakalar/...` →
+          `/en/case-studies/...`. Vaka slug'ı locale'den bağımsız tek değer
+          (`cases.ts`), o yüzden `localeHref` burada tam doğru sonucu verir. */}
+      <Link
+        href={localeHref(`/vakalar/${item.slug}`, locale)}
+        className="v2-card-link"
+        data-cursor="hover"
+      >
         <div className="v2-card-media">
           <div className="v2-card-img" ref={imgRef}>
+            {/* Dekoratif: kapak görseli vakayı adlandırmıyor, aynı link
+                içindeki `v2-card-title` + `v2-card-sector` zaten adlandırıyor.
+                `item.title`ı alt'a kopyalamak ekran okuyucuda başlığı iki kez
+                okuturdu; boş `alt` + `aria-hidden` görseli erişilebilirlik
+                ağacından çıkarıp bağlantı adını tek satırda bırakıyor. */}
             <Image
               src={item.image}
               alt=""
+              aria-hidden="true"
               fill
               sizes="(max-width: 900px) 100vw, 40vw"
               className="object-cover"

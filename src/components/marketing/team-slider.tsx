@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { CONSULTANTS_ORDERED } from "@/lib/content/consultants";
+import { CONSULTANTS_ORDERED, BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
 import { COMPANY } from "@/lib/content/company";
 
 const ROTATE_MS = 7000;
@@ -168,7 +168,13 @@ export function TeamSlider({ locale }: { locale: "tr" | "en" }) {
 
         <div className="reveal flex flex-wrap items-center justify-between gap-8 border-t border-ink-100 pt-12">
           <p className="mono text-[11px] tracking-[0.18em] text-ink-500">
-            {members.length} {isTr ? "kişi" : "people"} · {COMPANY.locations.join(" · ")}
+            {/*
+              `members` slider'da görüneni sayar ve ofis köpeğini (`hipnoz`)
+              içerir; künyedeki sayı ise kurumsal bir iddiadır ve insanları
+              saymalı. İkisi ayrı listeden beslenir.
+            */}
+            {BOOKABLE_CONSULTANTS.length} {isTr ? "kişi" : "people"} ·{" "}
+            {COMPANY.locations.join(" · ")}
           </p>
           <a href={`mailto:${COMPANY.careersEmail}`} className="btn btn-primary">
             {isTr ? "Aramıza katıl" : "Join the team"}

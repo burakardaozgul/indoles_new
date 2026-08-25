@@ -24,6 +24,7 @@ export function V2PageHeader({
   lede,
   crumbs,
   aside,
+  compact,
 }: {
   eyebrow?: React.ReactNode;
   title: React.ReactNode;
@@ -31,6 +32,11 @@ export function V2PageHeader({
   crumbs?: V2Crumb[];
   /** Başlığın sağındaki ikincil sütun — sayı, etiket veya kısa not. */
   aside?: React.ReactNode;
+  /**
+   * Liste sayfaları için kısaltılmış ölçek (ADR-021). Başlığın hemen altında
+   * filtre/araç şeridi varsa açılır — ilk ekran gezinmeye ayrılır.
+   */
+  compact?: boolean;
 }) {
   const rootRef = React.useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
@@ -58,7 +64,11 @@ export function V2PageHeader({
   }, [reduced]);
 
   return (
-    <section className="v2-pagehead" ref={rootRef}>
+    <section
+      className="v2-pagehead"
+      data-compact={compact ? "true" : undefined}
+      ref={rootRef}
+    >
       <div className="v2-pagehead-inner">
         {crumbs && crumbs.length > 0 ? (
           <nav aria-label="Breadcrumb" className="v2-crumbs" data-ph-reveal>

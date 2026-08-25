@@ -486,3 +486,10 @@ html[data-iframe="true"] body {
 :root:not([data-persona="commerce"]) [data-persona-variant="commerce"] {
   display: none;
 }
+
+
+/* SSS akordiyonu: varsayılan açılır üçgeni kaldır — gösterge `+` işareti,
+   `FaqAccordion` içinde `group-open:rotate-45` ile dönüyor. Safari hâlâ
+   `::-webkit-details-marker` kullanıyor, ikisi de gerekli. */
+summary { list-style: none; }
+summary::-webkit-details-marker { display: none; }

@@ -51,9 +51,12 @@ export function YouTubeFacade({
           onClick={() => setActive(true)}
           className="group absolute inset-0 h-full w-full cursor-pointer"
         >
+          {/* Dekoratif: düğmenin erişilebilir adını aşağıdaki `sr-only`
+              başlık veriyor. Poster'a alt yazmak aynı adı iki kez okuturdu. */}
           <Image
             src={poster}
             alt=""
+            aria-hidden="true"
             fill
             sizes="(max-width: 768px) 100vw, 972px"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"

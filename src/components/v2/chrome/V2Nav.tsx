@@ -191,7 +191,7 @@ export function V2Nav({
             <span aria-hidden="true">{other.toUpperCase()}</span>
           </a>
 
-          <button type="button" onClick={openPopup} className="v2-nav-cta">
+          <button type="button" onClick={() => openPopup("nav")} className="v2-nav-cta">
             {ctaLabel}
             <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true">
               <path
@@ -257,7 +257,7 @@ export function V2Nav({
             className="v2-nav-cta"
             onClick={() => {
               setOpen(false);
-              openPopup();
+              openPopup("nav-mobile");
             }}
           >
             {ctaLabel}

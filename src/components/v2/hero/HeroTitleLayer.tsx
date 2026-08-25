@@ -22,6 +22,18 @@ import type { TitleRow } from "./title-content";
  * dışındaki harfler `visibility: hidden` ile saklanır — kaldırılmaz, çünkü
  * iki katmanın piksel hizası harf genişliklerinin birebir aynı kalmasına
  * bağlı.
+ *
+ * BAŞLIK SEMANTİĞİ
+ * ----------------
+ * Metin iki kez basıldığı için `h1` de iki kez basılıyordu: ana sayfada iki
+ * `<h1>`, ikisi de birebir aynı metin. `accent` katmanı zaten `aria-hidden`
+ * (ekran okuyucu iki kez okumuyor), ama `aria-hidden` DOM'daki etiketi
+ * kaldırmaz — HTML doğrulayıcılar ve başlık ağacını `aria-hidden`e bakmadan
+ * çıkaran tarayıcılar/botlar iki `h1` görüyordu. Çözüm: yalnız `ink` katmanı
+ * `h1` basar, `accent` katmanı aynı sınıfla `div` basar. `.v2-title`
+ * `font-weight`, `margin` ve `font-size`ı kendisi tanımladığı için (v2.css
+ * §.v2-title) iki katman piksel piksel aynı kalır; GSAP `.v2-title-row` ve
+ * `.v2-letter[data-i]` üzerinden çalıştığı için koreografi de etkilenmez.
  */
 export function HeroTitleLayer({
   rows,
@@ -33,13 +45,16 @@ export function HeroTitleLayer({
   variant: "ink" | "accent";
   indexOffsets: number[];
 }) {
+  /** Sayfadaki tek `h1` `ink` katmanınındır; görsel ikizi semantiksizdir. */
+  const Title = variant === "ink" ? "h1" : "div";
+
   return (
     <div
       className={variant === "ink" ? "v2-layer-under" : "v2-layer-over"}
       aria-hidden={variant === "accent" ? true : undefined}
       data-title-layer={variant}
     >
-      <h1 className="v2-title">
+      <Title className="v2-title">
         {rows.map((r, ri) => (
           <span key={r.row} className="v2-title-row" data-row={r.row}>
             {Array.from(r.text).map((ch, ci) => {
@@ -67,7 +82,7 @@ export function HeroTitleLayer({
             })}
           </span>
         ))}
-      </h1>
+      </Title>
     </div>
   );
 }

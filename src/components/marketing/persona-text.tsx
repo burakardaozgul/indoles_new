@@ -16,6 +16,45 @@ function Variant({ persona, children }: { persona: "industrial" | "commerce"; ch
   return <span data-persona-variant={persona}>{children}</span>;
 }
 
+/**
+ * İki varyant arasına giren, tarayıcıda hiçbir koşulda görünmeyen satır sonu.
+ *
+ * SORUN — CSS çalıştırmayan istemciler iki cümleyi bitişik okuyor:
+ * `…rekabet edemez olmak demek.Bedava büyüme dönemi bitti…`. Bu istemciler
+ * (GPTBot, ClaudeBot, PerplexityBot — GEO stratejisinin hedef kitlesi)
+ * `display:none`ı uygulamadıkları için iki varyantı da metne alıyor, ve
+ * aradaki eleman sınırı ham metinde kayboluyor.
+ *
+ * ÇÖZÜM — mimari aynı kalıyor: iki varyant hâlâ DOM'da, seçimi hâlâ CSS
+ * yapıyor, bileşen hâlâ server-only. Tek eklenen, iki varyantın arasına
+ * düşen bir `\n`. Ayırıcı **mevcut persona seçicisinin kendisiyle** gizlenir,
+ * yeni CSS kuralı yazılmaz:
+ *
+ *   - Ayırıcı `commerce` varyantının İÇİNDE durur ama `industrial` işareti
+ *     taşır. Persona `commerce` iken dış kap görünür, ayırıcı kendi işareti
+ *     yüzünden gizlenir; persona `industrial` iken dış kap zaten gizlidir ve
+ *     ayırıcı onunla birlikte gider. Yani her iki durumda da görünmez.
+ *   - Gizleme kanalı, sorunu üreten kanalın aynısı: stil sayfasını işleyen
+ *     istemci ayırıcıyı görmez, işlemeyen istemci hem iki varyantı hem
+ *     ayırıcıyı görür. İkisi tanım gereği birlikte hareket eder.
+ *
+ * Inline `style="display:none"` bilinçli olarak seçilmedi: metin çıkaran
+ * basit ayrıştırıcıların bir kısmı harici stil sayfasını hiç okumaz ama
+ * `style` özniteliğine bakar — ayırıcıyı tam da onu görmesi gereken istemci
+ * atlardı. `hidden` özniteliği de aynı sebeple elendi.
+ *
+ * Ayırıcı boşluk karakteridir; tarayıcı tarafında görünür bir metin
+ * eklemez, dolayısıyla `display:none` mekanizması bozulsa bile en kötü
+ * ihtimalle bir boşluk basılır — yanlış persona metni değil.
+ */
+export function PersonaSeparator() {
+  return (
+    <span data-persona-variant="industrial" data-persona-sep aria-hidden="true">
+      {"\n"}
+    </span>
+  );
+}
+
 export function PersonaText({
   industrial,
   commerce,
@@ -28,11 +67,19 @@ export function PersonaText({
   return (
     <>
       <Variant persona="industrial">{industrial}</Variant>
-      <Variant persona="commerce">{commerce}</Variant>
+      <Variant persona="commerce">
+        <PersonaSeparator />
+        {commerce}
+      </Variant>
     </>
   );
 }
 
+/**
+ * Liste varyantlarına ayırıcı eklenmez: her madde kendi `<li>`si içindedir,
+ * metin çıkaran istemciler liste öğelerini zaten ayrı satır sayar. Boş bir
+ * ayırıcı `<li>` eklemek liste semantiğini kirletirdi.
+ */
 export function PersonaListItems({
   industrial,
   commerce,

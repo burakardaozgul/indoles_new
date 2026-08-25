@@ -2,6 +2,7 @@
 
 import { usePersonaState, setPersonaSlug } from "@/lib/hooks/use-persona";
 import type { PersonaSlug } from "@/lib/popup/types";
+import { track } from "@/lib/analytics/ga";
 
 const OPTIONS: Array<{
   slug: PersonaSlug;
@@ -59,7 +60,12 @@ export function PersonaSwitch({
             data-persona-option={o.persona}
             aria-pressed={persona === o.persona}
             aria-label={isTr ? o.full.tr : o.full.en}
-            onClick={() => setPersonaSlug(o.slug)}
+            onClick={() => {
+              // Eksen adı arayüz dilinden bağımsız (`o.persona`): dile bağlı
+              // olsaydı TR ve EN raporları birleştirilemezdi.
+              track({ name: "persona_axis_clicked", properties: { axis: o.persona } });
+              setPersonaSlug(o.slug);
+            }}
           >
             {isTr ? o.label.tr : o.label.en}
           </button>

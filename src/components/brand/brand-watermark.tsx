@@ -101,6 +101,7 @@ export function BrandWatermark({
         <Image
           src={logoSrc}
           alt=""
+          aria-hidden="true"
           width={1280}
           height={420}
           priority={false}

@@ -8,6 +8,7 @@ import { getFeaturedWork } from "@/lib/v2/work-content";
 import { WORK_SECTION } from "@/lib/v2/section-content";
 import { WORK, SECTIONS, BREAKPOINT } from "@/lib/v2/anim-config";
 import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
+import { localeHref } from "@/lib/i18n/locale-href";
 import { WorkCard } from "./WorkCard";
 
 /**
@@ -76,7 +77,8 @@ export function FeaturedWork({ locale }: { locale: "tr" | "en" }) {
             <span className="v2-work-count mono">
               {String(items.length).padStart(2, "0")} {copy.countLabel}
             </span>
-            <Link href={`/${locale}/vakalar`} className="v2-textlink">
+            {/* `/en/vakalar` 307 ile `/en/case-studies`e gidiyordu. */}
+            <Link href={localeHref("/vakalar", locale)} className="v2-textlink">
               {copy.cta}
               <span aria-hidden="true">→</span>
             </Link>

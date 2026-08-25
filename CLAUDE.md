@@ -70,7 +70,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Background Jobs | **Yok** | ADR-011 |
 | Email | Resend + React Email | Transactional |
 | Spam koruma | Cloudflare Turnstile | Invisible |
-| Analytics | PostHog EU Cloud | Funnel + replay + feature flag |
+| Analytics | Google Analytics 4 | Tek ölçüm sağlayıcı (ADR-021; PostHog kaldırıldı) |
 | Observability | Sentry + Vercel built-in | — |
 | Deploy | Vercel (eu-central) | ADR-012 |
 | CI/CD | GitHub Actions + Vercel preview | — |
@@ -135,9 +135,9 @@ Aşağıdaki kalemler projenin kapsamı dışındadır. Gelecekte tekrar gündem
 | Auth / user accounts (launch) | Danışan vitrini iç ekip, self-signup yok; ADR-008 |
 | Ödeme gateway'i (launch) | Teklifleşme süreci; ADR-009 |
 | AI chatbot (launch) | Agent ROI belirsiz; ADR-007 |
-| Kalıcı DB (launch) | Mail + PostHog yeterli; ADR-010 |
+| Kalıcı DB (launch) | Mail + GA4 yeterli; ADR-010 |
 | İnteraktif teşhis araçları (`/araclar`) | Launch kapsamı dışı; Faz 2 |
-| Journal kategori taksonomisi | Yazı hacmi haklı çıkarmıyor; 15+ yazıda tekrar bakılır |
+| Yazılarda serbest metin arama / ⌘K | Filtre yeterli; ihtiyacı ileride sohbet asistanı karşılayacak (ADR-021) |
 | İkinci marka accent rengi (gold dışında) | Tek accent disiplini; ADR-015 — v2 blob paleti de teal+gold'dan türetilir |
 | WebGL'siz fallback (v2) | Şu an yok; destek oranı sorun olursa ADR ile değerlendirilir |
 
@@ -158,24 +158,27 @@ indoles-web/
 │   ├── 05-tech-architecture.md        # Stack detay, akış diyagramları
 │   ├── 08-seo-i18n-strategy.md        # hreflang, sitemap, llms.txt
 │   ├── 11-funnel-customer-flows.md    # Üçlü taahhüt funnel'ı
-│   ├── 12-analytics-measurement.md    # PostHog events, KPI'lar
+│   ├── 12-analytics-measurement.md    # GA4 events, KPI'lar
 │   ├── 14-privacy-kvkk.md             # KVKK, veri saklama
 │   ├── 06 / 07 / 09-*.md              # ARŞİV — uygulanmadı (ADR-010/007/008)
 │   ├── copy/                          # Persona copy taslakları
 │   ├── superpowers/                   # Spec ve plan arşivi
-│   └── decisions/ADR-001…ADR-015      # Karar kayıtları
+│   └── decisions/ADR-001…ADR-022      # Karar kayıtları
 ├── src/
 │   ├── app/(marketing)/[locale]/      # Tüm public sayfalar
 │   ├── app/(v2)/[locale]/v2/          # Yeni tasarım yönü — kendi chrome'u (ADR-016)
 │   ├── app/api/                       # contact · visitor-profile · health (+2 stub)
-│   ├── components/layout/             # top-bar · site-nav · site-footer
+│   ├── components/analytics/          # track-view (görüntüleme olayı adası)
 │   ├── components/marketing/          # Ana site bölümleri + entry-popup + paylaşılanlar
+│   │                                  # (v1 chrome — layout/ — ADR-017 sonrası silindi)
 │   ├── components/v2/                 # webgl/ · cursor/ · hero/ · sections/
 │   ├── lib/v2/                        # anim-config · use-lenis · use-mouse · içerik
 │   ├── lib/content/                   # pillars · packages · cases · consultants ·
 │   │                                  # method · industries · company · clients · articles
 │   ├── lib/design/tokens.ts           # Design token'lar
 │   ├── lib/popup/                     # Entry popup domain (persona, problem, cookie)
+│   ├── lib/consent/                   # Çerez onayı: bölge · çerez · gtag update · kapı
+│   ├── lib/analytics/                 # events (taksonomi) · ga · ga-bootstrap · view-events
 │   ├── lib/i18n/                      # next-intl routing + request
 │   └── styles/                        # globals.css (@theme + primitives) · sections.css · v2.css
 ├── messages/{tr,en}.json              # i18n — persona alt ağaçları dahil
@@ -243,7 +246,12 @@ Referans alınabilecek siteler (Stripe, Linear, Vercel, Pentagram, Bureau Oberha
 | `08-seo-i18n-strategy.md` | hreflang, canonical, sitemap, llms.txt stratejisi |
 | `09-auth-roles-permissions.md` | Clerk rolleri (guest/user/expert/admin) ve permission matrix |
 | `11-funnel-customer-flows.md` | Üçlü funnel akışı, AI agent devreye giriş noktaları, brief-rezervasyon-proje akışı |
-| `12-analytics-measurement.md` | PostHog event taksonomisi, KPI tanımları, dashboard fikirleri |
+| `12-analytics-measurement.md` | GA4 event taksonomisi, KPI tanımları, dashboard fikirleri |
+| `13-ui-ux-audit.md` | UI/UX denetim bulguları ve aksiyon listesi |
+| `14-privacy-kvkk.md` | KVKK uyum, veri saklama, aydınlatma metni kararları |
+| `15-content-audit.md` | İçerik envanteri denetimi (yazılar, vakalar, derinlik) |
+| `16-service-pages-seo-audit.md` | Hizmet sayfaları SEO & GEO denetim raporu |
+| `strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` | Organik büyüme otoritesi: keyword mimarisi, launch-gate, GEO planı, 301 haritası, içerik takvimi (+ Rakip-Analizi-P0-SERP.md, Keyword-Planner CSV'leri) |
 
 ### Kurallar
 
@@ -264,6 +272,7 @@ Referans alınabilecek siteler (Stripe, Linear, Vercel, Pentagram, Bureau Oberha
 | Yeni bir design token veya component pattern | `04-design-system-principles.md` |
 | Yeni bir funnel adımı veya conversion point | `11-funnel-customer-flows.md` |
 | Yeni bir event veya KPI | `12-analytics-measurement.md` |
+| Keyword hedefi, SEO/GEO taktiği, 301 haritası veya içerik takvimi değişikliği | `docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` (changelog satırıyla) + teknik kural değiştiyse `08-seo-i18n-strategy.md` |
 | Yukarıdaki kategorilerin hiçbirine uymayan mimari karar | `docs/decisions/ADR-XXX.md` |
 
 ---

@@ -19,7 +19,7 @@ Sanayi için teknoloji dönüşümü, ticaret için agresif büyüme.
 | E-posta | Resend + React Email |
 | Randevu | Cal.com Cloud |
 | Spam koruma | Cloudflare Turnstile |
-| Analytics | PostHog EU Cloud |
+| Analytics | Google Analytics 4 |
 | Hata izleme | Sentry |
 | Deploy | Vercel |
 | Test | Vitest + Playwright |
@@ -90,7 +90,7 @@ Motion ve etkileşim kuralları `docs/04` §12'de; tune edilebilir tüm değerle
 | `docs/05-tech-architecture.md` | Stack, akışlar, environment |
 | `docs/08-seo-i18n-strategy.md` | hreflang, sitemap, llms.txt |
 | `docs/11-funnel-customer-flows.md` | Üçlü taahhüt funnel'ı |
-| `docs/12-analytics-measurement.md` | PostHog event taksonomisi, KPI |
+| `docs/12-analytics-measurement.md` | GA4 event taksonomisi, KPI |
 | `docs/13-ui-ux-audit.md` | İç sayfa UI/UX bulguları (2026-08-19) |
 | `docs/14-privacy-kvkk.md` | KVKK, veri saklama |
 | `docs/decisions/` | ADR-001 … ADR-017 |

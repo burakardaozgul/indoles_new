@@ -44,7 +44,8 @@ Aynı sayfa iki persona'ya aynı anda konuşabilir (orta ton, tek versiyon) veya
 | Hizmet listeleme (`/hizmetler`) | Persona-aware | Çift versiyon | Hero + 3 pillar blok + 12 hizmet shortDescription persona'ya göre ayrışır |
 | Hizmet detay | Orta ton | Tek versiyon | 12 hizmet × 2 persona × 2 dil bakım yükü ve ton tekrarı riski; orta tonla korunur |
 | Paket listeleme (`/paketler`) | Persona-aware | Çift versiyon | Hero + paket kartı outcome copy persona'ya göre ayrışır |
-| Paket detay | Persona-aware | Çift versiyon | Satın alma psikolojisi persona'ya göre ayrışır (sanayi: ROI + benchmark; ticaret: hız + metrik) |
+| Paket detay — anlatı (`outcome`, `summary`, `scope`, `deliverables`, `whoFor`) | Persona-aware | Çift versiyon | Satın alma psikolojisi persona'ya göre ayrışır (sanayi: ROI + benchmark; ticaret: hız + metrik) |
+| Paket detay — **SSS** | **Orta ton** | **Tek versiyon** | ADR-022: `FAQPage` şeması zaten tek varyant basıyordu, sayfada görünen metinle uyuşmuyordu. Cevap iki tarafın maddi bilgisini de taşır |
 | Journal | Orta ton | Tek versiyon | Yazarın sesi ön planda |
 | Araçlar | Orta ton | Tek versiyon | Teşhis dili nötr-analitik |
 | Danışman profil | Orta ton | Tek versiyon | Profesyonel profil dili |
@@ -177,7 +178,7 @@ Persona-aware sayfalarda copy iki versiyon olarak yazılır ve `messages/{tr,en}
 | Hizmet listeleme (`/hizmetler`) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Hero + 3 pillar blok + 12 hizmet shortDescription; ADR-014 |
 | Hizmet detay | Orta ton | Orta-formel | Orta-formel | Orta-formel | Orta-formel | Tek versiyon — bakım yükü nedeniyle korundu |
 | Paket listeleme (`/paketler`) | Persona-aware | Dingin-kurumsal | Dingin-kurumsal | Dinamik-atletik | Dinamik-atletik | Hero + paket kartı outcome copy; ADR-014 |
-| Paket detay | Persona-aware | Dingin — ROI + benchmark | Dingin — ROI + metodoloji | Dinamik — hız + metrik | Dinamik — hız + kaldıraç | summary, scope, deliverables, whoFor, faq persona'ya göre; ADR-014 |
+| Paket detay | Persona-aware | Dingin — ROI + benchmark | Dingin — ROI + metodoloji | Dinamik — hız + metrik | Dinamik — hız + kaldıraç | summary, scope, deliverables, whoFor persona'ya göre (ADR-014). **SSS hariç** — orta ton, tek versiyon (ADR-022) |
 | Journal | Orta ton | Orta-editorial | Orta-editorial | Orta-editorial | Orta-editorial | Yazarın sesi katkıda bulunur |
 | Araçlar | Orta ton | Orta-analitik | Orta-analitik | Orta-analitik | Orta-analitik | Teşhis dili nötr |
 | Danışman profil | Orta ton | Orta-profesyonel | Orta-profesyonel | Orta-profesyonel | Orta-profesyonel | Tek versiyon |

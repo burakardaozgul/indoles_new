@@ -1,4 +1,9 @@
 import { setRequestLocale, getTranslations } from 'next-intl/server';
+import type { Metadata } from 'next';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { JsonLd } from '@/lib/seo/JsonLd';
+import { breadcrumbLd, organizationLd, webPageLd } from '@/lib/seo/json-ld';
+import type { Locale } from '@/lib/content/types';
 import { V2PageHeader } from '@/components/v2/chrome/V2PageHeader';
 import { ContactCallout } from '@/components/marketing/contact-callout';
 
@@ -16,12 +21,12 @@ const KVKK_TR = `# Gizlilik ve KVKK Aydınlatma Metni
 
 ## Saklama
 - Mail arşivinde: inbox policy gereği (24 ay sonra manuel inceleme)
-- PostHog analitik: PostHog retention policy gereği (varsayılan 7 yıl, ayarlanabilir)
+- Google Analytics 4: GA4 saklama ayarı gereği (hesapta 14 ay olarak sınırlandırılmıştır)
 
 ## Paylaşım
 - Cal.com (rezervasyon için)
 - Resend (e-posta için)
-- PostHog (analytics)
+- Google Analytics 4 (Google Ireland Ltd. — ölçümleme)
 
 ## Haklar
 - Erişim, düzeltme, silme, itiraz haklarınızı kullanmak için: privacy@indoles.com.tr`;
@@ -40,12 +45,12 @@ const KVKK_EN = `# Privacy & KVKK Notice
 
 ## Retention
 - Email archive: per inbox policy (manual review after 24 months)
-- PostHog analytics: per PostHog retention policy (default 7 years, adjustable)
+- Google Analytics 4: per GA4 retention setting (capped at 14 months on this property)
 
 ## Sharing
 - Cal.com (for booking)
 - Resend (for email)
-- PostHog (analytics)
+- Google Analytics 4 (Google Ireland Ltd. — measurement)
 
 ## Your Rights
 - To exercise access, correction, deletion, or objection rights: privacy@indoles.com.tr`;
@@ -126,6 +131,45 @@ function parseMarkdown(content: string) {
   return elements;
 }
 
+
+const PATHS = { tr: '/tr/gizlilik-kvkk', en: '/en/privacy' };
+
+const META = {
+  tr: {
+    title: 'Gizlilik ve KVKK aydınlatma metni',
+    description:
+      'İndoles Yazılım A.Ş. hangi verileri topluyor, hangi amaçla işliyor, ne kadar saklıyor, kimlerle paylaşıyor. Erişim, düzeltme ve silme haklarının kullanımı.',
+  },
+  en: {
+    title: 'Privacy and KVKK notice',
+    description:
+      'Which data İndoles Yazılım A.Ş. collects, why it processes them, how long it retains them and who it shares them with — plus how to exercise your rights.',
+  },
+} as const;
+
+/**
+ * Yasal metin arama sonucunda yer tutmasın: `noindex, follow` ile dizinden
+ * çıkar ama sayfadaki bağlantılar taranmaya devam eder. Canonical yine
+ * kendini gösterir — Search Console'da "yanlış kanonik" uyarısı çıkmasın.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const loc = locale as Locale;
+  return {
+    ...buildMetadata({
+      title: META[loc].title,
+      description: META[loc].description,
+      paths: PATHS,
+      locale: loc,
+    }),
+    robots: { index: false, follow: true },
+  };
+}
+
 export default async function KvkkPage({
   params,
 }: {
@@ -137,13 +181,34 @@ export default async function KvkkPage({
   const _tCommon = await getTranslations({ locale, namespace: 'common' });
 
   const content = loc === 'tr' ? KVKK_TR : KVKK_EN;
+  const crumbLabel = loc === 'tr' ? 'Gizlilik' : 'Privacy';
 
   return (
     <>
+      {/* `noindex` şemayı gereksiz kılmaz: sayfa dizine girmese de veri
+          sorumlusunu adlandıran bir Organization düğümü grafiği tamamlıyor ve
+          `follow` sayesinde tarayıcı buraya kadar geliyor. Diğer statik
+          sayfalarla aynı üçlü (hakkimizda/page.tsx). */}
+      <JsonLd
+        graph={[
+          organizationLd(),
+          webPageLd({
+            name: META[loc].title,
+            description: META[loc].description,
+            path: PATHS[loc],
+            locale: loc,
+          }),
+          breadcrumbLd([
+            { name: 'INDOLES', path: `/${loc}` },
+            { name: crumbLabel },
+          ]),
+        ]}
+      />
+
       <V2PageHeader
         crumbs={[
           { label: 'INDOLES', href: "/" },
-          { label: loc === 'tr' ? 'Gizlilik' : 'Privacy' },
+          { label: crumbLabel },
         ]}
         eyebrow={loc === 'tr' ? 'Yasal' : 'Legal'}
         title={loc === 'tr' ? 'Gizlilik ve KVKK' : 'Privacy & KVKK'}

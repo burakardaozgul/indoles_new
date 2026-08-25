@@ -1,0 +1,106 @@
+name: checks
+
+# docs/05-tech-architecture.md §12.1'deki `checks.yml` adımı.
+#
+# Playwright e2e bilerek dışarıda: `playwright.config.ts:10` `PLAYWRIGHT_BASE_URL`
+# bekliyor ve `CI` set olduğunda kendi `webServer`ını kaldırıyor — yani Vercel
+# preview adresine ihtiyacı var. Gerekçe README.md'de.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Aynı dal üzerinde üst üste gelen koşular birbirini iptal etsin: build +
+# 124 URL'lik denetim ucuz değil.
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: lint · typecheck · test · build · seo
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    env:
+      # `src/app/robots.ts` production dışında `Disallow: /` basar ve
+      # `NEXT_PUBLIC_*` değişkenleri build anında gömülür — denetim
+      # production davranışını ölçsün diye build de bu değerle alınır.
+      NEXT_PUBLIC_APP_STAGE: production
+      # NEXT_PUBLIC_APP_URL kasten set edilmiyor: `src/lib/seo/site.ts`
+      # fallback'i (production host) devreye girsin ve canonical/hreflang/
+      # sitemap gerçek adresle üretilsin. Denetim host'u değil path'i
+      # karşılaştırdığı için lokal sunucuya karşı koşmak sorun değil.
+      NEXT_TELEMETRY_DISABLED: "1"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: pnpm kurulumu
+        # Sürüm package.json `packageManager` alanından okunur (pnpm@10.33.0).
+        uses: pnpm/action-setup@v4
+
+      - name: Node kurulumu
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Bağımlılıklar
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Testler
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Production sunucusunu başlat
+        run: |
+          nohup pnpm start --port 3000 > /tmp/next-start.log 2>&1 &
+          echo $! > /tmp/next.pid
+          for _ in $(seq 1 60); do
+            if curl -sf http://localhost:3000/api/health > /dev/null; then
+              echo "Sunucu hazır."
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::error::Sunucu 120 saniyede ayağa kalkmadı"
+          cat /tmp/next-start.log
+          exit 1
+
+      - name: Smoke — robots.txt siteyi kapatmıyor
+        # Denetim bulgusu LG-02: NEXT_PUBLIC_APP_STAGE production değilse
+        # robots.ts `Disallow: /` basar ve tüm site indeks dışı deploy edilir.
+        # Tek satırlık kontrol, en pahalı hatayı yakalar.
+        run: |
+          curl -sf http://localhost:3000/robots.txt -o /tmp/robots.txt
+          cat /tmp/robots.txt
+          if grep -qx 'Disallow: /' /tmp/robots.txt; then
+            echo "::error::robots.txt tüm siteyi kapatıyor — NEXT_PUBLIC_APP_STAGE production değil"
+            exit 1
+          fi
+
+      - name: SEO + GEO denetimi
+        # Kapsam /sitemap.xml'den okunur (124 URL). Alt küme gerekirse:
+        # pnpm seo:audit --profile service,pillar
+        run: pnpm seo:audit --base http://localhost:3000
+
+      - name: Sunucu logu
+        if: failure()
+        run: cat /tmp/next-start.log || true
+
+      - name: Sunucuyu kapat
+        if: always()
+        run: kill "$(cat /tmp/next.pid)" 2>/dev/null || true

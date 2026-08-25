@@ -3,7 +3,7 @@ name: indoles-doc-architect
 description: >
   INDOLES dokümantasyon mimarisi koruyucusu. Bir mimari karar değişikliği, yeni feature
   kapsamı, scope sınırı revizyonu, design system sapması, tech stack güncellemesi, AI
-  agent tool eklenmesi, brand voice/positioning kayması, yeni Sanity schema veya yeni
+  agent tool eklenmesi, brand voice/positioning kayması, yeni içerik türü veya yeni
   bir pattern tespit edildiğinde PROAKTİF dispatch edilir. CLAUDE.md Bölüm 9 "Doc
   Güncellenme Tetikleyicileri" tablosunu uygular: değişikliğin hangi `docs/*.md`'yi
   etkilediğini tespit eder, güncellemeyi önerir/yazar ve gerekiyorsa OTOMATIK ADR draft'ı
@@ -33,10 +33,10 @@ Her dispatch'te ilgili docs'u aç ve cross-reference yap.
 
 | Değişiklik | Güncellenecek Dosya |
 |------------|---------------------|
-| Yeni DB tablosu / entity | `06-data-model.md` |
+| Yeni DB tablosu / entity | `06-data-model.md` (ARŞİV — launch'ta DB yok, ADR-010; canlanırsa ADR ile) |
 | Yeni sayfa / route | `02-information-architecture.md` |
-| Yeni Sanity schema | `10-content-model-sanity.md` |
-| Yeni auth rolü / permission | `09-auth-roles-permissions.md` |
+| Yeni statik içerik türü (hizmet, paket, vaka vb.) | `src/lib/content/*.ts` + ilgili `docs/*.md` |
+| Yeni auth rolü / permission | `09-auth-roles-permissions.md` (ARŞİV — launch'ta auth yok, ADR-008) |
 | Yeni AI agent tool | `07-ai-agent-spec.md` |
 | Tonal / brand kararı | `03-brand-voice-tone.md` |
 | Yeni design token / component pattern | `04-design-system-principles.md` |

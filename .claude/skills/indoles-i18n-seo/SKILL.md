@@ -2,9 +2,10 @@
 name: indoles-i18n-seo
 description: >
   INDOLES'in çok dilli SEO ve AI SEO denetleyicisi. Yeni route, sayfa, generateMetadata,
-  layout, sitemap, robots, llms.txt veya Sanity schema değişikliği yapıldığında ZORUNLU
-  çağrılır. docs/08-seo-i18n-strategy.md ve docs/02-information-architecture.md'yi
-  authoritative kabul eder. Kontrol kapsamı: path-based i18n (`/tr/*`, `/en/*`), URL segment
+  layout, sitemap, robots, llms.txt veya statik içerik katmanı (`src/lib/content/*.ts`,
+  MDX) değişikliği yapıldığında ZORUNLU çağrılır. docs/08-seo-i18n-strategy.md ve docs/02-information-architecture.md'yi
+  authoritative kabul eder. Keyword hedefi, küme önceliği ve GEO taktiği için docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md
+  authoritative. Kontrol kapsamı: path-based i18n (`/tr/*`, `/en/*`), URL segment
   translation (`/hizmetler` ↔ `/services`), self-canonical, hreflang triplet (tr + en +
   x-default), per-locale sitemap (`/tr/sitemap.xml`, `/en/sitemap.xml`) + index, dynamic
   per-page title/description (60/160 char), OG image dynamic generation, schema.org JSON-LD
@@ -14,7 +15,7 @@ description: >
   PostHog event tagging (locale + persona), preview-disallow, Core Web Vitals tie-in.
   Tetikleyici: "yeni sayfa ekle", "metadata yaz", "SEO kontrol", "hreflang", "sitemap",
   "llms.txt", "structured data", "JSON-LD", "i18n", "TR/EN parite", "AI SEO", "ChatGPT
-  citation", "robots.txt", "OG image".
+  citation", "robots.txt", "OG image", "keyword hedefi", "SERP", "rakip analizi".
 ---
 
 # INDOLES i18n + SEO + AI SEO Skill
@@ -27,9 +28,11 @@ Her tetiklenmede aç:
 
 1. `docs/08-seo-i18n-strategy.md` — Tüm SEO/i18n kararları (authority)
 2. `docs/02-information-architecture.md` — Sayfa map'i, URL segment çevirisi
-3. `docs/10-content-model-sanity.md` — Document-level i18n yapısı
+3. `src/lib/content/*.ts` + `content/` (MDX) — İçerik katmanı ve iki dilli slug yapısı (Sanity YOK — ADR-006)
 4. `src/lib/seo/` — Mevcut helper'lar (`generateAlternates.ts`, `jsonLd.ts`)
 5. `src/app/sitemap.ts`, `src/app/robots.ts`, `src/app/llms.txt/route.ts` — Mevcut SEO endpoint'leri
+6. `src/lib/i18n/` + `lib/i18n/locale-href.ts` — next-intl routing, segment çevirisi
+7. `docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` — keyword hedefleri (§2), launch-gate (§3), GEO taktikleri (§5), 301 (Ek A); rakip eşikleri: `docs/strateji/Rakip-Analizi-P0-SERP.md`; hacim verisi: `docs/strateji/Keyword-Planner/keyword-hacim-birlesik.csv`
 
 ## Adım 1 — Path / URL Disiplini
 
@@ -37,9 +40,9 @@ Her tetiklenmede aç:
 |---------|-------|-------|
 | Path-based i18n | `/tr/{slug}`, `/en/{slug}` | Subdomain (`tr.`), query param (`?lang=`) |
 | Segment translation | `/tr/hizmetler` ↔ `/en/services`, `/tr/paketler` ↔ `/en/packages` | Aynı segment iki dilde (`/tr/services`) |
-| Locale slug | TR ve EN slug ayrı (Sanity `slug.current.tr` / `.en`) | Aynı slug iki dilde |
+| Locale slug | TR ve EN slug ayrı (içerik objesinde `slug: { tr, en }`) | Aynı slug iki dilde |
 | Default redirect | `/` → 301 → `/tr` | Default'a 200 cevap |
-| Auth path | `/app/*`, `/admin/*`, `/studio/*` — locale prefix YOK, robots disallow | Locale içine alınmış auth path |
+| İndekslenmeyecek yüzey | `/api/*` robots disallow. (Auth/admin/studio launch'ta YOK — ADR-008; eklenirse locale prefix'siz + disallow) | Locale içine alınmış api/auth path |
 
 `next-intl` `pathnames` config'i bu eşleşmenin tek kaynağı olmalı.
 
@@ -126,12 +129,12 @@ Helper: `src/lib/seo/generateAlternates.ts` — bu skill'in onayından geçen te
 |---------|-------|
 | Index dosyası | İki child sitemap'i listeler |
 | Per-locale sitemap | Sadece o locale'in indexable sayfalarını içerir |
-| `lastmod` | Sanity `_updatedAt` veya app route için file mtime |
+| `lastmod` | İçerik katmanındaki tarih alanı (varsa) veya build zamanı |
 | `priority` / `changefreq` | docs/08 §4.3 tablosundan |
 | `<xhtml:link rel="alternate">` | Her URL için karşı locale alternate (Google önerisi) |
-| Exclude | `/app/*`, `/admin/*`, `/studio/*`, `/api/*`, draft documents |
+| Exclude | `/api/*`, yayınlanmamış içerik |
 | Preview | Sitemap üretilir ama robots disallow ile cover edilir |
-| ISR refresh | Sanity webhook → revalidate sitemap |
+| Güncelleme | SSG — içerik değişikliği build/deploy ile sitemap'e yansır (webhook/ISR yok) |
 
 Implementation: `src/app/sitemap.ts` (Next.js convention, dinamik).
 
@@ -139,7 +142,7 @@ Implementation: `src/app/sitemap.ts` (Next.js convention, dinamik).
 
 | Ortam | Kural |
 |-------|-------|
-| **Production** | `Allow: /`, ama `/app/`, `/admin/`, `/studio/`, `/api/`, `/*?draft=true` disallow + sitemap link |
+| **Production** | `Allow: /`, ama `/api/` disallow + sitemap link |
 | **Preview** | `User-agent: *` `Disallow: /` (TÜM disallow) |
 | **AI crawler ban?** | YOK — INDOLES opting in. GPTBot, ClaudeBot, vb. ban'lanmaz |
 
@@ -194,11 +197,11 @@ A: ...
 
 ## Contact
 - Booking: https://indoles.com.tr/tr/rezervasyon
-- Brief: https://indoles.com.tr/app/brief/yeni
+- Contact: https://indoles.com.tr/tr/iletisim
 - Email: hello@indoles.com.tr
 ```
 
-Üretim: Sanity content + statik şablonun birleşimi, build-time veya ISR.
+Üretim: statik içerik katmanı (`src/lib/content/*.ts` + MDX) + şablon, build-time.
 
 ### Lint
 
@@ -334,7 +337,7 @@ Her yeni sayfa/içerik için:
 |---------|-------|
 | TR + EN ikisi de yayınlanmış | Evet — eksikse launch'a gönderilmez (docs/08 §12.1 kuralı) |
 | hreflang çift yön | Karşılıklı tanım |
-| Slug iki dilde de var | Sanity `slug.current.tr` ve `.en` |
+| Slug iki dilde de var | İçerik objesinde `slug.tr` ve `slug.en` |
 | Title + description her dilde unique | Kopyala-yapıştır değil |
 | OG image her dilde generate olur | `/api/og?locale=tr|en` |
 | Schema.org `inLanguage` doğru | tr-TR / en-US |
@@ -391,7 +394,7 @@ Her yeni sayfa/içerik için:
 
 ## Notlar
 
-- Yeni bir Sanity schema veya yeni bir route eklendiğinde sitemap revalidate hook'u tetiklenmiş olmalı
+- Yeni bir route veya içerik türü eklendiğinde `src/app/sitemap.ts`'in onu kapsadığını doğrula (`pnpm seo:audit` varsa çalıştır)
 - `/api/og` endpoint'i değiştiğinde tüm OG cache'leri invalidate (Open Graph re-scrape: Facebook Sharing Debugger, LinkedIn Post Inspector)
 - llms-full.txt build size'i kontrol et — çok büyürse paginate veya sectional split
 

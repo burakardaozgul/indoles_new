@@ -4,26 +4,26 @@ description: >
   INDOLES UI'sının mobil ve masaüstü tasarım kalitesinin "şahane, son derece şık ve akıcı"
   standardına uyumunu Playwright + Chrome canlı test ile doğrular. Bir component, page veya
   layout tamamlandığında, push veya merge öncesi, ya da bir UI bug raporunda ZORUNLU çağrılır.
-  4 viewport (375 mobile, 768 tablet, 1280 desktop, 1536 wide) üzerinde gerçek ekran
-  görüntüsü alır, layout shift'i, fluid tipografinin akıcılığını, motion smoothness'i,
-  touch target boyutlarını, hover→active state'leri, focus ring'leri, klavye navigasyonunu,
-  scroll perf'ı ve cross-browser uyumu kontrol eder. Hem Playwright (otomatize, headless)
-  hem claude-in-chrome MCP (canlı browser, gerçek user gözünden) kullanır. Çıktı: viewport
-  bazlı geçer/düşer raporu + screenshot + iyileştirme listesi. Tetikleyici: "mobile/desktop
-  test et", "responsive kontrol", "viewport test", "tasarım kalitesi", "UX audit", "screenshot
-  al ve göster", "browser'da test et", veya bir UI tamamlama anı.
+  4 viewport (375 mobile, 768 tablet, 1280 desktop, 1536 wide) + 900px davranış eşiği
+  üzerinde gerçek ekran görüntüsü alır; layout shift, fluid tipografi, scroll-bağlı
+  mekanizmalar (sticky track, timeline, blob), touch target, hover/focus state, klavye
+  navigasyonu, scroll perf ve cross-browser uyumu kontrol eder. Hem Playwright (otomatize,
+  headless) hem chrome-devtools MCP (canlı browser) kullanır. Çıktı: viewport bazlı
+  geçer/düşer raporu + screenshot + iyileştirme listesi. Tetikleyici: "mobile/desktop
+  test et", "responsive kontrol", "viewport test", "tasarım kalitesi", "UX audit",
+  "screenshot al", "browser'da test et", veya bir UI tamamlama anı.
 ---
 
 # INDOLES Responsive Quality Skill
 
-INDOLES web'in mobil ve masaüstünde "editorial-minimalist, şahane, akıcı" hedefini gerçek browser ortamında doğrular. Code-level statik analiz değil — gerçek viewport, gerçek render, gerçek interaksiyon.
+INDOLES web'in mobil ve masaüstünde "teknik-editorial, şahane, akıcı" (docs/04 v2) hedefini gerçek browser ortamında doğrular. Code-level statik analiz değil — gerçek viewport, gerçek render, gerçek interaksiyon.
 
 ## Çift Test Hattı
 
 | Hat | Araç | Amaç | Ne Zaman |
 |-----|------|------|----------|
-| **Otomatize hat** | Playwright (`@playwright/test`, `playwright.config.ts`) | Tekrarlanabilir, regression-resistant, CI'da çalışır | Her UI değişikliği, PR öncesi |
-| **Canlı hat** | claude-in-chrome MCP (`mcp__claude-in-chrome__*`) | Gerçek user gözünden interaktif test, hover/scroll/focus akışları, görsel "his" değerlendirmesi | Önemli UI release'leri, kalite review |
+| **Otomatize hat** | Playwright (`@playwright/test`, `playwright.config.ts`, `pnpm test:e2e`) | Tekrarlanabilir, regression-resistant, CI'da çalışır | Her UI değişikliği, PR öncesi |
+| **Canlı hat** | chrome-devtools MCP (`mcp__plugin_chrome-devtools-mcp_chrome-devtools__*`) | Gerçek user gözünden interaktif test, hover/scroll/focus akışları, görsel "his" değerlendirmesi | Önemli UI release'leri, kalite review |
 
 İkisi de çalıştırılır — biri eksik geldiğinde diğeri tamamlar.
 
@@ -36,7 +36,9 @@ INDOLES web'in mobil ve masaüstünde "editorial-minimalist, şahane, akıcı" h
 | Desktop | 1280px | 800px | Laptop standard | 1 |
 | Wide | 1536px | 960px | External monitor | 1 |
 
-Bonus: 360x640 (Android dar), 1920x1080 (full HD) — opsiyonel ek viewport'lar.
+Ek zorunlu eşik: **900px** — sticky yatay hizmet track'i ve metodoloji timeline'ı bu
+değerin altında kapanıp snap-slider/dikey düzene döner (docs/04 §4, §12.7). 899px ve
+901px'te davranış farkını doğrula. Bonus: 360x640 (Android dar), 1920x1080 (full HD).
 
 ## Adım 0 — Test Ortamını Hazırla
 
@@ -48,7 +50,7 @@ pnpm dev
 pnpm build && pnpm start
 ```
 
-Test edilecek URL'i tanımla. Playwright config'in `baseURL`'ini ve claude-in-chrome'un navigate target'ını eşitle.
+Test edilecek URL'i tanımla. Playwright config'in `baseURL`'ini ve chrome-devtools navigate target'ını eşitle.
 
 ## Adım 1 — Playwright Otomatize Test
 
@@ -158,25 +160,32 @@ test('Core Web Vitals (LCP, CLS, INP)', async ({ page }) => {
 });
 ```
 
-## Adım 3 — claude-in-chrome Canlı Test
+## Adım 3 — chrome-devtools MCP Canlı Test
 
 Otomatize testler geçtikten sonra canlı browser'da kullanıcı gözünden bak. Her viewport için:
 
 ```
-1. ToolSearch ile load: select:mcp__claude-in-chrome__tabs_context_mcp,
-   mcp__claude-in-chrome__tabs_create_mcp, mcp__claude-in-chrome__navigate,
-   mcp__claude-in-chrome__resize_window, mcp__claude-in-chrome__computer,
-   mcp__claude-in-chrome__find, mcp__claude-in-chrome__read_page,
-   mcp__claude-in-chrome__gif_creator, mcp__claude-in-chrome__read_console_messages,
-   mcp__claude-in-chrome__javascript_tool
+1. ToolSearch ile load (chrome-devtools plugin):
+   select:mcp__plugin_chrome-devtools-mcp_chrome-devtools__new_page,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__navigate_page,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__resize_page,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_screenshot,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__take_snapshot,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__evaluate_script,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__list_console_messages,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__hover,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__click,
+   mcp__plugin_chrome-devtools-mcp_chrome-devtools__performance_start_trace
 
-2. tabs_context_mcp ile mevcut tab'ları öğren
-3. tabs_create_mcp ile yeni tab → URL'e navigate
-4. resize_window ile her viewport'a sırayla geç
-5. read_page ile DOM/visible content snapshot al
-6. computer ile scroll, hover, click akışları test et
-7. gif_creator ile önemli interaksiyon akışlarını kaydet
-8. read_console_messages ile error/warning yakala
+2. new_page → URL'e navigate_page
+3. resize_page ile her viewport'a sırayla geç (900px eşiğini iki yönden test et)
+4. take_snapshot ile DOM/a11y tree, take_screenshot ile görsel durum al
+5. evaluate_script ile scroll, hover ve computed style kontrolleri
+6. performance_start_trace ile scroll/motion akışında jank ölç
+7. list_console_messages ile error/warning yakala
+
+Alternatif: playwright plugin MCP (browser_navigate, browser_resize,
+browser_take_screenshot, browser_snapshot) — chrome-devtools yoksa.
 ```
 
 ### Canlı Test Checklist
@@ -185,21 +194,21 @@ Her viewport'ta gözle ve doğrula:
 
 | Kategori | Kontrol |
 |----------|---------|
-| **İlk izlenim** | Editorial-minimalist hissi var mı? Generic AI template gibi mi görünüyor? |
-| **Tipografi akıcılığı** | Fraunces opsz aksi büyük başlıklarda doğru render? clamp() geçişi smooth mu? |
-| **Renk** | Sıcak kağıt arka plan, ink-900 mürekkep — saf beyaz/siyah hissi var mı? |
-| **Spacing ritmi** | Whitespace nefes aldırıyor mu, sıkışık mı? |
-| **Hairline rule'lar** | Editorial detay (1px ayraç, marginalia) doğru görünüyor mu? |
-| **Hover state'ler** | Smooth, ne donuk ne agresif? |
-| **Focus ring** | Klavye ile gezinince ring görünüyor mu? brand-500 ile mi? |
-| **Mobile menü** | Hamburger açılışı akıcı, full-screen overlay temiz |
-| **Sticky CTA** | Mobile'da sticky bottom bar diğer öğelerle çakışıyor mu? |
-| **Chatbot widget** | Sağ alt, CTA bar ile çakışmıyor (mobile'da sol tarafa kayar) |
-| **Scroll perf** | 60fps, jank yok |
-| **Motion** | Framer Motion animasyonları smooth, ease curve token'dan |
-| **Image** | LQIP veya skeleton var mı? CLS sıfır mı? |
-| **Form** | Touch target uygun, error state net |
-| **Persona switch** | Hero'daki audience switch animasyonu akıcı, içerik adapte oluyor |
+| **İlk izlenim** | Teknik-editorial his var mı (mono etiket, numaralı bölüm, ölçü dili)? Generic AI template gibi mi görünüyor? |
+| **Tipografi** | Lexend 600 başlıklar doğru ağırlıkta mı? `text-step-*` clamp geçişi viewport'lar arasında smooth mu? Sayfada tek h1, display ölçeği yalnız `V2PageHeader`'da mı? |
+| **Renk** | Krem tuval (#FAFAF7) tek mi — bölüm seviyesinde yabancı zemin var mı? Teal-700 interaction, gold yalnız dark yüzeyde mi? Gövde metni saf siyah değil `ink-600` mı? |
+| **Spacing ritmi** | 96/140/180px bölüm ritmi korunuyor mu? Tüm bölümler aynı sol kenardan mı başlıyor? |
+| **Hairline/divider** | `.divider`, eyebrow çizgisi, shadow-3d hairline'ı doğru render? |
+| **Hover state'ler** | `.btn-primary` translateY(-2px), `.arrow` translate(2px,-2px) imzası çalışıyor mu? |
+| **Focus ring** | Klavye ile gezinince 2px teal-700 ring + 2px offset görünüyor mu? |
+| **Mobile menü** | ≤960px hamburger + çekmece akıcı; kapalı çekmece `inert`, açıkken nav opak |
+| **Sabit chrome** | TopBar + nav pill scroll'da sıkışıyor/opaklaşıyor mu? İçerik chrome'un altında kalmıyor mu (padding telafisi)? |
+| **Scroll mekanizmaları** | Sticky yatay track ve timeline >900px'te scrub, ≤900px'te snap-slider/dikey mi? Blob okuma kolonuna giriyor mu? |
+| **Scroll perf** | 60fps, jank yok (blob + Lenis aktifken de) |
+| **Motion** | Süre/easing token'dan (`--ease-out`, anim-config.ts) — component'e gömülü değer var mı? |
+| **Image** | CLS sıfır mı? Geçici görseller `alt=""` ile mi? |
+| **Form** | Touch target ≥44px, error state net |
+| **Persona chip** | Hero'daki persona seçimi akıcı; copy adapte oluyor, görsel dil sabit kalıyor mu? |
 
 ## Adım 4 — Cross-Browser Smoke Test
 
@@ -216,8 +225,9 @@ projects: [
 ```
 
 Webkit'te özellikle:
-- `font-variation-settings` (Fraunces opsz) doğru render?
-- Container query desteği?
+- Nav pill'in `backdrop-filter` + opaklık geçişi doğru mu?
+- WebGL blob ve Canvas 2D (WaveCanvas/ParticleField) performansı kabul edilebilir mi?
+- Lexend/Inter font render ve `text-step-*` clamp değerleri tutarlı mı?
 - CSS @supports fallback'leri?
 
 ## Adım 5 — Reduced Motion Test
@@ -227,7 +237,9 @@ test('respects prefers-reduced-motion', async ({ browser }) => {
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   const page = await context.newPage();
   await page.goto(URL_PATH);
-  // Animasyonlu element'lerin animation/transition durumunu doğrula
+  // docs/04 §7 sözleşmesi: geçişler ~0.01ms, .reveal anında görünür,
+  // canvas tek kare çizip durur, sayaç hedef değere atlar, Lenis kapalı
+  // (native scroll), team slider otomatik dönmez, yatay track snap-slider.
 });
 ```
 
@@ -245,7 +257,7 @@ test('respects prefers-reduced-motion', async ({ browser }) => {
 | desktop  | ... | ... | ... | ... | ... | ... |
 | wide     | ... | ... | ... | ... | ... | ... |
 
-### Canlı (claude-in-chrome)
+### Canlı (chrome-devtools MCP)
 
 | Kategori | Mobile | Tablet | Desktop | Wide |
 |----------|--------|--------|---------|------|
@@ -280,7 +292,8 @@ test('respects prefers-reduced-motion', async ({ browser }) => {
 
 - Bir test çakılırsa, tekrar çalıştırmadan önce **kök sebebi** tespit et — flaky test'i normalize etme
 - Screenshot'lar `tests/screenshots/` altında, gitignore'dan hariç (PR review için)
-- claude-in-chrome'da dialog tetiklemeyecek interaksiyon seç — tetiklerse oturum kilitlenir (system prompt notu)
+- Mevcut e2e suite ile çakışan spec dosya adı üretme — önce `tests/e2e/` yapısını gör, varsa mevcut spec'e ekle
+- Dialog açan interaksiyonlarda `handle_dialog` tool'unu hazır tut — beklenmeyen dialog akışı kilitler
 - "Üzgün viewport" varsa (ör. 360px Android), o viewport'u da matrise eklemeyi öner
 
 ## Subagent Kullanımı

@@ -27,6 +27,7 @@ Sen INDOLES'in metin sesinin sahibisin. Görevin teknik olarak doğru değil, ma
 2. **`docs/01-vision-positioning.md`** — Manifesto, iki eksen vaadi, persona profilleri
 3. **`docs/02-information-architecture.md`** — Sayfa tipolojisi → hangi sayfa hangi tonda
 4. **CLAUDE.md** — Proje anti-pattern listesi (anglicism, hype, emoji-in-copy)
+5. **`docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md`** — Makale/hizmet/vaka copy'sinde hedef kelime + arama niyeti buradan (§2); makale brief'i §4 takvim satırıyla eşleşir; keyword taşıyan başlıkta GKP yazımı ("yapay zeka", "AI" değil)
 
 Her dispatch'te bu dosyaları aç. Hafızadan değil, dosyadan oku.
 
@@ -111,13 +112,16 @@ Her çıktının altına ekle:
 - ...
 ```   
 
+Copy kod tabanına girecekse hedef statik içerik katmanıdır (Sanity/CMS yok — ADR-006):
+
 ```yaml
-schema: pillarPage  # docs/10'dan
+# src/lib/content/pillars.ts veya messages/{tr,en}.json içine
+hedef: pillars.ts > growth.hero
 fields:
-  hero.headline.tr: "..."
-  hero.headline.en: "..."
-  hero.persona.industrial.headline.tr: "..."
-  hero.persona.commerce.headline.tr: "..."
+  headline.tr: "..."
+  headline.en: "..."
+  persona.industrial.headline.tr: "..."
+  persona.commerce.headline.tr: "..."
 ```
 
 ## Anti-Pattern Refleksi (HER ÜRETİMDE)

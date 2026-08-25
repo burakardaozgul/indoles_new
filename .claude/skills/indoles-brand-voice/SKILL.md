@@ -25,6 +25,7 @@ Bu skill çağrıldığında HER ZAMAN şu üç dosya açılır ve aktif kullan�
 1. `docs/01-vision-positioning.md` — Manifesto, iki eksen vaadi, persona profilleri, çatı hikayesi
 2. `docs/02-information-architecture.md` — Sayfa tipolojisi, hangi sayfa hangi tonda
 3. `docs/03-brand-voice-tone.md` — Voice tanımı, üç ton profili, kelime listesi, anti-pattern'ler
+4. `docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` — YALNIZ makale/hizmet sayfası/vaka copy'sinde: hedef kelime §2 kümesinden alınır (kelimesiz makale üretilmez); keyword taşıyan başlık/H1 GKP yazımıyla yazılır ("yapay zeka danışmanlığı" — "AI danışmanlığı" veya şapkalı "yapay zekâ" değil; §2.0 karar 1); yapı §4 disiplinine uyar: Q&A H2, ilk 2 cümlede net cevap, ≥1 orijinal rakam, FAQ bloğu, 3-5 iç link (≥1 vakaya)
 
 Hafızadan değil, dosyadan oku — değişmiş olabilir.
 
@@ -37,6 +38,7 @@ Hafızadan değil, dosyadan oku — değişmiş olabilir.
 | Sayfa tipi? | Homepage / Pillar landing / Hizmet detay / Paket / Vaka / Journal / Araç / Danışman / Brief / Form / Footer / Modal / Email | Ton seçimini belirler |
 | Persona-aware mi? | Çift versiyon (Homepage, Pillar, Vakalar) — Tek versiyon (diğerleri) | Çıktı sayısını belirler |
 | Hangi ton? | Sanayici (dingin-kurumsal) / Ticaret (dinamik-atletik) / Orta | Kelime, ritim, sıfat oranı, metrik kullanımı |
+| Hedef kelime? (makale/hizmet/vaka copy'si ise) | strateji §2 kümesinden okunur | Title/H1/ilk paragraf yerleşimini belirler |
 
 `docs/03` Bölüm 1'deki sayfa-ton matrisini referans al — tahmin etme, oradan oku.
 
@@ -146,7 +148,9 @@ Homepage, Pillar landing veya Vakalar sayfası için copy üretiliyorsa, çıkt�
 {dynamic-athletic tone}
 ```
 
-Sanity'ye yazılacaksa schema'da `persona` alanı ile etiketle (bkz. `docs/10-content-model-sanity.md`).
+Kod tabanına yazılacaksa doğru hedef statik içerik katmanıdır: `src/lib/content/*.ts`
+(persona varyantları ilgili content objesinin alanlarında) veya `messages/{tr,en}.json`
+(i18n string'leri). Sanity/CMS yok — içerik statik TS + MDX'tir (ADR-006).
 
 ## Adım 7 — Çıktı Formatı
 
@@ -179,7 +183,7 @@ Her copy çıktısı şu yapıda sunulur:
 | `<meta description>` | 160 | Google SERP kesim |
 | OG title | 60 | Sosyal kart |
 | OG description | 90-110 | LinkedIn/X'te kesilmesin |
-| Hero headline | 60 (display-2xl scale ile 1-2 satır) | docs/04'teki tipografi scale referansı |
+| Hero headline | 60 (1-2 satır, `typography-display-*` skalası) | docs/04 §2 fluid skala referansı |
 | Hero subhead | 140 | 2-3 satır |
 | CTA button | 18-22 | Tek-iki kelime ideal |
 | Section headline | 80 | 1-2 satır |

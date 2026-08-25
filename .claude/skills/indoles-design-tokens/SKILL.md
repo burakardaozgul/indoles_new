@@ -1,198 +1,161 @@
 ---
 name: indoles-design-tokens
 description: >
-  INDOLES design system token enforcer. Herhangi bir UI kodu (React component, page, layout,
-  Tailwind class, CSS, inline style, Framer Motion config, shadcn varyantı) yazılırken/güncellenirken
-  ZORUNLU çağrılır. Renk, tipografi, spacing, radius, shadow, breakpoint, z-index, motion
-  duration/easing değerlerinin literal yazımını yasaklar; tüm değerler `lib/design/tokens.ts`
-  ve `tailwind.config.ts`'den okunur. docs/04-design-system-principles.md'yi authoritative
-  kabul eder. Yeni token gereksinimi tespit ederse önce token dosyasını günceller, sonra
-  kullanır. Editorial-minimalist disipline aykırı pattern'leri (gradient, glassmorphism,
-  particle, stok foto, dark mode, çoklu accent renk, agresif easing) reddeder. Tetikleyici:
-  "component yaz", "sayfa yap", "Tailwind class ekle", "stil ver", "card tasarla", "hero yap",
-  "section ekle", "button styling", "color/spacing/font ayarla", "motion ekle", "responsive yap",
-  veya bir UI dosyası (.tsx, .jsx, .css, .scss) içinde stil değişikliği.
+  INDOLES design system (v2, teknik-editorial) token enforcer. Herhangi bir UI kodu
+  (React component, page, layout, Tailwind class, CSS, canvas/WebGL sahne parametresi)
+  yazılırken veya güncellenirken ZORUNLU çağrılır. Tetikleyici: "component yaz", "sayfa
+  yap", "section ekle", "stil ver", "card tasarla", "hero yap", "motion ekle",
+  "responsive yap", veya bir UI dosyasında (.tsx, .css) stil değişikliği.
 ---
 
-# INDOLES Design Tokens Enforcer
+# INDOLES Design Tokens Enforcer — v2
 
-UI implementasyonunun docs/04-design-system-principles.md ve `lib/design/tokens.ts`'e %100 uyumlu olmasını sağlar. Her UI dosyası bu skill'in disiplininden geçer.
+UI implementasyonunun `docs/04-design-system-principles.md` (v2, teknik-editorial) ve
+`src/lib/design/tokens.ts`'e uyumunu sağlar. v1'in "editorial-serif" dili ADR-015 ile
+emekliye ayrıldı — Fraunces, brand mavisi, Framer Motion referansları geçersizdir.
 
-## Adım 0 — Otorite Kaynakları Yükle
-
-Her tetiklenmede şu dosyaları aç ve aktif tut:
-
-1. `docs/04-design-system-principles.md` — Tasarım felsefesi, tipografi/renk/spacing/motion prensipleri (authority)
-2. `lib/design/tokens.ts` — Type-safe token tanımları (kod kaynağı)
-3. `tailwind.config.ts` — Tailwind extension (token'ların class karşılığı)
-4. `components/ui/` — Mevcut component library (yeniden icat etme!)
-
-Hafızadan değil, dosyadan oku.
-
-## Adım 1 — Token Otorite Hiyerarşisi
+## Adım 0 — Otorite Zinciri (her tetiklenmede aç, hafızadan okuma)
 
 ```
-docs/04 → lib/design/tokens.ts → tailwind.config.ts → components/ui/* → kullanım yeri
+docs/04-design-system-principles.md  →  src/lib/design/tokens.ts
+→  src/styles/globals.css (@theme + primitives)
+→  src/styles/sections.css (Tailwind'le ifade edilemeyen yapılar)
+→  src/lib/v2/anim-config.ts + src/styles/v2.css (v2 motion katmanı, ADR-016)
+→  component
 ```
 
-Bir değer kullanmadan önce zinciri yukarı doğru takip et. Eksik halka varsa önce yukarıyı tamamla, sonra kullan.
+- `tailwind.config.ts` otorite DEĞİLDİR — yalnız content path'leri içerir; token'ların
+  Tailwind karşılığı `globals.css` `@theme` bloğundadır.
+- Değişiklik sırası zorunlu: docs/04 → tokens.ts → globals.css → component. Sapma ADR ister.
 
-## Adım 2 — Literal Değer Yasakları
+## Adım 1 — Tipografi
 
-### 2a. Renk
-
-| Yasak | Doğru |
+| Kural | Değer |
 |-------|-------|
-| `bg-[#FBFAF7]`, `text-[#1A1F24]`, `style={{ color: '#567B97' }}` | `bg-paper`, `text-ink-900`, `text-brand-500` |
-| `bg-white`, `text-black` | `bg-paper`, `text-ink-900` (saf beyaz/siyah yasak — docs/04 §3) |
-| `bg-gray-100`, `text-slate-700` | `bg-surface-1`, `text-ink-700` (Tailwind default neutral'lar yasak) |
+| Aileler | Lexend (display/h1–h6/metrik), Inter (gövde/form/buton), JetBrains Mono (eyebrow, sayaç, teknik etiket) |
+| Skala | `text-step--2` … `text-step-8` fluid clamp; sayfa kodunda tercih: semantik `typography-*` sınıfları |
+| Başlık ağırlığı | Tek ağırlık: **600** (ADR-017). 700 fazla kalın, 500 cılız — ikisi de yasak |
+| Display ölçeği | Yalnız `V2PageHeader` kullanır. Bölüm başlığı `h1`, kart başlığı `h2` ölçeği. Sayfa başına tek `<h1>` |
+| İtalik vurgu | `accent-em` (light) / `accent-em-gold` (dark) — başlık başına EN FAZLA BİR |
+| Tracking | Punto büyüdükçe sıkışır (`--tracking-display` −0.035em), mono etikette açılır (+0.18em) |
 
-### 2b. Tipografi
+Yasak: `text-[23px]` arbitrary değer, `font-bold`/`font-light`, inline `font-family`,
+manuel `clamp()`, all-caps okuma metni (uppercase yalnız mono etiket/eyebrow'da).
 
-| Yasak | Doğru |
+## Adım 2 — Renk
+
+| Kural | Değer |
 |-------|-------|
-| `text-[23px]`, `text-[1.4rem]` | `text-h2`, `text-body-lg` (token-defined scale) |
-| `font-bold`, `font-light` | `font-medium`, `font-semibold` (sadece token'da olan weight'ler) |
-| `font-family: 'Inter'` inline | Token'dan: `font-body`, `font-heading`, `font-mono` |
-| Fluid scale manuel `clamp()` | Token zaten fluid — direkt class kullan |
+| Marka skalası | `teal-*` (11 basamak, `teal-700` #2C5566 = logo + birincil interaction). `brand-*` aynı değerlerin legacy alias'ı — YENİ KODDA `teal-*` |
+| Accent | `gold-*` — YALNIZ dark yüzeyde vurgu + teknik illüstrasyon. **Light zeminde CTA rengi gold DEĞİL, siyahtır** (`.btn-primary` = ink-900) |
+| Tuval | `bg` (#FAFAF7 krem). Bölüm seviyesinde opak zemin verme — krem tuval tektir (docs/04 §12.10) |
+| Yüzey | Kart/panel beyaz (`bg-pure`/`surface-1`) veya yarı saydam `.v2-surface`. Saf beyaz kart OK — bu v2'de serbesttir |
+| Siyah | `ink-900` (#000000) bir *yüzey* rengidir (topbar, footer, birincil buton). Gövde paragrafı asla saf siyah değil: metin `ink-600`, başlık `ink-800/900` |
+| Dark bölümler | Vision, Footer, kapanış kartı — `color-scheme: dark` set edilir. Site geneli dark mode YOK; `dark:` utility ile tema kurma yasak |
+| Semantic | success #3F7A56 · warning = gold · danger #A8453D · info = teal (ayrı renk yok) |
 
-### 2c. Spacing
+Yasak: `bg-[#...]` literal hex, Tailwind default nötrleri (`slate-*`, `gray-*`, `zinc-*`),
+teal + gold dışında accent.
 
-| Yasak | Doğru |
-|-------|-------|
-| `p-[14px]`, `gap-[18px]`, `mt-[2.3rem]` | Tailwind scale (`p-4`, `gap-5`, `mt-10`) |
-| `space-y-[24px]` | `space-y-6` |
-| Inline `style={{ padding: '20px' }}` | className |
+## Adım 3 — Spacing, Grid, Container
 
-### 2d. Radius / Shadow
+- 4px skala; Tailwind default `--spacing` ile örtüşür → `p-[14px]` gibi arbitrary yasak.
+- Bölüm ritmi: sıkı 96px · temel 140px · geniş 180px.
+- Container: `.ds-container` (1440) standart, `.ds-container-wide` (1680) nav/track,
+  `--container-prose` (1120) manifesto. **Aynı sayfada her bölüm aynı sol kenardan başlar** —
+  karışık container yasak.
+- Breakpoint: 375 / 768 / 1280 / 1536 + davranış eşiği **900px** (sticky yatay track ve
+  timeline bu değerin altında dikey/snap-slider düzene döner).
+- Sabit chrome telafisi: TopBar (36px) + Nav yükseklikleri `v2.css` değişkenlerinden okunur;
+  üç ayrı yerde sabit tutulmaz.
 
-| Yasak | Doğru |
-|-------|-------|
-| `rounded-[6px]`, `rounded-[18px]` | `rounded-md`, `rounded-lg` (token'da tanımlı |
-| `shadow-[0_4px_12px_rgba(0,0,0,0.1)]` | `shadow-card`, `shadow-elevated` |
+## Adım 4 — Radius ve Elevation
 
-### 2e. Z-Index
+- Radius kasıtlı küçük: `sm 2` · `md 4` · `lg 6` · `xl 8` · `2xl 10px`. 10px üstü yalnız
+  tam yuvarlak eleman (nokta, avatar). "Yumuşak uygulama kutusu" radius'u yasak.
+- Gölge çok katmanlı ve **teal tonlu** ambient taşır: `shadow-sm/md/lg/xl` + `shadow-3d`
+  (inset highlight → teal hairline → orta → uzak). Tek katman `shadow-[0_4px...]` literal yasak.
+- Kartlarda `backdrop-filter` yok (compositing bütçesi, docs/04 §12.10).
 
-| Yasak | Doğru |
-|-------|-------|
-| `z-[9999]`, `z-50` ad-hoc | Token'dan: `z-base`, `z-dropdown`, `z-modal`, `z-toast` |
+## Adım 5 — Primitives (yeniden icat etme)
 
-### 2f. Motion (Framer Motion)
+Tek kaynak `globals.css`: `.eyebrow` (+ `-gold`, `-bare`), `.btn` (+ `-primary`, `-ghost`,
+`-invert`, `-lg`), `.reveal` (+ `.d1–.d5`, tek `RevealObserver` — bölüm başına observer
+kurma), `.mono`, `.tabular`, `.divider`, `.grain`, `.marquee-track`.
 
-| Yasak | Doğru |
-|-------|-------|
-| `transition={{ duration: 0.3, ease: 'easeInOut' }}` literal | Token'dan import: `motionTokens.duration.md`, `motionTokens.ease.standard` |
-| Random easing array `[0.42, 0, 0.58, 1]` | Token easing curve'leri |
+`.arrow` hover'ı `translate(2px, -2px)` — marka imzasıdır, tüm CTA'larda aynı.
+Yeni primitive gerekiyorsa `src/components/ui/` altında tek kaynak olarak tanımla;
+page içinde inline primitive yazma.
 
-## Adım 3 — Editorial-Minimalist Anti-Pattern Reddi
+## Adım 6 — Motion
 
-docs/04 §1'deki "minimalizm" prensibinin koruyucusu. Şu pattern'ler GÖRÜLDÜĞÜ ANDA reddedilir:
+Framer Motion KULLANILMAZ (ana siteden kaldırıldı). İki katman var:
 
-| Pattern | Neden Yasak |
-|---------|-------------|
-| Linear/radial gradient (CSS `linear-gradient`, Tailwind `bg-gradient-*`) | Editorial-minimalist tek renk disiplini |
-| Glassmorphism (`backdrop-blur`, transparent overlay'ler) | Trend, zaman dışı değil |
-| Particle / animated background / Three.js sahnesi | Dekorasyon değil iletişim, prensibi |
-| Stok fotoğraf | docs/04'te explicitly yasak |
-| Dark mode CSS class'ları (`dark:bg-*`) | Faz 1'de dark mode YOK (ADR ile değişir) |
-| Brand mavisi dışında accent renk | Tek renk disiplini — semantic dışında accent yok |
-| Saf beyaz/siyah (`#fff`, `#000`) | Sıcak kağıt + sıcak mürekkep prensibi |
-| Drop shadow ile derinlik abartısı | Hairline + spacing ile derinlik |
-| Skeuomorphic detaylar | Düz, editorial |
-| Default Tailwind UI / shadcn temaları | INDOLES design dilini override etmeli |
-| 60+ özellikli component import (örn. `@nextui-org/*`) | Bundle + brand uyumsuz |
+| Katman | Kaynak | Araç |
+|--------|--------|------|
+| Ana site | `globals.css` token'ları: `--ease-out` `cubic-bezier(0.16,1,0.3,1)`, `--ease-in-out`; süreler 300/400/600/1000ms | CSS transition + Canvas 2D (`WaveCanvas`, `ParticleField`) |
+| v2 sahne | `src/lib/v2/anim-config.ts` — Lenis, cursor, blob, koreografi sabitleri | Three.js/GLSL + GSAP ScrollTrigger + Lenis |
 
-## Adım 4 — Component Reuse Kuralı
+Kurallar:
+- Hiçbir süre/easing/threshold component'e gömülmez — token veya `anim-config.ts`.
+- **`prefers-reduced-motion` sözleşmesi kabul kriteridir:** geçişler 0.01ms, `.reveal`
+  anında görünür, canvas tek kare çizip durur, sayaç hedefe atlar, Lenis kapanır.
+- **İçeriğe erişim animasyona bağlanmaz:** scroll-bağlı gezinme (yatay track) hareket
+  kısıtında kaldırılmaz, native snap-slider'a düşer.
+- Performans bütçesi (docs/04 §12.6): blob detail 32, DPR tavanı 1.75, `will-change` yok.
 
-Yeni bir UI pattern'e ihtiyaç duyulduğunda:
+## Adım 7 — Reddedilenler (görüldüğü anda düzelt, gerekirse ADR öner)
 
-1. **Önce ara:** `components/ui/` içinde mevcut mu?
-2. **Mevcutsa:** Onu kullan. Varyant gerekirse `cva` ile varyant ekle.
-3. **Yoksa:** `components/ui/` altında **tek kaynak** olarak tanımla.
-4. **Sayfa içinde icat etme:** Page component'i içinde inline UI primitive yazma — hep `components/ui/`'dan import.
+| Pattern | Neden |
+|---------|-------|
+| Stok fotoğraf, genel amaçlı ikon seti | Her görsel bir mekanizma anlatır (docs/04 §1) |
+| Dekoratif parçacık yağmuru, sonsuz döngü animasyonu | Süsleme değil iletişim (mevcut `ParticleField` ağ metaforudur — istisna değil, mekanizma) |
+| Teal + gold dışında accent | Tek marka skalası |
+| Light zeminde gradient buton | Birincil aksiyon siyahtır |
+| All-caps okuma metni | Yalnız mono etiket uppercase |
+| Negative-margin ile binen kartlar | Basılı kenar disiplini |
+| Doğrulanmamış istatistik/metrik | İçerik dürüstlüğü — §10; sayı ya `cases.ts`/içerik katmanından türer ya girmez (`TODO(burak)` ile işaretle) |
+| Site geneli dark mode | Yalnız tanımlı dark bölümler |
+| `bg-paper` benzeri bölüm zemini | Krem tuval tek; zemin ancak kontrast gerekçesiyle |
 
-## Adım 5 — Responsive ve Breakpoint Disiplini
+## Adım 8 — Erişilebilirlik (WCAG 2.2 AA)
 
-Token breakpoint'leri (docs/04'ten geliyor):
+- Focus: `2px solid teal-700`, 2px offset, `radius-md` — tarayıcı varsayılanı kullanılmaz.
+- Her `<section>` `aria-labelledby` veya `aria-label` taşır.
+- Dekoratif her şey (`WaveCanvas`, `ParticleField`, filigran, glyph) `aria-hidden="true"`.
+- Touch hedefi min 44×44px; skip link zorunlu; kapalı çekmece `inert`.
+- Kontrast tablosu docs/04 §3'ten doğrulanır (gövde `ink-600`/bg ≈ 7.4:1).
 
-| Token | Değer | Kullanım |
-|-------|-------|----------|
-| (default) | 0-374px | Çok dar — fallback |
-| `sm` | 375px+ | Mobile (iPhone baseline) |
-| `md` | 768px+ | Tablet |
-| `lg` | 1280px+ | Desktop |
-| `xl` | 1536px+ | Wide desktop |
-
-### Kurallar
-
-- **Mobile-first:** Default class mobile, `md:` ve `lg:` ile büyüt
-- **Container query (Tailwind v4):** Section-bazlı responsive için `@container` + `@md:` kullanımı tercih edilir
-- **Fluid type:** `text-display-2xl` zaten clamp() içerir — manuel responsive type yazma
-- **Touch target:** Mobile interaktif element min 44×44px (WCAG 2.2 AA)
-- **Container max-width:** `max-w-content` (token'da tanımlı), genelde `mx-auto`
-- **Grid → stack:** `grid-cols-3` mobile'da `grid-cols-1`, breakpoint'lerde aç
-
-## Adım 6 — Erişilebilirlik (WCAG 2.2 AA — docs/04'ten)
-
-Her interactive component için ZORUNLU:
-
-| Kontrol | Gereksinim |
-|---------|-----------|
-| Keyboard navigation | Tab order doğal, `tabIndex` manipülasyonu yalnızca gerekli yerde |
-| Focus state | `focus-visible:ring-2 ring-brand-500 ring-offset-2` (token'dan) |
-| ARIA labels | Icon-only button'larda `aria-label` zorunlu |
-| Kontrast | Body text brand-700 (6.8:1), `brand-500` body text'te kullanma |
-| Reduced motion | `prefers-reduced-motion` ile motion bypass |
-| Screen reader | Decorative icon'da `aria-hidden`, anlamlıda `<title>` veya label |
-| Form | `<label htmlFor>` zorunlu, `aria-describedby` ile help/error |
-| Heading hierarchy | h1 → h2 → h3 atlama yok, sayfa başına bir h1 |
-
-## Adım 7 — Yeni Token Eklenmesi Gerekiyorsa
-
-Akış:
-
-1. **Stop:** Önce `lib/design/tokens.ts`'i güncelle, sonra kullan
-2. **docs/04'ü güncelle:** Yeni token'ın felsefe gerekçesi belgede olmalı
-3. **Tailwind config'e ekle:** Token Tailwind class'ı olarak görünür olmalı
-4. **ADR gerekiyor mu?** Sapma içeriyorsa `docs/decisions/ADR-XXX.md` (`indoles-doc-architect` ajanını çağır)
-5. **Sonra kullan:** Component'te kullan
-
-## Adım 8 — Pre-Commit Lint Akışı
-
-UI değişikliği yazıldıktan sonra şu kontrolleri uygula:
+## Adım 9 — Pre-Commit Lint
 
 ```
-1. Literal renk var mı? (#xxx, rgb(), hsl()) → grep
-2. Arbitrary Tailwind value var mı? ([NN], [NNpx], [NNrem]) → grep
-3. Yasak Tailwind class var mı? (gradient, dark:, bg-white, text-black) → grep
-4. components/ui/ dışında primitive tanımı var mı? → manuel review
-5. font-family inline var mı? → grep
-6. Inline style attribute var mı? → grep (motion gerekçesi hariç)
-7. Reduced motion handling var mı? → motion içeren dosyada zorunlu
-8. focus-visible state tanımlı mı? → interactive element içeren dosyada zorunlu
+1. Literal renk (#xxx, rgb() — sections.css'in yorumlu alpha varyantları hariç) → grep
+2. Arbitrary Tailwind value ([NNpx], [NNrem]) → grep
+3. slate-/gray-/zinc-, dark: utility, font-bold → grep
+4. Component içine gömülü süre/easing → grep (transition={{, duration: 0.)
+5. src/components/ui/ dışında primitive tanımı → review
+6. prefers-reduced-motion handling → motion içeren dosyada zorunlu
+7. focus-visible state → interactive element dosyasında zorunlu
+8. Kaynaksız sayı/metrik → review (§10)
 ```
-
-Bir tane bile yakalanırsa düzeltilir, ondan sonra completion.
 
 ## Çıktı Formatı
 
-UI değişikliği yapıldıktan sonra:
-
 ```markdown
 ## Token Compliance Report
-
 | Kontrol | Durum |
 |---------|-------|
-| Literal renk yok | OK / FAIL |
-| Arbitrary value yok | OK / FAIL |
-| Editorial-minimalist anti-pattern yok | OK / FAIL |
-| components/ui/ reuse | OK / FAIL |
-| Responsive (mobile-first) | OK / FAIL |
-| WCAG 2.2 AA (focus, label, kontrast) | OK / FAIL |
-| Reduced motion handled | OK / FAIL / NA |
+| Literal değer yok | OK / FAIL |
+| teal/gold disiplini (yeni kodda teal-*) | OK / FAIL |
+| Tipografi (600, typography-*, tek h1, tek accent-em) | OK / FAIL |
+| Container/section ritmi doğru | OK / FAIL |
+| Reddedilenler listesi temiz | OK / FAIL |
+| Reduced motion sözleşmesi | OK / FAIL / NA |
+| WCAG 2.2 AA (focus, aria, 44px) | OK / FAIL |
+| İçerik dürüstlüğü (kaynaksız sayı yok) | OK / FAIL |
 
 ## Eklenen/Değişen Token'lar
-- {liste}
+- {liste — docs/04 + tokens.ts + globals.css üçü birden güncellendi mi?}
 
 ## ADR Gerekiyor mu?
 {evet/hayır + gerekçe}
@@ -200,4 +163,5 @@ UI değişikliği yapıldıktan sonra:
 
 ## Subagent Kullanımı
 
-Bu skill `indoles-design-craftsman` ajanı tarafından her UI tasarım/implementasyon turunda otomatik çağrılır. Ajan kendisi bağımsız çalışsa bile bu SKILL.md'nin disiplini "ajan davranışı" değil, "UI yazım protokolü"dür.
+`indoles-design-craftsman` ajanı her UI turunda bu skill'i çağırır. Skill'in disiplini
+"ajan davranışı" değil, "UI yazım protokolü"dür.

@@ -3,8 +3,8 @@ name: indoles-seo-i18n-auditor
 description: >
   INDOLES'in çok dilli (TR + EN) SEO ve AI SEO bütünlüğünü uçtan uca koruyan tam ajan.
   Yeni route, page, generateMetadata, layout, sitemap, robots, llms.txt/llms-full.txt,
-  Sanity schema değişikliği, dil eklenmesi, OG image template, structured data güncellemesi
-  veya SEO bug raporunda PROAKTİF dispatch edilir. docs/08 (SEO + i18n strategy) ve
+  statik içerik katmanı (src/lib/content, MDX) değişikliği, dil eklenmesi, OG image
+  template, structured data güncellemesi veya SEO bug raporunda PROAKTİF dispatch edilir. docs/08 (SEO + i18n strategy) ve
   docs/02 (IA — segment translation) authority. Path-based i18n disiplini, hreflang
   triplet (tr+en+x-default), per-locale sitemap, llms.txt + llms-full.txt curated AI
   export, schema.org JSON-LD (Organization, Service, Article, BreadcrumbList, FAQPage,
@@ -25,11 +25,12 @@ Sen INDOLES launch'ının arama görünürlüğü ve AI search pozisyonunun sahi
 ## Mutlak Otorite Sırası
 
 1. **`docs/08-seo-i18n-strategy.md`** — Tüm SEO/i18n kararları (authority)
-2. **`docs/02-information-architecture.md`** — Sayfa map'i, URL segment translation
-3. **`docs/10-content-model-sanity.md`** — Sanity document-level i18n
-4. **`docs/05-tech-architecture.md`** — Performance hedefleri (CWV)
-5. **`src/lib/seo/`** — Mevcut helper'lar
-6. **`src/app/sitemap.ts`, `src/app/robots.ts`, `src/app/llms.txt/route.ts`** — Mevcut SEO endpoint'leri
+2. **`docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` (v1.3)** — Keyword mimarisi + öncelikler (§2), launch-gate (§3), GEO planı (§5), 301 haritası (Ek A). Rakip eşikleri: `docs/strateji/Rakip-Analizi-P0-SERP.md` · hacim verisi: `docs/strateji/Keyword-Planner/keyword-hacim-birlesik.csv`
+3. **`docs/02-information-architecture.md`** — Sayfa map'i, URL segment translation
+4. **`src/lib/content/*.ts` + `content/`** — Statik içerik katmanı ve iki dilli slug yapısı (Sanity YOK — ADR-006)
+5. **`docs/05-tech-architecture.md`** — Performance hedefleri (CWV)
+6. **`src/lib/seo/`** — Mevcut helper'lar
+7. **`src/app/sitemap.ts`, `src/app/robots.ts`, `src/app/llms.txt/route.ts`** — Mevcut SEO endpoint'leri
 
 Her dispatch'te bu dosyaları aç. Hafızadan değil, dosyadan oku.
 
@@ -48,7 +49,7 @@ Hangi katmanı dokunuyor?
 | Robots | Disallow path, env-aware |
 | llms.txt | Curated mention, link |
 | llms-full.txt | Tam içerik export |
-| Sanity schema | Yeni indexable type, locale field, slug strategy |
+| İçerik katmanı | Yeni indexable içerik türü (`src/lib/content/*.ts`), iki dilli slug stratejisi |
 | OG image | Dynamic generator parametresi |
 | Schema.org | Yeni JSON-LD tip |
 
@@ -159,7 +160,7 @@ JSON-LD validate için (opsiyonel, Burak'a check önerisi):
 ### TR ↔ EN Parite
 - [x] İki dilde de yayında
 - [x] hreflang karşılıklı
-- [x] Sanity slug ikisinde de var
+- [x] İçerik objesinde slug.tr ve slug.en ikisi de var
 - [x] Title/description unique her dilde
 
 ### Açık Sorular
@@ -189,13 +190,13 @@ INDOLES'in AI search pozisyonu **opting in + curated** (docs/08 §5). Yapılan h
 
 ## Tool Strategy
 
-- **Read** — docs/08, lib/seo/, app/sitemap.ts, app/robots.ts
+- **Read** — docs/08, docs/strateji/*, lib/seo/, app/sitemap.ts, app/robots.ts
 - **Glob/Grep** — mevcut metadata pattern'i, helper kullanımları
 - **Edit/Write** — helper, route, schema güncelleme
 - **Bash** — `pnpm build`, curl ile endpoint check, xmllint validation
 - **Skill** — `indoles-i18n-seo` (her dispatch), `indoles-brand-voice` (yeni copy gerekirse), `indoles-doc-architect` (docs/08 değişirse ADR)
 - **WebFetch** — schema validator, rich results test (Burak'ın izniyle)
-- **ToolSearch** — gerektiğinde claude-in-chrome MCP yükle (canlı SEO meta inspection)
+- **ToolSearch** — gerektiğinde chrome-devtools MCP yükle (canlı SEO meta inspection)
 
 ## Workflow Memory
 

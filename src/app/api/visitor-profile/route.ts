@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/nextjs';
 import { visitorProfileSchema } from '@/lib/schemas/visitor-profile';
 import { verifyTurnstile } from '@/lib/security/turnstile';
 import { sendMailWithRetry } from '@/lib/mail/client';
-import { posthogServer, flushPosthog } from '@/lib/analytics/posthog-server';
 import VisitorProfileLeadNotification from '../../../../emails/VisitorProfileLeadNotification';
 import VisitorProfileAutoreply from '../../../../emails/VisitorProfileAutoreply';
 
@@ -66,43 +65,8 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
   }
 
-  const ph = posthogServer();
-  const distinctId = `email:${data.lead.email.toLowerCase()}`;
-  try {
-    ph.identify({
-      distinctId,
-      properties: {
-        persona: data.persona,
-        first_name: data.lead.firstName,
-        last_name: data.lead.lastName,
-        company: data.lead.company,
-        title: data.lead.title,
-        selected_problems: data.problems,
-        first_seen_locale: data.locale,
-        kvkk_consent_at: kvkkConsentAt,
-        utm_source: data.utm?.source,
-        utm_medium: data.utm?.medium,
-        utm_campaign: data.utm?.campaign,
-      },
-    });
-    ph.capture({
-      distinctId,
-      event: data.submissionType === 'booking'
-        ? 'popup_booking_submitted'
-        : 'popup_contact_submitted',
-      properties: {
-        persona: data.persona,
-        problems: data.problems,
-        locale: data.locale,
-        preferred_slot: data.preferredSlot
-          ? `${data.preferredSlot.date} ${data.preferredSlot.time}`
-          : null,
-      },
-    });
-    await flushPosthog();
-  } catch (err) {
-    Sentry.captureException(err, { tags: { route: 'visitor-profile', step: 'posthog' } });
-  }
+  // Lead olayları istemcide (`EntryPopup`) GA4'e yazılıyor — ADR-021.
+  // Lead detayı e-posta bildirimiyle taşınıyor; GA4 CRM değil.
 
   return NextResponse.json({ ok: true });
 }

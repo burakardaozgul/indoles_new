@@ -3,10 +3,6 @@ import { POST } from '../route';
 
 vi.mock('@/lib/security/turnstile', () => ({ verifyTurnstile: vi.fn() }));
 vi.mock('@/lib/mail/client', () => ({ sendMailWithRetry: vi.fn() }));
-vi.mock('@/lib/analytics/posthog-server', () => ({
-  posthogServer: () => ({ identify: vi.fn(), capture: vi.fn() }),
-  flushPosthog: vi.fn(),
-}));
 
 const validBody = {
   persona: 'donusum-teknoloji',

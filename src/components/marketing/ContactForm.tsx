@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { contactSchema } from '@/lib/schemas/contact';
 import { Button } from '@/components/ui/button';
+import { gaEvent } from '@/lib/analytics/ga';
 
 // kvkkConsent is boolean in the form (not literal true) — we force it to true on submit
 type FormValues = z.infer<typeof formSchema>;
@@ -110,6 +111,16 @@ export function ContactForm({ locale }: { locale: 'tr' | 'en' }) {
         body: JSON.stringify({ ...values, locale, turnstileToken, kvkkConsent: true }),
       });
       setState(res.ok ? 'success' : 'error');
+      // Dönüşüm olayı istemcide yazılır (ADR-021): sunucu tarafı analitik
+      // istemcisi kaldırıldı, GA4 zaten burada yüklü.
+      if (res.ok) {
+        gaEvent('contact_form_submitted', {
+          subject: values.subject,
+          budget_range: values.budgetRange,
+          timeline: values.timeline,
+          locale,
+        });
+      }
     } catch {
       setState('error');
     }

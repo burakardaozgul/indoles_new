@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/nextjs';
 import { contactSchema } from '@/lib/schemas/contact';
 import { verifyTurnstile } from '@/lib/security/turnstile';
 import { sendMailWithRetry } from '@/lib/mail/client';
-import { posthogServer, flushPosthog } from '@/lib/analytics/posthog-server';
 import ContactNotification from '../../../../emails/ContactNotification';
 import ContactAutoreply from '../../../../emails/ContactAutoreply';
 
@@ -51,22 +50,6 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
   }
 
-  try {
-    const ph = posthogServer();
-    ph.capture({
-      distinctId: `email:${data.email.toLowerCase()}`,
-      event: 'contact_form_submitted',
-      properties: {
-        subject: data.subject,
-        budget_range: data.budgetRange,
-        timeline: data.timeline,
-        locale: data.locale,
-      },
-    });
-    await flushPosthog();
-  } catch (err) {
-    Sentry.captureException(err, { tags: { route: 'contact', step: 'posthog' } });
-  }
-
+  // Dönüşüm olayı istemcide (`ContactForm`) GA4'e yazılıyor — ADR-021.
   return NextResponse.json({ ok: true });
 }

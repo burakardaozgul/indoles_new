@@ -196,6 +196,7 @@ Bunun yanında:
 - Slot üretimi doğru mu: 13:00/14:45/16:30/18:15 üretiliyor, dördüncüden sonrası pencereyi aştığı için üretilmiyor, Pazar hiç slot vermiyor
 - 24 saat kuralı hem listede hem sunucuda uygulanıyor mu (istemci atlatılırsa sunucu reddetmeli)
 - Veritabanına telefon/şirket/unvan/persona/problem **yazılmıyor** mu — minimizasyon regresyonu
+- `invalid_grant` döndüğünde sistem sessiz kalmıyor mu: uyarı maili gidiyor ve arayüz iletişim formuna düşüyor mu
 
 Calendar API testlerde taklit edilir — gerçek takvime test randevusu düşmemeli.
 
@@ -203,17 +204,38 @@ Calendar API testlerde taklit edilir — gerçek takvime test randevusu düşmem
 
 ## 8. Yetkilendirme ve sırlar
 
-**Servis hesabı + Domain-Wide Delegation (DWD).** Basit alternatif — takvimi servis hesabının e-postasıyla paylaşmak — araştırma sonucu **elendi**: 2 Mart 2020'den sonra oluşturulan servis hesapları, DWD olmadan etkinliğe **davetli ekleyemiyor** (`forbiddenForServiceAccounts`). Ziyaretçiyi davetli olarak eklemek zorundayız, çünkü Meet daveti ve takvim kaydı ona böyle ulaşıyor. Bu kısıt tek başına kararı belirliyor.
+**Yöntem: OAuth 2.0 + kalıcı refresh token (servis hesabı DEĞİL).**
 
-DWD ile servis hesabı takvim sahibinin kimliğine bürünüyor (`sub` alanı); etkinliğin organizatörü gerçek ve lisanslı bir Workspace kullanıcısı oluyor. Bu, hem davetli ekleme hem Meet üretimi için en çok test edilmiş yol. DWD kurulduğunda takvimi ayrıca paylaşmaya gerek kalmıyor.
+Karar iki elemeyle buraya geldi:
+
+*Servis hesabı + Domain-Wide Delegation* — teknik olarak en sağlam yol ama **Workspace yönetici paneli gerektiriyor** ve bu hesapta yönetici erişimi yok (Burak, 2026-08-27). Uygulanamaz.
+
+*Servis hesabı + takvimi paylaşma (davetsiz)* — **elendi, iki nedenle.** Birincisi 2 Mart 2020'den sonra oluşturulan servis hesapları DWD olmadan etkinliğe davetli ekleyemiyor (`forbiddenForServiceAccounts`). İkincisi ve daha ağırı: davet edilmemiş bir ziyaretçi Meet bağlantısına tıkladığında, Workspace'in varsayılan erişim ayarı (`TRUSTED` veya `RESTRICTED`) yüzünden **kapıda "katılma isteği" ekranında bekler** ve Burak'ın o an manuel onay vermesi gerekir. Bu, otomatik rezervasyonun amacını doğrudan çürütür.
+
+*OAuth + refresh token* — **seçilen yol.** Burak bir kez tarayıcıdan izin verir; sunucu refresh token'ı saklar ve sürekli kullanır. Servis hesabı hiç devreye girmediği için yukarıdaki kısıtların ikisi de yok: etkinlik gerçek kullanıcı adına oluşur, ziyaretçi gerçek davetli olur, Meet bağlantısı sorunsuz üretilir. Yönetici paneli gerekmez.
+
+**Kritik kurulum ayrıntısı — "Internal" kullanıcı tipi.** Google'ın izin ekranı "Testing" modundayken refresh token **7 günde** geçersiz oluyor; bu kurulursa sistem bir hafta sonra sessizce durur. Kaçınmanın yolu, Cloud projesinin OAuth izin ekranında **"Internal"** seçmek. Bu seçenek proje `indoles.com.tr` organizasyonuna bağlıysa görünür ve **proje sahibi tarafından seçilebilir — Workspace yöneticisi olmak gerekmez.** Internal seçildiğinde 7 gün kısıtı, doğrulama zorunluluğu ve "doğrulanmamış uygulama" uyarısı ortadan kalkar; token kalıcı olur.
+
+Proje organizasyona bağlanamıyorsa yedek yol: "External" seçip **Publish App** ile Production'a geçirmek (doğrulama göndermeden). Resmî dokümantasyon 7 gün kısıtını açıkça "Testing" durumuna bağlıyor, ancak ikincil kaynaklar Production-doğrulanmamış durumu net teyit etmiyor — **bu yola gidilirse kurulumdan 8-10 gün sonra token'ın hâlâ çalıştığı fiilen test edilmelidir.**
+
+**Sessiz bozulmaya karşı sağlık kontrolü — zorunlu.** OAuth yolunun gerçek riski yetkinin sessizce ölmesi: token 6 ay kullanılmazsa Google iptal eder, güvenlik olayı sonrası "tüm oturumları kapat" da iptal edebilir. İki önlem birlikte kurulur:
+
+1. **Aylık canlılık işi** (Cloudflare Cron): küçük bir `freeBusy` sorgusu çalıştırır. Hem 6 aylık atıl kalma sayacını sıfırlar hem token'ın geçerliliğini erken doğrular.
+2. **`invalid_grant` yakalama:** Google bu hatayı döndürdüğünde sistem sessiz kalmaz — Burak'a "takvim bağlantısı yeniden yetkilendirme istiyor" maili gider ve rezervasyon arayüzü §4'teki "uygun saat görünmüyor, bize yazın" davranışına düşer.
+
+Bu iki madde spec'in gereği; uygulama planında atlanamaz.
+
+**Tek seferlik yetkilendirme uyarısı:** Yetkilendirme akışı gereksiz yere tekrar tekrar çalıştırılmamalı. Aynı istemci için üretilen refresh token sayısı sınırlı (resmî rakam 100) ve sınır aşılınca eski token'lar sessizce geçersiz olur. Bir kez alınır, `wrangler secret` ile saklanır.
 
 **Kapsamlar** (en dar set — geniş `auth/calendar` gerekmiyor):
 - `https://www.googleapis.com/auth/calendar.events` — etkinlik oluştur/güncelle/sil + Meet üretimi (ayrı bir "Meet kapsamı" yok)
 - `https://www.googleapis.com/auth/calendar.events.freebusy` — yalnız müsaitlik sorgusu
 
-**Workers kısıtı — önemli:** Resmî `googleapis` npm paketi **kullanılmayacak**; Node.js'e bağımlı ve Worker paketini şişirir (boyut sınırında yalnız ~15 KB payımız var — ADR-024). Bunun yerine doğrudan REST çağrısı ve elle imzalanmış JWT: `crypto.subtle` ile RS256 (`RSASSA-PKCS1-v1_5` + SHA-256), servis hesabı JSON'undaki PEM anahtar PKCS8 olarak içe aktarılır. Token `oauth2.googleapis.com/token` adresinden `jwt-bearer` akışıyla alınır. Bu, ek bağımlılık gerektirmeyen ~40 satırlık bir modül.
+Her ikisi de Google'ın **"sensitive"** sınıfında ("restricted" değil). Bu ayrım önemli: Internal kullanıcı tipinde doğrulama gerektirmiyor, External-Production'da ise yalnız bir kereye mahsus "doğrulanmamış uygulama" uyarısı gösteriyor — ziyaretçiler bu uyarıyı hiç görmez, yalnız yetkilendirmeyi yapan kişi görür.
 
-**Sırlar:** Servis hesabı JSON'u repoya **girmez**; `wrangler secret` ile saklanır (ADR-024 sır politikası). Kullanıcı etkileşimi gerektirmez, OAuth yenileme anahtarının sessizce süresi dolma riski yoktur.
+**Workers kısıtı — önemli:** Resmî `googleapis` npm paketi **kullanılmayacak**; Node.js'e bağımlı ve Worker paketini şişirir (boyut sınırında yalnız ~15 KB payımız var — ADR-024). Bunun yerine doğrudan REST çağrısı: saklanan refresh token `oauth2.googleapis.com/token` adresine `grant_type=refresh_token` ile gönderilip kısa ömürlü access token alınır, sonra Calendar uç noktalarına `fetch` ile gidilir. Ek bağımlılık gerektirmeyen küçük bir modül; JWT imzalama gerekmiyor (o yalnız servis hesabı yolunda gerekliydi).
+
+**Sırlar:** OAuth istemci kimliği/parolası ve refresh token repoya **girmez**; `wrangler secret` ile saklanır (ADR-024 sır politikası).
 
 **API davranışı (araştırmayla doğrulandı):**
 
@@ -241,5 +263,5 @@ DWD ile servis hesabı takvim sahibinin kimliğine bürünüyor (`sub` alanı); 
 | ~~Görüşme süresi ve çalışma penceresi~~ | — | ✅ **Karara bağlandı** (2026-08-27): 90 dk · 15 dk tampon · 13:00-20:00 · Pzt-Cmt · ilk gün 31 Ağustos. Ayrıntı §3.1b |
 | ~~En erken rezervasyon mesafesi~~ | — | ✅ **Karara bağlandı:** 24 saat. Ayrıntı §3.1b |
 | ~~Veri saklama süresi (KVKK)~~ | — | ✅ **Hizalandı:** minimizasyon + 90 gün sonra silme. Ayrıntı §2.2b. **`docs/14` güncellenecek** (Cal.com satırları geçersiz) |
-| **Workspace servis hesabı + DWD yetkisi** | Burak | **Açık — uygulama öncesi hazırlık.** Yöntem netleşti (§8): servis hesabı + domain-wide delegation. Adım adım talimat ayrıca verildi. Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
+| **Google OAuth istemcisi + tek seferlik yetkilendirme** | Burak | **Açık — uygulama öncesi hazırlık.** Yöntem netleşti (§8): OAuth + kalıcı refresh token, tercihen "Internal" kullanıcı tipiyle. Yönetici paneli gerekmiyor. Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
 | Günlük üst sınır | — | Gerekmiyor: pencere ve süre zaten günde 4 slotla sınırlıyor |

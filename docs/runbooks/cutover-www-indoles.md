@@ -21,23 +21,22 @@
 
 ---
 
-## Mail riski: Resend'i kurarken kök SPF'e DOKUNMA
+## Mail: DNS'e hiç dokunulmuyor (ADR-026)
 
-İletişim formu Resend üzerinden mail gönderiyor. Resend'i `indoles.com.tr` için kurarken en sık yapılan hata **ikinci bir SPF kaydı eklemek** — bir alan adında yalnız bir SPF TXT kaydı olabilir, ikincisi eklendiğinde **ikisi birden geçersiz olur** ve Veridyen'den giden tüm normal mailler de düşer.
+Mail gönderimi Veridyen'in kendi SMTP sunucusundan yapılıyor. Alan adının SPF, DKIM ve DMARC kaydı **zaten Veridyen'i yetkilendiriyor**, dolayısıyla cutover için **hiçbir mail DNS kaydı eklenmiyor veya değiştirilmiyor.**
 
-Üstüne DMARC `p=quarantine` olduğu için hizalanmayan gönderim doğrudan spam klasörüne gider.
+Bu, planın önceki halindeki en büyük riski ortadan kaldırdı: dış bir gönderici (Resend) eklemek kök SPF kaydına dokunmayı gerektiriyordu ve alan adında tek bir SPF kaydı olabildiği için hatalı bir ekleme Veridyen'den giden normal mailleri de bozardı — üstelik DMARC `p=quarantine` olduğu için sessizce.
 
-**Doğru kurulum — kök kayıtlara dokunmadan.** Resend panelinde domain eklerken "custom return path" / subdomain yöntemi kullanılır. Eklenecek üç kayıt da **yeni**, hiçbiri mevcut kaydı değiştirmiyor:
+| Ne | Değer |
+|---|---|
+| Sunucu | `polo.veridyen.com:587` · STARTTLS · AUTH LOGIN |
+| Kimlik | `noreply@indoles.com.tr` — yalnız gönderim için açılmış ayrı kutu |
+| From | `INDOLES <noreply@indoles.com.tr>` — **sunucu dayatıyor**, değiştirilemez |
+| Reply-To | `digital@indoles.com.tr` — yanıtlar buraya döner |
 
-| Tip | Ad | İçerik |
-|---|---|---|
-| MX | `send.indoles.com.tr` | Resend'in verdiği `feedback-smtp.<bölge>.amazonses.com` (öncelik 10) |
-| TXT | `send.indoles.com.tr` | `v=spf1 include:amazonses.com ~all` |
-| TXT | `resend._domainkey.indoles.com.tr` | Resend panelindeki DKIM anahtarı |
+**Neden From `digital@` değil:** Exim, zarf ve header From'un kimlik doğrulanan kutuya eşit olmasını şart koşuyor. Denendi, `550 Gonderici adres ile header bigisi eslesmeli` ile reddedildi.
 
-Gönderen adresi yine `digital@indoles.com.tr` olabilir: DMARC hizalaması **DKIM üzerinden** sağlanıyor, DKIM kaydı kök alan adında duruyor. Yanıtlar Veridyen kutusuna düşmeye devam eder.
-
-> **Kontrol:** kurulumdan sonra apex TXT'te **hâlâ tek bir `v=spf1` kaydı** olmalı. İkinci bir tane görürsen dur.
+> **Parola ASCII olmak zorunda.** `worker-mailer` kimlik bilgilerini `btoa()` ile kodluyor; `İ ı ş ğ ü ö ç` gibi bir karakter doğrudan `InvalidCharacterError` fırlatıyor ve mail hiç gönderilmiyor. Sunucu UTF-8 parolayı kabul etse bile istemci o noktaya varamıyor.
 
 ---
 
@@ -45,13 +44,13 @@ Gönderen adresi yine `digital@indoles.com.tr` olabilir: DMARC hizalaması **DKI
 
 | # | Ne | Durum | Kim |
 |---|---|---|---|
-| 1 | Resend üretim API anahtarı + domain doğrulaması | Eksik (`.env.local`'de 6 karakterlik değer) | Burak |
-| 2 | Resend DNS kayıtları (yukarıdaki üç satır) | Eksik | Burak / DNS yetkili token |
-| 3 | Turnstile gerçek site + secret anahtarı | Test anahtarı (`1x0000…AA` = her zaman geçer) | Burak |
-| ~~4~~ | ~~GA4 Measurement ID~~ | ✅ `G-236D96V8XL` — `.env.local`'de | — |
-| ~~5~~ | ~~Gönderen/lead adresi kararı~~ | ✅ Gönderen `digital@`; lead `digital@` + `burak@` + kişisel Gmail. Çok alıcı desteği koda eklendi | — |
-| 6 | Worker secret'ları | `wrangler secret list` → boş | Claude (değerler gelince) |
-| 7 | DNS yetkili Cloudflare token | Mevcut token DNS okuyamıyor | Burak |
+| ~~Resend anahtarı + DNS kayıtları~~ | | ✅ **Konu kapandı** — ADR-026 ile Veridyen SMTP'ye geçildi, DNS değişikliği gerekmiyor | — |
+| ~~GA4 Measurement ID~~ | | ✅ `G-236D96V8XL` | — |
+| ~~Gönderen/lead adresi kararı~~ | | ✅ From `noreply@`, Reply-To + lead kutusu `digital@` + `burak@` + kişisel Gmail | — |
+| ~~Turnstile anahtarları~~ | | ✅ Üretim anahtarları `.env.local`'de (`0x` ile başlıyor) | — |
+| 1 | **`noreply@` parolasının ASCII'ye çevrilmesi** | Mevcut parola `İ` ile başlıyor — `worker-mailer` bunu gönderemez | Burak |
+| 2 | Worker secret'ları | `wrangler secret list` → boş | Claude (parola gelince) |
+| 3 | `www` DNS kaydının ekran görüntüsü | Token DNS okuyamıyor; geri dönüş için gerekli | Burak |
 
 **Turnstile site anahtarı ve GA4 kimliği build zamanında koda gömülüyor** (`NEXT_PUBLIC_*`) — sonradan `wrangler secret` eklemek bunları düzeltmiyor; üretim build'i doğru değerlerle alınmalı. Kalan üçü (Resend anahtarı, Turnstile secret, adresler) çalışma zamanında okunuyor, secret olarak geçilebilir.
 
@@ -59,24 +58,7 @@ Gönderen adresi yine `digital@indoles.com.tr` olabilir: DMARC hizalaması **DKI
 
 ---
 
-## Anahtarları nereden alacaksın
-
-### Resend (mail gönderimi)
-
-1. [resend.com](https://resend.com) → `digital@indoles.com.tr` ile hesap aç veya gir
-2. **Domains → Add Domain** → `indoles.com.tr`
-3. **Region: EU (Ireland)** seç — Türkiye'ye en yakın bölge, ayrıca aşağıdaki MX kaydının adını belirliyor
-4. Resend üç DNS kaydı gösterecek. **Ekrandan çıkmadan kontrol et:** ikisi `send.indoles.com.tr` altında (MX + TXT), biri `resend._domainkey.indoles.com.tr` (TXT). Adlar böyleyse kök SPF'e dokunulmuyor demektir, devam et.
-   > Eğer Resend sana **kök alan adı için** bir `v=spf1` TXT kaydı verirse **ekleme.** Zaten bir SPF kaydımız var (Veridyen) ve ikincisi ikisini birden geçersiz kılar. O ekranda "custom return path" / subdomain seçeneğini ara.
-5. Kayıtları Cloudflare DNS'e ekle. **Proxy kapalı (gri bulut)** — MX ve TXT zaten proxy'lenemez
-6. Resend'de **Verify** — birkaç dakika sürer, "Verified" yazmasını bekle
-7. **API Keys → Create API Key**
-   - Name: `indoles-web-production`
-   - Permission: **Sending access** (Full access değil — bu anahtar yalnız mail gönderecek)
-   - Domain: `indoles.com.tr`
-8. Çıkan `re_...` değerini kopyala — **bir daha gösterilmiyor**
-
-Ücretsiz plan ayda 3.000, günde 100 mail. İletişim formu için fazlasıyla yeterli.
+## Anahtarları nereden alacaksın (tamamlandı — kayıt için duruyor)
 
 ### Turnstile (spam koruması)
 
@@ -110,11 +92,11 @@ TURNSTILE_SECRET_KEY=0x4AAA...
 ## Sıra (değerler geldikten sonra)
 
 1. `.env.local`'e gerçek değerler yazılır
-2. Sunucu tarafı sırlar Cloudflare'e taşınır: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `LEAD_INBOX_EMAIL`, `SALES_INBOX_EMAIL`, `RESEND_FROM_EMAIL`, `RESEND_AUTOREPLY_FROM_EMAIL`
+2. Sunucu tarafı sırlar Cloudflare'e taşınır: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `TURNSTILE_SECRET_KEY`, `MAIL_FROM`, `MAIL_REPLY_TO`, `LEAD_INBOX_EMAIL`, `SALES_INBOX_EMAIL`
 3. `wrangler.jsonc`'de `www.indoles.com.tr` custom domain satırı açılır
 4. **Üretim** build + deploy: `pnpm cf:deploy` (preview değil — `NEXT_PUBLIC_APP_STAGE=production`, robots `Allow`)
 5. `scripts/cf-smoke.sh https://www.indoles.com.tr` — 29 kontrol
-6. Elle doğrulama: iletişim formu gerçekten mail gönderiyor mu, Turnstile gerçekten doğruluyor mu, GA4 olay düşüyor mu
+6. Elle doğrulama: iletişim formu gerçekten mail gönderiyor mu (üç alıcıya da), Turnstile gerçekten doğruluyor mu, GA4 olay düşüyor mu
 7. Eski WP URL'lerinden örnek 301 kontrolü (45 yönlendirme haritası)
 8. GSC + Bing'e sitemap gönderimi, IndexNow
 

@@ -1,7 +1,7 @@
 # Rezervasyon Sistemi — Tasarım
 
 > **Tarih:** 2026-08-27 · **Statü:** Onaylı (Burak, üç bölüm ayrı ayrı)
-> **Karar girdileri:** Gerçek rezervasyon (tercih toplama değil) · müsaitlik Google Calendar'dan · launch'ta tek takvim · anında kesinleşme · mail linkiyle iptal/erteleme · Google Meet · **90 dk görüşme, 15 dk tampon, 13:00-20:00, Pzt-Cmt, ilk gün 31 Ağustos 2026**
+> **Karar girdileri:** Gerçek rezervasyon (tercih toplama değil) · müsaitlik Google Calendar'dan (`digital@indoles.com.tr`, Apple Calendar üzerinden beslenir — §2.1b) · anında kesinleşme · mail linkiyle iptal/erteleme · Google Meet · **vaat 1 saat / blok 90 dk, 15 dk tampon, 13:00-20:00, Pzt-Cmt, ilk gün 31 Ağustos 2026**
 > **İlgili:** ADR-010 (DB yok — kapsamı daralıyor), ADR-013 (popup REST geçişi), ADR-024 (Cloudflare Workers), `docs/11-funnel-customer-flows.md`
 > **Çıktı:** Bu belge onaylandıktan sonra uygulama planı yazılır. Plan onaylanmadan kod yazılmaz.
 
@@ -110,7 +110,8 @@ Veri erişimi tek arayüzün arkasında: `createBooking`, `findBookingByToken`, 
 
 | Parametre | Değer |
 |---|---|
-| Görüşme süresi | **90 dakika** |
+| Ziyaretçiye verilen vaat | **1 saat** ("ortalama") — site kopyası TR+EN |
+| Takvimde kapanan blok | **90 dakika** |
 | Görüşmeler arası tampon | **15 dakika** |
 | Günlük pencere | **13:00 – 20:00** (görüşme pencere içinde **bitmeli**) |
 | Açık günler | **Pazartesi – Cumartesi** (Pazar kapalı) |
@@ -127,6 +128,10 @@ Bu parametrelerden üreyen slotlar:
 | 4 | 18:15 – 19:45 |
 
 **Günde 4 slot · haftada 24 slot.** Pencere tam kullanılıyor: dördüncü görüşme 19:45'te bitiyor, 20:00 sınırının 15 dakika altında kalıyor ve gün sonunda artık zaman kalmıyor.
+
+**Vaat 1 saat, blok 90 dakika — bilinçli ve kalıcı (Burak, 2026-08-27).** Site her yerde "1 saatlik keşif görüşmesi" diyor; takvimde 90 dakika kapanıyor. Bu bir tutarsızlık değil, tasarım kararı: ziyaretçi taahhütsüz bir ilk görüşme için makul bir süre görüyor, Burak'ın takvimi ise gerçek ortalamaya (1,5 saat) göre korunuyor. Görüşme uzadığında pay zaten içeride olduğu için sonraki randevu kaymıyor.
+
+> **İleride bu satırı "düzeltmeye" kalkma.** `b6acd4d` site kopyasını 1 saate eşitlerken bu ayrım bir çelişki sanılmıştı; Burak doğruladı: *"1,5 saatlik dilimler doğru ama ortalama 1 saat olacak."* Kopyayı 90 dakikaya çekmek veya bloğu 60 dakikaya indirmek karar değişikliğidir, hata düzeltmesi değil.
 
 Tampon neden var: dört görüşme arasız yapıldığında altı saat kesintisiz konuşma demek olurdu; bir görüşme on dakika uzadığında zincirleme gecikme başlardı. 15 dakikalık aralık hem not almaya yer bırakıyor hem gecikmeyi soğuruyor.
 

@@ -1,7 +1,7 @@
 # Rezervasyon Sistemi — Tasarım
 
 > **Tarih:** 2026-08-27 · **Statü:** Onaylı (Burak, üç bölüm ayrı ayrı)
-> **Karar girdileri:** Gerçek rezervasyon (tercih toplama değil) · müsaitlik Google Calendar'dan · launch'ta tek takvim · anında kesinleşme · mail linkiyle iptal/erteleme · Google Meet
+> **Karar girdileri:** Gerçek rezervasyon (tercih toplama değil) · müsaitlik Google Calendar'dan · launch'ta tek takvim · anında kesinleşme · mail linkiyle iptal/erteleme · Google Meet · **90 dk görüşme, 15 dk tampon, 13:00-20:00, Pzt-Cmt, ilk gün 31 Ağustos 2026**
 > **İlgili:** ADR-010 (DB yok — kapsamı daralıyor), ADR-013 (popup REST geçişi), ADR-024 (Cloudflare Workers), `docs/11-funnel-customer-flows.md`
 > **Çıktı:** Bu belge onaylandıktan sonra uygulama planı yazılır. Plan onaylanmadan kod yazılmaz.
 
@@ -66,6 +66,33 @@ Veri erişimi tek arayüzün arkasında: `createBooking`, `findBookingByToken`, 
 2. Sunucu paralel iki sorgu yapar: Calendar `freeBusy` (dolu aralıklar) ve `listSoldSlots` (bizim sattıklarımız).
 3. Temel çalışma penceresinden (hafta içi, mesai saatleri, tanımlı slot uzunluğu) bu ikisi düşülür.
 4. Sonuç kısa süreli önbelleğe alınır (birkaç dakika). Önbellek **yalnız gösterim içindir** — kesinleşme her zaman veritabanı kısıtından geçer, dolayısıyla bayat listeden seçim yapılsa bile çift rezervasyon oluşmaz.
+
+### 3.1b Slot yapılandırması (Burak kararı, 2026-08-27)
+
+| Parametre | Değer |
+|---|---|
+| Görüşme süresi | **90 dakika** |
+| Görüşmeler arası tampon | **15 dakika** |
+| Günlük pencere | **13:00 – 20:00** (görüşme pencere içinde **bitmeli**) |
+| Açık günler | **Pazartesi – Cumartesi** (Pazar kapalı) |
+| İlk müsait gün | **2026-08-31 Pazartesi** |
+
+Bu parametrelerden üreyen slotlar:
+
+| # | Saat |
+|---|---|
+| 1 | 13:00 – 14:30 |
+| 2 | 14:45 – 16:15 |
+| 3 | 16:30 – 18:00 |
+| 4 | 18:15 – 19:45 |
+
+**Günde 4 slot · haftada 24 slot.** Pencere tam kullanılıyor: dördüncü görüşme 19:45'te bitiyor, 20:00 sınırının 15 dakika altında kalıyor ve gün sonunda artık zaman kalmıyor.
+
+Tampon neden var: dört görüşme arasız yapıldığında altı saat kesintisiz konuşma demek olurdu; bir görüşme on dakika uzadığında zincirleme gecikme başlardı. 15 dakikalık aralık hem not almaya yer bırakıyor hem gecikmeyi soğuruyor.
+
+**Bu değerler koda gömülmez**, tek bir yapılandırma dosyasında durur (süre, tampon, pencere, açık günler, ilk müsait gün). Değişmesi kod değişikliği değil, değer değişikliği olmalı — özellikle çoklu danışmana geçilirse her danışmanın kendi penceresi olacak.
+
+**Cumartesi notu:** Bugünkü `CalendarPicker` hafta sonunu kapalı gösteriyor; Cumartesi'yi açmak o bileşende bir kural değişikliği gerektiriyor. Pazar kapalı kalıyor.
 
 ### 3.2 Rezervasyon
 
@@ -145,6 +172,7 @@ Bunun yanında:
 - Zaman dilimi dönüşümü yaz saati geçişinde kaymıyor mu
 - İptal edilen slot yeniden satılabiliyor mu (kısmi indeks doğrulaması)
 - Aktif randevusu olan e-posta ikinci kez rezervasyon yapamıyor mu
+- Slot üretimi doğru mu: 13:00/14:45/16:30/18:15 üretiliyor, dördüncüden sonrası pencereyi aştığı için üretilmiyor, Pazar hiç slot vermiyor
 
 Calendar API testlerde taklit edilir — gerçek takvime test randevusu düşmemeli.
 
@@ -164,9 +192,10 @@ Google Workspace **servis hesabı**, yalnız ilgili takvime yetkili. Anahtar `wr
 
 ## 10. Açık girdiler
 
-| Girdi | Sahip | Ne için |
+| Girdi | Sahip | Durum |
 |---|---|---|
-| Görüşme süresi (30 dk varsayımı) ve çalışma penceresi (hafta içi/saat aralığı) | Burak | Slot üretimi |
-| En erken rezervasyon mesafesi (ör. 24 saat sonrası) ve günlük üst sınır olacak mı | Burak | Hazırlıksız yakalanmayı ve takvim işgalini sınırlar |
-| Workspace servis hesabı oluşturma ve takvim yetkisi | Burak | Uygulama öncesi hazırlık |
-| Veri saklama süresi (KVKK — randevu kaydı ne kadar tutulacak) | Burak | `docs/14` ile hizalanmalı |
+| ~~Görüşme süresi ve çalışma penceresi~~ | — | ✅ **Karara bağlandı** (2026-08-27): 90 dk · 15 dk tampon · 13:00-20:00 · Pzt-Cmt · ilk gün 31 Ağustos. Ayrıntı §3.1b |
+| **En erken rezervasyon mesafesi** | Burak | **Açık.** "31 Ağustos'tan itibaren" bir başlangıç tarihi; ayrıca sürekli bir kural gerekiyor: bugün saat 14:00'te giren biri bugün 16:30'a randevu alabilmeli mi, yoksa en az 24 saat sonrası mı? Hazırlıksız yakalanmayı bu belirler |
+| **Veri saklama süresi (KVKK)** | Burak | **Açık.** Randevu kaydı görüşmeden sonra ne kadar tutulacak; `docs/14` ile hizalanmalı |
+| **Workspace servis hesabı + takvim yetkisi** | Burak | **Açık — uygulama öncesi hazırlık.** Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
+| Günlük üst sınır | — | Gerekmiyor: pencere ve süre zaten günde 4 slotla sınırlıyor |

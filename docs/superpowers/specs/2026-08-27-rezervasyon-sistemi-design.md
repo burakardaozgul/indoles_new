@@ -44,13 +44,31 @@ Tek tablo — `bookings`:
 | `starts_at_utc` | metin (ISO) | **UTC** |
 | `ends_at_utc` | metin (ISO) | UTC |
 | `visitor_timezone` | metin | ziyaretçinin seçim anındaki dilimi |
-| `name`, `email`, `phone`, `company`, `role` | metin | `LeadFieldsForm` alanları |
-| `persona`, `problems` | metin / JSON | popup bağlamı (3 problem) |
-| `locale` | metin | tr / en |
+| `name` | metin | Calendar etkinlik başlığı ve mail hitabı için gerekli |
+| `email` | metin | İptal linki doğrulaması ve "aktif randevusu var mı" kontrolü için gerekli |
+| `locale` | metin | tr / en — mailin dili |
 | `status` | metin | `confirmed` · `cancelled` · `failed` |
 | `created_at`, `updated_at` | metin | ISO |
 
 **Çakışma kilidi:** `(consultant_id, starts_at_utc)` üzerinde **benzersizlik kısıtı**, yalnız `status = 'confirmed'` satırlar için geçerli olacak biçimde (kısmi indeks). İki eşzamanlı istekten ikincisi veritabanı seviyesinde reddedilir; uygulama kodunda kilit alınmaz, "önce kontrol et sonra yaz" gibi yarışa açık bir desen kurulmaz. İptal edilen bir slot yeniden satılabilir olmalı — kısmi indeks bunu sağlar.
+
+### 2.2b Veri minimizasyonu ve saklama (KVKK — `docs/14` hizalaması)
+
+`docs/14` veri minimizasyonunu "mimari DB-less olduğu için tasarım gereği sağlanır" diye gerekçelendiriyor. Rezervasyon veritabanı bu dayanağı ortadan kaldırıyor, dolayısıyla minimizasyon **artık bilinçli bir tasarım kararı olmak zorunda**. Kural şu: veritabanına yalnız randevunun *işlemesi için zorunlu* olan veri yazılır.
+
+| Veri | Nerede | Neden |
+|---|---|---|
+| Ad, e-posta | **Veritabanı** + mail | Ad Calendar etkinliğinde ve mail hitabında; e-posta iptal doğrulaması ve çift rezervasyon kontrolünde zorunlu |
+| Telefon, şirket, unvan | **Yalnız mail** (+ Calendar etkinlik açıklaması) | Randevunun işlemesi için gerekli değil. Burak'a bildirim mailinde ve takvim etkinliğinin açıklamasında görünür — toplantıya girerken bağlam elinde olur |
+| Persona, üç problem | **Yalnız mail** (+ Calendar etkinlik açıklaması) | Aynı gerekçe. Satış bağlamı, sistem verisi değil |
+
+Bu ayrım popup akışını değiştirmiyor — form aynı alanları topluyor, yalnız hepsi veritabanına yazılmıyor.
+
+**Saklama süresi: görüşme tarihinden 90 gün sonra satır tamamen silinir.** Gerekçe: işleme amacı (görüşmeyi gerçekleştirmek) tamamlandıktan sonra kaydın tutulmasını gerektiren tek şey teklif/takip süreci; 90 gün bunu karşılar. Lead bilgisi zaten Resend mail arşivinde yaşıyor ve `docs/14` §2.1'e göre silme talepleri orada karşılanıyor — veritabanı ikinci bir kalıcı kopya oluşturmamalı.
+
+Silme, Cloudflare Cron Trigger ile günlük çalışan bir temizlik işiyle yapılır. `docs/14` §4'teki silme prosedürüne bir adım eklenir: talep sahibinin aktif randevusu varsa o kayıt da silinir.
+
+**`docs/14` güncellenmeli** (bu spec onaylandığında): §1 tablosundaki "Rezervasyon verisi | Cal.com Cloud" satırı ve §2.3 "Cal.com" bölümü geçersiz hale geliyor.
 
 ### 2.3 Taşınabilirlik
 
@@ -75,7 +93,8 @@ Veri erişimi tek arayüzün arkasında: `createBooking`, `findBookingByToken`, 
 | Görüşmeler arası tampon | **15 dakika** |
 | Günlük pencere | **13:00 – 20:00** (görüşme pencere içinde **bitmeli**) |
 | Açık günler | **Pazartesi – Cumartesi** (Pazar kapalı) |
-| İlk müsait gün | **2026-08-31 Pazartesi** |
+| İlk müsait gün | **2026-08-31 Pazartesi** (tek seferlik başlangıç) |
+| En erken rezervasyon | **24 saat sonrası** (sürekli kural) |
 
 Bu parametrelerden üreyen slotlar:
 
@@ -91,6 +110,8 @@ Bu parametrelerden üreyen slotlar:
 Tampon neden var: dört görüşme arasız yapıldığında altı saat kesintisiz konuşma demek olurdu; bir görüşme on dakika uzadığında zincirleme gecikme başlardı. 15 dakikalık aralık hem not almaya yer bırakıyor hem gecikmeyi soğuruyor.
 
 **Bu değerler koda gömülmez**, tek bir yapılandırma dosyasında durur (süre, tampon, pencere, açık günler, ilk müsait gün). Değişmesi kod değişikliği değil, değer değişikliği olmalı — özellikle çoklu danışmana geçilirse her danışmanın kendi penceresi olacak.
+
+**24 saat kuralı.** "31 Ağustos'tan itibaren" tek seferlik bir başlangıç; asıl kural sürekli işleyen şu: **bir slot, başlangıcına 24 saatten az kaldıysa gösterilmez.** Bugün 14:00'te giren biri en erken yarın 14:00'ten sonraki slotları görür. Hazırlıksız yakalanmayı önler ve son dakika iptallerini azaltır. Kural hem istemcide (slot listesi) hem sunucuda (rezervasyon anı) uygulanır — istemci tek başına koruma değildir.
 
 **Cumartesi notu:** Bugünkü `CalendarPicker` hafta sonunu kapalı gösteriyor; Cumartesi'yi açmak o bileşende bir kural değişikliği gerektiriyor. Pazar kapalı kalıyor.
 
@@ -173,6 +194,8 @@ Bunun yanında:
 - İptal edilen slot yeniden satılabiliyor mu (kısmi indeks doğrulaması)
 - Aktif randevusu olan e-posta ikinci kez rezervasyon yapamıyor mu
 - Slot üretimi doğru mu: 13:00/14:45/16:30/18:15 üretiliyor, dördüncüden sonrası pencereyi aştığı için üretilmiyor, Pazar hiç slot vermiyor
+- 24 saat kuralı hem listede hem sunucuda uygulanıyor mu (istemci atlatılırsa sunucu reddetmeli)
+- Veritabanına telefon/şirket/unvan/persona/problem **yazılmıyor** mu — minimizasyon regresyonu
 
 Calendar API testlerde taklit edilir — gerçek takvime test randevusu düşmemeli.
 
@@ -195,7 +218,7 @@ Google Workspace **servis hesabı**, yalnız ilgili takvime yetkili. Anahtar `wr
 | Girdi | Sahip | Durum |
 |---|---|---|
 | ~~Görüşme süresi ve çalışma penceresi~~ | — | ✅ **Karara bağlandı** (2026-08-27): 90 dk · 15 dk tampon · 13:00-20:00 · Pzt-Cmt · ilk gün 31 Ağustos. Ayrıntı §3.1b |
-| **En erken rezervasyon mesafesi** | Burak | **Açık.** "31 Ağustos'tan itibaren" bir başlangıç tarihi; ayrıca sürekli bir kural gerekiyor: bugün saat 14:00'te giren biri bugün 16:30'a randevu alabilmeli mi, yoksa en az 24 saat sonrası mı? Hazırlıksız yakalanmayı bu belirler |
-| **Veri saklama süresi (KVKK)** | Burak | **Açık.** Randevu kaydı görüşmeden sonra ne kadar tutulacak; `docs/14` ile hizalanmalı |
+| ~~En erken rezervasyon mesafesi~~ | — | ✅ **Karara bağlandı:** 24 saat. Ayrıntı §3.1b |
+| ~~Veri saklama süresi (KVKK)~~ | — | ✅ **Hizalandı:** minimizasyon + 90 gün sonra silme. Ayrıntı §2.2b. **`docs/14` güncellenecek** (Cal.com satırları geçersiz) |
 | **Workspace servis hesabı + takvim yetkisi** | Burak | **Açık — uygulama öncesi hazırlık.** Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
 | Günlük üst sınır | — | Gerekmiyor: pencere ve süre zaten günde 4 slotla sınırlıyor |

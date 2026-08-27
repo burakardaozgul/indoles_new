@@ -48,14 +48,62 @@ Gönderen adresi yine `digital@indoles.com.tr` olabilir: DMARC hizalaması **DKI
 | 1 | Resend üretim API anahtarı + domain doğrulaması | Eksik (`.env.local`'de 6 karakterlik değer) | Burak |
 | 2 | Resend DNS kayıtları (yukarıdaki üç satır) | Eksik | Burak / DNS yetkili token |
 | 3 | Turnstile gerçek site + secret anahtarı | Test anahtarı (`1x0000…AA` = her zaman geçer) | Burak |
-| 4 | GA4 Measurement ID | Eksik | Burak |
-| 5 | Gönderen/lead adresi kararı | Karışık: `hello@` vs `digital@`, lead `burak@` | Burak |
+| ~~4~~ | ~~GA4 Measurement ID~~ | ✅ `G-236D96V8XL` — `.env.local`'de | — |
+| ~~5~~ | ~~Gönderen/lead adresi kararı~~ | ✅ Gönderen `digital@`; lead `digital@` + `burak@` + kişisel Gmail. Çok alıcı desteği koda eklendi | — |
 | 6 | Worker secret'ları | `wrangler secret list` → boş | Claude (değerler gelince) |
 | 7 | DNS yetkili Cloudflare token | Mevcut token DNS okuyamıyor | Burak |
 
 **3 ve 4 build zamanında koda gömülüyor** — sonradan secret eklemek düzeltmiyor, üretim build'i bu değerlerle alınmalı.
 
 **1 numaralı GSC doğrulaması gerekmiyor:** apex TXT'te zaten var.
+
+---
+
+## Anahtarları nereden alacaksın
+
+### Resend (mail gönderimi)
+
+1. [resend.com](https://resend.com) → `digital@indoles.com.tr` ile hesap aç veya gir
+2. **Domains → Add Domain** → `indoles.com.tr`
+3. **Region: EU (Ireland)** seç — Türkiye'ye en yakın bölge, ayrıca aşağıdaki MX kaydının adını belirliyor
+4. Resend üç DNS kaydı gösterecek. **Ekrandan çıkmadan kontrol et:** ikisi `send.indoles.com.tr` altında (MX + TXT), biri `resend._domainkey.indoles.com.tr` (TXT). Adlar böyleyse kök SPF'e dokunulmuyor demektir, devam et.
+   > Eğer Resend sana **kök alan adı için** bir `v=spf1` TXT kaydı verirse **ekleme.** Zaten bir SPF kaydımız var (Veridyen) ve ikincisi ikisini birden geçersiz kılar. O ekranda "custom return path" / subdomain seçeneğini ara.
+5. Kayıtları Cloudflare DNS'e ekle. **Proxy kapalı (gri bulut)** — MX ve TXT zaten proxy'lenemez
+6. Resend'de **Verify** — birkaç dakika sürer, "Verified" yazmasını bekle
+7. **API Keys → Create API Key**
+   - Name: `indoles-web-production`
+   - Permission: **Sending access** (Full access değil — bu anahtar yalnız mail gönderecek)
+   - Domain: `indoles.com.tr`
+8. Çıkan `re_...` değerini kopyala — **bir daha gösterilmiyor**
+
+Ücretsiz plan ayda 3.000, günde 100 mail. İletişim formu için fazlasıyla yeterli.
+
+### Turnstile (spam koruması)
+
+1. [dash.cloudflare.com](https://dash.cloudflare.com) → sol menü **Turnstile** → **Add widget**
+2. Widget name: `indoles-web`
+3. **Hostnames** — üçünü de ekle, eksik olan hostta doğrulama sessizce başarısız olur:
+   - `www.indoles.com.tr`
+   - `preview.indoles.com.tr`
+   - `localhost`
+4. Widget Mode: **Managed** (Cloudflare'in önerdiği varsayılan; yalnız şüpheli trafikte kutucuk gösterir)
+5. **Create** → iki değer çıkar:
+   - **Site Key** → `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (gizli değil, sayfa kaynağında görünür)
+   - **Secret Key** → `TURNSTILE_SECRET_KEY` (gizli, yalnız sunucuda)
+
+> Not: `CLAUDE.md` Turnstile'ı "Invisible" diye kaydediyor. Form görünür bir kapsayıcıyla render ediyor ve token gelene kadar gönder düğmesini kilitliyor — iki mod da çalışır. Managed daha güçlü koruma verdiği için önerilen o; Invisible tercih edilirse `CLAUDE.md` satırı zaten doğru kalır.
+
+### Değerleri nereye koyacaksın
+
+Üçünü `.env.local`'e ekle, bana göndermene gerek yok:
+
+```
+RESEND_API_KEY=re_...
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=0x4AAA...
+TURNSTILE_SECRET_KEY=0x4AAA...
+```
+
+"Bitti" demen yeterli; sırları Cloudflare'e taşımak ve üretim build'ini almak bende.
 
 ---
 

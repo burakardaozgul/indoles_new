@@ -19,6 +19,7 @@ import { writePopupCookie, computeExpiresAt } from "../../../lib/popup/cookie";
 import { setPersonaSlug } from "@/lib/hooks/use-persona";
 import { trackPopupEvent } from "../../../lib/popup/analytics";
 import { submitVisitorProfile } from "../../../lib/popup/api";
+import { track } from "@/lib/analytics/ga";
 
 export type EntryPopupProps = {
   open: boolean;
@@ -198,6 +199,22 @@ export function EntryPopup({
     if (!result.ok) {
       return;
     }
+
+    /**
+     * `brief_submitted` — huninin en değerli anı. Tek çağrı noktası burada:
+     * `handleSubmitForm` yalnız kullanıcının submit tıklamasıyla (ve
+     * `isSubmitting`/`disabled` guard'ı geçtikten sonra) bir kez çalışır.
+     * Olayı `SuccessState`in render'ına bağlamadık — bileşenin
+     * mount/re-mount'unda (StrictMode dahil) tetiklenip çift gönderime yol
+     * açardı; burada olay zaten "tam olarak bir başarılı submit" ile
+     * bire bir eşleşiyor.
+     *
+     * `briefId`: sunucu tarafında kalıcı DB yok (ADR-010), bu yüzden
+     * sunucudan dönen bir kimlik yok. Bu popup oturumunu zaten benzersiz
+     * biçimde etiketleyen `sessionId()`i (aşağıda tanımlı, aynı çağrı
+     * sözleşmesiyle) yeniden kullanıyoruz.
+     */
+    track({ name: "brief_submitted", properties: { briefId: sessionId() } });
 
     trackPopupEvent(type === "booking" ? "popup_booking_submitted" : "popup_contact_submitted", {
       persona,

@@ -50,7 +50,6 @@ export function truncateParam(value: string): string {
  * `AnalyticsEvent["name"]` ile bağı derleyici kontrol eder (aşağıda).
  */
 export const EVENT_NAMES = [
-  "homepage_hero_viewed",
   "persona_axis_clicked",
   "pillar_viewed",
   "service_viewed",
@@ -63,8 +62,11 @@ export const EVENT_NAMES = [
 
 export type EventName = (typeof EVENT_NAMES)[number];
 
+// `homepage_hero_viewed` 2026-08-27'de taksonomiden çıkarıldı (Burak kararı):
+// hiçbir yerden çağrılmıyordu ve ana sayfa görüntülemesi GA4'ün kendi
+// `page_view`'ıyla zaten ölçülüyor — ayrı bir hero olayı yeni bilgi üretmiyordu.
+// Hero'nun viewport'a girme anı ölçülmek istenirse olay yeniden tanımlanır.
 export type AnalyticsEvent =
-  | { name: "homepage_hero_viewed"; properties: { persona: Persona } }
   | {
       name: "persona_axis_clicked";
       properties: { axis: "industrial" | "commerce" };
@@ -105,12 +107,23 @@ export type AnalyticsEvent =
     }
   | { name: "booking_cta_clicked"; properties: { source: BookingCtaSource; pillar?: Pillar } }
   | {
+      /**
+       * Huninin en değerli anı: entry popup'ın booking/contact akışı
+       * başarıyla gönderildiğinde `EntryPopup.handleSubmitForm` yazar.
+       *
+       * `budget`/`timeline` isteğe bağlı: docs/12 §2.0'ın kendi notu bu
+       * alanların ait olduğu ayrı bir "brief wizard"ın (adım adım, bütçe ve
+       * zamanlama soran) hiç var olmadığını söylüyor — launch kapsamındaki
+       * tek lead formu (`LeadFieldsForm`) bu soruları sormuyor. Zorunlu
+       * bırakıp uydurma bir değer basmak GA4'ü kirletirdi; alan ileride
+       * gerçek bir brief akışı kurulursa doldurulmak üzere tipte durur.
+       */
       name: "brief_submitted";
       properties: {
         briefId: string;
         pillar?: Pillar;
-        budget: Budget;
-        timeline: Timeline;
+        budget?: Budget;
+        timeline?: Timeline;
       };
     };
 

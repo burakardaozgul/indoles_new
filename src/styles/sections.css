@@ -750,9 +750,12 @@
    Industries — bento
    ============================================================================ */
 
+/* minmax(0, 1fr): düz `1fr`de track, item'ın min-content'inden küçülemez —
+   ikon + sarmayan etiket dar viewport'ta sütunu şişirip belgeyi yatay
+   kaydırılabilir yapıyordu (390px'te TR 451px, EN 502px belge). */
 .ind-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--color-ink-200);
   border-left: 1px solid var(--color-ink-200);
 }
@@ -770,7 +773,7 @@
 .ind-item:hover { background: var(--color-teal-50); }
 .ind-item:hover .ind-arrow { transform: translate(3px, -3px); color: var(--color-teal-700); }
 .ind-arrow { color: var(--color-ink-300); transition: all 0.4s var(--ease-out); }
-@media (max-width: 900px) { .ind-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .ind-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ============================================================================
    Kadro — alıntı tipografisi + kart avatarı

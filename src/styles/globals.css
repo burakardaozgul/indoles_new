@@ -141,6 +141,12 @@
     background: var(--color-bg);
     color: var(--color-ink-800);
     scroll-behavior: smooth;
+    /* Koruma katmanı: body'deki `overflow-x: hidden` iOS Safari'de belgenin
+       yatay kaydırılmasını engellemiyor (WebKit, kök taşmasını yine de
+       kaydırtır). `clip` scroll mekanizması yaratmadan keser, sticky'yi
+       bozmaz. Taşmanın kaynağı ayrıca düzeltilir; bu satır tek bir taşan
+       elemanın tüm sayfayı sağa-sola kaydırmasını kalıcı olarak kapatır. */
+    overflow-x: clip;
   }
 
   body {

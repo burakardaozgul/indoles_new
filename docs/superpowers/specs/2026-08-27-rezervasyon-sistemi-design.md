@@ -23,12 +23,31 @@ Cal.com bu tablonun çözümü değildi ve zaten büyük ölçüde sökülmüş 
 
 | Katman | Sorumluluk | Neden burada |
 |---|---|---|
-| **Google Calendar** (`digital@indoles.com.tr`) | Müsaitliğin **tek kaynağı**; etkinlik ve Meet bağlantısının üretildiği yer | Burak takvimini zaten orada yönetiyor. Elle bir toplantı koyduğunda o saat siteye de kapanmalı — çift kayıt tutulmamalı. Meet bağlantısı ancak Calendar etkinliğiyle üretilebiliyor |
+| **Google Calendar** (`digital@indoles.com.tr` + paylaşılan kimlikler — §2.1b) | Müsaitliğin **tek kaynağı**; etkinlik ve Meet bağlantısının üretildiği yer | Burak takvimini zaten orada yönetiyor. Elle bir toplantı koyduğunda o saat siteye de kapanmalı — çift kayıt tutulmamalı. Meet bağlantısı ancak Calendar etkinliğiyle üretilebiliyor |
 | **Kendi veritabanımız (D1)** | "Bu slotu biz sattık mı" sorusu + iptal anahtarı + asgari kimlik (ad, e-posta) | Eşzamanlılık garantisi. Calendar API aynı saate iki etkinlik oluşturmayı engellemiyor; anında kesinleşen bir sistemde bu kabul edilemez. **Lead bağlamı burada tutulmaz** — §2.2b |
 | **Mevcut mail katmanı** | Onay, bildirim, iptal/erteleme mailleri | `src/lib/mail/client.ts` + `emails/*.tsx` zaten çalışıyor, üç deneme + backoff var |
 | **Mevcut popup arayüzü** | Slot seçimi, form, başarı ekranı | Değişmiyor — yalnız `CalendarPicker` verisini sunucudan alacak |
 
-> **⚠ AÇIK — çözülmeden uygulamaya geçilmez (2026-08-27).** Bu satırın gerekçesi "Burak takvimini zaten orada yönetiyor" varsayımına dayanıyordu; **varsayım yanlış çıktı.** Burak günlük olarak Apple Calendar (iCloud) ve `b.a.ozgul@gmail.com` kullanıyor. Ölçüm: 2026-08-27 – 09-17 aralığında `digital@indoles.com.tr`, `b.a.ozgul@gmail.com` ve "iPhone" takvimlerinin **üçü de boş**; gerçek meşguliyet iCloud'da ve Google API'sinin görüş alanı dışında. Bugünkü haliyle sistem her slotu müsait sanıp satardı — tasarımın çözmek için var olduğu hatanın aynısı. Kaynak kararı verilmeden §3.1 uygulanamaz.
+### 2.1b Müsaitliğin gerçek kaynağı (varsayım çürüdü ve düzeltildi, 2026-08-27)
+
+§2.1'in ilk gerekçesi "Burak takvimini zaten Google'da yönetiyor" varsayımına dayanıyordu. **Varsayım yanlıştı.** Burak'ın ana takvimi **Apple Calendar (iCloud)**; `digital@indoles.com.tr` üzerinde hiç meşguliyeti olmuyor. Ölçüldü: 2026-08-27 – 09-17 aralığında `digital@indoles.com.tr`, `b.a.ozgul@gmail.com` ve "iPhone" takvimlerinin **üçü de boş**. Bu haliyle `freeBusy` her zaman "müsait" döner ve sistem, Burak toplantıdayken o saati satardı — tasarımın çözmek için var olduğu hatanın aynısı.
+
+**Karar (Burak): `digital@indoles.com.tr` Apple Calendar'a bir hesap olarak eklenir ve varsayılan takvim yapılır.** Burak uygulama değiştirmiyor; kullandığı takvim uygulamasının içine iş takvimi giriyor.
+
+| Yön | Davranış |
+|---|---|
+| Burak etkinlik oluşturur → sistem görür | **Anında.** Apple Calendar kaydederken Google'a yazar; sonraki `freeBusy` o saati dolu görür |
+| Sistem rezervasyon oluşturur → Burak görür | Apple Calendar Google'ı periyodik çeker (~15 dk). Gecikme önemsiz: **bildirim maili anında gidiyor** |
+| Gizlilik | `freeBusy` yalnız dolu/boş aralık döndürür. Etkinlik başlıkları, katılımcılar ve açıklamalar sisteme **hiç gelmez** |
+
+**Kalan risk ve karşılığı.** iCloud'da bırakılan bir etkinlik bloklamaz. İki ucuz önlem:
+
+1. **Varsayılan takvim `digital@` yapılır** — Burak ayrıca düşünmeden oluşturduğu her etkinlik doğru yere düşer. Asıl güvence bu.
+2. `b.a.ozgul@gmail.com` takvimi `digital@`'a **"yalnız müsaitlik (ayrıntıları gizle)"** düzeyinde paylaşılır ve `freeBusy` sorgusuna ikinci kimlik olarak eklenir. Oraya düşen bir şey olursa o da bloklar; ayrıntı yine sızmaz.
+
+Yani `freeBusy` çağrısı tek kimlikle değil, **kimlik listesiyle** yapılır — uygulama bunu bugünden çoklu takvimi destekleyecek şekilde kurar (`consultant_id` alanının çoklu danışman için baştan var olmasıyla aynı gerekçe).
+
+**Bu kurulum uygulamanın önkoşuludur.** Hesap eklenmeden ve varsayılan takvim ayarlanmadan §3.1 doğru çalışmaz.
 
 **Veritabanı müsaitlik bilmiyor.** Bu ayrım bilinçli: iki kaynak arasında senkron tutma yükü doğmasın diye. Müsaitlik sorusu her zaman Calendar'a, "sattık mı" sorusu her zaman bize.
 
@@ -83,7 +102,7 @@ Veri erişimi tek arayüzün arkasında: `createBooking`, `findBookingByToken`, 
 ### 3.1 Müsaitlik listesi
 
 1. İstemci takvimi açar, sunucudan dört haftalık müsaitlik ister.
-2. Sunucu paralel iki sorgu yapar: Calendar `freeBusy` (dolu aralıklar) ve `listSoldSlots` (bizim sattıklarımız).
+2. Sunucu paralel iki sorgu yapar: Calendar `freeBusy` (**yapılandırılmış takvim kimliği listesi** için dolu aralıklar — §2.1b) ve `listSoldSlots` (bizim sattıklarımız).
 3. Temel çalışma penceresinden (§3.1b'deki gün, saat ve slot tanımı) bu ikisi düşülür.
 4. Sonuç kısa süreli önbelleğe alınır (birkaç dakika). Önbellek **yalnız gösterim içindir** — kesinleşme her zaman veritabanı kısıtından geçer, dolayısıyla bayat listeden seçim yapılsa bile çift rezervasyon oluşmaz.
 
@@ -290,6 +309,7 @@ Her ikisi de Google'ın **"sensitive"** sınıfında ("restricted" değil). Ayr�
 | ~~En erken rezervasyon mesafesi~~ | — | ✅ **Karara bağlandı:** 24 saat. Ayrıntı §3.1b |
 | ~~Veri saklama süresi (KVKK)~~ | — | ✅ **Hizalandı:** minimizasyon + 90 gün sonra silme. Ayrıntı §2.2b. **`docs/14` güncellenecek** (Cal.com satırları geçersiz) |
 | ~~Google OAuth istemcisi + tek seferlik yetkilendirme~~ | — | ✅ **Tamamlandı 2026-08-27.** External + Publish App yolu kuruldu, yetkilendirme `digital@indoles.com.tr` ile verildi, `freeBusy` doğrulandı. Kurulum kaydı §8b |
+| **Apple Calendar'a `digital@` hesabının eklenmesi** | Burak | **Açık — uygulamanın önkoşulu.** Varsayılan takvim `digital@` yapılacak; ayrıca kişisel Gmail takvimi "yalnız müsaitlik" düzeyinde paylaşılacak. Yapılmazsa müsaitlik boş görünür ve dolu saatler satılır. Ayrıntı §2.1b |
 | **Cloud projesinin kuruma devri** | Burak | **Açık — launch öncesi.** İstemci bugün kişisel Gmail projesinde; iş-kritik yetki kişisel hesaba bağlı kalmamalı. Ayrıntı §8b |
 | **Yetkilendirmenin 10. gün testi** | Burak + plan | **Açık — 2026-09-06 civarı.** External-yayında yolunun 7 gün kısıtından muaf olduğu fiilen doğrulanacak (§8). Uygulama planında adı konmuş görev |
 | Günlük üst sınır | — | Gerekmiyor: pencere ve süre zaten günde 4 slotla sınırlıyor |

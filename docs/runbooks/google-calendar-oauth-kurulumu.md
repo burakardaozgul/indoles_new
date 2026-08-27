@@ -8,6 +8,26 @@ Bu belgenin sonunda elinde üç değer olacak: **client ID**, **client secret**,
 
 ---
 
+## Durum: kurulum tamamlandı (2026-08-27)
+
+Bu prosedür bir kez uygulandı ve doğrulandı. Belge yeniden yetkilendirme gerekirse diye duruyor.
+
+| Ne | Değer |
+|---|---|
+| **Rezervasyon takvimi** | `digital@indoles.com.tr` · rol `owner` · `Europe/Istanbul` |
+| Cloud projesi sahibi | `b.a.ozgul@gmail.com` (kişisel — **launch öncesi kuruma devredilecek**, spec §8b) |
+| Yayın durumu | `In production` |
+| Kayıtlı redirect URI'lar | `http://localhost` · `http://localhost:8765` |
+| Verilen kapsamlar | `calendar.events` + `calendar.events.freebusy` |
+| Sırlar | `.env.local` — `GOOGLE_OAUTH_CLIENT_ID`, `_CLIENT_SECRET`, `_REFRESH_TOKEN`, `GOOGLE_CALENDAR_ID` |
+| **10. gün testi** | **2026-09-06 civarı** — aşağıdaki bölüm |
+
+**Takvim kimliği `primary` değil, açık yazıldı.** `primary` "token hangi hesaba aitse onun takvimi" demek; yetki bir gün yanlış hesapla verilirse sessizce yanlış takvime yazardı. Açık kimlik aynı durumda `notFound` ile düşer.
+
+**Yeniden yetkilendirme gerekirse elle uğraşma:** `gcal-auth.py` aracı yerel dinleyiciyi açar, izin sayfasını açar, kodu yakalar, token'a çevirir ve `.env.local`'e yazar — hiçbir sırrı ekrana basmadan. Aşağıdaki elle prosedür aracın yaptığı işin adım adım karşılığıdır.
+
+---
+
 ## Önce şunu oku — sırayı bozarsan sistem bir hafta sonra durur
 
 Google'ın 7 günlük refresh token kısıtı **token'a değil, izni verdiğin andaki uygulama durumuna** yazılıyor. Resmî ifade: *"Authorizations by a test user will expire seven days from the time of consent."*

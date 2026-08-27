@@ -23,10 +23,12 @@ Cal.com bu tablonun çözümü değildi ve zaten büyük ölçüde sökülmüş 
 
 | Katman | Sorumluluk | Neden burada |
 |---|---|---|
-| **Google Calendar** | Müsaitliğin **tek kaynağı**; etkinlik ve Meet bağlantısının üretildiği yer | Burak takvimini zaten orada yönetiyor. Elle bir toplantı koyduğunda o saat siteye de kapanmalı — çift kayıt tutulmamalı. Meet bağlantısı ancak Calendar etkinliğiyle üretilebiliyor |
+| **Google Calendar** (`digital@indoles.com.tr`) | Müsaitliğin **tek kaynağı**; etkinlik ve Meet bağlantısının üretildiği yer | Burak takvimini zaten orada yönetiyor. Elle bir toplantı koyduğunda o saat siteye de kapanmalı — çift kayıt tutulmamalı. Meet bağlantısı ancak Calendar etkinliğiyle üretilebiliyor |
 | **Kendi veritabanımız (D1)** | "Bu slotu biz sattık mı" sorusu + iptal anahtarı + asgari kimlik (ad, e-posta) | Eşzamanlılık garantisi. Calendar API aynı saate iki etkinlik oluşturmayı engellemiyor; anında kesinleşen bir sistemde bu kabul edilemez. **Lead bağlamı burada tutulmaz** — §2.2b |
 | **Mevcut mail katmanı** | Onay, bildirim, iptal/erteleme mailleri | `src/lib/mail/client.ts` + `emails/*.tsx` zaten çalışıyor, üç deneme + backoff var |
 | **Mevcut popup arayüzü** | Slot seçimi, form, başarı ekranı | Değişmiyor — yalnız `CalendarPicker` verisini sunucudan alacak |
+
+> **⚠ AÇIK — çözülmeden uygulamaya geçilmez (2026-08-27).** Bu satırın gerekçesi "Burak takvimini zaten orada yönetiyor" varsayımına dayanıyordu; **varsayım yanlış çıktı.** Burak günlük olarak Apple Calendar (iCloud) ve `b.a.ozgul@gmail.com` kullanıyor. Ölçüm: 2026-08-27 – 09-17 aralığında `digital@indoles.com.tr`, `b.a.ozgul@gmail.com` ve "iPhone" takvimlerinin **üçü de boş**; gerçek meşguliyet iCloud'da ve Google API'sinin görüş alanı dışında. Bugünkü haliyle sistem her slotu müsait sanıp satardı — tasarımın çözmek için var olduğu hatanın aynısı. Kaynak kararı verilmeden §3.1 uygulanamaz.
 
 **Veritabanı müsaitlik bilmiyor.** Bu ayrım bilinçli: iki kaynak arasında senkron tutma yükü doğmasın diye. Müsaitlik sorusu her zaman Calendar'a, "sattık mı" sorusu her zaman bize.
 
@@ -222,7 +224,25 @@ Doğrulama (verification) gönderilmiyor. Doğrulanmamış-yayında olmanın iki
 
 **Açık uç — 10. gün testi.** Resmî dokümantasyon 7 gün kısıtını açıkça "Testing" durumuna bağlıyor ve yayınlamanın kısıtı kaldırdığını ikincil kaynaklar doğruluyor; ancak Google "In production ama doğrulanmamış" durumu için açık bir taahhüt yazmıyor. **Yetkilendirmeden 8-10 gün sonra token'ın hâlâ çalıştığı fiilen test edilir** — bu, uygulama planında adı konmuş bir görevdir, hatırlamaya bırakılmaz. Test düşerse tek kalıcı çözüm projeyi kuruluşa bağlayıp Internal'a geçmek olur ve o yönetici erişimi gerektirir.
 
-**İkinci açık uç — Workspace uygulama erişim denetimi.** Proje `indoles.com.tr` kuruluşuna bağlı olmadığı için Workspace bu uygulamayı "üçüncü taraf" sayıyor. Yönetici API denetimlerini kısıtlamışsa Burak'ın kendi izni bile `admin_policy_enforced` ile reddedilebilir. Bu ancak fiilen denenerek anlaşılır. Çıkarsa çözüm yöneticide client ID'yi "Trusted" olarak eklemek — DWD kurmaktan çok daha küçük bir talep, ama yine de yönetici gerektirir.
+**İkinci açık uç — Workspace uygulama erişim denetimi. ✅ Kapandı (2026-08-27).** Proje `indoles.com.tr` kuruluşuna bağlı olmadığı için Workspace bu uygulamayı "üçüncü taraf" sayıyor; yönetici API denetimlerini kısıtlamış olsaydı izin `admin_policy_enforced` ile reddedilirdi. Yetkilendirme fiilen çalıştırıldı ve **hata çıkmadı** — bu domainde üçüncü taraf uygulama erişimi kısıtlanmamış.
+
+### 8b. Kurulum kaydı (2026-08-27, uygulandı ve doğrulandı)
+
+| Ne | Değer / durum |
+|---|---|
+| **Rezervasyon takvimi** | **`digital@indoles.com.tr`** — erişim rolü `owner`, zaman dilimi `Europe/Istanbul` (§3.1b penceresiyle uyumlu) |
+| Cloud projesi sahibi | Kişisel hesap `b.a.ozgul@gmail.com` — **bkz. aşağıdaki devir maddesi** |
+| İzni veren hesap | `digital@indoles.com.tr` (Workspace) |
+| Yayın durumu | `In production` (yetkilendirmeden önce) |
+| Verilen kapsamlar | `calendar.events` + `calendar.events.freebusy` — istenenle birebir |
+| Doğrulama | Refresh token ile access token yenilendi; `freeBusy` `digital@indoles.com.tr` için başarılı |
+| Yetkilendirme tarihi | **2026-08-27** → **10. gün testi: 2026-09-06 civarı** |
+
+**Proje sahipliği ayrımı — önemli ve karıştırılmaya müsait:** Cloud projesini kimin açtığı ile hangi takvime yetki verildiği **farklı şeyler**. Proje kişisel Gmail hesabında, ama izni Workspace hesabı verdi; dolayısıyla etkinlikler `digital@indoles.com.tr` takviminde oluşur ve Meet bağlantıları kurumsal kimlikle üretilir. Doğrulandı: token `b.a.ozgul@gmail.com` takvimine erişemiyor (`notFound`).
+
+**Takvim kimliği `primary` değil, açık yazılır** (`GOOGLE_CALENDAR_ID=digital@indoles.com.tr`). Gerekçe: `primary` her zaman "token hangi hesaba aitse onun takvimi" demek. Yetki bir gün başka hesapla yeniden verilirse `primary` sessizce **yanlış takvime yazmaya** devam ederdi; açık kimlik aynı durumda `notFound` ile yüksek sesle düşer.
+
+**Açık takip maddesi — projenin kuruma devri.** OAuth istemcisi bugün kişisel bir Gmail hesabının Cloud projesinde duruyor. Şirket için iş-kritik bir yetkinin kişisel hesaba bağlı olması yönetişim açısından zayıf: o hesaba erişim kaybolursa rezervasyon sisteminin yetkisi de kaybolur. Launch öncesi proje `digital@indoles.com.tr` altında yeniden kurulmalı. Ek kazanç ihtimali: Workspace hesabıyla açılan projede `indoles.com.tr` kuruluşu görünürse "Internal" seçilebilir ve 7 gün/10. gün belirsizliği ile 100 kullanıcı sınırı tamamen ortadan kalkar. Devir yapılırsa yeni istemci + tek seferlik yeniden yetkilendirme gerekir (runbook aynen geçerlidir).
 
 **Sessiz bozulmaya karşı sağlık kontrolü — zorunlu.** OAuth yolunun gerçek riski yetkinin sessizce ölmesi: token 6 ay kullanılmazsa Google iptal eder, güvenlik olayı sonrası "tüm oturumları kapat" da iptal edebilir. İki önlem birlikte kurulur:
 
@@ -269,6 +289,7 @@ Her ikisi de Google'ın **"sensitive"** sınıfında ("restricted" değil). Ayr�
 | ~~Görüşme süresi ve çalışma penceresi~~ | — | ✅ **Karara bağlandı** (2026-08-27): 90 dk · 15 dk tampon · 13:00-20:00 · Pzt-Cmt · ilk gün 31 Ağustos. Ayrıntı §3.1b |
 | ~~En erken rezervasyon mesafesi~~ | — | ✅ **Karara bağlandı:** 24 saat. Ayrıntı §3.1b |
 | ~~Veri saklama süresi (KVKK)~~ | — | ✅ **Hizalandı:** minimizasyon + 90 gün sonra silme. Ayrıntı §2.2b. **`docs/14` güncellenecek** (Cal.com satırları geçersiz) |
-| **Google OAuth istemcisi + tek seferlik yetkilendirme** | Burak | **Açık — uygulama öncesi hazırlık.** Yol netleşti (§8): External + Publish App, ardından yetkilendirme. Adım adım: `docs/runbooks/google-calendar-oauth-kurulumu.md`. Yönetici paneli gerekmiyor. Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
-| **Yetkilendirmenin 10. gün testi** | Burak + plan | **Açık — yetkilendirmeden 8-10 gün sonra.** External-yayında yolunun 7 gün kısıtından muaf olduğu fiilen doğrulanacak (§8). Uygulama planında adı konmuş görev |
+| ~~Google OAuth istemcisi + tek seferlik yetkilendirme~~ | — | ✅ **Tamamlandı 2026-08-27.** External + Publish App yolu kuruldu, yetkilendirme `digital@indoles.com.tr` ile verildi, `freeBusy` doğrulandı. Kurulum kaydı §8b |
+| **Cloud projesinin kuruma devri** | Burak | **Açık — launch öncesi.** İstemci bugün kişisel Gmail projesinde; iş-kritik yetki kişisel hesaba bağlı kalmamalı. Ayrıntı §8b |
+| **Yetkilendirmenin 10. gün testi** | Burak + plan | **Açık — 2026-09-06 civarı.** External-yayında yolunun 7 gün kısıtından muaf olduğu fiilen doğrulanacak (§8). Uygulama planında adı konmuş görev |
 | Günlük üst sınır | — | Gerekmiyor: pencere ve süre zaten günde 4 slotla sınırlıyor |

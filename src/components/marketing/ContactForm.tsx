@@ -29,6 +29,17 @@ const MESSAGE_COUNTER_THRESHOLD = 1800;
 
 /** Turnstile script'i geç gelebilir; kısa aralıkla ~18 sn yoklanır. */
 const TURNSTILE_POLL_MS = 300;
+
+/**
+ * Widget render edildikten SONRA token gelmezse ne kadar beklenir.
+ *
+ * Mevcut sayaç yalnız "script hiç yüklenmedi" durumunu yakalıyordu. Ölçtük
+ * (2026-08-28): script yüklenip widget render olduğu hâlde meydan okuma
+ * tamamlanmayabiliyor ve Turnstile bu durumda `error-callback` ateşlemiyor.
+ * Sonuç: ziyaretçi "yükleniyor" yazısıyla kilitli bir düğmenin karşısında
+ * süresiz bekliyor ve formu hiç gönderemiyor — sessiz dönüşüm kaybı.
+ */
+const TURNSTILE_TOKEN_TIMEOUT_MS = 25_000;
 const TURNSTILE_POLL_LIMIT = 60;
 
 type TurnstileApi = {
@@ -283,6 +294,18 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
     return stop;
   }, []);
 
+  /**
+   * Bekçi: durum `pending`de takılı kalırsa ziyaretçiyi süresiz bekletmek
+   * yerine açık bir mesaja ve alternatif kanala düşürüyoruz.
+   */
+  useEffect(() => {
+    if (turnstileStatus !== 'pending') return;
+    const id = setTimeout(() => {
+      setTurnstileStatus((current) => (current === 'pending' ? 'unavailable' : current));
+    }, TURNSTILE_TOKEN_TIMEOUT_MS);
+    return () => clearTimeout(id);
+  }, [turnstileStatus]);
+
   /** Token tek kullanımlıktır: başarısız gönderimden sonra yenisi istenir. */
   function clearTurnstileToken(): void {
     setTurnstileToken('');
@@ -357,8 +380,8 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
   if (state !== 'submitting') {
     if (turnstileStatus === 'unavailable') {
       submitHint = isTr
-        ? 'Güvenlik doğrulaması yüklenemedi; sayfayı yenile.'
-        : 'The security check did not load; refresh the page.';
+        ? 'Güvenlik doğrulaması yüklenemedi. Sayfayı yenileyebilir veya doğrudan digital@indoles.com.tr adresine yazabilirsin.'
+        : 'The security check did not load. Refresh the page, or email us directly at digital@indoles.com.tr.';
     } else if (!turnstileToken) {
       submitHint = isTr ? 'Güvenlik doğrulaması yükleniyor…' : 'Loading the security check…';
     } else if (!kvkkConsent) {

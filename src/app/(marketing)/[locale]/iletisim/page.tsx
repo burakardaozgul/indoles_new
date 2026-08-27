@@ -1,6 +1,5 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
-import { CalcomEmbed } from "@/components/marketing/CalcomEmbed";
 import { ContactForm } from "@/components/marketing/ContactForm";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
@@ -10,21 +9,28 @@ import {
   professionalServiceLd,
   webPageLd,
 } from "@/lib/seo/json-ld";
+import { COMPANY } from "@/lib/content/company";
 import type { Locale } from "@/lib/content/types";
 
+/**
+ * Cal.com kaldırıldı (ADR-025): rezervasyon INDOLES'in kendi takvim
+ * sistemine taşınıyor; entegrasyon URL'i hazır olana kadar sayfa form +
+ * doğrudan iletişim odaklıdır. Takvim geri geldiğinde form kolonunun
+ * yanına tek bileşenle eklenir.
+ */
 
 const PATHS = { tr: "/tr/iletisim", en: "/en/contact" };
 
 const META = {
   tr: {
-    title: "İletişim — 30 dakikalık ön görüşme",
+    title: "İletişim — 1 saatlik ön görüşme",
     description:
-      "Takvimden slot seçin ya da formu doldurun. 30 dakikalık ön görüşme taahhütsüz: somut problem, somut yön. Satış sunumu değil, teşhis konuşması yapıyoruz.",
+      "Formu doldurun, 1 iş günü içinde dönelim. 1 saatlik ön görüşme taahhütsüz: somut problem, somut yön. Satış sunumu değil, teşhis konuşması yapıyoruz.",
   },
   en: {
-    title: "Contact — book a 30-minute call",
+    title: "Contact — book a one-hour call",
     description:
-      "Pick a slot from the calendar or send the form. The 30-minute intro call carries no commitment: a concrete problem, a concrete direction, a diagnosis.",
+      "Send the form and we reply within one business day. The one-hour intro call carries no commitment: a concrete problem, a concrete direction, a diagnosis.",
   },
 } as const;
 
@@ -53,6 +59,15 @@ export default async function ContactPage({
   const loc = locale as "tr" | "en";
   const tCommon = await getTranslations({ locale, namespace: "common" });
 
+  const mailLink = (
+    <a
+      href={`mailto:${COMPANY.email}`}
+      className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
+    >
+      {COMPANY.email}
+    </a>
+  );
+
   return (
     <>
       {/* `professionalServiceLd` Organization'ın yerine geçer, yanına değil:
@@ -66,6 +81,7 @@ export default async function ContactPage({
             description: META[loc].description,
             path: PATHS[loc],
             locale: loc,
+            type: "ContactPage",
           }),
           breadcrumbLd([
             { name: "INDOLES", path: `/${loc}` },
@@ -82,8 +98,8 @@ export default async function ContactPage({
         eyebrow={loc === "tr" ? "İletişim" : "Contact"}
         title={
           loc === "tr"
-            ? "30 dakikada birlikte bir kağıda bakalım."
-            : "Thirty minutes, one page, one clear next step."
+            ? "Bir saatte birlikte bir kağıda bakalım."
+            : "One hour, one page, one clear next step."
         }
         lede={
           loc === "tr"
@@ -94,93 +110,92 @@ export default async function ContactPage({
 
       <section className="border-b border-surface-2">
         <div className="ds-container py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-          {/* Cal.com embed */}
+          {/* Form — sayfanın birincil yolu */}
           <div className="md:col-span-7">
             <span className="typography-label uppercase tracking-widest text-ink-500">
-              {loc === "tr" ? "Takvim" : "Calendar"}
+              {loc === "tr" ? "Mesaj gönder" : "Send a message"}
             </span>
             <h2 className="typography-h2 mt-4 text-ink-900">
-              {loc === "tr" ? "Slot seç." : "Pick a slot."}
+              {loc === "tr"
+                ? "Yaz, bir iş günü içinde dönelim."
+                : "Write to us; we reply within a business day."}
             </h2>
             <div className="mt-10">
-              <CalcomEmbed />
+              <ContactForm locale={loc} />
             </div>
-            {/* Takvim yüklenmezse ziyaretçi çıkışsız kalmasın: "Slot seç."
-                başlığının altında her zaman iki alternatif duruyor. */}
-            <p className="typography-body-sm text-ink-500 mt-6 max-w-prose-editorial">
+          </div>
+
+          {/* Doğrudan iletişim + beklenti föyü */}
+          <aside className="md:col-span-5">
+            <span className="typography-label uppercase tracking-widest text-ink-500">
+              {loc === "tr" ? "Doğrudan" : "Direct"}
+            </span>
+            <dl className="mt-6 space-y-5 typography-body-md">
+              <div>
+                <dt className="typography-caption text-ink-500">E-posta</dt>
+                <dd className="mt-1">{mailLink}</dd>
+              </div>
+              <div>
+                <dt className="typography-caption text-ink-500">
+                  {loc === "tr" ? "Telefon" : "Phone"}
+                </dt>
+                <dd className="mt-1">
+                  <a
+                    href={`tel:${COMPANY.phone.replace(/\s/g, "")}`}
+                    className="text-ink-900 hover:text-brand-700"
+                  >
+                    {COMPANY.phone}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="typography-caption text-ink-500">
+                  {loc === "tr" ? "Çalışma saatleri" : "Working hours"}
+                </dt>
+                <dd className="mt-1 text-ink-900">
+                  {loc === "tr" ? COMPANY.hours.tr : COMPANY.hours.en}
+                </dd>
+              </div>
+              <div>
+                <dt className="typography-caption text-ink-500">
+                  {loc === "tr" ? "Konum" : "Location"}
+                </dt>
+                <dd className="mt-1 text-ink-900">
+                  {loc === "tr" ? "Levent, İstanbul" : "Levent, Istanbul"}
+                </dd>
+              </div>
+              <div>
+                <dt className="typography-caption text-ink-500">
+                  {loc === "tr" ? "Yanıt süresi" : "Response time"}
+                </dt>
+                <dd className="mt-1 text-ink-900">
+                  {loc === "tr" ? "Ortalama 1 iş günü" : "Average 1 business day"}
+                </dd>
+              </div>
+              <div>
+                <dt className="typography-caption text-ink-500">
+                  {loc === "tr" ? "Görüşme süresi" : "Call length"}
+                </dt>
+                <dd className="mt-1 text-ink-900">
+                  {loc === "tr" ? "Ortalama 1 saat" : "About one hour"}
+                </dd>
+              </div>
+            </dl>
+
+            {/* Formun tıkanması hâlinde ziyaretçi çıkışsız kalmasın. */}
+            <p className="typography-body-sm text-ink-500 mt-10 max-w-prose-editorial">
               {loc === "tr" ? (
                 <>
-                  Takvim açılmıyorsa{" "}
-                  <a
-                    href="mailto:hello@indoles.com.tr"
-                    className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
-                  >
-                    hello@indoles.com.tr
-                  </a>{" "}
-                  adresine yazabilir veya yandaki formu doldurabilirsiniz.
+                  Form gönderilemezse {mailLink} adresine yazabilir ya da mesai
+                  saatlerinde arayabilirsiniz.
                 </>
               ) : (
                 <>
-                  If the calendar doesn&apos;t load, write to{" "}
-                  <a
-                    href="mailto:hello@indoles.com.tr"
-                    className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
-                  >
-                    hello@indoles.com.tr
-                  </a>{" "}
-                  or use the form alongside.
+                  If the form fails to send, write to {mailLink} or call during
+                  working hours.
                 </>
               )}
             </p>
-          </div>
-
-          {/* Contact info + form */}
-          <aside className="md:col-span-5 space-y-10">
-            <div>
-              <span className="typography-label uppercase tracking-widest text-ink-500">
-                {loc === "tr" ? "Doğrudan" : "Direct"}
-              </span>
-              <dl className="mt-6 space-y-5 typography-body-md">
-                <div>
-                  <dt className="typography-caption text-ink-500">E-posta</dt>
-                  <dd className="mt-1">
-                    <a
-                      href="mailto:hello@indoles.com.tr"
-                      className="text-brand-700 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
-                    >
-                      hello@indoles.com.tr
-                    </a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="typography-caption text-ink-500">
-                    {loc === "tr" ? "Konum" : "Location"}
-                  </dt>
-                  <dd className="mt-1 text-ink-900">
-                    {loc === "tr" ? "İstanbul, Türkiye" : "Istanbul, Turkey"}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="typography-caption text-ink-500">
-                    {loc === "tr" ? "Yanıt süresi" : "Response time"}
-                  </dt>
-                  <dd className="mt-1 text-ink-900">
-                    {loc === "tr"
-                      ? "Ortalama 1 iş günü"
-                      : "Average 1 business day"}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-
-            <div>
-              <span className="typography-label uppercase tracking-widest text-ink-500">
-                {loc === "tr" ? "Mesaj gönder" : "Send a message"}
-              </span>
-              <div className="mt-6">
-                <ContactForm locale={loc} />
-              </div>
-            </div>
           </aside>
         </div>
       </section>

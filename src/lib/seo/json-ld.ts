@@ -304,14 +304,17 @@ export function webPageLd({
   description,
   path,
   locale,
+  type = "WebPage",
 }: {
   name: string;
   description: string;
   path: string;
   locale: Locale;
+  /** Alt tip gerektiren sayfalar için — örn. iletişimde "ContactPage". */
+  type?: "WebPage" | "ContactPage";
 }) {
   return {
-    "@type": "WebPage",
+    "@type": type,
     "@id": absoluteUrl(path),
     url: absoluteUrl(path),
     name,

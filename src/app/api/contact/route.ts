@@ -31,23 +31,33 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ error: 'turnstile_failed' }, { status: 403 });
   }
 
+  // Satış bildirimi lead'in kendisidir: düşerse istek başarısızdır.
   try {
     await sendMailWithRetry({
       from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <noreply@indoles.com.tr>',
-      to: process.env.SALES_INBOX_EMAIL ?? 'sales@indoles.com.tr',
+      to: process.env.SALES_INBOX_EMAIL ?? 'digital@indoles.com.tr',
       subject: `İletişim — ${data.subject} — ${data.firstName} ${data.lastName}`,
       react: ContactNotification(data),
     });
+  } catch (err) {
+    Sentry.captureException(err, { tags: { route: 'contact', step: 'notification' } });
+    console.error('[api/contact] notification_failed:', err);
+    return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
+  }
+
+  // Otomatik yanıt ikincildir. İki posta tek try içindeyken autoreply hatası
+  // 500 döndürüyordu: lead satışa ulaşmış olmasına rağmen kullanıcı formu
+  // tekrar gönderiyor, aynı lead iki kez düşüyordu. Hata yutulur, Sentry'ye yazılır.
+  try {
     await sendMailWithRetry({
-      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <hello@indoles.com.tr>',
+      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
       to: data.email,
       subject: data.locale === 'tr' ? 'Mesajını aldık — INDOLES' : 'We got your message — INDOLES',
       react: ContactAutoreply({ firstName: data.firstName, locale: data.locale }),
     });
   } catch (err) {
-    Sentry.captureException(err, { tags: { route: 'contact', step: 'mail' } });
-    console.error('[api/contact] mail_failed:', err);
-    return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
+    Sentry.captureException(err, { tags: { route: 'contact', step: 'autoreply' } });
+    console.error('[api/contact] autoreply_failed:', err);
   }
 
   // Dönüşüm olayı istemcide (`ContactForm`) GA4'e yazılıyor — ADR-021.

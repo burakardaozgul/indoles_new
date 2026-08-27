@@ -24,7 +24,7 @@ Cal.com bu tablonun çözümü değildi ve zaten büyük ölçüde sökülmüş 
 | Katman | Sorumluluk | Neden burada |
 |---|---|---|
 | **Google Calendar** | Müsaitliğin **tek kaynağı**; etkinlik ve Meet bağlantısının üretildiği yer | Burak takvimini zaten orada yönetiyor. Elle bir toplantı koyduğunda o saat siteye de kapanmalı — çift kayıt tutulmamalı. Meet bağlantısı ancak Calendar etkinliğiyle üretilebiliyor |
-| **Kendi veritabanımız (D1)** | "Bu slotu biz sattık mı" sorusu + iptal anahtarı + lead bağlamı | Eşzamanlılık garantisi. Calendar API aynı saate iki etkinlik oluşturmayı engellemiyor; anında kesinleşen bir sistemde bu kabul edilemez |
+| **Kendi veritabanımız (D1)** | "Bu slotu biz sattık mı" sorusu + iptal anahtarı + asgari kimlik (ad, e-posta) | Eşzamanlılık garantisi. Calendar API aynı saate iki etkinlik oluşturmayı engellemiyor; anında kesinleşen bir sistemde bu kabul edilemez. **Lead bağlamı burada tutulmaz** — §2.2b |
 | **Mevcut mail katmanı** | Onay, bildirim, iptal/erteleme mailleri | `src/lib/mail/client.ts` + `emails/*.tsx` zaten çalışıyor, üç deneme + backoff var |
 | **Mevcut popup arayüzü** | Slot seçimi, form, başarı ekranı | Değişmiyor — yalnız `CalendarPicker` verisini sunucudan alacak |
 

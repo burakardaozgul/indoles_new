@@ -18,6 +18,8 @@ export default function middleware(request: NextRequest) {
 
 /**
  * Metadata dosya rotaları (`/icon`, `/apple-icon`, `/opengraph-image`) uzantı
+ * (ADR-024 ile bu üçü statik PNG'ye çevrildi; muafiyet, üretici geri
+ * gelirse diye savunma amaçlı duruyor — `.png` zaten `.*\..*` ile eleniyor.)
  * taşımadığı için `.*\..*` elemesine takılmıyor, locale prefix'i alıyor ve
  * `/tr/icon` olarak 307 → 404 dönüyordu; favicon ve OG kartı bu yüzden hiç
  * yüklenmiyordu. Adları lookahead'e tam eşleşmeyle (`$`) eklendi — `$` olmadan

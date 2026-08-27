@@ -167,7 +167,7 @@ indoles-web/
 ├── src/
 │   ├── app/(marketing)/[locale]/      # Tüm public sayfalar
 │   ├── app/(v2)/[locale]/v2/          # Yeni tasarım yönü — kendi chrome'u (ADR-016)
-│   ├── app/api/                       # contact · visitor-profile · health · upload
+│   ├── app/api/                       # contact · visitor-profile · health
 │   ├── components/analytics/          # track-view (görüntüleme olayı adası)
 │   ├── components/marketing/          # Ana site bölümleri + entry-popup + paylaşılanlar
 │   │                                  # (v1 chrome — layout/ — ADR-017 sonrası silindi)

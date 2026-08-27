@@ -35,7 +35,6 @@
     "@react-email/render": "^2.0.7",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
-    "@sentry/nextjs": "^8.42.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.13.5",
@@ -50,7 +49,6 @@
     "simple-icons": "^16.28.0",
     "tailwind-merge": "^2.5.5",
     "three": "^0.185.1",
-    "worker-mailer": "^1.2.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {

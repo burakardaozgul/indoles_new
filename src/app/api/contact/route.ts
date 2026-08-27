@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import * as Sentry from '@sentry/nextjs';
+import { reportError } from '@/lib/observability/report';
 import { contactSchema } from '@/lib/schemas/contact';
 import { verifyTurnstile } from '@/lib/security/turnstile';
 import { sendMailWithRetry, recipients } from '@/lib/mail/client';
@@ -39,14 +39,14 @@ export async function POST(req: Request): Promise<Response> {
       react: ContactNotification(data),
     });
   } catch (err) {
-    Sentry.captureException(err, { tags: { route: 'contact', step: 'notification' } });
+    reportError(err, { route: 'contact', step: 'notification' });
     console.error('[api/contact] notification_failed:', err);
     return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
   }
 
   // Otomatik yanıt ikincildir. İki posta tek try içindeyken autoreply hatası
   // 500 döndürüyordu: lead satışa ulaşmış olmasına rağmen kullanıcı formu
-  // tekrar gönderiyor, aynı lead iki kez düşüyordu. Hata yutulur, Sentry'ye yazılır.
+  // tekrar gönderiyor, aynı lead iki kez düşüyordu. Hata yutulur, log'a yazılır.
   try {
     await sendMailWithRetry({
       to: data.email,
@@ -54,7 +54,7 @@ export async function POST(req: Request): Promise<Response> {
       react: ContactAutoreply({ firstName: data.firstName, locale: data.locale }),
     });
   } catch (err) {
-    Sentry.captureException(err, { tags: { route: 'contact', step: 'autoreply' } });
+    reportError(err, { route: 'contact', step: 'autoreply' });
     console.error('[api/contact] autoreply_failed:', err);
   }
 

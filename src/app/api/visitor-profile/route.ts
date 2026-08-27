@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import * as Sentry from '@sentry/nextjs';
+import { reportError } from '@/lib/observability/report';
 import { visitorProfileSchema } from '@/lib/schemas/visitor-profile';
 import { verifyTurnstile } from '@/lib/security/turnstile';
 import { sendMailWithRetry, recipients } from '@/lib/mail/client';
@@ -58,7 +58,7 @@ export async function POST(req: Request): Promise<Response> {
       }),
     });
   } catch (err) {
-    Sentry.captureException(err, { tags: { route: 'visitor-profile', step: 'mail' } });
+    reportError(err, { route: 'visitor-profile', step: 'mail' });
     console.error('[api/visitor-profile] mail_failed:', err);
     return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
   }

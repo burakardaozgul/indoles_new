@@ -2,9 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { sendMailWithRetry } from '../client';
 
 const sendMock = vi.fn();
-vi.mock('worker-mailer', () => ({
-  WorkerMailer: { send: (...args: unknown[]) => sendMock(...args) },
-}));
+vi.mock('../smtp', () => ({ sendSmtpMail: (...args: unknown[]) => sendMock(...args) }));
 // React Email render'ı gerçek DOM'a ihtiyaç duyuyor; testte gövde içeriği değil
 // gönderim davranışı ölçülüyor.
 vi.mock('@react-email/render', () => ({
@@ -54,29 +52,26 @@ describe('sendMailWithRetry', () => {
     vi.stubEnv('MAIL_FROM', 'INDOLES <noreply@indoles.com.tr>');
     sendMock.mockResolvedValueOnce(undefined);
     await sendMailWithRetry({ to: 'b@x.com', subject: 's', react: el });
-    const [, message] = sendMock.mock.calls[0] as [unknown, Record<string, unknown>];
-    expect(message.from).toEqual({ name: 'INDOLES', email: 'noreply@indoles.com.tr' });
+    const [call] = sendMock.mock.calls[0] as [Record<string, unknown>];
+    expect(call.from).toEqual({ name: 'INDOLES', email: 'noreply@indoles.com.tr' });
   });
 
   it('yanıtlar digital@ adresine döner', async () => {
     sendMock.mockResolvedValueOnce(undefined);
     await sendMailWithRetry({ to: 'b@x.com', subject: 's', react: el });
-    const [, message] = sendMock.mock.calls[0] as [unknown, Record<string, unknown>];
-    expect(message.reply).toEqual({ email: 'digital@indoles.com.tr' });
+    const [call] = sendMock.mock.calls[0] as [Record<string, unknown>];
+    expect(call.replyTo).toBe('digital@indoles.com.tr');
   });
 
-  it('587 STARTTLS ile, 465 örtük TLS ile açılır', async () => {
+  it("port ve kimlik bilgileri env değişkenlerinden geçiriliyor", async () => {
     sendMock.mockResolvedValue(undefined);
     await sendMailWithRetry({ to: 'b@x.com', subject: 's', react: el });
-    const [cfg587] = sendMock.mock.calls[0] as [Record<string, unknown>];
-    expect(cfg587).toMatchObject({ port: 587, secure: false, startTls: true });
-
-    sendMock.mockReset();
-    sendMock.mockResolvedValue(undefined);
-    vi.stubEnv('SMTP_PORT', '465');
-    await sendMailWithRetry({ to: 'b@x.com', subject: 's', react: el });
-    const [cfg465] = sendMock.mock.calls[0] as [Record<string, unknown>];
-    expect(cfg465).toMatchObject({ port: 465, secure: true, startTls: false });
+    const [call] = sendMock.mock.calls[0] as [Record<string, unknown>];
+    expect(call).toMatchObject({
+      host: 'polo.veridyen.com',
+      port: 587,
+      user: 'noreply@indoles.com.tr',
+    });
   });
 
   it('SMTP yapılandırması eksikse anlamlı hata verir', async () => {

@@ -68,7 +68,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | AI Agent | **Yok** | Launch'ta agent yok; ADR-007 |
 | i18n | next-intl | Path-based TR+EN |
 | Background Jobs | **Yok** | ADR-011 |
-| Email | Resend + React Email | Transactional |
+| Email | **Veridyen SMTP** (`worker-mailer`) + React Email | Transactional; From `noreply@`, Reply-To `digital@` — ADR-026 |
 | Spam koruma | Cloudflare Turnstile | Invisible |
 | Analytics | Google Analytics 4 | Tek ölçüm sağlayıcı (ADR-021; PostHog kaldırıldı) |
 | Observability | Sentry (kurulu ama `init` yok — denetim O-03) + Cloudflare Workers observability | — |

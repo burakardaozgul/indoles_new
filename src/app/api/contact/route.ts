@@ -34,7 +34,6 @@ export async function POST(req: Request): Promise<Response> {
   // Satış bildirimi lead'in kendisidir: düşerse istek başarısızdır.
   try {
     await sendMailWithRetry({
-      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
       to: recipients(process.env.SALES_INBOX_EMAIL, 'digital@indoles.com.tr'),
       subject: `İletişim — ${data.subject} — ${data.firstName} ${data.lastName}`,
       react: ContactNotification(data),
@@ -50,7 +49,6 @@ export async function POST(req: Request): Promise<Response> {
   // tekrar gönderiyor, aynı lead iki kez düşüyordu. Hata yutulur, Sentry'ye yazılır.
   try {
     await sendMailWithRetry({
-      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
       to: data.email,
       subject: data.locale === 'tr' ? 'Mesajını aldık — INDOLES' : 'We got your message — INDOLES',
       react: ContactAutoreply({ firstName: data.firstName, locale: data.locale }),

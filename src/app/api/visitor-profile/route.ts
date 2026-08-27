@@ -35,7 +35,6 @@ export async function POST(req: Request): Promise<Response> {
 
   try {
     await sendMailWithRetry({
-      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
       to: recipients(process.env.LEAD_INBOX_EMAIL, 'digital@indoles.com.tr'),
       subject: `Yeni popup lead — ${data.lead.firstName} ${data.lead.lastName} (${data.lead.company})`,
       react: VisitorProfileLeadNotification({
@@ -49,7 +48,6 @@ export async function POST(req: Request): Promise<Response> {
       }),
     });
     await sendMailWithRetry({
-      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
       to: data.lead.email,
       subject: data.locale === 'tr' ? 'Seçimini aldık — INDOLES' : 'We got your selection — INDOLES',
       react: VisitorProfileAutoreply({

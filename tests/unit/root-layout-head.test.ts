@@ -71,9 +71,12 @@ describe("kök layout", () => {
 
 describe("metadata dosya rotaları", () => {
   const files = [
-    "src/app/icon.tsx",
-    "src/app/apple-icon.tsx",
-    "src/app/opengraph-image.tsx",
+    // ADR-024: üç görsel `ImageResponse` üreticisiyken statik PNG'ye
+    // çevrildi — üretici tek ve değişmeyen bir kart çiziyordu ama worker
+    // paketine ~2,2 MB ekliyordu (@vercel/og + fontkit).
+    "src/app/icon.png",
+    "src/app/apple-icon.png",
+    "src/app/opengraph-image.png",
     "src/app/manifest.ts",
   ];
 
@@ -114,11 +117,11 @@ describe("metadata dosya rotaları", () => {
         locale,
       });
       const og = meta.openGraph as { images: Array<{ url: string; alt: string }> };
-      expect(og.images[0]?.url).toBe("/opengraph-image");
+      expect(og.images[0]?.url).toBe("/opengraph-image.png");
       expect(og.images[0]?.alt.length).toBeGreaterThan(0);
 
       const twitter = meta.twitter as { images: string[] };
-      expect(twitter.images[0]).toBe("/opengraph-image");
+      expect(twitter.images[0]).toBe("/opengraph-image.png");
     }
   });
 });

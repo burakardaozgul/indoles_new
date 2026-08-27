@@ -29,7 +29,9 @@ import {
 } from "@/lib/content/services";
 import type {
   ArticleContent,
+  CaseStudyContent,
   Locale,
+  Pillar,
   ServiceContent,
 } from "@/lib/content/types";
 import { JsonLd } from "@/lib/seo/JsonLd";
@@ -192,6 +194,44 @@ export function relatedArticlesForService(
 }
 
 /**
+ * İlgili vaka çalışması — künye (`serviceSlugs`) birincil, pillar fallback
+ * (denetim bulgusu C-03).
+ *
+ * Eski kural `CASES.find((c) => c.pillar === service.pillar)` idi: dizideki
+ * ilk pillar eşleşmesini alıyordu, künyeye hiç bakmıyordu. Sonuç, beş growth
+ * hizmetinin tamamının aynı vakayı (SOYLU AVM) göstermesiydi — CRO sayfası
+ * bile künyesinde `cro` hiç geçmeyen bir vakaya işaret ediyordu.
+ *
+ * `serviceSlugs` tam olarak bunun için var: bir vakanın anlatısında gerçekten
+ * karşılığı olan hizmetleri taşır (bkz. `types.ts`
+ * `CaseStudyContent.serviceSlugs`) ve bilinçli olarak pillar sınırını
+ * gözetmez — tek bir vaka birden çok pillar'daki hizmete karşılık gelebilir
+ * (ör. MKComputer `build` pillar'ında durur ama künyesinde `e-ticaret` ve
+ * `is-otomasyonlari` geçer, ikisi de `growth`/`transform` hizmetidir). Bu
+ * yüzden eşleme önce künye üzerinden aranır; pillar eşitliği aranmaz.
+ *
+ * Pillar eşlemesi yalnız künyede bu hizmeti taşıyan hiçbir vaka yoksa
+ * devreye giren fallback'tir (bugünkü içerikle: dijital-donusum, is-zekasi,
+ * isletme-muhendisligi, teknoloji-ve-altyapi — künyesinde bu dört hizmeti
+ * taşıyan vaka henüz yok). Fallback kaldırılmaz: kaldırılırsa bu dört hizmet
+ * kanıt şeridini tümden kaybeder.
+ *
+ * Birden fazla vaka aynı hizmeti künyesinde taşırsa (ör. `performans-
+ * pazarlama` beş vakada geçer) dizideki ilk eşleşme seçilir — `CASES`
+ * sırası sabit olduğu için sonuç build'ler arasında değişmez, rastgelelik
+ * yoktur.
+ */
+export function relatedCaseForService(
+  serviceSlugTr: string,
+  pillar: Pillar,
+): CaseStudyContent | undefined {
+  return (
+    CASES.find((c) => c.serviceSlugs?.includes(serviceSlugTr)) ??
+    CASES.find((c) => c.pillar === pillar)
+  );
+}
+
+/**
  * Hizmet detay şablonu — sekiz blok.
  *
  * Tek sesli: persona bileşenleri bilinçli olarak kullanılmıyor (docs/03 §1,
@@ -228,7 +268,7 @@ export function ServiceDetail({
       ? PACKAGES.filter((p) => service.relatedPackages.includes(p.slug.tr))
       : PACKAGES.filter((p) => p.pillar === service.pillar);
 
-  const relatedCase = CASES.find((c) => c.pillar === service.pillar);
+  const relatedCase = relatedCaseForService(service.slug.tr, service.pillar);
 
   /**
    * Vakanın ölçülmüş sonucundan en fazla üçü hizmet sayfasının gövdesine
@@ -351,7 +391,7 @@ export function ServiceDetail({
                 {relatedPackages[0] ? (
                   <Link
                     href={`/${locale}/${t.packagesRoot}/${relatedPackages[0].slug[locale]}`}
-                    className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:v2-surface transition-colors typography-body-md"
+                    className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:bg-surface-1/60 transition-colors typography-body-md"
                   >
                     {t.viewPackage}
                   </Link>

@@ -1,12 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
-import { CasesSection } from "@/components/marketing/cases-section";
 import { PersonaText } from "@/components/marketing/persona-text";
 import { PersonaSwitch } from "@/components/marketing/persona-switch";
 import { CASES } from "@/lib/content/cases";
-import { CaseCard, PROBLEM_LABELS } from "@/components/marketing/case-card";
+import { PROBLEM_LABELS } from "@/components/marketing/case-card";
+import { CaseFilter } from "@/components/marketing/case-filter";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
@@ -122,27 +123,54 @@ export default async function CaseIndex({
             href={`/${locale}/vakalar/${featured.slug}`}
             className="group grid grid-cols-1 md:grid-cols-12 gap-10"
           >
-            <div className="md:col-span-7">
+            <div className="md:col-span-7 flex flex-col">
               <div className="flex items-center gap-4">
                 <span className="typography-label uppercase tracking-widest text-ink-500">
                   {loc === "tr" ? "Seçilmiş vaka" : "Selected case"}
                 </span>
                 <span className="w-px h-4 v2-surface-3" aria-hidden />
-                <span className="typography-label uppercase tracking-widest text-brand-700">
+                <span className="typography-label uppercase tracking-widest text-teal-700">
                   {PROBLEM_LABELS[featured.problemType]![loc]}
                 </span>
               </div>
-              <h2 className="typography-h1 mt-6 text-ink-900 max-w-[22ch] group-hover:text-brand-800 transition-colors">
+              <h2 className="typography-h1 mt-6 text-ink-900 max-w-[22ch] group-hover:text-teal-800 transition-colors">
                 {featured.title[loc]}
               </h2>
               <p className="typography-body-lg text-ink-700 mt-6 max-w-prose-editorial">
                 {featured.lead[loc]}
               </p>
+              {/* Sol sütunu sağdaki 4'lü metrik yığınıyla dikey dengeye getirir
+                  (denetim: metinden sonra büyük boş alan kalıyordu). Grid'in
+                  varsayılan `align-items: stretch`'i bu sütunu satır
+                  yüksekliğine uzatır; içerideki `flex-1` görsel o boşluğu
+                  doldurur. Mobilde sabit 4:3 oranına düşer. */}
+              {featured.cover ? (
+                <div className="relative mt-8 md:mt-10 overflow-hidden rounded-2xl aspect-4/3 md:aspect-auto md:flex-1 md:min-h-70">
+                  <Image
+                    src={featured.cover.src}
+                    alt={featured.cover.alt[loc]}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 620px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                  {featured.clientLogo ? (
+                    <span className="absolute left-4 top-4 flex items-center rounded-lg bg-surface-1 px-4 py-3 shadow-md">
+                      <Image
+                        src={featured.clientLogo}
+                        alt={featured.clientName[loc]}
+                        width={176}
+                        height={88}
+                        className="h-9 w-auto object-contain"
+                      />
+                    </span>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
             <div className="md:col-span-5">
-              <dl className="grid grid-cols-1 gap-px v2-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
+              <dl className="grid grid-cols-2 md:grid-cols-1 gap-px v2-surface-2 border border-surface-2 rounded-2xl overflow-hidden">
                 {featured.metrics.map((m) => (
-                  <div key={m.label[loc]} className="v2-surface p-8">
+                  <div key={m.label[loc]} className="v2-surface p-5 md:p-8">
                     <dt className="typography-label uppercase tracking-widest text-ink-500">
                       {m.label[loc]}
                     </dt>
@@ -160,20 +188,25 @@ export default async function CaseIndex({
         </div>
       </section>
 
-      {/* Grid */}
-      <section className="v2-surface">
+      {/* Diğer vakalar — problem tipine göre filtrelenebilir (lede'nin
+          vaadi). `others` her zaman sunucu HTML'inde tam basılır; filtre
+          yalnız hidrasyon sonrası görünürlüğü CSS ile yönetir. */}
+      <section
+        className="v2-surface"
+        aria-label={loc === "tr" ? "Diğer vakalar" : "Other cases"}
+      >
         <div className="ds-container py-24 md:py-32">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {others.map((c) => (
-              <CaseCard key={c.slug} c={c} locale={loc} />
-            ))}
-          </div>
+          <CaseFilter
+            cases={others}
+            locale={loc}
+            labels={{
+              groupLabel: tPage("filter.groupLabel"),
+              all: tPage("filter.all"),
+              resultCount: tPage.raw("filter.resultCount") as string,
+            }}
+          />
         </div>
       </section>
-
-      {/* Eski anasayfadan taşındı (ADR-017): problem tipine göre filtreli
-          vaka gezinmesi. Yukarıdaki liste kronolojik, bu bölüm problem odaklı. */}
-      <CasesSection locale={loc} />
 
       <ContactCallout locale={loc} />
     </>

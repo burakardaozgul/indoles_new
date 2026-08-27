@@ -67,17 +67,21 @@ describe("Kadro sayısı iddiası", () => {
   });
 });
 
-describe("Kadro sliderı", () => {
-  const src = readFileSync(
-    path.join(process.cwd(), "src", "components", "marketing", "team-slider.tsx"),
-    "utf8",
-  );
+describe("Kadro künyesi", () => {
+  // Künye satırı `team-slider.tsx`teydi; slider kaldırıldı ve satır
+  // hakkımızda sayfasındaki tek ekip bölümünün altına taşındı. Denetlenen
+  // iddia aynı, yeri değişti.
+  const src = source("hakkimizda", "page.tsx");
 
   it("kişi sayısını görünen liste uzunluğundan değil kadro sayısından alır", () => {
-    // Slider Hipnoz'u da gösteriyor ama künye satırındaki sayı kurumsal
-    // iddiadır; `members.length` (10) yerine kadro sayısı (9) basılmalı.
-    expect(src).not.toMatch(/\{members\.length\}\s*\{/);
+    // Grid Hipnoz'u da gösteriyor ama künye satırındaki sayı kurumsal
+    // iddiadır; listenin uzunluğu (10) yerine kadro sayısı (9) basılmalı.
+    expect(src).not.toMatch(/\{CONSULTANTS(_ORDERED)?\.length\}/);
     expect(src).toContain("BOOKABLE_CONSULTANTS.length");
+  });
+
+  it("ekip tek bölümde — slider geri gelmez", () => {
+    expect(src).not.toContain("TeamSlider");
   });
 });
 

@@ -220,7 +220,7 @@ export default async function ConsultantDetail({
 
           <div className="md:col-span-8">
             <figure className="mb-14 border-l-2 border-teal-700 pl-8">
-              <blockquote className="ts-quote max-w-none">
+              <blockquote className="consultant-quote max-w-none">
                 {c.quote[loc]}
               </blockquote>
               <figcaption className="mono mt-5 text-[11px] uppercase tracking-[0.18em] text-ink-500">
@@ -249,7 +249,7 @@ export default async function ConsultantDetail({
                     <li key={a.slug[loc]} className="border-b border-surface-2">
                       <Link
                         href={`/${locale}/yazilar/${a.slug[loc]}`}
-                        className="group block py-6 hover:v2-surface transition-colors -mx-4 px-4 rounded-lg"
+                        className="group block py-6 hover:bg-surface-1/60 transition-colors -mx-4 px-4 rounded-lg"
                       >
                         <h3 className="typography-h3 text-ink-900 group-hover:text-brand-800">
                           {a.title[loc]}

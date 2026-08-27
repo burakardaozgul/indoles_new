@@ -84,8 +84,11 @@ export const cro: ServiceContent = {
       {
         title: { tr: "Form ve checkout denetimi", en: "Form and checkout audit" },
         description: {
-          tr: "Gereksiz alanlar, belirsiz hata mesajları, zorunlu üyelik gibi tamamlamayı düşüren engeller tek tek çıkarılır.",
-          en: "Unnecessary fields, vague error messages, forced sign-up and other completion blockers are listed one by one.",
+          // "arttırma" varyanti burada; "artırma" varyanti SSS cevabinda.
+          // GSC ikisine de gosterim veriyor (strateji §2 CRO satiri), ikisi
+          // ayri cumlede duruyor — yan yana yazmak kelime doldurma olurdu.
+          tr: "E-ticaret sitelerinde dönüşüm oranı arttırma çoğu zaman burada başlar: gereksiz alanlar, belirsiz hata mesajları ve zorunlu üyelik tek tek çıkarılır.",
+          en: "On an e-commerce site conversion is often won here: unnecessary fields, vague error messages, forced sign-up and other completion blockers are listed one by one.",
         },
       },
       {
@@ -272,7 +275,7 @@ export const cro: ServiceContent = {
         en: "How much will our conversion rate improve?",
       },
       answer: {
-        tr: "Dönüşüm artışı için önceden rakam vermek dürüst olmaz; sonuç mevcut sorunların büyüklüğüne ve trafiğe bağlıdır. INDOLES bunun yerine her testi öncesi ve sonrası ölçümüyle raporlar: hangi değişiklik yüzde kaç fark yarattı, hangisi yaratmadı. Söz verilen şey rakam değil yöntemdir — ölçmeden iddia etmeyiz, kaybeden testi de saklamayız.",
+        tr: "Dönüşüm oranı artırma çalışmasında önceden rakam vermek dürüst olmaz; sonuç mevcut sorunların büyüklüğüne ve trafiğe bağlıdır. INDOLES bunun yerine her testi öncesi ve sonrası ölçümüyle raporlar: hangi değişiklik yüzde kaç fark yarattı, hangisi yaratmadı. Söz verilen şey rakam değil yöntemdir — ölçmeden iddia etmeyiz, kaybeden testi de saklamayız.",
         en: "Quoting an improvement figure up front would not be honest; the result depends on how large the current problems are and on traffic. Instead, INDOLES reports every test with its before-and-after measurement: which change moved the number by how much, and which did not. What is promised is the method, not a figure — no claims without measurement, and losing tests are not hidden.",
       },
     },

@@ -1,6 +1,6 @@
 # ADR-012: Deploy Platformu SST/AWS → Vercel
 
-**Durum:** Accepted — uygulandı (kod doğrulaması: 2026-08-19)
+**Durum:** **Superseded by ADR-024** (2026-08-27) — dağıtım Cloudflare Workers'a (OpenNext) taşındı, kanonik host `www.indoles.com.tr` oldu. Aşağıdaki karar tarihsel kayıttır; Vercel'e hiç deploy edilmedi.
 **Tarih:** 2026-04-17
 **Karar sahibi:** Burak Arda Özgül
 

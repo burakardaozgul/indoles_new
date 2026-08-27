@@ -269,7 +269,7 @@ export async function PillarDetail({
                 <Link
                   key={pkg.slug[loc]}
                   href={`/${locale}/paketler/${pkg.slug[loc]}`}
-                  className="group border border-surface-2 rounded-2xl p-8 md:p-10 flex flex-col min-h-[260px] hover:v2-surface-2/60 transition-colors"
+                  className="group border border-surface-2 rounded-2xl p-8 md:p-10 flex flex-col min-h-[260px] hover:bg-surface-2/60 transition-colors"
                 >
                   <header className="flex items-center justify-between">
                     <span className="typography-label uppercase tracking-widest text-brand-700">

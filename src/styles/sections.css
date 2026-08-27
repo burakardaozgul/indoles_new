@@ -773,70 +773,16 @@
 @media (max-width: 900px) { .ind-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* ============================================================================
-   Team slider
+   Kadro — alıntı tipografisi + kart avatarı
+
+   Kadro sliderı hakkımızda konsolidasyonunda kaldırıldı (ekip artık tek
+   bölümde). Sahne, portre kutusu, ok ve nokta kuralları onunla birlikte
+   silindi; ayakta kalan iki kural farklı yerlerde çağrılıyor:
+   `.consultant-quote` danışman detay sayfasının alıntı tipografisi,
+   `.team-avatar` hakkımızdaki kadro kartının harf diski.
    ============================================================================ */
 
-.ts-stage {
-  display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: clamp(32px, 5vw, 80px);
-  align-items: stretch;
-  min-height: 520px;
-}
-.ts-portrait-inner {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(180deg, var(--color-teal-900) 0%, var(--color-teal-950) 100%);
-  box-shadow:
-    0 1px 0 0 rgb(255 255 255 / 0.05) inset,
-    0 0 0 1px rgb(44 85 102 / 0.1),
-    0 18px 36px -12px rgb(15 28 35 / 0.25),
-    0 48px 96px -32px rgb(44 85 102 / 0.32);
-  animation: ts-fade-up 0.75s var(--ease-out) both;
-}
-.ts-bg {
-  position: absolute;
-  inset: 0;
-  opacity: 0.85;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 30%, color-mix(in srgb, var(--tone) 55%, transparent) 0%, transparent 70%),
-    linear-gradient(135deg, color-mix(in srgb, var(--tone) 30%, transparent) 0%, transparent 55%);
-}
-.ts-portrait-inner::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-  background: repeating-linear-gradient(
-    0deg,
-    rgb(255 255 255 / 0.02) 0px,
-    rgb(255 255 255 / 0.02) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-.ts-initials {
-  position: relative;
-  font-family: var(--font-display);
-  font-size: clamp(90px, 14vw, 180px);
-  font-weight: 300;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: rgb(255 255 255 / 0.96);
-  text-shadow: 0 20px 60px rgb(0 0 0 / 0.3);
-}
-.ts-corner { position: absolute; width: 28px; height: 28px; border: 1px solid rgb(255 255 255 / 0.5); }
-.ts-tl { top: 14px; left: 14px; border-right: none; border-bottom: none; }
-.ts-tr { top: 14px; right: 14px; border-left: none; border-bottom: none; }
-.ts-bl { bottom: 14px; left: 14px; border-right: none; border-top: none; }
-.ts-br { bottom: 14px; right: 14px; border-left: none; border-top: none; }
-.ts-content { animation: ts-fade-in 0.75s var(--ease-out) both; }
-.ts-quote {
+.consultant-quote {
   font-family: var(--font-display);
   font-size: clamp(26px, 3.2vw, 40px);
   font-weight: 300;
@@ -845,30 +791,15 @@
   color: var(--color-ink-900);
   max-width: 22ch;
 }
-@keyframes ts-fade-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
-@keyframes ts-fade-up { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: none; } }
 
-.ts-arrow {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--color-ink-200);
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--color-ink-800);
-  cursor: pointer;
-  transition: all 0.3s var(--ease-out);
-}
-.ts-arrow:hover { background: var(--color-ink-900); border-color: var(--color-ink-900); color: #fff; transform: translateY(-1px); }
-.ts-dot { width: 28px; height: 28px; padding: 0; display: grid; place-items: center; background: none; border: none; cursor: pointer; }
-.ts-dot-fill { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--color-ink-200); transition: all 0.35s var(--ease-out); }
-.ts-dot:hover .ts-dot-fill { background: var(--color-ink-500); }
-.ts-dot.is-active .ts-dot-fill { background: var(--color-ink-900); width: 24px; height: 4px; border-radius: 2px; }
-
-@media (max-width: 880px) {
-  .ts-stage { grid-template-columns: 1fr; gap: 40px; min-height: 0; }
-  .ts-portrait-inner, .ts-portrait-caption { max-width: 340px; margin-inline: auto; width: 100%; }
+/* Ton `consultants.ts`teki `portraitTone`dan gelir: marka accent'i değil,
+   kişiye bağlı içerik verisi — slider'ın taşıdığı tek görsel kimlik buydu.
+   Harf `ink-900`: siyah kontrastı on tonun tamamında 4.9:1 (#6B7F7A) ile
+   9.4:1 (#D4A574) arasında, yani WCAG AA. Beyaz harf en koyu tonda 4.25:1'e
+   düştüğü için tercih edilmedi. */
+.team-avatar {
+  background: var(--tone);
+  box-shadow: inset 0 0 0 1px rgb(15 28 35 / 0.14);
 }
 
 /* ============================================================================

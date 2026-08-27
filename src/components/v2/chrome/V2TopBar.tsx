@@ -18,9 +18,13 @@ export function V2TopBar({ locale }: { locale: "tr" | "en" }) {
     <div className="v2-topbar">
       <div className="v2-topbar-inner">
         <div className="v2-topbar-group">
+          {/* Mobilde span'lar CSS ile gizlenip yalnız ikon kaldığı için
+              linkin erişilebilir adı boşalıyordu — aria-label görünür
+              metinle aynı değeri taşır, her viewport'ta ad garantili. */}
           <a
             href={`tel:${COMPANY.phone.replace(/\s/g, "")}`}
             className="v2-tb-item"
+            aria-label={COMPANY.phone}
           >
             <svg viewBox="0 0 16 16" width="12" height="12" fill="none" aria-hidden="true">
               <path
@@ -32,7 +36,11 @@ export function V2TopBar({ locale }: { locale: "tr" | "en" }) {
             </svg>
             <span>{COMPANY.phone}</span>
           </a>
-          <a href={`mailto:${COMPANY.email}`} className="v2-tb-item">
+          <a
+            href={`mailto:${COMPANY.email}`}
+            className="v2-tb-item"
+            aria-label={COMPANY.email}
+          >
             <svg viewBox="0 0 16 16" width="12" height="12" fill="none" aria-hidden="true">
               <rect x="1.5" y="3" width="13" height="10" rx="1" stroke="currentColor" strokeWidth="1.2" />
               <path d="M2 4l6 4.5L14 4" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" fill="none" />

@@ -68,3 +68,10 @@ Thumbs.db
 
 # claude code — kisisel izin listesi (agent ve skill tanimlari takipli kalir)
 .claude/settings.local.json
+
+# Cloudflare / OpenNext (ADR-024)
+.open-next/
+.wrangler/
+cloudflare-env.d.ts
+# wrangler'in yerel gizli degisken dosyasi — asla commit edilmez
+.dev.vars

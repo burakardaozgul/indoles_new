@@ -173,7 +173,7 @@ export default async function PackagesIndex({
                 <li key={pkg.slug[loc]} className="border-b border-surface-2">
                   <Link
                     href={`/${locale}/paketler/${pkg.slug[loc]}`}
-                    className="group grid grid-cols-1 md:grid-cols-12 items-start gap-6 md:gap-8 py-12 md:py-14 px-0 md:px-4 mx-0 md:-mx-4 rounded-lg hover:v2-surface transition-colors"
+                    className="group grid grid-cols-1 md:grid-cols-12 items-start gap-6 md:gap-8 py-12 md:py-14 px-0 md:px-4 mx-0 md:-mx-4 rounded-lg hover:bg-surface-1/60 transition-colors"
                   >
                     {/* Şema — taahhüdün şekli */}
                     <div className="md:col-span-2">

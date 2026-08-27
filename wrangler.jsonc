@@ -1,0 +1,51 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "indoles-web",
+  "main": ".open-next/worker.js",
+  "account_id": "05ac1dc62c4c62391d47923ddebeef03",
+
+  // Adaptörün istediği taban 2024-09-23; kurulu workerd (1.20260820.x) daha
+  // yenisini destekliyor, o yüzden güncel bir tarihe sabitlendi — eski tarih
+  // wrangler'dan "daha yeni bir tarihe geçin" uyarısı alıyordu.
+  "compatibility_date": "2026-08-20",
+  "compatibility_flags": [
+    // Node.js API'leri (adaptörün kendisi ve Resend/Sentry gibi paketler bunu bekliyor)
+    "nodejs_compat",
+    // fetch() yalnız gerçek dış adreslere gitsin — Worker kendi kendine
+    // çağrı yapıp döngüye girmesin
+    "global_fetch_strictly_public"
+  ],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+    // run_worker_first varsayılan (false): statik varlıklar Worker'a hiç
+    // uğramadan servis edilir — hem hızlı hem faturasız. Site SSG olduğu
+    // için isteklerin büyük çoğunluğu buradan karşılanacak.
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  // Doğrulama alanı. `*.workers.dev` Türkiye'deki bazı ağlardan HTTPS ile
+  // açılmıyor (SNI engellemesi) — kendi alan adımızdaki bir alt alan, cutover
+  // öncesi gerçek koşullarda duman testi yapmanın tek yolu. www'ye ve
+  // WordPress'e dokunmaz.
+  //
+  // --- CUTOVER'DA EKLENECEK ---
+  // Aşağıdaki satır açıldığı an www.indoles.com.tr bu Worker'a bağlanır ve
+  // WordPress trafiği keser. Launch kapısı tamamlanmadan (preview smoke +
+  // GSC hazırlığı) AÇILMAMALI. Kanonik host `www` (ADR-024).
+  //   { "pattern": "www.indoles.com.tr", "custom_domain": true }
+  "routes": [{ "pattern": "preview.indoles.com.tr", "custom_domain": true }],
+
+  // NOT: `NEXT_PUBLIC_*` değişkenleri buraya YAZILMAZ — onlar build anında
+  // koda gömülüyor, çalışma zamanında okunmuyor. Değerleri `package.json`
+  // içindeki `cf:build` script'inde duruyor (LG-02: stage yanlışsa site
+  // komple indeks dışı çıkar, o yüzden script'e gömüldü — unutulamasın).
+  //
+  // Sunucu tarafı sırlar (RESEND_API_KEY, TURNSTILE_SECRET_KEY, SENTRY_DSN)
+  // repoya yazılmaz; `wrangler secret put <AD>` ile tanımlanır.
+  "vars": {}
+}

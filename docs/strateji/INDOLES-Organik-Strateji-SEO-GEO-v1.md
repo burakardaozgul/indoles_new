@@ -1,6 +1,6 @@
-# INDOLES Organik Büyüme Stratejisi — SEO + GEO v1.5
+# INDOLES Organik Büyüme Stratejisi — SEO + GEO v1.7
 
-> **Statü:** Onaylı (v1.5 — 2026-08-24, Dalga 3-4 uygulandı)
+> **Statü:** Onaylı (v1.7 — 2026-08-27, kelime önceliklendirmesi ayrı dosyaya çıkarıldı)
 > **Kanonik kopya:** 2026-08-23'ten itibaren bu dosya repo'da yaşar (`indoles-web/docs/strateji/`); güncellemeler burada changelog satırıyla yapılır. Desktop'taki kopya arşivdir.
 > **Tarih:** 2026-08-20 · **Bağlam:** Yeni site launch'ına 3 gün
 > **Veri tabanı:** GSC son 3 ay (22 tıklama / 2.190 gösterim / ort. poz. 17) + `indoles-web/docs/*` + Burak'ın strateji cevapları (2026-08-20)
@@ -10,6 +10,8 @@
 
 | Sürüm | Tarih | Değişiklik |
 |---|---|---|
+| v1.7 | 2026-08-27 | **Kelime önceliklendirmesi çıkarıldı** → `Keyword-Onceliklendirme-2026-08-27.md`. Kapsama Ağustos'tan bu yana 49/245 (%20) → **74/245 (%30)**; TR hacim %49→%56, EN %29→**%79**. Üç dalgalık hedef listesi, §4 takviminin yeniden sıralaması (AI ve GEO slotları öne, iki dolu slot yeniden atandı, iki yeni slot) ve dalga bazlı ölçüm çerçevesi + 7 alarm eşiği tanımlandı. **Dört uyarı:** hacim kapsamasının yarısı 4 kelimeden geliyor ve ikisi kariyer niyetli · GEO kümesinin 7 kelimesi tek makalede · ticari niteleyiciler yalnız son SSS'te · `yapay-zeka` konusunda 0 makale. Sekiz karar (K-1…K-8) Burak'ta. |
+| v1.6 | 2026-08-27 | **Re-audit (`docs/19`) sonrası dört düzeltme.** **(1) EN payda düzeltildi:** v1.5'in "10/13" beyanı yanlış paydayı taşıyordu — korunan üç küme CSV'de 15 kelime içeriyor ve beyan edilmeyen iki kelime düşmüştü. İkisi de yerleştirildi: `business process automation consulting` → iş otomasyonu `seo.title.en`; `mvp development agency` → özel yazılım SSS cevabı (H1/title'a değil — yerleşim kuralı korundu). **Gerçek oran artık 13/15**; bilinçli bırakılan üç kelime (`ai transformation consulting`, `ai implementation services`, `geo optimization`) değişmedi. **(2) Cannibalization çözüldü:** §2 P1 satırının kendi çelişkisi giderildi (aşağıdaki düzeltme notu); "iş geliştirme danışmanlığı" artık yalnız `/tr/hizmetler` başlığında hedefleniyor — ana sayfa "Dönüşüm ve büyüme stüdyosu, İstanbul", hakkımızda "iki eksen, bir disiplin" başlıklarına geçti. Terim marka tanımı yüzeylerinde (llms.txt, manifest, OG, gövde metinleri) korundu. **(3) `docs/18` kurtarıldı:** v1.4'ün refere ettiği 24 Ağustos denetimi repoya hiç yazılmamıştı; oturum kaydından kurtarılıp `docs/18-seo-geo-puanlama-2026-08-24.md` olarak eklendi. **(4) SSS `<details>` kararı kayda geçti:** ADR-023 — okunabilirlik + native `<details>`'in ham HTML'de metin bırakması gerekçesiyle. **Yeni açık kalem:** EN hedefleri regresyon koruması altında değil (`keyword-coverage.test.ts` yalnız TR yüzeyini tarıyor). |
 | v1.5 | 2026-08-24 | **Dalga 3-4 uygulandı.** TR: dar kapsamdaki 11 ticari kelimenin tamamı hedef sayfasında — `ajansı`/`firmaları` ailesi altı **karşı-konumlandırma SSS'i** yoluyla (Rakip-Analizi §1-2'nin önerdiği taktik), `danışmanlığı` ailesi başlık/açıklamada. `e-ticaret` başlığında iki kelimenin yeri değişerek tam eşleşme yakalandı. EN: hedef kelimelerin **10/13'ü** yerinde; üç 50/ay kelime (`ai transformation consulting`, `ai implementation services`, `geo optimization`) bilinçli bırakıldı — doğal yeri olmadan yerleştirmek kelime doldurma olurdu. İmla İngiliz biçiminde tekilleşti; kanonik terim adları (`generative engine optimization`, `answer engine optimization`, `LLM optimization`) ve marka adları (`Happy Center`) istisna. Paket SSS'leri ADR-022 ile tek sese indi (176 → 88 metin) ve `FAQPage` şeması artık görünen metnin aynısı. Yerleşim ve imla regresyon testlerine bağlandı (`keyword-coverage`, `en-spelling`). |
 | v1.4 | 2026-08-24 | Bağımsız SEO/GEO denetimi (`docs/18`) sonrası dört karar işlendi. **(1) Londra varsayımı geçersiz:** §2.0 karar 6 `ux agency london`'ı "EN'in en alınabilir kelimesi" ilan etmişti; Londra ofisi teyit edilemedi (Burak) ve künyeden çıkarıldı. EN-UX kümesinin kalanı 50/ay bandında — küme fiilen değersizleşti. **(2) EN hedefi üç kümeye indi:** AI + Yazılım + GEO (~2.150/ay); EN-UX, EN-CRO ve EN-Ticaret bilinçli olarak bırakıldı. EN imla İngiliz İngilizcesinde tekilleşiyor. **(3) Ticari kelime politikası — dar kapsam:** yalnız stratejide adıyla geçen ~10 kelime (`cro ajansı`, `e-ticaret danışmanlığı` üçlüsü, `performans pazarlama ajansı`, `ui/ux ajansı`) sayfalara girer ve **H1'e değil, SSS ile `seo.description`'a**. Jenerik reklam havuzu (`google reklam ajansı` + `dijital reklam ajansı`, 10.000/ay) hizmet sayfalarının dışında; o niyet §4 takviminde bir makaleye bırakıldı. **(4) Ölçüm öne alındı:** Consent Mode v2 (EEA/UK opt-in, TR varsayılan açık) ve olay katmanı uygulandı — §9'un KPI'ları artık ölçülebilir. |
 | v1.3 | 2026-08-22 | P0 SERP rakip analizi tamamlandı (`Rakip-Analizi-P0-SERP.md`): geçilecek rakipler ve eşikler tanımlandı, GEO penceresinin daraldığı tespitiyle GEO rehberi h.2'ye alındı. ADUARDO konumlandırması §8'e işlendi (AI-native pazarlama işletim sistemi, %10 INDOLES müşteri indirimi, "neden farklıyız" kanıt katmanı). 301 sahipliği Burak'a geçti. |
@@ -88,7 +90,9 @@ Aşağıdaki küme tabloları v1.0 yapısını korur; hacim detayı birleşik CS
 | a/b testi, landing page optimizasyonu, sepet terk oranı | Bilgi | Destek makaleleri |
 | checkout optimizasyonu, mikro dönüşüm | Bilgi | Uzun kuyruk, Faz 2 |
 
-### P1 — İş Geliştirme (Kategori Sahipliği) → `/tr/hizmetler` + hakkımızda + özel makale seti
+### P1 — İş Geliştirme (Kategori Sahipliği) → `/tr/hizmetler` (tek hedef) + özel makale seti
+
+> **Düzeltme (v1.6, 2026-08-27):** Bu satır önceden hedefi "`/tr/hizmetler` + hakkımızda" diye yazıyordu ve §2'nin kendi cannibalization yasağıyla çelişiyordu; kod da çelişkiyi birebir uygulamış, "iş geliştirme danışmanlığı" üç TR başlığında birden hedeflenmişti (`docs/19` bulgu C-05). Hedef artık **yalnız `/tr/hizmetler`**. Terim marka tanımı olarak (ana sayfa gövdesi, llms.txt, manifest, OG, hakkımızda gövdesi) yerinde kalır — kaldırılan yalnız **arama başlığı hedefi** olmasıdır.
 
 Burada oyun farklı: hacim satın almak değil, **kategoriyi tanımlamak.** "AI ile jargon yayılacak, biz lider olacağız" tezi doğru — 2026'da "iş geliştirme stüdyosu / business building" terminolojisi Türkçede boş. Boş kategoride lider olmanın yolu, terimi tanımlayan kanonik içeriği ilk yazan olmak: AI modelleri bir terimi öğrenirken onu tanımlayan kaynağı atıf noktası yapar.
 
@@ -159,6 +163,8 @@ GSC'nin en ilginç bulgusu: site zaten "yapay zeka arama optimizasyonu" (99 gös
 ---
 
 ## 4. İçerik Motoru — Haftada 2, 12 Haftalık Takvim
+
+> **Güncel sıralama (v1.7):** Aşağıdaki tablo özgün planı korur. Uygulanacak sıra **`Keyword-Onceliklendirme-2026-08-27.md` §3**'tedir — AI slotları (h.1-2, h.2-2) ve GEO slotları (h.7-2, h.10-2) ilk iki haftaya çekildi, yayında olan iki slot (h.7-1, h.8-1) silinip kapasitesi iki yeni slota aktarıldı.
 
 Kadans: **her hafta 1 ticari-destek içerik + 1 otorite/GEO içeriği.** Tüm slotlar yeni üretim — revize eski yazılar ve vakalar launch'ta zaten yayında. Her makale: Q&A-formatlı H2'ler, ilk 2 cümlede net cevap, en az 1 orijinal rakam/çerçeve, danışman kadrosundan gerçek yazar (author schema), 3-5 iç link (en az 1'i ilgili vakaya), FAQ bloğu.
 
@@ -298,4 +304,4 @@ Keyword Planner'dan çekilecek kolonlar: kelime · aylık ort. hacim · rekabet 
 
 ---
 
-**Sürüm:** v1.5 · Değişiklikler bu dosyada changelog ile ilerler; büyük revizyon = v2 dosyası, üzerine yazılmaz.
+**Sürüm:** v1.7 · Değişiklikler bu dosyada changelog ile ilerler; büyük revizyon = v2 dosyası, üzerine yazılmaz.

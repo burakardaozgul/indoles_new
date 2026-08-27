@@ -464,6 +464,8 @@ Toplam ~700 yeni soru-cevap metni, tamamı iki dilli ve `FAQPage` şemasına bas
 
 Paket SSS'leri `<details>` içinden çıkarılıp açık `<dl>`'ye alındı — makale şablonunun gerekçesiyle aynı: kapalı içeriği AI motorları ve ekran okuyucular atlayabiliyor. Aynı repodaki zıt karar giderildi.
 
+> **Düzeltme (2026-08-27):** Bu kayıt artık geçerli değil. Değişiklik uygulandıktan kısa süre sonra, soru sayısı ≥10'a çıkıp sayfa okunabilirliği çöktüğü için karar tersine çevrildi: beş yüzeyin tamamı (hizmet, pillar, vaka, makale, paket) native `<details>`'e döndü. Gerekçe ve seçenek karşılaştırması **ADR-023**'te; bulgu kaydı `docs/19-seo-geo-audit-2026-08-27.md` G-12'de. Kararın dayandığı asıl ayrım: native `<details>` kapalıyken de cevap metnini ham HTML'de bırakır (JS akordiyonu bırakmaz), yani "kapalı içeriği AI motorları atlar" endişesi bu yapıda geçerli değil.
+
 ### Aktif zarar veren dört kusur
 
 | Kusur | Düzeltme |

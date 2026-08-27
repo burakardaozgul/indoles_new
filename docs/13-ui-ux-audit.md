@@ -184,8 +184,8 @@ paket detayı aynı ritimde açılıyor; oysa biri hikâye, diğeri teklif.
 | `/gizlilik-kvkk` | Dokuz bölüm, içindekiler yok, geri dönüş yok |
 | `/iletisim` | Cal.com embed 404 veriyor (`app.cal.com/indoles/gorusme` yok) — bilinen borç ama artık nav CTA'sının hedefi |
 | `/yazilar` | Kategori var (`growth` / `transform` / `build` / `industry`) ama filtre yok |
-| `/vakalar` | Problem tipi filtresi taşındı ama liste ile filtre arasında bağ görünmüyor |
-| Tümü | Boş durum tasarımı yok — filtre sonucu boşsa ne görünecek belirsiz |
+| `/vakalar` | ~~Problem tipi filtresi taşındı ama liste ile filtre arasında bağ görünmüyor~~ ✅ 2026-08-27: `CaseFilter` chip'leri eklendi |
+| Tümü | ~~Boş durum tasarımı yok~~ ✅ 2026-08-27: sıfır vakalı problem tipi chip'i basılmıyor (ADR-021 emsali), boş durum oluşamıyor |
 
 ---
 
@@ -200,3 +200,48 @@ paket detayı aynı ritimde açılıyor; oysa biri hikâye, diğeri teklif.
 | 5 | Sayfa tipi ritimleri | Kozmetik, sonraya kalabilir |
 
 Portre fotoğrafları ve Cal.com bağlantısı senin tarafında — kod işi değil.
+
+---
+
+# Ek denetim — hakkımızda + vakalar (2026-08-27)
+
+> **Kapsam:** `/hakkimizda`, `/vakalar`, `/vakalar/[slug]` — canlı inceleme
+> (preview, 1440 + 390) + kod analizi, `ux-audit-2026` çerçevesiyle.
+> **Statü:** Bulguların tamamı aynı gün uygulandı (persona sistemi Burak'ın
+> talimatıyla kapsam dışı). Skor: 70/100 (B) — düzeltmeler öncesi.
+
+## Uygulanan bulgular
+
+| Bulgu | Düzeltme |
+|---|---|
+| `ContactCallout` birincil CTA'sı koyu şeritte görünmezdi (`text-ink-900` + arka plansız + bozuk `hover:/90`) | `bg-paper text-ink-900 hover:bg-paper/90` |
+| `max-w-prose-editorial` derlenmiyordu (token tanımsız) — paragraflar ~949px akıyordu | `@theme`'e `--container-prose-editorial: 680px` |
+| 6 dosyada `hover:v2-surface*` geçersiz utility — hover geri bildirimi yoktu | `hover:bg-surface-1/60` · `hover:bg-surface-2/60` eşdeğerleri |
+| `/vakalar`'da mükerrer listeleme (grid + `CasesSection`), kendine link veren "Tümünü gör", "02 — KANIT" eyebrow sızıntısı | `CasesSection` sayfadan çıkarıldı (dosya artık hiçbir yerden import edilmiyor — silme kararı bekliyor) |
+| Lede "problem tipine göre filtrele" vaat ediyordu, filtre yoktu | `CaseFilter`: problem tipi chip'leri, progressive enhancement (9 vaka sunucu HTML'inde kalır), sıfır sonuçlu chip basılmaz |
+| Featured vaka görselsizdi; sol/sağ kolon dengesizdi | `CASES[0].cover` + logo rozeti eklendi |
+| Mobilde featured metrik dizilimi ekran başına ~1 metrik saçıyordu | Mobil `grid-cols-2` |
+| 9 vakanın 5'inde `heroMedia` yok — sayfa başlıktan koyu banda düşüyordu | `resolveHeroMedia`: `cover` fallback'i |
+| Hakkımızda'da ekip iki kez sunuluyordu (harf-avatar grid + `TeamSlider`) | Slider silindi; grid `portraitTone` avatar + alıntılarla zenginleşti, künye satırı grid altına taşındı |
+| Değerlerdeki `01…04` indeksleri sıra bilgisi taşımıyordu | Mono anahtar etiketler: TEŞHİS / SAHİPLİK / SADELİK / EKSEN |
+| Değer #04 başlığı H1'i birebir tekrar ediyordu | "Tek yöntem, iki dil." (EN: "One method, two languages.") |
+| Vizyon istatistikleri ölçüm çerçevesiz çıplak sayılardı | docs/04 §10 kalıbıyla 4 bağlam satırı (TR+EN) |
+| Topbar telefon/e-posta linkleri mobilde ikon kalınca erişilebilir adsız kalıyordu (Lighthouse `link-name`) | `aria-label` eklendi |
+
+## Denetimde çürütülen bulgu
+
+Vaka detayı breadcrumb'ının `href: "/vakalar"` biçimi hata sanılmıştı;
+empirik testte `next-intl` `createNavigation` Link'i bunu `/tr/vakalar` ve
+`/en/case-studies`e doğru çevirdi. `/${locale}/…` biçimi tam tersine çift
+locale üretiyor. Kural: `V2PageHeader.crumbs` → çıplak kanonik path.
+
+## Açık kalan izleme kalemleri
+
+| Kalem | Not |
+|---|---|
+| `cases-section.tsx` orphan | Ana sayfa `FeaturedWork`e geçmiş; dosya hiçbir yerden import edilmiyor. Sil / referans olarak tut — Burak kararı |
+| Muted mono etiket kontrastı | `ink-500` (#6B7880) krem üstünde ≈4.4:1 — küçük puntoda AA sınırının altında ("SEÇİLMİŞ VAKA", footer notları). Site geneli token kararı gerektiriyor |
+| `/apple-icon` console hatası | Lighthouse `errors-in-console`; icon route'u ayrıca incelenmeli |
+| `yazilar/[slug]` `max-w-170` | Token artık var; iki kullanım `max-w-prose-editorial`a çevrilebilir |
+| Persona kapsamı | Persona switch dokunma hedefi (30px), giriş modal'ı, ikili persona mekanizması, detay sayfası persona varyantları — talimatla kapsam dışı bırakıldı |
+| Lighthouse (localhost, mobil) | A11y 93 · Best Practices 96 · SEO 61 (noindex/canonical — preview ortamı gereği, prod'da geçersiz) |

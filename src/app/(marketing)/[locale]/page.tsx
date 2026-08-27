@@ -19,7 +19,7 @@ import { organizationLd, webSiteLd, webPageLd } from "@/lib/seo/json-ld";
  */
 const LD_META = {
   tr: {
-    name: "INDOLES — İş geliştirme danışmanlığı",
+    name: "INDOLES — Dönüşüm ve büyüme stüdyosu, İstanbul",
     description:
       "Sanayiye teknoloji dönüşümü, ticarete agresif büyüme. Teşhis olmadan reçete yazmayız — iş önce anlaşılır, teknoloji sonra çağrılır.",
   },

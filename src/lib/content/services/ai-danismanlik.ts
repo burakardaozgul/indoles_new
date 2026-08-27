@@ -216,13 +216,18 @@ export const aiDanismanlik: ServiceContent = {
 
   faq: [
     {
+      // Eski iki soru ("Yapay zeka bizim isimize gercekten uyar mi?" ve
+      // "Hangi durumda yapay zeka yanlis tercih olur?") ayni niyetin iki
+      // yuzuydu. SSS ust siniri 12 (services-content.test.ts); yeni
+      // karsi-konumlandirma sorusuna yer acmak icin ikisi burada birlesti,
+      // her iki tarafin da ozgun cumleleri korunarak.
       question: {
-        tr: "Yapay zeka bizim işimize gerçekten uyar mı?",
-        en: "Would AI actually suit our business?",
+        tr: "Yapay zeka hangi işlere uyar, hangi durumda yanlış tercih olur?",
+        en: "Which tasks does AI suit, and when is it the wrong choice?",
       },
       answer: {
-        tr: "Yapay zeka her işe uymaz ve INDOLES bu hizmette önce uymadığı yerleri eler. Tekrarlı, kurallı ve yeterli veriye sahip işlerde yapay zeka karşılığını verir; tek seferlik, yargı gerektiren veya verisi olmayan işlerde vermez. Envanter çalışmasının sonunda hangi işin aday olduğunu ve hangisinin olmadığını gerekçesiyle görürsünüz.",
-        en: "AI does not suit every business, and in this service INDOLES first rules out where it does not. It pays off on repetitive, rule-bound tasks with enough data behind them, and does not on one-off work, judgement calls or tasks with no data. At the end of the inventory you see which tasks qualify and which do not, with the reasoning.",
+        tr: "Tekrarlı, kurallı ve yeterli veriye sahip işlerde yapay zeka karşılığını verir; tek seferlik, yargı gerektiren veya verisi olmayan işlerde vermez ve eleme adımında listeden çıkar. Aynı sonucu kural tabanlı bir otomasyon getiriyorsa daha ucuz olan seçilir; süreç otomasyonu iş otomasyonları hizmetinde yürür. Sorun karar almak için veriyi görememekse gereken şey model değil raporlamadır, iş zekası hizmetine girer. INDOLES envanter çalışmasının sonunda hangi işin aday olduğunu ve hangisinin olmadığını gerekçesiyle yazar.",
+        en: "Repetitive, rule-bound tasks with enough data behind them are where AI pays off; one-off work, judgement calls and tasks with no data are not, and they drop out at the filtering step. If rule-based automation produces the same result, the cheaper option wins, and that work runs under business automation. If the real problem is not seeing the data behind decisions, the answer is reporting rather than a model, and that belongs to business intelligence. At the end of the inventory INDOLES writes down which tasks qualify and which do not, with the reasoning.",
       },
     },
     {
@@ -241,7 +246,7 @@ export const aiDanismanlik: ServiceContent = {
         en: "Do you train a custom model for us?",
       },
       answer: {
-        tr: "Çoğu iş için sıfırdan model eğitmek gereksiz ve pahalıdır; hazır servisler veya kural tabanlı otomasyon aynı sonucu çok daha ucuza verir. INDOLES yöntem seçiminde en ucuz çalışan yolu tercih eder ve gerekçesini yazar. Bir yapay zeka ajansı ya da danışmanı seçerken de aynı soruyu sorun: hangi yöntemi neden seçtiğini yazıyor mu? Sıfırdan model eğitimi ve akademik araştırma bu hizmetin kapsamı dışındadır.",
+        tr: "Çoğu iş için sıfırdan model eğitmek gereksiz ve pahalıdır; hazır servisler veya kural tabanlı otomasyon aynı sonucu çok daha ucuza verir. INDOLES yöntem seçiminde en ucuz çalışan yolu tercih eder ve gerekçesini yazar. Sıfırdan model eğitimi ve akademik araştırma bu hizmetin kapsamı dışındadır.",
         en: "For most tasks, training a model from scratch is unnecessary and expensive; off-the-shelf services or rule-based automation give the same result far more cheaply. In method selection INDOLES picks the cheapest thing that works and writes down why. Training models from scratch and academic research sit outside this service.",
       },
     },
@@ -316,13 +321,17 @@ export const aiDanismanlik: ServiceContent = {
       },
     },
     {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §2.3).
+      // "yapay zeka ajansi" (Dusuk rekabet, Top-5 esigi) ile "yapay zeka
+      // firmalari" (Orta rekabet) iki ayri SERP niyeti; birlestirilmezler.
+      // Ticari niteleyici kelime H1'e ve seo.title'a girmez.
       question: {
-        tr: "Hangi durumda yapay zeka yanlış tercih olur?",
-        en: "When is AI the wrong choice?",
+        tr: "Yapay zeka ajansı ile yapay zeka danışmanlığı arasındaki fark nedir?",
+        en: "What is the difference between an AI agency and AI advisory?",
       },
       answer: {
-        tr: "Tek seferlik, yargı gerektiren veya verisi olmayan işlerde yapay zeka karşılığını vermez ve eleme adımında listeden çıkar. Aynı sonucu kural tabanlı bir otomasyon getiriyorsa daha ucuz olan seçilir; süreç otomasyonu iş otomasyonları hizmetinde yürür. Sorun karar almak için veriyi görememekse gereken şey model değil raporlamadır ve iş zekası hizmetine girer.",
-        en: "For one-off tasks, tasks requiring judgement, or tasks with no data, AI does not pay off and drops out at the filtering step. If rule-based automation produces the same result, the cheaper option wins, and that work runs under business automation. If the real problem is not seeing the data behind decisions, the answer is reporting rather than a model, and that belongs to business intelligence.",
+        tr: "Yapay zeka ajansı çoğunlukla hazır bir yetenek satar: chatbot kurulumu, içerik üretimi otomasyonu, kampanya araçları. Yapay zeka danışmanlığı ise önce hangi işte yapay zekanın karşılığını verdiğine karar verir, sonra kurar ve sonucu ölçer. INDOLES ikinci yolu izler; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık denetimi pilottan önce gelir, pilot çıktısı mevcut yöntemle yan yana ölçülür. Ekipte bir AI SaaS ürününün (ADUARDO) kurucu ortağı var, dolayısıyla kurulum sonrası doğruluk takibi ve işletme yükü teoriden değil ürün işletme deneyiminden biliniyor.",
+        en: "AI agencies typically sell a ready-made capability: a chatbot build, content automation, campaign tooling. AI advisory decides first where artificial intelligence actually pays off, then builds it and measures the result. INDOLES takes the second route; the candidate task list, the cost-benefit calculation and the data readiness check all come before any pilot, and the pilot output is measured side by side with the current method. One of the team co-founded an AI SaaS product (ADUARDO), so post-launch accuracy monitoring and the running cost of a live system are known from operating a product rather than from theory.",
       },
     },
     {

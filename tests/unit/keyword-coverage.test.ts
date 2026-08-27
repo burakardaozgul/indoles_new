@@ -106,3 +106,95 @@ describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
     }
   });
 });
+
+/**
+ * EN yerleşim koruması (docs/19 bulgu C-13).
+ *
+ * Bağlam: 2026-08-27 denetimi, yukarıdaki `searchSurface()`'in yalnız `.tr`
+ * alanlarını taradığını, dolayısıyla hiçbir EN hedef kelimenin regresyon
+ * koruması altında olmadığını tespit etti. Aynı gün iki EN kelime sayfalara
+ * yerleşti (`business process automation consulting`, `mvp development
+ * agency` — v1.6 changelog); koruma olmadan bir sonraki içerik
+ * düzenlemesinde ikisi de sessizce düşebilirdi.
+ *
+ * `norm()` EN için de doğru: Türkçe'ye özgü `toLocaleLowerCase("tr")`
+ * tuzağından (İ/I/ı karışması) kaçınmak için zaten locale'siz manuel bir
+ * karakter eşlemesi kullanıyor — `İ`, `I`, `ı` üçü de `i`'ye düşüyor, ki bu
+ * ASCII `I` için `toLowerCase()`'in üreteceği sonuçla birebir aynı. EN
+ * metninde Türkçe'ye özgü harf yok, o yüzden aynı fonksiyon iki dilde de
+ * güvenli; ayrı bir `normEn()` gerekmiyor.
+ *
+ * Kapsam bilinçli olarak dar: yalnız stratejinin (§2.0 karar 6, v1.5/v1.6
+ * changelog) adıyla andığı ve bugün gerçekten bir `SERVICES` sayfasında
+ * geçtiği doğrulanmış 8 kelime. GEO/makale hedefleri (`generative engine
+ * optimization`, `answer engine optimization` vb.) bu testin kapsamı
+ * dışıdır — onlar `ArticleContent` yüzeyinde yaşar, `SERVICES` üzerinden
+ * okunmaz; kapsamı oraya genişletmek ayrı bir iştir.
+ */
+function searchSurfaceEn(s: ServiceContent): string {
+  return norm(
+    [
+      s.name.en,
+      s.seo.title.en,
+      s.seo.description.en,
+      s.lede.en,
+      ...s.signals.en,
+      ...s.scope.includes.flatMap((i) => [i.title.en, i.description.en]),
+      ...s.scope.excludes.en,
+      ...s.method.flatMap((m) => [m.title.en, m.description.en, m.output.en]),
+      ...s.deliverables.flatMap((d) => [d.title.en, d.description.en]),
+      ...s.faq.flatMap((f) => [f.question.en, f.answer.en]),
+    ].join(" ")
+  );
+}
+
+/**
+ * Strateji §2.0 karar 6 + v1.6 changelog'da adıyla geçen EN ticari kelimeler
+ * → hedef hizmet (TR slug — `SERVICES` tek kaynak TR slug'ıyla indeksleniyor,
+ * yukarıdaki TR desenle aynı). Kaynak: `keyword-hacim-birlesik.csv` EN
+ * satırları (EN-AI, EN-Yazılım kümeleri).
+ *
+ * Bilinçli olarak DIŞARIDA bırakılan üç kelime (v1.5/v1.6 changelog):
+ * `ai transformation consulting`, `ai implementation services`,
+ * `geo optimization` — doğal yeri olmadan yerleştirmek kelime doldurma
+ * olurdu, kod tarafında hiçbir sayfaya eklenmediler.
+ *
+ * `mvp development agency`'nin CSV'deki kanonik hedefi "MVP Build paketi
+ * (EN)"dir — bir `PackageContent`, bu testin taradığı `SERVICES` yüzeyinin
+ * dışında. Kelime bugün fiilen `ozel-yazilim-ve-mobil` SSS'inde de geçiyor
+ * (v1.6 changelog); bu test yalnız o ikincil yerleşimi korur, paket
+ * sayfasındaki asıl hedef bu dosyanın kapsamı dışında kalır.
+ */
+const TARGETS_EN: Array<[slug: string, keyword: string]> = [
+  ["ai-danismanlik", "ai consultancy"],
+  ["ai-danismanlik", "artificial intelligence consulting"],
+  ["ai-danismanlik", "ai consulting firm"],
+  ["dijital-donusum", "digital transformation consultancy"],
+  ["ozel-yazilim-ve-mobil", "custom software development company"],
+  ["ozel-yazilim-ve-mobil", "software development agency"],
+  ["ozel-yazilim-ve-mobil", "mobile app development company"],
+  ["ozel-yazilim-ve-mobil", "mvp development agency"],
+  ["is-otomasyonlari", "business process automation consulting"],
+];
+
+describe("EN keyword yerleşimi (strateji §2.0 karar 6, docs/19 C-13)", () => {
+  it.each(TARGETS_EN)("%s sayfası '%s' kelimesini taşıyor (EN)", (slug, keyword) => {
+    const service = SERVICES.find((s) => s.slug.tr === slug);
+    expect(service, `hizmet bulunamadı: ${slug}`).toBeDefined();
+    expect(searchSurfaceEn(service!)).toContain(norm(keyword));
+  });
+
+  it("'agency' kelimesi name.en ve seo.title.en içinde geçmiyor", () => {
+    // TR yerleşim kuralının ("ajansı"/"firmaları" H1 ve seo.title'a girmez,
+    // v1.4 karar 3 — ticari niteleyici aile kendimizi adlandırmak için
+    // kullanılmaz) EN eşleniği. 2026-08-27 doğrulaması: 12 hizmetin
+    // hiçbirinde name.en/seo.title.en içinde "agency" yok — kelime yalnız
+    // SSS'lerde (karşı-konumlandırma veya üçüncü taraf tanımı olarak)
+    // geçiyor. Bu test o durumu dondurur.
+    for (const s of SERVICES) {
+      for (const surface of [s.name.en, s.seo.title.en]) {
+        expect(norm(surface).includes("agency"), `${s.slug.tr}: "${surface}"`).toBe(false);
+      }
+    }
+  });
+});

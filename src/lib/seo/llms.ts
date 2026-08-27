@@ -112,7 +112,7 @@ ${articleLines("tr")}
 
 ## İletişim
 - [Görüşme ve brief](${SITE_URL}/tr/iletisim)
-- E-posta: hello@indoles.com.tr
+- E-posta: digital@indoles.com.tr
 
 ## Kaynaklar
 - [Hizmetler](${SITE_URL}/tr/hizmetler)
@@ -152,7 +152,7 @@ ${articleLines("en")}
 
 ## Contact
 - [Calls and briefs](${SITE_URL}/en/contact)
-- Email: hello@indoles.com.tr
+- Email: digital@indoles.com.tr
 
 ## Resources
 - [Services](${SITE_URL}/en/services)

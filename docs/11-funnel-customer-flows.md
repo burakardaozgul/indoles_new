@@ -13,7 +13,7 @@ INDOLES, farklı hazırlık seviyelerindeki potansiyel müşteriye üç farklı 
 | Taahhüt | Araç | Zaman | Giriş bariyeri | Amaç |
 |---|---|---|---|---|
 | **Düşük** | Entry popup + mikro teşhis araçları | 30 sn – 3 dk | Sıfır (auth yok) | İhtiyaç keşfi, INDOLES ile ilk temas, persona sinyalleri |
-| **Orta** | Ücretsiz 30 dk ön görüşme (Cal.com embed) | 30 dk | Düşük (email + takvim, auth yok) | Somut problem tartışması, insan kanıtı, paket/proje önerisi |
+| **Orta** | Ücretsiz 1 saatlik ön görüşme (kendi takvim sistemi — ADR-025, entegrasyon bekliyor; geçişte iletişim formu) | 1 saat | Düşük (email + takvim, auth yok) | Somut problem tartışması, insan kanıtı, paket/proje önerisi |
 | **Yüksek** | İletişim formu → detaylı brief (mail) | 10-15 dk form | Orta (şirket bilgisi, problem tanımı) | Satış niyeti netleşmiş müşteri, INDOLES takip eder |
 
 **Temel prensip:** Ziyaretçi hangi kapıdan girerse girsin, **funnel bir sonraki adıma kendi hızında iter**. Agresif satış yok; ama her sayfa en az bir "bir sonraki adım" CTA'sı taşır.
@@ -25,7 +25,7 @@ INDOLES, farklı hazırlık seviyelerindeki potansiyel müşteriye üç farklı 
 ### 2.1 Düşük taahhüt: Entry popup + mikro teşhis
 
 **Araçlar:**
-- **Entry popup** — ilk ziyarette homepage'de tetiklenir. 3 aşama: persona seçimi (Stage 1) → problem seçimi (Stage 2) → Cal.com quick-book veya iletişim formu (Stage 3). Detay: `docs/superpowers/specs/2026-04-17-entry-popup-design.md`.
+- **Entry popup** — ilk ziyarette homepage'de tetiklenir. 3 aşama: persona seçimi (Stage 1) → problem seçimi (Stage 2) → görüşme talebi veya iletişim formu (Stage 3; Cal.com kaldırıldı — ADR-025). Detay: `docs/superpowers/specs/2026-04-17-entry-popup-design.md`.
 - **Mikro teşhis araçları** (launch'ta 1-2 adet, v2'de genişler):
   - "Dijital dönüşüm hazırlık skoru" — 10 soruluk quiz, skor + yorum + ilgili pillar/paket önerisi
   - "Büyüme fırsatı teşhisi" — 8 soruluk quiz, ticaret persona için
@@ -38,21 +38,21 @@ INDOLES, farklı hazırlık seviyelerindeki potansiyel müşteriye üç farklı 
 - Persona + ilgi sinyali toplamak (PostHog person properties).
 
 **Çıkış noktaları:**
-- "30 dakikalık ücretsiz görüşme al" CTA'sı (Cal.com embed, auth gerektirmez).
+- "1 saatlik ücretsiz görüşme al" CTA'sı (talep formu; takvim entegrasyonu bekleniyor — ADR-025).
 - "İlgili paket" inline öneri.
 - İletişim formu (yüksek taahhüde köprü).
 
-### 2.2 Orta taahhüt: Ön görüşme (Cal.com)
+### 2.2 Orta taahhüt: Ön görüşme (kendi takvim sistemi — ADR-025)
 
 **Özellik:**
 - 30 dakika, ücretsiz.
-- Pillar'a göre uygun danışman Cal.com event type'ına yönlendirme.
-- Cal.com embed (popup Stage 3 veya sayfa içi widget). Auth gerektirmez.
+- Pillar'a göre uygun danışmanla eşleştirme; slot daveti e-postayla gider.
+- Geçiş dönemi: iletişim formu + e-posta; takvim sistemi entegre olunca sayfa içi widget döner.
 
 **Akış:**
-1. CTA'ya tıkla → Cal.com embed açılır (auth yok).
-2. Cal.com embed'de slot seç.
-3. Cal.com onay emailini kendisi gönderir.
+1. CTA'ya tıkla → görüşme talep formu açılır (auth yok).
+2. Form gönderilir; uygun slot birlikte belirlenir.
+3. Takvim daveti e-postayla gönderilir.
 4. Görüşme sonrası danışman notu → iletişim formu veya doğrudan e-posta (opsiyonel).
 
 **Hedef metrik:** Ziyaret → ön görüşme dönüşümü %3-5 (industry benchmark %1-2'nin üstü).
@@ -113,7 +113,7 @@ flowchart TD
   end
 
   subgraph Mid["Orta Taahhüt"]
-    Booking["Cal.com embed<br/>30 dk ön görüşme<br/>(auth yok)"]
+    Booking["Görüşme talebi<br/>1 saatlik ön görüşme<br/>(auth yok)"]
   end
 
   subgraph High["Yüksek Taahhüt"]

@@ -63,7 +63,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Database | **Yok** | Launch'ta DB yok; ADR-010 |
 | Auth | **Yok** | Launch'ta auth yok; ADR-008 |
 | İçerik | Statik TS + MDX | `src/lib/content/*.ts` + `content/yazilar/*.mdx`; ADR-006 |
-| Booking | Cal.com Cloud (embed) | `@calcom/embed-react` |
+| Booking | Kendi takvim sistemi — entegrasyon bekliyor; Cal.com kaldırıldı (ADR-025) | şimdilik form + e-posta |
 | Ödeme | **Yok** | ADR-009 |
 | AI Agent | **Yok** | Launch'ta agent yok; ADR-007 |
 | i18n | next-intl | Path-based TR+EN |
@@ -167,7 +167,7 @@ indoles-web/
 ├── src/
 │   ├── app/(marketing)/[locale]/      # Tüm public sayfalar
 │   ├── app/(v2)/[locale]/v2/          # Yeni tasarım yönü — kendi chrome'u (ADR-016)
-│   ├── app/api/                       # contact · visitor-profile · health (+2 stub)
+│   ├── app/api/                       # contact · visitor-profile · health · upload
 │   ├── components/analytics/          # track-view (görüntüleme olayı adası)
 │   ├── components/marketing/          # Ana site bölümleri + entry-popup + paylaşılanlar
 │   │                                  # (v1 chrome — layout/ — ADR-017 sonrası silindi)

@@ -13,7 +13,7 @@ export const COMPANY = {
   legalName: "İndoles Yazılım A.Ş.",
   brand: "INDOLES",
   phone: "+90 536 247 60 12",
-  email: "hello@indoles.com.tr",
+  email: "digital@indoles.com.tr",
   careersEmail: "career@indoles.com.tr",
   /**
    * Yalnız doğrulanmış lokasyon. Londra ve Dubai künyede duruyordu ama

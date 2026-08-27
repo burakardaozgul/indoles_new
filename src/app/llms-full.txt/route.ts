@@ -184,7 +184,7 @@ const body = `# INDOLES — tam içerik dökümü
 - Dil: TR / EN
 - Alan: iş geliştirme danışmanlığı — sanayi şirketlerine teknoloji dönüşümü, ticaret ve perakende markalarına agresif büyüme
 - Yaklaşım: teşhis olmadan reçete yok — iş önce anlaşılır, teknoloji sonra çağrılır
-- İletişim: [Görüşme ve brief](${url("tr", "contact")}) · hello@indoles.com.tr
+- İletişim: [Görüşme ve brief](${url("tr", "contact")}) · digital@indoles.com.tr
 
 ## Üç disiplin
 
@@ -245,7 +245,7 @@ ${consultantSection("tr")}
 - Languages: TR / EN
 - Field: business development consultancy — technology transformation for industrial companies, aggressive growth for commerce and retail brands
 - Approach: no prescription without diagnosis — the business is understood first, technology is called second
-- Contact: [Calls and briefs](${url("en", "contact")}) · hello@indoles.com.tr
+- Contact: [Calls and briefs](${url("en", "contact")}) · digital@indoles.com.tr
 
 ## Three disciplines
 

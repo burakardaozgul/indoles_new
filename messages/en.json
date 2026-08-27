@@ -261,7 +261,7 @@
               "cta": "Start the intro"
             },
             "booking": {
-              "description": "30 minutes with an expert. We open the problem together and define which pillar to start from and what the concrete next step looks like.",
+              "description": "One hour with an expert. We open the problem together and define which pillar to start from and what the concrete next step looks like.",
               "cta": "Schedule a call"
             },
             "brief": {
@@ -280,7 +280,7 @@
               "cta": "Start now"
             },
             "booking": {
-              "description": "30 minutes to map your growth direction. Which channel, which metric, how soon to see impact — let's make it concrete.",
+              "description": "One hour to map your growth direction. Which channel, which metric, how soon to see impact — let's make it concrete.",
               "cta": "Build the plan"
             },
             "brief": {
@@ -300,9 +300,9 @@
         },
         "booking": {
           "commitment": "Medium commitment",
-          "label": "30-minute discovery call",
-          "description": "30 minutes with an expert. Open the problem, draw a concrete direction.",
-          "meta": "30 min · No commitment · Live",
+          "label": "One-hour discovery call",
+          "description": "One hour with an expert. Open the problem, draw a concrete direction.",
+          "meta": "1 hour · No commitment · Live",
           "cta": "Book a call"
         },
         "brief": {
@@ -376,7 +376,7 @@
       "title": "Noted. What's next?",
       "subtitle": "Talk directly with the right advisor.",
       "bookingCta": "Book a 1-hour discovery call",
-      "bookingHelper": "Pick a time on Cal.com and it lands in your calendar. No commitment.",
+      "bookingHelper": "We'll agree a time together and send a calendar invite. No commitment.",
       "contactCta": "Have us reach out",
       "contactHelper": "We'll reply within one business day."
     },

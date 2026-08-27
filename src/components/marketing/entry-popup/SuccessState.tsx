@@ -4,11 +4,14 @@ import { useTranslations } from "next-intl";
 
 type Props = {
   variant: "booking" | "contact";
-  bookingUrl: string | null;
   onClose: () => void;
 };
 
-export function SuccessState({ variant, bookingUrl, onClose }: Props) {
+/**
+ * Cal.com bağlantı dalı kaldırıldı (ADR-025): rezervasyon INDOLES'in kendi
+ * takvim sistemine taşınıyor; slot daveti başvuru sonrası e-postayla gider.
+ */
+export function SuccessState({ variant, onClose }: Props) {
   const t = useTranslations("popup");
   const title = variant === "booking" ? t("success.bookingTitle") : t("success.contactTitle");
   const body = variant === "booking" ? t("success.bookingBody") : t("success.contactBody");
@@ -17,17 +20,6 @@ export function SuccessState({ variant, bookingUrl, onClose }: Props) {
     <div className="text-center py-6">
       <h2 className="text-xl md:text-2xl font-semibold text-neutral-900">{title}</h2>
       <p className="text-sm text-neutral-600 mt-3">{body}</p>
-
-      {variant === "booking" && bookingUrl ? (
-        <a
-          href={bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block mt-5 px-4 py-2 bg-neutral-900 text-white rounded-md text-sm"
-        >
-          Cal.com
-        </a>
-      ) : null}
 
       <div className="mt-6">
         <button

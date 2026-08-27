@@ -5,13 +5,14 @@ import { SuccessState } from "../SuccessState";
 vi.mock("next-intl", () => ({ useTranslations: () => (k: string) => k }));
 
 describe("SuccessState", () => {
-  it("booking variant Cal.com URL linkini gösterir", () => {
-    render(<SuccessState variant="booking" bookingUrl="https://cal.com/x" onClose={() => {}} />);
-    expect(screen.getByRole("link")).toHaveAttribute("href", "https://cal.com/x");
+  it("booking variant başlığı render eder, dış link basmaz (ADR-025)", () => {
+    render(<SuccessState variant="booking" onClose={() => {}} />);
+    expect(screen.getByText(/bookingTitle/i)).toBeInTheDocument();
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 
   it("contact variant başlığı render eder", () => {
-    render(<SuccessState variant="contact" bookingUrl={null} onClose={() => {}} />);
+    render(<SuccessState variant="contact" onClose={() => {}} />);
     expect(screen.getByText(/contactTitle/i)).toBeInTheDocument();
   });
 });

@@ -24,7 +24,6 @@ const KVKK_TR = `# Gizlilik ve KVKK Aydınlatma Metni
 - Google Analytics 4: GA4 saklama ayarı gereği (hesapta 14 ay olarak sınırlandırılmıştır)
 
 ## Paylaşım
-- Cal.com (rezervasyon için)
 - Resend (e-posta için)
 - Google Analytics 4 (Google Ireland Ltd. — ölçümleme)
 
@@ -48,7 +47,6 @@ const KVKK_EN = `# Privacy & KVKK Notice
 - Google Analytics 4: per GA4 retention setting (capped at 14 months on this property)
 
 ## Sharing
-- Cal.com (for booking)
 - Resend (for email)
 - Google Analytics 4 (Google Ireland Ltd. — measurement)
 

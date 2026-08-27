@@ -75,8 +75,8 @@ export default function GlobalError({
           >
             Hata kaydedildi. Sayfayı yeniden deneyebilir ya da ana sayfaya
             dönebilirsin. Sorun sürerse{" "}
-            <a href="mailto:hello@indoles.com.tr" style={{ color: "#2C5566" }}>
-              hello@indoles.com.tr
+            <a href="mailto:digital@indoles.com.tr" style={{ color: "#2C5566" }}>
+              digital@indoles.com.tr
             </a>{" "}
             adresine yazabilirsin.
           </p>

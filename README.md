@@ -17,7 +17,7 @@ Sanayi için teknoloji dönüşümü, ticaret için agresif büyüme.
 | i18n | next-intl — path-based TR + EN |
 | API | 2 REST Route Handler: `/api/contact`, `/api/visitor-profile` |
 | E-posta | Resend + React Email |
-| Randevu | Cal.com Cloud |
+| Randevu | Kendi takvim sistemi (entegrasyon bekliyor — ADR-025) |
 | Spam koruma | Cloudflare Turnstile |
 | Analytics | Google Analytics 4 |
 | Hata izleme | Sentry |

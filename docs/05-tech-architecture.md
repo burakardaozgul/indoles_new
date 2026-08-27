@@ -14,8 +14,8 @@
 >
 > **Route sayısı düzeltmesi:** §1.3 "2 REST Route Handler" diyor; diskte 5 route
 > vardır: `/api/contact` ve `/api/visitor-profile` (canlı), `/api/health` (ops
-> probe), `/api/upload` ve `/api/webhooks/cal` (**TODO stub** — implementasyonu
-> yok, `webhooks/cal` kaldırılmış Inngest'e trigger atmaya çalışıyor). İkisi
+> probe) ve `/api/upload`. `/api/webhooks/cal` stub'ı Cal.com ile birlikte
+> silindi (ADR-025). İkisi
 > temizlenmeli veya tamamlanmalı.
 >
 > ADR-006 kapsamında Sanity referansları kaldırıldı; içerik statik TS + MDX'tir.
@@ -48,7 +48,7 @@ INDOLES web, **Cloudflare Workers üzerinde (OpenNext adaptörü) deploy edilen,
 | AI orkestrasyon | **Yok** (launch) | Vercel AI SDK + Gemini — bkz. ADR-007 |
 | Auth | **Yok** (launch) | Clerk — bkz. ADR-008 |
 | İçerik | Statik TS + MDX (git-in-content) | Sanity — bkz. ADR-006 |
-| Randevu | Cal.com Cloud (embed + prefill) | Cal.com API + webhook |
+| Randevu | Kendi takvim sistemi (entegrasyon bekliyor; ADR-025) — geçişte form + e-posta | Cal.com kaldırıldı |
 | Ödeme | **Yok** (launch) | Stripe + iyzico — bkz. ADR-009 |
 | Background jobs | **Yok** (launch) | Inngest — bkz. ADR-011 |
 | E-posta | Resend + React Email | SendGrid, Postmark |
@@ -75,7 +75,7 @@ graph LR
     S -->|client JS| P[Persona Switch<br/>+ Popup + Form UI]
     P -->|POST| A1[/api/contact/]
     P -->|POST| A2[/api/visitor-profile/]
-    P -->|embed iframe| C[Cal.com Cloud]
+    P -->|form + e-posta; takvim entegrasyonu bekleniyor (ADR-025)| C[Kendi takvim sistemi]
     P -->|identify/capture| PH[PostHog EU]
     A1 -->|mail| R[Resend]
     A2 -->|mail| R
@@ -88,7 +88,7 @@ graph LR
 |--------|--------|
 | **Statik** | Tüm sayfalar build-time SSG. Persona switch, popup, form = client-side React. Cloudflare edge'den servis (assets binding — Worker'a uğramaz). |
 | **Serverless (2 route)** | `/api/contact` (iletişim formu → Resend mail + PostHog). `/api/visitor-profile` (popup Stage 3 submit → Resend + PostHog). Her ikisi <100 satır, Node runtime. |
-| **External (3 servis)** | Cal.com (rezervasyon embed), PostHog EU (analytics + person properties + feature flags + replay), Resend (transactional mail). |
+| **External (2 servis)** | Resend (transactional mail), Cloudflare Turnstile (spam koruması). Cal.com kaldırıldı (ADR-025); randevu kendi takvim sistemine taşınıyor. |
 
 **Kaldırılan katmanlar (sadeleştirme):** DB (ADR-010), Auth/Clerk (ADR-008), AI Agent (ADR-007), Payments/Stripe/iyzico (ADR-009), Inngest background jobs (ADR-011), AWS SST/OpenNext (ADR-012).
 
@@ -154,7 +154,7 @@ sequenceDiagram
   participant U as Kullanıcı
   participant E as Cal.com Embed
   participant C as Cal.com Cloud
-  participant W as /api/webhooks/cal
+  participant W as /api/webhooks/cal (silindi — ADR-025)
   participant DB as Neon
   participant I as Inngest
   participant R as Resend
@@ -485,7 +485,6 @@ Aşağıdakiler tRPC dışında, klasik Route Handler:
 
 | Path | Amaç | Özellik |
 |---|---|---|
-| `/api/webhooks/cal` | Booking event | HMAC verify, booking upsert, Inngest trigger |
 | `/api/webhooks/stripe` | Payment event | Stripe signature verify, payment upsert |
 | `/api/webhooks/iyzico` | Payment event | iyzico conversation ID match |
 | `/api/webhooks/clerk` | User sync | Svix signature verify, Neon user upsert |

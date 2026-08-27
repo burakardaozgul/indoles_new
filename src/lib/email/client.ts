@@ -6,7 +6,7 @@ export const resend = process.env.RESEND_API_KEY
   : null;
 
 export const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL ?? "hello@indoles.com.tr";
+  process.env.RESEND_FROM_EMAIL ?? "digital@indoles.com.tr";
 
 type SendEmailOptions = {
   to: string;

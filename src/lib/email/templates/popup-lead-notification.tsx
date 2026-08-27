@@ -13,7 +13,6 @@ type Props = {
   personaLabel: string;
   problems: string[];
   submissionType: "booking" | "contact";
-  calComBookingUrl?: string | null;
   locale: "tr" | "en";
   utm?: { source?: string; medium?: string; campaign?: string };
   adminLink: string;
@@ -49,11 +48,6 @@ export function PopupLeadNotificationEmail(p: Props) {
           <Hr />
           <Section>
             <Text style={row}><span style={label}>Tür:</span> {p.submissionType}</Text>
-            {p.submissionType === "booking" && p.calComBookingUrl ? (
-              <Text style={row}>
-                <span style={label}>Cal.com:</span> <Link href={p.calComBookingUrl}>{p.calComBookingUrl}</Link>
-              </Text>
-            ) : null}
             <Text style={row}><span style={label}>Locale:</span> {p.locale}</Text>
             {p.utm ? (
               <Text style={row}>

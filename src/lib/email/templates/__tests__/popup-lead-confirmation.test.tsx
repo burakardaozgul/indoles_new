@@ -6,12 +6,13 @@ import { decodeEntities } from "./test-utils";
 describe("PopupLeadConfirmationEmail", () => {
   const base = { firstName: "Ali", locale: "tr" as const };
 
-  it("booking variant Cal.com bilgisini içerir", async () => {
+  it("booking variant talep onayını basar, Cal.com izi içermez (ADR-025)", async () => {
     const html = decodeEntities(await render(
-      <PopupLeadConfirmationEmail {...base} variant="booking" calComBookingUrl="https://cal.com/x" />
+      <PopupLeadConfirmationEmail {...base} variant="booking" />
     ));
-    expect(html).toContain("cal.com/x");
     expect(html).toContain("Ali");
+    expect(html).toContain("takvim davetini");
+    expect(html).not.toContain("cal.com");
   });
 
   it("contact variant 1 iş günü mesajını içerir", async () => {
@@ -26,13 +27,5 @@ describe("PopupLeadConfirmationEmail", () => {
       <PopupLeadConfirmationEmail {...base} variant="contact" locale="en" />
     ));
     expect(html).toMatch(/business day/i);
-  });
-
-  it("booking variant calComBookingUrl=null ise Cal.com link bölümünü atlar", async () => {
-    const html = decodeEntities(await render(
-      <PopupLeadConfirmationEmail {...base} variant="booking" calComBookingUrl={null} />
-    ));
-    expect(html).not.toContain("cal.com");
-    expect(html).not.toContain("Seçim bağlantısı");
   });
 });

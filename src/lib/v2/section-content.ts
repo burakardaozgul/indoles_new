@@ -98,14 +98,14 @@ export const OUTRO: Record<
   tr: {
     eyebrow: "Başlayalım",
     headline: ["Dönüşüm bir", "karardır."],
-    lead: "30 dakikalık bir keşif görüşmesi. Gündeminizi dinler, ilk çerçeveyi birlikte çizeriz.",
+    lead: "1 saatlik bir keşif görüşmesi. Gündeminizi dinler, ilk çerçeveyi birlikte çizeriz.",
     primary: "Görüşme planla",
     secondary: "Brief gönder",
   },
   en: {
     eyebrow: "Let's begin",
     headline: ["Transformation is", "a decision."],
-    lead: "A 30-minute discovery call. We listen to your agenda and draw the first frame together.",
+    lead: "A one-hour discovery call. We listen to your agenda and draw the first frame together.",
     primary: "Book a call",
     secondary: "Send a brief",
   },

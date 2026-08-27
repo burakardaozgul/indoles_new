@@ -49,7 +49,7 @@ export async function POST(req: Request): Promise<Response> {
       }),
     });
     await sendMailWithRetry({
-      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <hello@indoles.com.tr>',
+      from: process.env.RESEND_AUTOREPLY_FROM_EMAIL ?? process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
       to: data.lead.email,
       subject: data.locale === 'tr' ? 'Seçimini aldık — INDOLES' : 'We got your selection — INDOLES',
       react: VisitorProfileAutoreply({

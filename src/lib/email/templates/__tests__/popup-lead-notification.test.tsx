@@ -18,7 +18,6 @@ describe("PopupLeadNotificationEmail", () => {
       "AI'ın şirketime nasıl uygulanacağını göremiyorum.",
     ],
     submissionType: "booking" as const,
-    calComBookingUrl: "https://cal.com/booking/abc",
     locale: "tr" as const,
     utm: { source: "google", medium: "cpc", campaign: "spring" },
     adminLink: "https://indoles.com.tr/admin/leads/xyz",
@@ -37,15 +36,8 @@ describe("PopupLeadNotificationEmail", () => {
     for (const p of props.problems) expect(html).toContain(p);
   });
 
-  it("Cal.com linkini içerir (booking)", async () => {
+  it("Cal.com izi içermez (ADR-025)", async () => {
     const html = decodeEntities(await render(<PopupLeadNotificationEmail {...props} />));
-    expect(html).toContain("cal.com/booking/abc");
-  });
-
-  it("contact path'te Cal.com bölümünü atlar", async () => {
-    const html = decodeEntities(await render(
-      <PopupLeadNotificationEmail {...props} submissionType="contact" calComBookingUrl={null} />
-    ));
-    expect(html).not.toContain("cal.com/booking");
+    expect(html).not.toContain("cal.com");
   });
 });

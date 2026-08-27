@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Html, Head, Body, Container, Heading, Text, Link } from "@react-email/components";
+import { Html, Head, Body, Container, Heading, Text } from "@react-email/components";
 
 // Email copy stays inline (bypassing next-intl) because React Email renders
 // outside request scope, where next-intl's getTranslations is not available
@@ -10,16 +10,14 @@ type Props = {
   firstName: string;
   locale: "tr" | "en";
   variant: "booking" | "contact";
-  calComBookingUrl?: string | null;
 };
 
 const copy = {
   tr: {
     greeting: (n: string) => `Merhaba ${n},`,
     booking: {
-      title: "Görüşme için takvimindeyiz.",
-      body: "Seçtiğin slot için davet e-postası ayrı gelecek. Görüşmeden önce bir not: 3 sorunun üzerinden konuşacağız.",
-      link: "Seçim bağlantısı:",
+      title: "Görüşme talebin elimizde.",
+      body: "Uygun saati birlikte belirleyip takvim davetini e-postayla göndereceğiz. Görüşmeden önce bir not: 3 sorunun üzerinden konuşacağız.",
     },
     contact: {
       title: "Teşekkürler.",
@@ -30,9 +28,8 @@ const copy = {
   en: {
     greeting: (n: string) => `Hi ${n},`,
     booking: {
-      title: "You're on our calendar.",
-      body: "You'll receive a separate calendar invite. A quick note: we'll talk through the 3 topics you selected.",
-      link: "Selection link:",
+      title: "Your call request is with us.",
+      body: "We'll agree a time together and send a calendar invite by email. A quick note: we'll talk through the 3 topics you selected.",
     },
     contact: {
       title: "Thanks.",
@@ -54,11 +51,6 @@ export function PopupLeadConfirmationEmail(p: Props) {
           <Text>{t.greeting(p.firstName)}</Text>
           <Heading style={{ fontSize: 20, margin: "16px 0" }}>{v.title}</Heading>
           <Text>{v.body}</Text>
-          {p.variant === "booking" && p.calComBookingUrl ? (
-            <Text>
-              {t.booking.link} <Link href={p.calComBookingUrl}>{p.calComBookingUrl}</Link>
-            </Text>
-          ) : null}
           <Text style={{ marginTop: 24, color: "#666" }}>{t.signoff}</Text>
         </Container>
       </Body>

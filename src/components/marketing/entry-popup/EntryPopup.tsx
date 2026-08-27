@@ -331,7 +331,6 @@ export function EntryPopup({
               {(stage === "success-booking" || stage === "success-contact") && (
                 <SuccessState
                   variant={stage === "success-booking" ? "booking" : "contact"}
-                  bookingUrl={null}
                   onClose={() => onClose("completed")}
                 />
               )}

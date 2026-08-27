@@ -261,7 +261,7 @@
               "cta": "Tanışmayı başlat"
             },
             "booking": {
-              "description": "Bir uzmanla 30 dakika. Problemi birlikte açalım, hangi pillar'dan başlanacağını ve somut bir sonraki adımı belirleyelim.",
+              "description": "Bir uzmanla 1 saat. Problemi birlikte açalım, hangi pillar'dan başlanacağını ve somut bir sonraki adımı belirleyelim.",
               "cta": "Görüşmeyi planla"
             },
             "brief": {
@@ -280,7 +280,7 @@
               "cta": "Şimdi başla"
             },
             "booking": {
-              "description": "30 dakikada büyüme yönünü netleştirelim. Hangi kanalda, hangi metrikte, ne kadar sürede etki beklenir — somut çıkaralım.",
+              "description": "Bir saatte büyüme yönünü netleştirelim. Hangi kanalda, hangi metrikte, ne kadar sürede etki beklenir — somut çıkaralım.",
               "cta": "Planı kur"
             },
             "brief": {
@@ -300,9 +300,9 @@
         },
         "booking": {
           "commitment": "Orta taahhüt",
-          "label": "30 dakikalık keşif görüşmesi",
-          "description": "Uzmanla 30 dakika. Problemi birlikte açalım, somut yön çıkaralım.",
-          "meta": "30 dakika · Taahhütsüz · Canlı",
+          "label": "1 saatlik keşif görüşmesi",
+          "description": "Uzmanla 1 saat. Problemi birlikte açalım, somut yön çıkaralım.",
+          "meta": "1 saat · Taahhütsüz · Canlı",
           "cta": "Randevu al"
         },
         "brief": {
@@ -376,7 +376,7 @@
       "title": "Seçiminizi kaydettik. Sıradaki adım?",
       "subtitle": "Uygun bir danışmanla doğrudan konuşalım.",
       "bookingCta": "1 saatlik keşif görüşmesi planla",
-      "bookingHelper": "Cal.com'da uygun saati seçin, takviminize eklensin. Taahhütsüz.",
+      "bookingHelper": "Uygun saati birlikte belirleyelim; dönüşte takvim daveti göndeririz. Taahhütsüz.",
       "contactCta": "Biz sizinle iletişime geçelim",
       "contactHelper": "1 iş günü içinde geri dönüş yapacağız."
     },

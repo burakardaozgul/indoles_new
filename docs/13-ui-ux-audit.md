@@ -245,3 +245,36 @@ locale üretiyor. Kural: `V2PageHeader.crumbs` → çıplak kanonik path.
 | `yazilar/[slug]` `max-w-170` | Token artık var; iki kullanım `max-w-prose-editorial`a çevrilebilir |
 | Persona kapsamı | Persona switch dokunma hedefi (30px), giriş modal'ı, ikili persona mekanizması, detay sayfası persona varyantları — talimatla kapsam dışı bırakıldı |
 | Lighthouse (localhost, mobil) | A11y 93 · Best Practices 96 · SEO 61 (noindex/canonical — preview ortamı gereği, prod'da geçersiz) |
+
+---
+
+# Ek denetim — iletişim sayfası (2026-08-27)
+
+> **Kapsam:** `/iletisim` · `/en/contact` — canlı inceleme (masaüstü + mobil +
+> form etkileşim testi + Lighthouse) + kod haritası. **Skor: 51/100 (D)** —
+> düzeltmeler öncesi. Lighthouse mobil: A11y 88, Best Practices 73.
+
+## Kritik bulgular ve durumları
+
+| Bulgu | Durum |
+|---|---|
+| Cal.com embed 404 — birincil dönüşüm yolu ölü, çıplak İngilizce hata; mobilde ilk iki ekran boş | ✅ Cal.com tamamen kaldırıldı (ADR-025); sayfa form-odaklı yeniden kuruldu, takvim entegrasyonu kendi sistemle gelecek |
+| Süre vaadi tutarsız: sayfa "30 dk", funnel + gerçek "1 saat" | ✅ Site genelinde 1 saat'e eşitlendi (title/H1/meta, finalCta, v2 outro, popup) |
+| Form etiketleri programatik bağlı değil (Lighthouse `label`+`select-name` FAIL) | ✅ id/htmlFor + aria-describedby/aria-invalid (form revizyonu) |
+| Gönder butonu sebepsiz kilitli kalabiliyor (Turnstile tek seferlik render; token expiry yok) | ✅ retry + expired/error callback + açıklayıcı satır |
+| Doğrulama hataları İngilizce zod default'u | ✅ TR/EN yerelleştirildi |
+| autocomplete/inputmode/type=tel yok; KVKK kutusu 13px; bütçe seçenekleri ham değer ("25k-100k", "other"); EN KVKK linki yanlış segment | ✅ form revizyonunda |
+| Otomatik yanıt düşerse lead ulaştığı hâlde kullanıcıya hata gösteriliyor | ✅ posta gönderimleri ayrıştırıldı |
+| "Doğrudan" bloğunda telefon ve çalışma saatleri yoktu; görüşme süresi hiçbir yerde yazmıyordu | ✅ telefon + saatler + "Görüşme süresi: ortalama 1 saat" eklendi |
+| E-posta hello@ → digital@indoles.com.tr | ✅ COMPANY.email tek kaynak + tüm geçişler |
+| Şema WebPage — ContactPage değil | ✅ webPageLd `type` parametresi ile ContactPage |
+
+## Açık izleme kalemleri
+
+| Kalem | Not |
+|---|---|
+| Kendi takvim sistemi entegrasyonu | URL hazır olunca form kolonunun yanına embed/link (ADR-025 §3) |
+| Sayfaya SSS (süre, ücret, hazırlık) + FAQ şeması | İçerik turu gerektiriyor |
+| Form persona atfı | Lead'e persona iliştirilmiyor — fırsat |
+| Popup `text-neutral-*` sınıfları | Token dışı (Tailwind default nötrleri) — popup redesign turuna |
+| `contact_form_submitted` tipli taksonomi dışında | docs/12 ile hizalama ayrı karar |

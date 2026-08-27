@@ -132,16 +132,41 @@
 .v2-title-row[data-row="3"] { text-align: left; padding-left: clamp(0px, 10vw, 200px); }
 .v2-title-row[data-row="4"] { text-align: right; padding-right: clamp(0px, 13vw, 260px); }
 
+/* Vurgu dışı harflerin üst-katman kopyası: masaüstünde gizli durur, iki
+   katmanın piksel hizası için DOM'da kalır (HeroTitleLayer'daki katman
+   sırası açıklamasına bak). */
+.v2-letter-ghost {
+  visibility: hidden;
+}
+
 @media (max-width: 640px) {
-  /* Kademeli girinti dar ekranda satırları kırıyordu. */
-  /* En uzun satır artık 14 karakter ("KAMPANYA DEĞİL"). 390px'de kullanılabilir
-     genişlik ~350px; bu fontta harf ≈ 0.62em, yani punto ≤ 350/(14×0.62) ≈ 40px
-     olmalı. 12vw (46.8px) satırı taşırıyordu, 10vw (39px) sığdırıyor. */
-  .v2-title { font-size: clamp(1.9rem, 10vw, 4rem); }
-  .v2-title-row { white-space: nowrap; }
-  .v2-title-row[data-row="2"] { padding-right: 0; }
-  .v2-title-row[data-row="3"] { padding-left: 0; }
-  .v2-title-row[data-row="4"] { padding-right: 0; }
+  /* Mobil hero yeniden kurgusu (2026-08-27):
+     - Kelime başına satır: boşluk span'ı satır kırımına çevrilir; kademeli
+       masaüstü dizilimi yerine ortalanmış dikey kelime sütunu.
+     - Punto kelime bazına göre büyür: en uzun kelime EN "CAMPAIGNS" (9 harf);
+       Lexend 600 uppercase'te geniş harflerle ölçülen genişlik ≈ 0.68em →
+       15.5vw'de satır kenarlara sıfır dayanıyordu, 14.5vw (≈56px@390) her
+       iki yanda nefes payı bırakıyor.
+     - Üst katmandaki hayalet harfler görünür olur: blob merkezde ve büyük
+       olduğu için alttaki siyah kopya örtülüyor; tam cümle ancak üst katman
+       tüm harfleri basarsa okunur. Vurgu harfleri renklerini korur, kalanlar
+       mürekkep renginde kalır — sandviç etkisi kelime kenarlarında sürer. */
+  .v2-title { font-size: clamp(2.5rem, 14.5vw, 4.25rem); }
+  .v2-title-row { white-space: nowrap; text-align: center; }
+  .v2-title-row[data-row="1"] { text-align: center; }
+  .v2-title-row[data-row="2"] { text-align: center; padding-right: 0; }
+  .v2-title-row[data-row="3"] { text-align: center; padding-left: 0; }
+  .v2-title-row[data-row="4"] { text-align: center; padding-right: 0; }
+  /* Bileşik seçici şart: `.v2-letter { display: inline-block }` kuralı
+     kaynakta bu media bloğundan sonra geliyor ve aynı özgüllükte kalınca
+     satır kırımı hiç gerçekleşmiyordu. */
+  .v2-letter.v2-letter-space {
+    display: block;
+    height: 0;
+  }
+  .v2-letter.v2-letter-ghost {
+    visibility: visible;
+  }
 }
 
 /* İki metin katmanı piksel piksel üst üste oturur */

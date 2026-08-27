@@ -51,21 +51,22 @@ export const BLOB = {
   /**
    * Dar ekranda tüm keyframe ölçeklerine uygulanan çarpan.
    *
-   * Ölçek viewport YÜKSEKLİĞİNE göre hesaplanıyor; portre bir telefonda
-   * yükseklik genişliğin iki katı olduğu için hero blob'u 390px'lik ekranda
-   * 549px çapa ulaşıp başlığın siyah katmanını tamamen örtüyordu. Çarpan
-   * koreografinin göreli büyük/küçük ritmini bozmadan gövdeyi ekrana sığdırır.
+   * Ölçek viewport YÜKSEKLİĞİNE göre hesaplanıyor; portre telefonda yükseklik
+   * genişliğin iki katından fazla. 0.5 blob'u hero'da ~275px'e indiriyordu —
+   * köşede küçük bir leke gibi duruyordu. 0.72 hero blob'unu ekran genişliğine
+   * yaklaştırır (0.65 × 0.72 × 844 ≈ 395px @ 390px viewport): gövde merkezde
+   * ve baskın. Başlık okunurluğu artık gövdeyi küçültmeye bağlı değil —
+   * mobilde üst katman tüm harfleri basıyor (v2.css `.v2-letter-ghost`).
    */
-  mobileScaleFactor: 0.5,
+  mobileScaleFactor: 0.72,
   /**
    * Dar ekranda tüm keyframe'lere uygulanan dikey kaydırma (ekran oranı).
    *
-   * Mobilde blob da başlık da viewport merkezinde toplanıyor ve gövde metni
-   * tamamen örtüyordu: ziyaretçi yalnız üstteki accent harfleri ("DEĞİL /
-   * SON / EDERİZ") görüyor, cümle kayboluyordu. Gövde yukarı alınınca metin
-   * altta serbest kalıyor, sandviç etkisi de korunuyor.
+   * 0.3'lük yukarı itme, blob'un başlığın siyah katmanını örtmesine karşı bir
+   * geçici çözümdü; hayalet harfler mobilde görünür olduğundan gerek kalmadı.
+   * 0: blob viewport merkezinde — mobil hero kurgusunun çapası.
    */
-  mobileYOffset: 0.3,
+  mobileYOffset: 0,
 
   /** Vertex noise — düşük frekans: birkaç büyük lob, çakıl dokusu yok. */
   noiseFreq: 0.6,

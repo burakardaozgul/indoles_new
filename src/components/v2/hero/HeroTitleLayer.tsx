@@ -59,24 +59,36 @@ export function HeroTitleLayer({
           <span key={r.row} className="v2-title-row" data-row={r.row}>
             {Array.from(r.text).map((ch, ci) => {
               const globalIndex = (indexOffsets[ri] ?? 0) + ci;
+              const isSpace = ch === " ";
               const inAccentRange =
-                ci >= r.accentRange[0] && ci < r.accentRange[1] && ch !== " ";
+                ci >= r.accentRange[0] && ci < r.accentRange[1] && !isSpace;
 
-              const style: React.CSSProperties | undefined =
-                variant === "accent"
-                  ? inAccentRange
-                    ? { color: `var(${r.accentVar})` }
-                    : { visibility: "hidden" }
-                  : undefined;
+              /* Vurgu dışı harfler inline `visibility` yerine `.v2-letter-ghost`
+                 sınıfı alır: masaüstünde gizli kalırlar (sandviç etkisi), dar
+                 ekranda v2.css onları görünür yapar — mobilde blob başlığın
+                 tamamını örttüğü için alttaki siyah kopya okunmaz oluyordu.
+                 `.v2-letter-space` da aynı sebeple ayrı işaretlenir: mobil
+                 düzen boşluğu satır kırımına çevirir (kelime başına satır). */
+              const cls = [
+                "v2-letter",
+                isSpace ? "v2-letter-space" : "",
+                variant === "accent" && !inAccentRange ? "v2-letter-ghost" : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
 
               return (
                 <span
                   key={`${r.row}-${ci}`}
-                  className="v2-letter"
+                  className={cls}
                   data-i={globalIndex}
-                  style={style}
+                  style={
+                    variant === "accent" && inAccentRange
+                      ? { color: `var(${r.accentVar})` }
+                      : undefined
+                  }
                 >
-                  {ch === " " ? " " : ch}
+                  {isSpace ? " " : ch}
                 </span>
               );
             })}

@@ -3,8 +3,9 @@ name: checks
 # docs/05-tech-architecture.md §12.1'deki `checks.yml` adımı.
 #
 # Playwright e2e bilerek dışarıda: `playwright.config.ts:10` `PLAYWRIGHT_BASE_URL`
-# bekliyor ve `CI` set olduğunda kendi `webServer`ını kaldırıyor — yani Vercel
-# preview adresine ihtiyacı var. Gerekçe README.md'de.
+# bekliyor ve `CI` set olduğunda kendi `webServer`ını kaldırıyor — yani bir
+# preview dağıtımının adresine ihtiyacı var. Gerekçe README.md'de.
+# (Preview artık Cloudflare Workers'da üretiliyor — ADR-024.)
 on:
   push:
     branches: [main]

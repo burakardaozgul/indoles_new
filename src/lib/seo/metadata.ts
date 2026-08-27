@@ -13,16 +13,28 @@ export type PageSeoInput = {
 };
 
 /**
- * Varsayılan OG görseli — kaynağı `src/app/opengraph-image.tsx`.
+ * Varsayılan OG görseli — kaynağı `src/app/opengraph-image.png` **statik
+ * dosyası**.
  *
- * Burada açıkça verilmesi gerekiyor: bir sayfa `openGraph` alanını tanımladığı
- * anda kök segmentteki dosya-tabanlı görsel devralınmıyor. Sonuç, her sayfada
- * `twitter:card=summary_large_image` olmasına rağmen hiçbir sayfada `og:image`
- * bulunmaması — paylaşımlar görselsiz boş kart olarak render ediliyordu.
- * `metadataBase` bu göreli yolu mutlaklaştırır.
+ * Yolun burada açıkça verilmesi gerekiyor: bir sayfa `openGraph` alanını
+ * tanımladığı anda kök segmentteki dosya-tabanlı görsel devralınmıyor. Sonuç,
+ * her sayfada `twitter:card=summary_large_image` olmasına rağmen hiçbir
+ * sayfada `og:image` bulunmaması — paylaşımlar görselsiz boş kart olarak
+ * render ediliyordu. `metadataBase` bu göreli yolu mutlaklaştırır.
+ *
+ * Görsel önceden `opengraph-image.tsx` içinde `ImageResponse` ile istek
+ * başına üretiliyordu. Üretici tek ve değişmeyen bir marka kartı çiziyordu —
+ * yani her istekte aynı 24 KB'lık PNG yeniden hesaplanıyordu. Bedeli
+ * Cloudflare Workers'da somut: `@vercel/og` + `fontkit` yalnız bu iş için
+ * worker paketine ~2,2 MB ekliyor ve paket 3 MB'lık plan sınırını aşıyordu
+ * (ADR-024). Görsel bir kez render edilip dosya olarak işlendi; çıktı birebir
+ * aynı, üretim maliyeti sıfır.
+ *
+ * Sayfa başına farklı OG görseli istenirse (denetim `docs/18` S-01) üretici
+ * geri gelir — o noktada worker boyut sınırı yeniden değerlendirilmeli.
  */
 export const OG_IMAGE = {
-  url: "/opengraph-image",
+  url: "/opengraph-image.png",
   width: 1200,
   height: 630,
   alt: "INDOLES — İş geliştirme danışmanlığı",

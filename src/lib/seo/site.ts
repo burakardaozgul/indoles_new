@@ -8,7 +8,16 @@
  * canonical ve OG etiketleri `localhost`u — sessiz ve ağır bir SEO hatası.
  * Varsayılan tek yerde duruyor.
  */
-const FALLBACK = "https://indoles.com.tr";
+/**
+ * Kanonik host **www** (karar: 2026-08-27, Burak — ADR-024).
+ *
+ * Önceki varsayım apex'ti; canlı DNS ise apex'i zaten www'ye 301'liyordu.
+ * Yanlış yöndeki bir launch, 124 URL'lik sitemap'in tamamını kalıcı bir
+ * yönlendirmenin arkasına koyar ve eski sitenin biriktirdiği sinyali
+ * seyreltirdi. Bu sabit değişirse canonical, hreflang, sitemap, robots ve
+ * llms.txt'in tamamı birlikte değişir — tek kaynak olmasının sebebi bu.
+ */
+const FALLBACK = "https://www.indoles.com.tr";
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_APP_URL ?? FALLBACK).replace(
   /\/+$/,

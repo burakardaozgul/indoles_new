@@ -9,7 +9,7 @@
   // wrangler'dan "daha yeni bir tarihe geçin" uyarısı alıyordu.
   "compatibility_date": "2026-08-20",
   "compatibility_flags": [
-    // Node.js API'leri (adaptörün kendisi ve Resend/Sentry gibi paketler bunu bekliyor)
+    // Node.js API'leri (adaptörün kendisi, worker-mailer ve Sentry bunu bekliyor)
     "nodejs_compat",
     // fetch() yalnız gerçek dış adreslere gitsin — Worker kendi kendine
     // çağrı yapıp döngüye girmesin
@@ -45,7 +45,26 @@
   // içindeki `cf:build` script'inde duruyor (LG-02: stage yanlışsa site
   // komple indeks dışı çıkar, o yüzden script'e gömüldü — unutulamasın).
   //
-  // Sunucu tarafı sırlar (RESEND_API_KEY, TURNSTILE_SECRET_KEY, SENTRY_DSN)
-  // repoya yazılmaz; `wrangler secret put <AD>` ile tanımlanır.
-  "vars": {}
+  // Sır OLMAYAN çalışma zamanı ayarları burada duruyor: versiyonlanıyor,
+  // gözle görülüyor, yeniden kurulumda elle girilmesi gerekmiyor.
+  // Gerçek sırlar (SMTP_PASS, TURNSTILE_SECRET_KEY, SENTRY_DSN) repoya
+  // yazılmaz; `wrangler secret put <AD>` ile tanımlanır.
+  "vars": {
+    // Mail: Veridyen SMTP (ADR-026). Host proxy'siz olmak zorunda —
+    // mail.indoles.com.tr Cloudflare proxy'sinde ve SMTP taşımaz.
+    "SMTP_HOST": "polo.veridyen.com",
+    "SMTP_PORT": "587",
+    "SMTP_USER": "noreply@indoles.com.tr",
+
+    // Gönderen sunucu tarafından dayatılıyor: Exim zarf ve header From'un
+    // kimlik doğrulanan kutuya eşit olmasını şart koşuyor (550). Yanıtlar
+    // Reply-To ile doğru kutuya döner.
+    "MAIL_FROM": "INDOLES <noreply@indoles.com.tr>",
+    "MAIL_REPLY_TO": "digital@indoles.com.tr",
+
+    // Lead bildirimi üç kutuya birden gider; virgülle ayrılır ve
+    // lib/mail/client.ts `recipients()` diziye çevirir.
+    "LEAD_INBOX_EMAIL": "digital@indoles.com.tr,burak@indoles.com.tr,b.a.ozgul@gmail.com",
+    "SALES_INBOX_EMAIL": "digital@indoles.com.tr,burak@indoles.com.tr,b.a.ozgul@gmail.com"
+  }
 }

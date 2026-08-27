@@ -439,7 +439,7 @@ export default async function ArticleDetail({
                 <Link
                   key={r.slug[loc]}
                   href={localeHref(`/yazilar/${r.slug[loc]}`, loc)}
-                  className="group v2-surface border border-surface-2 rounded-2xl p-8 hover:v2-surface-2/60 transition-colors"
+                  className="group v2-surface border border-surface-2 rounded-2xl p-8 hover:bg-surface-2/60 transition-colors"
                 >
                   <span className="typography-label uppercase tracking-widest text-brand-700">
                     {getTopic(r.topic).label[loc]}

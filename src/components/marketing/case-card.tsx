@@ -25,9 +25,17 @@ export const PROBLEM_LABELS: Record<string, { tr: string; en: string }> = {
 export function CaseCard({
   c,
   locale,
+  hidden,
 }: {
   c: CaseStudyContent;
   locale: Locale;
+  /**
+   * Problem-tipi filtresi (case-filter.tsx) için: eşleşmeyen kart DOM'dan
+   * çıkarılmaz, yalnız native `hidden` ile CSS'te gizlenir. Sunucu HTML'i
+   * filtre durumundan bağımsız 9 vakanın tamamını taşımaya devam eder —
+   * JS'siz tarayıcı ve crawler'lar hepsini görür.
+   */
+  hidden?: boolean;
 }) {
   const pillar = getPillar(c.pillar);
   const metric = c.metrics[0];
@@ -35,6 +43,8 @@ export function CaseCard({
   return (
     <Link
       href={`/${locale}/vakalar/${c.slug}`}
+      hidden={hidden}
+      data-problem-type={c.problemType}
       className="group flex flex-col overflow-hidden rounded-2xl border border-surface-2 v2-surface transition-colors hover:border-teal-300"
     >
       {c.cover ? (

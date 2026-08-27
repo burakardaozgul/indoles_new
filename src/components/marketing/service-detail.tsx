@@ -391,7 +391,7 @@ export function ServiceDetail({
                 {relatedPackages[0] ? (
                   <Link
                     href={`/${locale}/${t.packagesRoot}/${relatedPackages[0].slug[locale]}`}
-                    className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:v2-surface transition-colors typography-body-md"
+                    className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:bg-surface-1/60 transition-colors typography-body-md"
                   >
                     {t.viewPackage}
                   </Link>

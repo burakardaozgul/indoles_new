@@ -472,6 +472,11 @@
       "commerce": {
         "title": "Find your own bottleneck here.",
         "lede": "Problem type, not industry. Growth metric, conversion rate or operational speed — open the case closest to whatever is holding you back."
+      },
+      "filter": {
+        "groupLabel": "Filter by problem type",
+        "all": "All",
+        "resultCount": "{count} cases."
       }
     },
     "articles": {

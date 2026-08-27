@@ -57,11 +57,48 @@ export function VisionSection({ locale }: { locale: "tr" | "en" }) {
 
   const serviceCount = SERVICE_ORDER.length;
 
+  /**
+   * `c` — sayının ölçüm çerçevesi.
+   *
+   * Etiket sayının ne olduğunu söylüyordu, neyi saydığını söylemiyordu; bir
+   * ziyaretçi "12 uzmanlık"ı 12 kişilik ekip diye okuyabiliyordu. Vaka
+   * metriklerindeki `context` kalıbı (docs/04 §10) burada da geçerli: her
+   * satır sayının hangi listeden geldiğini yazar ve gerekiyorsa ne OLMADIĞINI
+   * söyler.
+   */
   const stats = [
-    { n: PILLARS.length, suffix: "", l: isTr ? "disiplin, tek omurga" : "disciplines, one spine" },
-    { n: serviceCount, suffix: "", l: isTr ? "uzmanlık, teşhisten uygulamaya" : "areas of expertise, diagnosis to delivery" },
-    { n: PACKAGES.length, suffix: "", l: isTr ? "ürünleşmiş paket" : "productised packages" },
-    { n: CLIENT_LOGO_COUNT, suffix: "+", l: isTr ? "ulusal ve global marka" : "national and global brands" },
+    {
+      n: PILLARS.length,
+      suffix: "",
+      l: isTr ? "disiplin, tek omurga" : "disciplines, one spine",
+      c: isTr
+        ? "Growth, Transform, Build — her hizmet bu üçünden birine bağlı."
+        : "Growth, Transform, Build — every service attaches to one of the three.",
+    },
+    {
+      n: serviceCount,
+      suffix: "",
+      l: isTr ? "uzmanlık, teşhisten uygulamaya" : "areas of expertise, diagnosis to delivery",
+      c: isTr
+        ? "Her birinin kendi hizmet sayfası var; kapsam sayısı, kişi sayısı değil."
+        : "Each has its own service page; a count of scope, not of headcount.",
+    },
+    {
+      n: PACKAGES.length,
+      suffix: "",
+      l: isTr ? "ürünleşmiş paket" : "productised packages",
+      c: isTr
+        ? "Sabit kapsam, sabit süre (3-8 hafta) ve sabit fiyatla yayında."
+        : "Published with fixed scope, fixed duration (3-8 weeks) and fixed price.",
+    },
+    {
+      n: CLIENT_LOGO_COUNT,
+      suffix: "+",
+      l: isTr ? "ulusal ve global marka" : "national and global brands",
+      c: isTr
+        ? "Referans duvarında logosu yayında olanlar; toplam müşteri sayısı değil."
+        : "Those whose logo runs on the client wall; not the total client count.",
+    },
   ];
 
   return (
@@ -99,7 +136,16 @@ export function VisionSection({ locale }: { locale: "tr" | "en" }) {
                 <Counter to={s.n} start={visible} />
                 {s.suffix}
               </dd>
-              <dt className="text-xs tracking-[0.06em] text-white/55">{s.l}</dt>
+              {/* Etiket 0.55 opaklıkta 4.8:1'deydi — dalga tuvali zemini
+                  aydınlattığında AA'nın altına düşebiliyordu; 0.75 ile 7.5:1.
+                  Bağlam satırı 0.60 (5.4:1) ve mono, böylece hiyerarşi
+                  opaklıktan değil punto ve tipografiden okunuyor. */}
+              <dt className="text-xs tracking-[0.06em] text-white/75">
+                {s.l}
+                <span className="mono typography-caption mt-2 block leading-snug text-white/60">
+                  {s.c}
+                </span>
+              </dt>
             </div>
           ))}
         </dl>

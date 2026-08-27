@@ -3,9 +3,12 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { MethodSection } from "@/components/marketing/method-section";
-import { TeamSlider } from "@/components/marketing/team-slider";
 import { VisionSection } from "@/components/marketing/vision-section";
-import { CONSULTANTS } from "@/lib/content/consultants";
+import {
+  BOOKABLE_CONSULTANTS,
+  CONSULTANTS_ORDERED,
+} from "@/lib/content/consultants";
+import { COMPANY } from "@/lib/content/company";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
@@ -62,9 +65,16 @@ export default async function AboutPage({
   const loc = locale as "tr" | "en";
   const tCommon = await getTranslations({ locale, namespace: "common" });
 
+  /**
+   * Değerler süreç değil iddiadır — sıralı bir akış anlatmazlar.
+   * `01…04` mono indeksleri okura yanlış bir okuma sırası dayatıyordu; yerine
+   * her değerin `key`ini karşılayan anahtar-kelime etiketi geçti. Etiket
+   * `.eyebrow` diliyle aynı: mono, 11px, uppercase, 0.18em (`typography-label`).
+   */
   const values = [
     {
       key: "diagnosis",
+      label: { tr: "Teşhis", en: "Diagnosis" },
       title: {
         tr: "Teşhis olmadan reçete yok.",
         en: "No prescription without diagnosis.",
@@ -76,6 +86,7 @@ export default async function AboutPage({
     },
     {
       key: "ownership",
+      label: { tr: "Sahiplik", en: "Ownership" },
       title: {
         tr: "Sahiplikli teslim.",
         en: "Ownership-led delivery.",
@@ -87,6 +98,7 @@ export default async function AboutPage({
     },
     {
       key: "restraint",
+      label: { tr: "Sadelik", en: "Restraint" },
       title: {
         tr: "Az ama doğru.",
         en: "Less but right.",
@@ -98,13 +110,21 @@ export default async function AboutPage({
     },
     {
       key: "axis",
+      label: { tr: "Eksen", en: "Axis" },
+      /**
+       * Başlık eskiden "İki eksen, bir disiplin." idi ve sayfanın H1'ini
+       * ("İki eksen. Bir disiplin.") birebir tekrarlıyordu. Yeni başlık
+       * gövdeden de bir cümle çalmıyor: gövdedeki "Aynı disiplin, farklı dil."
+       * kapanışı, tekrarı önlemek için neyin sabit kaldığını sayan bir
+       * cümleyle değişti.
+       */
       title: {
-        tr: "İki eksen, bir disiplin.",
-        en: "Two axes, one discipline.",
+        tr: "Tek yöntem, iki dil.",
+        en: "One method, two languages.",
       },
       description: {
-        tr: "Sanayi ve ticaret — farklı müşteri, aynı soru: işi nasıl büyütürüz? Aynı disiplin, farklı dil.",
-        en: "Industry and commerce — different customers, same question: how do we grow the business? Same discipline, different language.",
+        tr: "Sanayi ve ticaret — farklı müşteri, aynı soru: işi nasıl büyütürüz? Teşhis, ölçüm ve teslim değişmez; terminoloji ve tempo müşteriye göre kurulur.",
+        en: "Industry and commerce — different customers, same question: how do we grow the business? Diagnosis, measurement and delivery stay fixed; terminology and tempo are set by the customer.",
       },
     },
   ];
@@ -176,16 +196,16 @@ export default async function AboutPage({
               </h2>
             </div>
             <div className="md:col-span-8">
-              <ol className="border-t border-surface-2">
-                {values.map((v, i) => (
+              <ul className="border-t border-surface-2">
+                {values.map((v) => (
                   <li
                     key={v.key}
                     className="border-b border-surface-2 py-8 grid grid-cols-1 md:grid-cols-12 gap-4"
                   >
-                    <div className="md:col-span-1 typography-label uppercase tracking-widest text-brand-700">
-                      0{i + 1}
+                    <div className="md:col-span-3 typography-label text-teal-700 md:pt-2">
+                      {v.label[loc]}
                     </div>
-                    <div className="md:col-span-11">
+                    <div className="md:col-span-9">
                       <h3 className="typography-h1 text-ink-900">
                         {v.title[loc]}
                       </h3>
@@ -195,7 +215,7 @@ export default async function AboutPage({
                     </div>
                   </li>
                 ))}
-              </ol>
+              </ul>
             </div>
           </div>
         </div>
@@ -218,19 +238,29 @@ export default async function AboutPage({
               : "Not an open marketplace. An invitation-based, expertise-focused roster. Phase 2 expands with curated specialists."}
           </p>
 
+          {/*
+            Kadro tek bölümde. Önceki düzende aynı sayfada hem bu grid hem bir
+            slider vardı: slider'ın taşıdığı üç değer (portre tonu, alıntı,
+            künye satırı) buraya taşındı, slider kaldırıldı. Alıntı artık
+            sunucu HTML'inde — slider client-only olduğu için on alıntı
+            crawler'a hiç görünmüyordu.
+          */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {CONSULTANTS.map((c) => (
+            {CONSULTANTS_ORDERED.map((c) => (
               <Link
                 key={c.slug}
                 href={`/${locale}/danismanlar/${c.slug}`}
-                className="group border border-surface-2 rounded-2xl p-10 flex flex-col min-h-[240px] hover:v2-surface-2/60 transition-colors"
+                className="group border border-surface-2 rounded-2xl p-10 flex flex-col hover:bg-teal-50 hover:border-teal-200 transition-colors"
               >
                 <header className="flex items-center gap-6">
-                  <div className="w-16 h-16 rounded-full bg-ink-900 text-paper grid place-items-center typography-h2">
+                  <div
+                    className="team-avatar w-16 h-16 shrink-0 rounded-full text-ink-900 grid place-items-center typography-h3"
+                    style={{ ["--tone" as string]: c.portraitTone }}
+                  >
                     {c.name.charAt(0)}
                   </div>
                   <div>
-                    <h3 className="typography-h1 text-ink-900 group-hover:text-brand-800">
+                    <h3 className="typography-h3 text-ink-900 group-hover:text-teal-800">
                       {c.name}
                     </h3>
                     <p className="typography-body-sm text-ink-500 mt-1">
@@ -238,19 +268,47 @@ export default async function AboutPage({
                     </p>
                   </div>
                 </header>
-                <p className="typography-body-md text-ink-700 mt-8">
+                <p className="typography-body-md text-ink-700 mt-6">
                   {c.shortBio[loc]}
                 </p>
+                <blockquote className="typography-body-sm text-ink-600 italic mt-auto pt-6">
+                  <span aria-hidden="true">“</span>
+                  {c.quote[loc]}
+                  <span aria-hidden="true">”</span>
+                </blockquote>
               </Link>
             ))}
+          </div>
+
+          {/* Slider künyesi buraya taşındı: sayı kadro listesinden türer,
+              ofis köpeğini saymaz (bkz. consultants.ts). */}
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-surface-2 pt-8">
+            <p className="typography-label text-ink-500 tabular">
+              {BOOKABLE_CONSULTANTS.length} {loc === "tr" ? "kişi" : "people"} ·{" "}
+              {COMPANY.locations.join(" · ")}
+            </p>
+            <a
+              href={`mailto:${COMPANY.careersEmail}`}
+              className="btn btn-primary"
+            >
+              {loc === "tr" ? "Aramıza katıl" : "Join the team"}
+              <svg className="arrow" viewBox="0 0 14 14" aria-hidden="true">
+                <path
+                  d="M3 11 L11 3 M5 3 H11 V9"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  fill="none"
+                />
+              </svg>
+            </a>
           </div>
         </div>
       </section>
 
       {/* Eski anasayfadan taşındı (ADR-017): yöntem, kadro ve vizyon
-          anasayfanın ritmini bozuyordu; kurumsal anlatının doğal yeri burası. */}
+          anasayfanın ritmini bozuyordu; kurumsal anlatının doğal yeri burası.
+          Kadro sliderı kaldırıldı — ekip yukarıdaki tek bölümde. */}
       <MethodSection locale={loc} />
-      <TeamSlider locale={loc} />
       <VisionSection locale={loc} />
 
       <ContactCallout locale={loc} />

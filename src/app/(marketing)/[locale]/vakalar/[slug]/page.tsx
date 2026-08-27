@@ -58,6 +58,24 @@ function seoDescription(c: CaseStudy, loc: Locale): string {
   return c.seo?.description?.[loc] ?? c.lead[loc];
 }
 
+/**
+ * Hero medya çözümleyici — 9 vakadan bir kısmında `heroMedia` hiç
+ * doldurulmamış: sayfa başlıktan doğrudan koyu metrik bandına düşüyor,
+ * görsel çapa yok. `heroMedia` varsa aynen kullanılır (dokunulmaz). Yoksa
+ * kart kapağı (`cover`) hero konumuna taşınır — ikisi de aynı `CaseMedia`
+ * şeklini taşıdığı için dönüşüm yalnız kopyalamadır; `alt`/`caption`
+ * cover'dan olduğu gibi akar, `CaseHeroMedia`'nın FIG.00 altyazısı
+ * `item.caption` üzerinden zaten koşullu kalır. `cases.ts` verisine
+ * dokunmaz — yalnız render zamanında seçim yapar.
+ */
+export function resolveHeroMedia(
+  c: Pick<CaseStudy, "heroMedia" | "cover">,
+): CaseStudy["heroMedia"] {
+  if (c.heroMedia) return c.heroMedia;
+  if (!c.cover) return undefined;
+  return { ...c.cover };
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -221,6 +239,8 @@ export default async function CaseDetail({
     (c.cover?.type === "image" ? c.cover.src : c.cover?.poster) ??
     (c.heroMedia?.type === "image" ? c.heroMedia.src : c.heroMedia?.poster);
 
+  const heroMedia = resolveHeroMedia(c);
+
   return (
     <>
       <TrackView event={caseViewEvent(c)} />
@@ -289,7 +309,7 @@ export default async function CaseDetail({
         }
       />
 
-      {c.heroMedia ? <CaseHeroMedia item={c.heroMedia} locale={loc} /> : null}
+      {heroMedia ? <CaseHeroMedia item={heroMedia} locale={loc} /> : null}
 
       {/* Ölçüm bandı yalnız sayısal metriği olan vakada basılır — boş bir
           band "ölçmedik" demenin en gürültülü yoludur (docs/04 §10). */}

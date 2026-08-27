@@ -472,6 +472,11 @@
       "commerce": {
         "title": "Kendi darboğazını burada bul.",
         "lede": "Sektör değil, problem tipi. Büyüme metriği, dönüşüm oranı veya operasyon hızı — hangisi seni tutuyorsa ona en yakın vakayı aç."
+      },
+      "filter": {
+        "groupLabel": "Problem tipine göre süz",
+        "all": "Tümü",
+        "resultCount": "{count} vaka."
       }
     },
     "articles": {

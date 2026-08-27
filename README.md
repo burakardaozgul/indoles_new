@@ -21,7 +21,7 @@ Sanayi için teknoloji dönüşümü, ticaret için agresif büyüme.
 | Spam koruma | Cloudflare Turnstile |
 | Analytics | Google Analytics 4 |
 | Hata izleme | Sentry |
-| Deploy | Vercel |
+| Deploy | Cloudflare Workers (OpenNext) — ADR-024 |
 | Test | Vitest + Playwright |
 | 3D / motion (v2) | Three.js + @react-three/fiber + @react-three/drei · Lenis · GSAP ScrollTrigger |
 
@@ -48,6 +48,21 @@ pnpm dev                      # http://localhost:3000 → /tr
 | `pnpm test:e2e` | Playwright |
 | `pnpm lint` | ESLint |
 | `pnpm format` | Prettier |
+| `pnpm seo:audit` | 124 URL × 20 kural SEO/GEO denetimi (çalışan sunucuya karşı) |
+
+### Cloudflare (ADR-024)
+
+| Komut | Ne yapar |
+|---|---|
+| `pnpm cf:build` | OpenNext derlemesi — `NEXT_PUBLIC_APP_STAGE=production` ve kanonik host script'e gömülü |
+| `pnpm cf:preview` | Derleyip Workers çalışma zamanını **yerelde** ayağa kaldırır |
+| `pnpm cf:deploy:preview` | `stage=preview` ile dağıtır — `workers.dev` adresi `noindex` olur, canlıya dokunmaz |
+| `pnpm cf:deploy` | Production dağıtımı |
+| `pnpm cf:typegen` | Worker binding'lerinden tip üretir |
+
+Aşama değişkeni bilerek script'e gömülü: `NEXT_PUBLIC_APP_STAGE` production değilse `robots.txt` tüm siteyi kapatır ve GA4 yüklenmez (denetim LG-02). Deploy sonrası ilk kontrol `curl <adres>/robots.txt` olmalı.
+
+Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `SENTRY_DSN`. Kanonik host `www.indoles.com.tr`; custom domain bağlama `wrangler.jsonc` içinde yorumda bekliyor ve **cutover'da** açılır.
 
 ---
 

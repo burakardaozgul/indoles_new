@@ -25,10 +25,10 @@
 ## 1. Mimari Özeti ve Kararlar
 
 ### 1.1 Tek cümlede
-INDOLES web, **Vercel üzerinde deploy edilen, TypeScript tabanlı Next.js 15 SSG + 2 REST API route mimarisidir**; DB, auth, payment, AI agent ve background job yoktur; içerik katmanı git içinde statik TS + MDX olarak tutulur (ADR-006, ADR-010).
+INDOLES web, **Cloudflare Workers üzerinde (OpenNext adaptörü) deploy edilen, TypeScript tabanlı Next.js 15 SSG + 2 REST API route mimarisidir**; DB, auth, payment, AI agent ve background job yoktur; içerik katmanı git içinde statik TS + MDX olarak tutulur (ADR-006, ADR-010).
 
 ### 1.2 Üst düzey prensipler
-- **Statik önce.** Tüm sayfalar build-time SSG; sadece 2 serverless endpoint dinamik. Deploy sıfırdan Vercel.
+- **Statik önce.** Tüm sayfalar build-time SSG; sadece 2 endpoint dinamik. Statik varlıklar Worker'a hiç uğramadan Cloudflare assets katmanından servis edilir.
 - **TypeScript her yerde.** Frontend, API route'lar, statik içerik tanımları — tek dil, tek tip sistemi.
 - **Edge'i dar tut.** Middleware yalnızca locale redirect (next-intl). Veri erişimi yok.
 - **Operasyonel sıfır yük.** DB migration yok, webhook yok, background job yok, auth session yok (ADR-007/008/009/010/011).
@@ -39,7 +39,7 @@ INDOLES web, **Vercel üzerinde deploy edilen, TypeScript tabanlı Next.js 15 SS
 
 | Karar alanı | Seçim | Reddedilen / Kaldırılan |
 |---|---|---|
-| Deploy hedefi | Vercel (eu-central) | AWS SST Ion — bkz. ADR-012 |
+| Deploy hedefi | Cloudflare Workers + OpenNext — bkz. ADR-024 | Vercel (ADR-012, superseded) · AWS SST Ion |
 | Framework | Next.js 15 App Router (SSG) | Remix, Astro, SvelteKit |
 | Monorepo | **Yok** — tek Next.js projesi | Turborepo, Nx |
 | Veritabanı | **Yok** (launch) | Neon Postgres — bkz. ADR-010 |
@@ -55,10 +55,10 @@ INDOLES web, **Vercel üzerinde deploy edilen, TypeScript tabanlı Next.js 15 SS
 | Spam koruma | Cloudflare Turnstile | — |
 | Observability | Sentry + PostHog EU | Axiom (kaldırıldı), CloudWatch (kaldırıldı) |
 | Test | Vitest + Playwright | Jest, Cypress |
-| CI/CD | GitHub Actions + Vercel preview | CircleCI |
+| CI/CD | GitHub Actions + `opennextjs-cloudflare preview` | CircleCI |
 | Environment stratejisi | Development → Preview (per-PR) → Production | Ek staging ortamı |
 
-Sadeleştirme gerekçeleri: ADR-007 (agent), ADR-008 (auth), ADR-009 (payment), ADR-010 (DB), ADR-011 (Inngest), ADR-012 (Vercel).
+Sadeleştirme gerekçeleri: ADR-007 (agent), ADR-008 (auth), ADR-009 (payment), ADR-010 (DB), ADR-011 (Inngest). Dağıtım: ADR-024 (Cloudflare Workers; ADR-012/Vercel'in yerini aldı).
 
 ---
 
@@ -70,7 +70,7 @@ Sadeleştirme gerekçeleri: ADR-007 (agent), ADR-008 (auth), ADR-009 (payment), 
 
 ```mermaid
 graph LR
-    U[Ziyaretçi] -->|CDN| V[Vercel Edge]
+    U[Ziyaretçi] -->|CDN| V[Cloudflare Edge]
     V -->|static HTML| S[Next.js SSG sayfaları<br/>tr/* + en/*]
     S -->|client JS| P[Persona Switch<br/>+ Popup + Form UI]
     P -->|POST| A1[/api/contact/]
@@ -86,7 +86,7 @@ graph LR
 
 | Katman | İçerik |
 |--------|--------|
-| **Statik** | Tüm sayfalar build-time SSG. Persona switch, popup, form = client-side React. Vercel CDN edge'den servis. |
+| **Statik** | Tüm sayfalar build-time SSG. Persona switch, popup, form = client-side React. Cloudflare edge'den servis (assets binding — Worker'a uğramaz). |
 | **Serverless (2 route)** | `/api/contact` (iletişim formu → Resend mail + PostHog). `/api/visitor-profile` (popup Stage 3 submit → Resend + PostHog). Her ikisi <100 satır, Node runtime. |
 | **External (3 servis)** | Cal.com (rezervasyon embed), PostHog EU (analytics + person properties + feature flags + replay), Resend (transactional mail). |
 

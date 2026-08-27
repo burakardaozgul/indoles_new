@@ -1,179 +1,125 @@
-## Durum: v2 tüm siteye taşındı — 2026-08-19
+## Durum: SEO/GEO denetimi + Cloudflare deploy zinciri kuruldu — 2026-08-27
 
-- Branch: `feat/simplification-migration` (remote yok, local-only, commit atılmadı)
-- Karar kayıtları: `ADR-015` (design system v2), `ADR-016` (v2 blob anasayfa yönü)
-- Prototip: `/tr/v2` ve `/en/v2` — `noindex`
+- Branch: `main` (çalışma ağacında ~51 commit edilmemiş değişiklik)
+- **Doğrulama adresi yayında: https://preview.indoles.com.tr** (Worker açılışı 36 ms)
+- Canlı `www.indoles.com.tr` hâlâ **eski WordPress** — cutover yapılmadı, dokunulmadı
+- Barındırma: **Cloudflare Workers + OpenNext** (ADR-024; ADR-012/Vercel superseded)
+- Kanonik host: **`www.indoles.com.tr`** (ADR-024)
+- Denetim raporları: `docs/17` (23-24 Ağu) · `docs/18` (24 Ağu, kurtarıldı) · **`docs/19` (27 Ağu, güncel)**
+- Strateji: `docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` **v1.7**
+- **Kelime önceliklendirmesi:** `docs/strateji/Keyword-Onceliklendirme-2026-08-27.md` — üç dalga, takvim yeniden sıralaması, ölçüm çerçevesi + 7 alarm eşiği
 
-### Bugün ne oldu (üç aşama)
+### Deploy zinciri (LG-04 — kuruldu ve doğrulandı)
 
-**1. Design System v2** (`ADR-015`)
-Fraunces/serif → Lexend, `#567B97` → logo teal `#2C5566` + tek gold accent,
-radius 4-24 → 2-10px, çok katmanlı teal-tonlu elevation. Ana anasayfa 11 bölüm
-olarak yeniden kuruldu, 21 ölü component silindi, ADR-014 persona bağlantısı
-onarıldı.
-
-**2. v2 blob anasayfası** (`ADR-016`)
-Burak'ın yazdığı 12 bölümlük etkileşim spec'i uygulandı: sayfa boyunca hiç
-unmount edilmeyen fixed WebGL canvas, 7 duraklı koreografi, iki katmanlı hero
-metni, custom cursor, Lenis + GSAP ScrollTrigger. Yedi bölüm:
-Hero · Statement · About+Trusted · Pillars · Hizmet portföyü · Featured Work · Outro.
-
-**3. Polish turu**
-Mobil hero üç ayrı şekilde kırıktı (logo 0 genişlik, blob başlığı tamamen
-örtüyor, satırlar kırılıyor); skip link ve odak halkası eksikti; dokunmatikte
-kart etiketleri ulaşılamıyordu. Hepsi düzeltildi. Statement 5 → 3 satır,
-hizmet portföyü mobilde snap slider'a çevrildi.
-
-**4. v2 chrome'u** (ADR-016 §Chrome kararı)
-Burak: "v2 tasarım onaylandı. Artık tüm sitemiz bu tasarımda olacak."
-Nav hero'nun içinden layout'a taşındı; sayfanın en üstüne siyah bilgi şeridi
-geldi. Logo 30 → 56px. Link seti: Hakkımızda · Hizmetler · Paketler · Vakalar ·
-Bilgi Kütüphanesi. Danışmanlar nav'dan çıktı (Hakkımızda ile birleşecek).
-"Yazılar" → "Bilgi Kütüphanesi" (slug aynı). Dil değiştirici artık bulunulan
-sayfanın karşılığına gidiyor.
-
-**5. Tüm sitenin v2'ye taşınması** (ADR-017)
-`(v2)` prototip grubu kaldırıldı, v2 anasayfası `/{locale}` oldu. 14 sayfanın
-tamamı tek chrome altında: siyah şerit + nav + blob + cursor + footer. Blob iki
-modlu (anasayfa koreografili, iç sayfa sessiz). Bölüm seviyesindeki opak
-zeminler kaldırıldı, kartlar yarı saydam beyaza geçti. Tipografi tek ağırlığa
-indi (başlık 600), gövde satır aralığı açıldı; `h2`'lerin sayfa başlığından
-büyük olduğu ters hiyerarşi düzeltildi (24 kullanım bir basamak indi). Eski anasayfanın beş
-bölümü iç sayfalara dağıtıldı. Nav CTA'sı persona popup'ını açıyor.
-
-### v2 mimarisinin özeti
-
-| Katman | Dosya |
+| Parça | Durum |
 |---|---|
-| Kalıcı canvas + koreografi | `components/v2/webgl/BlobCanvas.tsx` |
-| Blob mesh + raycast + mouse | `components/v2/webgl/Blob.tsx` |
-| Shader'lar | `webgl/shaders/{noise,blob.vert,blob.frag}.glsl.ts` |
-| Koreografi config (7 keyframe) | `webgl/choreography.ts` |
-| **Tüm süre/easing/threshold** | `lib/v2/anim-config.ts` |
-| Lenis + GSAP senkronu | `lib/v2/use-lenis.ts` |
-| Bölümler | `components/v2/sections/*` |
-| Chrome (şerit + nav) | `components/v2/chrome/{V2TopBar,V2Nav}.tsx` |
-| Dil değiştirici segment map'i | `lib/i18n/locale-href.ts` |
-| Stil | `styles/v2.css` |
+| Next 15.5.24 | Adaptör peer aralığında (`>=15.5.21`) |
+| `open-next.config.ts` | Bilinçli boş — site SSG, ISR yok |
+| `wrangler.jsonc` | assets binding, `nodejs_compat`, observability; `www` route'u **yorumda** (cutover'da açılacak) |
+| Script'ler | `cf:build`, `cf:build:preview`, `cf:preview`, `cf:deploy`, `cf:deploy:preview`, `cf:typegen` |
+| `scripts/cf-smoke.sh` | 29 kontrol · `CF_SMOKE_DOH=1` ile yerel DNS önbelleğini atlar |
+| **Smoke sonucu** | **29/29 geçti** — metadata `<head>`'de, canonical `www`, sitemap 124 URL, 404 doğru dilde, 301'ler 308 |
 
-Chrome yükseklikleri `v2.css`'te `--v2-topbar-h` / `--v2-nav-h`. `.v2-root`
-`padding-top`'u ve hero `min-height`'ı bu değişkenleri okur — üç yerde ayrı
-sabit tutulmaz.
+**LG-02 yapısal olarak çözüldü:** aşama değişkenleri `package.json` script'lerine gömülü. `cf:build` production, `cf:build:preview` preview — doğrulama adresleri bu yüzden `noindex` çıkıyor.
 
-Bölüm id'leri (`v2-hero` … `v2-outro`) koreografinin çapalarıdır. Biri
-değişirse `choreography.ts` de değişmelidir.
+**Worker boyutu kritik:** 2,98 MB / 3 MB (ücretsiz plan) — **pay ~15 KB**. Yeni sunucu bağımlılığından önce `pnpm exec wrangler deploy --dry-run`. OG/icon üreticileri bu yüzden statik PNG'ye çevrildi (`@vercel/og` + `fontkit` ~2,2 MB tutuyordu; çıktı birebir aynı, SEO kaybı yok). Sayfa başına dinamik OG istenirse **Workers Paid** gerekir.
 
-### Yol boyunca bulunan gerçek hatalar
+**`*.workers.dev` bu ağdan HTTPS ile açılmıyor** (SNI engellemesi; Cloudflare'in kendi örneği de aynı). Doğrulama bu yüzden kendi alan adımızdaki `preview.` alt alanından yapılıyor.
 
-Hepsi kodda gerekçesiyle birlikte yorumlanmıştır:
+### Bugün ne oldu
 
-1. **R3F uniform klonlaması** — `<shaderMaterial uniforms={...}>` objeyi klonluyor;
-   dışarıdan güncellemek GPU'ya ulaşmıyordu. Mouse etkileşimi, `noiseAmp` ve
-   `opacity` keyframe'leri sessizce ölüydü. Materyal artık imperatif kuruluyor.
-2. **Rotasyon raycast'i bozuyordu** — dünya→obje dönüşümünde rotasyon
-   atlanıyordu; `worldToLocal()` ile düzeltildi.
-3. **Kare-başına lerp** — 120Hz'de gerçek zamanda yarı hız. Saniye bazlı
-   `1 − exp(−rate·delta)`'ya çevrildi, kare başına adım tavanlandı.
-4. **Geometri maliyeti** — detail 96 → frame başına 5M simplex noise. detail 32
-   + FBM 2 oktav + fragment noise'un vertex'e taşınması = 11× ucuz.
-5. **GSAP + React StrictMode** — `gsap.from` bitiş değerini o anki değerden
-   okuyor; StrictMode ikinci geçişte gizli hâli "doğal hâl" sanıyordu. Tüm
-   reveal'lar `fromTo`'ya çevrildi.
-6. **Satır-içi stil sınıfı eziyordu** — GSAP'in bıraktığı `opacity: 1`,
-   hover'daki `.is-dimmed`'i eziyordu. `clearProps` eklendi.
-7. **Koreografi sayfa uzayınca duruyordu** — normalize konumlar mount anına
-   bağlıydı. Fonksiyon start/end'e çevrildi.
-8. **Son bölüm scroll'un dışında kalıyordu** — 827px'lik outro, 829px'lik
-   viewport'ta `maxScroll`'un ötesine düşüyor, son keyframe'e yer kalmıyordu.
+**Re-audit (docs/19).** Dört paralel iş paketi: teknik SEO + altyapı, GEO hazırlığı, içerik–keyword uyumu (TR+EN), canlı site envanteri. Önceki denetimin dokuz "çözüldü" kaydı regresyonsuz doğrulandı.
+
+**`docs/18` kurtarıldı.** Strateji v1.4'ün refere ettiği 24 Ağustos denetimi repoya hiç yazılmamıştı; tam metni oturum kaydından çıkarılıp `docs/18-seo-geo-puanlama-2026-08-24.md` olarak eklendi. O raporun bu denetimde yakalanmayan beş bulgusu çapraz kontrol edildi (`docs/19` §9) — dördü hâlâ geçerli.
+
+**On bir kalem uygulandı.**
+
+| Bulgu | Ne yapıldı |
+|---|---|
+| LG-03 | Cloudflare zone'unun AI bot engeli + managed robots.txt kapatıldı (Burak); canlıda doğrulandı — GPTBot/ClaudeBot/CCBot/Google-Extended eşleşmesi 0 |
+| G-12 | SSS'lerin native `<details>`'te kalması **ADR-023** olarak kayda geçti; `docs/17` §12'nin ters kaydına düzeltme notu |
+| C-05 | Başlık çakışması bitti: ana sayfa "Dönüşüm ve büyüme stüdyosu, İstanbul", hakkımızda "iki eksen, bir disiplin"; `/tr/hizmetler` tek hedef. Strateji §2 P1'deki kaynak çelişki de düzeltildi |
+| C-12 | İki beyansız EN kelimesi yerleşti → oran **13/15** |
+| C-13 | EN hedefleri ilk kez regresyon testi altında (`searchSurfaceEn` + `TARGETS_EN`, 9 kelime-sayfa çifti + `agency` yerleşim kuralı) |
+| C-03 | Hizmet→vaka eşlemesi künye-öncelikli (`relatedCaseForService`); 5 hizmetin vakası düzeldi (CRO → GYMWOLVES) |
+| C-01 | "Yapay zeka ajansı" kendi karşı-konumlandırma sorusunu aldı (TR+EN) |
+| C-07 | İki GSC yazım varyantı (`artırma`/`arttırma`) farklı yüzeylere dağıtıldı |
+| G-11 | Per-locale `/tr/llms.txt` + `/en/llms.txt`; üretim mantığı `src/lib/seo/llms.ts`'e çıkarıldı, kök çıktı korundu |
+| T-08b + T-15 | 404 ilk HTML'i artık doğru dilde başlık/gövde taşıyor, tek `noindex`, canonical mirası kesildi; 3 e2e testi (`request.get` ile ham HTML) |
+| O-05 | `brief_submitted` GA4'e bağlandı (submit handler'ında, çift gönderim mimari olarak engelli); `homepage_hero_viewed` taksonomiden çıkarıldı |
 
 ### Doğrulama
 
 ```
-tsc --noEmit     temiz
-vitest run       29 dosya / 123 test geçti, 1 skip
-eslint (v2)      temiz
-route smoke      /tr /en /tr/v2 /en/v2 /tr/hizmetler /tr/yazilar /en/articles
-                 /tr/hakkimizda → 200
-nav              1190px'te taşma yok; ≤1180px çekmece; TR/EN etiketleri doğru
-dil değiştirici  /tr/v2 → /en/v2 · /hizmetler/[slug] → /services/[slug] (test'li)
-koreografi       7 keyframe'in tamamı hedefine ulaşıyor, çift yönlü pürüzsüz
-mouse            strength 0 → 1.0 → 0.8s'de sönüm; hızlı sweep'te adım tavanı 0.34
-mobil            390px: logo görünür, satırlar sığıyor, hizmet slider'ı çalışıyor
+pnpm typecheck        temiz
+pnpm test             634 geçti / 1 atlandı (68 dosya)
+playwright not-found  3/3 geçti
+pnpm build            exit 0 (NEXT_PUBLIC_APP_STAGE=production)
+pnpm seo:audit        124 URL · 104 PASS / 20 WARN / 0 FAIL
+pnpm cf:build         exit 0 · worker 2,98 MB gzip
+cf-smoke.sh           29/29 (preview.indoles.com.tr)
+404 ham HTML          /tr → "Sayfa bulunamadı", /en → "Page not found", karşı dil sızıntısı yok
+canlı robots.txt      AI bot engeli yok (LG-03 kapandı)
 ```
+
+**Commit/push yapılmadı.** Dağıtım yalnız doğrulama adresine yapıldı (`preview.indoles.com.tr`); canlı `www` ve WordPress'e dokunulmadı.
 
 ---
 
-## Bir sonraki adım — Burak'ın sinyalini bekliyor
+## Burak'ın kararını bekleyen üç başlık
 
-### v2'yi canlı anasayfaya terfi (ADR-016 §Migrasyon)
+| # | Konu | Neden bekliyor |
+|---|---|---|
+| 1 | **Persona görünürlüğü (G-01)** | `PersonaText` iki varyantı da DOM'a basıyor, seçimi CSS yapıyor; Googlebot'ta çerez olmadığı için ticaret persona'sının ~2.772 TR kelimesi (EN ~3.049) hiç indekslenmiyor, 22 canlı URL'de. ADR-022 kapsamı yarıya indirdi ama mekanizma duruyor. **Launch öncesi karar** — Google ilk taramada ne görürse onu indeksler. Dört seçenek `docs/19` §9'da |
+| 2 | **`seo.entities` rolü** | Alan render edilmiyor, yalnız `seo:audit` okuyor (render doğrulaması yapıyor — `keyword-coverage`'ın yapamadığı şey). Öneri: rolü keskinleştir (hedef kelimeleri çıkar, somut varlıklar kalsın), sonra temizlenmiş listeyi JSON-LD `about`/`mentions`'a bas — `about` deseni vaka detayında zaten kullanılıyor |
+| 3 | **CLAUDE.md §4 senkronu** | Dosya hâlâ "Deploy: Vercel (eu-central) · ADR-012" diyor; gerçek ADR-024 (Cloudflare Workers, host `www`). CLAUDE.md yalnız Burak onayıyla güncelleniyor — onay verilirse tek satırlık düzeltme |
 
-| # | İş |
-|---|---|
-| 1 | `/tr/v2` içeriğini `(marketing)/[locale]/page.tsx`'e taşı, `(v2)` grubunu kaldır |
-| 2 | ~~Chrome kararı~~ — kapandı: v2 chrome'u kalır, `SiteNav` terfiyle kalkar |
-| 3 | Entry popup'ı v2 layout'una bağla — persona anasayfada seçilebilmeli |
-| 4 | `noindex` kaldır, `sitemap.ts`'e ekle |
-| 5 | İç sayfaları v2 chrome'una geçir (`(marketing)` layout'u `V2Chrome`'a) |
-| 6 | Featured Work orijinal görselleri + gerçek alt metinler |
-| 7 | Lighthouse + Safari/iOS testi |
-| 8 | Eski 11 bölümlük anasayfa component'lerinin akıbeti |
+Ek onay: ana sayfa başlığındaki "stüdyo" ve "İstanbul" ilk kez `<title>`'a girdi.
 
-### Burak'ın kararı gereken diğer başlıklar
+## Launch kapısı — açık P0'lar
 
-| # | Konu |
-|---|---|
-| 1 | `COMPANY.phone` — `+90 212 111 22 33` placeholder |
-| 2 | `COMPANY.locations` — Londra ve Dubai teyidi |
-| 3 | Kadro portre fotoğrafları (şu an baş harf + tone bloğu) |
-| 4 | Vercel proje setup + env migration (ADR-012) |
-| 5 | Commit + remote push + PR (henüz hiçbiri yapılmadı) |
+| # | İş | Sahip |
+|---|---|---|
+| 1 | ~~Deploy zinciri~~ — **tamam**, smoke 29/29 | — |
+| 2 | Sunucu sırları: `wrangler secret put RESEND_API_KEY` (+ `TURNSTILE_SECRET_KEY`, `SENTRY_DSN`); `NEXT_PUBLIC_GA_ID` build değişkeni — **GA4 bu olmadan hiç yüklenmiyor** | Burak |
+| 3 | Cutover: `wrangler.jsonc` `routes`'a `www.indoles.com.tr` eklenir (satır hazır), WP kapatılır, GSC'ye yeni sitemap + eski Yoast sitemap'in kaldırılması, Bing/IndexNow | Burak |
+| 4 | Persona görünürlüğü kararı (yukarıdaki tablo) | Burak |
 
-### Teknik borç
+> **LG-02 artık yapısal olarak kapalı:** aşama değişkenleri `package.json` script'lerine gömülü, deploy edenin hatırlamasına bağlı değil. Yine de cutover sonrası ilk kontrol: `curl https://www.indoles.com.tr/robots.txt` — hem aşamayı hem Cloudflare'in managed robots.txt'i yeniden devreye sokmadığını (LG-03) doğrular.
 
-| # | İş |
-|---|---|
-| 1 | v2 bundle boyutu ölçümü (three + gsap + lenis) |
-| 2 | Lighthouse Performance ≥ 85 doğrulaması |
-| 3 | Safari / iOS: `backdrop-filter` + WebGL birlikte test edilmedi |
-| 4 | `prefers-reduced-motion` canlı doğrulaması — kod yolu doğru, medya sorgusuyla test edilmedi |
-| 5 | WebGL'siz fallback yok |
-| 6 | Ana sitede Cal.com embed 404 (`app.cal.com/indoles/gorusme` yok) |
-| 7 | Design token leak testi hâlâ `it.skip` |
-| 8 | `SiteNav` bağlantıları `next-intl` `Link`'ine geçmeli (EN'de 307 atlaması). `V2Nav`'da çözüldü; terfiyle kendiliğinden kapanır |
-| 12 | EN hero'da accent aralıkları blob'un yolunu tutmuyor: "RESULTS"ın "ULTS"ı blob'un altında kayboluyor. TR'de ölçülüp ayarlandı, EN ölçülmedi |
-| 13 | `CLAUDE.md` klasör haritası `components/v2/chrome/` ve `lib/i18n/locale-href.ts`'i bilmiyor — o dosya Burak onayıyla güncelleniyor |
-| 9 | `/api/upload` ve `/api/webhooks/cal` — TODO stub |
-| 10 | `llms.txt` kaldırılmış `/app/brief/yeni`'yi gösteriyor |
-| 11 | `@vitejs/plugin-react` kaldırılamadı |
+## İçerik: Dalga 1 (launch + ilk 30 gün)
 
----
+Ayrıntı `Keyword-Onceliklendirme-2026-08-27.md` §2. Öne çıkanlar:
 
-## Git state
+- **Hafta 1-2:** AI slotları (h.1-2 "AI dönüşümü nedir", h.2-2 "AI danışmanı seçerken 12 soru") + GEO slotları (h.7-2 "AI Overviews", h.10-2 "llms.txt nedir" — kendi uygulamamız vaka olarak)
+- **En ucuz kazanç:** `yapay zeka optimizasyonu` GSC'de **136 gösterim** alıyor ama sitede hiç geçmiyor. Tek cümlelik ekleme
+- **Yazım varyantı boşlukları:** `ab testi nedir` (site "A/B testi nedir?" diyor, boşluksuz varyant eşleşmiyor) · `e ticaret dönüşüm oranı artırma` (C-07 kısa formu koydu, önekli tam form yok)
+- **Karar verildi:** GEO makalesi üçe bölünecek (kanonik rehber aynı slug'da kalır — poz. 38 tohumu korunsun) · reklam havuzu makalesi hafta 7'ye · kariyer-niyetli sorgular KPI'dan düşülecek · EN-UX kümesi kapatıldı
 
-```
-Branch: feat/simplification-migration
-Remote: YOK
-Commit edilmemiş: design system v2 + v2 blob anasayfası + doküman senkronu
-Son commit: 657f554 (2026-04-18)
-```
+## Sıradaki iş kalemleri (P1)
 
-> Deploy gating: push/PR/prod adımları Burak'ın sinyali olmadan tetiklenmez.
-> Commit için de aynı şekilde onay bekleniyor.
-
----
+- 10 danışmanın LinkedIn URL'i — şema hazır, veri Burak'ta (E-E-A-T'nin en ucuz çarpanı)
+- `/vakalar` seçilmiş vakalar bloğundaki ikinci persona mekanizması (G-18): commerce metni SSG çıktısında hiç yok; `seo:audit`'in `persona-leak` kuralı bu deseni yakalayamıyor
+- İçerik: takvim h.1-2 "AI dönüşümü nedir" + h.2-2 "AI danışmanı seçerken 12 soru" — `yapay-zeka` konusunda 0 makale olduğu için 12 hizmetin 7'sinde "ilgili yazı" bloğu hiç render edilmiyor
+- Dört hizmetin (dijital-donusum, is-zekasi, isletme-muhendisligi, teknoloji-ve-altyapi) künyesinde vaka yok — pillar fallback'ine düşüyorlar
+- CLAUDE.md §4 deploy satırı (ADR-024 yazıldı, CLAUDE.md senkronu Burak onayında)
 
 ## Hızlı kontrol
 
 ```bash
-cd "/Users/burakardaozgul/Documents/AA - Claude/INDOLES - Yeni/indoles-web"
-corepack pnpm dev            # /tr (ana site) · /tr/v2 (yeni yön)
-corepack pnpm tsc --noEmit
-corepack pnpm vitest run 2>&1 | tail -5
-```
+cd "/Users/burakardaozgul/Development/AA - Claude Code/INDOLES - Yeni/indoles-web"
+pnpm typecheck && pnpm test
+pnpm cf:build                      # host + aşama script'in içinde
+pnpm exec wrangler deploy --dry-run # boyut ölçümü (sınıra ~15 KB pay var)
+pnpm cf:deploy:preview             # doğrulama adresine dağıt (noindex)
+CF_SMOKE_DOH=1 scripts/cf-smoke.sh https://preview.indoles.com.tr
 
-Dev'de tarayıcı konsolundan tune için: `__blobState` · `__blobMaterial` ·
-`__blobMouse` · `__lenis` · `__ST`.
+# Lokal denetim (seo:audit çalışan sunucu ister)
+NEXT_PUBLIC_APP_STAGE=production NEXT_PUBLIC_APP_URL=https://www.indoles.com.tr pnpm build
+NEXT_PUBLIC_APP_STAGE=production NEXT_PUBLIC_APP_URL=https://www.indoles.com.tr pnpm start -p 3100
+pnpm seo:audit --base http://localhost:3100
+```
 
 ## Yeni session başlatma
 
-"active_context.md'yi oku" — bu kadar yeterli.
+"active_context.md'yi oku" — bu kadar yeterli. Denetim ayrıntısı için `docs/19-seo-geo-audit-2026-08-27.md`.

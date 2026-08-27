@@ -87,7 +87,7 @@ motoru (strateji §4) başlamadan okunacak veri üretmiyor. Dalga 8'de eklenir.
 | Event | Properties | Ne zaman |
 |---|---|---|
 | `page_view` | GA4 Enhanced Measurement | Her sayfa yüklenmesinde |
-| `homepage_hero_viewed` | `persona` | Hero görünür olunca |
+| ~~`homepage_hero_viewed`~~ | — | **Taksonomiden çıkarıldı (2026-08-27).** Hiç çağrılmıyordu; ana sayfa görüntülemesi `page_view` ile zaten ölçülüyor, ayrı hero olayı yeni boyut üretmiyordu. Hero'nun viewport'a girme anı ölçülmek istenirse yeniden tanımlanır. |
 | `persona_axis_clicked` | `axis: "industrial" \| "commerce"` | Anasayfada eksen CTA |
 | `pillar_viewed` | `pillar`, `locale` | Pillar sayfası görüntülenince |
 | `service_viewed` | `slug`, `pillar`, `locale` | Hizmet detay sayfası |
@@ -191,11 +191,12 @@ Identification: Kullanıcı login olunca `posthog.identify(userId, traits)`; tra
 
 Typed event definitions — event adı ve properties TypeScript'te sabit, yanlış event gönderme imkansız.
 
+> **Güncel durum (2026-08-27):** Bu bölüm özgün tasarım taslağıdır; uygulanan hâli `src/lib/analytics/events.ts`'tedir ve iki noktada ayrışır. (1) `homepage_hero_viewed` taksonomiden çıkarıldı. (2) `brief_submitted` **bağlandı** — `EntryPopup`'ta `/api/visitor-profile` başarıyla döndükten sonra tetikleniyor; payload yalnız `briefId` taşıyor. `pillar`/`budget`/`timeline` opsiyonele çevrildi çünkü launch kapsamındaki tek lead formu bu verileri sormuyor (§2.0'ın "brief wizard" notu — o akış hiç yapılmadı); uydurma değer basmak yerine alanlar boş bırakılıyor. Çift gönderim mimari olarak engelli: olay render'a değil, submit handler'ına bağlı — testle doğrulandı.
+
 ```typescript
 // Simplified
 export const events = {
-  homepage_hero_viewed: (p: { persona: Persona }) => ({ name: "homepage_hero_viewed", properties: p }),
-  brief_submitted: (p: { briefId: string; pillar: Pillar; budget: Budget; timeline: Timeline }) =>
+  brief_submitted: (p: { briefId: string; pillar?: Pillar; budget?: Budget; timeline?: Timeline }) =>
     ({ name: "brief_submitted", properties: p }),
   chatbot_message_sent: (p: { role: "user" | "assistant"; conversationId: string; persona: Persona }) =>
     ({ name: "chatbot_message_sent", properties: p }),

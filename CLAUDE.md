@@ -71,9 +71,9 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Email | Resend + React Email | Transactional |
 | Spam koruma | Cloudflare Turnstile | Invisible |
 | Analytics | Google Analytics 4 | Tek ölçüm sağlayıcı (ADR-021; PostHog kaldırıldı) |
-| Observability | Sentry + Vercel built-in | — |
-| Deploy | Vercel (eu-central) | ADR-012 |
-| CI/CD | GitHub Actions + Vercel preview | — |
+| Observability | Sentry (kurulu ama `init` yok — denetim O-03) + Cloudflare Workers observability | — |
+| Deploy | **Cloudflare Workers + OpenNext** · kanonik host `www.indoles.com.tr` | ADR-024 (ADR-012/Vercel superseded) |
+| CI/CD | GitHub Actions + `pnpm cf:deploy:preview` → `preview.indoles.com.tr` | — |
 | Test | Vitest + Playwright | — |
 
 ---

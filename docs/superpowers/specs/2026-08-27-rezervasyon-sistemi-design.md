@@ -64,7 +64,7 @@ Veri erişimi tek arayüzün arkasında: `createBooking`, `findBookingByToken`, 
 
 1. İstemci takvimi açar, sunucudan dört haftalık müsaitlik ister.
 2. Sunucu paralel iki sorgu yapar: Calendar `freeBusy` (dolu aralıklar) ve `listSoldSlots` (bizim sattıklarımız).
-3. Temel çalışma penceresinden (hafta içi, mesai saatleri, tanımlı slot uzunluğu) bu ikisi düşülür.
+3. Temel çalışma penceresinden (§3.1b'deki gün, saat ve slot tanımı) bu ikisi düşülür.
 4. Sonuç kısa süreli önbelleğe alınır (birkaç dakika). Önbellek **yalnız gösterim içindir** — kesinleşme her zaman veritabanı kısıtından geçer, dolayısıyla bayat listeden seçim yapılsa bile çift rezervasyon oluşmaz.
 
 ### 3.1b Slot yapılandırması (Burak kararı, 2026-08-27)

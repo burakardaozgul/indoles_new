@@ -214,9 +214,15 @@ Karar iki elemeyle buraya geldi:
 
 *OAuth + refresh token* — **seçilen yol.** Burak bir kez tarayıcıdan izin verir; sunucu refresh token'ı saklar ve sürekli kullanır. Servis hesabı hiç devreye girmediği için yukarıdaki kısıtların ikisi de yok: etkinlik gerçek kullanıcı adına oluşur, ziyaretçi gerçek davetli olur, Meet bağlantısı sorunsuz üretilir. Yönetici paneli gerekmez.
 
-**Kritik kurulum ayrıntısı — "Internal" kullanıcı tipi.** Google'ın izin ekranı "Testing" modundayken refresh token **7 günde** geçersiz oluyor; bu kurulursa sistem bir hafta sonra sessizce durur. Kaçınmanın yolu, Cloud projesinin OAuth izin ekranında **"Internal"** seçmek. Bu seçenek proje `indoles.com.tr` organizasyonuna bağlıysa görünür ve **proje sahibi tarafından seçilebilir — Workspace yöneticisi olmak gerekmez.** Internal seçildiğinde 7 gün kısıtı, doğrulama zorunluluğu ve "doğrulanmamış uygulama" uyarısı ortadan kalkar; token kalıcı olur.
+**Kurulum yolu: External + Publish App (karar verildi, 2026-08-27).** İlk tercih "Internal" kullanıcı tipiydi; o seçenek Cloud projesinin `indoles.com.tr` kuruluşuna bağlanmasını gerektiriyor ve **konsolda kuruluş seçilemiyor** (Burak) — yönetici erişimi olmadan proje kuruluşa bağlanamıyor. Dolayısıyla tek uygulanabilir yol External + yayınlama.
 
-Proje organizasyona bağlanamıyorsa yedek yol: "External" seçip **Publish App** ile Production'a geçirmek (doğrulama göndermeden). Resmî dokümantasyon 7 gün kısıtını açıkça "Testing" durumuna bağlıyor, ancak ikincil kaynaklar Production-doğrulanmamış durumu net teyit etmiyor — **bu yola gidilirse kurulumdan 8-10 gün sonra token'ın hâlâ çalıştığı fiilen test edilmelidir.**
+**Sıra kritik — spec'in gereği.** Google'ın 7 günlük refresh token kısıtı token'a değil, **iznin verildiği andaki yayın durumuna** yazılıyor: *"Authorizations by a test user will expire seven days from the time of consent."* Uygulama "Testing" durumundayken alınan token, sonradan yayınlansa bile 7 gün sonra ölür. Bu yüzden **"Publish app" adımı yetkilendirmeden önce tamamlanır** ve kurulum runbook'u bu sırayı zorunlu tutar (`docs/runbooks/google-calendar-oauth-kurulumu.md`).
+
+Doğrulama (verification) gönderilmiyor. Doğrulanmamış-yayında olmanın iki sonucu var, ikisi de kabul edilebilir: izin ekranında bir kereye mahsus "doğrulanmamış uygulama" uyarısı (yalnız yetkilendirmeyi yapan kişi görür, ziyaretçiler bu akışa hiç girmez) ve **proje ömrü boyunca 100 yeni kullanıcı sınırı** (sıfırlanamaz). Gereken kullanıcı sayısı bir. Bundan çıkan kural: **bu Cloud projesi ve istemci başka hiçbir iş için kullanılmaz.**
+
+**Açık uç — 10. gün testi.** Resmî dokümantasyon 7 gün kısıtını açıkça "Testing" durumuna bağlıyor ve yayınlamanın kısıtı kaldırdığını ikincil kaynaklar doğruluyor; ancak Google "In production ama doğrulanmamış" durumu için açık bir taahhüt yazmıyor. **Yetkilendirmeden 8-10 gün sonra token'ın hâlâ çalıştığı fiilen test edilir** — bu, uygulama planında adı konmuş bir görevdir, hatırlamaya bırakılmaz. Test düşerse tek kalıcı çözüm projeyi kuruluşa bağlayıp Internal'a geçmek olur ve o yönetici erişimi gerektirir.
+
+**İkinci açık uç — Workspace uygulama erişim denetimi.** Proje `indoles.com.tr` kuruluşuna bağlı olmadığı için Workspace bu uygulamayı "üçüncü taraf" sayıyor. Yönetici API denetimlerini kısıtlamışsa Burak'ın kendi izni bile `admin_policy_enforced` ile reddedilebilir. Bu ancak fiilen denenerek anlaşılır. Çıkarsa çözüm yöneticide client ID'yi "Trusted" olarak eklemek — DWD kurmaktan çok daha küçük bir talep, ama yine de yönetici gerektirir.
 
 **Sessiz bozulmaya karşı sağlık kontrolü — zorunlu.** OAuth yolunun gerçek riski yetkinin sessizce ölmesi: token 6 ay kullanılmazsa Google iptal eder, güvenlik olayı sonrası "tüm oturumları kapat" da iptal edebilir. İki önlem birlikte kurulur:
 
@@ -231,7 +237,7 @@ Bu iki madde spec'in gereği; uygulama planında atlanamaz.
 - `https://www.googleapis.com/auth/calendar.events` — etkinlik oluştur/güncelle/sil + Meet üretimi (ayrı bir "Meet kapsamı" yok)
 - `https://www.googleapis.com/auth/calendar.events.freebusy` — yalnız müsaitlik sorgusu
 
-Her ikisi de Google'ın **"sensitive"** sınıfında ("restricted" değil). Bu ayrım önemli: Internal kullanıcı tipinde doğrulama gerektirmiyor, External-Production'da ise yalnız bir kereye mahsus "doğrulanmamış uygulama" uyarısı gösteriyor — ziyaretçiler bu uyarıyı hiç görmez, yalnız yetkilendirmeyi yapan kişi görür.
+Her ikisi de Google'ın **"sensitive"** sınıfında ("restricted" değil). Ayrım önemli: restricted kapsamlar yayınlanmış bir uygulamada güvenlik denetimi gerektirirdi; sensitive kapsamlar doğrulama olmadan da çalışıyor, karşılığında yalnız bir kereye mahsus "doğrulanmamış uygulama" uyarısı ve 100 kullanıcı sınırı geliyor (yukarıda).
 
 **Workers kısıtı — önemli:** Resmî `googleapis` npm paketi **kullanılmayacak**; Node.js'e bağımlı ve Worker paketini şişirir (boyut sınırında yalnız ~15 KB payımız var — ADR-024). Bunun yerine doğrudan REST çağrısı: saklanan refresh token `oauth2.googleapis.com/token` adresine `grant_type=refresh_token` ile gönderilip kısa ömürlü access token alınır, sonra Calendar uç noktalarına `fetch` ile gidilir. Ek bağımlılık gerektirmeyen küçük bir modül; JWT imzalama gerekmiyor (o yalnız servis hesabı yolunda gerekliydi).
 
@@ -263,5 +269,6 @@ Her ikisi de Google'ın **"sensitive"** sınıfında ("restricted" değil). Bu a
 | ~~Görüşme süresi ve çalışma penceresi~~ | — | ✅ **Karara bağlandı** (2026-08-27): 90 dk · 15 dk tampon · 13:00-20:00 · Pzt-Cmt · ilk gün 31 Ağustos. Ayrıntı §3.1b |
 | ~~En erken rezervasyon mesafesi~~ | — | ✅ **Karara bağlandı:** 24 saat. Ayrıntı §3.1b |
 | ~~Veri saklama süresi (KVKK)~~ | — | ✅ **Hizalandı:** minimizasyon + 90 gün sonra silme. Ayrıntı §2.2b. **`docs/14` güncellenecek** (Cal.com satırları geçersiz) |
-| **Google OAuth istemcisi + tek seferlik yetkilendirme** | Burak | **Açık — uygulama öncesi hazırlık.** Yöntem netleşti (§8): OAuth + kalıcı refresh token, tercihen "Internal" kullanıcı tipiyle. Yönetici paneli gerekmiyor. Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
+| **Google OAuth istemcisi + tek seferlik yetkilendirme** | Burak | **Açık — uygulama öncesi hazırlık.** Yol netleşti (§8): External + Publish App, ardından yetkilendirme. Adım adım: `docs/runbooks/google-calendar-oauth-kurulumu.md`. Yönetici paneli gerekmiyor. Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
+| **Yetkilendirmenin 10. gün testi** | Burak + plan | **Açık — yetkilendirmeden 8-10 gün sonra.** External-yayında yolunun 7 gün kısıtından muaf olduğu fiilen doğrulanacak (§8). Uygulama planında adı konmuş görev |
 | Günlük üst sınır | — | Gerekmiyor: pencere ve süre zaten günde 4 slotla sınırlıyor |

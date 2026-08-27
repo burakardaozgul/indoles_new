@@ -53,9 +53,9 @@ Gönderen adresi yine `digital@indoles.com.tr` olabilir: DMARC hizalaması **DKI
 | 6 | Worker secret'ları | `wrangler secret list` → boş | Claude (değerler gelince) |
 | 7 | DNS yetkili Cloudflare token | Mevcut token DNS okuyamıyor | Burak |
 
-**3 ve 4 build zamanında koda gömülüyor** — sonradan secret eklemek düzeltmiyor, üretim build'i bu değerlerle alınmalı.
+**Turnstile site anahtarı ve GA4 kimliği build zamanında koda gömülüyor** (`NEXT_PUBLIC_*`) — sonradan `wrangler secret` eklemek bunları düzeltmiyor; üretim build'i doğru değerlerle alınmalı. Kalan üçü (Resend anahtarı, Turnstile secret, adresler) çalışma zamanında okunuyor, secret olarak geçilebilir.
 
-**1 numaralı GSC doğrulaması gerekmiyor:** apex TXT'te zaten var.
+**GSC doğrulaması ayrı bir madde değil:** apex TXT'inde zaten duruyor, meta tag gerekmiyor.
 
 ---
 

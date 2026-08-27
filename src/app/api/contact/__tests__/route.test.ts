@@ -2,7 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from '../route';
 
 vi.mock('@/lib/security/turnstile', () => ({ verifyTurnstile: vi.fn() }));
-vi.mock('@/lib/mail/client', () => ({ sendMailWithRetry: vi.fn() }));
+// `recipients` gerçek uygulamasıyla mock'lanıyor: rotanın alıcı listesini
+// diziye çevirdiğini doğrulamak istiyoruz, o davranışı sahteleyip atlamak değil.
+vi.mock('@/lib/mail/client', async (importActual) => ({
+  sendMailWithRetry: vi.fn(),
+  recipients: (await importActual<typeof import('@/lib/mail/client')>()).recipients,
+}));
 
 const validBody = {
   firstName: 'Ayşe', lastName: 'Yılmaz',
@@ -77,6 +82,27 @@ describe('POST /api/contact', () => {
     expect(sendMailWithRetry).toHaveBeenCalledTimes(2);
   });
 
+  it('satış bildirimi virgüllü listedeki alıcıların HEPSİNE gider', async () => {
+    const previous = process.env.SALES_INBOX_EMAIL;
+    process.env.SALES_INBOX_EMAIL =
+      'digital@indoles.com.tr, burak@indoles.com.tr,b.a.ozgul@gmail.com';
+    try {
+      const { verifyTurnstile } = await import('@/lib/security/turnstile');
+      const { sendMailWithRetry } = await import('@/lib/mail/client');
+      vi.mocked(verifyTurnstile).mockResolvedValueOnce(true);
+      vi.mocked(sendMailWithRetry).mockResolvedValue(undefined);
+      await POST(req(validBody));
+      // Dizi olarak geçmesi şart: virgüllü tek string Resend'de tek geçersiz
+      // adres sayılır ve lead bildirimi sessizce kimseye ulaşmaz.
+      expect(vi.mocked(sendMailWithRetry).mock.calls[0]?.[0]).toMatchObject({
+        to: ['digital@indoles.com.tr', 'burak@indoles.com.tr', 'b.a.ozgul@gmail.com'],
+      });
+    } finally {
+      if (previous === undefined) delete process.env.SALES_INBOX_EMAIL;
+      else process.env.SALES_INBOX_EMAIL = previous;
+    }
+  });
+
   it('satış bildirimi varsayılan gelen kutusuna gider', async () => {
     const previous = process.env.SALES_INBOX_EMAIL;
     delete process.env.SALES_INBOX_EMAIL;
@@ -87,7 +113,7 @@ describe('POST /api/contact', () => {
       vi.mocked(sendMailWithRetry).mockResolvedValue(undefined);
       await POST(req(validBody));
       expect(vi.mocked(sendMailWithRetry).mock.calls[0]?.[0]).toMatchObject({
-        to: 'digital@indoles.com.tr',
+        to: ['digital@indoles.com.tr'],
       });
     } finally {
       if (previous === undefined) delete process.env.SALES_INBOX_EMAIL;

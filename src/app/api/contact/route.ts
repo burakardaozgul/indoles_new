@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import * as Sentry from '@sentry/nextjs';
 import { contactSchema } from '@/lib/schemas/contact';
 import { verifyTurnstile } from '@/lib/security/turnstile';
-import { sendMailWithRetry } from '@/lib/mail/client';
+import { sendMailWithRetry, recipients } from '@/lib/mail/client';
 import ContactNotification from '../../../../emails/ContactNotification';
 import ContactAutoreply from '../../../../emails/ContactAutoreply';
 
@@ -34,8 +34,8 @@ export async function POST(req: Request): Promise<Response> {
   // Satış bildirimi lead'in kendisidir: düşerse istek başarısızdır.
   try {
     await sendMailWithRetry({
-      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <noreply@indoles.com.tr>',
-      to: process.env.SALES_INBOX_EMAIL ?? 'digital@indoles.com.tr',
+      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
+      to: recipients(process.env.SALES_INBOX_EMAIL, 'digital@indoles.com.tr'),
       subject: `İletişim — ${data.subject} — ${data.firstName} ${data.lastName}`,
       react: ContactNotification(data),
     });

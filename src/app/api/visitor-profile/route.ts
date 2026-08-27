@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import * as Sentry from '@sentry/nextjs';
 import { visitorProfileSchema } from '@/lib/schemas/visitor-profile';
 import { verifyTurnstile } from '@/lib/security/turnstile';
-import { sendMailWithRetry } from '@/lib/mail/client';
+import { sendMailWithRetry, recipients } from '@/lib/mail/client';
 import VisitorProfileLeadNotification from '../../../../emails/VisitorProfileLeadNotification';
 import VisitorProfileAutoreply from '../../../../emails/VisitorProfileAutoreply';
 
@@ -35,8 +35,8 @@ export async function POST(req: Request): Promise<Response> {
 
   try {
     await sendMailWithRetry({
-      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <noreply@indoles.com.tr>',
-      to: process.env.LEAD_INBOX_EMAIL ?? 'lead@indoles.com.tr',
+      from: process.env.RESEND_FROM_EMAIL ?? 'INDOLES <digital@indoles.com.tr>',
+      to: recipients(process.env.LEAD_INBOX_EMAIL, 'digital@indoles.com.tr'),
       subject: `Yeni popup lead — ${data.lead.firstName} ${data.lead.lastName} (${data.lead.company})`,
       react: VisitorProfileLeadNotification({
         persona: data.persona,

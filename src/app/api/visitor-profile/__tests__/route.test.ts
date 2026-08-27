@@ -2,7 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { POST } from '../route';
 
 vi.mock('@/lib/security/turnstile', () => ({ verifyTurnstile: vi.fn() }));
-vi.mock('@/lib/mail/client', () => ({ sendMailWithRetry: vi.fn() }));
+// `recipients` gerçek uygulamasıyla mock'lanıyor: rotanın alıcı listesini
+// diziye çevirdiğini doğrulamak istiyoruz, o davranışı sahteleyip atlamak değil.
+vi.mock('@/lib/mail/client', async (importActual) => ({
+  sendMailWithRetry: vi.fn(),
+  recipients: (await importActual<typeof import('@/lib/mail/client')>()).recipients,
+}));
 
 const validBody = {
   persona: 'donusum-teknoloji',

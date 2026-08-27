@@ -33,3 +33,18 @@ export async function sendMailWithRetry(
   }
   throw new Error(`Resend failed after ${maxAttempts}: ${JSON.stringify(lastErr)}`);
 }
+
+/**
+ * Alıcı listesi tek bir env değişkeninde virgülle ayrılıyor
+ * (`SALES_INBOX_EMAIL=a@x.com,b@y.com`). Resend `to` alanında dizi kabul
+ * ediyor; virgüllü tek string gönderilirse bunu tek bir adres sanıp
+ * reddediyor. Bu yüzden ayrıştırma env okunduğu yerde değil burada, tek
+ * yerde yapılıyor.
+ */
+export function recipients(value: string | undefined, fallback: string): string[] {
+  const list = (value ?? fallback)
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return list.length > 0 ? list : [fallback];
+}

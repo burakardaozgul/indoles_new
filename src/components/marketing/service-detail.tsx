@@ -15,6 +15,7 @@ import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { ScopeColumns } from "@/components/marketing/scope-columns";
+import { ServicePricing } from "@/components/marketing/service-pricing";
 import { ServiceCaseProof } from "@/components/marketing/service-case-proof";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
 import { PILLARS } from "@/lib/content/pillars";
@@ -310,12 +311,22 @@ export function ServiceDetail({
             description: service.seo.description[locale],
             serviceType: service.seo.title[locale],
             path: paths[locale],
-            offers: relatedPackages.map((p) => ({
-              name: p.name[locale],
-              priceTRY: p.pricing.TRY,
-              durationWeeks: p.durationWeeks,
-              path: `/${locale}/${t.packagesRoot}/${p.slug[locale]}`,
-            })),
+            offers: [
+              ...relatedPackages.map((p) => ({
+                name: p.name[locale],
+                priceTRY: p.pricing.TRY,
+                durationWeeks: p.durationWeeks,
+                path: `/${locale}/${t.packagesRoot}/${p.slug[locale]}`,
+              })),
+              /* Aylık planların Offer URL'i hizmetin kendisidir — planların
+                 ayrı sayfası yok, tablo bu sayfada yaşar. */
+              ...(service.retainerPlans?.plans ?? []).map((p) => ({
+                name: `${service.name[locale]} — ${p.name[locale]}`,
+                priceTRY: p.monthlyTRY,
+                monthly: true,
+                path: paths[locale],
+              })),
+            ],
           }),
           faqLd(
             service.faq.map((f) => ({
@@ -597,6 +608,14 @@ export function ServiceDetail({
           </dl>
         </div>
       </section>
+
+      {/* 05b — Aylık yönetim planları (yalnız veri giren hizmette) */}
+      {service.retainerPlans ? (
+        <ServicePricing
+          retainerPlans={service.retainerPlans}
+          locale={locale}
+        />
+      ) : null}
 
       {/* 06 — SSS */}
       <section

@@ -244,6 +244,28 @@ describe("serviceLd", () => {
     expect(ld.hasOfferCatalog).toBeUndefined();
   });
 
+  it("aylık planı UnitPriceSpecification (MON) ile, paketi PriceSpecification ile yazar", () => {
+    const ld = serviceLd({
+      ...INPUT,
+      offers: [
+        ...INPUT.offers,
+        {
+          name: "Performans pazarlama — Standart",
+          priceTRY: 75000,
+          monthly: true,
+          path: "/tr/hizmetler/performans-pazarlama",
+        },
+      ],
+    }) as Record<string, any>;
+    const items = ld.hasOfferCatalog.itemListElement;
+    const pkg = items[0];
+    const monthly = items[1];
+    expect(pkg.priceSpecification["@type"]).toBe("PriceSpecification");
+    expect(monthly.priceSpecification["@type"]).toBe("UnitPriceSpecification");
+    expect(monthly.priceSpecification.unitCode).toBe("MON");
+    expect(monthly.priceSpecification.price).toBe(75000);
+  });
+
   it("iki dili birden availableLanguage'de listeler", () => {
     const ld = serviceLd(INPUT) as Record<string, any>;
     expect(ld.availableLanguage).toEqual(["tr", "en"]);

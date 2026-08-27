@@ -402,6 +402,173 @@ export const performansPazarlama: ServiceContent = {
     },
   },
 
+  /**
+   * Aylık yönetim planları — eski sitedeki fiyat listesinin (₺45/75/90 bin,
+   * Burak onayı 2026-08-27) merdiven modeliyle taşınmış hâli. Kapsam kalemleri
+   * eski listeyle birebir; yalnız adlandırma sadeleşti ("PPC (TBM) Bazlı"
+   * öneki düştü, GOOGLE → Google Ads, sentence case). Standart, Giriş'in;
+   * Profesyonel, Standart'ın üstkümesidir — üst planlar yalnız fark kalemlerini
+   * listeler, seviye atlayan kalemler "…kapsama çıkar" diliyle yazılır.
+   */
+  retainerPlans: {
+    title: {
+      tr: "Performans pazarlama yönetiminde üç plan.",
+      en: "Three plans for performance marketing management.",
+    },
+    lede: {
+      tr: "Kapsam bütçeyle değil, üretim derinliği ve yönetim yoğunluğuyla büyür. Üç planda da aynı ekip çalışır; fark kapsamda.",
+      en: "Scope grows with production depth and management intensity, not with budget alone. The same team works on all three plans; the difference is scope.",
+    },
+    note: {
+      tr: "Fiyatlar aylıktır; KDV dahil değildir.",
+      en: "Prices are monthly and exclude VAT.",
+    },
+    plans: [
+      {
+        key: "giris",
+        name: { tr: "Giriş", en: "Starter" },
+        monthlyTRY: 45000,
+        summary: {
+          tr: "Sosyal medya yönetimi, temel içerik ve sınırlı SEO'yu tek yönetim ritminde toplar.",
+          en: "Brings social media management, core content and limited-scope SEO into one management rhythm.",
+        },
+        audience: {
+          tr: "Reklamı yeni sistemleştiren, tek ekiple yönetilebilir kapsam isteyen işletmeler için.",
+          en: "For businesses systemising their advertising for the first time, with a scope one team can run.",
+        },
+        spotlight: {
+          title: { tr: "Ayda 1 gün çekim", en: "One shoot day a month" },
+          description: {
+            tr: "Reels, ürün çekimi, kısa tanıtım ve UGC gibi kreatif ihtiyaçlar için ayda 1 günlük çekim planlamasını içerir.",
+            en: "Includes one shoot day a month, planned around creative needs such as Reels, product shots, short promos and UGC.",
+          },
+        },
+        features: [
+          { tr: "Sosyal medya yönetimi", en: "Social media management" },
+          {
+            tr: "Sosyal medya reklam yönetimi",
+            en: "Social media ad management",
+          },
+          { tr: "Google Ads yönetimi", en: "Google Ads management" },
+          { tr: "Temel içerik üretimi", en: "Core content production" },
+          { tr: "SEO — sınırlı kapsam", en: "SEO — limited scope" },
+          {
+            tr: "Aylık analiz ve raporlama",
+            en: "Monthly analysis and reporting",
+          },
+          {
+            tr: "Dönüşüm odaklı UI/UX iyileştirmeleri",
+            en: "Conversion-focused UI/UX improvements",
+          },
+        ],
+      },
+      {
+        key: "standart",
+        name: { tr: "Standart", en: "Standard" },
+        monthlyTRY: 75000,
+        featured: true,
+        summary: {
+          tr: "Bütçe dönüşüm verisiyle yönetilir; içerik ve SEO kapsamı genişler.",
+          en: "Budget is managed on conversion data; content and SEO scope widen.",
+        },
+        audience: {
+          tr: "Birden fazla reklam kanalı çalışan ve bütçeyi dönüşüm verisiyle yönetmek isteyen işletmeler için.",
+          en: "For businesses running more than one ad channel and managing budget on conversion data.",
+        },
+        baseline: {
+          tr: "Giriş'teki her şey, artı:",
+          en: "Everything in Starter, plus:",
+        },
+        spotlight: {
+          title: { tr: "Ayda 1 gün çekim", en: "One shoot day a month" },
+          description: {
+            tr: "Reels, ürün çekimi, kısa tanıtım ve UGC gibi kreatif ihtiyaçlar için ayda 1 günlük çekim planlamasını içerir.",
+            en: "Includes one shoot day a month, planned around creative needs such as Reels, product shots, short promos and UGC.",
+          },
+        },
+        features: [
+          {
+            tr: "Yatırım getirisi odaklı bütçe ve kanal planı",
+            en: "Return-on-investment-led budget and channel plan",
+          },
+          {
+            tr: "İçerik üretimi gelişmiş kapsama çıkar",
+            en: "Content production moves up to advanced scope",
+          },
+          { tr: "SEO temel kapsama çıkar", en: "SEO moves up to core scope" },
+          {
+            tr: "Analiz ve raporlama detaylanır",
+            en: "Analysis and reporting gain detail",
+          },
+        ],
+      },
+      {
+        key: "profesyonel",
+        name: { tr: "Profesyonel", en: "Professional" },
+        monthlyTRY: 90000,
+        summary: {
+          tr: "Kreatif direktörlükten prodüksiyona, pazarlamanın tamamını tek ekipte toplar.",
+          en: "Brings all of marketing into one team, from creative direction to production.",
+        },
+        audience: {
+          tr: "Üretim ihtiyacı sürekli olan, pazarlamayı tek merkezden yürütmek isteyen köklü markalar için.",
+          en: "For established brands with a constant production need that want marketing run from one centre.",
+        },
+        baseline: {
+          tr: "Standart'taki her şey, artı:",
+          en: "Everything in Standard, plus:",
+        },
+        spotlight: {
+          title: { tr: "Ayda 2 gün çekim", en: "Two shoot days a month" },
+          description: {
+            tr: "Reels, ürün çekimi, kısa tanıtım ve UGC gibi kreatif ihtiyaçlar için ayda 2 günlük çekim planlamasını içerir.",
+            en: "Includes two shoot days a month, planned around creative needs such as Reels, product shots, short promos and UGC.",
+          },
+        },
+        features: [
+          { tr: "Kreatif direktörlük", en: "Creative direction" },
+          {
+            tr: "Sanat yönetimi ve varlık yönetimi",
+            en: "Art direction and asset management",
+          },
+          {
+            tr: "Çok kanallı pazarlama yönetimi",
+            en: "Multi-channel marketing management",
+          },
+          { tr: "E-posta pazarlaması", en: "Email marketing" },
+          {
+            tr: "Veri odaklı potansiyel müşteri üretimi",
+            en: "Data-led lead generation",
+          },
+          {
+            tr: "Yeniden pazarlama ve yeniden hedefleme",
+            en: "Remarketing and retargeting",
+          },
+          {
+            tr: "Blog ve içerik pazarlaması",
+            en: "Blog and content marketing",
+          },
+          {
+            tr: "SEO gelişmiş kapsama çıkar",
+            en: "SEO moves up to advanced scope",
+          },
+          {
+            tr: "Detaylı web sitesi tasarımı ve geliştirilmesi",
+            en: "Detailed website design and development",
+          },
+          {
+            tr: "Satış ve potansiyel müşteri takibi",
+            en: "Sales and lead tracking",
+          },
+          {
+            tr: "Film ve prodüksiyon işlerinde %15 plan indirimi",
+            en: "15% plan discount on film and production work",
+          },
+        ],
+      },
+    ],
+  },
+
   relatedPackages: ["buyume-sprinti"],
   relatedServices: ["cro", "marka-stratejisi", "e-ticaret"],
 };

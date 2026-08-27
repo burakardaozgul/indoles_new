@@ -447,6 +447,52 @@ export type ServiceContent = {
     answer: Localized<string>;
   }>;
 
+  /**
+   * Aylık yönetim planları — hizmet sayfasındaki fiyat tablosu.
+   *
+   * Paketler'den ayrı bir satış modeli: paket sabit kapsam + sabit süre,
+   * plan aylık yürütme aboneliğidir; adlandırmada "paket" bu yüzden
+   * kullanılmaz. Alan opsiyoneldir — veri giren hizmette bölüm render olur
+   * (Teslim listesi ile SSS arası), girmeyende hiç görünmez. Şimdilik yalnız
+   * performans-pazarlama doldurur.
+   *
+   * Planlar merdivendir: `baseline` bir üst planın "alttakinin tamamı,
+   * artı:" satırıdır ve Türkçe ek uyumu (Giriş'teki / Standart'taki)
+   * üretilemeyeceği için interpolasyonsuz, tam metin olarak girilir.
+   * Fiyat plan başına aylık TRY'dir; şemaya UnitPriceSpecification (MON)
+   * olarak akar. KDV/fatura çerçevesi `note` satırında durur.
+   */
+  retainerPlans?: {
+    title: Localized<string>;
+    lede: Localized<string>;
+    /** Tablo altı tek satır — "Fiyatlar aylıktır; KDV dahil değildir." */
+    note: Localized<string>;
+    plans: Array<{
+      /** Kararlı kimlik — GA/test seçicileri için, locale'den bağımsız. */
+      key: string;
+      name: Localized<string>;
+      monthlyTRY: number;
+      /** "Önerilen plan" çipi — en fazla bir planda true. */
+      featured?: boolean;
+      /** Tek cümle kart özeti. */
+      summary: Localized<string>;
+      /** Kime göre olduğu — kartın teal vurgu satırı. */
+      audience: Localized<string>;
+      /** Merdiven satırı: "Giriş'teki her şey, artı:" — tam metin. */
+      baseline?: Localized<string>;
+      /**
+       * Öne çıkan kalem — madde listesinde değil, kartta vurgulu blokta
+       * basılır (örn. aylık çekim günü). Gün sayısı gibi farklar başlıkta
+       * taşınır; her planda bulunması beklenir ama alan opsiyoneldir.
+       */
+      spotlight?: {
+        title: Localized<string>;
+        description: Localized<string>;
+      };
+      features: Array<Localized<string>>;
+    }>;
+  };
+
   seo: {
     /** ≤60 karakter. "— INDOLES" eki layout şablonundan gelir. */
     title: Localized<string>;

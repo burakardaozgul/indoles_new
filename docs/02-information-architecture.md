@@ -172,7 +172,7 @@ Ortak yapı: `PageHeader` (breadcrumb + eyebrow + display başlık + lede, düş
 |---|---|---|
 | `/hizmetler` | Hero, 3 pillar bloğu (her biri: tagline, açıklama, metodoloji, hizmet listesi) | **Evet** (ADR-014) |
 | `/hizmetler/[slug]` — pillar | Pillar hero, metodoloji, hizmet listesi (linkli), ilgili paket ve vakalar | Orta ton (ADR-014) |
-| `/hizmetler/[slug]` — hizmet | Hero + teşhis föyü, kimin için, kapsam, yöntem, teslim listesi, SSS, ilgili içerik (ADR-018) | Orta ton, tek versiyon |
+| `/hizmetler/[slug]` — hizmet | Hero + teşhis föyü, kimin için, kapsam, yöntem, teslim listesi, aylık yönetim planları (opsiyonel `retainerPlans` — Paketler'den ayrı retainer modeli; 2026-08-27, ilk kullanım: performans-pazarlama), SSS, ilgili içerik (ADR-018) | Orta ton, tek versiyon |
 | `/paketler` | Hero, 4 paket kartı (isim, pillar, süre, fiyat, outcome) | **Evet** |
 | `/paketler/[slug]` | Hero, kapsam, çıktılar, kimin için, SSS, fiyat, CTA | **Evet** |
 | `/vakalar` | Hero, problem-tipi filtresi, vaka kartları | Orta ton |

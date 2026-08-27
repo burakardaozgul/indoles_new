@@ -329,7 +329,13 @@ export type ServiceLdInput = {
   offers: Array<{
     name: string;
     priceTRY: number;
-    durationWeeks: number;
+    /** Sabit süreli paket teklifi — aylık planlarda kullanılmaz. */
+    durationWeeks?: number;
+    /**
+     * Aylık yönetim planı (retainer): fiyat UnitPriceSpecification'a
+     * `unitCode: "MON"` ile yazılır; sabit fiyatlı paketten böyle ayrışır.
+     */
+    monthly?: boolean;
     path: string;
   }>;
 };
@@ -369,11 +375,18 @@ export function serviceLd({
               "@type": "Offer",
               name: o.name,
               url: absoluteUrl(o.path),
-              priceSpecification: {
-                "@type": "PriceSpecification",
-                price: o.priceTRY,
-                priceCurrency: "TRY",
-              },
+              priceSpecification: o.monthly
+                ? {
+                    "@type": "UnitPriceSpecification",
+                    price: o.priceTRY,
+                    priceCurrency: "TRY",
+                    unitCode: "MON",
+                  }
+                : {
+                    "@type": "PriceSpecification",
+                    price: o.priceTRY,
+                    priceCurrency: "TRY",
+                  },
             })),
           },
         }

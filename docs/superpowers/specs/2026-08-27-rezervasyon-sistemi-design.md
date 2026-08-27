@@ -203,7 +203,28 @@ Calendar API testlerde taklit edilir — gerçek takvime test randevusu düşmem
 
 ## 8. Yetkilendirme ve sırlar
 
-Google Workspace **servis hesabı**, yalnız ilgili takvime yetkili. Anahtar `wrangler secret` ile saklanır, repoya girmez (ADR-024'ün sır politikası). Kullanıcı etkileşimi gerektirmez; OAuth yenileme anahtarının sessizce süresi dolma riski yoktur.
+**Servis hesabı + Domain-Wide Delegation (DWD).** Basit alternatif — takvimi servis hesabının e-postasıyla paylaşmak — araştırma sonucu **elendi**: 2 Mart 2020'den sonra oluşturulan servis hesapları, DWD olmadan etkinliğe **davetli ekleyemiyor** (`forbiddenForServiceAccounts`). Ziyaretçiyi davetli olarak eklemek zorundayız, çünkü Meet daveti ve takvim kaydı ona böyle ulaşıyor. Bu kısıt tek başına kararı belirliyor.
+
+DWD ile servis hesabı takvim sahibinin kimliğine bürünüyor (`sub` alanı); etkinliğin organizatörü gerçek ve lisanslı bir Workspace kullanıcısı oluyor. Bu, hem davetli ekleme hem Meet üretimi için en çok test edilmiş yol. DWD kurulduğunda takvimi ayrıca paylaşmaya gerek kalmıyor.
+
+**Kapsamlar** (en dar set — geniş `auth/calendar` gerekmiyor):
+- `https://www.googleapis.com/auth/calendar.events` — etkinlik oluştur/güncelle/sil + Meet üretimi (ayrı bir "Meet kapsamı" yok)
+- `https://www.googleapis.com/auth/calendar.events.freebusy` — yalnız müsaitlik sorgusu
+
+**Workers kısıtı — önemli:** Resmî `googleapis` npm paketi **kullanılmayacak**; Node.js'e bağımlı ve Worker paketini şişirir (boyut sınırında yalnız ~15 KB payımız var — ADR-024). Bunun yerine doğrudan REST çağrısı ve elle imzalanmış JWT: `crypto.subtle` ile RS256 (`RSASSA-PKCS1-v1_5` + SHA-256), servis hesabı JSON'undaki PEM anahtar PKCS8 olarak içe aktarılır. Token `oauth2.googleapis.com/token` adresinden `jwt-bearer` akışıyla alınır. Bu, ek bağımlılık gerektirmeyen ~40 satırlık bir modül.
+
+**Sırlar:** Servis hesabı JSON'u repoya **girmez**; `wrangler secret` ile saklanır (ADR-024 sır politikası). Kullanıcı etkileşimi gerektirmez, OAuth yenileme anahtarının sessizce süresi dolma riski yoktur.
+
+**API davranışı (araştırmayla doğrulandı):**
+
+| İşlem | Yöntem |
+|---|---|
+| Etkinlik + Meet | `events.insert?conferenceDataVersion=1`, `conferenceData.createRequest` içinde benzersiz `requestId` ve `conferenceSolutionKey.type: "hangoutsMeet"`. Yanıt genelde Meet bağlantısıyla döner; `status.statusCode` `success` değilse tek `events.get` ile teyit edilir |
+| İptal | `events.delete` + `sendUpdates=all` — katılımcıya otomatik iptal maili gider. (`status: cancelled` patch'lemek tekil randevu için resmî yöntem değil) |
+| Erteleme | `events.patch` ile yalnız `start`/`end`. `conferenceData`'ya dokunulmaz ve `conferenceDataVersion` gönderilmez → **Meet bağlantısı korunur**, yenisi üretilmez |
+| Müsaitlik | `freeBusy` POST; yanıt `calendars.<id>.busy[]` |
+
+**Kota:** Proje başına dakikada 10.000, kullanıcı başına dakikada 600 istek. Günde 4 randevu + takvim açılışı başına bir `freeBusy` çağrısı bu sınırların çok altında — kota pratik bir kısıt değil.
 
 ---
 
@@ -220,5 +241,5 @@ Google Workspace **servis hesabı**, yalnız ilgili takvime yetkili. Anahtar `wr
 | ~~Görüşme süresi ve çalışma penceresi~~ | — | ✅ **Karara bağlandı** (2026-08-27): 90 dk · 15 dk tampon · 13:00-20:00 · Pzt-Cmt · ilk gün 31 Ağustos. Ayrıntı §3.1b |
 | ~~En erken rezervasyon mesafesi~~ | — | ✅ **Karara bağlandı:** 24 saat. Ayrıntı §3.1b |
 | ~~Veri saklama süresi (KVKK)~~ | — | ✅ **Hizalandı:** minimizasyon + 90 gün sonra silme. Ayrıntı §2.2b. **`docs/14` güncellenecek** (Cal.com satırları geçersiz) |
-| **Workspace servis hesabı + takvim yetkisi** | Burak | **Açık — uygulama öncesi hazırlık.** Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
+| **Workspace servis hesabı + DWD yetkisi** | Burak | **Açık — uygulama öncesi hazırlık.** Yöntem netleşti (§8): servis hesabı + domain-wide delegation. Adım adım talimat ayrıca verildi. Bu olmadan müsaitlik okunamaz ve etkinlik oluşturulamaz |
 | Günlük üst sınır | — | Gerekmiyor: pencere ve süre zaten günde 4 slotla sınırlıyor |

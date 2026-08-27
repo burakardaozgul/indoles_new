@@ -20,7 +20,19 @@ export function generateStaticParams() {
 const META = {
   tr: {
     title: {
-      default: "INDOLES — İş geliştirme danışmanlığı",
+      /**
+       * "İş geliştirme danışmanlığı" bu başlıktan çıkarıldı: aynı ifade ana
+       * sayfa, `/tr/hizmetler` ve `/tr/hakkimizda` title'larındaydı ve üç TR
+       * sayfasını aynı sorguda karşı karşıya getiriyordu (denetim C-05,
+       * strateji §2'nin cannibalization yasağı). Kelimenin tek hedef sayfası
+       * `/tr/hizmetler` — hacim orada, keyword haritası da onu gösteriyor.
+       * Ana sayfa yerine kendi konumlandırmasını söylüyor: iki eksen (sanayi
+       * dönüşümü + ticaret büyümesi) ve şehir; EN'deki "Business
+       * transformation studio, Istanbul" ile aynı niyet, birebir çeviri değil.
+       * Terim marka tanımı olarak yerinde duruyor (manifest, llms.txt,
+       * `messages/tr.json`, gövde metinleri) — düşen yalnız arama hedefi.
+       */
+      default: "INDOLES — Dönüşüm ve büyüme stüdyosu, İstanbul",
       template: "%s — INDOLES",
     },
     description:

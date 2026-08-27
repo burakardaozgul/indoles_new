@@ -282,8 +282,8 @@ export const ozelYazilimVeMobil: ServiceContent = {
         en: "What is an MVP, and should we start with one?",
       },
       answer: {
-        tr: "MVP, sistemin işe yaradığını gösterecek en küçük çalışan sürümüdür. INDOLES geliştirmeyi zaten parçalara böler ve her parçayı çalışır hâlde teslim eder, dolayısıyla ilk kullanılabilir sürüm proje sonunda değil yolun başında ortaya çıkar. Erken çıkmanın değeri şurada: gerçek kullanıcıdan gelen geri bildirim, henüz yazılmamış parçaların kapsamını değiştirebilir.",
-        en: "An MVP is the smallest working version that shows the system does its job. INDOLES already splits development into parts and delivers each one working, so the first usable version appears early rather than at the end. The value of shipping early is concrete: feedback from real users can still change the scope of the parts not yet written.",
+        tr: "MVP, sistemin işe yaradığını gösterecek en küçük çalışan sürümüdür. MVP geliştirme işini alan ekipler genellikle bu sürümü çıkarıp orada durur; INDOLES ilk sürümü gerçek sistemin ilk parçası olarak kurar ve her parçayı çalışır hâlde teslim eder, dolayısıyla kalan parçalar geldiğinde atılan bir şey olmaz. Erken çıkmanın değeri şurada: gerçek kullanıcıdan gelen geri bildirim, henüz yazılmamış parçaların kapsamını değiştirebilir.",
+        en: "An MVP is the smallest working version that shows the system does its job. An MVP development agency is usually hired to ship that version and stop there; INDOLES builds it as the first part of the real system and delivers each part working, so nothing is thrown away when the rest follows. The value of shipping early is concrete: feedback from real users can still change the scope of the parts not yet written.",
       },
     },
     {

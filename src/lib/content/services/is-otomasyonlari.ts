@@ -325,7 +325,7 @@ export const isOtomasyonlari: ServiceContent = {
   seo: {
     title: {
       tr: "İş otomasyonu danışmanlığı",
-      en: "Business automation consulting",
+      en: "Business process automation consulting",
     },
     description: {
       tr: "Elle yapılan tekrarlı işleri sistemin yapmasını sağlayan iş süreçleri otomasyonu. Onay akışları kurulur, mevcut araçlar bağlanır, düzen iç ekibe geçer.",

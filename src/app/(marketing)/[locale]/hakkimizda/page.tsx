@@ -15,9 +15,18 @@ import type { Locale } from "@/lib/content/types";
 
 const PATHS = { tr: "/tr/hakkimizda", en: "/en/about" };
 
+/**
+ * TR başlığı kelime hedefi taşımıyor: "iş geliştirme danışmanlığı" ana sayfa
+ * ve `/tr/hizmetler` title'larıyla birlikte üç TR sayfasını aynı sorguya
+ * sokuyordu (denetim C-05, strateji §2 cannibalization yasağı). Kelimenin tek
+ * hedef sayfası `/tr/hizmetler`. Bu sayfanın işi kimliği anlatmak: başlık
+ * görünen H1 ("İki eksen. Bir disiplin.") ile aynı çerçeveyi kurar ve EN'deki
+ * "About — one discipline, two axes" ile aynı niyeti taşır. Gövdedeki şirket
+ * tanımı bilinçli olarak değişmedi.
+ */
 const META = {
   tr: {
-    title: "Hakkımızda — iş geliştirme danışmanlığı",
+    title: "Hakkımızda — iki eksen, bir disiplin",
     description:
       "INDOLES, sanayi şirketlerinin teknoloji ihtiyacıyla ticaret markalarının büyüme ihtiyacını tek disiplinde çözer. Teşhis olmadan reçete yok, sahiplikli teslim.",
   },

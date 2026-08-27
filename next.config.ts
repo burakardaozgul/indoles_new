@@ -89,6 +89,22 @@ const nextConfig: NextConfig = {
       { source: "/neden-profesyonel-video-sart", destination: "/tr/yazilar/neden-profesyonel-video-sart", permanent: true },
       // Blog kategori arşivleri aynı mantıkla journal listesine gider.
       { source: "/category/:slug*", destination: "/tr/yazilar", permanent: true },
+      // WordPress sitemap denetimi (2026-08-28): aşağıdaki 6 URL indekste
+      // olduğu halde yönlendirilmiyordu. Turkcell ve CaffeBO portfolyo
+      // kalemleri bilerek 404'te bırakıldı (yukarıdaki not) — bunlar farklı:
+      // hepsinin yeni sitede konu karşılığı var.
+      { source: "/servisler", destination: "/tr/hizmetler", permanent: true },
+      { source: "/portfolyo", destination: "/tr/vakalar", permanent: true },
+      // Eski SSS sayfası: içerik artık paket ve pillar sayfalarındaki native
+      // <details> bloklarında yaşıyor (ADR-023), SSS yoğunluğu paketlerde.
+      { source: "/faq", destination: "/tr/paketler", permanent: true },
+      // Self-servis teşhis testleri: /araclar Faz 2'ye ertelendi (CLAUDE.md §6).
+      // Niyet aynı — "nerede duruyorum" — ve ürünleşmiş teşhis paketi bunun
+      // karşılığı, dolayısıyla konu eşleşmesi korunuyor.
+      { source: "/markalasma-testi", destination: "/tr/paketler", permanent: true },
+      { source: "/pazarlama-testi", destination: "/tr/paketler", permanent: true },
+      // WP yazar arşivi → kadro sayfası.
+      { source: "/author/:slug*", destination: "/tr/danismanlar", permanent: true },
     ];
   },
 

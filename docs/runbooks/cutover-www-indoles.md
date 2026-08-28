@@ -47,7 +47,7 @@ Bu, planın önceki halindeki en büyük riski ortadan kaldırdı: dış bir gö
 | ~~Resend anahtarı + DNS kayıtları~~ | | ✅ **Konu kapandı** — ADR-026 ile Veridyen SMTP'ye geçildi, DNS değişikliği gerekmiyor | — |
 | ~~GA4 Measurement ID~~ | | ✅ `G-236D96V8XL` | — |
 | ~~Gönderen/lead adresi kararı~~ | | ✅ From `noreply@`, Reply-To + lead kutusu `digital@` + `burak@` + kişisel Gmail | — |
-| ~~Turnstile anahtarları~~ | | ✅ Üretim anahtarları `.env.local`'de (`0x` ile başlıyor) | — |
+| ~~Turnstile anahtarları~~ | | ⚠️ Alındı ama **bayrakla devre dışı** (ADR-028): challenge host'u IPv4'te çözülmüyor, hiçbir ağda form geçmiyordu. Savunma: bal küpü + süre tuzağı. Geri açma tetikleyicisi ADR'de | — |
 | 1 | **`noreply@` parolasının ASCII'ye çevrilmesi** | Mevcut parola `İ` ile başlıyor — `worker-mailer` bunu gönderemez | Burak |
 | 2 | Worker secret'ları | `wrangler secret list` → boş | Claude (parola gelince) |
 | 3 | `www` DNS kaydının ekran görüntüsü | Token DNS okuyamıyor; geri dönüş için gerekli | Burak |

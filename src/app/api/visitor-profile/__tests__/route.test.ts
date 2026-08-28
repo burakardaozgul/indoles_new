@@ -21,6 +21,7 @@ const validBody = {
   kvkkConsent: true,
   locale: 'tr',
   turnstileToken: 'tkn',
+  elapsedMs: 8000,
 };
 
 function buildRequest(body: unknown): Request {
@@ -46,11 +47,23 @@ describe('POST /api/visitor-profile', () => {
     expect(res.status).toBe(400);
   });
 
-  it('403 — Turnstile fail', async () => {
-    const { verifyTurnstile } = await import('@/lib/security/turnstile');
-    vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
-    const res = await POST(buildRequest(validBody));
-    expect(res.status).toBe(403);
+  it('403 — Turnstile fail (bayrak AÇIKKEN)', async () => {
+    vi.stubEnv('NEXT_PUBLIC_TURNSTILE_SITE_KEY', '0xTESTKEY');
+    try {
+      const { verifyTurnstile } = await import('@/lib/security/turnstile');
+      vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
+      const res = await POST(buildRequest(validBody));
+      expect(res.status).toBe(403);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it('süre bilgisi yoksa sahte başarı — mail gitmez (ADR-028)', async () => {
+    const { sendMailWithRetry } = await import('@/lib/mail/client');
+    const res = await POST(buildRequest({ ...validBody, elapsedMs: undefined }));
+    expect(res.status).toBe(200);
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
   });
 
   it('200 — happy path (booking)', async () => {

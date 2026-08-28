@@ -1,4 +1,14 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+/**
+ * Bu dosya Turnstile'ın AÇIK olduğu modu test eder. Bayrak modül yüklenirken
+ * okunur (build-time inlining ile aynı sözleşme); `vi.hoisted` vitest
+ * tarafından import'ların üstüne taşınır. Takma adla (`viHoist.hoisted`)
+ * yazılamaz — hoist dönüşümü yalnız kanonik `vi.hoisted` çağrısını tanır.
+ */
+vi.hoisted(() => {
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY = "0xTESTKEY";
+});
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { EntryPopup } from "../EntryPopup";
 

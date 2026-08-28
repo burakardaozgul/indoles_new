@@ -28,6 +28,13 @@ const MESSAGE_MAX = 2000;
 const MESSAGE_COUNTER_THRESHOLD = 1800;
 
 /** Turnstile script'i geç gelebilir; kısa aralıkla ~18 sn yoklanır. */
+/**
+ * Turnstile bayrağı (ADR-028): site anahtarı build'de yoksa widget hiç render
+ * edilmez, düğme token beklemez, sunucu da doğrulama istemez. Devre dışıyken
+ * savunma bal küpü + süre tuzağı (rota tarafı: lib/security/anti-spam.ts).
+ */
+const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
+
 const TURNSTILE_POLL_MS = 300;
 
 /**
@@ -209,8 +216,11 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
   const [errorKind, setErrorKind] = useState<'generic' | 'turnstile'>('generic');
   const [turnstileToken, setTurnstileToken] = useState<string>('');
   const [turnstileStatus, setTurnstileStatus] = useState<'pending' | 'ready' | 'unavailable'>(
-    'pending',
+    TURNSTILE_ENABLED ? 'pending' : 'ready',
   );
+  /** Bal küpü + süre tuzağı (ADR-028). mountedAt: form ekrana geldiği an. */
+  const [website, setWebsite] = useState('');
+  const mountedAtRef = useRef<number>(Date.now());
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | undefined>(undefined);
   const renderedRef = useRef(false);
@@ -236,6 +246,7 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
   const messageValue = watch('message') ?? '';
 
   useEffect(() => {
+    if (!TURNSTILE_ENABLED) return;
     let attempts = 0;
     let timer: ReturnType<typeof setInterval> | undefined;
 
@@ -323,7 +334,14 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ...values, locale, turnstileToken, kvkkConsent: true }),
+        body: JSON.stringify({
+          ...values,
+          locale,
+          kvkkConsent: true,
+          website,
+          elapsedMs: Date.now() - mountedAtRef.current,
+          ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
+        }),
       });
       if (res.ok) {
         setState('success');
@@ -532,9 +550,24 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
           )}
         </span>
       </label>
-      <div ref={turnstileRef} className="cf-turnstile" />
+      {/* Bal küpü: görsel olarak gizli, klavye/okuyucu erişiminden çıkarılmış.
+          İnsan dolduramaz; dolduran bot rota tarafında sahte başarıya düşer. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+        <label>
+          Web sitesi (boş bırak)
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </label>
+      </div>
+      {TURNSTILE_ENABLED ? <div ref={turnstileRef} className="cf-turnstile" /> : null}
       <div>
-        <Button type="submit" disabled={state === 'submitting' || !turnstileToken || !kvkkConsent}>
+        <Button type="submit" disabled={state === 'submitting' || (TURNSTILE_ENABLED && !turnstileToken) || !kvkkConsent}>
           {state === 'submitting'
             ? isTr
               ? 'Gönderiliyor…'

@@ -231,9 +231,11 @@ describe("ServiceDetail — ilgili yazı seçimi", () => {
     }
   });
 
-  it("16 yazının 16'sı growth olsa da CRO sayfası CRO yazısını gösterir", () => {
-    // Regresyonun kökü: pillar ekseni bu veride ayırt edici değil.
-    expect(ARTICLES.every((a) => a.category === "growth")).toBe(true);
+  it("kategori ekseni karışık olsa da CRO sayfası CRO yazısını gösterir", () => {
+    // Regresyonun kökü: pillar ekseni seçici değildir, seçim `topic` üzerinden
+    // yapılır. 2026-08 Dalga 1 ile korpusta transform kategorili yazılar da var;
+    // growth çoğunlukta ama tekil değil.
+    expect(ARTICLES.some((a) => a.category !== "growth")).toBe(true);
 
     const cro = relatedArticlesForService("cro");
     expect(cro.length).toBeGreaterThan(0);

@@ -30,10 +30,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Alışılmadık, düşük maliyetli taktikleriyle bilinen gerilla pazarlama dijital çağa uyum sağladı. Değişmeyen iki şey: hikâye anlatımı ve gerçek içgörü.",
       en: "Known for unconventional, low-cost tactics, guerrilla marketing has adapted to the digital age. Two things haven't changed: storytelling and real insight.",
     },
-    updatedAt: "2026-08-22",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 27 Temmuz 2024'te yayımlandı. 22 Ağustos 2026'da gözden geçirildi: \"AI çağında gerilla pazarlama\" bölümü ve sık sorulan sorular eklendi.",
-      en: "First published on 27 July 2024. Revised on 22 August 2026: the \"Guerrilla marketing in the AI age\" section and the FAQ were added.",
+      tr: "Bu yazı ilk olarak 27 Temmuz 2024'te yayımlandı. 22 Ağustos 2026'da gözden geçirildi: \"AI çağında gerilla pazarlama\" bölümü ve sık sorulan sorular eklendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi ve ilgili hizmet, vaka ve yazı sayfalarına iç bağlantılar eklendi.",
+      en: "First published on 27 July 2024. Revised on 22 August 2026: the \"Guerrilla marketing in the AI age\" section and the FAQ were added. On 28 August 2026 the section headings were rewritten as questions and internal links to the related service, case and article pages were added.",
     },
     blocks: [
       {
@@ -54,8 +54,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "gerilla-pazarlamanin-evrimi",
         text: {
-          tr: "Gerilla pazarlamanın evrimi",
-          en: "The evolution of guerrilla marketing",
+          tr: "Gerilla pazarlama nereden doğdu?",
+          en: "Where did guerrilla marketing come from?",
         },
       },
       {
@@ -76,8 +76,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "dijital-araclarin-rolu",
         text: {
-          tr: "Dijital araçların rolü",
-          en: "The role of digital tools",
+          tr: "Dijital araçlar gerilla pazarlamayı nasıl değiştirdi?",
+          en: "How did digital tools change guerrilla marketing?",
         },
       },
       {
@@ -98,8 +98,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "hikaye-anlatiminin-gucu",
         text: {
-          tr: "Hikâye anlatımının gücü",
-          en: "The power of storytelling",
+          tr: "Hikâye anlatımı neden kampanyanın merkezinde?",
+          en: "Why is storytelling at the centre of a campaign?",
         },
       },
       {
@@ -112,8 +112,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Tüketicinin bilgi bombardımanına tutulduğu bir çağda hikâyeler, markaların gürültüyü aşmasına ve kitleleriyle duygusal bağ kurmasına yardımcı olur. İyi kurgulanmış bir anlatı, basit bir pazarlama numarasını tüketicide derinden yankı uyandıran bir marka deneyimine dönüştürür.",
-          en: "In an age of information bombardment, stories help brands cut through the noise and build emotional bonds with their audience. A well-built narrative turns a simple marketing stunt into a brand experience that resonates deeply.",
+          tr: "Tüketicinin bilgi bombardımanına tutulduğu bir çağda hikâyeler, markaların gürültüyü aşmasına ve kitleleriyle duygusal bağ kurmasına yardımcı olur. İyi kurgulanmış bir anlatı, basit bir pazarlama numarasını tüketicide derinden yankı uyandıran bir marka deneyimine dönüştürür; o anlatının omurgasını [marka stratejisi](/hizmetler/marka-stratejisi) kurar.",
+          en: "In an age of information bombardment, stories help brands cut through the noise and build emotional bonds with their audience. A well-built narrative turns a simple marketing stunt into a brand experience that resonates deeply; the spine of that narrative comes from [brand strategy](/hizmetler/marka-stratejisi).",
         },
       },
       {
@@ -133,8 +133,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Etkili bir gerilla kampanyası için markanın, kitlesinin davranışları ve tercihleri hakkında gerçek içgörü toplaması gerekir. Bu, temel demografinin ötesine geçmek demektir: tüketici eylemini yönlendiren motivasyonu, duyguyu ve deneyimi anlamak. Veri analitiği ve sosyal dinleme araçları tam burada devreye girer — sosyal medya konuşmaları, çevrimiçi yorumlar ve müşteri geri bildirimi analiz edildiğinde trendler, karşılanmamış ihtiyaçlar ve kampanyanın konuşacağı gerçek dert ortaya çıkar.",
-          en: "An effective guerrilla campaign requires real insight into the audience's behaviour and preferences. That means going beyond basic demographics: understanding the motivation, emotion and experience driving consumer action. Data analytics and social listening tools come in exactly here — analyse social conversations, online reviews and customer feedback, and the trends, unmet needs and the real pain the campaign should speak to come to the surface.",
+          tr: "Etkili bir gerilla kampanyası için markanın, kitlesinin davranışları ve tercihleri hakkında gerçek içgörü toplaması gerekir. Bu, temel demografinin ötesine geçmek demektir: tüketici eylemini yönlendiren motivasyonu, duyguyu ve deneyimi anlamak. Veri analitiği ve sosyal dinleme araçları tam burada devreye girer — sosyal medya konuşmaları, çevrimiçi yorumlar ve müşteri geri bildirimi analiz edildiğinde trendler, karşılanmamış ihtiyaçlar ve kampanyanın konuşacağı gerçek dert ortaya çıkar. Kitlenin kendi ürettiği içerik bu dinlemenin en dürüst kaynağıdır; [sosyal kanıtın neden her reklamdan güçlü olduğunu](/yazilar/ugc-kullanimi-ve-sosyal-kanit) ayrı bir yazıda ele aldık.",
+          en: "An effective guerrilla campaign requires real insight into the audience's behaviour and preferences. That means going beyond basic demographics: understanding the motivation, emotion and experience driving consumer action. Data analytics and social listening tools come in exactly here — analyse social conversations, online reviews and customer feedback, and the trends, unmet needs and the real pain the campaign should speak to come to the surface. The audience's own content is the most honest source in that listening; we covered [why social proof beats any ad](/yazilar/ugc-kullanimi-ve-sosyal-kanit) in a separate piece.",
         },
       },
       {
@@ -163,8 +163,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "ai-caginda-gerilla-pazarlama",
         text: {
-          tr: "2026 güncellemesi: AI çağında gerilla pazarlama",
-          en: "2026 update: guerrilla marketing in the AI age",
+          tr: "2026 güncellemesi: AI çağında gerilla pazarlama neden güçlendi?",
+          en: "2026 update: why did guerrilla marketing get stronger in the AI age?",
         },
       },
       {
@@ -184,23 +184,23 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "İkincisi: kampanyanın ikinci hayatı artık AI motorlarında geçiyor. İnsanlar \"en iyi gerilla kampanyaları\" sorusunu Google'a olduğu kadar ChatGPT'ye, Gemini'ye ve Perplexity'ye de soruyor. Bu motorlar hakkında yazılan, konuşulan, kaynak gösterilen işleri anlatıyor. Yani denklem netleşti: konuşulmaya değer iş, alıntılanabilir iştir. Kampanyanız hakkında haber yazdırıyor, sözlük girdisi açtırıyor, video çektiriyorsa — AI cevaplarında yıllarca yaşamaya devam eder. Buna bugün GEO (Generative Engine Optimization) diyoruz; gerilla pazarlama, GEO'nun en doğal beslenme kaynağıdır.",
-          en: "Second: a campaign's second life now plays out inside AI engines. People ask \"the best guerrilla campaigns\" not only to Google but to ChatGPT, Gemini and Perplexity. These engines retell the work that got written about, talked about, cited. The equation is now clear: work worth talking about is work worth citing. If your campaign gets articles written, entries opened, videos shot — it keeps living inside AI answers for years. Today we call this GEO (Generative Engine Optimization), and guerrilla marketing is its most natural feedstock.",
+          tr: "İkincisi: kampanyanın ikinci hayatı artık AI motorlarında geçiyor. İnsanlar \"en iyi gerilla kampanyaları\" sorusunu Google'a olduğu kadar ChatGPT'ye, Gemini'ye ve Perplexity'ye de soruyor. Bu motorlar hakkında yazılan, konuşulan, kaynak gösterilen işleri anlatıyor. Yani denklem netleşti: konuşulmaya değer iş, alıntılanabilir iştir. Kampanyanız hakkında haber yazdırıyor, sözlük girdisi açtırıyor, video çektiriyorsa — AI cevaplarında yıllarca yaşamaya devam eder. Buna bugün [GEO (Generative Engine Optimization)](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) diyoruz; gerilla pazarlama, GEO'nun en doğal beslenme kaynağıdır.",
+          en: "Second: a campaign's second life now plays out inside AI engines. People ask \"the best guerrilla campaigns\" not only to Google but to ChatGPT, Gemini and Perplexity. These engines retell the work that got written about, talked about, cited. The equation is now clear: work worth talking about is work worth citing. If your campaign gets articles written, entries opened, videos shot — it keeps living inside AI answers for years. Today we call this [GEO (Generative Engine Optimization)](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz), and guerrilla marketing is its most natural feedstock.",
         },
       },
       {
         type: "p",
         text: {
-          tr: "Üçüncüsü: dağıtımın omurgası değişti. Stunt'ı çekip paylaşan kitle, kampanyanın medya bütçesidir. Kısa video (Reels, TikTok, Shorts) ve mikro-influencer'lar, 2024'te tamamlayıcıydı; bugün ana kanal. Sahada yüz kişinin yaşadığı bir an, doğru kurgulanırsa milyonlarca kişinin izlediği bir hikâyeye dönüşüyor.",
-          en: "Third: the backbone of distribution changed. The crowd that films and shares the stunt is the campaign's media budget. Short video (Reels, TikTok, Shorts) and micro-influencers were complementary in 2024; today they're the main channel. A moment lived by a hundred people on the street becomes, with the right framing, a story watched by millions.",
+          tr: "Üçüncüsü: dağıtımın omurgası değişti. Stunt'ı çekip paylaşan kitle, kampanyanın medya bütçesidir. Kısa video (Reels, TikTok, Shorts) ve mikro-influencer'lar, 2024'te tamamlayıcıydı; bugün ana kanal. Sahada yüz kişinin yaşadığı bir an, doğru kurgulanırsa milyonlarca kişinin izlediği bir hikâyeye dönüşüyor. [OdorGo vakasında](/vakalar/odorgo-kategori-yaratma) bir kategori tam olarak bu mekanikle kuruldu.",
+          en: "Third: the backbone of distribution changed. The crowd that films and shares the stunt is the campaign's media budget. Short video (Reels, TikTok, Shorts) and micro-influencers were complementary in 2024; today they're the main channel. A moment lived by a hundred people on the street becomes, with the right framing, a story watched by millions. In the [OdorGo case](/vakalar/odorgo-kategori-yaratma), an entire category was built on exactly this mechanic.",
         },
       },
       {
         type: "h2",
         id: "etkili-kampanya-icin-5-ipucu",
         text: {
-          tr: "Etkili kampanya için 5 ipucu",
-          en: "5 tips for an effective campaign",
+          tr: "Etkili bir kampanya için hangi beş ilke geçerli?",
+          en: "Which five principles make a campaign effective?",
         },
       },
       {
@@ -374,10 +374,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Sezar'ın toprakları ve kalpleri fethettiği ilkeler bugün de geçerli: hikâye anlatımı, gerçek içgörü ve insan psikolojisi. Roma'dan modern pazarlamaya bir rehber.",
       en: "The principles Caesar used to conquer lands and hearts still hold: storytelling, real insight and human psychology. A guide from Rome to modern marketing.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 30 Temmuz 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: sonuç bölümü yeniden yazıldı, \"Sezar'dan dil modellerine\" notu ve sık sorulan sorular eklendi.",
-      en: "First published on 30 July 2024. Revised on 23 August 2026: the conclusion was rewritten, and the \"From Caesar to language models\" note and the FAQ were added.",
+      tr: "Bu yazı ilk olarak 30 Temmuz 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: sonuç bölümü yeniden yazıldı, \"Sezar'dan dil modellerine\" notu ve sık sorulan sorular eklendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi ve ilgili hizmet, vaka ve yazı sayfalarına iç bağlantılar eklendi.",
+      en: "First published on 30 July 2024. Revised on 23 August 2026: the conclusion was rewritten, and the \"From Caesar to language models\" note and the FAQ were added. On 28 August 2026 the section headings were rewritten as questions and internal links to the related service, case and article pages were added.",
     },
     blocks: [
       {
@@ -412,8 +412,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "h3",
         text: {
-          tr: "Hikâyenizi bir Sezar gibi anlatın!",
-          en: "Tell your story like a Caesar!",
+          tr: "Hikâyenizi bir Sezar gibi anlatın",
+          en: "Tell your story like a Caesar",
         },
       },
       {
@@ -426,8 +426,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Aynı teknik pazarlamada da geçerli. Kitleniz her gün bilgi bombardımanına tutuluyor; bu gürültüyü yalnızca ilgi çekici hikâyeler aşabilir. Apple, Nike ve Coca-Cola bu sanatta ustalaştı: Apple'ın hikâyesi teknolojiyle değil, statükoya meydan okumakla ilgilidir. Nike'ın \"Just Do It\" kampanyası sporla değil, insan ruhu ve zorlukların üstesinden gelmekle ilgilidir. Steve Jobs iPhone'u tanıttığında özelliklerini saymadı; iletişimin geleceği hakkında bir hikâye anlattı — ve o anlatı, iPhone'u bir statü sembolüne dönüştürdü.",
-          en: "The same technique holds in marketing. Your audience is bombarded with information every day; only compelling stories cut through that noise. Apple, Nike and Coca-Cola mastered this art: Apple's story isn't about technology, it's about defying the status quo. Nike's \"Just Do It\" isn't about sports, it's about the human spirit overcoming odds. When Steve Jobs introduced the iPhone he didn't list features; he told a story about the future of communication — and that narrative turned the iPhone into a status symbol.",
+          tr: "Aynı teknik pazarlamada da geçerli. Kitleniz her gün bilgi bombardımanına tutuluyor; bu gürültüyü yalnızca ilgi çekici hikâyeler aşabilir. Apple, Nike ve Coca-Cola bu sanatta ustalaştı: Apple'ın hikâyesi teknolojiyle değil, statükoya meydan okumakla ilgilidir. Nike'ın \"Just Do It\" kampanyası sporla değil, insan ruhu ve zorlukların üstesinden gelmekle ilgilidir. Steve Jobs iPhone'u tanıttığında özelliklerini saymadı; iletişimin geleceği hakkında bir hikâye anlattı — ve o anlatı, iPhone'u bir statü sembolüne dönüştürdü. Bu anlatıyı kuran iş [marka stratejisinin](/hizmetler/marka-stratejisi) kendisidir.",
+          en: "The same technique holds in marketing. Your audience is bombarded with information every day; only compelling stories cut through that noise. Apple, Nike and Coca-Cola mastered this art: Apple's story isn't about technology, it's about defying the status quo. Nike's \"Just Do It\" isn't about sports, it's about the human spirit overcoming odds. When Steve Jobs introduced the iPhone he didn't list features; he told a story about the future of communication — and that narrative turned the iPhone into a status symbol. The work that builds such a narrative is [brand strategy](/hizmetler/marka-stratejisi) itself.",
         },
       },
       {
@@ -466,22 +466,22 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "icgoru-kitlenizi-anlamak",
         text: {
-          tr: "İçgörü: kitlenizi anlamak",
-          en: "Insight: understanding your audience",
+          tr: "İçgörü: kitlenizi neden derinden tanımalısınız?",
+          en: "Insight: why must you know your audience deeply?",
         },
       },
       {
         type: "p",
         text: {
-          tr: "Sezar'ın Roma Forumu'nda yürüdüğünü, insanların seslerini dinlediğini, endişelerini anladığını ve duygularını ölçtüğünü hayal edin. Halkın zihnine dair bu keskin içgörü, stratejilerini uyarlamasına ve gücünü korumasına yardımcı oldu. Kitlelerin desteği olmadan gücünün geçici olacağını biliyordu; danışmanlarından, halka açık forumlardan, hatta düşmanlarından içgörü topladı.",
-          en: "Picture Caesar walking the Roman Forum, listening to people's voices, understanding their worries, gauging their emotions. That sharp insight into the public mind helped him adapt his strategies and hold his power. He knew that without the crowd's support his power would be fleeting; he gathered insight from advisers, public forums, even his enemies.",
+          tr: "Etkili strateji, kitlenin ne istediğini tahmin etmekle değil ölçmekle kurulur. Sezar'ın Roma Forumu'nda yürüdüğünü, insanların seslerini dinlediğini, endişelerini anladığını ve duygularını ölçtüğünü hayal edin. Halkın zihnine dair bu keskin içgörü, stratejilerini uyarlamasına ve gücünü korumasına yardımcı oldu. Kitlelerin desteği olmadan gücünün geçici olacağını biliyordu; danışmanlarından, halka açık forumlardan, hatta düşmanlarından içgörü topladı.",
+          en: "Effective strategy is built by measuring what an audience wants, not by guessing it. Picture Caesar walking the Roman Forum, listening to people's voices, understanding their worries, gauging their emotions. That sharp insight into the public mind helped him adapt his strategies and hold his power. He knew that without the crowd's support his power would be fleeting; he gathered insight from advisers, public forums, even his enemies.",
         },
       },
       {
         type: "p",
         text: {
-          tr: "Bugün aynı işi veri analitiği, sosyal dinleme ve müşteri geri bildirimi yapıyor. Netflix'in başarısı izleme alışkanlıklarını okuyup içeriği kişiye uyarlamasına dayanır; Amazon kişiselleştirilmiş öneriden özel reklama kadar her adımı müşteri içgörüsüyle kurar. Ölçek değişti, ilke değişmedi: kitlenizi derinden tanımadan etkili strateji kuramazsınız.",
-          en: "Today the same job is done by data analytics, social listening and customer feedback. Netflix's success rests on reading viewing habits and tailoring content to the person; Amazon builds every step, from personalised recommendations to targeted ads, on customer insight. The scale changed, the principle didn't: you can't build an effective strategy without knowing your audience deeply.",
+          tr: "Bugün aynı işi veri analitiği, sosyal dinleme ve müşteri geri bildirimi yapıyor. Netflix'in başarısı izleme alışkanlıklarını okuyup içeriği kişiye uyarlamasına dayanır; Amazon kişiselleştirilmiş öneriden özel reklama kadar her adımı müşteri içgörüsüyle kurar. Ölçek değişti, ilke değişmedi: kitlenizi derinden tanımadan etkili strateji kuramazsınız. Küçük bir işletmenin bunu tek tabloyla yapmasının yolu [RFM analizidir](/yazilar/kucuk-isletmeler-icin-rfm-analizi-ile-satislari-artirma-rehberi).",
+          en: "Today the same job is done by data analytics, social listening and customer feedback. Netflix's success rests on reading viewing habits and tailoring content to the person; Amazon builds every step, from personalised recommendations to targeted ads, on customer insight. The scale changed, the principle didn't: you can't build an effective strategy without knowing your audience deeply. For a small business, the way to do that in a single spreadsheet is [RFM analysis](/yazilar/kucuk-isletmeler-icin-rfm-analizi-ile-satislari-artirma-rehberi).",
         },
       },
       {
@@ -505,22 +505,22 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "insan-psikolojisi",
         text: {
-          tr: "İnsan psikolojisi: karar vermeyi etkilemek",
-          en: "Human psychology: influencing decisions",
+          tr: "İnsan psikolojisi satın alma kararını nasıl etkiler?",
+          en: "How does human psychology shape a buying decision?",
         },
       },
       {
         type: "p",
         text: {
-          tr: "Sezar hem müttefiklerinin hem rakiplerinin zihinlerini etkilemekte ustaydı. İnsanları neyin motive ettiğini anlıyor, stratejilerini doğrudan arzulara ve korkulara hitap edecek şekilde kuruyordu. İnsan doğasına dair bu derin anlayış, bugünün pazarlamasında antik Roma'daki kadar geçerli.",
-          en: "Caesar was a master at influencing the minds of allies and rivals alike. He understood what motivates people and shaped his strategies to speak directly to desires and fears. That deep understanding of human nature is as valid in today's marketing as it was in ancient Rome.",
+          tr: "Karar, ürün özelliklerinden önce dört sabit üzerinden verilir: kıtlık, sosyal kanıt, karşılıklılık ve otorite. Sezar hem müttefiklerinin hem rakiplerinin zihinlerini etkilemekte ustaydı. İnsanları neyin motive ettiğini anlıyor, stratejilerini doğrudan arzulara ve korkulara hitap edecek şekilde kuruyordu. İnsan doğasına dair bu derin anlayış, bugünün pazarlamasında antik Roma'daki kadar geçerli.",
+          en: "A decision runs on four constants before it runs on product features: scarcity, social proof, reciprocity and authority. Caesar was a master at influencing the minds of allies and rivals alike. He understood what motivates people and shaped his strategies to speak directly to desires and fears. That deep understanding of human nature is as valid in today's marketing as it was in ancient Rome.",
         },
       },
       {
         type: "p",
         text: {
-          tr: "Modern karşılıkları biliyorsunuz: kıtlık, sosyal kanıt, karşılıklılık, otorite. Lüks markalar sınırlı üretim ve süreli tekliflerle aciliyet yaratır; çevrimiçi yorumlar ve kullanıcı içerikleri satın alma kararını sosyal kanıtla döndürür. Bunlar numara değil, insan davranışının sabitleridir — doğru kullanıldığında güven kurar, yanlış kullanıldığında markayı yakar.",
-          en: "You know the modern counterparts: scarcity, social proof, reciprocity, authority. Luxury brands create urgency with limited runs and timed offers; online reviews and user content turn purchase decisions on social proof. These are not tricks but constants of human behaviour — used right they build trust, used wrong they burn the brand.",
+          tr: "Modern karşılıkları biliyorsunuz: kıtlık, sosyal kanıt, karşılıklılık, otorite. Lüks markalar sınırlı üretim ve süreli tekliflerle aciliyet yaratır; çevrimiçi yorumlar ve [kullanıcı içerikleri](/yazilar/ugc-kullanimi-ve-sosyal-kanit) satın alma kararını sosyal kanıtla döndürür. Bunlar numara değil, insan davranışının sabitleridir — doğru kullanıldığında güven kurar, yanlış kullanıldığında markayı yakar.",
+          en: "You know the modern counterparts: scarcity, social proof, reciprocity, authority. Luxury brands create urgency with limited runs and timed offers; online reviews and [user content](/yazilar/ugc-kullanimi-ve-sosyal-kanit) turn purchase decisions on social proof. These are not tricks but constants of human behaviour — used right they build trust, used wrong they burn the brand.",
         },
       },
       {
@@ -562,8 +562,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "İçgörü tarafında Netflix ve Amazon'un veri oyunu artık KOBİ'lerin de elinde: AI destekli analiz araçları segmentasyonu ve kişiselleştirmeyi ölçekledi. Ve yeni bir dinleyici geldi: dil modelleri. İnsanlar markaları artık ChatGPT'ye, Gemini'ye ve Perplexity'ye soruyor; bu motorlar da hikâyesi net anlatılmış, hakkında tutarlı konuşulan markaları aktarıyor. Sezar'ın Senato'su bugün kısmen bir dil modelinin cevabı — hikâyeniz orada da anlatılmaya değer olmalı.",
-          en: "On the insight side, the data game of Netflix and Amazon is now in the hands of SMBs too: AI-assisted analytics scaled segmentation and personalisation. And a new listener arrived: language models. People now ask ChatGPT, Gemini and Perplexity about brands, and these engines relay the brands whose stories are told clearly and spoken about consistently. Caesar's Senate today is partly a language model's answer — your story has to be worth telling there too.",
+          tr: "İçgörü tarafında Netflix ve Amazon'un veri oyunu artık KOBİ'lerin de elinde: AI destekli analiz araçları segmentasyonu ve kişiselleştirmeyi ölçekledi. Ve yeni bir dinleyici geldi: dil modelleri. İnsanlar markaları artık ChatGPT'ye, Gemini'ye ve Perplexity'ye soruyor; bu motorlar da hikâyesi net anlatılmış, hakkında tutarlı konuşulan markaları aktarıyor. Sezar'ın Senato'su bugün kısmen bir dil modelinin cevabı — hikâyeniz orada da anlatılmaya değer olmalı. Bu motorlarda [nasıl öne çıkıldığını](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) ayrı bir yazıda ele aldık.",
+          en: "On the insight side, the data game of Netflix and Amazon is now in the hands of SMBs too: AI-assisted analytics scaled segmentation and personalisation. And a new listener arrived: language models. People now ask ChatGPT, Gemini and Perplexity about brands, and these engines relay the brands whose stories are told clearly and spoken about consistently. Caesar's Senate today is partly a language model's answer — your story has to be worth telling there too. We covered [how to stand out inside those engines](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) in a separate piece.",
         },
       },
       {
@@ -584,8 +584,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Hikâye anlatımı, içgörü ve insan psikolojisi — Sezar'ın Roma'sından bugünün dijital pazarına, etkili pazarlamanın temeli hep aynı üçlü oldu. Araçlar değişti: forum yerine sosyal medya, danışman yerine veri paneli, senato yerine arama motoru. Değişmeyen tek şey insan. Kitlenizi tanıyın, onlara gerçek bir hikâye anlatın ve karar veren zihnin nasıl çalıştığını asla unutmayın.",
-          en: "Storytelling, insight and human psychology — from Caesar's Rome to today's digital market, effective marketing has always rested on the same trio. The tools changed: social media instead of the forum, a data dashboard instead of an adviser, a search engine instead of the senate. The one thing that hasn't changed is the human. Know your audience, tell them a true story, and never forget how the deciding mind works.",
+          tr: "Hikâye anlatımı, içgörü ve insan psikolojisi — Sezar'ın Roma'sından bugünün dijital pazarına, etkili pazarlamanın temeli hep aynı üçlü oldu. Araçlar değişti: forum yerine sosyal medya, danışman yerine veri paneli, senato yerine arama motoru. Değişmeyen tek şey insan. Kitlenizi tanıyın, onlara gerçek bir hikâye anlatın ve karar veren zihnin nasıl çalıştığını asla unutmayın. Üçlünün birlikte çalıştığında ne yaptığını [OdorGo vakasında](/vakalar/odorgo-kategori-yaratma) izleyebilirsiniz.",
+          en: "Storytelling, insight and human psychology — from Caesar's Rome to today's digital market, effective marketing has always rested on the same trio. The tools changed: social media instead of the forum, a data dashboard instead of an adviser, a search engine instead of the senate. The one thing that hasn't changed is the human. Know your audience, tell them a true story, and never forget how the deciding mind works. You can watch the trio work together in the [OdorGo case](/vakalar/odorgo-kategori-yaratma).",
         },
       },
       {
@@ -5493,6 +5493,15 @@ export const ARTICLES: ArticleContent[] = [
   // "Case Study Önerisi" etiketli, kaynağı doğrulanamayan HubSpot rakamları;
   // "2. Temel Noktalar" numaralandırması; kırık "buraya tıklayın" CTA'sı ve ":)".
   // Tablo, blok modelinde prose+listeye çevrildi. TR slug eski URL ile aynı.
+  //
+  // 2026-08-28 (K-3 kararı): GEO kümesinin kanonik rehberi bölünmedi, aynı
+  // slug'da derinleştirildi — yazı Google'da poz. 38'de tohum taşıyor ve slug
+  // değişimi o tohumu yakardı. Gövde 1.017 → 2.000+ TR kelimeye çıkarıldı;
+  // dört yeni bölüm eklendi (terim ayrımı, atlanma sebepleri, taktik katmanı,
+  // 10 promptluk ölçüm turu). Kelime hedefi: "yapay zeka optimizasyonu" (GSC
+  // 136 gösterim, sitede hiç geçmiyordu) bir H2 ile sahiplenildi; "geo
+  // optimizasyonu" tam formu ve AEO açılımı gövdeye girdi. AI Overviews ve
+  // llms.txt kendi rehberlerine ayrıldı, buradan çapraz link verildi.
   {
     slug: {
       tr: "yapay-zeka-aramalarinda-nasil-one-cikarsiniz",
@@ -5506,10 +5515,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Emre'nin trafiği birkaç haftada %70 eridi; sitesinde bozulan hiçbir şey yoktu. Değişen, insanların arama yapmayı bırakıp soru sormaya başlamasıydı. GEO — üretken motor optimizasyonu — bu yeni düzende kaynak gösterilme işidir. Nasıl kurulduğunu sahadan üç vakayla anlatıyorum.",
       en: "Emre's traffic fell 70% in a few weeks with nothing broken on his site. What changed was that people stopped searching and started asking. GEO — generative engine optimization — is the work of getting cited in that new order. Here is how it gets built, told through three cases from the field.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 14 Ocak 2026'da yayımlandı. 23 Ağustos 2026'da gözden geçirildi: GEO'nun açık tanımını veren bölüm ve dört soruluk sık sorulan sorular eklendi, anlatılan yöntemin sahadaki karşılığı SIM Baskı, İstanbul Ortez Protez ve Meccanotecnica Umbra vakalarına bağlandı. Kaynağı doğrulanamayan üçüncü taraf örneği çıkarıldı — yerine kendi ölçtüğümüz rakamlar kondu.",
-      en: "First published on 14 January 2026. Revised on 23 August 2026: a section defining GEO plainly and a four-question FAQ were added, and the method described here was tied to the SIM Printing, İstanbul Ortez Protez and Meccanotecnica Umbra cases. A third-party example whose source could not be verified was removed and replaced with numbers we measured ourselves.",
+      tr: "Bu yazı ilk olarak 14 Ocak 2026'da yayımlandı ve 28 Ağustos 2026'da genişletildi: yapay zeka optimizasyonu, GEO ve AEO terimlerini birbirinden ayıran bölüm, bir modelin markayı neden atladığını anlatan teşhis listesi, alıntılanabilirliği dört müdahaleye indiren taktik bölümü ve GEO çalışmasını sabit 10 promptluk aylık turla ölçme yöntemimiz eklendi. Google AI Overviews ile llms.txt kendi rehberlerine ayrıldı; bu yazı ikisine de bağlanıyor.",
+      en: "First published on 14 January 2026 and expanded on 28 August 2026: a section separating the terms AI optimisation, GEO and AEO, a diagnostic list of why a model skips a brand, a tactics section reducing quotability to four interventions, and the fixed 10-prompt monthly round we use to measure GEO work. Google AI Overviews and llms.txt moved into guides of their own, and this article links to both.",
     },
     blocks: [
       {
@@ -5588,7 +5597,43 @@ export const ARTICLES: ArticleContent[] = [
         type: "p",
         text: {
           tr: "Alanın adı henüz oturmadı: kimi \"AI SEO\" diyor, kimi \"LLM optimizasyonu\". Üçü de aynı işi tarif ediyor. Biz GEO demeyi tercih ediyoruz, çünkü optimize ettiğimiz şey artık arama motoru değil, yanıtı üreten motorun kendisi.",
-          en: "The field hasn't settled on a name: some say \"AI SEO\", others \"LLM optimization\". All three describe the same work. We prefer GEO, because what we optimise for is no longer the search engine but the engine that generates the answer.",
+          en: "The field hasn't settled on a name: some say \"AI SEO\", others \"LLM optimisation\". All three describe the same work. We prefer GEO, because what we optimise for is no longer the search engine but the engine that generates the answer.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yapay-zeka-optimizasyonu",
+        text: {
+          tr: "Yapay zeka optimizasyonu nedir, GEO ile aynı şey mi?",
+          en: "What is AI optimisation, and is it the same as GEO?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka optimizasyonu, bir markanın üretken yapay zeka sistemlerinde doğru ve alıntılanabilir biçimde temsil edilmesi işidir — yani GEO'nun kendisi. İkisi arasında yöntem farkı yok; fark, kelimenin nereden geldiğinde. GEO adını optimize edilen yüzeyden alıyor: yanıtı üreten motor. Yapay zeka optimizasyonu ise bu işi arayan kişinin yazdığı kelime.",
+          en: "AI optimisation is the work of making sure a brand is represented accurately and quotably inside generative AI systems — which is GEO itself. There is no difference of method between the two; the difference is where the word came from. GEO takes its name from the surface being optimised: the engine that generates the answer. AI optimisation is the phrase people type when they go looking for that work.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Terim kalabalığı gerçek bir sorun, çünkü aynı bütçeyi konuşan iki kişi farklı kelime kullanıyor. Sadeleştirelim: geo optimizasyonu ve yapay zeka arama optimizasyonu, yapay zeka optimizasyonunun daha dar iki adıdır — ilki yöntemi, ikincisi yüzeyi işaret eder. Answer engine optimization (AEO — yanıt motoru optimizasyonu), aynı disiplinin hedefinden adını alan İngilizce karşılığıdır. AI SEO ve LLM optimizasyonu ise sektörün geçici kısaltmaları. Beşi de tek bir soruyu soruyor: model bir cevabı kurarken sizi neden alsın?",
+          en: "The crowd of terms is a real problem, because two people discussing the same budget reach for different words. To simplify: GEO optimisation and AI search optimisation are two narrower names for AI optimisation — the first points at the method, the second at the surface. Answer engine optimisation (AEO) is the same discipline named after what it targets: the answer. AI SEO and LLM optimisation are the industry's temporary shorthands. All five ask one question: when the model assembles an answer, why should it take yours?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ayrım terimlerde değil, yüzeylerde anlamlı. ChatGPT'de anılmak, Perplexity'de kaynak gösterilmek ve Google AI Overviews'da yer almak farklı mekanizmalara dayanır: ilk ikisi sohbet bağlamını ve kendi canlı arama katmanını kullanır, üçüncüsü Google'ın indeksine ve sıralama sinyallerine yaslanır. Bu yüzden AI Overviews'u ayrı bir başlıkta ele aldık — mekaniği ve ölçümü için [Google AI Overviews rehberi](/yazilar/google-ai-overviews-da-yer-almak).",
+          en: "The meaningful distinction isn't between terms, it's between surfaces. Being named in ChatGPT, being cited in Perplexity and appearing in Google AI Overviews rest on different mechanisms: the first two draw on the conversation context and their own live search layer, the third leans on Google's index and ranking signals. That is why we treat AI Overviews under its own heading — the mechanics and the measurement are in the [Google AI Overviews guide](/yazilar/google-ai-overviews-da-yer-almak).",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pratik sonuç şu: hangi kelimeyi kullandığınız değil, hangi işi satın aldığınız belirleyici. Bir ajans size yapay zeka optimizasyonu satarken sıralama raporu gösteriyorsa, satılan şey SEO'dur. Bu işin raporu farklıdır — kaç yanıtta anıldığınızı, hangi cümleyle anıldığınızı ve hangi sayfanın kaynak gösterildiğini içerir. Ölçüsü tarif edilmemiş bir GEO teklifi, tanımı yapılmamış bir iştir.",
+          en: "The practical consequence: what matters is not the word you use but the work you are buying. If an agency sells you AI optimisation and shows you a ranking report, what you bought is SEO. This work reports differently — how many answers named you, in which sentence you were named, and which page was cited as the source. A GEO proposal that never describes its measure is a job that was never defined.",
         },
       },
       {
@@ -5632,6 +5677,53 @@ export const ARTICLES: ArticleContent[] = [
         text: {
           tr: "Müşteriniz markanızı bir yapay zekaya nasıl tarif ederdi? Sadece ürün adıyla mı, yoksa çözdüğünüz o kritik problemle mi?",
           en: "How would your customer describe your brand to an AI? By the product name alone, or by the critical problem you solve?",
+        },
+      },
+      {
+        type: "h2",
+        id: "neden-atlaniyorsunuz",
+        text: {
+          tr: "Model sizi neden atlıyor?",
+          en: "Why does the model skip you?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Atlanmanın çoğu zaman dramatik bir sebebi yok. Sayfa duruyor, indekste ve çoğu zaman iyi de sıralanıyor — ama yanıtın hammaddesi olmuyor. Sahada tekrar eden beş sebep var ve beşi de teknik değil, editoryal.",
+          en: "Being skipped rarely has a dramatic cause. The page is there, it is indexed and it often ranks well — it simply never becomes raw material for the answer. Five causes repeat in the field, and all five are editorial rather than technical.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Sayfada cevap değil, davet var. Metin \"bizimle iletişime geçin\" diyor ama sorunun kendisini yanıtlamıyor; modelin alacağı cümle hiç yazılmamış.",
+            en: "The page holds an invitation, not an answer. The text says \"get in touch\" but never answers the question itself; the sentence the model would lift was never written.",
+          },
+          {
+            tr: "Rakam metnin dışında duruyor. Veri görselde, PDF'te veya bir tabloda kalmışsa model çoğu zaman göremez — cümlenin içinde geçmeyen rakam yok sayılır.",
+            en: "The number sits outside the text. If the data stayed in an image, a PDF or a table, the model usually can't see it — a figure that isn't inside a sentence counts as absent.",
+          },
+          {
+            tr: "İçerik JavaScript'in arkasında. Sayfa tarayıcıda dolu, ham HTML'de boş; kod çalıştırmayan bir okuyucu orada hiçbir şey bulmaz.",
+            en: "The content hides behind JavaScript. The page is full in a browser and empty in the raw HTML; a reader that doesn't execute code finds nothing there.",
+          },
+          {
+            tr: "Marka tanımı kaynaklar arasında tutarsız. Sitede bir, LinkedIn'de başka, dizinlerde üçüncü bir tanım varsa model hangisini yazacağına karar veremez ve emin olduğu rakibi yazar.",
+            en: "The brand's definition contradicts itself across sources. One description on the site, another on LinkedIn, a third in the directories — the model can't decide which to use and writes the competitor it is sure about.",
+          },
+          {
+            tr: "Sayfa tek bir uzun blok. Başlıksız üç bin kelime, alıntılanabilir tek bir parça üretmez; ne model için ne okur için.",
+            en: "The page is one long block. Three thousand words without headings produce not a single quotable piece — for the model or for the reader.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu beşini düzeltmek bütçe değil karar gerektiriyor. Ama beşi dururken yürütülen bir yapay zeka arama optimizasyonu çalışması, oturmamış zemine kat çıkmaktır: kelime araştırması yapılır, içerik üretilir, sonuç yine okunmaz.",
+          en: "Fixing these five takes a decision rather than a budget. Run an AI search optimisation programme while they stand and you are adding floors to unset ground: the keyword research happens, the content ships, and the result still doesn't read.",
         },
       },
       {
@@ -5680,6 +5772,77 @@ export const ARTICLES: ArticleContent[] = [
       },
       {
         type: "h2",
+        id: "alintilanabilir-sayfa",
+        text: {
+          tr: "Bir sayfa nasıl alıntılanabilir hâle gelir?",
+          en: "How does a page become quotable?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yanıt-öncelikli mimari bir ilke; geo optimizasyonu dediğimizde sayfada yaptığımız şey dört müdahaledir. Sırayla uygularız, çünkü her adım bir öncekinin üstüne biner: yapısı bozuk bir sayfaya yapısal veri basmak, boş odaya tabela asmaktır.",
+          en: "Answer-first architecture is a principle; what GEO optimisation actually does on a page is four interventions. We apply them in order, because each one sits on the one before it: stamping structured data onto a badly structured page is hanging a sign on an empty room.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Alıntılanabilir paragraf testi",
+          en: "The quotable-paragraph test",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sayfadan rastgele bir paragraf kesin ve bağlamından kopuk okuyun. Öznesi belli mi? İddiası tek cümlede duruyor mu? Rakamı kendi içinde mi geçiyor? Üçünden birine hayır diyorsanız o paragraf alıntılanamaz: model onu bir yanıtın içine koyduğunda cümle anlamını kaybeder, dolayısıyla koymaz. Testi yazının tamamına değil, her H2'nin altındaki ilk paragrafa uygularız — alıntı çoğunlukla oradan çıkıyor. Testi geçen paragraf sayfanın en iyi paragrafı olmak zorunda değil; yalnızca tek başına ayakta durmak zorunda.",
+          en: "Cut a paragraph out of the page at random and read it stripped of context. Is its subject clear? Does its claim stand in one sentence? Is its number inside the sentence? A no to any of the three means the paragraph can't be quoted: dropped into an answer it would lose its meaning, so the model leaves it. We run the test not on the whole article but on the first paragraph under every H2 — that is where the quote usually comes from. The paragraph that passes doesn't have to be the best one on the page; it only has to stand on its own.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Soru-H2 disiplini",
+          en: "The question-heading discipline",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Başlıkları yazarken tek kısıt koyuyoruz: her H2, bir müşterinin gerçekten kurduğu cümle olmalı. Kaynağı uydurmuyoruz — Search Console'un sorgu raporu, satış görüşmelerinin ilk on dakikası ve destek kayıtları üç ayrı liste veriyor; başlık üçünün kesiştiği yerden çıkıyor. \"Hizmetlerimiz\" hiçbir listede yok, \"geo optimizasyonu ne kadar sürer\" üçünde de var. Bir yazıda beş-yedi H2'yi geçmiyoruz, çünkü kendi cevabını taşımayan başlık gürültüdür.",
+          en: "We put one constraint on headings: every H2 must be a sentence a customer actually said. We don't invent the source — Search Console's query report, the first ten minutes of sales calls and the support tickets each produce a list, and the heading comes from where the three overlap. \"Our services\" appears on none of them; \"how long does GEO optimisation take\" appears on all three. We stay within five to seven H2s per article, because a heading carrying no answer of its own is noise.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Yapısal veri ve makinenin okuduğu katman",
+          en: "Structured data and the layer the machine reads",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Görünen metnin altında bir de yalnız makinenin okuduğu katman var. Her yazıya Article, sık sorulan sorulara FAQPage, kuruma Organization şeması basıyoruz; yazar, yayın tarihi ve güncelleme tarihi buradan okunuyor. Şema tek başına sıralama getirmez, ama modelin \"bu cümleyi kim, ne zaman yazdı\" sorusunun cevabı burada duruyor. Aynı katmanın yeni ve tartışmalı üyesi llms.txt: içeriğinizin haritasını dil modellerine düz metinle veren bir dosya önerisi. Maliyeti düşük, garantisi yok — nasıl hazırlandığı [llms.txt rehberi](/yazilar/llms-txt-nedir) içinde.",
+          en: "Beneath the visible text there is a layer only machines read. We stamp Article on every piece, FAQPage on the questions and Organisation on the company; author, publication date and update date are read from there. Schema alone brings no ranking, but it is where the model finds an answer to \"who wrote this sentence, and when\". The layer's newest and most disputed member is llms.txt: a proposed file that hands language models a plain-text map of your content. Cheap to add, guaranteed by nobody — how it gets built is in the [llms.txt guide](/yazilar/llms-txt-nedir).",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Güncellik sinyali",
+          en: "The freshness signal",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üretken motorlar eski tarihli içeriğe temkinli yaklaşıyor, çünkü yanlış bilgiyi tekrarlamanın bedelini modelin kendisi ödüyor. Bu yüzden yayın tarihini saklamak yerine güncelleme tarihini açıkça yazıyor ve neyin değiştiğini okura söylüyoruz; bu yazının başındaki not tam olarak bu işi görüyor. Tarihi değiştirip metne dokunmamak ise ters teper — içerik aynı kalırken tazelik iddia eden sayfa, okurun da modelin de güvenini bir kez kaybeder. Güncelleme notunu yazarken kuralımız tek cümle: neyin eklendiğini, neyin çıkarıldığını ve niçin çıkarıldığını okura söyleriz.",
+          en: "Generative engines treat old content warily, because the model itself pays for repeating something false. So instead of hiding the publication date we write the update date plainly and tell the reader what changed; the note at the top of this article does exactly that. Moving the date without touching the text backfires — a page claiming freshness while its content stands still loses the trust of the reader and of the model, once. Our rule for writing that note is a single line: say what was added, what was removed, and why it was removed.",
+        },
+      },
+      {
+        type: "h2",
         id: "sahadan-kanit",
         text: {
           tr: "Sahadan kanıt: bunu müşterilerimizde nasıl uyguladık",
@@ -5712,6 +5875,42 @@ export const ARTICLES: ArticleContent[] = [
         text: {
           tr: "[Meccanotecnica Umbra'da](/vakalar/meccanotecnica-umbra-teklif-portali) bir adım öteye gittik. İçeriği yalnız dışarıdaki modelin okuması için değil, sitenin kendi modelinin kullanması için kurduk: mühendis tesisini anlatıyor, AI teknik danışman tüm fabrikaya uygun donanımı tek formda çıkarıyor. SEO ve GEO mimarisi dört dilde (TR, EN, AR, RU) aynı anda kuruldu. Teklif talebi 10 katına çıktı, yanıt süresi yüzde doksan kısaldı. AI-native yaklaşımın tarifi budur: yapay zekaya görünmekle yetinmeyip yapay zekayı kendi satış sürecinizin içine koymak — bu da artık [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) tarafının işi.",
           en: "At [Meccanotecnica Umbra](/vakalar/meccanotecnica-umbra-teklif-portali) we went a step further. We structured the content not only for the model outside to read but for the site's own model to use: the engineer describes their plant and an AI technical advisor lays out equipment for the whole facility in a single form. The SEO and GEO architecture was built in four languages (TR, EN, AR, RU) at once. Quote requests rose tenfold and response time fell by ninety percent. That is what AI-native means in practice: not settling for being visible to AI, but placing AI inside your own sales process — which is where [AI advisory](/hizmetler/ai-danismanlik) takes over.",
+        },
+      },
+      {
+        type: "h2",
+        id: "geo-nasil-olculur",
+        text: {
+          tr: "GEO çalışması nasıl ölçülür?",
+          en: "How is GEO work measured?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka optimizasyonunun ölçüsü sıralama değil, anılma. Biz bunu sabit 10 promptluk aylık bir turla ölçüyoruz: her ay aynı 10 soruyu ChatGPT'ye, Gemini'ye ve Perplexity'ye soruyor, yanıtlarda markanın geçip geçmediğini elle sayıyoruz. Otomatik araç kullanmıyoruz, çünkü aynı soru aynı gün iki farklı yanıt üretebiliyor; tek bir ölçümün anlamı yok, anlamlı olan aynı soruların aylarca aynı biçimde sorulması.",
+          en: "AI optimisation is measured by mentions, not by rank. We measure it with a fixed 10-prompt monthly round: every month we put the same 10 questions to ChatGPT, Gemini and Perplexity and count by hand whether the brand appears in the answers. We use no automated tool, because the same question can produce two different answers on the same day; a single reading means nothing, and what carries meaning is asking identical questions month after month.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "10 promptu üç kutuya bölüyoruz. Dördü kategori sorusu (\"bu işi yapan firmalar hangileri\"), üçü kısıt sorusu — müşterinin bütçesini, teslim süresini veya teknik şartını taşıyan hâli —, üçü karşılaştırma sorusu (\"X ile Y arasında hangisi\"). Promptlar bir kez yazılır ve değişmez; değişirse seri kırılır ve elinizde kıyaslayacak bir şey kalmaz. Marka adını prompta koymuyoruz: koyarsanız model markayı zaten önünüze getirir, ölçtüğünüz şey kendi sorunuz olur.",
+          en: "We split the 10 prompts into three boxes. Four are category questions (\"which firms do this work\"), three are constraint questions — the version carrying the customer's budget, lead time or technical requirement — and three are comparison questions (\"between X and Y, which one\"). The prompts are written once and never change; change them and the series breaks, leaving nothing to compare. We keep the brand name out of the prompt: put it in and the model hands the brand straight back to you, and what you measured was your own question.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Her tur için üç şey kaydediyoruz: markanın kaç yanıtta geçtiği, hangi cümleyle geçtiği ve hangi sayfanın kaynak gösterildiği. İkincisi çoğu ekibin atladığı yer. Model sizi \"matbaa malzemesi satan firmalardan biri\" diye anıyorsa görünürlük var, konumlandırma yok; \"ihracat yapan matbaalara teknik malzeme üreten\" diye anıyorsa cümlenin kendisi kazançtır. Üçüncüsü içerik planının pusulası: kaynak gösterilen sayfa hangi yapıdaysa, bir sonraki yazıyı o yapıda kurarsınız.",
+          en: "Each round records three things: how many answers named the brand, in which sentence it was named, and which page was cited. The second is where most teams look away. If the model calls you \"one of the firms selling printing supplies\" you have visibility but no position; if it calls you \"the maker of technical supplies for print houses that export\", the sentence itself is the gain. The third is the compass for the content plan: whatever structure the cited page has is the structure of your next article.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Turun ilk aylarında sonuç genellikle sıfıra yakın okunur ve bu normaldir. İlk sinyal kategori sorularından değil kısıt sorularından gelir: uzun ve şartlı bir soruda adınızın geçmesi, kategori sorusunda geçmesinden aylar önce olur. SIM Baskı Malzemeleri'nde AI motorlarındaki görünürlük altı aylık bir içerik programının sonunda sıfırdan 40 bine çıktı; o altı ayın büyük kısmı, dışarıdan bakan biri için hiçbir şeyin olmadığı bir dönem gibi görünürdü. Ölçmenin asıl faydası burada — eğriyi göremeyen ekip, işe yarayan programı üçüncü ayda kapatır.",
+          en: "In the round's first months the result usually reads close to zero, and that is normal. The first signal comes from the constraint questions rather than the category ones: your name appears inside a long, conditional question months before it appears in the category answer. At SIM Printing Suppliers, visibility across AI engines went from zero to 40,000 at the end of a six-month content programme; for most of those six months, seen from outside, it looked like a period when nothing was happening. That is the real use of measuring — a team that can't see the curve shuts down the programme that works in month three.",
         },
       },
       {
@@ -5752,7 +5951,7 @@ export const ARTICLES: ArticleContent[] = [
         },
         answer: {
           tr: "GEO, Generative Engine Optimization'ın kısaltmasıdır; Türkçesi üretken motor optimizasyonu. ChatGPT, Gemini, Perplexity ve Google AI Overviews gibi üretken arama sistemleri bir soruya tek bir yanıt üretir ve o yanıtın içinde birkaç kaynağı gösterir. GEO, içeriği bu sistemlerin okuyup güvenle alıntılayabileceği biçimde kurma işidir: soru formatında başlıklar, kendine yeten pasajlar, metnin içine yerleştirilmiş rakam ve kaynaklar, makine tarafından okunabilir yapısal işaretleme. Sektörde aynı iş için \"AI SEO\" ve \"LLM optimizasyonu\" terimleri de kullanılıyor.",
-          en: "GEO stands for generative engine optimization. Generative search systems — ChatGPT, Gemini, Perplexity, Google AI Overviews — produce a single answer to a question and cite a handful of sources inside it. GEO is the work of shaping content so those systems can read it and cite it with confidence: headings in question form, self-contained passages, figures and sources placed inside the text, and machine-readable structured markup. The same work also travels under the terms \"AI SEO\" and \"LLM optimization\".",
+          en: "GEO stands for generative engine optimization. Generative search systems — ChatGPT, Gemini, Perplexity, Google AI Overviews — produce a single answer to a question and cite a handful of sources inside it. GEO is the work of shaping content so those systems can read it and cite it with confidence: headings in question form, self-contained passages, figures and sources placed inside the text, and machine-readable structured markup. The same work also travels under the terms \"AI SEO\" and \"LLM optimisation\".",
         },
       },
       {
@@ -5798,11 +5997,11 @@ export const ARTICLES: ArticleContent[] = [
       {
         question: {
           tr: "GEO, yapay zeka SEO'su ve answer engine optimization aynı şey mi?",
-          en: "Are GEO, AI SEO and answer engine optimization the same thing?",
+          en: "Are GEO, AI SEO and answer engine optimisation the same thing?",
         },
         answer: {
-          tr: "Büyük ölçüde evet — alanın adı henüz oturmadı. GEO (üretken motor optimizasyonu), yapay zeka SEO'su, answer engine optimization ve LLM optimizasyonu terimleri aynı işi tarif ediyor: içeriği üretken arama sistemlerinin okuyup alıntılayabileceği biçimde kurmak. Biz GEO demeyi tercih ediyoruz, çünkü optimize ettiğimiz şey artık arama motoru değil, yanıtı üreten motorun kendisi.",
-          en: "Largely yes — the field has not settled on a name. GEO (generative engine optimization), AI SEO, AI search optimization, ChatGPT SEO, answer engine optimization and LLM optimization all describe the same work: shaping content so generative search systems can read and cite it. We prefer GEO, because what we optimise for is no longer the search engine but the engine generating the answer.",
+          tr: "Büyük ölçüde evet — alanın adı henüz oturmadı. Yapay zeka optimizasyonu, geo optimizasyonu, yapay zeka SEO'su, answer engine optimization (AEO — yanıt motoru optimizasyonu) ve LLM optimizasyonu terimleri aynı işi tarif ediyor: içeriği üretken arama sistemlerinin okuyup alıntılayabileceği biçimde kurmak. Fark yöntemde değil, kelimenin nereye baktığında — kimi motoru, kimi yanıtı, kimi modeli adlandırıyor. Biz GEO demeyi tercih ediyoruz, çünkü optimize ettiğimiz şey artık arama motoru değil, yanıtı üreten motorun kendisi.",
+          en: "Largely yes — the field has not settled on a name. AI optimisation, GEO optimisation, AI SEO, AI search optimisation, ChatGPT SEO, answer engine optimisation (AEO) and LLM optimisation all describe the same work: shaping content so generative search systems can read and cite it. The difference is not in the method but in what each word points at — some name the engine, some the answer, some the model. We prefer GEO, because what we optimise for is no longer the search engine but the engine generating the answer.",
         },
       },
       {
@@ -5821,8 +6020,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "How do you measure visibility inside AI engines?",
         },
         answer: {
-          tr: "İki katmanda. Birincisi elle yapılan teşhis: kategorinizin üç zor sorusunu ChatGPT'ye, Gemini'ye ve Perplexity'ye müşterinizin soracağı gibi sorun, kimin adının geçtiğine ve hangi sayfanın kaynak gösterildiğine bakın — o üç ekran görüntüsü hiçbir araca para vermeden alınan en dürüst rekabet analizidir. İkincisi düzenli takip: yanıtlarda anılma sıklığı zaman içinde izlenir, SIM Baskı Malzemeleri'nde bu sayı sıfırdan 40 bine çıktı.",
-          en: "On two levels. First, a manual diagnosis: ask the three hardest questions in your category to ChatGPT, Gemini and Perplexity the way your customer would, then look at whose name appears and which page is cited — those three screenshots are the most honest competitive analysis you can get without paying for a tool. Second, regular tracking: how often you are named gets followed over time, and at SIM Printing Suppliers that number went from zero to 40,000.",
+          tr: "Ölçünün birimi sıralama değil, anılma sıklığıdır. Kendi yöntemimiz sabit 10 promptluk aylık bir tur: her ay aynı 10 soruyu — dördü kategori, üçü kısıt, üçü karşılaştırma sorusu — ChatGPT'ye, Gemini'ye ve Perplexity'ye soruyor; markanın kaç yanıtta geçtiğini, hangi cümleyle geçtiğini ve hangi sayfanın kaynak gösterildiğini elle kaydediyoruz. Promptlar bir kez yazılır ve değişmez, marka adı prompta konmaz. İlk aylarda sonuç sıfıra yakın okunur ve ilk sinyal kısıt sorularından gelir; SIM Baskı Malzemeleri'nde bu sayı altı ayın sonunda sıfırdan 40 bine çıktı.",
+          en: "The unit of measurement is how often you are named, not where you rank. Our own method is a fixed 10-prompt monthly round: each month the same 10 questions — four category, three constraint, three comparison — go to ChatGPT, Gemini and Perplexity, and we record by hand how many answers name the brand, in which sentence, and which page is cited. The prompts are written once and never change, and the brand name stays out of them. The first months read close to zero and the first signal arrives on the constraint questions; at SIM Printing Suppliers that number went from zero to 40,000 after six months.",
         },
       },
       {
@@ -5861,15 +6060,15 @@ export const ARTICLES: ArticleContent[] = [
     tags: ["geo", "ai-seo", "icerik-stratejisi"],
     authorSlug: "burak-ozgul",
     publishedAt: "2026-01-14",
-    readingMinutes: 7,
+    readingMinutes: 14,
     seo: {
       title: {
         tr: "Yapay zeka arama optimizasyonu: GEO rehberi",
         en: "Generative engine optimization: AI search guide",
       },
       description: {
-        tr: "ChatGPT ve Google AI Overviews sizi neden anmıyor? Trafiği %70 eriyen sitede bozulan bir şey yoktu. Yanıt-öncelikli mimari, sahadan ölçülmüş kanıtla.",
-        en: "Why do ChatGPT and Google AI Overviews skip you? One site lost 70% of traffic with nothing broken. Answer-first architecture, proven with field numbers.",
+        tr: "Yapay zeka optimizasyonu, GEO ve AEO aynı işin üç adı. ChatGPT ile Gemini'nin kimi kaynak gösterdiğini 10 promptluk aylık turla nasıl ölçtüğümüzü anlatıyoruz.",
+        en: "AI optimisation, GEO and AEO name one job. How ChatGPT and Gemini pick the sources they cite, and the fixed 10-prompt monthly round we run to measure it.",
       },
     },
   },
@@ -6225,6 +6424,3644 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "OdorGo, olmayan bir kategoride sekiz ayda 10 milyon TL ciroya ulaştı; filmler 10 milyonu aştı. Marka konumlandırma, prodüksiyon eşiği ve telefonun sınırı.",
         en: "OdorGo built a 10 million lira category in eight months and its films passed 10 million views. Brand positioning, production thresholds, phone-shoot limits.",
+      },
+    },
+  },
+  {
+    slug: {
+      tr: "ai-donusumu-nedir",
+      en: "what-is-ai-transformation",
+    },
+    title: {
+      tr: "AI dönüşümü nedir? Tedarikçi sunumunun cevaplamadığı soru",
+      en: "What is AI transformation? The question the vendor deck skips",
+    },
+    excerpt: {
+      tr: "Sanayi şirketlerinin masasındaki tedarikçi sunumu hangi sürecin kaç lira geri getireceğini yazmıyor. AI dönüşümünü dört aşamada kuruyorum — teşhis, veri, pilot, ölçekleme — ve hangi işlerde kazanç çıktığını, hangilerinde çıkmadığını sahadan ölçülmüş rakamlarla anlatıyorum.",
+      en: "The vendor deck on the industrial buyer's desk never says which process returns how much money. Here I build AI transformation in four stages — diagnosis, data, pilot, scale — and set out where it pays off and where it does not, using numbers measured in the field.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Sanayi şirketlerinde AI dönüşümü konuşmak için masaya oturduğumuzda karşımıza çoğu zaman aynı doküman çıkıyor: bir tedarikçinin hazırladığı, onlarca sayfalık bir sunum. İçinde mimari şema var, kullanım senaryosu var, bir de bütçe var. Eksik olan tek şey, bu şirkette hangi sürecin o bütçeden kaç lira geri çıkaracağı. Patron dönüşüm liderine soruyu sorduğunda — yapay zeka ile ne yapıyoruz — cevabı o sunum vermiyor.",
+          en: "When we sit down with an industrial company to talk about AI transformation, the same document tends to appear: a vendor deck running to dozens of pages. It carries architecture diagrams, use cases and a budget. The one thing missing is which process inside this particular company returns how much money on that budget. When the owner asks the transformation lead the question — what are we doing with AI — the deck has no answer.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazı o boşluğu doldurmak için var. AI dönüşümünün ne olduğunu, dijital dönüşümden nerede ayrıldığını, hangi işlerde kazanç çıkarıp hangilerinde çıkarmadığını ve dört aşamalı bir yapay zeka yol haritasının nasıl kurulduğunu anlatıyor. Buradaki rakamların hepsi kendi müşterilerimizde ölçüldü; sektör ortalaması ya da tedarikçi vaadi değil.",
+          en: "This article exists to close that gap. It sets out what AI transformation is, where it parts ways with digital transformation, which kinds of work pay it back and which do not, and how a four-stage AI roadmap gets built. Every number here was measured on our own clients; none of it is an industry average or a vendor promise.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ai-donusumu-nedir",
+        text: {
+          tr: "AI dönüşümü nedir?",
+          en: "What is AI transformation?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI dönüşümü, bir şirketin tekrar eden karar ve üretim işlerini yapay zekaya devrederek süre, maliyet ve kapasite yapısını kalıcı olarak değiştirmesidir. Teknoloji satın alma işi değil, süreç yeniden tasarlama işidir: modeli kurmak toplam işin en küçük parçasıdır. Dönüşüm kelimesi tek bir testle hak edilir — pilot bittikten sonra sürecin birim süresi eski hâline dönmüyorsa dönüşüm olmuştur, dönüyorsa deneme yapılmıştır.",
+          en: "AI transformation is a company handing its repeated decision and production work over to artificial intelligence, and permanently changing its time, cost and capacity structure in doing so. It is process redesign rather than a technology purchase: building the model is the smallest part of the job. The word transformation earns itself through one test — if the unit time of the process does not creep back after the pilot ends, a transformation happened; if it does creep back, an experiment happened.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç bileşeni var. Devredilecek bir süreç, o süreci besleyen bir veri kaydı ve sonucu ölçen bir kural. Üçünden biri eksikse ortaya çıkan şey dönüşüm değil, demo olur — demoların ortak kaderi ise ilk bütçe görüşmesinde kapanmaktır. Yapay zeka dönüşümü tabirini de aynı anlamda kullanıyorum; ikisi arasında kavramsal bir fark yok, yalnızca kimin hangi kelimeyi aradığı değişiyor.",
+          en: "Three components hold it together. A process to hand over, a data record that feeds that process, and a rule that measures the outcome. With any one of the three missing, what you get is a demo rather than a transformation — and demos share a single fate: they close at the first budget review. Some people call the same thing an AI-driven business transformation; the concept does not change, only the phrase each buyer searches for.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir ayrım daha gerekiyor: yapay zeka kullanmak ile AI dönüşümü aynı şey değil. Ekibinizden on kişi metin üretmek için bir sohbet aracı açıyorsa şirket yapay zeka kullanıyordur, ama süreç değişmemiştir; iş hâlâ aynı kişide, aynı adımda ve aynı kuyrukta bekliyordur. Dönüşüm, aracın bireysel masada değil sürecin içinde durmasıdır — çıktısı ölçülür, sahibi bellidir ve o kişi ayrıldığında kaybolmaz.",
+          en: "One more distinction is needed: using AI and transforming with it are not the same thing. If ten people on your team open a chat tool to draft text, the company is using AI, yet the process has not changed; the work still sits with the same person, at the same step, in the same queue. Transformation means the tool sits inside the process rather than on an individual desk — its output is measured, it has an owner, and it does not vanish when that person leaves.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ai-donusumu-dijital-donusum-farki",
+        text: {
+          tr: "AI dönüşümü ile dijital dönüşüm aynı şey mi?",
+          en: "Are AI transformation and digital transformation the same thing?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı şey değil; biri diğerinin önkoşulu. Dijital dönüşüm, kâğıt üstünde ve insanların kafasında duran işi kayda geçirir: ERP (kurumsal kaynak planlama), formlar, izlenebilir iş akışları. AI dönüşümü o kaydın üstüne bir karar katmanı koyar — sınıflandırma, tahmin, metin ve teklif üretimi gibi işleri insandan alır.",
+          en: "They are not the same, and one is the precondition of the other. Digital transformation turns work that lives on paper and in people's heads into a record: ERP (enterprise resource planning), forms, traceable workflows. AI transformation puts a decision layer on top of that record — it takes classification, prediction, drafting and quoting off the human's desk.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçüleri de ayrı. Dijital dönüşümün ölçüsü izlenebilirliktir: sürecin hangi adımda, kimde ve ne kadar beklediğini görebiliyor musunuz. AI dönüşümünün ölçüsü birim çıktıdır: bir teklifin, bir raporun, bir siparişin insan başına kaç dakika tuttuğu. Birincisi görünürlük kazandırır, ikincisi kapasite.",
+          en: "Their measures differ too. Digital transformation is measured by traceability: can you see at which step, with whom and for how long the process is waiting. AI transformation is measured by unit output: how many minutes per person a quote, a report or an order consumes. The first buys you visibility, the second buys you capacity.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sıra bozulunca maliyet çıkar. ERP'si olmayan, siparişini telefonla alan bir fabrikada kurulan yapay zeka pilotu, modelin öğreneceği kaydı bulamaz ve proje sessizce bir veri toplama projesine dönüşür. Böyle bir tabloda doğru ilk adım yapay zeka değil, [dijital dönüşüm](/hizmetler/dijital-donusum) tarafındaki kayıt altyapısıdır. Sırayı atlamak kimsenin sermayesini kurtarmıyor.",
+          en: "Reverse the order and you pay for it. An AI pilot set up in a plant with no ERP, taking its orders over the phone, finds no record for the model to learn from, and the project quietly becomes a data collection project instead. In that picture the correct first step is not AI but the record infrastructure on the [digital transformation](/hizmetler/dijital-donusum) side. Skipping the order has never saved anyone capital.",
+        },
+      },
+      {
+        type: "h2",
+        id: "hangi-islerde-kazanc-cikar",
+        text: {
+          tr: "Hangi işlerde yapay zeka kazanç çıkarır, hangilerinde çıkarmaz?",
+          en: "Which work does AI pay off on, and which does it not?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka; sık tekrarlanan, dijital iz bırakan ve hatası fark edilip düzeltilebilen işlerde kazanç çıkarır. Nadir yapılan, kaydı olmayan ve hatası sessizce ilerleyen kararlarda çıkarmaz. Aradaki farkı üç filtreyle ayırıyoruz ve bu filtre, işletmelerde yapay zeka kullanımı sorusunun en pratik cevabıdır.",
+          en: "AI pays off on work that repeats often, leaves a digital trace, and fails in ways someone notices and can correct. It does not pay off on decisions made rarely, kept in nobody's records, and wrong in ways nobody sees. We separate the two with three filters, and those filters are the most practical answer to the question of where AI belongs in a business.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Tekrar: süreç ayda yüzlerce kez çalışıyor mu? Ayda üç kez yapılan bir iş, kurulum maliyetini hiçbir doğruluk oranıyla geri ödemez.",
+            en: "Repetition: does the process run hundreds of times a month? Work done three times a month will not repay its setup cost at any level of model accuracy.",
+          },
+          {
+            tr: "Kayıt: süreç bugün dijital bir iz bırakıyor mu — e-posta, ERP satırı, form, kayıt dosyası? İz yoksa modelin öğreneceği bir geçmiş de yok.",
+            en: "Record: does the process leave a digital trace today — an email, an ERP row, a form, a log file? With no trace there is no history for the model to learn from.",
+          },
+          {
+            tr: "Görünür hata: çıktı yanlış olduğunda birileri bunu aynı gün fark ediyor mu? Fark edilmeyen hata, otomasyonla birlikte ölçeklenir.",
+            en: "Visible error: when the output is wrong, does somebody catch it the same day? An error nobody catches scales alongside the automation.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Filtrelerden düşen işler de en az geçenler kadar öğreticidir. Yılda üç kez verilen bir yatırım kararı, on beş yıllık bir ustanın sesle teşhis ettiği rulman arızası ya da darboğazı veri değil imza yetkisi olan bir onay süreci — bunların hiçbirinde yapay zeka kazanç çıkarmaz. Onay süreci yavaşsa sorun modelde değil, yetki matrisindedir ve orayı düzeltmek yazılım değil yönetim işidir.",
+          en: "The work that fails the filters teaches as much as the work that passes. An investment decision taken three times a year, a bearing fault a fifteen-year machinist diagnoses by ear, an approval step whose bottleneck is signature authority rather than data — AI returns nothing on any of them. If approvals are slow, the fault sits in the authority matrix, not in the model, and fixing it is a management job rather than a software one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü bir dışlama kuralı daha var: sonucu geri alınamayan kararlar. İş güvenliği, ürün uygunluğu ve yasal yükümlülük taşıyan adımlarda yapay zeka karar veren taraf olarak değil, hazırlayan taraf olarak kurulur. Modelin taslağı hazırlaması ile onayı vermesi arasındaki fark bir dönüşüm projesinin en pahalı ayrıntısıdır ve pilot kapsamına yazılmadan geçilmez.",
+          en: "A fourth exclusion rule applies: decisions that cannot be undone. On steps carrying workplace safety, product conformity or legal liability, AI is set up as the party that prepares, never the party that decides. The distance between a model drafting and a model approving is the most expensive detail in a transformation project, and it never gets passed over without being written into the pilot scope.",
+        },
+      },
+      {
+        type: "quote",
+        text: {
+          tr: "Bozuk bir süreci otomatikleştirirseniz, hatayı da otomatikleştirmiş olursunuz — yalnızca daha hızlı.",
+          en: "Automate a broken process and you have automated the mistake along with it — only faster.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yapay-zeka-yol-haritasi",
+        text: {
+          tr: "Yapay zeka yol haritası kaç aşamadan oluşur?",
+          en: "How many stages does an AI roadmap have?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dört aşamadan oluşur: teşhis ve süreç seçimi, veri hazırlığı, pilot, ölçekleme ve ROI. Sıra pazarlık konusu değildir, çünkü her aşama bir sonrakinin girdisini üretir — pilotun başarı ölçüsünü teşhis yazar, ölçeklemenin iş vakasını pilot yazar. Aşağıdaki süreler bizim kapsamlama tercihimizdir, bir sektör normu değil.",
+          en: "It has four: diagnosis and process selection, data preparation, pilot, then scale and ROI. The order is not negotiable, because each stage produces the input for the next — diagnosis writes the pilot's success measure, and the pilot writes the business case for scaling. The durations below are how we scope the work, not an industry norm.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Aşama 1 — Teşhis ve süreç seçimi",
+          en: "Stage 1 — Diagnosis and process selection",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Teşhis, şirketin yapay zekaya ne kadar hazır olduğunu değil, süreçlerinin sayısını ölçer. İki ile dört hafta içinde ilgili birimlerin tekrar eden işleri çıkarılır, her birinin yıllık insan-saati ve hata maliyeti yaklaşık olarak hesaplanır, üç filtreden geçenler kısa listeye alınır. Çıktı bir rapor değil, sıralanmış üç ile beş süreçtir; listenin ilk satırı pilot adayıdır.",
+          en: "Diagnosis measures the number of a company's processes, not how ready it is for AI. Over two to four weeks the repeated work of the relevant units is listed, each item's annual person-hours and error cost are estimated, and whatever passes the three filters goes onto a short list. The output is not a report but three to five ranked processes; the first line of that list is the pilot candidate.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Aşama 2 — Veri hazırlığı",
+          en: "Stage 2 — Data preparation",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Veri hazırlığı, seçilen sürecin kaydını görünür kılar: kayıt nerede duruyor, kim güncelliyor, hangi alanları boş, ne kadar geriye gidiyor. Çıkan tablo çoğu zaman rahatsız edicidir — teklif geçmişi üç ayrı klasörde, ürün verisi tedarikçi tablolarında, müşteri yazışması kişisel posta kutularında. Bu aşamayı atlayan projelerin pilotu veri temizliğine dönüşür ve takvim taşar.",
+          en: "Data preparation makes the chosen process's record visible: where it sits, who updates it, which fields are empty, how far back it goes. The picture is usually uncomfortable — quote history spread across three folders, product data in supplier spreadsheets, customer correspondence in personal mailboxes. Projects that skip this stage watch their pilot turn into a data cleanup exercise, and the schedule slips.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Aşama 3 — Pilot",
+          en: "Stage 3 — Pilot",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pilot tek süreçte, sekiz ile on iki hafta içinde ve tek bir başarı ölçüsüyle kurulur. Baştan bir de durdurma eşiği yazılır: hangi rakama ulaşılamazsa proje kapanır. Önce pilot yaklaşımının nedeni bütçe kısıtı değil, öğrenme hızıdır — bir süreçte on iki haftada öğrendiğinizi, beş süreçte on iki ayda öğrenirsiniz ve o sırada ilk varsayımınız çoktan eskimiş olur.",
+          en: "The pilot runs on one process, inside eight to twelve weeks, against a single success measure. A stopping threshold is written at the start too: the number that, if unmet, closes the project. The reason for going pilot-first is not a tight budget but learning speed — what one process teaches you in twelve weeks, five processes teach you in twelve months, by which point your first assumption has already aged out.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Aşama 4 — Ölçekleme ve ROI",
+          en: "Stage 4 — Scale and ROI",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçekleme, pilotun rakamını iş vakasına çevirmekle başlar. ROI (yatırım getirisi) hesabı üç kalemden kurulur: kazanılan insan-saatin parasal karşılığı, kaçırılmayan işin katkısı ve modelin çalıştırma maliyeti. Üçüncü kalemi hesaba katmayan iş vakaları ilk faturada çöker; kullanım ücreti, entegrasyon bakımı ve insan denetimi kalıcı gider kalemleridir. Bir de sahiplik sorusu var: pilotun bir süreç sahibi yoksa ölçeğe çıkmaz, çünkü kararı verecek kimse yoktur.",
+          en: "Scaling starts by turning the pilot's number into a business case. The ROI (return on investment) calculation rests on three items: the monetary value of the person-hours recovered, the contribution of work no longer lost, and the running cost of the model. Business cases that ignore the third item collapse at the first invoice; usage fees, integration maintenance and human review are permanent line items. Then comes ownership: a pilot without a process owner never scales, because nobody is left to make the call.",
+        },
+      },
+      {
+        type: "h2",
+        id: "isletmelerde-yapay-zeka-kullanimi",
+        text: {
+          tr: "İşletmelerde yapay zeka kullanımı sahada neye benziyor?",
+          en: "What does AI in business look like on the ground?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sahada işleyen kurulumlar birbirine benzemiyor ama başlangıçları benziyor: hiçbiri yapay zeka stratejisiyle başlamadı, üçü de tek bir sürecin darboğazıyla başladı. Üç örnek, üç ayrı iş kolu.",
+          en: "The installations that work in the field do not resemble one another, but their beginnings do: none started with an AI strategy, and all three started with the bottleneck of a single process. Three examples, three different lines of business.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[Meccanotecnica Umbra](/vakalar/meccanotecnica-umbra-teklif-portali) endüstriyel bir üretici ve darboğazı teklif süreciydi: bir mühendis tesisini anlatıyor, uygun donanımı çıkarmak günler alıyordu. Süreci bir AI teknik danışmanına devrettik — mühendis tesisini tek formda anlatıyor, sistem tüm fabrikaya uygun donanımı bir seferde çıkarıyor. Teklif talebi 10 katına çıktı, yanıt süresi %90 kısaldı. Değişen şey ürün değildi, alıcının cevap bekleme süresiydi.",
+          en: "[Meccanotecnica Umbra](/vakalar/meccanotecnica-umbra-teklif-portali) is an industrial manufacturer, and its bottleneck was quoting: an engineer described the plant, and producing the right equipment list took days. We handed the process to an AI technical advisor — the engineer describes the plant in one form, and the system lays out equipment for the whole facility in a single pass. Quote requests rose tenfold and response time fell by 90%. The product did not change; the buyer's waiting time did.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "MKComputer'da darboğaz katalogdaydı. Tedarikçi verisiyle mağaza arasındaki eşleştirme elle yapıldığında binlerce ürün her zaman geriden geliyordu; kurduğumuz akış 200.000'den fazla ürünü beş dakikada senkronluyor ve süreçte sıfır manuel adım kalıyor. Bu iş bir model eğitmekle değil, [iş otomasyonları](/hizmetler/is-otomasyonlari) tarafındaki akış tasarımıyla çözüldü — her AI dönüşümü kaleminin bir model gerektirmediğinin en net örneği.",
+          en: "At MKComputer the bottleneck sat in the catalogue. Matching supplier data to the storefront by hand left thousands of products permanently behind; the flow we built syncs more than 200,000 products in five minutes with zero manual steps left in the process. That was solved by flow design on the [business automation](/hizmetler/is-otomasyonlari) side rather than by training a model — the clearest proof that not every line of an AI transformation needs one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "SIM Baskı Malzemeleri'nde dönüşüm görünürlük tarafındaydı: kırk yıllık teknik bilgi hiçbir yerde yazılı olmadığı için ne arama motoru ne de yanıt asistanı şirketi alıntılayabiliyordu. İçerik mimarisi yeniden kurulduktan sonra AI motorlarındaki görünürlük sıfırdan 40 bine çıktı. Üç vakanın ortak dersi şu: kazanç modelin zekasından değil, seçilen sürecin doğruluğundan geliyor.",
+          en: "At SIM Printing Suppliers the transformation sat on the visibility side: forty years of technical knowledge existed nowhere in writing, so neither a search engine nor an answer assistant could cite the company. Once the content architecture was rebuilt, visibility across AI engines went from zero to 40,000. The shared lesson of all three cases: the gain comes from picking the right process, not from the intelligence of the model.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yapay-zeka-ile-verimlilik",
+        text: {
+          tr: "Yapay zeka ile verimlilik nasıl ölçülür?",
+          en: "How do you measure productivity gains from AI?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka ile verimlilik, sürecin birim çıktısına düşen insan-saatiyle ölçülür — model doğruluğuyla değil. Üç sayı yeterlidir: pilottan önceki durum, pilottan sonraki durum ve ölçüm penceresi. Model doğruluğu bir mühendislik göstergesidir, iş göstergesi değil; yüksek doğruluk, çıktıyı hâlâ insan baştan yazıyorsa sıfır verimliliktir.",
+          en: "Productivity from AI is measured in person-hours per unit of process output — not in model accuracy. Three numbers suffice: the state before the pilot, the state after it, and the measurement window. Model accuracy is an engineering indicator rather than a business one; high accuracy delivers zero productivity if a human still rewrites the output from scratch.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçmenin en zor kısmı başlangıç noktasını kaydetmektir ve bunun tek zamanı pilottan öncedir. Süreç bir kez değiştikten sonra eski hâlini kimse hatırlamıyor; hatırlayanlar da iyimser hatırlıyor. Teşhis aşamasında ölçülen insan-saat, ölçekleme aşamasında iş vakasının paydası olur — o yüzden teşhis raporu, yol haritasının en çok geri dönülen belgesidir.",
+          en: "The hardest part of measuring is recording the starting point, and the only moment for that is before the pilot. Once a process has changed, nobody remembers its old shape; those who do remember it optimistically. The person-hours measured during diagnosis become the denominator of the business case at the scaling stage — which is why the diagnosis document is the one people return to most.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci bir gösterge daha var: sürecin kuyruğu. Teklif, rapor ya da sipariş kuyruğunda bekleyen iş sayısı düşmüyorsa kazanılan süre başka bir darboğaza gitmiş demektir. Meccanotecnica'daki %90'lık yanıt süresi kısalması bu yüzden anlamlı bir rakam — kuyruğun kendisi kısaldı, iş yalnızca yer değiştirmedi.",
+          en: "A second indicator sits alongside it: the queue. If the number of items waiting in the quote, report or order queue does not fall, the time you saved has simply moved to another bottleneck. That is why the 90% cut in response time at Meccanotecnica counts — the queue itself got shorter rather than the work merely relocating.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ai-donusum-danismanligi-ne-zaman",
+        text: {
+          tr: "AI dönüşüm danışmanlığı ne zaman gerekir, ne zaman gerekmez?",
+          en: "When do you need AI transformation consulting, and when do you not?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI dönüşüm danışmanlığı, şirkette süreç bilgisi olup dönüşüm tasarımı olmadığında gerekir. Tek bir aracın kurulması gerekiyorsa gerekmez — o iş satın alma işidir ve danışmanlıkla pahalılaştırılmamalıdır. Ayrım basit: sorunuz hangi ürünü alalım ise danışman gereksiz, hangi süreci devredelim ise gerekli.",
+          en: "AI transformation consulting is needed when a company holds the process knowledge but not the design of the transformation. It is not needed when a single tool has to be installed — that is a procurement job and should not be made expensive by consulting. The distinction is simple: if your question is which product to buy, skip the consultant; if it is which process to hand over, you need one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İyi bir yapay zeka dönüşüm danışmanlığı ilk toplantıda araç adı vermez; süreç sorar, kayıt sorar, kimin ölçtüğünü sorar. Bir tedarikçi sunumunu değerlendirirken hangi soruların ayırt edici olduğunu ayrı bir yazıda topladım: [AI danışmanı seçerken sorulacak 12 soru](/yazilar/ai-danismani-secerken-sorulacak-12-soru). Teşhisin ilk turunu kendi ekibinizle yapmanız da mümkün; aşağıdaki bir saatlik test tam olarak bunun için.",
+          en: "Good AI transformation consulting names no tool in the first meeting; it asks about the process, the record, and who does the measuring. I have collected the questions that separate a serious partner from a deck in a separate piece: [12 questions to ask when choosing an AI consultant](/yazilar/ai-danismani-secerken-sorulacak-12-soru). Running the first round of diagnosis with your own team is entirely possible; the one-hour test below is built for exactly that.",
+        },
+      },
+      {
+        type: "h2",
+        id: "pilottan-olcege-gecis",
+        text: {
+          tr: "Pilot neden çoğu şirkette ölçeğe çıkmıyor?",
+          en: "Why do most pilots never reach scale?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç neden görüyoruz. Başlangıç ölçüsü kaydedilmemiştir, dolayısıyla pilot başarılı olsa bile ispatlanamaz. Sahibi yoktur; proje bilgi işlemin sırtındadır ve süreci yöneten birim sonucu savunmaz. Kapsamı süreç değil departmandır — bir departmanın tamamını dönüştürmeye kalkan pilot, on iki haftada bitirilemeyecek kadar çok paydaşa bağlanır.",
+          en: "We see three reasons. The starting measure was never recorded, so even a successful pilot cannot be proven. The pilot has no owner; it rides on the IT department's back while the unit that runs the process defends nothing. Its scope is a department rather than a process — a pilot that sets out to transform a whole department ties itself to more stakeholders than twelve weeks can carry.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü bir neden daha var, daha az konuşulanı: pilot çalıştı ama kimse süreci yeniden yazmadı. Model teklifi üretiyor, ancak onay adımları eski hâliyle duruyorsa kazanılan süre onay kuyruğunda eriyor. Dönüşüm, teknolojinin süreçle birlikte değişmesidir; yalnız teknoloji değişirse geriye pahalı bir eklenti kalır ve o eklenti bir sonraki bütçe döneminde kapatılır.",
+          en: "A fourth reason gets less airtime: the pilot worked, but nobody rewrote the process. The model drafts the quote, yet if the approval steps stand exactly as they did, the time saved dissolves in the approval queue. Transformation means the technology and the process change together; when only the technology changes, what remains is an expensive add-on, and add-ons get cancelled in the next budget cycle.",
+        },
+      },
+      {
+        type: "h2",
+        id: "bir-saatlik-teshis",
+        text: {
+          tr: "Yarın sabah yapabileceğiniz bir saatlik teşhis",
+          en: "The one-hour diagnosis you can run tomorrow morning",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kimseyi beklemeden yapabileceğiniz bir test var. Ekibinizin son bir ayda en çok tekrarladığı beş işi bir kâğıda yazın. Her satırın yanına üç şey koyun: ayda kaç kez tekrarlandığı, kaydının nerede durduğu, hata olduğunda aynı gün fark edilip edilmediği. Üç sütunu birden dolduran ilk satır sizin pilot adayınızdır — ve o satırı bulmak için hiçbir tedarikçiye ihtiyacınız yok.",
+          en: "There is a test you can run without waiting for anyone. Write down the five tasks your team repeated most in the past month. Beside each line put three things: how many times a month it runs, where its record sits, and whether a mistake gets caught the same day. The first line that fills all three columns is your pilot candidate — and finding it costs you nothing and no vendor.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sonra o satırın yıllık insan-saatini kabaca hesaplayın: kaç dakika sürüyor, ayda kaç kez, kaç kişi. Rakam tek bir kişinin yıllık maliyetinin altındaysa pilot beklemeye alınır; üstündeyse elinizde bir iş vakası vardır ve yol haritasının birinci aşamasını kendi başınıza tamamlamışsınız demektir.",
+          en: "Then work out that line's annual person-hours roughly: how many minutes it takes, how many times a month, how many people. If the figure sits below the annual cost of one employee, the pilot waits; if it sits above, you are holding a business case and you have completed the roadmap's first stage on your own.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI dönüşümü bir teknoloji programı değil, doğru süreci seçme disiplinidir; kazanç modelin zekasından değil, seçimin isabetinden çıkar. Bu disiplinin nasıl kurulduğunu ve nerede durduğunu rakamlarıyla görmek isterseniz [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) sayfası ile vaka kayıtlarımız açık duruyor.",
+          en: "AI transformation is not a technology programme but the discipline of choosing the right process; the gain comes from the accuracy of that choice, not the intelligence of the model. If you want to see how the discipline is built and where it stops, with the numbers attached, our [AI consulting](/hizmetler/ai-danismanlik) page and our case records are open.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "AI dönüşümü tek cümleyle nasıl tanımlanır?",
+          en: "How is AI transformation defined in one sentence?",
+        },
+        answer: {
+          tr: "AI dönüşümü, bir şirketin tekrar eden karar ve üretim işlerini yapay zekaya devrederek süre, maliyet ve kapasite yapısını kalıcı olarak değiştirmesidir. Teknoloji satın alma işi değil, süreç yeniden tasarlama işidir: modeli kurmak toplam işin en küçük parçasıdır. Üç bileşeni vardır — devredilecek bir süreç, o süreci besleyen bir veri kaydı ve sonucu ölçen bir kural. Üçünden biri eksikse ortaya çıkan şey dönüşüm değil, demodur.",
+          en: "AI transformation is a company handing its repeated decision and production work to artificial intelligence, and permanently changing its time, cost and capacity structure in doing so. It is process redesign rather than a technology purchase: building the model is the smallest part of the job. Three components hold it together — a process to hand over, a data record feeding that process, and a rule that measures the outcome. Miss one of the three and what you have is a demo.",
+        },
+      },
+      {
+        question: {
+          tr: "AI dönüşümü ile dijital dönüşüm arasındaki fark nedir?",
+          en: "What is the difference between AI transformation and digital transformation?",
+        },
+        answer: {
+          tr: "Dijital dönüşüm, kâğıt üstünde ve insanların kafasında duran işi kayda geçirir: ERP, formlar, izlenebilir iş akışları. AI dönüşümü o kaydın üstüne bir karar katmanı koyar; sınıflandırma, tahmin ve metin üretimi gibi işleri insandan alır. Ölçüleri de ayrıdır: dijital dönüşümün ölçüsü izlenebilirlik, AI dönüşümünün ölçüsü birim çıktının süresi ve maliyetidir. Sıra önemlidir — kaydı olmayan bir süreçte kurulan pilot, modelin öğreneceği geçmişi bulamaz.",
+          en: "Digital transformation turns work living on paper and in people's heads into a record: ERP, forms, traceable workflows. AI transformation puts a decision layer on top of that record, taking classification, prediction and drafting off the human's desk. Their measures differ as well: digital transformation is measured by traceability, AI transformation by the time and cost of a unit of output. Order matters — a pilot built on a process with no record finds no history for the model to learn.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka yol haritası nasıl hazırlanır?",
+          en: "How do you build an AI roadmap?",
+        },
+        answer: {
+          tr: "Yol haritası dört aşamada kurulur: teşhis ve süreç seçimi, veri hazırlığı, pilot, ölçekleme ve ROI. Teşhis aşamasında tekrar eden işler çıkarılır ve üç filtreden geçenler sıralanır; veri hazırlığında seçilen sürecin kaydı görünür kılınır; pilot tek süreçte, sekiz ile on iki haftada ve tek başarı ölçüsüyle kurulur; ölçekleme aşamasında pilotun rakamı iş vakasına çevrilir. Sıra pazarlık konusu değildir, çünkü her aşama bir sonrakinin girdisini üretir.",
+          en: "An AI roadmap is built in four stages: diagnosis and process selection, data preparation, pilot, then scale and ROI. Diagnosis lists the repeated work and ranks whatever passes the three filters; data preparation makes the chosen process's record visible; the pilot runs on one process, inside eight to twelve weeks, against a single success measure; scaling turns the pilot's number into a business case. The order is not negotiable, because each stage produces the input for the next.",
+        },
+      },
+      {
+        question: {
+          tr: "AI pilot projesi ne kadar sürer?",
+          en: "How long does an AI pilot take?",
+        },
+        answer: {
+          tr: "Pilot süresini biz sekiz ile on iki hafta olarak kapsamlıyoruz ve tek bir sürece bağlıyoruz. Süre uzarsa neden genellikle model değil veri olur: kayıt dağınıksa pilot, veri temizleme projesine dönüşür ve takvim taşar. Veri hazırlığının ayrı bir aşama olmasının nedeni tam olarak budur. Pilotun başında bir durdurma eşiği yazmak da süreyi korur — hangi rakama ulaşılamazsa projenin kapanacağı baştan bellidir.",
+          en: "We scope a pilot at eight to twelve weeks and tie it to a single process. When it runs long, the cause is usually the data rather than the model: a scattered record turns the pilot into a cleanup project and the schedule slips. That is precisely why data preparation is its own stage. Writing a stopping threshold at the start protects the timeline too — everyone knows from day one which number, if unmet, closes the project.",
+        },
+      },
+      {
+        question: {
+          tr: "İşletmelerde yapay zeka kullanımı hangi süreçlerde kazanç çıkarır?",
+          en: "Which business processes does AI actually pay off on?",
+        },
+        answer: {
+          tr: "Kazanç; sık tekrarlanan, dijital iz bırakan ve hatası aynı gün fark edilebilen süreçlerden çıkar. Teklif hazırlama, katalog ve ürün verisi eşleştirme, teknik doküman üretimi, gelen müşteri yazışmasının sınıflandırılması bu tanıma uyar. Ayda üç kez yapılan işler, kaydı olmayan usta bilgisi ve darboğazı imza yetkisi olan onay süreçleri uymaz. Ölçüt sürecin şirket içindeki görünür önemi değil, tekrar sayısı ile kaydının varlığıdır.",
+          en: "The gain comes from processes that repeat often, leave a digital trace, and fail in ways someone catches the same day. Quote preparation, catalogue and product data matching, technical document drafting, and classifying inbound customer correspondence all fit. Work done three times a month, undocumented craft knowledge, and approval steps bottlenecked on signature authority do not. The criterion is repetition and the existence of a record, not how important the process looks on the org chart.",
+        },
+      },
+      {
+        question: {
+          tr: "Verimlilik kazancı hangi göstergelerle izlenir?",
+          en: "Which indicators track a productivity gain?",
+        },
+        answer: {
+          tr: "Verimlilik, sürecin birim çıktısına düşen insan-saatiyle ölçülür; model doğruluğu bir mühendislik göstergesidir, iş göstergesi değildir. Üç sayı yeterlidir: pilottan önceki durum, pilottan sonraki durum ve ölçüm penceresi. İkinci bir gösterge kuyruktur — teklif veya sipariş kuyruğunda bekleyen iş sayısı düşmüyorsa kazanılan süre başka bir darboğaza gitmiştir. Başlangıç noktası pilottan önce kaydedilmezse sonuç ispatlanamaz.",
+          en: "Productivity is measured in person-hours per unit of process output; model accuracy is an engineering indicator rather than a business one. Three numbers suffice: the state before the pilot, the state after it, and the measurement window. A second indicator is the queue — if the number of items waiting in the quote or order queue does not fall, the time saved has moved to another bottleneck. Without a starting point recorded before the pilot, no result can be proven.",
+        },
+      },
+      {
+        question: {
+          tr: "AI dönüşüm danışmanlığı ne iş yapar?",
+          en: "What does AI transformation consulting actually do?",
+        },
+        answer: {
+          tr: "AI dönüşüm danışmanlığı, süreç seçimi ile ölçüm çerçevesini kurar ve pilotu iş vakasına bağlar. Somut çıktıları şunlardır: tekrar eden süreçlerin envanteri, üç filtreden geçen kısa liste, veri kaydının durum tespiti, pilot kapsamı ile durdurma eşiği, ölçekleme için ROI hesabı. Araç seçimi bu işin sonucudur, başlangıcı değil. Tek bir aracın kurulumu gerekiyorsa danışmanlık değil, satın alma yeterlidir.",
+          en: "AI transformation consulting sets up process selection and the measurement frame, then ties the pilot to a business case. Its concrete outputs are an inventory of repeated processes, a short list of those passing the three filters, an assessment of the data record, the pilot scope with its stopping threshold, and an ROI calculation for scaling. Tool selection is the result of that work, not its starting point. If a single tool needs installing, procurement is enough.",
+        },
+      },
+      {
+        question: {
+          tr: "AI dönüşümü küçük ve orta ölçekli şirketler için mantıklı mı?",
+          en: "Does AI transformation make sense for small and mid-sized companies?",
+        },
+        answer: {
+          tr: "Ölçek değil, tekrar sayısı belirleyicidir. Elli kişilik bir şirkette ayda binlerce kez tekrarlanan bir katalog eşleştirme işi, beş yüz kişilik bir şirkette yılda üç kez verilen yatırım kararından çok daha iyi bir pilot adayıdır. MKComputer örneğinde 200.000'den fazla ürünün beş dakikada senkronlanması tam da bu tekrar hacminden çıktı. Küçük şirketin asıl dezavantajı bütçe değil, süreç sahibinin aynı anda üç işi yürütmesidir.",
+          en: "Repetition decides this, not headcount. A catalogue matching task running thousands of times a month in a fifty-person company is a far better pilot candidate than an investment decision taken three times a year in a five-hundred-person one. At MKComputer, syncing more than 200,000 products in five minutes came out of exactly that volume of repetition. The real disadvantage for a smaller company is not budget but a process owner already running three jobs at once.",
+        },
+      },
+      {
+        question: {
+          tr: "AI dönüşümü çalışanların işini elinden alır mı?",
+          en: "Does AI transformation take jobs away from employees?",
+        },
+        answer: {
+          tr: "Devredilen şey genellikle işin kendisi değil, işin tekrar eden parçasıdır. Meccanotecnica örneğinde teklif hazırlayan mühendisler ortadan kalkmadı; teklif talebi 10 katına çıktığı için aynı ekip çok daha fazla talebi karşıladı. Risk asıl şu noktada büyüyor: süreç yeniden yazılmadan model eklenirse insan, makinenin çıktısını baştan yazan bir düzeltmene dönüşür. Rol tasarımı, model tasarımı kadar planlanmalıdır.",
+          en: "What gets handed over is usually the repeating part of a job rather than the job itself. At Meccanotecnica the engineers preparing quotes did not disappear; because quote requests rose tenfold, the same team served far more demand. The real risk grows elsewhere: if a model is bolted on without rewriting the process, the human becomes a proofreader retyping the machine's output. Role design deserves as much planning as model design.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka dönüşümünde en sık yapılan hata nedir?",
+          en: "What is the most common mistake in AI transformation?",
+        },
+        answer: {
+          tr: "En sık hata, süreç seçmeden araç seçmektir. Sunumla gelen bir platform satın alınır, sonra o platforma uyacak bir kullanım senaryosu aranır ve proje sahibini bulamadan durur. İkinci sık hata, bozuk bir süreci olduğu gibi otomatikleştirmektir; bozuk süreç otomatikleştiğinde hata da hızlanır. Üçüncüsü, başlangıç ölçüsünü kaydetmeden pilota başlamaktır — sonuç iyi olsa bile ispatlanamaz ve bütçe ikinci yıl yenilenmez.",
+          en: "The most common mistake is choosing a tool before choosing a process. A platform arrives with a deck, gets bought, and then someone hunts for a use case that fits it until the project stalls without an owner. The second is automating a broken process as it stands; automate the break and the error speeds up too. The third is starting a pilot without recording the baseline — even a good result cannot be proven, and the budget is not renewed.",
+        },
+      },
+      {
+        question: {
+          tr: "AI dönüşümünün ROI'si nasıl hesaplanır?",
+          en: "How do you calculate ROI on AI transformation?",
+        },
+        answer: {
+          tr: "ROI (yatırım getirisi) hesabı üç kalemden kurulur: kazanılan insan-saatin parasal karşılığı, kaçırılmayan işin katkısı ve modelin çalıştırma maliyeti. Üçüncü kalem çoğu iş vakasında unutulur; kullanım ücreti, entegrasyon bakımı ve insan denetimi kalıcı gider kalemleridir. Paydayı teşhis aşamasında ölçülen insan-saat oluşturur, payı ise pilot sonundaki fark. Aynı yapı ikinci sürece taşındığında ROI daha yüksek çıkar, çünkü kurulum maliyeti bir kez ödenir.",
+          en: "ROI (return on investment) rests on three items: the monetary value of the person-hours recovered, the contribution of work no longer lost, and the running cost of the model. The third item goes missing from most business cases; usage fees, integration maintenance and human review are permanent costs. The denominator comes from the person-hours measured during diagnosis, the numerator from the difference at the end of the pilot. ROI improves on the second process, because setup is paid once.",
+        },
+      },
+    ],
+    category: "transform",
+    topic: "yapay-zeka",
+    tags: [
+      "ai-donusumu",
+      "yapay-zeka-yol-haritasi",
+      "isletmelerde-yapay-zeka-kullanimi",
+      "ai-pilot-projesi",
+      "yapay-zeka-ile-verimlilik",
+    ],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-08-28",
+    readingMinutes: 11,
+    seo: {
+      title: {
+        tr: "AI dönüşümü nedir? Uçtan uca rehber",
+        en: "What is AI transformation? A pilot-first guide",
+      },
+      description: {
+        tr: "AI dönüşümü nedir, dijital dönüşümden nerede ayrılır? Dört aşamalı yapay zeka yol haritası, önce pilot yaklaşımı ve teklif talebini 10 katına çıkaran vaka.",
+        en: "What is AI transformation, and how does it differ from digital transformation? A four-stage AI roadmap, a pilot-first method, and quote requests grown tenfold.",
+      },
+    },
+  },
+  {
+    slug: {
+      tr: "ai-danismani-secerken-sorulacak-12-soru",
+      en: "12-questions-to-ask-an-ai-consultant",
+    },
+    title: {
+      tr: "Üç teklif, tek fark: yapay zeka danışmanına sorulacak 12 soru",
+      en: "Three proposals, one difference: 12 questions to ask an AI consultant",
+    },
+    excerpt: {
+      tr: "Üç teklif, aynı vaat, birbirine yakın fiyat. Farkı ilk görüşmede görmenin bir yolu var: on iki soru ve her birinin cevabında neyi aramanız gerektiği.",
+      en: "Three proposals, the same promise, near-identical prices. There is a way to tell them apart in the first meeting: twelve questions, and what to listen for in each answer.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Bir üretim şirketinin toplantı odasında üç teklif yan yana duruyordu. Üçü de yapay zekayla verimlilik vaat ediyordu, üçünün de fiyatı birbirine yakındı. Genel müdür sonunda tek bir soru sordu: bu sistem kurulduktan sonra hangi rakam, ne kadar hareket edecek? İki sağlayıcı ekranı kaydırıp demoya döndü. Üçüncüsü şunu söyledi: bugünkü taban değerinizi ölçmedim, dolayısıyla bilmiyorum — önce onu ölçelim.",
+          en: "Three proposals sat side by side in a manufacturer's meeting room. All three promised efficiency through AI, and all three cost about the same. The managing director finally asked one question: once this is live, which number moves, and by how much? Two providers scrolled back to the demo. The third said: I haven't measured your baseline yet, so I don't know — let's measure it first.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "O toplantıyı bu yazı için kurguladım; üç teklif arasındaki farkı kurgulamadım. Türkiye'de son iki yılda yapay zeka ajansı adıyla ortaya çıkan sağlayıcıların büyük kısmı aynı iki ürünü satıyor: bir sohbet botu ve bir içerik otomasyonu. İkisi de gerçek işlerdir. Ama ikisi de bir fabrikanın teklif sürecini, bir perakendecinin stok akışını veya bir servis ağının iş emri dağıtımını değiştirmez.",
+          en: "I invented that meeting for this article; I did not invent the difference between the three proposals. Most providers that have appeared in Türkiye over the past two years under the label of an AI agency sell the same two products: a chatbot and a content automation. Both are real work. Neither one changes a factory's quoting process, a retailer's stock flow or a service network's work-order routing.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ayrım şurada başlıyor: bir yapay zeka danışmanı modeli kurmakla değil, o modelin bağlanacağı süreci ve ölçüyü kurmakla ilgilenir. Aşağıdaki on iki soru bu ayrımı ilk görüşmede yüzeye çıkarmak için yazıldı. Her sorunun altında, verilen cevapta neyi aramanız gerektiği de duruyor — çünkü asıl bilgi soruda değil, sağlayıcının duraksadığı yerde.",
+          en: "The line starts here: an AI consultant is not in the business of installing a model but of building the process and the measure that model attaches to. The twelve questions below exist to bring that line to the surface in the first meeting. Under each one sits what to listen for in the answer — because the real information isn't in the question, it's in where the provider hesitates.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ajans-mi-danisman-mi",
+        text: {
+          tr: "Yapay zeka ajansı ile yapay zeka danışmanı arasındaki fark nedir?",
+          en: "What is the difference between an AI agency and an AI consultant?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka ajansı çoğunlukla bir araç teslim eder: sohbet botu, içerik akışı, hazır bir modelin arayüzü. Yapay zeka danışmanı bir sonucu taahhüt eder — hangi süreçte hangi metriğin ne kadar iyileşeceğini önceden tanımlar, işe başlamadan ölçer ve sistemi o ölçünün etrafına kurar. İkisi rakip değil, farklı işlerdir; sorun, ikisinin de aynı sunum dosyasıyla satılmasıdır. Rolün adı da henüz oturmadı: kimi AI danışmanı diyor, kimi yapay zeka danışmanı — ikisi de aynı işi tarif ediyor.",
+          en: "An AI agency usually delivers a tool: a chatbot, a content pipeline, an interface over an off-the-shelf model. An AI consultant commits to an outcome — naming in advance which metric in which process will improve and by how much, measuring it before the work starts, then building the system around that measure. They aren't rivals but different jobs; the trouble is that both get sold with the same deck. The title hasn't settled either: some say AI consultant, others AI transformation advisor — both describe the same work.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Fark akademik değil, faturaya yansıyan bir fark. Bir sohbet botu kurmak bugün birkaç gün süren bir iştir ve fiyatı da öyle olmalıdır. Bir teklif sürecinin tamamını mühendisin diline çevirmek, kataloğu, CRM'i ve yanıt akışını aynı sisteme bağlamak ise ay ölçeğinde bir mühendislik işidir — ve karşılığında ölçülebilir bir sayı verir. Bu yazının çerçevesi [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) tarafında kurduğumuz projelerden çıktı.",
+          en: "The difference is not academic; it lands on the invoice. Standing up a chatbot takes a few days today, and the price should say so. Translating an entire quoting process into an engineer's language — wiring the catalogue, the CRM and the response flow into one system — is months of engineering work, and it returns a number you can measure. The frame in this article came out of the projects we run on the [AI advisory](/hizmetler/ai-danismanlik) side.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "On iki soru, tek bakışta:",
+          en: "The twelve questions, at a glance:",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          { tr: "Model mi satıyorsunuz, sonuç mu?", en: "Are you selling a model or an outcome?" },
+          { tr: "Verim iddianızı hangi vakayla ve hangi rakamla kanıtlarsınız?", en: "Which case and which number back your efficiency claim?" },
+          { tr: "Bizim işimizde yapay zekayı nerede kullanmazsınız?", en: "Where in our business would you refuse to use AI?" },
+          { tr: "İlk pilot için hangi süreci seçerdiniz, neden o süreç?", en: "Which process would you pick for the first pilot, and why that one?" },
+          { tr: "Veri hazırlığını kim yapar, ne kadar sürer?", en: "Who does the data preparation, and how long does it take?" },
+          { tr: "Projeden önce hangi taban ölçümü alırsınız?", en: "Which baseline do you measure before the project starts?" },
+          { tr: "Pilot kaç haftada canlıya çıkar?", en: "How many weeks until the pilot is live?" },
+          { tr: "Mevcut sistemlerimize nasıl bağlanırsınız?", en: "How do you connect to the systems we already run?" },
+          { tr: "Model yanlış cevap verdiğinde ne oluyor?", en: "What happens when the model gets an answer wrong?" },
+          { tr: "Verimiz nerede işlenir, KVKK sorumluluğu kimde?", en: "Where is our data processed, and who carries the compliance duty?" },
+          { tr: "Hangi model sağlayıcısına bağımlı kalıyoruz?", en: "Which model provider are we locked into?" },
+          { tr: "Proje bittiğinde sistemin sahibi kim, ekibimizden kim ne öğrenmiş olacak?", en: "When the project ends, who owns the system and who on our team has learned what?" },
+        ],
+      },
+      {
+        type: "h2",
+        id: "model-mi-sonuc-mu",
+        text: {
+          tr: "1. Model mi satıyorsunuz, sonuç mu?",
+          en: "1. Are you selling a model or an outcome?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sorunun amacı, karşınızdakinin kendini nasıl tarif ettiğini duymak. Model satan taraf konuşmaya teknolojiden başlar: hangi modeli kullandığını, hangi arayüzü kurduğunu, kaç entegrasyon yaptığını anlatır. Sonuç satan taraf konuşmaya sizin sayılarınızdan başlar — hangi süreçte kaç saat harcandığını, o saatin neye mal olduğunu, hangi eşikten sonra yatırımın kendini ödediğini sorar.",
+          en: "The point of the question is to hear how the other side describes itself. A provider selling a model opens with technology: which model it uses, which interface it builds, how many integrations it has shipped. A provider selling an outcome opens with your numbers — how many hours a process consumes, what those hours cost, and past which threshold the investment pays for itself.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İlk beş dakika bu yüzden bilgi verir. Teknolojiyle açan cevap yanlış değildir, eksiktir: hangi modelin kullanıldığı bir uygulama detayıdır ve altı ay içinde değişebilir; hangi metriğin hareket edeceği ise sözleşmenin konusudur ve değişmemelidir.",
+          en: "That is why the first five minutes tell you something. Opening with technology isn't wrong, it's incomplete: which model gets used is an implementation detail and may change within six months, whereas which metric moves is the subject of the contract and shouldn't.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: sağlayıcı sizin işinizin sayılarını mı soruyor, yoksa kendi araç setini mi anlatıyor?",
+          en: "Listen for this: is the provider asking about the numbers in your business, or presenting its own toolkit?",
+        },
+      },
+      {
+        type: "h2",
+        id: "kanit-hangi-vaka",
+        text: {
+          tr: "2. Verim iddianızı hangi vakayla ve hangi rakamla kanıtlarsınız?",
+          en: "2. Which case and which number back your efficiency claim?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Doğru cevap üç bileşen taşır: bir iş, bir metrik, bir zaman aralığı. Müşterilerimizde ciddi verim artışı sağladık cümlesi kanıt değil nezakettir; sağlayıcının hangi işte, hangi sayıyı, ne kadar sürede hareket ettirdiğini duymadan bir sonraki gündem maddesine geçmeyin.",
+          en: "A good answer carries three components: a piece of work, a metric and a time frame. \"We delivered serious efficiency gains for our clients\" is a courtesy, not evidence; don't move to the next agenda item before you hear which work, which number and over what period.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi tarafımızdan bir örnek vereyim, iddianın nasıl kurulması gerektiğini göstermek için. [Meccanotecnica Umbra Türkiye'de](/vakalar/meccanotecnica-umbra-teklif-portali) ürün kataloğunu, fabrikasını anlatan mühendise uygun donanımı çıkaran bir AI teknik danışmana ve teklif portalına bağladık: teklif talebi 10 katına çıktı, talep ile yanıt arasındaki süre yüzde doksan kısaldı. Cümlede iş de var (teklif süreci), metrik de (talep sayısı, yanıt süresi), yön ve büyüklük de.",
+          en: "Here is one from our own side, to show how the claim should be built. At [Meccanotecnica Umbra Türkiye](/vakalar/meccanotecnica-umbra-teklif-portali) we connected the product catalogue to an AI technical advisor that works out the right equipment for an engineer describing their plant, and to a quote portal: quote requests rose tenfold and the time between request and response fell by ninety percent. The sentence names the work (quoting), the metrics (request volume, response time) and both direction and size.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: rakamın yanında taban değer var mı? Yüzde kırk arttı cümlesi neyin üstüne kırk arttığını söylemiyorsa ölçü değil, süstür.",
+          en: "Listen for this: does the number come with a baseline? \"Up forty percent\" that never says forty percent of what is decoration rather than measurement.",
+        },
+      },
+      {
+        type: "h2",
+        id: "nerede-kullanmazsiniz",
+        text: {
+          tr: "3. Bizim işimizde yapay zekayı nerede kullanmazsınız?",
+          en: "3. Where in our business would you refuse to use AI?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Her yerde kullanırız diyen sağlayıcı, muhtemelen henüz hiçbir yerde ciddi biçimde kullanmamıştır. Deneyimli bir danışman size en az iki alan sayar: hatanın maliyeti yüksek olduğu için insan onayının kalması gereken kararlar ve geçmiş verisi bir modeli beslemeye yetmeyen süreçler.",
+          en: "A provider who says \"everywhere\" has probably not yet used it seriously anywhere. An experienced consultant will name at least two areas: decisions where the cost of error keeps a human in the loop, and processes whose history is too thin to feed a model at all.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sınır çizmek somut bir iştir. Fiyat onayı, iş güvenliği kararı ve tek seferlik stratejik tercihler modelin işi değildir. Buna karşılık tekrar eden, kuralı yazılabilen ve geçmiş kaydı bulunan işler — teklif hazırlama, sipariş eşleştirme, teknik doküman arama — modelin ilk ve en kârlı alanıdır.",
+          en: "Drawing that line is concrete work. Price approval, workplace safety calls and one-off strategic choices are not the model's job. Repetitive work with a writable rule and a record behind it — preparing quotes, matching orders, searching technical documents — is where the model pays first and pays most.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: neyi yapmayacağını söyleyebiliyor mu? Sınır çizemeyen sağlayıcı, sonucu da ölçemez.",
+          en: "Listen for this: can they say what they won't do? A provider who can't draw the boundary can't measure the result either.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ilk-pilot-hangi-surec",
+        text: {
+          tr: "4. İlk pilot için hangi süreci seçerdiniz, neden o süreç?",
+          en: "4. Which process would you pick for the first pilot, and why that one?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İyi cevap üç ölçüte dayanır: sürecin tekrar sıklığı, hatanın bugünkü maliyeti ve mevcut verinin durumu. Danışman bu üçünü sormadan bir süreç öneremez; öneriyorsa öneri sizin işinizden değil, elindeki hazır üründen geliyordur.",
+          en: "A good answer rests on three criteria: how often the process repeats, what an error costs today, and what state the data is in. A consultant can't propose a process without asking all three; if they do, the proposal comes from their shelf, not from your business.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Seçimin mantığı sezgiye ters düşer. En kârlı ilk alan genellikle en görünür olan değil, en çok tekrar edenidir: günde otuz kez yapılan on dakikalık bir iş, ayda bir yapılan iki günlük işten daha büyük bir kaldıraçtır. Dönüşümün hangi sırayla ilerlediğini [AI dönüşümü nedir yazısında](/yazilar/ai-donusumu-nedir) uçtan uca anlattık.",
+          en: "The logic of that choice runs against instinct. The most profitable first area is usually not the most visible one but the most repeated: a ten-minute task done thirty times a day is a bigger lever than a two-day task done once a month. We set out the full sequence of a transformation in [what AI transformation is](/yazilar/ai-donusumu-nedir).",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: önerilen süreç sizin anlattığınız bir darboğaz mı, yoksa sunumda zaten duran bir örnek mi?",
+          en: "Listen for this: is the proposed process a bottleneck you described, or an example already sitting in the deck?",
+        },
+      },
+      {
+        type: "h2",
+        id: "veri-hazirligini-kim-yapar",
+        text: {
+          tr: "5. Veri hazırlığını kim yapar, ne kadar sürer?",
+          en: "5. Who does the data preparation, and how long does it take?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Projelerin çoğunda işin en büyük kısmı buradadır ve teklif dosyalarının çoğunda bu satır yoktur. Veri hazırlığı — kaynakların toplanması, temizlenmesi, etiketlenmesi ve erişim izinlerinin açılması — modelin kurulmasından uzun sürer, dolayısıyla kimin yapacağı sözleşmeden önce yazılmalıdır.",
+          en: "In most projects this is the largest part of the work, and in most proposals it is the missing line. Data preparation — collecting sources, cleaning them, labelling them and opening access rights — takes longer than standing up the model, so who does it belongs in writing before the contract.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Veriyi siz verin, gerisi bizde cümlesi maliyetin yarısını sessizce size bırakır. Sağlıklı cevap paylaşımı isimlendirir: hangi kaynak sizden çıkar, hangi dönüşümü sağlayıcı yapar, her adım kaç hafta sürer ve gecikirse takvim nereden kayar.",
+          en: "\"You supply the data, we'll handle the rest\" quietly leaves half the cost with you. A sound answer names the split: which source comes from you, which transformation the provider performs, how many weeks each step takes and where the schedule slips if one runs late.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: veri hazırlığına ayrılan süre, model kurulumuna ayrılan süreden kısa mı? Kısaysa ya nedenini anlatabiliyorlardır ya da bu işi hiç yapmamışlardır.",
+          en: "Listen for this: is the time allotted to data preparation shorter than the time allotted to building the model? If it is, either they can explain why or they have never done this work.",
+        },
+      },
+      {
+        type: "h2",
+        id: "taban-olcum",
+        text: {
+          tr: "6. Projeden önce hangi taban ölçümü alırsınız?",
+          en: "6. Which baseline do you measure before the project starts?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçülmemiş bir sürecin iyileştiğini kimse kanıtlayamaz. Ciddi bir sağlayıcı işe başlamadan önce bugünkü değeri kaydeder: kaç dakika, kaç adım, kaç hata, kaç talep, kaç kişi.",
+          en: "Nobody can prove that an unmeasured process improved. A serious provider records today's value before starting: how many minutes, how many steps, how many errors, how many requests, how many people.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu ölçüm sonradan alınamaz. Meccanotecnica Umbra'da yanıt süresinin yüzde doksan kısaldığını söyleyebilmemizin tek sebebi, kısalmadan önceki süreyi ölçmüş olmamız. Taban değerin sıfır çıkması da iyi bir başlangıçtır: SIM Baskı Malzemeleri'nde yapay zeka motorlarındaki görünürlük ilk ölçümde sıfırdı, program yürüdükten sonra 40 bine ulaştı — sıfırdan başlayan sonucu kimse yorumlamak zorunda kalmaz.",
+          en: "You cannot take that measurement afterwards. The only reason we can say response time fell by ninety percent at Meccanotecnica Umbra is that we measured the time before it fell. A baseline of zero is a fine start too: at SIM Printing Suppliers, visibility across AI engines read zero at first measurement and reached 40,000 once the programme ran — a result that starts from zero needs no interpretation.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: taban ölçüm teklifin içinde bir kalem mi, yoksa sözlü bir niyet mi?",
+          en: "Listen for this: is the baseline a line item in the proposal, or a verbal intention?",
+        },
+      },
+      {
+        type: "h2",
+        id: "pilot-kac-haftada",
+        text: {
+          tr: "7. Pilot kaç haftada canlıya çıkar?",
+          en: "7. How many weeks until the pilot is live?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kurumsal bir pilotun canlıya çıkma süresi haftalarla ölçülür, aylarla değil — ve bu süre sağlayıcının mühendislik derinliğini doğrudan gösterir. Altı ay sonra ilk çıktı diyen cevap bir pilotu değil bir programı tarif eder; iki günde ayağa kaldırırız diyen cevap ise bir pilotu değil bir demoyu.",
+          en: "An enterprise pilot's time to live is measured in weeks, not months — and that number is a direct read on the provider's engineering depth. \"First output in six months\" describes a programme rather than a pilot; \"we'll have it up in two days\" describes a demo rather than a pilot.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aralık işin tipine göre değişir, mantık sabit kalır. Pilot, tek bir süreçte, tek bir ekiple ve gerçek veriyle çalışan en küçük çalışır sistemdir. Amacı etkilemek değil ölçmektir; çıktısı bir sunum değil bir karardır — yaygınlaştır ya da durdur.",
+          en: "The range shifts with the type of work; the logic holds. A pilot is the smallest working system that runs in one process, with one team, on real data. Its purpose is to measure rather than to impress, and its output is a decision rather than a presentation — scale it or stop it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: pilotun bitiş kriteri tanımlı mı? Bitiş kriteri olmayan pilot bitmez, yalnızca bütçesi biter.",
+          en: "Listen for this: is there a defined exit criterion? A pilot without one doesn't end; only its budget does.",
+        },
+      },
+      {
+        type: "h2",
+        id: "mevcut-sistemlere-baglanti",
+        text: {
+          tr: "8. Mevcut sistemlerimize nasıl bağlanırsınız?",
+          en: "8. How do you connect to the systems we already run?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zekanın değeri modelde değil, bağlandığı yerdedir. ERP'nizden, CRM'inizden veya üretim yazılımınızdan veri okuyamayan ve oraya yazamayan bir sistem çalışanlarınıza ikinci bir ekran ve üçüncü bir iş yükü ekler; altı ay içinde de kullanılmaz hale gelir.",
+          en: "AI's value sits not in the model but in what it attaches to. A system that can't read from and write back to your ERP, CRM or production software hands your staff a second screen and a third workload — and falls out of use within six months.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bağlantı katmanı çoğu zaman projenin gerçek mühendisliğidir. Almanya'daki müşterimiz [MKComputer için kurduğumuz platform](/vakalar/mkcomputer-dropshipping-otomasyonu) 200 binden fazla ürünü beş dakikada senkronluyor ve sipariş yönlendirmesini sıfır manuel adımla yapıyor. Bu ölçekte soru hangi model değil; veri akışının hangi hızda, hangi hata payıyla ve hangi arıza senaryosunda taşındığıdır.",
+          en: "The integration layer is usually where the real engineering happens. The platform we built for our German client [MKComputer](/vakalar/mkcomputer-dropshipping-otomasyonu) syncs more than 200,000 products in five minutes and routes orders with zero manual steps. At that scale the question isn't which model; it's at what speed, at what error rate and under which failure scenario the data moves.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: entegrasyonu kimin yazacağı belli mi? Sizin IT ekibiniz API'yi açar cümlesi bir plan değil, bir varsayımdır.",
+          en: "Listen for this: is it settled who writes the integration? \"Your IT team opens the API\" is an assumption, not a plan.",
+        },
+      },
+      {
+        type: "h2",
+        id: "model-yanlis-cevap",
+        text: {
+          tr: "9. Model yanlış cevap verdiğinde ne oluyor?",
+          en: "9. What happens when the model gets an answer wrong?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Her model yanılır; ciddi sağlayıcı bunu siz sormadan söyler ve yanılmanın maliyetini sınırlayan bir tasarım gösterir. İyi cevap üç katman içerir: modelin cevabını dayandırdığı kaynak, güven eşiğinin altında işi insana devreden kural ve her cevabın geriye izlenebildiği bir kayıt.",
+          en: "Every model gets things wrong; a serious provider says so before you ask and shows a design that caps the cost of being wrong. A good answer has three layers: the source each answer is grounded in, a rule that hands the task to a human below a confidence threshold, and a log that makes every answer traceable after the fact.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Teknik satış yapan bir üretici için bu şart pazarlık konusu değildir: yanlış donanım önerisi bir müşteri kaybından fazlasına mal olur. Modelin veri olmadan cevap uydurması — sektördeki adıyla halüsinasyon — tasarımla sınırlanabilir; cevabın kaynağı ürün verisine bağlandığında model kendi başına ürün icat etmez.",
+          en: "For a manufacturer selling technically this is not negotiable: recommending the wrong equipment costs more than one lost customer. A model inventing answers where it has no data — hallucination, in the industry's term — can be bounded by design; once each answer is grounded in product data, the model stops inventing products of its own.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: hata konusu açıldığında savunmaya mı geçiyor, yoksa tasarımını mı anlatıyor?",
+          en: "Listen for this: when errors come up, do they get defensive or do they describe the design?",
+        },
+      },
+      {
+        type: "h2",
+        id: "veri-nerede-islenir",
+        text: {
+          tr: "10. Verimiz nerede işlenir, KVKK sorumluluğu kimde?",
+          en: "10. Where is our data processed, and who carries the compliance duty?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevap tek cümlede verilebilmeli: veri hangi ülkedeki hangi sağlayıcının sunucusunda işleniyor, ne kadar saklanıyor ve model eğitiminde kullanılıyor mu. Kişisel veri söz konusuysa KVKK açısından veri sorumlusu sizsiniz, sağlayıcı ise veri işleyendir — bu ayrım sözleşmede yazılı olmalıdır.",
+          en: "The answer should fit in one sentence: on whose servers and in which country the data is processed, how long it is retained, and whether it feeds model training. Where personal data is involved you are the data controller and the provider is the processor — and that distinction belongs in the contract in writing.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pratik sonuç sert: sözleşmede veri işleyen sıfatı, saklama süresi ve alt yüklenici listesi yoksa sorumluluğun tamamı sizde kalır. Kurumsal alıcılar bu maddeyi fiyattan önce okur, çünkü fiyat pazarlık konusudur, sorumluluk değildir.",
+          en: "The practical consequence is blunt: if the contract omits processor status, retention period and the list of sub-processors, the whole duty stays with you. Enterprise buyers read that clause before the price, because price is negotiable and liability is not.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: sağlayıcı kendi alt yüklenicilerini sayabiliyor mu? Sayamıyorsa veri zincirinin nerede bittiğini bilmiyor demektir.",
+          en: "Listen for this: can the provider name its own sub-processors? If not, they don't know where the data chain ends.",
+        },
+      },
+      {
+        type: "h2",
+        id: "model-saglayici-bagimliligi",
+        text: {
+          tr: "11. Hangi model sağlayıcısına bağımlı kalıyoruz?",
+          en: "11. Which model provider are we locked into?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Model katmanı bu alanın en hızlı değişen ve en hızlı ucuzlayan parçasıdır; bugünün en iyi modeli altı ay sonra ikinci sırada olabilir. İyi kurulmuş bir sistem model sağlayıcısını değiştirilebilir bir bileşen olarak tutar — iş mantığı, veri akışı ve arayüz yerinde kalırken model değişebilir.",
+          en: "The model layer is the fastest-moving and fastest-cheapening part of this field; today's best model can be second-best in six months. A well-built system keeps the model provider as a replaceable component — the business logic, the data flow and the interface stay put while the model changes.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sorunun ticari karşılığı nettir. Sağlayıcı fiyatını iki katına çıkardığında veya bir modeli kullanımdan kaldırdığında sisteminizin yeniden yazılması gerekiyorsa, o sistem sizin değil tedarikçinizin varlığıdır. Bağımlılık tamamen kaçınılabilir bir şey değil; ölçülebilir ve sınırlanabilir bir şeydir.",
+          en: "The commercial translation is plain. If your system has to be rewritten when the provider doubles its price or retires a model, that system is your supplier's asset rather than yours. Dependency isn't something you avoid entirely; it's something you measure and bound.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: modeli değiştirmek ne kadar sürer sorusuna bir süre söyleyebiliyorlar mı?",
+          en: "Listen for this: asked how long it takes to swap the model, can they name a duration?",
+        },
+      },
+      {
+        type: "h2",
+        id: "sistemin-sahibi-kim",
+        text: {
+          tr: "12. Proje bittiğinde sistemin sahibi kim, ekibimizden kim ne öğrenmiş olacak?",
+          en: "12. When the project ends, who owns the system and who on our team has learned what?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sahiplik dört kalemde tanımlanır: kaynak kodu, sistemin çalışma mantığını taşıyan kural ve komut setleri, üretilen veri ve hesapların mülkiyeti. Dördü birden sizde kalmıyorsa sistemi satın almadınız, kiraladınız — ve kirayı ne zaman artıracaklarını bilmiyorsunuz.",
+          en: "Ownership is defined across four items: the source code, the rule and prompt sets that carry the system's operating logic, the data it produces, and title to the accounts. If all four don't end up with you, you didn't buy the system, you leased it — without knowing when the rent goes up.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci yarı devir işidir ve çoğu teklifte hiç geçmez. Sağlıklı bir danışmanlık ilişkisinde ekibinizden en az iki kişi sistemi günlük olarak çalıştırabilir hale gelir; bu bir eğitim sunumuyla değil, birlikte çalışılan haftalarla olur. Danışmanın hedefi kendini vazgeçilmez kılmak değil, sizi kendisi olmadan çalışır kılmaktır.",
+          en: "The second half of the answer is handover, and most proposals never mention it. In a healthy advisory relationship at least two people on your team end up able to run the system day to day, and that comes from weeks worked side by side rather than a training deck. The consultant's aim is not to make themselves indispensable but to leave you running without them.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevapta arayın: teklifte devir ve eğitim için ayrılmış bir kalem var mı? Konuşulmayan devir gerçekleşmez.",
+          en: "Listen for this: does the proposal carry a line for handover and training? A handover nobody discussed never happens.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-tek-olcu",
+        text: {
+          tr: "Sonuç: on iki sorunun ölçtüğü tek şey",
+          en: "In closing: the one thing all twelve questions measure",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "On iki sorunun tamamı aynı ayrımı ölçüyor: karşınızdaki taraf size bir araç mı kuruyor, yoksa bir sonucun sorumluluğunu mu alıyor? Araç kuran taraf teslimat gününde işini bitirir; sonucun sorumluluğunu alan taraf teslimat gününde işe başlar. Fiyat listesinde bu iki iş yan yana durur, faturanın karşılığında ise ayrı yerlere düşer.",
+          en: "All twelve questions measure the same distinction: is the party across the table installing a tool, or taking responsibility for an outcome? The tool-installer finishes on delivery day; the one accountable for the outcome starts on delivery day. On a price list the two sit next to each other; in what you get back for the invoice they land far apart.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Türkiye'de yapay zeka firmaları hızla çoğaldı ve bu iyi haber — beş yıl önce bu soruları soracak kadar sağlayıcı yoktu. Kötü haber, aynı hızda çoğalan şeyin sunum dosyası olması. Ayrımı ilk görüşmede yapmanın yolu daha iyi bir sunum istemek değil, daha zor bir soru sormaktır.",
+          en: "The number of AI companies in Türkiye has grown fast, and that is good news — five years ago there weren't enough providers to ask these questions of. The bad news is that decks multiplied at the same rate. The way to tell them apart in the first meeting isn't to ask for a better presentation but to ask a harder question.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz bir test var ve on dakika sürüyor. Elinizdeki en yeni teklif dosyasını açın ve tek bir şey arayın: projeden önce ölçülecek bir taban değer yazıyor mu? Yazmıyorsa o belge bir sonuç taahhüdü değil, bir kurulum taahhüdüdür — ve iki belge arasındaki fark, projenin sonunda kimin haklı çıkacağını belirler.",
+          en: "There is a test you can run today, and it takes ten minutes. Open the most recent proposal on your desk and look for one thing: does it name a baseline to be measured before the project starts? If it doesn't, that document commits to an installation rather than an outcome — and the gap between those two documents decides who turns out to be right at the end of the project.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı disiplinin pazarlama tarafındaki karşılığını [ajansa sorulacak sekiz soruda](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) yazmıştık; sorular farklı, mantık aynı. Bu on iki soruyu bize de sorun: ikinci ve sekizinci sorunun cevabı bu yazının içinde, rakamlarıyla duruyor.",
+          en: "We wrote the marketing-side equivalent of this discipline in [eight questions to ask an agency](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru); different questions, same logic. Ask us these twelve too: the answers to the second and the eighth already sit inside this article, with their numbers attached.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "Yapay zeka danışmanı ne iş yapar?",
+          en: "What does an AI consultant actually do?",
+        },
+        answer: {
+          tr: "Yapay zeka danışmanı, bir şirketin hangi sürecinde yapay zekanın ölçülebilir karşılık üreteceğini tespit eder, o süreci ölçer ve sistemi ölçünün etrafına kurar. İş üç katmanda yürür: süreç seçimi ve taban ölçüm, veri hazırlığı ve mevcut sistemlere entegrasyon, sonra pilotun canlıya alınması ve sonucun karşılaştırılması. Model seçimi bu işin en küçük ve en kolay değiştirilebilir parçasıdır; danışmanın asıl ürünü karar mimarisi ve devredilebilir bir sistemdir.",
+          en: "An AI consultant identifies which process in a company will return a measurable result from AI, measures that process, then builds the system around the measure. The work runs in three layers: process selection and baseline measurement, data preparation and integration with existing systems, then taking a pilot live and comparing the outcome. Model selection is the smallest and most replaceable part of the job; the consultant's real product is a decision architecture and a system that can be handed over.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka ajansı ile yapay zeka danışmanlığı arasındaki fark nedir?",
+          en: "What is the difference between an AI agency and AI consulting?",
+        },
+        answer: {
+          tr: "Fark teslim edilen şeyde. Yapay zeka ajansı genellikle bir araç teslim eder — sohbet botu, içerik akışı, hazır bir modelin arayüzü — ve teslimatla işi biter. Yapay zeka danışmanlığı bir sonucu taahhüt eder: hangi metriğin ne kadar hareket edeceğini önceden tanımlar, işe başlamadan taban değeri ölçer, sistemi ERP ve CRM gibi mevcut yapılara bağlar ve proje sonunda sistemi ekibe devreder. İkisi rakip değil farklı işlerdir; sorun ikisinin de aynı fiyat bandında ve aynı sunumla satılmasıdır.",
+          en: "The difference is in what gets delivered. An AI agency usually delivers a tool — a chatbot, a content pipeline, an interface over an off-the-shelf model — and its work ends at delivery. AI consulting commits to an outcome: it names which metric moves and by how much, measures the baseline before starting, wires the system into existing structures such as ERP and CRM, and hands the system to your team at the end. They are different jobs rather than rivals; the trouble is that both are sold at similar prices with similar decks.",
+        },
+      },
+      {
+        question: {
+          tr: "Türkiye'deki yapay zeka şirketleri arasından nasıl seçim yapılır?",
+          en: "How do you choose among AI companies in Türkiye?",
+        },
+        answer: {
+          tr: "Seçim üç kanıt üzerinden yapılır. Birincisi rakamlı vaka: hangi işte, hangi metriği, ne kadar sürede hareket ettirdiklerini taban değeriyle birlikte anlatabilmeliler. İkincisi mühendislik derinliği: ERP, CRM veya üretim yazılımına bağlanan bir sistemi kimin yazacağı ve bu entegrasyonun kaç hafta süreceği belli olmalı. Üçüncüsü sahiplik: kod, kural setleri, veri ve hesaplar proje sonunda sizde kalmalı. Üçünü birden gösteremeyen sağlayıcı bir araç satıyordur, bir sonuç değil.",
+          en: "Judge on three kinds of evidence. First, cases with numbers: they should be able to say which work, which metric and what time frame, with the baseline attached. Second, engineering depth: it should be clear who writes the integration into ERP, CRM or production software and how many weeks it takes. Third, ownership: code, rule sets, data and accounts should end up with you when the project closes. A provider who can't show all three is selling a tool rather than an outcome.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka pilot projesi ne kadar sürer?",
+          en: "How long does an AI pilot project take?",
+        },
+        answer: {
+          tr: "Kurumsal bir pilotun canlıya çıkma süresi haftalarla ölçülür, aylarla değil. Süre üç değişkene bağlıdır: sürecin karmaşıklığı, verinin mevcut durumu ve entegre olunacak sistemin erişilebilirliği. Altı ay sonra ilk çıktı vaadi bir pilotu değil bir programı tarif eder; iki günde kurarız iddiası ise bir demoyu. Sağlıklı pilot tek bir süreçte, tek bir ekiple ve gerçek veriyle çalışan en küçük sistemdir; bitiş kriteri baştan yazılır ve çıktısı yaygınlaştırma ya da durdurma kararıdır.",
+          en: "An enterprise pilot's time to live is measured in weeks, not months. The duration depends on three variables: the complexity of the process, the state of the data, and how accessible the system it integrates with is. A promise of first output in six months describes a programme, not a pilot; a claim of two days describes a demo. A sound pilot is the smallest system running in one process, with one team, on real data; its exit criterion is written up front and its output is a decision to scale or to stop.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka projesinde veri hazırlığını kim yapar?",
+          en: "Who prepares the data in an AI project?",
+        },
+        answer: {
+          tr: "Paylaşım sözleşmede kalem kalem yazılır, yoksa maliyetin yarısı sessizce alıcıya kalır. Tipik dağılım şöyledir: kaynak sistemlere erişim ve alan bilgisi şirketten, toplama, temizleme, etiketleme ve dönüştürme sağlayıcıdan gelir. Veri hazırlığı çoğu projede modelin kurulmasından uzun sürer, dolayısıyla teklifte bu adıma ayrılan süre model kurulumundan kısaysa nedeni sorulmalıdır. Erişim izinlerinin açılması da ayrı bir takvim kalemidir ve genellikle en çok gecikmeyi burası üretir.",
+          en: "The split belongs in the contract line by line; without it, half the cost quietly lands on the buyer. A typical division: access to source systems and domain knowledge come from the company, while collection, cleaning, labelling and transformation come from the provider. Data preparation takes longer than building the model in most projects, so if a proposal allots it less time than the model work, ask why. Opening access rights is its own schedule item and usually produces the largest delays.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka yatırımının geri dönüşü nasıl hesaplanır?",
+          en: "How is the return on an AI investment calculated?",
+        },
+        answer: {
+          tr: "Hesap taban değerle başlar, model seçimiyle değil. Önce bugünkü durum ölçülür — süreç kaç dakika sürüyor, kaç kişi çalışıyor, kaç hata çıkıyor, kaç talep kaçıyor — sonra pilot sonrası aynı ölçüm tekrarlanır ve fark yıllık tekrar sayısıyla çarpılır. Meccanotecnica Umbra'da yanıt süresinin yüzde doksan kısaldığını söyleyebilmemizin tek sebebi kısalmadan önceki süreyi ölçmüş olmamızdır. Taban değeri olmayan bir projenin geri dönüşü hesaplanamaz, yalnızca iddia edilir.",
+          en: "The calculation starts from a baseline, not from a model choice. Measure today first — how many minutes the process takes, how many people it occupies, how many errors it produces, how many requests slip away — then repeat the same measurement after the pilot and multiply the difference by the annual frequency. The only reason we can say response time fell by ninety percent at Meccanotecnica Umbra is that we measured the time before it fell. Without a baseline, a project's return can't be calculated, only asserted.",
+        },
+      },
+      {
+        question: {
+          tr: "Proje bittiğinde yapay zeka sisteminin sahibi kim olur?",
+          en: "Who owns the AI system once the project ends?",
+        },
+        answer: {
+          tr: "Sahiplik dört kalemde tanımlanır ve dördü de sözleşmede tek tek geçmelidir: kaynak kodu, sistemin çalışma mantığını taşıyan kural ve komut setleri, üretilen veri ve bulut hesaplarının mülkiyeti. Dördü birden alıcıda kalmıyorsa sistem satın alınmamış, kiralanmıştır. Devir ayrıca bir takvim kalemidir: ekipten en az iki kişinin sistemi günlük olarak çalıştırabilmesi eğitim sunumuyla değil, birlikte çalışılan haftalarla sağlanır.",
+          en: "Ownership is defined across four items, and all four belong in the contract by name: the source code, the rule and prompt sets carrying the operating logic, the data produced, and title to the cloud accounts. If all four don't stay with the buyer, the system was leased rather than bought. Handover is a separate schedule item too: getting at least two people able to run the system day to day comes from weeks worked together, not from a training deck.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka danışmanı seçerken hangi kırmızı bayraklara dikkat etmeli?",
+          en: "What red flags should you watch for when choosing an AI consultant?",
+        },
+        answer: {
+          tr: "Beş tanesi güvenilir sinyaldir. Bir: taban ölçüm yapmadan sonuç yüzdesi vaat etmek. İki: veri hazırlığını teklifte hiç geçirmemek. Üç: her süreçte yapay zeka kullanırız demek, yani sınır çizememek. Dört: entegrasyonu sizin IT ekibinize bırakan varsayımlar. Beş: kod, kural setleri ve hesapların kimde kalacağı sorusundan kaçınmak. Altıncısını da ekleyin: modeli değiştirmek ne kadar sürer sorusuna süre söyleyememek, sistemin tek bir sağlayıcıya çivilendiğinin işaretidir.",
+          en: "Five are reliable signals. One: promising a percentage improvement without measuring a baseline. Two: leaving data preparation out of the proposal entirely. Three: claiming AI fits every process, which means being unable to draw a boundary. Four: assumptions that quietly hand the integration to your IT team. Five: dodging the question of who ends up with the code, the rule sets and the accounts. Add a sixth: an inability to say how long swapping the model takes, which signals a system nailed to a single provider.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka projelerinde KVKK açısından neye dikkat edilir?",
+          en: "What should you watch for on data protection in AI projects?",
+        },
+        answer: {
+          tr: "Sözleşmede üç madde aranır: verinin hangi ülkede ve hangi sağlayıcının sunucusunda işlendiği, saklama süresi ve alt yüklenici listesi. Kişisel veri söz konusuysa KVKK açısından veri sorumlusu şirkettir, sağlayıcı ise veri işleyendir; bu ayrım yazılı değilse sorumluluğun tamamı alıcıda kalır. Verinin model eğitiminde kullanılıp kullanılmadığı da açıkça yazılmalıdır. Kurumsal alıcılar bu maddeleri fiyattan önce okur, çünkü fiyat pazarlık konusudur, sorumluluk değildir.",
+          en: "Look for three clauses in the contract: in which country and on whose servers the data is processed, how long it is retained, and the list of sub-processors. Where personal data is involved the company is the data controller and the provider is the processor; if that split isn't written down, the whole duty stays with the buyer. Whether the data feeds model training belongs in writing as well. Enterprise buyers read these clauses before the price, because price is negotiable and liability is not.",
+        },
+      },
+      {
+        question: {
+          tr: "Küçük ve orta ölçekli şirketler için yapay zeka danışmanlığı mantıklı mı?",
+          en: "Does AI consulting make sense for small and mid-sized companies?",
+        },
+        answer: {
+          tr: "Ölçek değil tekrar belirleyicidir. Günde otuz kez yapılan on dakikalık bir iş, ayda bir yapılan iki günlük işten daha büyük bir kaldıraçtır; dolayısıyla elli kişilik bir şirket de beş yüz kişilik bir şirket kadar iyi bir aday olabilir. Belirleyici olan üç şart şudur: sürecin tekrar sıklığı, hatanın bugünkü maliyeti ve geçmiş verinin varlığı. Üçü de varsa proje küçük ölçekte de kendini öder; üçünden biri yoksa bütçe büyüklüğü sonucu kurtarmaz.",
+          en: "Repetition decides this, not headcount. A ten-minute task done thirty times a day is a bigger lever than a two-day task done once a month, so a fifty-person company can be as good a candidate as a five-hundred-person one. Three conditions decide it: how often the process repeats, what an error costs today, and whether historical data exists. With all three present a project pays for itself at small scale; with one missing, budget size won't rescue the result.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka projesinin sonucu nasıl ölçülür?",
+          en: "How do you measure the result of an AI project?",
+        },
+        answer: {
+          tr: "Ölçüm işe başlamadan kurulur ve iki kez okunur: bir kez pilottan önce, bir kez pilottan sonra. Metrik sürecin kendi diliyle seçilir — teklif sürecinde talep sayısı ve yanıt süresi, stok akışında senkron süresi ve manuel adım sayısı, görünürlükte anılma sayısı. Meccanotecnica Umbra'da teklif talebi 10 katına çıktı ve yanıt süresi yüzde doksan kısaldı; SIM Baskı Malzemeleri'nde yapay zeka motorlarındaki görünürlük sıfırdan 40 bine ulaştı. Her iki cümlenin de anlamlı olmasının sebebi, ölçümün önce alınmış olmasıdır.",
+          en: "Measurement is set up before the work starts and read twice: once before the pilot and once after. The metric is chosen in the process's own language — request volume and response time in quoting, sync duration and manual step count in stock flow, mention count in visibility. At Meccanotecnica Umbra quote requests rose tenfold and response time fell by ninety percent; at SIM Printing Suppliers visibility across AI engines went from zero to 40,000. Both sentences mean something only because the measurement was taken first.",
+        },
+      },
+    ],
+    category: "transform",
+    topic: "yapay-zeka",
+    tags: ["yapay-zeka-danismanligi", "yapay-zeka-ajansi", "ai-donusumu", "tedarikci-secimi"],
+    authorSlug: "can-aydinlik",
+    publishedAt: "2026-08-28",
+    readingMinutes: 13,
+    seo: {
+      title: {
+        tr: "Yapay zeka danışmanı seçerken 12 soru",
+        en: "How to choose an AI consultant: 12 questions",
+      },
+      description: {
+        tr: "Chatbot satan yapay zeka ajansı mı, sistem kuran danışman mı? Pilot süresi, veri hazırlığı, taban ölçüm ve sistem sahipliği dahil 12 soruyla ayrımı görün.",
+        en: "An AI agency selling chatbots, or a consultant building systems? Twelve questions covering pilot timelines, data prep, baselines and who owns the system.",
+      },
+    },
+  },
+  {
+    slug: {
+      tr: "google-ai-overviews-da-yer-almak",
+      en: "google-ai-overviews-guide",
+    },
+    title: {
+      tr: "Sıralamada varsınız, cevapta yoksunuz: Google AI Overviews'da yer almak",
+      en: "Ranked, but not cited: how to appear in Google AI Overviews",
+    },
+    excerpt: {
+      tr: "Google artık sonuçların üstünde kendi yanıtını yazıyor ve o yanıtın içinde üç dört kaynak anıyor; organik ikinci sıra bu listede olmanızı sağlamıyor. AI Overview'ın nasıl çalıştığını, Türkiye'deki durumunu ve yanıtın içine giren sayfaların paylaştığı koşulları anlatıyorum.",
+      en: "Google now writes its own answer above the results and names three or four sources inside it; ranking second organically does not put you on that list. Here is how AI Overviews works, where it stands in Turkey, and what the pages inside the answer have in common.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Geçen aylarda bir görüşmede, karşımdaki pazarlama müdürü dizüstünü bana çevirdi. Ekranda kendi kategorisinin en değerli sorusu vardı ve sonuçların üstünde gri bir kutu duruyordu: Google'ın yazdığı bir yanıt, yanında üç kaynak bağlantısı. Üçü de rakipti. Kendi sayfası kutunun hemen altındaydı, organik ikinci sırada. Sıralamayı kazanmış, cevabı kaybetmişti. Görüşmeyi bu yazı için kurguladım; ekrandaki tabloyu kurgulamadım — aynı sahneyi son bir yılda farklı kategorilerde defalarca gördük.",
+          en: "In a meeting a few months ago, a marketing director turned their laptop towards me. On the screen sat the most valuable question in their category, and above the results sat a grey box: an answer written by Google, with three source links beside it. All three were competitors. Their own page sat just below the box, second in the organic results. They had won the ranking and lost the answer. I invented the meeting for this article; I did not invent the screen — we have watched the same scene play out across categories over the past year.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Google AI Overviews, sonuçların üstündeki bu kutunun adı ve artık Türkçe sorgularda da düzenli olarak karşımıza çıkıyor. Bu yazı yalnız o kutuya bakıyor: ne olduğu, Google'ın açıkladığı kadarıyla nasıl çalıştığı, hangi sorgularda tetiklendiği, tıklamalarınıza ne yaptığı ve içine giren sayfaların paylaştığı koşullar. Yapay zeka aramalarının bütününü — ChatGPT, Perplexity, Gemini uygulaması — [ayrı bir rehberde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) anlattım; genel çerçeve orada duruyor.",
+          en: "Google AI Overviews is the name of that box above the results, and it now appears regularly on Turkish queries too. This article looks at that box alone: what it is, how it works as far as Google has explained it, which queries trigger it, what it does to your clicks, and what the pages inside it have in common. The wider picture of AI search — ChatGPT, Perplexity, the Gemini app — sits in [a separate guide](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz); the general framework lives there.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ai-overview-nedir",
+        text: {
+          tr: "AI Overview nedir?",
+          en: "What is an AI Overview?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI Overview, Google'ın arama sonuçlarının en üstünde gösterdiği, birden çok kaynaktan derlenmiş ve bir dil modeli tarafından yazılmış özet yanıttır. Tekil kutunun adı AI Overview, özelliğin bütününün adı Google AI Overviews; kutunun içinde veya yanında yanıtı besleyen sayfalara bağlantı verilir. Kullanıcı on mavi linkten önce bir paragraf okuyor ve çoğu zaman aradığı şeyi orada buluyor.",
+          en: "An AI Overview is the summarised answer Google shows at the very top of its search results — assembled from several sources and written by a language model. The single box is called an AI Overview; the feature as a whole is Google AI Overviews, and links to the pages feeding the answer sit inside or beside the box. The user reads a paragraph before reaching ten blue links, and usually finds what they came for right there.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bunu daha eskiden tanıdığınız öne çıkan snippet (featured snippet) ile karıştırmayın. Öne çıkan snippet tek bir sayfadan bir pasajı olduğu gibi alıntılar; alıntılanan cümleleri sitenizde bulabilirsiniz. AI Overview ise birkaç sayfayı okuyup sentezliyor ve yeni bir metin yazıyor. Fark küçük görünüyor, sonucu büyük: snippet'te tek bir yer vardır ve onu kazanırsınız, AI Overview'da üç dört yer vardır ve orada anılmak için o kısa listeye girmeniz gerekir.",
+          en: "Don't confuse it with the featured snippet you already know. A featured snippet quotes one passage from one page verbatim, and you can find those exact sentences on the site. An AI Overview reads several pages, synthesises them and writes new text. The difference looks small and isn't: a snippet has one slot you either win or lose, while an AI Overview carries three or four, and being named means getting onto that short list.",
+        },
+      },
+      {
+        type: "h2",
+        id: "nasil-calisiyor",
+        text: {
+          tr: "Google AI Overviews nasıl çalışıyor?",
+          en: "How does Google AI Overviews work?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Google, AI Overviews'un arkasında Gemini modelinin arama için özelleştirilmiş bir sürümünün çalıştığını açıkladı. Sistem sorunuzu tek bir arama gibi ele almıyor: soruyu alt sorulara bölüyor, aynı anda birden çok arama çalıştırıyor ve dönen sayfaları tek bir yanıtta birleştiriyor — Google bu tekniğe sorgu dallanması (query fan-out) diyor.",
+          en: "Google has said that a version of Gemini customised for Search sits behind AI Overviews. The system doesn't treat your question as one search: it breaks the question into sub-questions, runs several searches at once and merges what comes back into a single answer — Google calls this technique query fan-out.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Google'ın dokümantasyonunda yazdığı ikinci nokta da en az o kadar önemli: aramanın içindeki yapay zeka özellikleri aynı temel sıralama sistemlerini kullanıyor ve bağlantılar aynı indeksten geliyor. Yani ayrı bir \"AI Overviews sıralaması\" yayımlanmış değil. Pratik karşılığı iki cümle: Googlebot sayfanızı okuyamıyorsa kutuda hiç şansınız yok, okuyabiliyorsa da kendiliğinden bir hakkınız doğmuyor.",
+          en: "A second point in Google's documentation matters just as much: the AI features inside Search use the same core ranking systems, and the links come from the same index. No separate \"AI Overviews ranking\" has been published. That comes down to two sentences in practice: if Googlebot can't read your page you have no chance in the box, and if it can, you still hold no automatic claim to a place in it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Google'ın açıklamadığı şey, hangi sayfanın neden seçildiği. Buradan sonrası gözlem: aynı sorguyu farklı günlerde sorduğumuzda kaynaklar değişiyor, aynı sorgu masaüstünde kutu üretip mobilde üretmiyor, kutu bazen tamamen kayboluyor. Bu alanda kesin iddiada bulunan herkese temkinli yaklaşın — elimizde algoritma değil, örüntü var.",
+          en: "What Google has not explained is why a given page gets picked. Everything past that point is observation: ask the same query on different days and the sources change, the same query produces a box on desktop and none on mobile, and sometimes the box disappears altogether. Treat anyone making firm claims here with caution — what we hold is a pattern, not an algorithm.",
+        },
+      },
+      {
+        type: "h2",
+        id: "hangi-sorgularda-cikiyor",
+        text: {
+          tr: "Hangi sorgularda AI Overview çıkıyor, hangilerinde çıkmıyor?",
+          en: "Which queries trigger an AI Overview, and which don't?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI Overview her sorguda çıkmıyor ve bu, içerik planınızın en kullanışlı girdisi. Gözlemlenen örüntü şu: açıklama isteyen, karşılaştırma içeren ve birden çok adımı olan sorular kutuyu tetikliyor; marka aramaları, gezinme sorguları ve tek kesin cevabı olan kısa sorgular çoğunlukla tetiklemiyor.",
+          en: "An AI Overview does not appear for every query, and that is the most useful input to your content plan. The observed pattern: questions asking for an explanation, a comparison or several steps tend to trigger the box, while brand searches, navigational queries and short questions with one definite answer usually don't.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Tanım ve açıklama soruları: \"nedir\", \"nasıl yapılır\", \"neden olur\" ile açılan her şey.",
+            en: "Definition and explanation questions: anything opening with \"what is\", \"how do I\", \"why does\".",
+          },
+          {
+            tr: "Karşılaştırmalar: \"X mi Y mi\", \"arasındaki fark ne\", \"hangisi daha iyi\".",
+            en: "Comparisons: \"X or Y\", \"what is the difference between\", \"which one is better\".",
+          },
+          {
+            tr: "Kısıtlı ve uzun sorular: bütçeyi, süreyi, ölçüyü ve kullanım senaryosunu aynı cümlede taşıyanlar.",
+            en: "Long, constrained questions: the ones carrying budget, timeline, dimension and use case in a single sentence.",
+          },
+          {
+            tr: "Hassas alanlar tersine çalışıyor: sağlık, finans ve hukuk sorgularında kutu daha seyrek çıkıyor — Google bu alanlarda daha temkinli davrandığını söylüyor.",
+            en: "Sensitive fields run the other way: health, finance and legal queries produce the box less often — Google says it is deliberately more cautious there.",
+          },
+          {
+            tr: "Marka ve gezinme sorguları: \"marka adı + giriş\" biçimindeki aramalarda kutu genelde yok, çünkü kullanıcının istediği adres zaten belli.",
+            en: "Brand and navigational searches: a query shaped like \"brand name + login\" rarely produces a box, because the user already knows the address they want.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bunun içerik planına etkisi doğrudan. Size para kazandıran ticari kelime muhtemelen hiç kutu üretmiyor; kutuyu üreten, o kelimenin etrafındaki sorular. Alıcınızın satın almadan önce sorduğu on soruyu bir yere yazın — Google AI Overviews'da yer almak için çalışacağınız alan tam olarak orası, ürün sayfanız değil.",
+          en: "The effect on a content plan is direct. The commercial keyword that pays your bills probably never produces a box; the questions around it do. Write down the ten questions your buyer asks before buying — that list, not your product page, is where the work of appearing in Google AI Overviews actually happens.",
+        },
+      },
+      {
+        type: "h2",
+        id: "turkiyede-durum",
+        text: {
+          tr: "AI Overviews Türkiye'de nerede duruyor?",
+          en: "Where does AI Overviews stand in Turkey?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Türkçe sorgularda AI Overview düzenli olarak çıkıyor, ama kapsamı İngilizce kadar geniş değil. Google özelliği Mayıs 2024'te duyurdu, önce ABD'de açtı, ardından kapsamı yüzden fazla ülkeye ve çok sayıda dile genişlettiğini açıkladı; Türkçe de bu genişlemenin içindeydi. Sahadaki hâli şu: aynı soruyu iki dilde sorduğunuzda İngilizce tarafta kutu daha sık çıkıyor ve daha fazla kaynak anıyor.",
+          en: "AI Overviews appear regularly on Turkish queries, though coverage is narrower than in English. Google announced the feature in May 2024, opened it in the United States first, then said it had extended it to more than a hundred countries and a long list of languages, Turkish among them. On the ground the gap shows: ask the same question in both languages and the English side produces a box more often, naming more sources inside it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi Search Console verimizde bunun ilginç bir sinyali var. Ağustos 2026 itibarıyla son üç ayda \"google yapay zeka optimizasyonu\" sorgusu sitemize 32 gösterim getirdi, \"yapay zeka arama optimizasyonu\" 99, \"yapay zeka optimizasyonu\" 136. Üçü de küçük rakam. Ama üçünün ortak özelliği, Türkçe sonuç sayfasında bu soruların karşılığının hâlâ zayıf olması — kimse bu sorulara doğru dürüst cevap yazmamış. AI Overviews Türkiye tarafında henüz doymuş bir alan değil; İngilizce tarafta yıllar önce kapanmaya başlayan pencere burada hâlâ aralık.",
+          en: "Our own Search Console data carries an interesting signal here. Over the three months to August 2026 the query \"google yapay zeka optimizasyonu\" brought our site 32 impressions, \"yapay zeka arama optimizasyonu\" 99 and \"yapay zeka optimizasyonu\" 136. All three are small numbers. What they share is more telling: the Turkish results page still answers those questions poorly — nobody has written a proper answer to them. AI Overviews in Turkey is not a saturated field yet; the window that started closing on the English side years ago is still open here.",
+        },
+      },
+      {
+        type: "h2",
+        id: "tiklama-trafigi",
+        text: {
+          tr: "AI Overview çıktığında tıklamalarınıza ne oluyor?",
+          en: "What happens to your clicks when an AI Overview appears?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kısa cevap: gösterim aynı kalırken tıklama düşüyor. Kullanıcı cevabı kutunun içinde bulduğunda alta inmiyor, dolayısıyla kutu çıkan sorgularda tıklama oranınız geriliyor — sıfır tıklama (zero-click) denen düzen tam olarak bu. Kaybın büyüklüğü sorgunun tipine bağlı: bilgi soruları en çok, satın alma ve marka soruları en az etkileniyor.",
+          en: "The short answer: impressions hold and clicks fall. When the user finds the answer inside the box they don't scroll down, so your click-through rate drops on queries that produce one — this is exactly what the term zero-click describes. How much you lose depends on query type: informational questions lose the most, purchase and brand queries the least.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bunu kendi verinizde ölçmek mümkün ama dolaylı. Google, AI Overviews'dan gelen gösterim ve tıklamaları Search Console'un genel arama raporuna katıyor ve ayrı bir kırılım vermiyor; yani \"kutuda kaç kere göründüm\" diye bir ekran yok. Yapabileceğiniz şu: kutu ürettiğini elle doğruladığınız sorguları listeleyin, o sorguların tıklama oranını altı ay önceki aynı dönemle karşılaştırın. Eğri aşağı bakıyorsa ve pozisyonunuz sabitse, farkı büyük olasılıkla kutu yaratıyor.",
+          en: "You can measure this in your own data, but only indirectly. Google folds AI Overview impressions and clicks into the general Search performance report in Search Console and gives no separate breakdown; there is no screen telling you how often you appeared inside a box. What you can do: list by hand the queries you have confirmed produce one, then compare their click-through rate against the same period six months earlier. If the curve points down while your position holds, the box is the likeliest explanation.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dürüst olalım: kaybı tamamen telafi eden bir taktik yok. Doğru olan şu — kutuya girmezseniz hem tıklamayı hem anılmayı kaybediyorsunuz, girerseniz en azından anılmayı koruyorsunuz. Markanın adının cevabın içinde geçmesi tıklama kadar ölçülebilir değil, ama satın alma anına kadar taşınıyor: alıcı görüşmeye geldiğinde sizi nereden duyduğunu çoğu zaman hatırlamıyor, adınızı hatırlıyor.",
+          en: "Let's be honest: no tactic fully replaces what you lose. What is true is narrower — stay out of the box and you lose both the click and the mention; get in and you keep the mention. A brand name inside the answer is harder to measure than a click, yet it travels all the way to the purchase: buyers arriving at a meeting often can't say where they heard of you, but they remember the name.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yer-almanin-kosullari",
+        text: {
+          tr: "Yanıtın içinde anılmak için hangi koşullar biliniyor?",
+          en: "Which conditions are known to get you named inside the answer?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Google'ın resmi konumu net: AI Overviews için ayrı bir optimizasyon yöntemi yok, aramanın temel kuralları geçerli. Bunun sahadaki karşılığı, kutunun içine giren sayfaların paylaştığı beş özellik — hiçbiri garanti değil, hepsi olasılığı artırıyor.",
+          en: "Google's official position is plain: there is no separate optimisation method for AI Overviews, and the basic rules of Search apply. What that translates to in the field is five properties shared by the pages that end up inside the box — none of them a guarantee, all of them a shift in the odds.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "İndekslenebilirlik. Googlebot sayfayı çekebilmeli ve metni sunucudan gelen HTML'de görebilmeli. Google, noindex, nosnippet ve max-snippet işaretlerinin AI Overviews için de geçerli olduğunu açıkça yazıyor.",
+            en: "Indexability. Googlebot has to fetch the page and see the text in the HTML the server sends. Google states plainly that the noindex, nosnippet and max-snippet directives apply to AI Overviews as well.",
+          },
+          {
+            tr: "Alıntılanabilir paragraflar. Her paragraf sayfadan kesilip alındığında tek başına anlamlı olmalı; bağlamını bir üstteki cümleye yaslayan paragraf alıntılanamıyor.",
+            en: "Quotable paragraphs. Each paragraph has to stand on its own when cut out of the page; a paragraph leaning on the sentence above it for context cannot be quoted.",
+          },
+          {
+            tr: "Soru-cevap yapısı. Başlık müşterinizin kurduğu cümle olmalı, altındaki ilk iki cümle de o sorunun net cevabı. Hikâye sonraya kalır.",
+            en: "Question-and-answer structure. The heading should be the sentence your customer says, and the first two beneath it should answer that question plainly. The story comes later.",
+          },
+          {
+            tr: "Güncellik sinyali. Yayın ve güncelleme tarihi görünür olmalı, güncellenen içerik neyin değiştiğini söylemeli. Kutuda anılan sayfalar arasında bayat içerik görmek zor.",
+            en: "A freshness signal. Publication and revision dates should be visible, and revised content should say what changed. Stale pages are rare among those named inside the box.",
+          },
+          {
+            tr: "Doğrulanabilir kanıt. Rakam, tarih, ölçü ve kaynak cümlenin içinde geçmeli; modelin doğrulayacak başka bir yeri yok.",
+            en: "Verifiable proof. Numbers, dates, measurements and sources belong inside the sentence; the model has nowhere else to check them.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu listeyi bir kontrol listesi gibi işaretleyip kutuya gireceğinizi kimse söyleyemez. Doğru cümle şu: garantisi yok, ama olasılığı sistematik olarak artırılabilir. Aynı sorguda beş rakibiniz varsa ve beşinin de sayfası ikinci maddede kalıyorsa, öne geçme ihtimaliniz teknik bir üstünlükten değil biçimsel bir farktan geliyor.",
+          en: "Nobody can tell you that ticking this list gets you into the box. The accurate sentence is this: there is no guarantee, but the probability can be raised systematically. If five competitors compete for the same query and all five fail on the second condition, your advantage comes from a difference in form, not in technology.",
+        },
+      },
+      {
+        type: "h2",
+        id: "alintilanabilir-paragraf",
+        text: {
+          tr: "Bir paragraf ne zaman alıntılanabilir olur?",
+          en: "When is a paragraph actually quotable?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir paragraf, sayfadan kesilip alındığında hâlâ anlamlıysa alıntılanabilir. Testi kırk saniye sürüyor: paragrafı bağlamından koparın ve okuyun; \"bu\", \"o\", \"yukarıda anlattığımız\" gibi geri dönüşlü ifadeler yüzünden anlam kayboluyorsa makine de o paragrafı kullanamaz.",
+          en: "A paragraph is quotable when it still makes sense after being cut out of the page. The test takes forty seconds: lift the paragraph out of its context and read it; if it collapses because of back-references like \"this\", \"that\" or \"as we explained above\", the machine can't use it either.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Somut bir örnek. Bir üreticinin ürün sayfasında şu cümle duruyordu: \"Yukarıda anlattığımız avantajları sayesinde bu seri, sektörde en çok tercih edilen modellerden biri.\" Cümle tek başına hiçbir şey söylemiyor — hangi seri, hangi avantaj, hangi sektör, ne kadar çok. Aynı bilgiyi şöyle yazdık: \"Solvent bazlı seri, esnek ambalaj baskısında su bazlı alternatiflere göre daha hızlı kuruduğu için saatte 300 metrenin üzerinde çalışan hatlarda tercih ediliyor.\" İkinci cümle kesilip alındığında hâlâ bir şey öğretiyor. Aradaki fark bilgi farkı değil, biçim farkı.",
+          en: "A concrete example. A manufacturer's product page carried this sentence: \"Thanks to the advantages described above, this series is one of the most preferred in the sector.\" On its own it says nothing — which series, which advantages, which sector, how preferred. We rewrote the same information as: \"The solvent-based series dries faster than water-based alternatives in flexible packaging print, which is why it is chosen on lines running above 300 metres per hour.\" The second sentence still teaches something after being cut out. The gap between the two is form, not knowledge.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci kural yerleşimle ilgili. Cevabı başlığın hemen altına koyun; ısınma cümleleri ve \"bu yazıda şunları anlatacağız\" tarzı açılışlar hem okuyucuyu hem modeli oyalıyor. Hikâyeyi silmeyin, aşağı alın.",
+          en: "The second rule is about placement. Put the answer directly under the heading; warm-up sentences and \"in this article we will cover\" openings stall the reader and the model alike. Don't delete the story — move it further down.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yapisal-veri-ve-indekslenebilirlik",
+        text: {
+          tr: "Yapısal veri ve indekslenebilirlik: makinenin okuduğu zemin",
+          en: "Structured data and indexability: the ground a machine reads",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapısal veri (structured data) AI Overviews'a giriş bileti değil; Google ek bir şema şartı olmadığını açıkça söylüyor. Yine de Article ve FAQPage işaretlemesi metnin makine tarafından ayrıştırılmasını kolaylaştırıyor ve maliyeti neredeyse sıfır — bir sayfa yayımlarken zaten doldurduğunuz alanların JSON-LD karşılığını basmaktan ibaret.",
+          en: "Structured data is not a ticket into AI Overviews; Google states plainly that no extra schema is required. Article and FAQPage markup still make the text easier for a machine to parse, and the cost is close to zero — it amounts to printing the JSON-LD equivalent of fields you already fill in when publishing a page.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beklentiyi doğru kurun: Google 2023'te soru-cevap zengin sonuçlarını çoğu site için kapattı, yani sonuç sayfasında rozet görmeyeceksiniz. İşaretlemeyi görsel kazanç için değil, sayfanın yapısını makineye açık etmek için koyuyorsunuz. Bizim kendi sitemizdeki karar da bu: her yazının soru-cevap bölümü sayfada düz metin olarak duruyor, JSON-LD ise aynı metni işaretliyor — iki ayrı sürüm yok.",
+          en: "Set the expectation correctly: Google restricted FAQ rich results for most sites in 2023, so you will not see a badge on the results page. You add the markup to declare the page's structure to a machine, not to win pixels. That is the call we made on our own site: the question-and-answer section of every article sits on the page as plain text, and the JSON-LD marks up that same text — there are never two versions.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İndekslenebilirlik tarafında üç şeyi kontrol edin. Birincisi robots.txt: yapay zeka botlarını topluca engelleyen bir kural varsa ne yaptığını bilin — Google-Extended'ı engellemek AI Overviews'u etkilemiyor, çünkü Google onu Gemini uygulaması ve model eğitimi için tanımladı; Googlebot'u engellemek ise hem organik aramayı hem kutuyu bitiriyor. İkincisi render: içerik yalnız tarayıcıda JavaScript çalıştıktan sonra oluşuyorsa risk büyür, metin sunucudan gelen HTML'de görünmeli. Üçüncüsü snippet sınırı: max-snippet ile karakter kısıtı koyduysanız, modelin alabileceği pasajı kendi elinizle daraltıyorsunuz. Bu zeminin bir parçası olan [llms.txt dosyasını ayrı bir yazıda](/yazilar/llms-txt-nedir) ele aldım; faydalı, ama tek başına kutuya sokmuyor.",
+          en: "On the indexability side, check three things. First, robots.txt: if a rule blocks AI crawlers wholesale, know what it actually does — blocking Google-Extended does not affect AI Overviews, because Google defined it for the Gemini app and model training, while blocking Googlebot ends both your organic presence and the box. Second, rendering: content that only exists after JavaScript runs in the browser is at risk, and the text should be visible in the HTML the server sends. Third, snippet limits: a max-snippet character cap narrows the passage a model can take, by your own hand. [llms.txt](/yazilar/llms-txt-nedir), one more piece of this ground, has an article of its own; it is useful, and it will not get you into the box on its own.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sahadan-kanit",
+        text: {
+          tr: "Sahadan kanıt: bir üreticinin altı ayında ne değişti",
+          en: "Proof from the field: what changed in a manufacturer's six months",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Buraya kadarki koşulları tek bir sitede aynı anda kurduk. [SIM Baskı Malzemeleri](/vakalar/sim-baski-ihracat-icerigi) 1983'ten beri matbaa sektörüne üretim yapıyor; kırk yıllık teknik bilgisi kimsenin okuyamayacağı bir yerdeydi, satış ekibinin kafasında. Siteyi WordPress'ten Next.js'e taşıdık, beş dilli kurduk ve teknik içeriği baştan soru-cevap düzeninde yazdık: her başlık müşterinin kendi cümlesi, her başlığın altındaki ilk paragraf net cevap, her cevabın içinde ölçü ve rakam.",
+          en: "We built every condition above into a single site at once. [SIM Printing Suppliers](/vakalar/sim-baski-ihracat-icerigi) has manufactured for the press industry since 1983, and forty years of technical knowledge lived where nobody could read it: in the heads of the sales team. We moved the site from WordPress to Next.js, built it in five languages and rewrote the technical content in a question-and-answer order from scratch — every heading the customer's own sentence, the first paragraph beneath it a plain answer, every answer carrying a measurement and a number.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altı ayın sonunda organik trafik 15 katına çıktı, hedef kelimelerde ilk 5'e girdik ve AI motorlarındaki görünürlük sıfırdan 40 bine ulaştı. Rakamdan çok yapının kendisi öğretici: 40 bin, kategori sorulduğunda markanın adının geçtiği yerlerin sayısıydı ve sıfırdan başlamıştı — çünkü öncesinde ortada alıntılanacak tek bir cümle yoktu. Bilgi zaten vardı; yazılı değildi.",
+          en: "Six months later organic traffic had grown 15×, priority keywords sat inside the top five, and visibility across AI engines went from zero to 40,000. The structure teaches more than the number: 40,000 counted the places the brand's name appeared when the category came up, and it started at zero — because before that there wasn't a single sentence to cite. The knowledge existed; it just wasn't written down.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sınırı da çizelim. Bu bir garanti değil, bir örüntü: aynı yapıyı kuran her site aynı hızda ilerlemiyor, sektörün rekabeti ve sitenin teknik durumu hızı belirliyor. Ölçülmüş başka örnekleri rakamlarıyla görmek isterseniz [vaka sayfalarımız](/vakalar) açık duruyor.",
+          en: "Let's draw the boundary too. This is a pattern, not a guarantee: not every site building the same structure moves at the same speed, and the competition in a sector plus the technical state of the site set the pace. If you want to see other measured examples with their numbers attached, [our case pages](/vakalar) are open.",
+        },
+      },
+      {
+        type: "h2",
+        id: "nereden-baslanir",
+        text: {
+          tr: "Google yapay zeka optimizasyonu nereden başlar?",
+          en: "Where does optimising for Google's AI answers begin?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Başlangıç noktası içerik üretmek değil, ölçmek. Kendi kategorinizde kutunun hangi sorularda çıktığını ve orada kimin anıldığını bilmeden hangi sayfayı yeniden yazacağınıza karar veremezsiniz. İyi haber şu: bu ölçüm bir araca ihtiyaç duymuyor, kırk dakika sürüyor.",
+          en: "The starting point isn't producing content, it's measuring. Until you know which questions produce a box in your category and who gets named inside it, you can't decide which page to rewrite. The good news: that measurement needs no tool and takes about forty minutes.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Alıcınızın satın almadan önce sorduğu on soruyu yazın — sizin kelimelerinizle değil, onların kelimeleriyle. Satış ekibinize son bir ayda en çok neyin sorulduğunu sorun; liste oradan çıkar.",
+            en: "Write down the ten questions your buyer asks before buying — in their words, not yours. Ask your sales team what came up most over the last month; the list writes itself.",
+          },
+          {
+            tr: "Her soruyu Google'a sorun ve iki şeyi not edin: kutu çıktı mı, çıktıysa hangi kaynaklar anıldı. On sorunun kaçında kutu çıktığı, kategorinizin yapay zeka aramalarında öne çıkma potansiyelini doğrudan gösterir.",
+            en: "Put each question to Google and note two things: did a box appear, and if so, which sources were named. How many of the ten produce a box tells you directly how much your category has riding on AI search.",
+          },
+          {
+            tr: "Kutudaki cümleleri kendi sayfanızdaki karşılığıyla yan yana koyun. Genellikle bilgi eksiği görmezsiniz, biçim farkı görürsünüz: onlarda cevap ilk iki cümlede duruyor, sizde beşinci paragrafta.",
+            en: "Place the sentences inside the box next to their equivalent on your own page. You rarely find missing knowledge; you find a difference in form — their answer sits in the first two sentences, yours in the fifth paragraph.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu testin sonunda elinizde bir liste olur ve o liste bir içerik takviminden daha dürüsttür. Tezi tekrar edeyim: Google AI Overviews'da yer almanın garantisi yok, ama olasılığı sistematik olarak artırılabilir — indekslenebilir bir zemin, kesilip alındığında ayakta kalan paragraflar, müşterinin cümlesiyle yazılmış başlıklar ve metnin içine yerleştirilmiş kanıt. Yapay zeka aramalarının bütün resmi — ChatGPT, Perplexity ve ölçüm tarafı — [kanonik GEO rehberinde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) duruyor. Bu yazı yalnız Google'ın kutusuna baktı, çünkü Türkiye'de alıcınızın hâlâ en çok açtığı arama kutusu o.",
+          en: "At the end of that test you hold a list, and that list is more honest than a content calendar. To restate the thesis: there is no guarantee of appearing in Google AI Overviews, but the probability can be raised systematically — an indexable foundation, paragraphs that survive being cut out, headings written in the customer's sentence, and proof placed inside the text. The whole picture of AI search — ChatGPT, Perplexity and the measurement side — sits in [the canonical GEO guide](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz). This article looked at Google's box alone, because in Turkey that is still the search box your buyer opens most.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "AI Overview en kısa tanımıyla nedir?",
+          en: "What is an AI Overview, in short?",
+        },
+        answer: {
+          tr: "AI Overview, Google'ın arama sonuçlarının en üstünde gösterdiği, birden çok kaynaktan derlenmiş ve bir dil modeli tarafından yazılmış özet yanıttır. Kutunun içinde veya yanında yanıtı besleyen sayfalara bağlantı verilir. Google, özelliğin arkasında Gemini modelinin arama için özelleştirilmiş bir sürümünün çalıştığını açıkladı. Tekil kutuya AI Overview, özelliğin bütününe Google AI Overviews deniyor; her sorguda çıkmaz, açıklama ve karşılaştırma isteyen sorularda çok daha sık görülür.",
+          en: "An AI Overview is the summarised answer Google shows at the very top of its search results, assembled from several sources and written by a language model. Links to the pages feeding that answer sit inside or beside the box. Google has said a version of Gemini customised for Search powers the feature. The single box is an AI Overview and the feature as a whole is Google AI Overviews; it does not appear on every query, and explanation or comparison questions trigger it far more often.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Overview ile öne çıkan snippet arasındaki fark ne?",
+          en: "What is the difference between an AI Overview and a featured snippet?",
+        },
+        answer: {
+          tr: "Fark kaynak sayısında ve metnin üretilme biçiminde. Öne çıkan snippet (featured snippet) tek bir sayfadan bir pasajı olduğu gibi alıntılar; alıntılanan cümleleri sitenizde birebir bulabilirsiniz. AI Overview ise birkaç sayfayı okuyup sentezliyor ve yeni bir metin yazıyor, yanında da kısa bir kaynak listesi duruyor. Pratik sonuç şu: snippet'te tek bir yer vardır ve onu kazanırsınız, AI Overview'da üç dört yer vardır ve anılmak için o listeye girmeniz gerekir.",
+          en: "The difference lies in the number of sources and in how the text is produced. A featured snippet quotes one passage from one page verbatim, and you can find those exact sentences on the site. An AI Overview reads several pages, synthesises them and writes new text, with a short source list beside it. The practical consequence: a snippet has one slot you either win or lose, while an AI Overview has three or four, and being named means getting onto that list.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Overviews Türkiye'de çalışıyor mu?",
+          en: "Does AI Overviews work in Turkey?",
+        },
+        answer: {
+          tr: "Evet, Türkçe sorgularda düzenli olarak çıkıyor. Google özelliği Mayıs 2024'te duyurdu, önce ABD'de açtı, sonra kapsamı yüzden fazla ülkeye ve çok sayıda dile genişlettiğini açıkladı. Türkçe tarafta kapsam İngilizceden dar: aynı soruyu iki dilde sorduğunuzda İngilizce sonuçlarda kutu daha sık çıkıyor ve daha fazla kaynak anıyor. Bu aynı zamanda geç kalmadığınız anlamına geliyor — Türkçe sonuç sayfasında bu soruların karşılığı hâlâ zayıf.",
+          en: "Yes, it appears regularly on Turkish queries. Google announced the feature in May 2024, opened it in the United States first, then said it had extended coverage to more than a hundred countries and a long list of languages. Coverage on the Turkish side is narrower than in English: ask the same question in both and the English results produce a box more often, naming more sources. That also means you are not late — the Turkish results page still answers these questions poorly.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Overviews'da yer almak için ne yapmam gerekiyor?",
+          en: "What do I need to do to appear in AI Overviews?",
+        },
+        answer: {
+          tr: "Google'ın resmi konumu, ayrı bir optimizasyon yöntemi olmadığı ve aramanın temel kurallarının geçerli olduğu yönünde. Sahada kutuya giren sayfaların paylaştığı beş koşul var: Googlebot'un okuyabildiği indekslenebilir bir zemin, sayfadan kesilip alındığında anlamını koruyan paragraflar, müşterinin cümlesiyle yazılmış başlıklar ve altında ilk iki cümlede verilen net cevap, görünür bir güncellik sinyali, metnin içine yerleştirilmiş rakam, tarih ve ölçü. Hiçbiri tek başına garanti değil; hepsi olasılığı artırıyor.",
+          en: "Google's official position is that there is no separate optimisation method and that the basic rules of Search apply. In the field, pages that make it into the box share five conditions: an indexable foundation Googlebot can read, paragraphs that keep their meaning when cut out of the page, headings written in the customer's own sentence with a plain answer in the first two sentences beneath, a visible freshness signal, and numbers, dates and measurements written into the text. None guarantees a place; each one raises the odds.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Overviews sitemin trafiğini düşürür mü?",
+          en: "Will AI Overviews reduce my site's traffic?",
+        },
+        answer: {
+          tr: "Bazı sorgularda düşürüyor. Kullanıcı cevabı kutunun içinde bulduğunda alta inmiyor; gösterim aynı kalırken tıklama oranı geriliyor — sıfır tıklama (zero-click) denen düzen bu. Kayıp sorgu tipine göre değişiyor: bilgi soruları en çok, satın alma ve marka soruları en az etkileniyor. Kaybı tamamen telafi eden bir taktik yok. Kutuya girerseniz tıklamayı değil ama anılmayı koruyorsunuz, ve markanın adının cevabın içinde geçmesi satın alma anına kadar taşınıyor.",
+          en: "On some queries it does. When the user finds the answer inside the box they don't scroll further, so impressions hold while the click-through rate falls — the pattern the term zero-click describes. The loss varies by query type: informational questions lose the most, purchase and brand queries the least. No tactic replaces that loss entirely. Getting into the box preserves the mention rather than the click, and a brand name inside the answer travels all the way to the buying decision.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Overviews'da göründüğümü nasıl ölçerim?",
+          en: "How do I measure whether I appear in AI Overviews?",
+        },
+        answer: {
+          tr: "Doğrudan bir ölçüm ekranı yok. Google, AI Overviews'dan gelen gösterim ve tıklamaları Search Console'un genel arama raporuna katıyor ve ayrı bir kırılım vermiyor. Pratik yöntem iki adımlı: kutu ürettiğini elle doğruladığınız sorguları listeleyin, sonra o sorguların tıklama oranını önceki dönemle karşılaştırın. Pozisyonunuz sabitken oran düşüyorsa farkı büyük olasılıkla kutu yaratıyor. İkinci katman elle takip: aynı soruları düzenli aralıklarla sorup kimin anıldığını kaydedin.",
+          en: "No direct reporting screen exists. Google folds AI Overview impressions and clicks into the general Search performance report in Search Console without a separate breakdown. The practical method has two steps: list the queries you have manually confirmed produce a box, then compare their click-through rate with the previous period. If your position holds while the rate drops, the box is the likely cause. The second layer is manual tracking: ask the same questions at regular intervals and record who gets named.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapısal veri AI Overviews için zorunlu mu?",
+          en: "Is structured data required for AI Overviews?",
+        },
+        answer: {
+          tr: "Zorunlu değil. Google, AI Overviews için ek bir yapısal veri şartı olmadığını açıkça söylüyor. Yine de Article ve FAQPage işaretlemesi metnin makine tarafından ayrıştırılmasını kolaylaştırıyor ve maliyeti neredeyse sıfır. Beklentiyi doğru kurun: Google 2023'te soru-cevap zengin sonuçlarını çoğu site için kapattı, dolayısıyla sonuç sayfasında görsel bir kazanç beklemeyin. İşaretlemeyi sayfanın yapısını makineye açık etmek için koyuyorsunuz, rozet için değil.",
+          en: "It is not required. Google states plainly that AI Overviews demand no extra structured data. Article and FAQPage markup still make text easier for a machine to parse, and the cost is close to zero. Set the expectation correctly, though: Google restricted FAQ rich results for most sites in 2023, so expect no visual gain on the results page. You add the markup to declare the page's structure to a machine, not to win a badge.",
+        },
+      },
+      {
+        question: {
+          tr: "Google-Extended'ı engellersem AI Overviews'dan çıkar mıyım?",
+          en: "If I block Google-Extended, do I drop out of AI Overviews?",
+        },
+        answer: {
+          tr: "Çıkmazsınız. Google, Google-Extended'ı Gemini uygulaması ve model eğitimi için tanımladı; aramanın içindeki AI Overviews bu kontrolün kapsamında değil. Kutudan gerçekten çıkmak isterseniz kullanılacak işaretler farklı: nosnippet, max-snippet ve data-nosnippet, arama snippet'lerini etkilediği gibi AI Overviews'u da etkiliyor. Googlebot'u tamamen engellemek ise hem organik aramayı hem kutuyu bitiriyor — bu genellikle istenen sonuç olmuyor.",
+          en: "You won't. Google defined Google-Extended for the Gemini app and model training; AI Overviews inside Search sits outside that control. If you genuinely want out of the box, different directives do the job: nosnippet, max-snippet and data-nosnippet affect AI Overviews the same way they affect ordinary search snippets. Blocking Googlebot outright ends both your organic presence and the box, which is rarely the outcome anyone wants.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Overview'da yer almanın garantisi var mı?",
+          en: "Is there any guarantee of appearing in an AI Overview?",
+        },
+        answer: {
+          tr: "Garanti yok, olasılık var. Google hangi sayfanın neden seçildiğini açıklamıyor ve yayımlanmış ayrı bir AI Overviews sıralaması bulunmuyor. Gözlemlenen şu: aynı sorgu farklı günlerde farklı kaynaklar gösterebiliyor, kutu masaüstünde çıkıp mobilde çıkmayabiliyor, bazen tamamen kayboluyor. Kesin sonuç vaat eden herkese temkinli yaklaşın. Yapılabilecek iş, koşulları sistematik olarak kurup kutuya girme olasılığını yükseltmek.",
+          en: "There is no guarantee, only probability. Google does not explain why a given page is chosen, and no separate AI Overviews ranking has been published. What we observe: the same query can show different sources on different days, the box can appear on desktop and not on mobile, and sometimes it vanishes altogether. Treat anyone promising a fixed outcome with caution. The work available is building the conditions systematically and raising the odds of being included.",
+        },
+      },
+      {
+        question: {
+          tr: "Google yapay zeka optimizasyonu ile SEO aynı şey mi?",
+          en: "Is optimising for Google's AI answers the same as SEO?",
+        },
+        answer: {
+          tr: "Aynı değil, ama ayrı da değil. SEO sıralama için çalışır: amaç kullanıcının sonuç listesinde sizi görüp tıklamasıdır. Google yapay zeka optimizasyonu aynı sayfanın kutunun içinde kaynak olarak anılması için çalışır; kullanıcı hiç tıklamasa bile markanızın adı cevapta geçer. İkisi katmanlıdır: teknik sağlık, hız ve indekslenebilirlik olmadan kutuda zaten görünemezsiniz. Farklı olan, içeriğin biçimi ve neyin ölçüldüğü.",
+          en: "Not the same, but not separate either. SEO works for ranking: the goal is that a user sees you in the list and clicks through. Optimising for Google's AI answers works for citation: the same page gets named inside the box, so your brand appears in the answer even when nobody clicks. The two are layered — without technical health, speed and indexability you cannot appear in the box at all. What differs is the shape of the content and what you measure.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Overview her sorguda çıkıyor mu?",
+          en: "Does an AI Overview appear on every query?",
+        },
+        answer: {
+          tr: "Her sorguda çıkmıyor ve bu, içerik planınızın en kullanışlı girdisi. Açıklama isteyen, karşılaştırma içeren ve birden çok adımı olan sorular kutuyu daha sık tetikliyor. Marka aramaları, gezinme sorguları ve tek kesin cevabı olan kısa sorgular çoğunlukla tetiklemiyor. Sağlık, finans ve hukuk gibi hassas alanlarda kutu daha seyrek çıkıyor; Google bu alanlarda daha temkinli davrandığını söylüyor. Ticari kelimeniz kutu üretmiyorsa çalışacağınız yer, o kelimenin etrafındaki sorulardır.",
+          en: "It does not, and that is the most useful input to a content plan. Questions asking for an explanation, a comparison or several steps trigger the box far more often. Brand searches, navigational queries and short questions with one definite answer usually do not. In sensitive fields such as health, finance and law the box appears less often, and Google says it is deliberately more cautious there. If your commercial keyword produces no box, the work sits in the questions surrounding it.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "geo",
+    tags: ["geo", "ai-overviews", "ai-seo", "icerik-stratejisi"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-08-28",
+    readingMinutes: 12,
+    seo: {
+      title: {
+        tr: "Google AI Overviews'da yer almak: rehber",
+        en: "How to appear in Google AI Overviews",
+      },
+      description: {
+        tr: "AI Overview nedir, Google hangi sorgularda gösteriyor, tıklamaya ne oluyor? Yanıtın içine giren sayfaların beş ortak koşulu ve sahadan ölçülmüş rakamlar.",
+        en: "What is an AI Overview, which queries trigger it, and what happens to your clicks? The five conditions shared by pages Google names inside the answer.",
+      },
+    },
+  },
+  {
+    slug: {
+      tr: "llms-txt-nedir",
+      en: "what-is-llms-txt",
+    },
+    title: {
+      tr: "llms.txt: henüz kimsenin okumadığı, yine de yazmaya değer dosya",
+      en: "llms.txt: the file nobody reads yet, and still worth writing",
+    },
+    excerpt: {
+      tr: "Sitenizin kökündeki /llms.txt adresi çoğu sitede 404 döner. Dosyanın ne yaptığını, hangi motorun okuyup okumadığını ve kendi sitemizde onu içerik katmanından nasıl türettiğimizi anlatıyorum — sıralama vaadi olmadan.",
+      en: "On most sites, /llms.txt returns a 404. Here is what the file does, which engines actually read it, and how we generate ours straight from the content layer — with no ranking promises attached.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Sitenizin kökündeki /llms.txt adresini açmak on saniye sürüyor. Çoğu sitede o adres 404 döner. Ardından gelen soru hep aynı oluyor: bu dosyayı eklersek ChatGPT bizi anar mı? Dürüst cevap hayır. Ama sorunun nerede yanlış kurulduğunu göstermek, dosyayı tarif etmekten daha faydalı — çünkü llms.txt bir sıralama kaldıracı değil, bir okunabilirlik kararı.",
+          en: "Opening /llms.txt on your own domain takes ten seconds. On most sites it returns a 404. The question that follows is always the same: if we add this file, will ChatGPT start citing us? The honest answer is no. But showing where the question goes wrong is more useful than describing the file — because llms.txt is not a ranking lever, it is a readability decision.",
+        },
+      },
+      {
+        type: "h2",
+        id: "llms-txt-nedir",
+        text: {
+          tr: "llms.txt nedir?",
+          en: "What is llms.txt?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "llms.txt, bir sitenin kökünde duran ve o sitenin içeriğini dil modellerine sade metinle haritalayan bir dosya önerisidir. Adresi sabittir: alanadiniz.com/llms.txt. Biçimi markdown'dır — tek bir H1 başlık, bir cümlelik tanım, sonra bölüm başlıkları altında bağlantı listeleri. Öneriyi Eylül 2024'te Jeremy Howard ortaya attı; teknik tanımı llmstxt.org'da duruyor ve bugüne kadar resmî bir standart kurumu tarafından onaylanmadı.",
+          en: "llms.txt is a proposed file that sits at the root of a site and hands language models a plain-text map of its content. The address is fixed: yourdomain.com/llms.txt. The format is markdown — a single H1, a one-sentence definition, then lists of links under section headings. Jeremy Howard put the proposal forward in September 2024; the technical definition lives at llmstxt.org and no standards body has ratified it to date.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne olmadığını söylemek daha kolay. robots.txt bir izin dosyasıdır: hangi yolun taranmayacağını söyler. sitemap.xml bir envanterdir: her URL'i sayar, hiçbirinin ne anlattığını söylemez. llms.txt üçüncü bir iş yapar — hangi sayfaların önemli olduğunu ve her birinin neyi cevapladığını tek satırda anlatır. Fark burada: makine için yazılmış bir içindekiler sayfası.",
+          en: "It is easier to say what it is not. robots.txt is a permission file: it states which paths must not be crawled. sitemap.xml is an inventory: it lists every URL and says nothing about what any of them contain. llms.txt does a third job — it names the pages that matter and, in one line each, what question they answer. That is the difference: a table of contents written for a machine.",
+        },
+      },
+      {
+        type: "h2",
+        id: "neden-ortaya-cikti",
+        text: {
+          tr: "Bu dosya neden ortaya çıktı?",
+          en: "Why did this file appear?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki teknik kısıt yüzünden. Birincisi: yapay zeka tarayıcılarının (AI crawler) çoğu JavaScript çalıştırmıyor; içeriği tarayıcı tarafında derlenen bir sayfa onlara boş bir kabuk olarak gidiyor. İkincisi: bir dil modelinin bağlam penceresi (context window) sınırlı; modelin sitenizi okumak için harcayacağı bütçe menülerle, çerez uyarılarıyla, footer bağlantılarıyla ve tekrarlanan şablon metinle eriyor.",
+          en: "Two technical constraints. First: most AI crawlers do not execute JavaScript, so a page whose content is assembled in the browser arrives at them as an empty shell. Second: a language model's context window is finite, and the budget it can spend reading your site drains into menus, cookie notices, footer links and repeated boilerplate.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "llms.txt iki kısıtı da tek hamlede geçiyor. Dosya sade metin olduğu için JavaScript'e ihtiyaç duymuyor; kısa olduğu için bağlam penceresinde yer kaplamıyor. HTML tarayıcı için yazılır, markdown okumak için — ve bir modelin sayfanızda yaptığı iş, aslında okumaktan ibaret.",
+          en: "llms.txt clears both in one move. Being plain text, it needs no JavaScript; being short, it barely dents the context window. HTML is written for a browser and markdown is written for reading — and reading is the only thing a model actually does on your page.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kısıtın kendisi yeni değil. Yeni olan, o kısıtla karşılaşan tarafın artık bir kullanıcı değil bir program olması. Bu yüzden yapay zeka arama optimizasyonu tartışması hız ve indekslenebilirlikten sonra üçüncü bir başlık açtı: makine sayfanızdan ne çıkarabiliyor?",
+          en: "The constraint itself is not new. What is new is that the party running into it is a program rather than a person. That is why the AI search optimisation conversation opened a third front after speed and indexability: what can the machine actually extract from your page?",
+        },
+      },
+      {
+        type: "h2",
+        id: "dosya-bicimi",
+        text: {
+          tr: "Dosyanın biçimi: markdown bağlantı listesi",
+          en: "The format: a markdown list of links",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Biçim kasıtlı olarak dar tutulmuş. llmstxt.org tek bir düzen tarif ediyor ve dosyanın sırtını beş öğe taşıyor:",
+          en: "The format is deliberately narrow. llmstxt.org describes a single layout, and five elements carry the whole file:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Tek bir H1: sitenin veya kurumun adı. Belgede ikinci bir H1 bulunmaz.",
+            en: "One H1: the name of the site or the organisation. No second H1 appears in the document.",
+          },
+          {
+            tr: "H1'in altında, blok alıntı biçiminde tek cümlelik tanım: kurum ne yapar, kime çalışır.",
+            en: "Directly beneath it, a one-sentence definition as a blockquote: what the organisation does and who it works for.",
+          },
+          {
+            tr: "H2 başlıklarıyla bölümler: hizmetler, ürünler, dokümantasyon, vakalar, iletişim. Bölüm adları serbesttir.",
+            en: "Sections marked by H2 headings: services, products, documentation, case studies, contact. Section names are free-form.",
+          },
+          {
+            tr: "Her bölümün altında bağlantı satırları — köşeli parantezde sayfa adı, parantezde tam URL, iki noktadan sonra tek cümlelik açıklama. Açıklama isteğe bağlı, ama dosyanın asıl değeri orada.",
+            en: "Link lines under each section — page name in square brackets, full URL in parentheses, a one-sentence description after a colon. The description is optional, and it is where the file's value actually sits.",
+          },
+          {
+            tr: "İsteğe bağlı bir Optional bölümü: bağlam daraldığında modelin atlayabileceği ikincil bağlantılar.",
+            en: "An optional Optional section: secondary links the model can skip when context runs short.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "URL'ler mutlak olmalı. Göreli yol veren bir dosya, kendi sitesinin dışına çıkarıldığı anda anlamını kaybediyor — ve bir modelin dosyayı okuduğu yer neredeyse hiçbir zaman sizin siteniz değil.",
+          en: "URLs must be absolute. A file with relative paths loses its meaning the moment it leaves its own site — and the place a model reads your file is almost never your site.",
+        },
+      },
+      {
+        type: "h2",
+        id: "llms-full-txt-farki",
+        text: {
+          tr: "llms.txt ile llms-full.txt farkı ne?",
+          en: "What is the difference between llms.txt and llms-full.txt?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkisi arasındaki iş bölümü net: llms.txt bir harita, llms-full.txt bir döküm. Harita modeli doğru URL'e yollar ve birkaç kilobayt tutar. Döküm, sayfaların gövde metnini tek dosyada taşır ve yüz kilobaytları bulabilir; amacı, modelin siteyi hiç gezmeden sizi doğru anlatabilmesi.",
+          en: "The division of labour is clear: llms.txt is a map, llms-full.txt is an export. The map routes the model to the right URL and weighs a few kilobytes. The export carries the body text of those pages in one file and can run into hundreds of kilobytes; its purpose is to let a model describe you accurately without crawling the site at all.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "llms-full.txt orijinal önerinin çekirdeğinde yoktu; dokümantasyon araçlarının pratiğinden çıkıp yaygınlaştı. Büyük olması otomatik olarak iyi değil: bağlam penceresini aşan bir dosya kırpılır ve hangi yarısının kırpıldığına siz karar veremezsiniz. Pratik kural, ikisini birlikte yayımlamak ve dökümü gerçekten alıntılanmasını istediğiniz içerikle sınırlamak.",
+          en: "llms-full.txt was not part of the original proposal's core; it grew out of documentation tooling and spread from there. Bigger is not automatically better: a file that exceeds the context window gets truncated, and you do not get to choose which half survives. The practical rule is to publish both and to keep the export limited to content you genuinely want quoted.",
+        },
+      },
+      {
+        type: "h2",
+        id: "motorlar-okuyor-mu",
+        text: {
+          tr: "Arama motorları bu dosyayı gerçekten okuyor mu?",
+          en: "Do search engines actually read this file?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün itibarıyla hiçbir büyük arama motoru veya model sağlayıcısı llms.txt'i resmî olarak desteklediğini duyurmadı. Google tarafındaki açıklamalar dosyanın sıralamada kullanılmadığı yönünde; OpenAI, Anthropic ve Perplexity de bir destek beyanı yayımlamış değil. Size aksini söyleyen bir ajansa kaynağını sorun.",
+          en: "As things stand, no major search engine or model provider has announced official support for llms.txt. Statements from Google's side indicate the file plays no part in ranking, and neither OpenAI, Anthropic nor Perplexity has published a declaration of support. If an agency tells you otherwise, ask them for the source.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yayımlayan taraf ise hızla büyüyor. Geliştirici dokümantasyonu yayımlayan şirketler dosyayı fiilen standart hâline getirdi, dokümantasyon platformlarının çoğu llms.txt ve llms-full.txt'i otomatik üretiyor. Dosya bu yüzden bir asimetride duruyor: yazan çok, resmen okuduğunu söyleyen yok. Asimetrinin kalıcı olacağını varsaymak için de bir sebep yok — bir motor desteği duyurduğu gün, dosyası hazır olan taraf hiçbir şey yapmak zorunda kalmaz.",
+          en: "On the publishing side, though, adoption is moving fast. Companies that ship developer documentation have made the file a de facto standard, and most documentation platforms now generate llms.txt and llms-full.txt automatically. The file therefore sits in an asymmetry: plenty of sites write it, none of the engines admit to reading it. There is also no reason to assume the asymmetry is permanent — on the day an engine announces support, whoever already has the file does nothing at all.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dosyanın bugün karşılık bulduğu yer başka: kullanıcı isteğiyle canlı sayfa çeken ajanlar. ChatGPT-User, Claude-User ve Perplexity-User gibi tarayıcılar bir soruya cevap verirken URL'i o an çekiyor, ve kökte duran sade bir harita otuz sayfalık bir HTML'den daha hızlı işleniyor. Aynı dosya kod ve dokümantasyon asistanlarının, kendi kurduğunuz sohbet asistanının ve içeriğinizi besleyen her erişim tabanlı kurulumun da işine yarıyor.",
+          en: "Where the file does land today is elsewhere: agents that fetch live pages on a user's request. Crawlers like ChatGPT-User, Claude-User and Perplexity-User pull the URL at the moment they answer, and a clean map at the root is processed faster than thirty pages of HTML. The same file serves coding and documentation assistants, the chat assistant you build yourself, and any retrieval setup feeding on your content.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar çerçevesi bu yüzden basit: maliyeti bir saat, riski neredeyse sıfır — dosya zaten herkese açık sayfaları listeliyor, yeni hiçbir şeyi ifşa etmiyor. Getirisi ise belirsiz ama pozitif. Bir çeyreklik yol haritasına konacak iş değil; bir öğleden sonra kapanacak iş.",
+          en: "Which makes the decision frame simple: it costs an hour, the risk is close to zero — the file lists pages that are already public and exposes nothing new — and the return is uncertain but positive. This is not work for a quarterly roadmap. It is work for an afternoon.",
+        },
+      },
+      {
+        type: "h2",
+        id: "nasil-hazirlanir",
+        text: {
+          tr: "llms txt dosyası adım adım nasıl hazırlanır?",
+          en: "How do you write an llms txt file, step by step?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altı adımlık bir iş. Dosyayı elle yazmak mümkün, ama ilk kararı doğru vermek sonrakileri kolaylaştırıyor: bu dosya kime, hangi soruyu cevaplasın diye yazılıyor?",
+          en: "It is a six-step job. Writing the file by hand is possible, but getting the first decision right makes the rest easier: who is this file for, and which question should it answer?",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Alıcıyı tanımlayın. Model sizi neyle anmalı — hizmetlerinizle mi, teknik dokümantasyonunuzla mı, vakalarınızla mı? Dosyanın bölümleri bu cevaptan çıkar.",
+            en: "Define the reader. What should a model name you for — your services, your technical documentation, your case studies? The file's sections follow from that answer.",
+          },
+          {
+            tr: "Sayfaları seçin. Sitenizin tamamını değil, bir modelin sizi doğru anlatması için gereken yirmi-kırk sayfayı listeleyin. Envanteri sitemap zaten veriyor; burada seçim yapıyorsunuz.",
+            en: "Choose the pages. Not the whole site — list the twenty to forty pages a model needs in order to describe you correctly. The sitemap already provides the inventory; here you are making a selection.",
+          },
+          {
+            tr: "Her satıra bir cümlelik açıklama yazın. Sayfa başlığını tekrar etmeyin; sayfanın hangi soruyu cevapladığını yazın.",
+            en: "Write a one-sentence description on every line. Do not repeat the page title; state which question the page answers.",
+          },
+          {
+            tr: "Tanım cümlesini yazın. H1'in altındaki tek cümle, modelin sizi tarif ederken kullanacağı cümledir. Kendi hakkınızda okumak istediğiniz cümleyi yazın.",
+            en: "Write the definition sentence. The single line under the H1 is the sentence a model will reach for when it describes you. Write the sentence you would want to read about yourself.",
+          },
+          {
+            tr: "Dosyayı içerik kaynağından türetin. Elle yazılan bir liste ilk slug değişikliğinde eskir ve kimse fark etmez.",
+            en: "Generate the file from your content source. A hand-written list goes stale at the first slug change, and nobody notices.",
+          },
+          {
+            tr: "Yayımlayın ve doğrulayın. İçerik tipi text/markdown veya text/plain olmalı; tarayıcıda indirme başlatan bir dosya yanlış başlıkla sunuluyordur. Çok dilli bir siteniz varsa her dilin kendi sürümünü verin.",
+            en: "Publish it and verify it. The content type should be text/markdown or text/plain; a file that triggers a download in the browser is being served with the wrong header. If your site is multilingual, give every language its own version.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yedinci bir adım yok. Dosya yayına girdikten sonra kalan iş içeriğin kendisini alıntılanabilir hâle getirmek, ve llms.txt o işin yerine geçmiyor.",
+          en: "There is no seventh step. Once the file is live, the remaining work is making the content itself quotable, and llms.txt does not stand in for that.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kendi-uygulamamiz",
+        text: {
+          tr: "Kendi sitemizde llms.txt'i nasıl kurduk?",
+          en: "How did we build llms.txt on our own site?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu sitede dört dosya yayımlanıyor: /llms.txt, /tr/llms.txt, /en/llms.txt ve /llms-full.txt. Hiçbirinin içinde elle yazılmış bir bağlantı satırı yok. Hepsi içerik katmanından — hizmet, vaka, paket, yazı ve danışman kayıtlarından — derleniyor, derleme sırasında statik dosyaya dönüşüyor ve text/markdown içerik tipiyle sunuluyor. Hiçbiri istek anında hesaplanmıyor.",
+          en: "Four files are published on this site: /llms.txt, /tr/llms.txt, /en/llms.txt and /llms-full.txt. None of them contains a hand-written link line. All four are assembled from the content layer — the service, case, package, article and consultant records — turned into static files at build time and served as text/markdown. None of them is computed per request.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kararın gerekçesi bakım. Bir slug değiştiğinde elle yazılmış bir llms.txt sessizce eskir: dosya hâlâ 200 döner, içindeki bağlantılar 404 verir ve bunu ilk fark eden taraf okurunuz olmaz. Bağlantı satırlarını içerik nesnelerinden ürettiğimiz için o senaryo mümkün değil — hizmet URL'i hizmetin kendi slug alanından, vaka URL'i vakanın slug alanından geliyor. Alan adı da sabit yazılmıyor, tek bir site adresi sabitinden okunuyor.",
+          en: "The reason is maintenance. When a slug changes, a hand-written llms.txt goes stale silently: the file still returns 200, the links inside it return 404, and your reader is not the first to notice. Because the link lines are produced from the content objects, that scenario cannot occur — a service URL comes from the service's own slug field, a case URL from the case's. The domain is not hard-coded either; it is read from a single site-address constant.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dosyanın bugünkü içeriği: üç disiplin altında 12 hizmet, 9 vaka çalışması, yayındaki her yazı, iletişim ve beş kaynak sayfası — Türkçe sürümde kırkı aşan bağlantı, her biri tek cümlelik açıklamasıyla. Kök /llms.txt iki dili tek belgede birleştiriyor, Türkçe bölüm önde, bir ayırıcıdan sonra İngilizce bölüm geliyor. Tek dilli sürümler karşı dile hiçbir bağlantı taşımıyor, çünkü tek dilli bir dosyanın işi kendi dilinin haritasını vermek.",
+          en: "What the file holds today: 12 services across three disciplines, 9 case studies, every published article, contact details and five resource pages — over forty links in the Turkish version, each with its own one-sentence description. The root /llms.txt merges both languages into one document, Turkish first, English after a separator. The single-language versions carry no links to the other language, because a single-language file's job is to map its own language.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "/llms-full.txt daha ileri gidiyor: her hizmetin kapsamı ve kapsam dışı maddeleri, dört paketin süresi ve üç para birimindeki sabit fiyatı, dokuz vakanın problem-yaklaşım-sonuç anlatısı ve metrikleri bağlamıyla birlikte. SIM Baskı Malzemeleri satırında 15 katlık organik trafik artışı, yanında \"6 ayda; yeniden platform ve içerik programıyla\" notuyla duruyor. Rakamı bağlamsız basmıyoruz — bir model onu alıntılayacaksa çerçevesiyle alıntılasın.",
+          en: "/llms-full.txt goes further: the scope and out-of-scope lines of every service, the duration and fixed price in three currencies for four packages, and the problem-approach-outcome narrative of nine case studies with their metrics attached to context. On the SIM Printing Suppliers line, the 15× lift in organic traffic sits next to the note \"in 6 months; via replatforming and the content programme\". We never print a number without its frame — if a model is going to quote it, it should quote the frame too.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu dosyaların [SIM Baskı Malzemeleri vakasındaki](/vakalar/sim-baski-ihracat-icerigi) sonuçları ürettiğini iddia etmiyoruz. Orada organik trafiğin altı ayda 15 katına çıkması ve AI motorlarındaki görünürlüğün sıfırdan 40 bine ulaşması, sitenin beş dilli olarak yeniden kurulmasından ve içeriğin soru-cevap mimarisiyle yazılmasından geldi. llms.txt o işin dipnotu, kaldıracı değil. Sıralama bilinçli: önce içerik, sonra harita.",
+          en: "We do not claim these files produced the results in the [SIM Printing Suppliers case](/vakalar/sim-baski-ihracat-icerigi). There, organic traffic growing 15× in six months and visibility in AI engines going from zero to 40,000 came from rebuilding the site in five languages and writing the content on a question-and-answer architecture. llms.txt is a footnote to that work, not its lever. The order is deliberate: content first, map second.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ai-crawler-robots",
+        text: {
+          tr: "AI crawler'lara robots.txt'te ne demeli?",
+          en: "What should robots.txt say to AI crawlers?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "llms.txt'in okunabilmesi için sitenin o tarayıcıya açık olması gerekiyor, ve bu karar robots.txt'te veriliyor. Bizim robots dosyamız on AI crawler'ı adıyla listeliyor ve hepsine Allow veriyor: GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-User, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended ve CCBot.",
+          en: "For llms.txt to be read at all, the site has to be open to that crawler, and robots.txt is where the decision gets made. Our robots file names ten AI crawlers explicitly and allows every one of them: GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-User, PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended and CCBot.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Erişim zaten yıldız bloğunun altında açıktı; adları tek tek yazmanın sebebi niyeti okunur kılmak. Ama teknik bir tuzak var: robots.txt'te en özgül user-agent bloğu kazanır, yani adı geçen bir bot yıldız bloğunu hiç okumaz. Uygulama, yönetim ve API yollarını kapatan kısıt listesini her blokta tekrar etmezseniz, adını yazdığınız tarayıcılara herkesten geniş erişim vermiş olursunuz. Biz aynı kısıt listesini on bir bloğun hepsinde tekrar ediyoruz.",
+          en: "Access was already open under the wildcard block; naming each crawler is about making the intent legible. There is a trap in the mechanics, though: in robots.txt the most specific user-agent block wins, so a named bot never reads the wildcard block at all. If you do not repeat the disallow list covering app, admin and API paths inside every block, the crawlers you named end up with broader access than everyone else. We repeat the same disallow list across all eleven blocks.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir ayrıntı daha: üretim dışı ortamlar tüm tarayıcılara Disallow: / döndürüyor. Ön izleme alan adının indekslenmesi kanonik sürümle çakışır, ve bu, iyi kurulmuş bir GEO çalışmasını sessizce bozan hatalardan biri.",
+          en: "One more detail: non-production environments return Disallow: / to every crawler. An indexed preview domain competes with the canonical version, and that is one of the faults that quietly undoes an otherwise well-built GEO programme.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sik-hatalar",
+        text: {
+          tr: "En sık yapılan hatalar neler?",
+          en: "What are the most common mistakes?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dosyayı yayımlamak kolay, yanlış yayımlamak da öyle. Sahada tekrarlayan beş hata var.",
+          en: "Publishing the file is easy, and so is publishing it wrong. Five mistakes recur in the field.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Sitemap kopyası yayımlamak. Açıklamasız bir URL listesi zaten sitemap.xml'de duruyor; llms.txt'in tek katkısı o açıklamalar.",
+            en: "Publishing a copy of the sitemap. A list of URLs without descriptions already exists in sitemap.xml; the descriptions are llms.txt's only contribution.",
+          },
+          {
+            tr: "Elle yazıp unutmak. Altı ay sonra dosyada sitede olmayan sayfalar, sitede dosyada olmayan başlıklar kalır.",
+            en: "Writing it by hand and forgetting it. Six months on, the file lists pages the site no longer has, and the site has pages the file never heard of.",
+          },
+          {
+            tr: "Yanlış içerik tipiyle sunmak. text/html olarak dönen bir llms.txt, markdown bekleyen tarafta işlenmez.",
+            en: "Serving it with the wrong content type. An llms.txt returned as text/html is not processed by anything expecting markdown.",
+          },
+          {
+            tr: "Çok dilli sitede tek dil yayımlamak. İngilizce sayfalarınız modelin haritasında hiç görünmez.",
+            en: "Publishing one language on a multilingual site. Your English pages simply never appear on the model's map.",
+          },
+          {
+            tr: "Dosyayı sıralama vaadi sanmak. llms.txt kimseyi kaynak göstermeye ikna etmiyor; içeriğin kendisi ikna ediyor — [Google AI Overviews'da yer almak](/yazilar/google-ai-overviews-da-yer-almak) bunun kendi başına bir iş kalemi.",
+            en: "Mistaking the file for a ranking promise. llms.txt persuades nobody to cite you; the content does that — and [appearing in Google AI Overviews](/yazilar/google-ai-overviews-da-yer-almak) is a line of work in its own right.",
+          },
+        ],
+      },
+      {
+        type: "h2",
+        id: "bu-hafta-hangi-test",
+        text: {
+          tr: "Bu hafta hangi testi yapabilirsiniz?",
+          en: "Which test can you run this week?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tez şu: llms.txt sıralama kazandırmaz, ama okunabilirlik borcunuzu görünür kılar. Dosyayı hazırlarken kendinize sorduğunuz \"bir model beni hangi kırk sayfayla doğru anlatır\" sorusu çoğu sitede yılda bir kez bile sorulmuyor, ve asıl kazanç o sorunun cevabında.",
+          en: "The thesis: llms.txt wins you no ranking, but it makes your readability debt visible. The question you ask while assembling it — which forty pages would let a model describe me correctly — goes unasked for years on most sites, and the real gain is in the answer.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut test iki dakika sürüyor. Tarayıcınıza kendi alan adınızı, sonuna da /llms.txt yazın. 404 alıyorsanız, dosyayı kurmadan önce ikinci soruyu sorun: kurulsaydı içine hangi sayfaları koyardınız ve her birinin yanına ne yazardınız? O listeyi çıkarmakta zorlanıyorsanız sorun dosyada değil, sitenin kendini anlatma biçiminde. Aynı testi bir de rakibinizin alan adında yapın; kimin ne kadar hazırlandığını on saniyede görürsünüz.",
+          en: "The concrete test you can run today takes two minutes. Type your own domain into the address bar and add /llms.txt. If you get a 404, ask the second question before you build the file: which pages would you put in it, and what would you write beside each one? If that list is hard to produce, the problem is not the file — it is how the site explains itself. Then run the same test on a competitor's domain; ten seconds shows you who has done the work.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Listeyi çıkardıktan sonra sıradaki iş içeriğin kendisi. [Yapay zeka aramalarında öne çıkma rehberi](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) o kısmı adım adım anlatıyor; kurulmuş hâlinin rakamları da [vaka sayfalarımızda](/vakalar) duruyor.",
+          en: "Once the list exists, the next job is the content itself. [Our guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) walks through that part step by step, and the numbers from where it has been built sit on [our case pages](/vakalar).",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "llms.txt en kısa tanımıyla nedir?",
+          en: "What is llms.txt, in short?",
+        },
+        answer: {
+          tr: "llms.txt, bir sitenin kök dizininde duran ve içeriğini dil modellerine sade metin biçiminde haritalayan bir dosya önerisidir. Markdown yazılır: tek bir H1 başlık, bir cümlelik kurum tanımı, sonra bölüm başlıkları altında sayfa adı, tam URL ve tek cümlelik açıklama taşıyan bağlantı satırları. Öneri Eylül 2024'te Jeremy Howard tarafından ortaya atıldı ve teknik tanımı llmstxt.org'da yayımlanıyor. Resmî bir standart değil, yaygınlaşmış bir sözleşme.",
+          en: "llms.txt is a proposed file that sits in a site's root directory and maps its content for language models in plain text. It is written in markdown: a single H1, a one-sentence definition of the organisation, then link lines under section headings carrying a page name, a full URL and a one-sentence description. Jeremy Howard put the proposal forward in September 2024 and the technical definition is published at llmstxt.org. It is not an official standard but a convention that spread.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt nasıl hazırlanır?",
+          en: "How do you prepare an llms.txt file?",
+        },
+        answer: {
+          tr: "Altı adım var. Önce dosyanın kime yazıldığına karar verin: model sizi hizmetlerinizle mi, dokümantasyonunuzla mı, vakalarınızla mı anmalı. Sonra sitenizin tamamını değil, sizi doğru anlatan yirmi-kırk sayfayı seçin. Her bağlantıya sayfa başlığını tekrar etmeyen, sayfanın hangi soruyu cevapladığını söyleyen bir cümle yazın. H1 altındaki tanım cümlesini kendi hakkınızda okumak istediğiniz cümle olarak kurun. Dosyayı elle değil içerik kaynağınızdan türetin. Son adım yayın ve doğrulama: içerik tipi text/markdown olmalı.",
+          en: "Six steps. Decide who the file is for: should a model name you for your services, your documentation or your case studies. Then select not the whole site but the twenty to forty pages that describe you correctly. Give every link a sentence that states which question the page answers rather than repeating its title. Compose the definition line under the H1 as the sentence you would want read about yourself. Generate the file from your content source rather than typing it. Finally publish and verify: the content type should be text/markdown.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt ile llms-full.txt arasındaki fark ne?",
+          en: "How do llms.txt and llms-full.txt differ in practice?",
+        },
+        answer: {
+          tr: "İş bölümü net: biri harita, diğeri döküm. llms.txt yalnızca bağlantı ve tek cümlelik açıklama taşır, birkaç kilobayttır ve modeli doğru URL'e yollar. llms-full.txt sayfaların gövde metnini tek dosyada toplar, yüz kilobaytları bulabilir ve amacı modelin siteyi hiç gezmeden sizi doğru anlatabilmesidir. Büyük dosya otomatik olarak iyi değil — bağlam penceresini aşan bir döküm kırpılır ve hangi bölümün düştüğüne siz karar veremezsiniz.",
+          en: "The division of labour is clear: one is a map, the other an export. llms.txt carries only links and one-line descriptions, weighs a few kilobytes, and routes the model to the right URL. llms-full.txt gathers the body text of those pages into one file, can run into hundreds of kilobytes, and exists so a model can describe you accurately without crawling. A larger file is not automatically better — an export that exceeds the context window gets truncated, and you do not choose which part is dropped.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt SEO'ya yarar mı, sıralamayı etkiler mi?",
+          en: "Does llms.txt help SEO or affect rankings?",
+        },
+        answer: {
+          tr: "Doğrudan bir etkisi yok. Hiçbir büyük arama motoru dosyayı sıralama sinyali olarak kullandığını duyurmadı, Google tarafındaki açıklamalar da aksi yönde. Dosyayı eklemek klasik SEO metriklerinizde bir hareket yaratmaz. Buna rağmen eklemeye değer olmasının sebebi maliyet dengesi: bir saatlik iş, sıfıra yakın risk, belirsiz ama pozitif getiri. Sıralama beklentisiyle yaklaşan herkes hayal kırıklığına uğrar; okunabilirlik disiplini olarak yaklaşan kazanır.",
+          en: "There is no direct effect. No major search engine has announced using the file as a ranking signal, and statements from Google point the other way. Adding it will not move your classic SEO metrics. What still makes it worth doing is the cost balance: an hour of work, near-zero risk, an uncertain but positive return. Anyone approaching it expecting rankings will be disappointed; anyone approaching it as a readability discipline gains something.",
+        },
+      },
+      {
+        question: {
+          tr: "ChatGPT llms.txt dosyasını okuyor mu?",
+          en: "Does ChatGPT read the llms.txt file?",
+        },
+        answer: {
+          tr: "Kısmen, ve resmî bir taahhüt olmadan. OpenAI llms.txt desteğini duyurmuş değil; dolayısıyla eğitim veya indeksleme tarafında dosyanın işlendiğini varsaymak yanlış olur. Ama kullanıcı bir bağlantıyı sorduğunda sayfayı o an çeken ChatGPT-User gibi ajanlar kökteki sade metni işleyebiliyor, ve bu dosya otuz sayfalık bir HTML'den hızlı okunuyor. Pratikte kazanç, eğitim verisine girmekten çok canlı çekimlerde doğru anlaşılmak.",
+          en: "Partly, and without any formal commitment. OpenAI has not announced support for llms.txt, so assuming the file is processed on the training or indexing side would be wrong. But agents such as ChatGPT-User, which fetch a page at the moment a user asks about it, can process plain text at the root, and that reads faster than thirty pages of HTML. In practice the gain lies in being understood correctly during live fetches rather than in entering training data.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt dosyası nereye konur?",
+          en: "Where does the llms.txt file go?",
+        },
+        answer: {
+          tr: "Sitenin kök dizinine, robots.txt ile aynı seviyeye: alanadiniz.com/llms.txt. Alt klasörde duran bir dosyayı kimse aramaz, çünkü öneri tek bir sabit adres tanımlıyor. Çok dilli bir sitede kökteki dosyayı ana dilinizle kurup her dile ayrıca kendi sürümünü verebilirsiniz; biz kökte iki dili birleştirip /tr/llms.txt ve /en/llms.txt adreslerinde tek dilli sürümleri ayrıca yayımlıyoruz. İçerik tipinin text/markdown veya text/plain olması gerekir.",
+          en: "In the site's root directory, at the same level as robots.txt: yourdomain.com/llms.txt. Nobody looks for a file sitting in a subfolder, because the proposal defines one fixed address. On a multilingual site you can build the root file around your primary language and give each language its own version as well; we merge both languages at the root and publish single-language versions at /tr/llms.txt and /en/llms.txt. The content type must be text/markdown or text/plain.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt ile robots.txt aynı şey mi?",
+          en: "Are llms.txt and robots.txt the same thing?",
+        },
+        answer: {
+          tr: "Hayır, iki dosya farklı sorulara cevap veriyor. robots.txt bir izin belgesidir: hangi tarayıcının hangi yolu taramasına izin verildiğini söyler ve erişimi kontrol eder. llms.txt bir anlam belgesidir: erişimi hiç düzenlemez, yalnızca hangi sayfaların önemli olduğunu ve neyi anlattığını gösterir. İkisi birbirinin yerine geçmez — robots.txt'te kapalı bir siteyi llms.txt açamaz, llms.txt'i olmayan bir site robots.txt sayesinde daha iyi anlaşılmaz.",
+          en: "No, the two files answer different questions. robots.txt is a permissions document: it states which crawler may fetch which paths and controls access. llms.txt is a meaning document: it regulates nothing about access and only indicates which pages matter and what they cover. Neither substitutes for the other — llms.txt cannot open a site that robots.txt has closed, and robots.txt will not make a site without llms.txt any better understood.",
+        },
+      },
+      {
+        question: {
+          tr: "llms txt dosyasında kaç bağlantı olmalı?",
+          en: "How many links should an llms txt file contain?",
+        },
+        answer: {
+          tr: "Sabit bir sayı yok, ama seçicilik dosyanın işlevinin kendisi. Yirmi ile kırk bağlantı çoğu kurumsal site için işi görüyor; bizim Türkçe sürümümüzde 12 hizmet, 9 vaka ve yayındaki her yazıyla birlikte kırkın üzerinde satır var. Sınırı belirleyen soru şu: bir model bu listeyle sizi doğru anlatabilir mi? Yüzlerce bağlantı eklemek dosyayı sitemap kopyasına çevirir ve seçim yapmadığınız için modelin işini kolaylaştırmaz.",
+          en: "No fixed number exists, but selectivity is the whole function of the file. Twenty to forty links serve most corporate sites; our Turkish version runs to over forty lines with 12 services, 9 case studies and every published article. The question that sets the limit is whether a model could describe you correctly from this list alone. Adding hundreds of links turns the file into a copy of the sitemap and, because you made no selection, does nothing to ease the model's work.",
+        },
+      },
+      {
+        question: {
+          tr: "Çok dilli bir sitede llms.txt nasıl yönetilir?",
+          en: "How is llms.txt handled on a multilingual site?",
+        },
+        answer: {
+          tr: "Her dilin kendi sürümü olur, ve o sürüm yalnız kendi dilinin URL'lerini taşır. Tek dilde yayımlanan bir dosya diğer dildeki sayfalarınızı modelin haritasından siler; bu, ihracat yapan siteler için doğrudan bir görünürlük kaybı. Bizim düzenimizde kök /llms.txt iki dili tek belgede birleştiriyor, Türkçe bölüm önde geliyor; /tr/llms.txt ve /en/llms.txt ise tek dilli belgeler olarak duruyor ve karşı dile bağlantı vermiyor.",
+          en: "Every language gets its own version, and that version carries only its own language's URLs. A file published in a single language erases your other-language pages from the model's map, which is a direct visibility loss for any site selling abroad. In our setup the root /llms.txt merges both languages into one document with the Turkish section first, while /tr/llms.txt and /en/llms.txt stand as single-language documents that link to nothing in the other language.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt olmadan yapay zeka motorlarında görünür olunur mu?",
+          en: "Can you be visible in AI engines without llms.txt?",
+        },
+        answer: {
+          tr: "Evet, hem de rahatlıkla. Bugün AI motorlarında kaynak gösterilen sitelerin büyük çoğunluğunda bu dosya yok; görünürlüğü sağlayan şey içeriğin yapısı. Soru biçiminde başlıklar, başlık altında net cevap veren ilk paragraf, kendi başına anlamlı pasajlar ve metnin içine yerleştirilmiş rakamlar. SIM Baskı Malzemeleri'nde organik trafiğin altı ayda 15 katına çıkması ve AI motorlarındaki görünürlüğün sıfırdan 40 bine ulaşması bu mimariden geldi, bir dosyadan değil.",
+          en: "Yes, comfortably. The large majority of sites being cited in AI engines today have no such file; what produces the visibility is the structure of the content. Headings phrased as questions, a first paragraph that answers plainly beneath each one, passages that hold up on their own, and figures written into the sentences. At SIM Printing Suppliers, organic traffic growing 15× in six months and visibility in AI engines going from zero to 40,000 came from that architecture, not from a file.",
+        },
+      },
+      {
+        question: {
+          tr: "llms.txt dosyasını kim güncelleyecek?",
+          en: "Who is going to keep the llms.txt file updated?",
+        },
+        answer: {
+          tr: "En iyi cevap: kimse. Dosya elle yazıldığında sahibi hızla belirsizleşir ve ilk slug değişikliğinde sessizce eskir — 200 dönmeye devam eder, içindeki bağlantılar 404 verir. Bu yüzden dosyayı içerik kaynağınızdan türetmek bir tercih değil, bakım kararıdır. Bizim dört llms dosyamızın içinde elle yazılmış tek bir bağlantı satırı yok; hepsi hizmet, vaka, paket ve yazı kayıtlarından derleme sırasında üretiliyor, dolayısıyla içerik değiştiğinde dosya kendiliğinden güncel kalıyor.",
+          en: "The best answer is nobody. When the file is typed by hand its owner quickly becomes unclear and it goes stale at the first slug change — still returning 200 while the links inside it return 404. Generating it from your content source is therefore a maintenance decision rather than a preference. Not one link line in our four llms files is hand-written; all of them are produced from the service, case, package and article records at build time, so the files stay current when the content changes.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "geo",
+    tags: ["llms-txt", "geo", "ai-crawler", "teknik-seo"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-08-28",
+    readingMinutes: 11,
+    seo: {
+      title: {
+        tr: "llms.txt nedir ve nasıl hazırlanır?",
+        en: "What is llms.txt and how to write one",
+      },
+      description: {
+        tr: "llms.txt, sitenizin haritasını dil modellerine sade metinle veren bir dosya önerisi. Ne işe yarar, llms-full.txt'ten farkı ne, AI crawler'lar okuyor mu?",
+        en: "llms.txt hands language models a plain-text map of your site. What it does, how it differs from llms-full.txt, whether AI crawlers read it, how to write one.",
+      },
+    },
+  },
+  {
+    slug: {
+      tr: "cro-nedir",
+      en: "what-is-cro",
+    },
+    title: {
+      tr: "CRO nedir? Aynı trafikten daha fazla satış",
+      en: "What is CRO? Same traffic, more sales",
+    },
+    excerpt: {
+      tr: "Reklam bütçesi ikiye katlandı, tıklama ikiye katlandı, satış aynı kaldı. CRO tam burada başlıyor: eldeki trafiği satın alan trafiğe çeviren ölçüm, hipotez ve test disiplini.",
+      en: "The ad budget doubled, the clicks doubled, the sales curve stayed put. That is where CRO starts: the measurement, hypothesis and testing discipline that turns the traffic you already have into buying traffic.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Geçen sonbahar bir toplantıda bir e-ticaret müdürü dizüstünü bize çevirdi. Reklam panelinde bütçe altı ayda ikiye katlanmıştı, tıklama sayısı da öyle. Satış eğrisi ise tam olarak eskiden durduğu yerde duruyordu. Sorusu tek cümleydi: \"Daha ne kadar trafik almam gerekiyor?\"",
+          en: "Last autumn, in a meeting, an e-commerce manager turned their laptop toward us. On the ad dashboard the budget had doubled in six months, and the clicks had doubled with it. The sales curve sat exactly where it had always sat. Their question was one sentence: \"How much more traffic do I need?\"",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yanlış soruydu. Doğru soru üç parçalıydı: gelen ziyaretçilerin yüzde kaçı satın alıyor, geri kalanı tam olarak nerede vazgeçiyor, bu vazgeçişlerden hangisi düzeltilebilir? Bu üç sorunun peşine düşen işin adı CRO. Toplantıyı bu yazı için kurguladım; soruyu kurgulamadım — aynı cümleyi son yıllarda farklı sektörlerden defalarca duyduk.",
+          en: "It was the wrong question. The right one came in three parts: what share of arriving visitors buy, where exactly do the rest give up, and which of those give-ups can be fixed? The work that chases those three questions is called CRO. I invented the meeting for this article; I did not invent the question — we have heard that same sentence from different industries many times over the past few years.",
+        },
+      },
+      {
+        type: "h2",
+        id: "cro-nedir",
+        text: {
+          tr: "CRO nedir?",
+          en: "What is CRO?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO (conversion rate optimization — dönüşüm oranı optimizasyonu), bir siteye gelen mevcut ziyaretçilerin daha büyük bir bölümünü müşteriye çeviren ölçüm, hipotez ve test disiplinidir. Trafik satın almaz; eldeki trafiğin verimini artırır. Yöntemi üç parçalıdır: ziyaretçinin nerede durduğunu veriyle tespit etmek, durmasının nedenine dair sınanabilir bir hipotez kurmak, o hipotezi kontrollü bir deneyle test etmek. Çıktısı yeni bir tasarım değil, doğrulanmış bir öğrenmedir.",
+          en: "CRO — conversion rate optimisation — is the discipline of measurement, hypothesis and testing that turns a larger share of the visitors a site already has into customers. It does not buy traffic; it raises the yield of the traffic in hand. The method has three parts: find where the visitor stops using data, build a testable hypothesis about why they stopped, then examine that hypothesis with a controlled experiment. Its output is not a new design but a verified piece of knowledge.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu tanımın dışarıda bıraktıkları en az içerdikleri kadar önemli. CRO, sayfayı güzelleştirme işi değildir — estetik bir sonuç olabilir, hedef değildir. Bir kişinin \"bence şu buton daha iyi\" demesi de değildir; bir kişinin fikri hipotezdir, hipotez veriyle sınanana kadar bilgi sayılmaz. Ve tek seferlik bir proje hiç değildir: ziyaretçi davranışı, rekabet ve fiyat bandı değiştikçe geçerli olan cevap da değişir, dolayısıyla iş bir kez yapılıp bitmez.",
+          en: "What this definition leaves out matters as much as what it includes. CRO is not the business of making a page prettier — aesthetics can be a by-product, never the goal. Nor is it one person saying \"I think that button is better\"; one person's opinion is a hypothesis, and a hypothesis is not knowledge until data tests it. And it is certainly not a one-off project: as visitor behaviour, competition and price bands shift, the answer that held last quarter stops holding, so the work never finishes.",
+        },
+      },
+      {
+        type: "h2",
+        id: "donusum-orani-nedir",
+        text: {
+          tr: "Dönüşüm oranı nedir, nasıl hesaplanır?",
+          en: "What is a conversion rate and how is it calculated?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dönüşüm oranı, belirli bir dönemde hedeflenen eylemi tamamlayan ziyaretçilerin toplam ziyaretçiye bölünmesidir. Formül sade: dönüşüm sayısı ÷ oturum sayısı × 100. Yüz oturumun üçü sipariş veriyorsa web sitesi dönüşüm oranınız yüzde üçtür. Zorluk formülde değil, formülün iki tarafını da dürüst doldurmakta.",
+          en: "A conversion rate is the number of visitors who complete the targeted action in a given period, divided by the total number of visitors. The formula is plain: conversions ÷ sessions × 100. If three out of a hundred sessions place an order, your website conversion rate is three percent. The difficulty is not the formula but filling in both sides of it honestly.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Paydaya ne koyduğunuz cevabı değiştirir. Oturum yerine tekil kullanıcı sayarsanız oran yükselir; bot ve iç trafiği ayıklamazsanız düşer. Aynı sitede mobil ve masaüstü oranları birbirinden ayrı hesaplanmadığında, iyi çalışan bir masaüstü deneyimi bozuk bir mobil deneyimi haftalarca gizleyebilir. Bu yüzden tek bir e-ticaret dönüşüm oranı rakamı raporun başlığı olamaz; kırılımı olmayan oran, ortalamanın arkasına saklanmış bir sorundur.",
+          en: "What you put in the denominator changes the answer. Count unique users instead of sessions and the rate climbs; leave bots and internal traffic in and it sinks. When mobile and desktop are not calculated separately on the same site, a healthy desktop experience can hide a broken mobile one for weeks. This is why a single e-commerce conversion rate cannot be the headline of a report; a rate without a breakdown is a problem hiding behind an average.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir de eylem seçimi var. Satın alma makro dönüşümdür, ama tek dönüşüm değildir: sepete ekleme, form gönderimi, teklif talebi, bültene kayıt ve hesap açma da ölçülür ve bunlara mikro dönüşüm denir. Uzun satış döngüsü olan işlerde mikro dönüşümler tek erken sinyaldir — üç aylık bir teklif sürecinde yalnız imzayı beklerseniz, aradaki hiçbir iyileştirmenin etkisini göremezsiniz.",
+          en: "Then there is the choice of action. A purchase is the macro conversion, but not the only one: add-to-cart, form submissions, quote requests, newsletter sign-ups and account creation are all measured too, and these are called micro conversions. In businesses with long sales cycles, micro conversions are the only early signal — if you wait for the signature alone in a three-month quoting process, you will never see the effect of anything you improved in between.",
+        },
+      },
+      {
+        type: "h2",
+        id: "iyi-donusum-orani-kac",
+        text: {
+          tr: "İyi bir dönüşüm oranı kaç olmalı?",
+          en: "What counts as a good conversion rate?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dürüst cevap: sektöre, fiyat bandına, trafiğin kaynağına ve ölçümün nasıl kurulduğuna göre değişir; herkes için geçerli tek bir \"iyi\" rakam yok. İnternette dolaşan sektör ortalamalarını gördüğünüzde şunu sorun: bu rakam hangi ülkedeki, hangi fiyat bandındaki, hangi trafik karmasına sahip kaç mağazadan toplandı? Cevap yoksa rakam da yoktur.",
+          en: "The honest answer: it depends on the sector, the price band, where the traffic comes from and how the measurement was set up; there is no single \"good\" number that holds for everyone. When you see an industry average circulating online, ask one thing: how many stores was it collected from, in which country, at which price band, with what traffic mix? If there is no answer, there is no number.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı kategoride iki mağaza düşünün. Biri trafiğinin çoğunu marka aramasından alıyor, diğeri geniş hedefli görüntülü reklamdan. İkincinin oranı yapısal olarak düşük çıkar ve bu bir başarısızlık değil, farklı bir niyet karmasıdır. Bin liralık ürün satan bir mağazayla yüz bin liralık makine satan bir üreticinin oranını yan yana koymak da aynı hatadır — karar süresi uzadıkça oran düşer, çünkü aynı kişi satın almadan önce siteye beş kez gelir.",
+          en: "Picture two stores in the same category. One takes most of its traffic from brand searches, the other from broadly targeted display ads. The second one's rate comes out structurally lower, and that is not a failure but a different mix of intent. Putting a store selling thousand-lira items next to a manufacturer selling hundred-thousand-lira machines is the same error — the longer the decision takes, the lower the rate, because the same person visits five times before buying.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kullanılabilir tek kıyaslama kendi geçmişinizdir. Temel çizginizi doğru ölçün, kırılımlarını ayırın, sonra kendi rakamınızı yenmeye çalışın. Bunun ön koşulu ölçümün gerçekten çalışıyor olması: SOYLU AVM'de piksel kurulumları eksikti, trafiğin kaynağı ve dönüşümün yolu izlenemiyordu. Ekrandaki oran yanlış olduğu için, oranı iyileştirmeye çalışmanın da bir anlamı yoktu.",
+          en: "The only usable benchmark is your own history. Measure your baseline properly, split it into its parts, then set out to beat your own number. That presumes the measurement actually works: at SOYLU AVM the pixel setup was incomplete, and neither the source of traffic nor the path to conversion could be traced. Because the rate on the screen was wrong, trying to improve it meant nothing.",
+        },
+      },
+      {
+        type: "h2",
+        id: "trafik-mi-donusum-mu",
+        text: {
+          tr: "Trafiği artırmak mı, dönüşümü artırmak mı daha ucuz?",
+          en: "Which is cheaper: more traffic or better conversion?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı satış artışını iki yoldan alabilirsiniz — trafiği ikiye katlayarak ya da dönüşüm oranını ikiye katlayarak. Aradaki fark maliyetin şeklidir: trafiğin faturası her ay yeniden gelir, dönüşüm iyileştirmesinin faturası bir kez ödenir ve etkisi sonraki bütün trafiğe uygulanır. Bu yüzden CRO'nun getirisi bileşiktir, reklamınkiyse doğrusal.",
+          en: "You can get the same lift in sales two ways — by doubling traffic or by doubling the conversion rate. The difference lies in the shape of the cost: traffic bills you again every month, while a conversion improvement is paid for once and then applies to all the traffic that follows. That is why the return on CRO compounds while the return on ads stays linear.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki metrik bu farkı görünür kılar. CAC (customer acquisition cost — müşteri edinme maliyeti), bir müşteriyi kazanmak için harcadığınız toplam tutardır ve dönüşüm oranı yükseldiğinde tek kuruş fazla harcamadan düşer. ROAS (return on ad spend — reklam harcamasının getirisi), harcanan her liraya karşılık gelen geliri gösterir ve aynı sebeple yukarı gider. Yani CRO bir pazarlama kalemi değil, bütün pazarlama kalemlerinin çarpanıdır.",
+          en: "Two metrics make that difference visible. CAC — customer acquisition cost — is the total you spend to win one customer, and it falls when the conversion rate rises without a single extra lira of spend. ROAS — return on ad spend — shows the revenue earned for each unit spent, and it moves up for the same reason. CRO is therefore not one line in the marketing budget but the multiplier on all the others.",
+        },
+      },
+      {
+        type: "quote",
+        text: {
+          tr: "Trafiği artırmak kovaya daha hızlı su doldurmaktır. Dönüşümü artırmak, kovadaki delikleri kapatmaktır — ve delikler durduğu sürece hangi hızda doldurduğunuzun bir önemi yoktur.",
+          en: "Raising traffic means pouring water into the bucket faster. Raising conversion means closing the holes in the bucket — and while the holes are open, the speed you pour at hardly matters.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Buradan çıkan sonuç \"reklam vermeyin\" değil. Çok düşük trafikli bir sitede test kuramazsınız, dolayısıyla bir eşiğe kadar trafik yatırımı zorunludur. Ama trafik zaten varken satış yerinde sayıyorsa, bir sonraki lirayı reklama koymak çoğu zaman en pahalı seçenektir.",
+          en: "The conclusion is not \"stop advertising\". You cannot run tests on a site with very little traffic, so investing in traffic up to a threshold is unavoidable. But when traffic already exists and sales are standing still, putting the next lira into ads is usually the most expensive option available.",
+        },
+      },
+      {
+        type: "h2",
+        id: "cro-sureci",
+        text: {
+          tr: "CRO süreci: ölçüm, hipotez, test, öğrenme",
+          en: "The CRO process: measure, hypothesise, test, learn",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "\"Dönüşüm oranı nasıl artırılır\" sorusunun cevabı bir taktik listesi değil, bir sıradır. CRO'yu taktik listesinden ayıran şey de tam olarak budur: sıra bozulduğunda — önce fikir, sonra veri — elinizde kalan şey bir tahmin koleksiyonu olur. Dört adım şöyle işler.",
+          en: "The answer to \"how do you increase a conversion rate\" is not a list of tactics but an order. That is precisely what separates CRO from a list of tactics: when the order breaks — idea first, data later — what you are left with is a collection of guesses. The four steps run like this.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Ölçüm. Analitik kurulumunu doğrulayın, hedefleri tanımlayın, kırılımları ayırın. Bu adımda amaç iyileştirme değil, ekranda gördüğünüz sayının gerçek olduğundan emin olmaktır.",
+            en: "Measurement. Verify the analytics setup, define the goals, split out the segments. The aim at this step is not improvement but certainty that the number on your screen is real.",
+          },
+          {
+            tr: "Teşhis. Nicel veri nerede kaybettiğinizi söyler, nitel veri nedenini söyler. Oturum kayıtları, form terk analizleri, müşteri hizmetleri kayıtları ve beş kullanıcıyla yapılan kısa görüşmeler bu adımın hammaddesidir.",
+            en: "Diagnosis. Quantitative data tells you where you lose people, qualitative data tells you why. Session recordings, form abandonment analysis, support tickets and short interviews with five users are the raw material of this step.",
+          },
+          {
+            tr: "Hipotez. Her hipotez tek cümlede kurulur: şu değişikliği yaparsak, şu ölçüde, şu nedenle değişir. Nedeni yazamadığınız bir hipotez, sonucu ne olursa olsun size bir şey öğretmez.",
+            en: "Hypothesis. Every hypothesis fits in one sentence: if we change this, that metric moves by this much, for this reason. A hypothesis whose reason you cannot write down teaches you nothing, whatever its result.",
+          },
+          {
+            tr: "Test ve öğrenme. Deneyi kurun, önceden belirlenmiş süre boyunca çalıştırın, sonucu — kazandı, kaybetti veya fark yok — kayda geçirin. Kaybeden testler de bilgidir; yazılmayan bilgi altı ay sonra yeniden test edilir.",
+            en: "Test and learn. Build the experiment, run it for the period agreed in advance, and record the outcome — won, lost or no difference. Losing tests are knowledge too; knowledge left unwritten gets retested six months later.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu döngünün her turu bir sonrakini ucuzlatır, çünkü teşhis birikir. Sayfa düzeyinde hangi öğenin nasıl kurulacağını merak ediyorsanız — başlık, eylem çağrısı, form uzunluğu, hız — [açılış sayfası optimizasyonu yazımız](/yazilar/donusum-optimizasyonu-yontemleri) o katmanı tek tek anlatıyor. Buradaki yazı kavramı, oradaki yazı elin altındaki kaldıraçları veriyor. Süreci bir ekip disiplinine çevirmenin nasıl göründüğünü ise [CRO hizmetimiz](/hizmetler/cro) tarif ediyor.",
+          en: "Each turn of this loop makes the next one cheaper, because diagnosis accumulates. If you are wondering how each element on the page itself should be built — headline, call to action, form length, speed — [our landing page optimisation article](/yazilar/donusum-optimizasyonu-yontemleri) walks through that layer one item at a time. This article gives you the concept; that one gives you the levers within reach. What the process looks like once it becomes a team discipline is described on [our CRO service page](/hizmetler/cro).",
+        },
+      },
+      {
+        type: "h2",
+        id: "ab-testi-nedir",
+        text: {
+          tr: "A/B testi nedir, ne zaman anlamlı sonuç verir?",
+          en: "What is an A/B test, and when does it give a meaningful result?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "A/B testi, aynı trafiği iki sürüm arasında rastgele bölerek hangisinin daha çok dönüştürdüğünü ölçen kontrollü deneydir. Anlamlı sonuç verdiği an, farkın rastlantıyla açıklanamayacak kadar büyük olduğu ve testin önceden belirlenmiş süresini tamamladığı andır. Terimi ararken eğik çizgi çoğu zaman düşer; \"ab testi\" yazımı da tam olarak aynı yöntemi tarif eder.",
+          en: "An A/B test is a controlled experiment that splits the same traffic randomly between two versions and measures which one converts more. It becomes meaningful at the moment the difference is too large to be explained by chance and the test has completed the duration agreed beforehand. The slash often drops away when people search for the term; \"ab testing\" describes exactly the same method.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Disiplinin üç kuralı var. Birincisi tek değişken: aynı anda başlığı, görseli ve buton rengini değiştirirseniz kazanan sürümü bilirsiniz ama nedenini bilemezsiniz — ve neden bilinmediğinde öğrenme bir sonraki teste taşınmaz. İkincisi önceden karar: testin süresi ve gereken örneklem, teste başlamadan yazılır. Üçüncüsü tam haftalar: salı günü davranan kullanıcıyla cumartesi davranan kullanıcı aynı kişi değildir, dolayısıyla test haftanın ortasında kesilmez.",
+          en: "The discipline has three rules. First, one variable: change the headline, the image and the button colour at once and you will know which version won but not why — and without the why, the learning does not travel to the next test. Second, decide in advance: the duration and the sample size needed are written down before the test starts. Third, whole weeks: the user who behaves a certain way on Tuesday is not the user who behaves on Saturday, so a test is never cut off mid-week.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "En pahalı hata erken bakmaktır. Test üç gün sonra öndeyse durdurup kazananı ilan etmek insanı çeker; oysa küçük örneklemlerde fark gün gün yön değiştirir ve erken durdurulan testler yanlış kararı kalıcı hale getirir. Panele bakmak serbesttir, karar vermek değil.",
+          en: "The most expensive mistake is looking early. When a test is ahead after three days it is tempting to stop it and declare a winner; yet at small sample sizes the gap changes direction day by day, and tests stopped early make the wrong decision permanent. Looking at the dashboard is free; deciding on it is not.",
+        },
+      },
+      {
+        type: "h2",
+        id: "orneklem-gercegi",
+        text: {
+          tr: "Örneklem yetmediğinde test ne söyler?",
+          en: "What does a test tell you when the sample is too small?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Neredeyse hiçbir şey. Aylık birkaç yüz dönüşümü olan bir sitede yüzde iki-üçlük bir farkı güvenilir biçimde ölçmek aylar sürer, dolayısıyla o testi kurmak zaman kaybıdır. Bu, düşük trafikli sitelerin CRO yapamayacağı anlamına gelmiyor; test edilecek şeyin büyüklüğünü değiştirmesi gerektiği anlamına geliyor.",
+          en: "Almost nothing. On a site with a few hundred conversions a month, reliably measuring a two or three percent difference takes months, which makes running that test a waste of time. This does not mean low-traffic sites cannot do CRO; it means the size of what they test has to change.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Az trafikte üç yol işe yarar. Birincisi büyük değişiklikleri test etmek: buton rengi yerine teklifin kendisi, kargo politikası veya sayfanın tüm kurgusu. Büyük farklar küçük örneklemde de görünür. İkincisi mikro dönüşümleri ölçmek: satın alma seyrekse sepete ekleme ve ödeme adımına geçiş çok daha hızlı sinyal verir. Üçüncüsü nitel araştırmayı öne almak: beş kullanıcının sipariş formunu doldururken nerede duraksadığını izlemek, iki ay sürecek bir testin cevabını bir öğleden sonrada verebilir.",
+          en: "Three routes work when traffic is thin. First, test big changes: not the button colour but the offer itself, the shipping policy or the entire structure of the page. Large differences show up even in small samples. Second, measure micro conversions: when purchases are rare, add-to-cart and reaching the payment step give a signal far sooner. Third, put qualitative research first: watching five users hesitate as they fill in the order form can answer in one afternoon what a two-month test would have answered.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir de dürüst bir sınır var: her kazanç testten çıkmaz. Bozuk bir mobil ödeme adımı, ekranda görünmeyen bir kargo ücreti veya beş saniyede açılan bir sayfa test edilmez, düzeltilir. Test, iki makul seçenek arasında karar veremediğinizde başvurulan araçtır; bariz hatayı test etmek onu haftalarca yaşatmaktan başka işe yaramaz.",
+          en: "There is also an honest limit: not every gain comes out of a test. A broken mobile payment step, a shipping fee that never appears on screen or a page that takes five seconds to load is not tested, it is fixed. Testing is what you reach for when two reasonable options leave you undecided; testing an obvious defect only keeps it alive for another few weeks.",
+        },
+      },
+      {
+        type: "h2",
+        id: "funnel-analizi",
+        text: {
+          tr: "Funnel analizi neyi gösterir?",
+          en: "What does funnel analysis show?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Funnel analizi, ziyaretçinin ilk sayfadan siparişe kadar geçtiği adımları sırayla ölçer ve her adımda kaç kişinin düştüğünü gösterir. Değeri tek bir şeydedir: toplam dönüşüm oranı size bir sorun olduğunu söyler, funnel analizi sorunun hangi adımda olduğunu söyler. Dönüşüm hunisi olarak da anılan bu yapı, kategori sayfasından ürün sayfasına, sepetten ödeme adımına ve siparişe uzanan zinciri birbirinden ayırır.",
+          en: "Funnel analysis measures, in order, the steps a visitor passes through from the first page to the order, and shows how many people drop at each one. Its value lies in one thing: the overall conversion rate tells you a problem exists, funnel analysis tells you which step it lives in. This structure separates the chain that runs from category page to product page, from basket to payment step and on to the order.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Analizin okunma biçimi de önemli. En büyük düşüş her zaman en büyük fırsat değildir — sepetten ödemeye geçişte yüzde yetmiş düşüş normaldir, ürün sayfasından sepete geçişte aynı oran değildir. Aranan şey mutlak düşüş değil, benzer adımlara veya kendi geçmişinize göre anormal olan düşüştür. Ve her adımın kendi kırılımı vardır: mobilde çöken bir ödeme adımı, masaüstü verisiyle birleştirildiğinde tamamen görünmez olabilir.",
+          en: "How the analysis is read matters as much. The largest drop is not always the largest opportunity — a seventy percent drop between basket and payment is ordinary, the same figure between product page and basket is not. What you are looking for is not the absolute fall but the fall that is abnormal against comparable steps or against your own history. And every step has its own segments: a payment step collapsing on mobile can vanish entirely once merged with desktop data.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[SOYLU AVM'de](/vakalar/soylu-avm-e-ticaret-buyume) işe tam buradan başladık. Piksel ve dönüşüm izleme sıfırdan kuruldu, trafik kaynakları segmentlere ayrıldı; ancak ondan sonra kampanya açıldı. Kampanyanın altıncı gününde toplam gelir 1,5 milyon dolara ulaştı, toplam trafik yüzde 150 arttı. Buradaki ders sıralamadadır: ölçüm kurulmadan açılan kampanya, sonucu değil yalnız harcamayı raporlar.",
+          en: "At [SOYLU AVM](/vakalar/soylu-avm-e-ticaret-buyume) we began at exactly this point. Pixel and conversion tracking were rebuilt from scratch and traffic sources were segmented; only then did the campaign go live. By the sixth day of the campaign total revenue reached $1.5 million and total traffic rose by 150 percent. The lesson is in the order: a campaign launched before measurement is in place reports spending, not results.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sepet-terk-orani",
+        text: {
+          tr: "Sepet terk oranı neden bu kadar yüksek?",
+          en: "Why is the cart abandonment rate so high?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sepet terk oranı, sepete ürün ekleyip siparişi tamamlamayan ziyaretçilerin payıdır ve her mağazada yüksektir. Yüksekliğin bir kısmı davranışsaldır — insanlar sepeti bir alışveriş listesi, bir fiyat karşılaştırma aracı veya bir yer imi gibi kullanır — ve bu kısım kapatılamaz. Kapatılabilen kısım, alıcının ödeme adımında karşılaştığı sürprizlerdir.",
+          en: "Cart abandonment is the share of visitors who add an item to the basket and never complete the order, and it runs high in every store. Part of that height is behavioural — people use the basket as a shopping list, a price comparison tool or a bookmark — and that part cannot be closed. The part that can be closed is the surprises the buyer meets at the payment step.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Geç görünen maliyet. Kargo ücreti, vergi veya hizmet bedeli ilk kez ödeme adımında çıkıyorsa, alıcı fiyat değiştiği için değil güveni sarsıldığı için çıkar.",
+            en: "Cost that appears late. When the shipping fee, tax or service charge shows up for the first time at the payment step, the buyer leaves not because the price changed but because their trust did.",
+          },
+          {
+            tr: "Zorunlu üyelik. Misafir olarak sipariş verememek, tek seferlik alıcı için gereksiz bir engeldir; hesap açma daveti siparişten sonra da yapılabilir.",
+            en: "Forced registration. Being unable to order as a guest is a needless barrier for a one-time buyer; the invitation to create an account can wait until after the order.",
+          },
+          {
+            tr: "Uzun form. Teslimat için gerekmeyen her alan bir vazgeçme ihtimalidir; sorulan her bilginin neden sorulduğu savunulabilmelidir.",
+            en: "A long form. Every field not required for delivery is another chance to abandon; you should be able to defend why each piece of information is being asked for.",
+          },
+          {
+            tr: "Eksik ödeme seçeneği. Alıcının alışkın olduğu yöntem listede yoksa, karar verilmiş bir satın alma teknik bir engelde ölür.",
+            en: "A missing payment option. When the method the buyer is used to is not on the list, a purchase already decided on dies at a technical obstacle.",
+          },
+          {
+            tr: "Belirsiz teslimat ve iade. \"Ne zaman elimde olur\" ve \"beğenmezsem ne olur\" sorularının cevabı sayfada yoksa, alıcı riski üstlenmek yerine erteler.",
+            en: "Unclear delivery and returns. If \"when will it arrive\" and \"what if I don't like it\" go unanswered on the page, the buyer postpones rather than takes on the risk.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu maddelerin ortak yanı, hiçbirinin ikna işi olmaması. Ödeme adımında yapılan iş satmak değil, satın almaya karar vermiş insanın önündeki sürtünmeyi kaldırmaktır. Terk edilen sepetleri e-postayla hatırlatmak da işe yarar, ama sırası ikincidir: önce terkin nedenini ortadan kaldırın, sonra kalan terk için hatırlatma kurun.",
+          en: "What these items share is that none of them is a persuasion problem. The job at the payment step is not to sell but to remove the friction in front of someone who has already decided to buy. Emailing reminders for abandoned baskets works too, but it comes second: remove the cause of the abandonment first, then set up reminders for what remains.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sosyal-kanit",
+        text: {
+          tr: "Sosyal kanıt dönüşümü nasıl etkiler?",
+          en: "How does social proof affect conversion?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sosyal kanıt, alıcının kendi kararını başkalarının kararıyla doğrulamasını sağlayarak algılanan riski düşürür. Etkisi ikna değil güvence üzerinden çalışır: ürünün iyi olduğunu iddia eden marka taraftır, aynı şeyi söyleyen müşteri değildir. Bu yüzden yorum, kullanıcı fotoğrafı ve kısa deneyim videosu, aynı vaadi anlatan pazarlama metninden daha hızlı iş görür.",
+          en: "Social proof lowers perceived risk by letting a buyer confirm their own decision against other people's. It works through reassurance rather than persuasion: a brand claiming its product is good is an interested party, a customer saying the same thing is not. This is why a review, a customer photo or a short experience video does the job faster than marketing copy making the same promise.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yerleştirme, içerik kadar belirleyici. Ana sayfada toplanmış bir referans bölümü, kararın verildiği yerde — ürün sayfasında, fiyatın yanında, ödeme adımına geçmeden bir adım önce — duran tek bir yorumdan daha az iş yapar. Aynı şey biçim için de geçerli: yıldız ortalaması bir eşik bilgisidir, alıcının kendi kısıtını anlatan üç cümlelik bir yorum ise doğrudan itirazı karşılar.",
+          en: "Placement decides as much as content. A testimonial section gathered on the homepage does less work than a single review sitting where the decision is made — on the product page, next to the price, immediately before the payment step. The same holds for form: an average rating is threshold information, while a three-sentence review describing the buyer's own constraint answers the objection directly.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) sosyal kanıt kampanyanın taşıyıcı kaldıraçlarından biriydi. Veri akışı onarıldıktan ve dönüşüm hunisi yeniden kurulduktan sonra, sporcular ve influencer'larla video odaklı sosyal kanıt üretildi. Hedef 3 ayda satışı ikiye katlamaktı; üçüncü ayın sonunda satış 12 katına çıktı, oturum süresi 3, etkileşim 8 katına yükseldi. Etkileşim ve süre metriklerinin birlikte yükselmesi tesadüf değil: alıcı sayfada kalmak için bir sebep bulduğunda dönüşüm de arkasından geliyor.",
+          en: "In [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis) social proof was one of the load-bearing levers of the campaign. After the data flow was repaired and the conversion funnel rebuilt, video-led social proof was produced with athletes and influencers. The target was to double sales in 3 months; by the end of month three sales were up 12×, session duration had tripled and engagement had risen 8×. Engagement and duration climbing together is no coincidence: when a buyer finds a reason to stay on the page, conversion follows behind.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sik-yapilan-hatalar",
+        text: {
+          tr: "CRO'da en sık yapılan altı hata",
+          en: "The six most common mistakes in CRO",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sahada gördüğümüz hataların çoğu bilgi eksikliğinden değil, sabırsızlıktan çıkıyor. Altısı düzenli olarak tekrar ediyor.",
+          en: "Most of the mistakes we see in the field come from impatience rather than a lack of knowledge. Six of them repeat with some regularity.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Ölçüm doğrulanmadan başlamak. Yanlış kurulmuş bir izleme, iyileştirmenin etkisini de hatanın etkisini de aynı şekilde gizler.",
+            en: "Starting before the measurement is verified. A badly built tracking setup hides the effect of an improvement and the effect of a mistake in exactly the same way.",
+          },
+          {
+            tr: "Rakibi kopyalamak. Rakibin sayfası onun trafiği, fiyatı ve kitlesi için çalışıyor; sizin sayfanızda aynı düzenlemenin neden çalışacağını açıklayan bir hipotez yoksa, kopya bir tahmindir.",
+            en: "Copying a competitor. Their page works for their traffic, their pricing and their audience; without a hypothesis explaining why the same arrangement would work on yours, the copy is just a guess.",
+          },
+          {
+            tr: "Testi erken durdurmak. Üçüncü günün önde olan sürümü, ikinci haftanın kaybedeni olabilir.",
+            en: "Stopping a test early. The version leading on day three can be the loser by the second week.",
+          },
+          {
+            tr: "Aynı anda çok şey değiştirmek. Kazanan sürümü bilmek, kazandıran nedeni bilmenin yerine geçmez.",
+            en: "Changing too much at once. Knowing which version won is no substitute for knowing what made it win.",
+          },
+          {
+            tr: "Yalnız makro dönüşüme bakmak. Uzun karar süresi olan işlerde sipariş sayısı geç sinyal verir; mikro dönüşümler olmadan aradaki her iyileştirme ölçüsüz kalır.",
+            en: "Watching only the macro conversion. In businesses with long decision cycles the order count signals late; without micro conversions every improvement in between goes unmeasured.",
+          },
+          {
+            tr: "Öğrenmeyi yazmamak. Kayıt tutulmayan bir test programı, iki yılda aynı hipotezi üç kez sınar ve her seferinde sıfırdan başlar.",
+            en: "Not writing the learning down. A testing programme without records tests the same hypothesis three times in two years and starts from zero on each occasion.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altısının ortak paydası zaman algısıdır. CRO'nun getirisi tek bir testten değil, üst üste binen küçük öğrenmelerden çıkar; bu yüzden program bir çeyrekte değil bir yılda okunur. Üç ayda dört test yapıp hiçbirini kaydetmeyen ekiple, üç ayda iki test yapıp ikisini de yazan ekip arasındaki fark ikinci yılda görünür — o noktada ikincisi neyin neden çalıştığını bilen taraf olur ve her yeni testi daha ucuza kurar.",
+          en: "What all six share is a sense of time. The return on CRO comes not from one test but from small learnings stacking on each other, which is why a programme reads over a year rather than a quarter. The difference between a team running four tests in three months and recording none, and a team running two and writing both down, shows up in the second year — by then the second team knows what works and why, and builds every new test more cheaply.",
+        },
+      },
+      {
+        type: "h2",
+        id: "nereden-baslanir",
+        text: {
+          tr: "Sonuç: bu hafta kurabileceğiniz tek test",
+          en: "In closing: the one test you can run this week",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazının tezi tek cümlede duruyor: dönüşüm oranı bir pazarlama metriği değil, bütün pazarlama harcamalarınızın çarpanıdır — ve çarpanı büyütmek, çarpılan sayıyı büyütmekten neredeyse her zaman ucuzdur. Trafikten önce huniye bakmak bir tercih değil, sıralamanın kendisidir.",
+          en: "This article's thesis fits in one sentence: the conversion rate is not a marketing metric but the multiplier on all your marketing spend — and raising the multiplier is almost always cheaper than raising the number being multiplied. Looking at the funnel before the traffic is not a preference; it is the order the work comes in.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut bir şey var: kendi sitenizde bir siparişi baştan sona telefonunuzdan tamamlayın ve her adımda geçen süreyi yazın. Kargo ücretini ilk hangi ekranda gördünüz? Kaç alan doldurdunuz? Hangi adımda beklediniz? Bu listedeki en uzun bekleme, bu haftanın hipotezidir — ve onu sınamak için önce bir araç satın almanız gerekmiyor.",
+          en: "There is something concrete you can do today: complete an order on your own site from start to finish on your phone, and write down how long each step takes. On which screen did the shipping fee first appear? How many fields did you fill in? Where did you wait? The longest wait on that list is this week's hypothesis — and testing it does not require buying a tool first.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu işi kendi ekibinizle mi yürüteceğinize yoksa dışarıdan destek mi alacağınıza karar veriyorsanız, [bir CRO ortağını değerlendirirken nelere bakılacağını](/yazilar/cro-ajansi-nasil-secilir) ayrı bir yazıda topladık.",
+          en: "If you are deciding whether to run this with your own team or bring in outside support, we have gathered [what to look at when evaluating a CRO partner](/yazilar/cro-ajansi-nasil-secilir) in a separate article.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "CRO en kısa tanımıyla nedir?",
+          en: "What is CRO, in short?",
+        },
+        answer: {
+          tr: "CRO, conversion rate optimization ifadesinin kısaltmasıdır; Türkçesi dönüşüm oranı optimizasyonu. Bir siteye gelen mevcut ziyaretçilerin daha büyük bir bölümünü müşteriye çevirmek için yürütülen ölçüm, hipotez ve test disiplinini tanımlar. Yeni trafik satın almaz, eldeki trafiğin verimini artırır. Üç adımda işler: ziyaretçinin nerede vazgeçtiğini veriyle tespit etmek, nedenine dair sınanabilir bir hipotez kurmak ve o hipotezi kontrollü bir deneyle test etmek. Çıktısı yeni bir tasarım değil, doğrulanmış bir öğrenmedir.",
+          en: "CRO stands for conversion rate optimisation. It names the discipline of measurement, hypothesis and testing used to turn a larger share of a site's existing visitors into customers. It buys no new traffic; it raises the yield of the traffic already arriving. The work runs in three steps: establish with data where the visitor gives up, build a testable hypothesis about why, and examine that hypothesis through a controlled experiment. What comes out of it is not a new design but a verified piece of knowledge.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı nedir ve nasıl hesaplanır?",
+          en: "What is a conversion rate and how do you calculate it?",
+        },
+        answer: {
+          tr: "Belirli bir dönemde hedeflenen eylemi tamamlayan ziyaretçilerin toplam ziyaretçiye oranıdır. Formülü basittir: dönüşüm sayısı bölü oturum sayısı, çarpı yüz. Yüz oturumun üçü sipariş veriyorsa web sitesi dönüşüm oranı yüzde üçtür. Hesabın zor tarafı formül değil, iki tarafın da dürüst doldurulmasıdır: oturum yerine tekil kullanıcı sayılırsa oran yükselir, bot ve iç trafik ayıklanmazsa düşer. Mobil ve masaüstü ayrı hesaplanmadığında da bozuk bir mobil deneyim haftalarca ortalamanın arkasında saklanabilir.",
+          en: "It is the share of visitors who complete the targeted action in a given period, out of all visitors. The formula is simple: conversions divided by sessions, multiplied by a hundred. If three sessions out of a hundred place an order, the website conversion rate is three percent. The hard part is not the formula but filling both sides in honestly: counting unique users instead of sessions pushes the rate up, and leaving bots and internal traffic in pulls it down. Without separating mobile from desktop, a broken mobile experience can hide behind the average for weeks.",
+        },
+      },
+      {
+        question: {
+          tr: "İyi bir e-ticaret dönüşüm oranı kaçtır?",
+          en: "What is a good e-commerce conversion rate?",
+        },
+        answer: {
+          tr: "Tek bir doğru rakam yok — sektöre, fiyat bandına, trafiğin kaynağına ve ölçümün nasıl kurulduğuna göre değişir. Trafiğinin çoğunu marka aramasından alan bir mağazayla geniş hedefli görüntülü reklamdan alan bir mağazanın oranı yapısal olarak farklı çıkar ve bu bir başarı farkı değildir. Karar süresi uzadıkça oran da düşer, çünkü aynı alıcı satın almadan önce siteye birkaç kez gelir. Kullanılabilir tek kıyaslama kendi geçmişinizdir: temel çizgiyi doğru ölçün, kırılımlara ayırın, kendi rakamınızı yenmeye çalışın.",
+          en: "There is no single correct figure — it shifts with the sector, the price band, where traffic comes from and how the measurement was built. A store taking most of its traffic from brand searches and one taking it from broad display ads land on structurally different rates, and that gap is not a gap in performance. The longer the decision takes, the lower the rate, because the same buyer returns several times before purchasing. The only usable benchmark is your own history: measure the baseline properly, break it into segments, then beat your own number.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı nasıl artırılır?",
+          en: "How do you increase a conversion rate?",
+        },
+        answer: {
+          tr: "Sırayla. Önce ölçümü doğrulayın, sonra funnel analiziyle kaybın hangi adımda olduğunu bulun, sonra o adım için tek cümlelik bir hipotez kurun ve hipotezi kontrollü bir testle sınayın. Bariz hatalar — bozuk mobil ödeme adımı, geç görünen kargo ücreti, beş saniyede açılan sayfa — test edilmez, doğrudan düzeltilir. Test, iki makul seçenek arasında karar veremediğinizde devreye girer. Her turda öğrenmeyi yazmak da yöntemin parçasıdır; kaydı tutulmayan program aynı hipotezi yıllar içinde defalarca sınar.",
+          en: "In order. Verify the measurement first, then use funnel analysis to find which step the loss lives in, write a one-sentence hypothesis for that step, and examine it with a controlled test. Obvious defects — a broken mobile payment step, a shipping fee that appears late, a page that takes five seconds to load — are not tested but fixed outright. Testing enters when two reasonable options leave you undecided. Recording the learning on each cycle belongs to the method as well; a programme without records re-examines the same hypothesis for years.",
+        },
+      },
+      {
+        question: {
+          tr: "A/B testi nedir?",
+          en: "What is an A/B test?",
+        },
+        answer: {
+          tr: "Aynı trafiği iki sürüm arasında rastgele bölerek hangisinin daha çok dönüştürdüğünü ölçen kontrollü deneydir. Aramalarda eğik çizgi çoğu zaman düşer ve aynı yöntem \"ab testi\" olarak da yazılır. Disiplinin üç kuralı var: tek seferde tek değişken değiştirilir, testin süresi ve gereken örneklem başlamadan önce yazılır, test tam haftalar boyunca çalıştırılır çünkü salı günü davranan kullanıcıyla cumartesi davranan kullanıcı aynı kişi değildir. En pahalı hata erken bakıp erken karar vermektir.",
+          en: "It is a controlled experiment that splits the same traffic randomly between two versions and measures which converts more. The slash tends to fall away in searches, and the same method gets written as \"ab testing\" too. The discipline holds three rules: change one variable at a time, write down the duration and required sample before starting, and run for whole weeks, because the user behaving a certain way on Tuesday is not the user behaving on Saturday. The costliest mistake is looking early and deciding early.",
+        },
+      },
+      {
+        question: {
+          tr: "Az trafikli bir sitede A/B testi yapılabilir mi?",
+          en: "Can you run A/B tests on a low-traffic site?",
+        },
+        answer: {
+          tr: "Yapılabilir, ama test edilecek şeyin büyüklüğü değişmelidir. Aylık birkaç yüz dönüşümü olan bir sitede yüzde iki-üçlük farkı güvenilir ölçmek aylar sürer; o testi kurmak zaman kaybıdır. Üç yol işe yarar: büyük değişiklikleri test etmek (buton rengi yerine teklifin kendisi veya kargo politikası), mikro dönüşümleri ölçmek (sepete ekleme ve ödeme adımına geçiş satın almadan çok daha hızlı sinyal verir) ve nitel araştırmayı öne almak. Beş kullanıcının formu doldururken nerede duraksadığını izlemek, iki aylık bir testin cevabını bir öğleden sonrada verebilir.",
+          en: "Yes, but the size of what you test has to change. On a site with a few hundred conversions a month, reliably measuring a two or three percent difference takes months, so building that test wastes time. Three routes work: test large changes (the offer itself or the shipping policy rather than a button colour), measure micro conversions (add-to-cart and reaching payment signal far sooner than purchases), and put qualitative research first. Watching five users hesitate over a form can deliver in an afternoon what a two-month test would have delivered.",
+        },
+      },
+      {
+        question: {
+          tr: "Funnel analizi nedir, dönüşüm oranından farkı ne?",
+          en: "What is funnel analysis and how does it differ from the conversion rate?",
+        },
+        answer: {
+          tr: "Funnel analizi, ziyaretçinin ilk sayfadan siparişe kadar geçtiği adımları sırayla ölçer ve her adımda kaç kişinin düştüğünü gösterir. Fark şurada: toplam dönüşüm oranı bir sorun olduğunu söyler, funnel analizi sorunun hangi adımda yaşadığını söyler. Okurken en büyük düşüşü değil, benzer adımlara veya kendi geçmişinize göre anormal olan düşüşü arayın — sepetten ödemeye geçişteki büyük kayıp normaldir, ürün sayfasından sepete geçişteki aynı kayıp değildir. Her adımın kendi kırılımı vardır; mobilde çöken bir adım masaüstü verisiyle birleşince görünmez olabilir.",
+          en: "Funnel analysis measures, step by step, the path a visitor takes from the first page to the order, and shows how many people fall away at each one. The difference is this: the overall conversion rate tells you a problem exists, funnel analysis tells you which step it lives in. Read it looking not for the largest drop but for the drop that is abnormal against comparable steps or against your own history — a heavy loss between basket and payment is ordinary, the same loss between product page and basket is not. Each step carries its own segments too.",
+        },
+      },
+      {
+        question: {
+          tr: "Sepet terk oranı nasıl düşürülür?",
+          en: "How do you reduce cart abandonment?",
+        },
+        answer: {
+          tr: "Ödeme adımındaki sürprizleri kaldırarak. En sık beş neden şunlar: kargo ücreti veya vergi ilk kez ödeme ekranında görünüyor, misafir olarak sipariş verilemiyor, form teslimat için gereksiz alanlar soruyor, alıcının alışkın olduğu ödeme yöntemi listede yok, teslimat ve iade koşulları sayfada yazmıyor. Hiçbiri ikna sorunu değil; bu adımdaki iş satmak değil, karar vermiş insanın önündeki sürtünmeyi kaldırmaktır. Terk edilen sepet hatırlatma e-postaları da işe yarar ama sırası ikincidir — önce nedeni kaldırın, sonra kalan terk için hatırlatma kurun.",
+          en: "By removing the surprises at the payment step. The five most frequent causes: the shipping fee or tax appears for the first time on the payment screen, guest ordering is unavailable, the form asks for fields delivery does not need, the buyer's usual payment method is missing, and delivery and return terms are nowhere on the page. None of these is a persuasion problem; the job at this step is not to sell but to clear the friction in front of someone who has already decided. Reminder emails help, but they come second — remove the cause first.",
+        },
+      },
+      {
+        question: {
+          tr: "Aynı bütçeyle trafik mi satın almalı, dönüşüm mü iyileştirmeli?",
+          en: "Is it cheaper to raise traffic or to raise conversion?",
+        },
+        answer: {
+          tr: "Maliyetin şekli farklı. Trafiğin faturası her ay yeniden gelir; dönüşüm iyileştirmesinin faturası bir kez ödenir ve etkisi sonraki bütün trafiğe uygulanır, yani getirisi bileşiktir. Dönüşüm oranı yükseldiğinde CAC (müşteri edinme maliyeti) tek kuruş fazla harcamadan düşer, ROAS (reklam harcamasının getirisi) aynı sebeple yükselir. Bu, reklamı bırakın demek değil: çok düşük trafikte test kurulamaz, dolayısıyla bir eşiğe kadar trafik yatırımı zorunludur. Ama trafik varken satış yerinde sayıyorsa, bir sonraki lirayı reklama koymak genellikle en pahalı seçenektir.",
+          en: "The shape of the cost differs. Traffic bills you again every month; a conversion improvement is paid for once and then applies to all the traffic that follows, so its return compounds. When the conversion rate rises, CAC — customer acquisition cost — falls without a single extra unit of spend, and ROAS — return on ad spend — rises for the same reason. This is not an argument against advertising: you cannot run tests on very thin traffic, so investment up to a threshold is unavoidable. But when traffic exists and sales stand still, the next unit spent on ads is usually the most expensive option.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO çalışması ne kadar sürede sonuç verir?",
+          en: "How long does CRO work take to show results?",
+        },
+        answer: {
+          tr: "Süre trafiğin hacmine, sitenin mevcut durumuna ve düzeltilecek hatanın büyüklüğüne göre değişir; sabit takvim veren herkese temkinli yaklaşın. İlk kazançlar genellikle testten değil düzeltmeden gelir — bozuk bir mobil ödeme adımı ya da geç görünen kargo ücreti günler içinde kapatılabilir. Test programının kendisi ise trafiğe bağlıdır: örneklem yeterliyse tek bir testin sonucu iki-dört hafta içinde okunur, düşük trafikte aynı test aylar sürer. Kendi ölçtüğümüz uçlardan biri GYMWOLVES: ölçüm onarımı, huni yeniden kurulumu ve sosyal kanıt birlikte yürüdüğünde satış üç ayda 12 katına çıktı.",
+          en: "It depends on traffic volume, the site's current state and the size of the defect being fixed; treat anyone offering a fixed calendar with caution. The first gains usually come from repairs rather than tests — a broken mobile payment step or a late-appearing shipping fee can be closed within days. The testing programme itself depends on traffic: with a sufficient sample, a single test reads within two to four weeks, while on thin traffic the same test takes months. One end of our own measured range is GYMWOLVES: with measurement repair, funnel rebuild and social proof running together, sales rose 12× in three months.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO yalnız e-ticaret için mi geçerli?",
+          en: "Does CRO only apply to e-commerce?",
+        },
+        answer: {
+          tr: "Hayır. Sitesinde ölçülebilir bir eylem tanımlayan her iş CRO yapabilir: teklif talebi toplayan bir üretici, randevu alan bir klinik, demo isteyen bir yazılım şirketi. Değişen şey yöntem değil, ölçülen dönüşümdür. Uzun karar süresi olan işlerde makro dönüşüm seyrek olduğu için mikro dönüşümler öne çıkar — teknik doküman indirme, fiyat sayfası görüntüleme, form ilk adımının tamamlanması. Bu işlerde tek bir kazanılan müşterinin değeri yüksek olduğundan, küçük bir oran iyileşmesinin parasal karşılığı e-ticaretten daha büyük olabilir.",
+          en: "No. Any business that defines a measurable action on its site can do CRO: a manufacturer collecting quote requests, a clinic booking appointments, a software company taking demo requests. What changes is not the method but the conversion being measured. Where decision cycles are long, macro conversions are rare, so micro conversions move to the front — technical document downloads, pricing page views, completing the first step of a form. Since one won customer is worth a great deal in those businesses, a small improvement in rate can be worth more in money than it would be in e-commerce.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "cro",
+    tags: ["cro", "donusum-optimizasyonu", "ab-testi", "funnel-analizi", "sepet-terk-orani"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-08-28",
+    readingMinutes: 14,
+    seo: {
+      title: {
+        tr: "CRO nedir? Dönüşüm oranı optimizasyonu",
+        en: "What is CRO? Conversion rate optimisation",
+      },
+      description: {
+        tr: "Dönüşüm oranı nedir, CRO süreci nasıl işler? Ölçüm, funnel analizi, ab testi ve sepet terki disiplini — GYMWOLVES'te 3 ayda 12 kat satışa çıkan yöntem.",
+        en: "What is a conversion rate and how does CRO work? Measurement, funnel analysis, A/B testing and cart abandonment — the method behind 12x sales in 3 months.",
+      },
+    },
+  },
+  {
+    slug: {
+      tr: "cro-ajansi-nasil-secilir",
+      en: "how-to-choose-a-cro-agency",
+    },
+    title: {
+      tr: "Garantili artış vaat eden teklif: CRO ajansı seçerken neye bakılır?",
+      en: "The proposal that guarantees a lift: how to choose a CRO agency",
+    },
+    excerpt: {
+      tr: "Sunum dosyaları birbirine benziyor, referans listeleri birbirine benziyor. Ayrım beş kriterde, sekiz soruda ve üç kırmızı bayrakta ortaya çıkıyor.",
+      en: "The decks look alike and the client lists look alike. The difference shows up in five criteria, eight questions and three red flags.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Deniz'in masasında iki teklif vardı. Birincisi üç ayda dönüşüm oranında garantili yüzde otuz artış vaat ediyor, fiyatı diğerinin yarısı ediyordu. İkincisi hiçbir artış rakamı vermiyor, bunun yerine ilk altı haftada hangi ölçümlerin onarılacağını madde madde yazıyordu. Deniz birincisini seçti.",
+          en: "Two proposals sat on Deniz's desk. The first guaranteed a thirty percent lift in conversion rate within three months, at half the price of the other. The second gave no lift figure at all; instead it listed, line by line, which measurements would be repaired in the first six weeks. Deniz picked the first.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü ayın sonunda elinde on dört slaytlık bir sunum, üç \"kazanan\" test ve neredeyse hiç kıpırdamamış bir dönüşüm oranı kaldı. Testlerin hiçbiri iki haftadan uzun sürmemişti. Hiçbirinin altında kaç ziyaretçiyle çalışıldığına dair bir hesap yoktu. Sözleşmedeki yüzde otuz ise hangi metriğin, hangi dönemde, hangi tabana göre ölçüleceğine bağlanmamıştı. Deniz'i bu yazı için kurguladım; yazıdaki tek kurgu da o.",
+          en: "By the end of the fourth month what remained was a fourteen-slide deck, three \"winning\" tests and a conversion rate that had barely moved. None of the tests had run longer than two weeks. None came with a calculation of how many visitors they were based on. And the thirty percent in the contract was never tied to a metric, a period or a baseline. I invented Deniz for this article; that is the only invented thing in it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO ajansı seçmek bir tedarikçi seçimi değil, ölçüm ortağı seçimidir. Yanlış seçim yalnızca bütçeyi götürmez, sonraki bir yılın kararlarını da bozar — çünkü hatalı ölçülmüş bir test, yanlış bilgiyi doğru bilgi kılığında geride bırakır. Aşağıda beş değerlendirme kriteri, ilk görüşmede sorulacak sekiz soru ve masadan kalkmanız gereken üç vaat var. İşin kendisi nasıl yürür sorusunun cevabı [dönüşüm optimizasyonu hizmetimizde](/hizmetler/cro), kavramın tanımı ise [CRO nedir yazısında](/yazilar/cro-nedir) duruyor.",
+          en: "Choosing a CRO agency is not choosing a supplier; it is choosing a measurement partner. A wrong choice costs more than the budget — it corrupts the next year of decisions, because a badly measured test leaves false information behind dressed as fact. Below are five evaluation criteria, eight questions for the first meeting and three promises that should end the conversation. How the work itself runs is set out on our [conversion optimisation service page](/hizmetler/cro), and the definition of the term sits in [what CRO is](/yazilar/cro-nedir).",
+        },
+      },
+      {
+        type: "h2",
+        id: "cro-ajansi-ne-satar",
+        text: {
+          tr: "CRO ajansı ne satar, ne satmaz?",
+          en: "What does a CRO agency sell, and what doesn't it?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO ajansı size trafik satmaz; mevcut trafikten daha fazla satış ya da teklif talebi çıkarma yöntemini satar. Bu ayrım sözleşme imzalanmadan netleşmezse iki taraf da baştan yanlış işi bekler.",
+          en: "A CRO agency does not sell traffic; it sells the method for pulling more sales or enquiries out of the traffic you already have. If that distinction isn't settled before signing, both sides spend the engagement waiting for the wrong work.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir dönüşüm optimizasyonu ajansı üç şeyi teslim eder: ziyaretçinin nerede vazgeçtiğinin sayısal dökümü, o noktaları düzeltmek için sıralanmış hipotezler ve her hipotezin testle doğrulanmış sonucu. Satmadığı şeyler ise reklam bütçesinin yönetimi, yeni ziyaretçi kaynağı ve ürünün pazara oturması.",
+          en: "A conversion optimisation agency delivers three things: a numbered account of where visitors drop off, a prioritised set of hypotheses for fixing those points, and a tested result for each hypothesis. What it does not sell is media buying, a new source of visitors, or product-market fit.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu sınır önemli, çünkü CRO danışmanlığı yanlış soruna uygulandığında en pahalı hatayı üretir. Ayda birkaç yüz ziyaretçi alan bir sitede A/B testi rastlantıyı ölçer. Sayfaları saniyelerce açılmayan bir sitede sorun ikna değil altyapıdır. İyi ajans bunu ilk görüşmede söyler ve sizi başka bir işe yönlendirir; zayıf ajans sözleşmeyi imzalar.",
+          en: "The boundary matters, because CRO consultancy applied to the wrong problem produces the most expensive mistake of all. On a site with a few hundred visitors a month, an A/B test measures noise. On a site whose pages take seconds to load, the problem is infrastructure rather than persuasion. A good agency says this in the first meeting and points you elsewhere; a weak one signs the contract.",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcum-altyapisi",
+        text: {
+          tr: "Ajans ölçüm altyapınıza nasıl bakıyor?",
+          en: "How does the agency treat your measurement stack?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İlk kriter budur: ajans teste başlamadan önce mevcut ölçümü doğruluyor mu? Yanlış kurulmuş bir dönüşüm tanımı, üzerine kurulan her testi olduğu gibi geçersiz kılar — ve kimse fark etmez, çünkü rapor yine dolu gelir.",
+          en: "This is the first criterion: does the agency validate your existing measurement before it runs a single test? A badly defined conversion event invalidates every test built on top of it — and nobody notices, because the report still arrives full.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Görüşmede şunu sorun: \"İlk iki haftada ölçüm tarafında ne yapacaksınız?\" İyi cevap somuttur — dönüşüm olaylarının yeniden tanımlanması, çift sayımın ayıklanması, kanal atıflarının kontrolü, mobil ve masaüstü akışların ayrı doğrulanması. Zayıf cevap tek cümledir: \"Mevcut kurulumunuzu kullanırız.\"",
+          en: "Ask this in the meeting: \"What will you do on the measurement side in the first two weeks?\" A good answer is concrete — conversion events redefined, double counting removed, channel attribution checked, mobile and desktop flows verified separately. A weak answer is one sentence: \"We'll use your current setup.\"",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçümü önce onarmanın bedeli baştan görünür, getirisi geç görünür — ama görünür. [SOYLU AVM vakasında](/vakalar/soylu-avm-e-ticaret-buyume) piksel ve dönüşüm izleme kampanyadan önce sıfırdan kuruldu; ilk 6 günde kaydedilen 1,5 milyon dolarlık geliri ve toplam trafikteki %150 artışı okunabilir kılan şey tam olarak o sıraydı. Ölçüm sonradan eklenen bir madde değil, birinci maddedir.",
+          en: "Repairing measurement first has a visible cost and a delayed return — but it does return. In [the SOYLU AVM case](/vakalar/soylu-avm-e-ticaret-buyume), pixels and conversion tracking were rebuilt from scratch before any campaign went live; what made the $1.5M recorded in the first 6 days and the 150% rise in total traffic readable at all was exactly that order. Measurement is not a later line item; it is the first one.",
+        },
+      },
+      {
+        type: "h2",
+        id: "hipotez-disiplini",
+        text: {
+          tr: "Hipotez disiplini mi, uzun bir fikir listesi mi?",
+          en: "Hypothesis discipline, or a long list of ideas?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci kriter, ajansın bir fikri hipoteze çevirip çeviremediğidir. Hipotez üç parçadan oluşur: neyi değiştiriyoruz, neden değiştiriyoruz, hangi metrikte ne kadarlık bir fark bekliyoruz.",
+          en: "The second criterion is whether the agency turns ideas into hypotheses. A hypothesis has three parts: what we change, why we change it, and how much movement we expect in which metric.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "\"Butonu turuncu yapalım\" bir fikirdir. \"Sepete ekle butonu mobilde ilk ekranın altında kaldığı için tıklanma oranı düşük; butonu sabitlersek mobil sepete ekleme oranında en az %10 göreli artış bekliyoruz\" bir hipotezdir. Aradaki fark üslup değil: ikincisi yanlış çıkabilir, birincisi çıkamaz. Yanlış çıkabilen cümle ölçülebilir, çıkamayan cümle tartışılır.",
+          en: "\"Let's make the button orange\" is an idea. \"The add-to-cart button falls below the fold on mobile, so its click rate is low; pinning it should lift mobile add-to-cart rate by at least 10% relative\" is a hypothesis. The difference isn't style: the second can be proven wrong, the first cannot. A sentence that can be wrong is measurable; one that cannot is only arguable.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ajanstan mevcut bir müşterisinin test listesinden anonimleştirilmiş beş satır isteyin. Her satırda beklenen etki ve uygulama eforu yazıyorsa sıralama disiplini vardır. Yalnızca değişiklik başlıkları duruyorsa, elinizde bir yöntem değil bir yapılacaklar listesi var demektir. Listede kaybeden testler de duruyorsa, doğru masadasınız.",
+          en: "Ask the agency for five anonymised lines from a current client's test backlog. If each line carries an expected impact and an implementation effort, the prioritisation discipline exists. If all you see are change titles, what you have is a to-do list rather than a method. And if losing tests are still on the list, you are at the right table.",
+        },
+      },
+      {
+        type: "h2",
+        id: "test-suresi-durustlugu",
+        text: {
+          tr: "Test süresi konusunda dürüst mü?",
+          en: "Is the agency honest about test duration?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçüncü kriter en çok atlanandır: ajans bir testin ne kadar süreceğini önceden hesaplıyor mu? Örneklem büyüklüğü hesabı yapmayan ajans, testi ne zaman durduracağına sonuca bakarak karar verir — bu da testi bir ölçüm aracı olmaktan çıkarır.",
+          en: "The third criterion is the one most often skipped: does the agency calculate how long a test needs to run before it starts? An agency that skips the sample size calculation decides when to stop a test by looking at the result — which stops it from being a measurement at all.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Rakamla konuşalım. Aylık 20.000 ziyaretçi alan ve %2 dönüşen bir sayfada, %10'luk göreli bir artışı güvenle ayırt etmek için varyant başına on binlerce oturum gerekir; bu çoğu sitede hafta demektir, gün değil. Ajans bu hesabı görüşmede yapabiliyorsa bir yöntemi vardır. \"Birkaç güne sonuç alırız\" diyorsa size istatistik değil his satıyordur.",
+          en: "Put numbers on it. On a page with 20,000 visitors a month converting at 2%, separating a 10% relative lift from noise takes tens of thousands of sessions per variant — on most sites, weeks rather than days. An agency that can run that calculation in the meeting has a method. One that says \"we'll have results in a few days\" is selling an impression, not a statistic.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dürüstlüğün ikinci göstergesi erken durdurma politikasıdır. İyi ajans karar eşiğini ve süreyi testten önce yazıya döker, sonra ona uyar. Test üçüncü günde iyi göründüğü için kapatılıyorsa, kazanan varyant çoğu zaman gürültüdür — ve o gürültü siteye kalıcı olarak yerleşir.",
+          en: "The second marker of honesty is the early-stopping policy. A good agency writes down the decision threshold and the duration before the test starts, then holds to them. If a test is closed on day three because it looks good, the winning variant is usually noise — and that noise then ships to the live site permanently.",
+        },
+      },
+      {
+        type: "h2",
+        id: "raporlama-seffafligi",
+        text: {
+          tr: "Raporlama ne kadar şeffaf?",
+          en: "How transparent is the reporting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü kriter tek soruya iner: raporda kaybeden testler var mı? Yalnızca kazananları taşıyan bir belge rapor değil, sunumdur.",
+          en: "The fourth criterion reduces to one question: are the losing tests in the report? A document that carries only winners is a presentation, not a report.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Şeffaf bir CRO raporu dört şeyi taşır: her testin hipotezi, çalıştığı süre ve toplanan örneklem, sonucu (kazandı, kaybetti, fark yok) ve o sonucun hangi kararı değiştirdiği. \"Fark yok\" çıkan testler birer başarısızlık değil, envanterin parçasıdır; hangi fikrin işe yaramadığını bilmek bir sonraki çeyreğin bütçesini korur.",
+          en: "A transparent CRO report carries four things: each test's hypothesis, the duration and sample collected, the outcome (won, lost, no difference), and the decision that outcome changed. Tests that come back \"no difference\" are not failures but inventory; knowing which idea didn't work protects next quarter's budget.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Raporun kim tarafından anlatıldığı da bir sinyaldir. Aylık toplantıda test sonuçlarını analist değil de satış temsilcisi anlatıyorsa, aradaki katman bilgiyi süzüyordur. Aynı toplantıda şunu da sorun: çalışma bittiğinde test kurulumu, dönüşüm tanımları ve geçmiş test kayıtları kimde kalıyor? Cevap \"bizde\" ise satın aldığınız şey optimizasyon değil bağımlılıktır.",
+          en: "Who presents the report is a signal too. If the monthly meeting is run by an account manager rather than the analyst, a layer is filtering the information. Ask this in the same meeting: when the engagement ends, who keeps the testing setup, the conversion definitions and the archive of past tests? If the answer is \"we do\", what you bought is dependency rather than optimisation.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ucretlendirme-modelleri",
+        text: {
+          tr: "Hangi ücretlendirme modeli sizin için doğru?",
+          en: "Which pricing model is right for you?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beşinci kriter fiyatın kendisi değil, fiyatın yapısıdır. Dört model dolaşımda ve her biri ajansın farklı bir davranışını ödüllendirir.",
+          en: "The fifth criterion is not the price but the shape of the price. Four models are in circulation, and each rewards a different agency behaviour.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Aylık retainer: sabit ücret, sürekli test döngüsü. Trafiği yüksek ve sık değişen sitelerde yerinde bir model; ancak aylık test sayısı ve ortalama test süresi sözleşmeye baştan yazılmalı.",
+            en: "Monthly retainer: a fixed fee and a continuous testing cycle. Sound for high-traffic sites that change often — but the number of tests per month and the average test duration belong in the contract from day one.",
+          },
+          {
+            tr: "Proje bazlı: sabit kapsam, sabit süre, sabit fiyat. İlk denetim ve ölçüm onarımı için doğru model; sürekli optimizasyonu tek başına taşımaz.",
+            en: "Project-based: fixed scope, fixed duration, fixed price. The right model for a first audit and a measurement repair; on its own it does not carry continuous optimisation.",
+          },
+          {
+            tr: "Sonuç bazlı: ücretin bir kısmı dönüşüm artışına bağlanır. Kulağa adil gelir ve tek koşulu vardır — artışın tanımı, ölçüm kaynağı ve baz dönem sözleşmede yazılı olmalı. Yazılı değilse model ajansın lehine çalışır.",
+            en: "Performance-based: part of the fee is tied to the lift. It sounds fair and has exactly one condition — the definition of the lift, the source of measurement and the baseline period must be written into the contract. Unwritten, the model works in the agency's favour.",
+          },
+          {
+            tr: "Araç lisansı artı kurulum: ajans esasen bir test aracının bayisidir. Lisans gerekli olabilir, ama tek başına satın aldığınız şey yazılımdır, yöntem değil.",
+            en: "Tool licence plus setup: the agency is essentially a reseller for a testing tool. The licence may well be necessary, but on its own what you have bought is software, not method.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Model seçerken tek bir soru işi görür: bu ücretlendirme ajansın hangi davranışını ödüllendiriyor? Test sayısını ödüllendiren model çok ve kısa test üretir; öğrenmeyi ödüllendiren model az ve uzun test üretir. İkincisi daha yavaş görünür ve daha hızlı ilerler.",
+          en: "One question settles the choice: which agency behaviour does this pricing reward? A model that rewards test volume produces many short tests; a model that rewards learning produces fewer long ones. The second looks slower and moves faster.",
+        },
+      },
+      {
+        type: "h2",
+        id: "gorusmede-sekiz-soru",
+        text: {
+          tr: "İlk görüşmede hangi sekiz soruyu sorarsınız?",
+          en: "Which eight questions do you ask in the first meeting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sekiz soru bir eleme aracı değil, bir dinleme aracıdır. Asıl bilgi verilen cevapta değil, ajansın nerede duraksadığında saklıdır.",
+          en: "The eight questions are a listening device, not a filter. The real information isn't in the answer given — it is in where the agency hesitates.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "İlk iki haftada ölçüm tarafında tam olarak ne yapacaksınız?",
+            en: "What exactly will you do on the measurement side in the first two weeks?",
+          },
+          {
+            tr: "Bir test için gereken örneklemi nasıl hesaplıyorsunuz?",
+            en: "How do you calculate the sample size a test needs?",
+          },
+          {
+            tr: "Testi ne zaman durduracağınıza nasıl karar veriyorsunuz ve bu karar önceden yazılı mı?",
+            en: "How do you decide when to stop a test, and is that decision written down in advance?",
+          },
+          {
+            tr: "Son çeyrekte kaç testiniz kaybetti ve hangisinden ne öğrendiniz?",
+            en: "How many of your tests lost last quarter, and what did you learn from which one?",
+          },
+          {
+            tr: "Benim sektörümde benzer ölçekte hangi işi yaptınız, rakamlarını görebilir miyim?",
+            en: "What have you done at a similar scale in my sector, and can I see the numbers?",
+          },
+          {
+            tr: "Raporda kaybeden testler nasıl görünüyor?",
+            en: "What do losing tests look like in the report?",
+          },
+          {
+            tr: "Çalışma bittiğinde geriye ne kalıyor ve kurulum kimde duruyor?",
+            en: "When the engagement ends, what is left behind and who holds the setup?",
+          },
+          {
+            tr: "Bu işi almamanız gereken bir durum var mı?",
+            en: "Is there a situation in which you should turn this work down?",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sekizinci soru en çok bilgiyi verendir. \"Her sitede çalışırız\" cevabı çoğu zaman doğrudur ama tek başına söylendiğinde hiçbir şey ifade etmez. Hangi durumda sizi reddedeceğini söyleyebilen ajans kendi kapsamını biliyor demektir; bilmeyen ajans kapsamı sizin bütçenizle öğrenir.",
+          en: "The eighth question yields the most. \"We work with any site\" is usually true and means nothing on its own. An agency that can name the case in which it would turn you away knows its own scope; one that cannot will learn that scope on your budget.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu sorular ajans seçiminin CRO'ya özgü katmanıdır. İlişkinin genel katmanı — veri kullanımı, kanal bütünlüğü, kriz refleksi — için [sözleşmeyi imzalamadan önce ajansa sorulacak 8 soru](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) yazısı aynı disiplini daha geniş bir çerçevede kuruyor.",
+          en: "These cover the CRO-specific layer of the choice. For the general layer — how data is used, whether channels cohere, how the team reacts in a crisis — [the eight questions to ask an agency before you sign](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) applies the same discipline to a wider frame.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kirmizi-bayraklar",
+        text: {
+          tr: "Hangi üç vaat sizi masadan kaldırmalı?",
+          en: "Which three promises should end the meeting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç vaat var ki, duyulduğu anda görüşmenin geri kalanı gereksizleşir. Üçü de aynı şeyi gizler: ölçmeden konuşma alışkanlığını.",
+          en: "Three promises make the rest of the meeting unnecessary the moment you hear them. All three hide the same habit: talking without measuring.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Birincisi garantili artış vaadi. \"Üç ayda %30 dönüşüm artışı garanti ediyoruz\" cümlesi verilemez, çünkü sonuç mevcut sorunların büyüklüğüne, trafiğe ve kategoriye bağlıdır. Aralık vermek dürüstlüktür, garanti vermek satıştır — ve garantiyi veren teklifte artışın tanımı çoğu zaman boş bırakılmıştır.",
+          en: "The first is the guaranteed lift. \"We guarantee a 30% conversion increase in three months\" cannot honestly be said: the outcome depends on the size of the existing problems, on traffic and on category. A range is honesty; a guarantee is a sale — and guaranteeing proposals usually leave the definition of the lift blank.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkincisi örneklem hesabı yapmayan ajanstır. \"Testi ne kadar çalıştıracaksınız?\" sorusuna süre yerine \"sonuç netleşene kadar\" cevabı geliyorsa, ölçüm yerine izlenim satılıyordur. Üçüncüsü yalnızca araç lisansı satan modeldir: ısı haritası, oturum kaydı ve test aracı işin gereçleridir, hiçbiri işin kendisi değildir. Araç kurulumuyla biten bir teklifte eksik olan şey hipotez üretimi, sıralama ve karardır — yani ücretin karşılığı.",
+          en: "The second is the agency that never calculates a sample size. If \"how long will you run the test?\" gets \"until the result is clear\" instead of a duration, you are buying an impression, not a measurement. The third is the licence-only model: heatmaps, session recordings and testing tools are instruments of the work, never the work. A proposal that ends at tool installation is missing hypothesis generation, prioritisation and decision — the things the fee is for.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü bir işaret daha var; sessiz olduğu için daha tehlikeli. Fiyatı planı görmeden veren ajans, kapsamı ya sonradan daraltır ya da sonradan büyütür. İkisi de aynı yere çıkar: pazarlığın merkezine işin değil, faturanın oturması.",
+          en: "There is a fourth marker, more dangerous because it is quieter. An agency that prices before it has seen a plan will later either shrink the scope or grow it. Both lead to the same place: the invoice, rather than the work, sitting at the centre of the relationship.",
+        },
+      },
+      {
+        type: "h2",
+        id: "rakamli-vaka-istemek",
+        text: {
+          tr: "Rakamlı vaka nasıl istenir?",
+          en: "How do you ask for a case with numbers?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Vaka istemek kolaydır, doğru vakayı istemek değil. Sunumdaki logo duvarı bir kanıt değil, bir müşteri listesidir.",
+          en: "Asking for a case study is easy; asking for the right one is not. The wall of logos is a client list, not evidence.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç şeyi birlikte isteyin: başlangıç değeri, bitiş değeri ve arada geçen süre. \"Dönüşüm oranını artırdık\" bir cümledir; \"dönüşüm oranı %1,4'ten %2,1'e çıktı, dokuz haftada, şu sayfada\" bir kayıttır. Bağlamı olmayan yüzde, üretilmesi en kolay rakamdır.",
+          en: "Ask for three things together: the starting value, the ending value and the time between them. \"We increased the conversion rate\" is a sentence; \"the conversion rate went from 1.4% to 2.1% in nine weeks, on this page\" is a record. A percentage without context is the easiest number in the world to produce.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi tarafımızdan aynı ölçüyle bir örnek: [GYMWOLVES'te hedef, satışı 3 ayda ikiye katlamaktı](/vakalar/gymwolves-12-kat-satis). Veri akışı onarıldı, dönüşüm hunisi yeniden kuruldu ve kampanya sporcularla çekilen sosyal kanıtla beslendi; üçüncü ayın sonunda satış 12 katına, oturum süresi 3 katına, etkileşim 8 katına çıktı. Buradaki asıl bilgi 12 katı değil, sıradır: önce ölçüm, sonra huni, sonra kampanya.",
+          en: "Here is one from our own side, held to the same standard: [at GYMWOLVES the target was to double sales in 3 months](/vakalar/gymwolves-12-kat-satis). The data flow was repaired, the funnel rebuilt and the campaign fed with social proof shot with athletes; by the end of the third month sales were up 12×, session duration 3× and engagement 8×. The useful information there isn't the 12× — it is the order: measurement first, then the funnel, then the campaign.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir de şunu isteyin: işe yaramamış bir çalışma. Beklediği sonucu vermeyen bir projeyi anlatabilen ajans, size sonraki sekiz ay boyunca da doğruyu söyleyecek olan ajanstır.",
+          en: "Then ask for one more thing: a piece of work that failed. An agency that can walk you through a project which missed its expected result is the one that will keep telling you the truth for the next eight months.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ajans-uzman-ic-ekip",
+        text: {
+          tr: "Ajans mı, CRO uzmanı mı, iç ekip mi?",
+          en: "Agency, a CRO specialist, or an in-house team?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar, kaybın nerede durduğuna bağlıdır. Tek bir sayfada veya tek bir adımda kayıp varsa bir CRO uzmanı yeterlidir; kayıp ölçüm, arayüz, içerik ve teknik altyapı arasına dağılmışsa tek kişi bu katmanları aynı anda tutamaz.",
+          en: "The decision depends on where the loss sits. If the loss is on one page or at one step, a CRO specialist is enough; if it is spread across measurement, interface, content and technical infrastructure, one person cannot hold those layers at the same time.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İç ekip kurmak üç koşulda mantıklıdır: aylık trafik sürekli test yürütmeye yetiyorsa, ürün ekibi kazanan testi iki hafta içinde yayına alabiliyorsa ve şirket kaybeden testi bir başarısızlık saymıyorsa. Üçüncüsü en zor koşuldur ve çoğu zaman bütçesel değil kültürel bir karardır.",
+          en: "Building in-house makes sense under three conditions: monthly traffic sustains continuous testing, the product team can ship a winning variant within two weeks, and the company does not treat a losing test as a failure. The third is the hardest, and it is usually a cultural decision rather than a budgetary one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Melez model orta ölçekli markaların çoğu için doğru cevaptır: ajans ilk altı ayda ölçümü kurar, ilk test dalgasını yürütür ve düzeni iç ekibe devreder; sonrasında dışarısı yalnızca hipotez üretimi ve denetim için kalır. Bu modelde ajansın başarısı kendini gereksizleştirmesiyle ölçülür, dolayısıyla devir oturumunu sözleşmeye yazdırın.",
+          en: "For most mid-sized brands the hybrid model is the right answer: over six months the agency builds the measurement, runs the first wave of tests and hands the routine to the in-house team; the outside role then narrows to hypothesis generation and review. Here the agency's success is measured by how unnecessary it makes itself — so put the handover session in the contract.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-tek-test",
+        text: {
+          tr: "Sonuç: seçimden önce yapabileceğiniz tek test",
+          en: "Conclusion: the one test to run before you choose",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO ajansı seçimi bir sunum karşılaştırması değil, bir yöntem denetimidir. Ölçümü önce onaran, fikri hipoteze çeviren, testin süresini önceden hesaplayan ve kaybettiği testi raporda gösteren ajans; garanti veren ajanstan her koşulda daha iyi bir yatırımdır. Çünkü birincisi size sonuç kadar gerekçe de bırakır.",
+          en: "Choosing a CRO agency is an audit of method, not a comparison of decks. An agency that repairs measurement first, turns ideas into hypotheses, calculates test duration in advance and shows its losses in the report is a better investment than one offering guarantees, in every case. The first kind leaves you with the reasoning as well as the result.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut test şu: kendi sitenizden tek bir sayfa seçin, o sayfanın mevcut dönüşüm oranını ve aylık ziyaretçi sayısını not edin, sonra görüştüğünüz her ajansa aynı soruyu sorun — \"Bu sayfada %10'luk göreli bir artışı ayırt etmek için kaç ziyaretçi ve kaç gün gerekir?\" Görüşmede bir aralık verebilen ajans hesabı biliyordur. \"Bakıp döneriz\" diyenle çalışmadan önce bir kez daha düşünün.",
+          en: "Here is the concrete test you can run today: pick a single page on your own site, note its current conversion rate and monthly visitors, then ask every agency you meet the same question — \"How many visitors and how many days would it take to detect a 10% relative lift on this page?\" An agency that can give you a range in the meeting knows the calculation. Think twice before signing with one that says it will look into it and get back to you.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu soruları bize de sorun. Yöntemin adım sırası [dönüşüm optimizasyonu hizmet sayfamızda](/hizmetler/cro) açıkça yazılı; cevapları yan yana koyup karşılaştırın.",
+          en: "Ask us the same questions. The sequence of our method is written out on [our conversion optimisation service page](/hizmetler/cro); put the answers side by side and compare them.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "CRO ajansı tam olarak ne yapar?",
+          en: "What exactly does a CRO agency do?",
+        },
+        answer: {
+          tr: "Mevcut trafikten daha fazla satış veya teklif talebi çıkarır. İş dört adımda yürür: ölçüm altyapısının doğrulanması, ziyaretçinin nerede vazgeçtiğinin analitik veri, oturum kaydı ve ısı haritasıyla saptanması, kayıp noktaları için hipotez üretilip sıralanması, her hipotezin A/B testiyle doğrulanması. Yeni ziyaretçi getirmek, reklam bütçesi yönetmek ve ürünü pazara oturtmak bu kapsamın dışındadır.",
+          en: "It pulls more sales or enquiries out of the traffic you already have. The work runs in four steps: validating the measurement stack, locating where visitors drop off using analytics, session recordings and heatmaps, generating and prioritising hypotheses for those leaks, and validating each one with an A/B test. Bringing new visitors, running media budgets and finding product-market fit all sit outside that scope.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO ajansı ile CRO danışmanlığı arasındaki fark nedir?",
+          en: "What's the difference between a CRO agency and CRO consultancy?",
+        },
+        answer: {
+          tr: "Teslim edilen şeyde ayrışırlar. Ajans modeli çoğunlukla test kurar ve rapor teslim eder; CRO danışmanlığı kaybın nerede olduğunu bulup o noktanın düzeltilmesini üstlenir. Pratikte ayrımı anlamanın yolu sözleşmeye bakmaktır: teslimat listesinde yalnızca rapor ve gösterge paneli varsa birinci model, yayına alınmış düzeltmeler ve devredilen bir test düzeni varsa ikinci model konuşuluyordur.",
+          en: "They part ways at what gets delivered. The agency model usually sets up tests and hands over reports; CRO consultancy takes responsibility for finding the leak and getting it fixed. In practice the contract tells you which one you are buying: if the deliverables list stops at reports and dashboards it is the first model, and if it includes shipped fixes plus a testing routine handed to your team it is the second.",
+        },
+      },
+      {
+        question: {
+          tr: "Seçim görüşmesinde ilk hangi soruyu sormalıyım?",
+          en: "What should the first question in a selection meeting be?",
+        },
+        answer: {
+          tr: "\"İlk iki haftada ölçüm tarafında ne yapacaksınız?\" Bu soru diğerlerinden daha çok bilgi verir, çünkü yanlış kurulmuş bir dönüşüm tanımı üzerine kurulan her testi geçersiz kılar ve bu geçersizlik raporda görünmez. Cevap somut adımlar içeriyorsa yöntem vardır; \"mevcut kurulumunuzu kullanırız\" cevabı geliyorsa ajans altı ay boyunca hatalı veriyle karar alacak demektir.",
+          en: "Start with: \"What will you do on the measurement side in the first two weeks?\" It yields more than any other question, because a badly defined conversion event invalidates every test built on it and that invalidity never shows up in the report. Concrete steps in the answer mean there is a method; \"we'll use your current setup\" means the agency will be making decisions on faulty data for six months.",
+        },
+      },
+      {
+        question: {
+          tr: "\"Garantili dönüşüm artışı\" vaadi neden kırmızı bayrak?",
+          en: "Why is a \"guaranteed conversion lift\" a red flag?",
+        },
+        answer: {
+          tr: "Böyle bir garanti matematiksel olarak verilemez. Sonuç mevcut sorunların büyüklüğüne, trafik hacmine, kategoriye ve ürünün fiyat konumuna bağlıdır; bunların hiçbirini ajans görüşme anında bilmez. Dürüst yaklaşım aralık vermektir ve aralığın da bir gerekçesi olmalıdır. Ayrıca garanti veren tekliflerde artışın tanımı, ölçüm kaynağı ve baz dönemi genellikle yazılmaz — yani garanti edilen şeyin ne olduğu belirsiz kalır.",
+          en: "No such guarantee can honestly be given. The outcome depends on the size of the existing problems, on traffic volume, on category and on the product's price position — none of which the agency knows during a first meeting. The honest approach is a range, with a stated reason behind it. Guaranteeing proposals also tend to leave the definition of the lift, its measurement source and its baseline period unwritten, so what is being guaranteed stays undefined.",
+        },
+      },
+      {
+        question: {
+          tr: "Bir CRO ajansı ne kadar sürede sonuç verir?",
+          en: "How long before a CRO agency produces results?",
+        },
+        answer: {
+          tr: "Tek bir A/B testi güvenilir sonuç için genellikle iki ila dört hafta çalışır; süre trafiğe ve mevcut dönüşüm oranına bağlıdır. İlk iki haftası ölçüm onarımına gittiği için ilk yayına alınmış düzeltme çoğunlukla ikinci ayda görülür. Ölçülebilir bir birikimden söz edebilmek içinse bir çeyrek gerekir, çünkü tek test bir sonuç değil bir veri noktasıdır.",
+          en: "A single A/B test usually needs two to four weeks to give a trustworthy answer, and the duration depends on traffic and on the current conversion rate. Since the first two weeks go to repairing measurement, the first shipped fix typically lands in the second month. Talking about a measurable accumulation takes a quarter, because one test is a data point rather than a result.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO ajansı ücretlendirmesi nasıl yapılandırılmalı?",
+          en: "How should CRO agency pricing be structured?",
+        },
+        answer: {
+          tr: "Modeli işin evresine göre seçin. İlk denetim ve ölçüm onarımı için proje bazlı sabit fiyat doğrudur; sürekli test döngüsü için aylık retainer uygundur ve aylık test sayısı ile ortalama test süresi sözleşmeye yazılmalıdır. Sonuç bazlı modelde artışın tanımı, ölçüm kaynağı ve baz dönem yazılı değilse model ajansın lehine çalışır. Yalnızca araç lisansı ve kurulum içeren teklifte satın alınan şey yazılımdır.",
+          en: "Match the model to the phase of the work. A fixed-price project fits the first audit and measurement repair; a monthly retainer fits a continuous testing cycle, with the number of tests per month and the average test duration written into the contract. In a performance-based model, an unwritten definition of the lift, its measurement source and its baseline works in the agency's favour. A proposal covering only a tool licence and setup is a software purchase.",
+        },
+      },
+      {
+        question: {
+          tr: "Az trafikli bir sitede CRO ajansıyla çalışmak mantıklı mı?",
+          en: "Does hiring a CRO agency make sense on a low-traffic site?",
+        },
+        answer: {
+          tr: "A/B testi için genellikle ayda birkaç bin ziyaretçi ve düzenli dönüşüm gerekir; bunun altında test rastlantıyı ölçer. Böyle bir sitede doğru yol doğrudan denetimdir: form, checkout ve mobil akıştaki bariz engeller ölçüm beklemeden düzeltilir, sonra trafik büyüdükçe test devreye girer. Trafik neredeyse hiç yoksa sıra yanlış başlamıştır ve önce talep yaratma işi gelir.",
+          en: "Reliable A/B testing usually needs a few thousand visitors and a steady flow of conversions per month; below that, a test measures chance. On such a site the right route is a direct audit: obvious blockers in forms, checkout and the mobile flow get fixed without waiting for data, and testing enters once traffic grows. If there is almost no traffic at all, the order is wrong and demand generation comes first.",
+        },
+      },
+      {
+        question: {
+          tr: "Sadece araç lisansı satan bir ajansı nasıl anlarım?",
+          en: "How do I spot an agency that only sells a tool licence?",
+        },
+        answer: {
+          tr: "Teklifin teslimat listesine bakın. Liste araç kurulumu, gösterge paneli ve eğitim ile bitiyorsa satılan şey yazılımdır. Yöntem satan bir teklifte hipotez üretimi, sıralama kriteri, test takvimi ve karar eşiği açıkça yer alır. Kontrol sorusu şudur: \"Aracı biz kendimiz lisanslasak, sizin işiniz ne olurdu?\" Cevabı zorlanarak veren ajansın katkısı gerçekten lisanstan ibarettir.",
+          en: "Read the deliverables list. If it ends at tool installation, a dashboard and a training session, the product is software. A proposal that sells method names hypothesis generation, prioritisation criteria, a testing calendar and a decision threshold explicitly. The check question is: \"If we licensed the tool ourselves, what would your work be?\" An agency that struggles with that answer really is contributing the licence.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO uzmanı işe almak mı, ajansla çalışmak mı daha doğru?",
+          en: "Is hiring a CRO specialist better than working with an agency?",
+        },
+        answer: {
+          tr: "Kaybın dağılımına bakın. Sorun tek sayfada veya tek adımdaysa bir CRO uzmanı yeterlidir ve daha ucuza gelir. Kayıp ölçüm, arayüz, içerik ve teknik altyapı arasına dağılmışsa tek kişi bu katmanları aynı anda tutamaz; orada ekip gerekir. Orta ölçekli markalarda melez model işler: ajans ölçümü kurar ve ilk test dalgasını yürütür, düzeni iç ekibe devreder, dışarısı denetim için kalır.",
+          en: "Look at how the loss is distributed. If the problem sits on one page or at one step, a CRO specialist is enough and costs less. If it is spread across measurement, interface, content and technical infrastructure, one person cannot hold those layers at once and a team is needed. For mid-sized brands the hybrid works: the agency builds measurement, runs the first wave of tests, hands the routine over, and stays on for review.",
+        },
+      },
+      {
+        question: {
+          tr: "Bir dönüşüm optimizasyonu ajansının raporunda ne bulunmalı?",
+          en: "What belongs in a conversion optimisation agency's report?",
+        },
+        answer: {
+          tr: "Dört bileşen: her testin hipotezi, çalıştığı süre ve toplanan örneklem, sonucu (kazandı, kaybetti, fark yok) ve o sonucun hangi kararı değiştirdiği. Kaybeden ve fark üretmeyen testler raporda görünmüyorsa elinizdeki belge bir sunumdur. Toplantıyı analistin değil satış temsilcisinin yürütmesi de bir uyarıdır; aradaki katman bilgiyi süzer ve kötü haber en son duyulur.",
+          en: "Four components: each test's hypothesis, the duration and sample collected, the outcome (won, lost, no difference), and the decision that outcome changed. If losing and inconclusive tests are missing, the document is a presentation. It is also a warning sign when the meeting is run by an account manager rather than the analyst; that layer filters the information, and bad news arrives last.",
+        },
+      },
+      {
+        question: {
+          tr: "Ajans değiştirirken neyi devralmam gerekir?",
+          en: "What should I take over when switching agencies?",
+        },
+        answer: {
+          tr: "Beş şeyi isteyin ve sözleşmede adlarıyla yazsın: A/B test aracının hesabı ve kurulumu, doğrulanmış dönüşüm tanımları, geçmiş testlerin kaydı (hipotez, süre, örneklem, sonuç), sıraya dizilmiş test listesi ve analitik erişimleri. Geçmiş test kayıtları en çok atlanan kalemdir ve en pahalıya mal olandır: kaydı olmayan şirket aynı hipotezi ikinci kez test eder.",
+          en: "Ask for five things, named in the contract: the A/B testing tool account and its setup, the validated conversion definitions, the archive of past tests (hypothesis, duration, sample, outcome), the prioritised test backlog and the analytics access. The archive is the item most often forgotten and the most expensive to lose: a company without it ends up testing the same hypothesis a second time.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "cro",
+    tags: ["cro", "cro-ajansi", "donusum-optimizasyonu", "ajans-secimi", "ab-testi"],
+    authorSlug: "can-aydinlik",
+    publishedAt: "2026-08-28",
+    readingMinutes: 11,
+    seo: {
+      title: {
+        tr: "CRO ajansı nasıl seçilir? Kontrol listesi",
+        en: "How to choose a CRO agency: a checklist",
+      },
+      description: {
+        tr: "CRO danışmanlığı satın alırken ölçüm, hipotez ve test süresi nasıl denetlenir? Beş kriter, sekiz soru, üç kırmızı bayrak ve rakamlı vaka isteme kültürü.",
+        en: "Buying CRO consultancy? How to audit measurement, hypotheses and test duration before you sign: five criteria, eight questions, three red flags to walk from.",
+      },
+    },
+  },
+  {
+    slug: {
+      tr: "is-gelistirme-studyosu-nedir",
+      en: "what-is-a-business-building-studio",
+    },
+    title: {
+      tr: "İş geliştirme stüdyosu nedir? Kampanya satmakla iş inşa etmek arasındaki fark",
+      en: "What is a business building studio? Selling campaigns versus building businesses",
+    },
+    excerpt: {
+      tr: "İş geliştirme stüdyosu, bir şirketin büyüme problemini teşhisten ölçüme kadar tek çatı altında üstlenen yapıdır. Bu yazı modeli tanımlıyor: ajanstan ve danışmanlıktan nerede ayrıldığını, hangi şirkete hangisinin uyduğunu ve iş inşasının sahadaki karşılığını.",
+      en: "A business building studio takes on a company's growth problem end to end — from diagnosis to measurement — under one roof. This piece defines the model: where it parts ways with agencies and consultancies, which company each one suits, and what business building looks like in the field.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Türkiye'de büyümek isteyen bir şirketin önüne genellikle iki kapı çıkar: rapor yazan bir danışmanlık ya da kampanya çıkaran bir ajans. Üçüncü bir kapı daha var, ama Türkçede adı henüz oturmadı. Bu yazı o kapıyı tanımlıyor — iş geliştirme stüdyosu.",
+          en: "A company looking to grow in Türkiye usually finds two doors in front of it: a consultancy that writes reports, or an agency that runs campaigns. There is a third door, but in Turkish it has no settled name yet. This piece defines that door — the business building studio.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Baştan bir netleştirme: burası \"iş geliştirme uzmanı nasıl olunur\" sorusunun cevabı değil. Bu metinde iş geliştirme bir kariyer pozisyonu değil, bir işletmenin gelirini ve yapısını büyütme disiplini olarak ele alınıyor. Kariyer tarafını arıyorsanız buradan geri dönmeniz vakit kazandırır.",
+          en: "One clarification before anything else: this is not an answer to \"how do I become a business development manager\". Here, business development is not a job title but the discipline of growing a company's revenue and its structure. If you came for the career question, turning back now will save you time.",
+        },
+      },
+      {
+        type: "h2",
+        id: "is-gelistirme-studyosu-nedir",
+        text: {
+          tr: "İş geliştirme stüdyosu nedir?",
+          en: "What is a business building studio?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İş geliştirme stüdyosu, bir şirketin büyüme veya dönüşüm problemini teşhisten ölçüme kadar tek çatı altında üstlenen; strateji, mühendislik ve kreatif disiplinlerini aynı ekipte birleştiren yapıdır. Danışmanlıktan farkı, rapor teslim edip çekilmemesidir; ajanstan farkı, kampanya değil iş modelinin kendisini kurmasıdır. Çıktısı bir sunum değil, çalışan bir sistemdir: konumlandırma, ürün, kanal, altyapı ve ölçüm birlikte kurulur ve sonucun sorumluluğunu da aynı ekip taşır. İngilizce karşılığı business building studio; kavramın merkezindeki fiil danışmak değil, inşa etmektir.",
+          en: "A business building studio is a structure that takes on a company's growth or transformation problem under one roof, from diagnosis through to measurement, holding strategy, engineering and creative inside the same team. It differs from consulting by not handing over a report and withdrawing, and from an agency by building the business model itself rather than a campaign. Its output is not a deck but a working system: positioning, product, channel, infrastructure and measurement are built together, and the same team carries responsibility for the result. The verb at the centre of the idea is building, not advising.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu tanımın üç ayırt edici yeri var. Birincisi kapsam: stüdyo tek bir disipline değil, probleme sözleşme yapar — sorun fiyatlamadaysa fiyatlamaya, sitedeyse siteye, üretim hattındaysa oraya girer. İkincisi sahiplenme: çıktının sahibi yalnız müşteri değil, kuran ekiptir; \"biz önerdik, uygulanmadı\" cümlesi bu modelde geçerli bir savunma sayılmaz. Üçüncüsü süre: iş kampanya takvimiyle değil, sistemin çalışır hâle geldiği tarihle ölçülür.",
+          en: "Three things set that definition apart. First, scope: the studio contracts on the problem rather than on a single discipline — if the trouble sits in pricing it goes to pricing, if it sits in the storefront it goes there, if it sits on the production line it goes to the floor. Second, ownership: the output belongs to the team that built it as much as to the client, and \"we recommended it, they didn't implement it\" is not an accepted defence in this model. Third, duration: the work is measured by the date the system starts running, not by a campaign calendar.",
+        },
+      },
+      {
+        type: "h2",
+        id: "isletme-acisindan-is-gelistirme-nedir",
+        text: {
+          tr: "İşletme açısından iş geliştirme nedir?",
+          en: "What is business development from a company's point of view?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İş geliştirme, bir işletmenin gelir üretme biçimini genişletme işidir: yeni pazar, yeni kanal, yeni ürün hattı, yeni fiyat mimarisi veya yeni müşteri segmenti. Satıştan ayrıldığı yer nettir — satış mevcut huniden daha çok kapatır, iş geliştirme huninin kendisini kurar veya değiştirir. Pazarlamadan ayrıldığı yer de aynı ölçüde net: pazarlama talebi çeker, iş geliştirme o talebin karşılanacağı yapıyı tasarlar.",
+          en: "Business development is the work of widening how a company produces revenue: a new market, a new channel, a new product line, a new price architecture or a new customer segment. Where it parts from sales is clear — sales closes more from the funnel that exists, business development builds or rebuilds the funnel itself. Where it parts from marketing is just as clear: marketing pulls demand in, business development designs the structure that demand lands on.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Terim Türkçede iki ayrı anlam taşıdığı için kafa karıştırıyor. Bir yanda şirketlerdeki \"iş geliştirme uzmanı\" pozisyonu var; pratikte çoğunlukla satış ve ortaklık geliştirme işidir. Öte yanda bir disiplin var: şirketin nereden para kazandığını yeniden tasarlama işi. Bu yazı ikincisini konuşuyor, çünkü bir stüdyonun sözleşme yaptığı şey pozisyon değil, disiplindir.",
+          en: "The term carries two separate meanings and that is where the confusion starts. On one side there is the job title inside companies, which in practice usually means sales and partnership work. On the other there is a discipline: redesigning where a company earns its money. This piece is about the second one, because what a studio signs a contract on is a discipline, not a job title.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İş modeli geliştirme bu disiplinin en ağır ucudur: şirketin kime, neyi, hangi fiyatla ve hangi kanaldan sattığı sorusunu yeniden açar. Çoğu şirket bu soruyu yalnızca kriz anında sorar; oysa doğru zaman, marjın erimeye başladığı ilk çeyrektir. Tek bir kanal ciroyu tek başına taşıyorsa, tek bir ürün cironun yarısından fazlasını üretiyorsa veya fiyat rekabeti marjı her yıl birkaç puan yiyorsa iş modeli tarafında bekleyen bir iş var demektir.",
+          en: "Business model development is the heaviest end of this discipline: it reopens the question of who the company sells to, what it sells, at what price and through which channel. Most companies only ask that in a crisis, when the right moment is the first quarter margin starts thinning. If one channel carries revenue on its own, if one product makes more than half of it, or if price competition eats a few points of margin every year, there is work waiting on the business model side.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kampanya-ile-is-insasi-farki",
+        text: {
+          tr: "Kampanya satmakla iş inşa etmek arasındaki fark ne?",
+          en: "What separates selling a campaign from building a business?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kampanya belirli bir zaman aralığında talebi hareketlendirir; iş inşası o talebi üretecek yapıyı kurar. Fark bütçenin büyüklüğünde değil, bütçe bittiğinde geriye ne kaldığındadır — kampanya durunca grafik eski seviyesine döner, kurulmuş bir yapı varsa dönmez.",
+          en: "A campaign stirs demand inside a fixed window; business building constructs the structure that produces that demand. The difference is not the size of the budget but what remains once the budget stops — when a campaign ends the chart falls back to where it started, and where a structure was built it does not.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İş inşası (business building), bir şirketin gelir motorunu parça parça kurma disiplinidir: konumlandırma, ürün mimarisi, kanal yapısı, dönüşüm altyapısı ve ölçüm çerçevesi. Reklam bu motorun yakıtıdır, motorun kendisi değil. Yakıtı olan ama motoru olmayan şirket harcadığı sürece büyür ve durduğu anda durur; bunu her yıl aynı bütçe tartışmasında yeniden yaşar.",
+          en: "Business building is the discipline of assembling a company's revenue engine piece by piece: positioning, product architecture, channel structure, conversion infrastructure and a measurement frame. Advertising is the fuel for that engine, not the engine itself. A company with fuel and no engine grows while it spends and halts the moment it stops — and relives that fact in the same budget argument every year.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kampanyayı önce almak mantıksız bir refleks değil: hızlı başlar, ölçmesi kolaydır, iç onayı çabuk alır. Maliyeti gecikmede ortaya çıkar. Üç yıl üst üste kampanya alan bir marka dördüncü yıl aynı satışı sürdürmek için daha yüksek bütçe konuşur, çünkü her yıl talebi sıfırdan satın almıştır.",
+          en: "Buying the campaign first is not an irrational reflex: it starts fast, measures easily and clears internal approval quickly. The cost shows up later. A brand that buys campaigns three years running argues for a bigger budget in the fourth just to hold the same sales, because it has purchased its demand from zero every single year.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ajans-danismanlik-studyo",
+        text: {
+          tr: "Reklam ajansı, yönetim danışmanlığı ve stüdyo: hangisi neyi çözer?",
+          en: "Ad agency, management consultancy, studio: which one solves what?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç model farklı problemler için var ve üçünün de yeri var. Ajans talebi hareketlendirir, danışmanlık kararı netleştirir, stüdyo ikisini kurup çalışır hâle getirir. Ayrım kalitede değil, kapsamda ve sahiplenmededir.",
+          en: "The three models exist for different problems, and all three have their place. An agency moves demand, a consultancy sharpens the decision, a studio builds both and gets them running. The distinction is not one of quality but of scope and ownership.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Klasik reklam ajansı — kapsam: kampanya, mecra, kreatif. En güçlü olduğu yer, ürünün ve konumlandırmanın oturduğu, eksik olan tek şeyin görünürlük olduğu durumdur. Zayıf kaldığı yer, sorunun kampanyanın altında olmasıdır: fiyat mimarisi, sepet akışı veya ürün karması bozuksa daha çok reklam sonucu değiştirmez.",
+            en: "The classic ad agency — scope: campaign, media, creative. It is strongest where product and positioning are settled and visibility is the only missing piece. It is weakest when the problem sits beneath the campaign: if price architecture, checkout flow or product mix is broken, more advertising will not move the result.",
+          },
+          {
+            tr: "Yönetim danışmanlığı — kapsam: analiz, senaryo, karar. En güçlü olduğu yer, birden çok yolun rakamla karşılaştırılması gereken büyük kararlardır: yatırım, satın alma, yeni pazara giriş. Zayıf kaldığı yer uygulamadır — rapor doğru olsa bile uygulayacak kadro şirkette yoksa karar rafta bekler.",
+            en: "Management consulting — scope: analysis, scenarios, decision. It is strongest on large decisions where several paths must be compared with numbers: investment, acquisition, entering a new market. It is weakest at execution — even a correct report waits on the shelf when the client has no bench to carry it out.",
+          },
+          {
+            tr: "İş geliştirme stüdyosu — kapsam: problem ve sonuç. En güçlü olduğu yer, hem stratejinin hem uygulama kapasitesinin aynı anda eksik olduğu durumdur. Zayıf kaldığı yer dar işlerdir: yalnız medya alımı veya yalnız bir pazar araştırması gerekiyorsa stüdyo hem pahalı hem yavaş kalır.",
+            en: "The business building studio — scope: the problem and the result. It is strongest where strategy and execution capacity are missing at the same time. It is weakest on narrow jobs: where only media buying or only a market study is needed, a studio is both expensive and slow.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç modeli aynı işe koşmak yanlış sonuç verir. Bir stüdyoya tek bir reklam seti ısmarlamak, bir ajanstan iş modeli beklemek kadar hatalıdır. Doğru soru \"hangisi daha iyi\" değil, \"şu an eksik olan hangi katman\" sorusudur.",
+          en: "Putting all three to the same task produces the wrong outcome. Ordering a single ad set from a studio is as mistaken as expecting a business model from an agency. The right question is not \"which one is better\" but \"which layer is missing right now\".",
+        },
+      },
+      {
+        type: "h2",
+        id: "studyo-modeli-nasil-calisir",
+        text: {
+          tr: "Stüdyo modeli pratikte nasıl çalışır?",
+          en: "How does the studio model work in practice?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dört aşama var ve dördü de aynı ekipte kalır: teşhis, yol haritası, icra, ölçüm. Aşamaları farklı taraflara bölmek modelin kendisini bozar, çünkü bu modelin değeri devir noktalarının ortadan kalkmasından gelir.",
+          en: "There are four stages and all four stay with the same team: diagnosis, roadmap, execution, measurement. Splitting the stages across different suppliers breaks the model itself, because its value comes precisely from removing the handover points.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Teşhis. Ciro, marj, kanal kırılımı, dönüşüm oranı ve operasyon verisi birlikte okunur. Amaç sorunu bulmak değil, sorunun hangi katmanda durduğunu bulmaktır: talep katmanında mı, dönüşüm katmanında mı, ürün ve fiyat katmanında mı.",
+            en: "Diagnosis. Revenue, margin, channel split, conversion rate and operational data are read together. The aim is not to find the problem but to find which layer holds it: the demand layer, the conversion layer, or the product and price layer.",
+          },
+          {
+            tr: "Yol haritası. Bulgular sıralı ve bütçeli bir plana çevrilir: ne yapılacak, hangi sırayla, hangi ölçütle. Sıra önemlidir — doğru kurulmamış bir sitenin üstüne reklam bindirmek, bu işin en pahalı hatasıdır.",
+            en: "Roadmap. The findings turn into a sequenced, costed plan: what gets done, in what order, against which measure. Order matters — pouring media onto a storefront that was never built properly is the most expensive mistake in this work.",
+          },
+          {
+            tr: "İcra. Plan aynı çatı altında uygulanır: konumlandırma yazılır, arayüz kurulur, içerik üretilir, kanal açılır, sistem canlıya alınır. Bu aşamada müşteriye teslim edilen şey doküman değil, çalışan bir yapıdır.",
+            en: "Execution. The plan gets built under the same roof: positioning written, interface built, content produced, channels opened, system taken live. What the client receives at this stage is a working structure, not a document.",
+          },
+          {
+            tr: "Ölçüm. Baştan tanımlanan ölçütler düzenli okunur ve plan onlara göre düzeltilir. Ölçülmeyen bir inşa, inşa değil tahmindir.",
+            en: "Measurement. The measures defined at the start get read on a schedule and the plan is corrected against them. A build nobody measures is not a build, it is a guess.",
+          },
+        ],
+      },
+      {
+        type: "h2",
+        id: "neden-ayni-masada",
+        text: {
+          tr: "Strateji, mühendislik ve kreatif neden aynı masada olmalı?",
+          en: "Why should strategy, engineering and creative sit at the same table?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Strateji, mühendislik ve kreatif ayrı şirketlerde durduğunda büyüme problemleri disiplin sınırlarında saklanır ve o sınırı kimse sahiplenmez. Reklam filmi kategoriyi anlatır ama site sepeti kaybediyorsa satış olmaz; site kusursuz çalışır ama kategori tüketiciye hiç anlatılmamışsa trafik gelmez.",
+          en: "When strategy, engineering and creative sit in separate companies, growth problems hide along the boundaries between disciplines and nobody owns those boundaries. A film can explain the category perfectly, but if the storefront loses the cart there is no sale; a storefront can run flawlessly, but if the category was never explained to the consumer there is no traffic.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ayrı tedarikçi modelinin görünmeyen maliyeti koordinasyondur. Ajans kreatifi savunur, yazılım firması teslim tarihini savunur, danışman raporu savunur; müşteri bu üç savunmanın hakemi olur. Tek çatı bu hakemliği yok etmez ama sahibini değiştirir: karar da sonuç da aynı masada kalır. Bunun bir bedeli de var — tek çatı, tek noktada bağımlılık demektir, dolayısıyla stüdyo seçimi referansla ve geçmiş işe bakılarak yapılır.",
+          en: "The hidden cost of the multi-supplier model is coordination. The agency defends the creative, the software firm defends the delivery date, the consultant defends the report — and the client becomes referee between three defences. One roof does not abolish that refereeing; it moves who owns it, so that decision and result stay at the same table. There is a price for that too: one roof means dependence on a single point, which is why a studio is chosen on references and past work rather than on a pitch.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı masanın pratik karşılığı basit bir kuraldır: bir kararın gelir, teknik ve algı tarafı aynı toplantıda konuşulur. Konumlandırma cümlesi yazılırken arayüzü kuracak kişi odadadır; arayüz kurulurken kanalı yönetecek kişi odadadır. Bu, toplantı sayısını artırmaz — devir sayısını azaltır.",
+          en: "In practice, one table means one rule: the revenue, technical and perception sides of a decision get discussed in the same meeting. The person who will build the interface is in the room while the positioning line is written; the person who will run the channel is in the room while the interface is built. That does not add meetings — it removes handovers.",
+        },
+      },
+      {
+        type: "h2",
+        id: "hangi-sirket-hangi-modele",
+        text: {
+          tr: "Hangi şirket hangi modele gitmeli?",
+          en: "Which company should go to which model?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar üç soruyla verilir: strateji net mi, uygulama kapasitesi var mı, problem tek disiplinde mi duruyor. Üçüne de \"evet\" diyorsanız stüdyoya ihtiyacınız yok; eksik olan tek katmanı satın almak yeterli ve daha ucuz.",
+          en: "Three questions settle it: is the strategy clear, does the execution capacity exist, does the problem sit inside a single discipline. If you answer yes to all three you do not need a studio — buying the one missing layer is enough, and cheaper.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Stratejisi net, uygulama ekibi güçlü, eksiği yalnız görünürlük olan şirket ajansla çalışsın. Büyük bir yatırım kararının önünde duran ve kendi uygulama kadrosu bulunan kurumsal şirket danışmanlıkla çalışsın. Tek bir teknik iş — bir modül, bir entegrasyon — gerekiyorsa doğru adres yazılım firmasıdır. Stüdyo, bu üçünün ortasında kalan şirket için var: stratejisi eksik, uygulama kadrosu yetersiz ve problemi tek disipline sığmayan şirket.",
+          en: "A company with clear strategy, a strong execution team and only a visibility gap should work with an agency. A corporate standing in front of a large investment decision, with its own implementation bench, should work with a consultancy. Where a single technical job is needed — one module, one integration — the right address is a software firm. The studio exists for the company that falls between those three: incomplete strategy, thin execution bench, and a problem that will not fit inside one discipline.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Stüdyoya gitmemeniz gereken iki durumu da açıkça yazayım. Nakit akışınız üç aylık bir inşa süresini taşımıyorsa, önce nakit üreten en kısa hamleyi yapın; bu bir stüdyo işi değildir. Şirket içinde kimin karar verdiği belirsizse, dışarıdan gelen hiçbir yapı bu belirsizliği kapatmaz — iş ilk çatışmada durur ve fatura ödenmiş olur.",
+          en: "Let me write out the two cases where you should not come to a studio. If your cash flow cannot carry a three-month build, make the shortest cash-generating move first; that is not studio work. If it is unclear who decides inside the company, no structure brought in from outside will close that gap — the work stops at the first disagreement and the invoice has already been paid.",
+        },
+      },
+      {
+        type: "h2",
+        id: "bu-modeli-neden-kurdum",
+        text: {
+          tr: "Bu modeli neden kurduğumu anlatayım",
+          en: "Let me explain why I built this model",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "On yıla yakın süredir reklam, markalaşma ve büyüme tarafında çalışıyorum; arada bir AI SaaS şirketinin kurucu ortaklığını yaptım. İki taraf bana aynı şeyi farklı dillerde gösterdi: gelen brief neredeyse hep kampanya brief'iydi, problem ise neredeyse hiç kampanyada değildi.",
+          en: "I have spent close to a decade on the advertising, branding and growth side, and along the way co-founded an AI SaaS company. Both sides showed me the same thing in different languages: the brief that arrived was almost always a campaign brief, and the problem was almost never in the campaign.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir marka \"reklamımız çalışmıyor\" diye gelirdi; ölçtüğümüzde reklam çalışıyor, ürün sayfası çalışmıyordu. Bir üretici \"bize site lazım\" derdi; asıl eksik olan, kırk yıllık teknik bilgisinin hiçbir yerde yazılı olmamasıydı. Her seferinde doğru işi yapabilmek için sözleşmenin dışına çıkmak gerekiyordu. Bir noktada şunu kabul ettim: sorun ekiplerde değil, sözleşmenin kapsamındaydı.",
+          en: "A brand would arrive saying \"our advertising isn't working\"; we would measure, and the advertising was working while the product page was not. A manufacturer would say \"we need a website\"; the real gap was that forty years of technical knowledge existed nowhere in writing. Every time, doing the right work meant stepping outside the contract. At some point I accepted the obvious: the problem was not in the teams, it was in the scope of the contract.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "INDOLES'i bu yüzden kampanya sözleşmesi üzerine değil, problem sözleşmesi üzerine kurduk. Bu kibirli bir iddia değil; modelin kısıtlarını yukarıda tek tek yazdım ve hepsi geçerli. Ama bir şirketin büyüme problemi üç disipline birden yayıldığında, o üç disiplini aynı masaya oturtmaktan daha ucuz bir yol bulamadım. [Kadroyu ve nasıl çalıştığımızı](/hakkimizda) ayrı bir sayfada yazdık.",
+          en: "That is why we set INDOLES up on a contract about the problem rather than a contract about a campaign. This is not a boast; I listed the model's limits above one by one and they all hold. But when a company's growth problem spreads across three disciplines at once, I have not found a cheaper route than seating those three disciplines at one table. [Who we are and how we work](/hakkimizda) is written out on its own page.",
+        },
+      },
+      {
+        type: "h2",
+        id: "indoles-nasil-uyguluyor",
+        text: {
+          tr: "INDOLES stüdyo modelini nasıl uyguluyor?",
+          en: "How does INDOLES apply the studio model?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki vaka bu modelin iki ucunu gösteriyor: sıfırdan kategori kurmak ve mevcut bilgiyi görünür kılmak. İkisinde de iş tek bir disiplinin içinde bitmedi, bitseydi sonuç da çıkmazdı.",
+          en: "Two cases mark the two ends of this model: building a category from nothing, and making existing knowledge visible. In neither did the work finish inside a single discipline — and had it finished there, neither result would have come.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[OdorGo](/vakalar/odorgo-kategori-yaratma) bize elinde yalnızca ürünle geldi. Koku giderici, Türkiye'de tüketici farkındalığı sıfır olan bir kategoriydi; arama hacmi olmadığı için performans pazarlaması tek başına çalışmazdı. Önce kategoriyi anlattık, sonra talebi kurduk: konumlandırma, dört reklam filmi, dönüşüm odaklı e-ticaret ve çok kanallı satış aynı planın parçalarıydı. Sekiz ayda 10 milyon TL ciroya ulaşıldı, filmler 10 milyondan fazla izlendi, ürün MacroCenter, Migros ve Happy Center raflarına girdi. Ürün konumlandırmasından raf anlaşmasına kadar tek ekip taşıdı — iş inşasının somut hâli budur.",
+          en: "[OdorGo](/vakalar/odorgo-kategori-yaratma) came to us with nothing but the product. Odor elimination was a category with zero consumer awareness in Türkiye, and with no search volume to capture, performance marketing alone could not work. We explained the category first, then built the demand: positioning, four commercials, conversion-led e-commerce and multichannel distribution were parts of one plan. Revenue reached ₺10M in eight months, the films were viewed more than 10 million times, and the product reached MacroCenter, Migros and Happy Center shelves. One team carried it from product positioning to the shelf agreement — that is business building in concrete form.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[SIM Baskı Malzemeleri](/vakalar/sim-baski-ihracat-icerigi) 1983'ten beri matbaa sektörüne üretim yapıyor, ama kırk yıllık teknik bilgisinin hiçbir yerde yazılı karşılığı yoktu. İş iki katmanlıydı: siteyi beş dilli bir uygulama olarak yeniden kurmak ve ihracat alıcısının sorduğu soruları yanıtlayan içeriği yazmak. Teknik yeniden inşa ile içerik programı aynı ekipte yürüdüğü için altı ayda organik trafik 15 katına çıktı. Ajans içeriği yazabilirdi, yazılım firması siteyi kurabilirdi; ikisini aynı anda kuran taraf sonucu üretti.",
+          en: "[SIM Printing Suppliers](/vakalar/sim-baski-ihracat-icerigi) has manufactured for the press industry since 1983, yet forty years of technical knowledge had no written form anywhere. The work had two layers: rebuilding the site as a five-language application, and writing the content that answers the questions an export buyer actually asks. Because the technical rebuild and the content programme ran inside the same team, organic traffic grew 15× in six months. An agency could have written the content and a software firm could have built the site; the party that built both at once produced the result.",
+        },
+      },
+      {
+        type: "h2",
+        id: "bugun-yapabileceginiz-test",
+        text: {
+          tr: "Bugün yapabileceğiniz test nedir?",
+          en: "What test can you run today?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Model seçiminden önce yapabileceğiniz bir teşhis var ve kimseye danışmadan on beş dakikada biter. Son on iki ayda yaptığınız en büyük pazarlama veya teknoloji harcamasını seçin ve o harcamanın bugün sıfırlandığını varsayın.",
+          en: "There is a diagnosis you can run before choosing any model, and it takes fifteen minutes without asking anyone. Take the largest marketing or technology spend of your last twelve months and assume it drops to zero today.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Şimdi geriye ne kaldığını sayın. Yazılmış bir konumlandırma cümlesi, bir raf veya kanal anlaşması, çalışan bir dönüşüm akışı, kalıcı bir bilgi varlığı, kurulmuş bir ölçüm düzeni — bunlardan kaçı ayakta? Sayı sıfıra yakınsa aldığınız şey kampanyaydı, iş inşası değil. Bu kötü bir haber değil, bir teşhis: eksik katmanı biliyorsanız bir sonraki bütçeyi doğru yere koyarsınız.",
+          en: "Now count what is left. A written positioning line, a shelf or channel agreement, a working conversion flow, a durable knowledge asset, a measurement routine in place — how many of those are still standing? If the count is close to zero, what you bought was a campaign, not business building. That is not bad news but a diagnosis: once you know the missing layer, the next budget goes to the right place.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tez basit: kategori adı yeni ama iş eski. Bir şirketin büyüme problemi üç disipline birden yayıldığında, o disiplinleri aynı masada tutan taraf sonucu üretir; ayrı tutan taraf koordinasyon faturası keser. Bu ayrımın hizmet düzeyindeki karşılığını, hangi işin hangi başlığa girdiğiyle birlikte [iş geliştirme danışmanlığı](/hizmetler) sayfasında yazdık.",
+          en: "The thesis is simple: the category name is new, the work is old. When a company's growth problem spreads across three disciplines, the party that keeps those disciplines at one table produces the result, and the party that keeps them apart bills for coordination. What that distinction looks like service by service — which job falls under which heading — is written out on the [business development services](/hizmetler) page.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "İş geliştirme stüdyosu en kısa tanımıyla nedir?",
+          en: "What is a business building studio, in short?",
+        },
+        answer: {
+          tr: "Bir şirketin büyüme veya dönüşüm problemini teşhisten ölçüme kadar tek çatı altında üstlenen yapıya iş geliştirme stüdyosu denir. Strateji, mühendislik ve kreatif aynı ekipte durur; teslim edilen şey rapor veya kampanya değil, çalışan bir sistemdir. Danışmanlıktan farkı uygulamayı da üstlenmesi, ajanstan farkı kampanya yerine iş modelinin kendisini kurmasıdır. İngilizce karşılığı business building studio.",
+          en: "The name describes a structure that takes on a company's growth or transformation problem end to end, from diagnosis through to measurement, under a single roof. Strategy, engineering and creative sit inside the same team, and what gets handed over is a working system rather than a report or a campaign. It differs from consulting by owning the execution too, and from an agency by building the business model itself instead of a campaign.",
+        },
+      },
+      {
+        question: {
+          tr: "İş geliştirme stüdyosu ile reklam ajansı arasındaki fark nedir?",
+          en: "What is the difference between a business building studio and an ad agency?",
+        },
+        answer: {
+          tr: "Kapsam ve sahiplenme ayırıyor. Ajans kampanya, mecra ve kreatif üzerinden çalışır; ürün ile konumlandırma oturduğunda ve eksik olan tek şey görünürlük olduğunda en güçlü modeldir. Stüdyo ise probleme sözleşme yapar: sorun fiyat mimarisinde, sepet akışında veya ürün karmasındaysa oraya girer. Bir ajanstan iş modeli beklemek, bir stüdyoya tek reklam seti ısmarlamak kadar yanlıştır.",
+          en: "Scope and ownership separate them. An agency works through campaigns, media and creative, and it is the strongest model when product and positioning are settled and visibility is the only gap. A studio contracts on the problem instead: if the trouble sits in price architecture, checkout flow or product mix, that is where it goes. Expecting a business model from an agency is as mistaken as ordering one ad set from a studio.",
+        },
+      },
+      {
+        question: {
+          tr: "Yönetim danışmanlığı ile iş geliştirme stüdyosu arasındaki fark nedir?",
+          en: "How does a management consultancy differ from a business building studio?",
+        },
+        answer: {
+          tr: "Danışmanlık kararı netleştirir, stüdyo kararı kurar. Yatırım, satın alma veya yeni pazara giriş gibi birden çok yolun rakamla karşılaştırılması gereken büyük kararlarda danışmanlık modeli güçlüdür ve yerini kimse doldurmaz. Zayıf kaldığı yer uygulamadır: rapor doğru olsa bile uygulayacak kadro şirkette yoksa karar rafta bekler. Stüdyo tam bu boşlukta çalışır, çünkü uygulama kapasitesini kendi içinde taşır.",
+          en: "Consulting sharpens the decision; a studio builds it. For large decisions where several paths must be compared with numbers — investment, acquisition, entering a new market — the consulting model is strong and nothing replaces it. Where it falls short is execution: even a correct report waits on the shelf when the client has no bench to carry it out. A studio works in exactly that gap, because it holds the execution capacity in-house.",
+        },
+      },
+      {
+        question: {
+          tr: "İş inşası ne demek?",
+          en: "What does business building mean?",
+        },
+        answer: {
+          tr: "İş inşası, bir şirketin gelir motorunu parça parça kurma disiplinidir: konumlandırma, ürün mimarisi, kanal yapısı, dönüşüm altyapısı ve ölçüm çerçevesi. Reklam bu motorun yakıtıdır, motorun kendisi değil. Yakıtı olup motoru olmayan şirket harcadığı sürece büyür, durduğu anda durur. İngilizcesi business building; INDOLES'in iki ekseni — sanayide dönüşüm, ticarette büyüme — bu tek kavramda birleşir.",
+          en: "Business building is the discipline of assembling a company's revenue engine piece by piece: positioning, product architecture, channel structure, conversion infrastructure and a measurement frame. Advertising is the fuel for that engine, not the engine. A company with fuel and no engine grows while it spends and stops the moment it stops spending. Our two axes — transformation in industry, growth in commerce — meet inside this single idea.",
+        },
+      },
+      {
+        question: {
+          tr: "İşletmeler için iş geliştirme nedir?",
+          en: "What is business development for a company?",
+        },
+        answer: {
+          tr: "Gelir üretme biçimini genişletmek demektir: yeni pazar, yeni kanal, yeni ürün hattı, yeni fiyat mimarisi veya yeni müşteri segmenti. Satış mevcut huniden daha çok kapatır, iş geliştirme huninin kendisini kurar. Terim Türkçede bir de kariyer pozisyonunu anlatır; \"iş geliştirme uzmanı\" pratikte çoğunlukla satış ve ortaklık geliştirme işidir. Bu yazıda anlatılan disiplin o pozisyon değildir.",
+          en: "For a company it means widening how revenue gets produced: a new market, a new channel, a new product line, a new price architecture or a new customer segment. Sales closes more from the funnel that already exists; business development builds the funnel. The Turkish term also names a job title, where in practice it usually means sales and partnership work. The discipline described here is not that job.",
+        },
+      },
+      {
+        question: {
+          tr: "Hangi şirketler iş geliştirme stüdyosuyla çalışmalı?",
+          en: "Which companies should work with a business building studio?",
+        },
+        answer: {
+          tr: "Üç soruyla karar verilir: strateji net mi, uygulama kapasitesi var mı, problem tek disiplinde mi duruyor. Üçüne de evet diyen şirketin stüdyoya ihtiyacı yoktur; eksik olan tek katmanı satın alması hem yeterli hem daha ucuzdur. Model, stratejisi eksik, uygulama kadrosu yetersiz ve problemi tek disipline sığmayan şirket için doğrudur. Nakit akışı üç aylık bir inşa süresini taşımayan şirket ise önce nakit üreten hamleyi yapmalıdır.",
+          en: "Three questions settle it: is the strategy clear, does the execution capacity exist, does the problem sit inside one discipline. A company answering yes to all three does not need a studio, and buying the single missing layer is both enough and cheaper. The model fits companies whose strategy is incomplete, whose execution bench is thin and whose problem crosses disciplines. Where cash flow cannot carry a three-month build, the cash-generating move comes first.",
+        },
+      },
+      {
+        question: {
+          tr: "İş geliştirme stüdyosuyla çalışmak ne kadar sürer?",
+          en: "How long does working with a business building studio take?",
+        },
+        answer: {
+          tr: "Süre problemin durduğu katmana bağlıdır; kesin bir takvim veren herkese temkinli yaklaşın. Kendi ölçtüğümüz iki uç şöyle: OdorGo'da tüketici farkındalığı sıfır olan bir kategoride 10 milyon TL ciroya sekiz ayda ulaşıldı; SIM Baskı Malzemeleri'nde site yeniden kurulup içerik programı yürütüldükten sonra organik trafik altı ayda 15 katına çıktı. Teşhis ve yol haritası genellikle haftalarla, icra ve ölçüm aylarla konuşulur.",
+          en: "Duration follows the layer the problem sits in, so treat any fixed calendar with caution. Two ends of our own measured range: OdorGo reached ₺10M in revenue within eight months in a category with zero consumer awareness, and SIM Printing Suppliers saw organic traffic grow 15× in six months once the site was rebuilt and the content programme ran. Diagnosis and roadmap are usually counted in weeks, execution and measurement in months.",
+        },
+      },
+      {
+        question: {
+          tr: "Business building studio Türkçede ne demek?",
+          en: "How do venture studios and company builders relate to this?",
+        },
+        answer: {
+          tr: "Terimin Türkçe karşılığı iş geliştirme stüdyosudur ve kavramın merkezindeki fiil inşa etmektir. İngilizce kaynaklarda business building studio, venture studio ve company builder terimleri birbirine yakın kullanılır; ortak noktaları, bir işi yalnız önermek yerine kurmalarıdır. Venture studio genellikle kendi şirketlerini kurar, iş geliştirme stüdyosu ise mevcut bir şirketin gelir motorunu kurar. Bu ayrım, sözleşmenin kimin işi üzerine yapıldığını belirler.",
+          en: "The three terms sit close to one another and share one thing: they construct a business rather than merely recommending one. A venture studio typically founds its own companies and holds equity in them. A business building studio builds the revenue engine of an existing company under a client contract. That distinction decides whose business the contract is written on, and it changes how risk, ownership and payment are structured.",
+        },
+      },
+      {
+        question: {
+          tr: "İş modeli geliştirme nereden başlar?",
+          en: "Where does business model development start?",
+        },
+        answer: {
+          tr: "Teşhisle başlar, fikirle değil. Ciro, marj, kanal kırılımı, dönüşüm oranı ve operasyon verisi birlikte okunur; amaç sorunu bulmak değil, sorunun hangi katmanda durduğunu bulmaktır. Talep katmanı, dönüşüm katmanı ve ürün-fiyat katmanı birbirinden farklı müdahaleler ister. Sıra yanlış kurulursa bu işin en pahalı hatası yapılır: doğru kurulmamış bir sitenin üstüne reklam bindirmek.",
+          en: "It starts with diagnosis, not with an idea. Revenue, margin, channel split, conversion rate and operational data get read together, and the aim is not to find the problem but to find which layer holds it. The demand layer, the conversion layer and the product-price layer each call for a different intervention. Get the order wrong and you make the most expensive mistake in this work: pouring media onto a storefront that was never built properly.",
+        },
+      },
+      {
+        question: {
+          tr: "Stüdyo modeli küçük şirketler için de geçerli mi?",
+          en: "Does the studio model apply to small companies too?",
+        },
+        answer: {
+          tr: "Ölçek değil, problemin şekli belirler. OdorGo çalışmaya elinde yalnız ürünle başladı; kategori, marka, e-ticaret ve satış kanalları aynı planın parçası olarak kuruldu. Küçük şirkette avantaj karar hızıdır — tek karar verici varsa inşa çok daha çabuk ilerler. Kısıt nakittir: üç aylık bir inşa süresini taşıyamayan bir şirkette model doğru olsa bile zamanlama yanlıştır.",
+          en: "Problem shape decides, not company size. OdorGo began with nothing but a product, and category, brand, storefront and sales channels were built as parts of one plan. In a small company the advantage is decision speed — with a single decision-maker the build moves considerably faster. The constraint is cash: where a three-month build cannot be carried, the model may be right while the timing is wrong.",
+        },
+      },
+      {
+        question: {
+          tr: "İş geliştirme stüdyosunun çıktısı nedir?",
+          en: "What does a business building studio actually deliver?",
+        },
+        answer: {
+          tr: "Çıktı bir doküman değil, çalışan bir yapıdır: yazılmış bir konumlandırma, canlıya alınmış bir arayüz veya sistem, açılmış satış kanalları ve kurulmuş bir ölçüm düzeni. Rapor bu işin yan ürünüdür, ana teslimatı değil. Ölçütler baştan tanımlanır ve düzenli okunur; ölçülmeyen bir inşa, inşa değil tahmindir. OdorGo'da çıktı raf anlaşmasına kadar gitti, SIM Baskı'da beş dilli bir uygulamaya ve ihracat içeriğine.",
+          en: "What gets handed over is a working structure rather than a document: a written positioning, a live interface or system, opened sales channels and a measurement routine in place. Reports are a by-product of the work, not the deliverable. Measures are defined at the start and read on a schedule, because a build nobody measures is a guess. At OdorGo the output reached shelf agreements; at SIM Printing it was a five-language application and export content.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "is-gelistirme",
+    tags: [
+      "is-gelistirme-studyosu",
+      "is-insasi",
+      "is-modeli-gelistirme",
+      "kategori-yaratma",
+    ],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-08-28",
+    readingMinutes: 11,
+    seo: {
+      title: {
+        tr: "İş geliştirme stüdyosu nedir?",
+        en: "What is a business building studio?",
+      },
+      description: {
+        tr: "İş geliştirme stüdyosu nedir, reklam ajansı ve yönetim danışmanlığından nerede ayrılır? Kanonik tanım, model karşılaştırması ve iş inşası sahadan iki vakayla.",
+        en: "What is a business building studio and how does it differ from an ad agency or a consultancy? A canonical definition, an honest comparison, two field cases.",
       },
     },
   },

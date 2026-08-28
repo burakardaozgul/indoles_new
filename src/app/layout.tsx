@@ -120,10 +120,13 @@ export default async function RootLayout({
       <body>
         <script dangerouslySetInnerHTML={{ __html: PERSONA_BOOTSTRAP }} />
         {children}
-        <Script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-          strategy="afterInteractive"
-        />
+        {/* Turnstile bayrakla devre dışıyken script hiç yüklenmez (ADR-028). */}
+        {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? (
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            strategy="afterInteractive"
+          />
+        ) : null}
         {GA_ENABLED ? (
           <>
             <Script

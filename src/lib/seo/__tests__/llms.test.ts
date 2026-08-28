@@ -61,9 +61,12 @@ describe("buildLlmsTxtLocale", () => {
 
   it("tr ve en dosyaları birbirine hiç bağlantı vermez (kendi başına belge)", () => {
     // Görev kısıtı: per-locale dosyalar kök dosyanın aksine karşı dile
-    // işaret eden "tek dilli sürüm" satırları taşımaz.
-    expect(buildLlmsTxtLocale("tr")).not.toContain("llms.txt");
-    expect(buildLlmsTxtLocale("en")).not.toContain("llms.txt");
+    // işaret eden "tek dilli sürüm" satırları taşımaz. Denetim bağlantı
+    // hedefi üzerinden yapılır ("llms.txt)" bir markdown link hedefidir) —
+    // düz metin "llms.txt" ve "/llms.txt" artık meşru içerik: aynı adlı
+    // makalenin başlığı ve açıklaması listede geçiyor.
+    expect(buildLlmsTxtLocale("tr")).not.toContain("llms.txt)");
+    expect(buildLlmsTxtLocale("en")).not.toContain("llms.txt)");
   });
 
   it.each(["tr", "en"] as const)(

@@ -2,7 +2,12 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import { ContactForm } from '../ContactForm';
 
-const { gaEventMock } = vi.hoisted(() => ({ gaEventMock: vi.fn() }));
+// Bu dosya Turnstile'ın AÇIK olduğu modu test eder; bayrak modül yüklenirken
+// okunduğu için env burada, import'lar değerlenmeden kurulur.
+const { gaEventMock } = vi.hoisted(() => {
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY = '0xTESTKEY';
+  return { gaEventMock: vi.fn() };
+});
 vi.mock('@/lib/analytics/ga', () => ({ gaEvent: gaEventMock }));
 
 type TurnstileOptions = {

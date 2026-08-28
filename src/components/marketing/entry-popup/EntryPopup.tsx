@@ -30,6 +30,9 @@ export type EntryPopupProps = {
   initialBookingSlot?: { date: string; time: string };
 };
 
+/** Turnstile bayrağı (ADR-028) — ContactForm ile aynı tek kaynak. */
+const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
+
 function sessionId(): string {
   if (typeof window === "undefined") return "ssr";
   let v = window.sessionStorage.getItem("indoles_session_id");
@@ -68,6 +71,8 @@ export function EntryPopup({
   );
 
   const turnstileRef = React.useRef<HTMLDivElement>(null);
+  /** Süre tuzağı için: popup'ın ekrana geldiği an (ADR-028). */
+  const openedAtRef = React.useRef<number>(Date.now());
 
   React.useEffect(() => {
     if (open) {
@@ -77,6 +82,7 @@ export function EntryPopup({
   }, [open]);
 
   React.useEffect(() => {
+    if (!TURNSTILE_ENABLED) return;
     if (stage !== "booking" && stage !== "contact") return;
 
     let cancelled = false;
@@ -177,7 +183,7 @@ export function EntryPopup({
     type: "booking" | "contact",
     slot?: { date: string; time: string } | null,
   ) => {
-    if (!persona || problems.length !== 3 || !turnstileToken) return;
+    if (!persona || problems.length !== 3 || (TURNSTILE_ENABLED && !turnstileToken)) return;
 
     const { kvkkConsent: _kvkk, ...leadFields } = form;
 
@@ -191,7 +197,8 @@ export function EntryPopup({
       submissionType: type,
       kvkkConsent: true,
       locale,
-      turnstileToken,
+      elapsedMs: Date.now() - openedAtRef.current,
+      ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
       ...(slot ? { preferredSlot: slot } : {}),
     });
     setIsSubmitting(false);
@@ -306,11 +313,13 @@ export function EntryPopup({
                   onSubmit={(form, slot) => handleSubmitForm(form, "booking", slot)}
                   loading={isSubmitting}
                   turnstileSlot={
-                    <div
-                      ref={turnstileRef}
-                      className="cf-turnstile mt-3"
-                      data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                    />
+                    TURNSTILE_ENABLED ? (
+                      <div
+                        ref={turnstileRef}
+                        className="cf-turnstile mt-3"
+                        data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                      />
+                    ) : null
                   }
                 />
               )}
@@ -321,7 +330,7 @@ export function EntryPopup({
                   loading={isSubmitting}
                 />
               )}
-              {stage === "contact" && (
+              {stage === "contact" && TURNSTILE_ENABLED && (
                 <div
                   ref={turnstileRef}
                   className="cf-turnstile mt-3"

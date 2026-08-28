@@ -15,6 +15,8 @@ const validBody = {
   subject: 'Proje', message: 'Uzun mesaj, 20 karakterden fazla.',
   budgetRange: '100k-250k', timeline: '1-3-months',
   kvkkConsent: true, locale: 'tr', turnstileToken: 'tkn',
+  // İnsan davranışı: bal küpü boş, doldurma süresi eşiğin üstünde.
+  website: '', elapsedMs: 5000,
 };
 
 function req(body: unknown): Request {
@@ -40,11 +42,49 @@ describe('POST /api/contact', () => {
     expect(res.status).toBe(400);
   });
 
-  it('403 turnstile fail', async () => {
+  it('403 turnstile fail — bayrak AÇIKKEN', async () => {
+    vi.stubEnv('NEXT_PUBLIC_TURNSTILE_SITE_KEY', '0xTESTKEY');
+    try {
+      const { verifyTurnstile } = await import('@/lib/security/turnstile');
+      vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
+      const res = await POST(req(validBody));
+      expect(res.status).toBe(403);
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it('bayrak KAPALIYKEN turnstile hiç sorgulanmaz', async () => {
     const { verifyTurnstile } = await import('@/lib/security/turnstile');
-    vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
-    const res = await POST(req(validBody));
-    expect(res.status).toBe(403);
+    const { sendMailWithRetry } = await import('@/lib/mail/client');
+    vi.mocked(sendMailWithRetry).mockResolvedValue(undefined);
+    const res = await POST(req({ ...validBody, turnstileToken: undefined }));
+    expect(res.status).toBe(200);
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+    expect(sendMailWithRetry).toHaveBeenCalledTimes(2);
+  });
+
+  it('bal küpü doluysa sahte başarı döner ve mail GİTMEZ', async () => {
+    // 4xx dönmüyoruz: açık hata bota neyin yakalandığını öğretir (anti-spam.ts).
+    const { sendMailWithRetry } = await import('@/lib/mail/client');
+    const res = await POST(req({ ...validBody, website: 'https://spam.example' }));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
+  });
+
+  it('2 saniyeden hızlı gönderim sahte başarıya düşer', async () => {
+    const { sendMailWithRetry } = await import('@/lib/mail/client');
+    const res = await POST(req({ ...validBody, elapsedMs: 400 }));
+    expect(res.status).toBe(200);
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
+  });
+
+  it('süre bilgisi hiç yoksa (doğrudan API botu) sahte başarıya düşer', async () => {
+    const { sendMailWithRetry } = await import('@/lib/mail/client');
+    const res = await POST(req({ ...validBody, elapsedMs: undefined }));
+    expect(res.status).toBe(200);
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
   });
 
   it('200 happy path', async () => {

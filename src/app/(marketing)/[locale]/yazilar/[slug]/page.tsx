@@ -5,6 +5,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
+import { ArticleCard } from "@/components/marketing/article-card";
 import { getArticleBySlug, ARTICLES } from "@/lib/content/articles";
 import { getConsultantBySlug } from "@/lib/content/consultants";
 import { getTopic } from "@/lib/content/topics";
@@ -115,6 +116,18 @@ function resolveInlineHref(href: string, loc: Locale): string {
         : `/en/services/${svc.slug.en}`;
     }
   }
+  // Yazıdan yazıya link, hizmetlerle aynı sorunu taşır: slug locale başına
+  // farklıdır (`/tr/yazilar/llms-txt-nedir` ↔ `/en/articles/what-is-llms-txt`),
+  // `localeHref` yalnız ilk segmenti çevirdiği için EN'de TR slug 404 olurdu.
+  // İçerikte kanonik TR yol yazılır, burada gerçek EN slug'a çözülür.
+  if (parts[0] === "yazilar" && parts[1]) {
+    const art = ARTICLES.find((a) => a.slug.tr === parts[1]);
+    if (art) {
+      return loc === "tr"
+        ? `/tr/yazilar/${art.slug.tr}`
+        : `/en/articles/${art.slug.en}`;
+    }
+  }
   return localeHref(href, loc);
 }
 
@@ -213,6 +226,25 @@ export default async function ArticleDetail({
     .filter((x) => x.topic !== a.topic)
     .sort((x, y) => y.publishedAt.localeCompare(x.publishedAt));
   const related = [...sameTopic, ...filler].slice(0, 3);
+
+  /**
+   * Yazı → hizmet köprüsü (denetim C-09).
+   *
+   * `topics.ts`teki `serviceSlug` yazı→hizmet yönünde zaten hizmet
+   * sayfasında okunuyordu (`relatedArticlesForService`); yazı sayfasında hiç
+   * okunmuyordu — makale→hizmet köprüsü yalnız yazarın gövdeye elle koyduğu
+   * satır içi linke bağlıydı. `serviceSlug` `null` olan üç küme (geo,
+   * is-gelistirme, video-kreatif) henüz bir hizmet sayfasına bağlanmadığı
+   * için blok o yazılarda hiç basılmaz.
+   */
+  const bridgeService = getTopic(a.topic).serviceSlug
+    ? SERVICES.find((s) => s.slug.tr === getTopic(a.topic).serviceSlug)
+    : undefined;
+  const serviceHref = bridgeService
+    ? loc === "tr"
+      ? `/tr/hizmetler/${bridgeService.slug.tr}`
+      : `/en/services/${bridgeService.slug.en}`
+    : undefined;
 
   const tr = loc === "tr";
   const paths = articlePaths(a);
@@ -427,30 +459,56 @@ export default async function ArticleDetail({
         </section>
       )}
 
+      {/* Hizmet köprüsü — konunun hedef hizmetine (denetim C-09) */}
+      {bridgeService && serviceHref ? (
+        <section
+          aria-labelledby="service-bridge-heading"
+          className="border-t border-surface-2"
+        >
+          <div className="ds-container py-20 md:py-24">
+            <div className="v2-surface border border-surface-2 rounded-2xl p-8 md:p-10 max-w-prose-editorial">
+              <span className="eyebrow">
+                {tr ? "Bu konunun hizmeti" : "Related service"}
+              </span>
+              <h2
+                id="service-bridge-heading"
+                className="typography-h2 mt-4 text-ink-900"
+              >
+                {bridgeService.name[loc]}
+              </h2>
+              <p className="typography-body-md text-ink-700 mt-4">
+                {bridgeService.lede[loc]}
+              </p>
+              <Link
+                href={serviceHref}
+                className="inline-flex items-center gap-2 mt-6 text-teal-700 typography-body-md"
+              >
+                <span className="underline underline-offset-4 decoration-teal-300 hover:decoration-teal-700">
+                  {tr ? "Hizmeti incele" : "View the service"}
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* Related */}
       {related.length > 0 && (
-        <section className="border-t border-surface-2">
+        <section
+          aria-labelledby="related-articles-heading"
+          className="border-t border-surface-2"
+        >
           <div className="ds-container py-20 md:py-24">
-            <h2 className="typography-h2 text-ink-900">
+            <h2
+              id="related-articles-heading"
+              className="typography-h2 text-ink-900"
+            >
               {tr ? "İlgili yazılar" : "Related articles"}
             </h2>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((r) => (
-                <Link
-                  key={r.slug[loc]}
-                  href={localeHref(`/yazilar/${r.slug[loc]}`, loc)}
-                  className="group v2-surface border border-surface-2 rounded-2xl p-8 hover:bg-surface-2/60 transition-colors"
-                >
-                  <span className="typography-label uppercase tracking-widest text-brand-700">
-                    {getTopic(r.topic).label[loc]}
-                  </span>
-                  <h3 className="typography-h2 mt-4 text-ink-900 group-hover:text-brand-800">
-                    {r.title[loc]}
-                  </h3>
-                  <p className="typography-caption text-ink-500 mt-4">
-                    {r.readingMinutes} {tr ? "dk okuma" : "min read"}
-                  </p>
-                </Link>
+                <ArticleCard key={r.slug[loc]} article={r} locale={loc} />
               ))}
             </div>
           </div>

@@ -101,8 +101,13 @@ export const eTicaret: ServiceContent = {
       {
         title: { tr: "Ölçüm kurulumu", en: "Measurement setup" },
         description: {
-          tr: "Hangi ürün ne kadar satıyor, sepet nerede terk ediliyor, hangi kanal getiriyor — panelden okunur hâle gelir.",
-          en: "Which products sell, where carts are abandoned, which channel delivers — all readable from one dashboard.",
+          // Tam form "e-ticaret dönüşüm oranı artırma" burada (strateji
+          // §1.5 ucuz kazançlar). C-07 kısa formları CRO sayfasına
+          // dağıtmıştı — "arttırma" scope metnine, "artırma" SSS'e; önekli
+          // tam form hiçbir yüzeyde yoktu. Ölçüm kalemi doğal yeri, çünkü
+          // oranı artırma işi bu panelden okunan sayılarla başlıyor.
+          tr: "Hangi ürün ne kadar satıyor, sepet nerede terk ediliyor, hangi kanal getiriyor — panelden okunur hâle gelir. E-ticaret dönüşüm oranı artırma çalışması da bu ölçümden başlar: hangi adımda kaç ziyaretçinin düştüğü görünmeden hangi düzeltmenin işe yarayacağı bilinmez.",
+          en: "Which products sell, where carts are abandoned, which channel delivers — all readable from one dashboard. Raising the conversion rate of an online store starts from the same measurement: until the drop-off at each step is visible, a fix is only a guess.",
         },
       },
     ],

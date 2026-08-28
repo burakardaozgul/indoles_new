@@ -415,6 +415,35 @@ Ek kurallar:
 - Meta description 155 karakter, bir değer vaadi + bir CTA içerir
 - Alt text görsel tanımlar, SEO keyword stuffing değil
 
+### 6a.1 Journal Yazıları — Dil Standardı (2026-08-28)
+
+2026-08 içerik denetimi ve Dalga 1 partisiyle kalıcılaşan kurallar. Journal H1'i 6a'daki
+8 kelime sınırından muaftır: yazı başlığı editoryaldir, SERP başlığını ayrık `seo.title`
+taşır (`types.ts` `ArticleContent.seo` gerekçesi).
+
+**Korunan imza kalıpları** (mevcut külliyatın gücü — sökülmez):
+- Siz hitabı; adlı-karakterli anekdot açılışı; yazarın birinci tekil imzası
+- Kolon-sonrası antitez ritmi ("SEO'nun hedefi sıralamadır: ... GEO'nun hedefi kaynak gösterilmektir: ...")
+- Gövdede satış CTA'sı yok — yalnız kanıta yönlendirme; sert CTA sayfa sonu `ContactCallout`'ta
+- Sonuç kalıbı: tez tek cümle + okurun bugün yapabileceği somut test + vaka/hizmet linki
+- İngilizce terim ilk geçişte Türkçe açıklamasıyla; yerleşik terimler (ROAS, CAC, LTV) İngilizce kalır
+
+**Zorunlu kurallar** (yeni ve güncellenen her yazıda):
+1. **Soru-H2 disiplini:** H2'lerin en az %70'i soru formunda; her H2'nin ilk 2 cümlesi
+   bağlamsız okunduğunda kendine yeten net cevap (GEO alıntılanabilirlik şartı, strateji §4).
+2. **Rehber uzunluğu:** "rehber" iddialı yazıda gövde (SSS hariç) en az 1.500 kelime,
+   kapsamlı rehberde 2.000+. SSS gövdenin yerine geçmez.
+3. **Kurgu şeffaflığı:** Kurgulanan karakter veya sahne tek cümleyle beyan edilir
+   ("Emre'yi bu yazı için kurguladım; sorduğu soruyu kurgulamadım" kalıbı).
+4. **Sahipsiz rakam yasağı:** Anonim/doğrulanamaz rakam ("bir müşterimiz %40 artış gördü")
+   kullanılmaz; kanıt rakamı yalnız `cases.ts`'te kayıtlı vaka değerlerinden gelir.
+   AI motorları sahipsiz rakamı alıntılamaz.
+5. **SSS bağımsızlığı:** SSS sorusu gövdedeki bir H2/H3'ü birebir tekrar etmez; cevap
+   anafora ile başlamaz ve her dilde en az 40 kelimedir (test korumalı).
+6. **Deyim dozu:** Folklorik deyimler ("fersah fersah", "12'den vurmak") külliyatın
+   ölçülü tonunu aşmayacak seyreklikte — yazı başına en fazla bir tane, o da gerekçeliyse.
+7. **Başlık düzeni:** H1 ve H2'ler cümle düzeninde yazılır (Title Case kullanılmaz).
+
 ### 6b. E-posta
 
 | E-posta Tipi | Ton | Özel Kural |

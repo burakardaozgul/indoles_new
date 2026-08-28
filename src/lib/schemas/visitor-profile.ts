@@ -23,7 +23,10 @@ export const visitorProfileSchema = z.object({
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     time: z.string().regex(/^\d{2}:\d{2}$/),
   }).optional(),
-  turnstileToken: z.string().min(1),
+  /** Turnstile bayrakla devre dışı olabilir (ADR-028); doğrulama rotada koşullu. */
+  turnstileToken: z.string().optional(),
+  /** Popup'ın açılışından gönderime geçen süre (ms). Yokluğu bot işaretidir. */
+  elapsedMs: z.number().int().nonnegative().optional(),
 });
 
 export type VisitorProfilePayload = z.infer<typeof visitorProfileSchema>;

@@ -27,7 +27,9 @@ describe("ARTICLES SSS bütünlüğü", () => {
 
   it("SSS cevapları kendine yeter — anafora ile başlamaz", () => {
     // GEO: pasaj bağlamından koparıldığında anlamını korumalı (spec §8.1).
-    const anaphora = /^(bu|bunu|bunlar|o |onu |yukarıda|ayrıca|ancak)/i;
+    // Zamir grubu kelime sınırı ister — "Business" İngilizce bir cevabı
+    // "bu" ile başlatmaz; zarf/bağlaç grubu önek olarak kalır (yukarıdaki vb.).
+    const anaphora = /^(bu|bunu|bunun|bunlar|o|onu)[\s,.;:!?']|^(yukarıda|ayrıca|ancak)/i;
     for (const a of ARTICLES) {
       for (const f of a.faq ?? []) {
         for (const loc of LOCALES) {

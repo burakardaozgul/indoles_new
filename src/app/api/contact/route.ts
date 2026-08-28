@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { reportError } from '@/lib/observability/report';
 import { contactSchema } from '@/lib/schemas/contact';
 import { verifyTurnstile } from '@/lib/security/turnstile';
+import { spamSignal, turnstileEnabled } from '@/lib/security/anti-spam';
 import { sendMailWithRetry, recipients } from '@/lib/mail/client';
 import ContactNotification from '../../../../emails/ContactNotification';
 import ContactAutoreply from '../../../../emails/ContactAutoreply';
@@ -25,10 +26,19 @@ export async function POST(req: Request): Promise<Response> {
   }
   const data = parsed.data;
 
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '0.0.0.0';
-  const ok = await verifyTurnstile(data.turnstileToken, ip);
-  if (!ok) {
-    return NextResponse.json({ error: 'turnstile_failed' }, { status: 403 });
+  // Sahte başarı bilinçli: 4xx dönmek bota neyin yakalandığını öğretir.
+  const spam = spamSignal(data);
+  if (spam) {
+    console.warn(`[api/contact] spam_suspect signal=${spam}`);
+    return NextResponse.json({ ok: true });
+  }
+
+  if (turnstileEnabled()) {
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '0.0.0.0';
+    const ok = data.turnstileToken ? await verifyTurnstile(data.turnstileToken, ip) : false;
+    if (!ok) {
+      return NextResponse.json({ error: 'turnstile_failed' }, { status: 403 });
+    }
   }
 
   // Satış bildirimi lead'in kendisidir: düşerse istek başarısızdır.

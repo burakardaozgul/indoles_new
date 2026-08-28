@@ -302,8 +302,13 @@ export const performansPazarlama: ServiceContent = {
         en: "What is performance marketing?",
       },
       answer: {
-        tr: "Performans pazarlama, her reklam harcamasının ne getirdiğini ölçen ve bütçeyi bu ölçüme göre dağıtan çalışma biçimidir. Gösterim ve tıklama sayısı yerine tek soru sorulur: bu kanal kaç müşteri kazandırdı ve kaça mal oldu. INDOLES her kanalı bu soruyla tek tek ölçer; kazandıran kanal büyür, kazandırmayan kapanır.",
-        en: "Performance marketing measures what every unit of ad spend returns and allocates budget according to that measurement. Instead of impressions and clicks, one question is asked: how many customers did this channel win, and at what cost. INDOLES measures each channel against that question; the ones that earn grow, the ones that do not are closed.",
+        // Terimin ilk-geçiş açıklaması: "performance marketing" TR yüzeyde
+        // yalnız buradan geçiyor (strateji §1.5 — CSV kelimeyi TR sorgusu
+        // olarak listeliyor, Türk kullanıcı İngilizce terimi aratıyor).
+        // Kalıp `articles.ts`teki "İngilizcesi business building" glosunun
+        // aynısı; EN karşılığı da aynı yerde Türkçe terimi anıyor.
+        tr: "Performans pazarlama, her reklam harcamasının ne getirdiğini ölçen ve bütçeyi bu ölçüme göre dağıtan çalışma biçimidir. Terimin İngilizce karşılığı performance marketing; reklam panellerinde ve sektör yayınlarında aynı iş bu adla geçer. Gösterim ve tıklama sayısı yerine tek soru sorulur: bu kanal kaç müşteri kazandırdı ve kaça mal oldu. INDOLES her kanalı bu soruyla tek tek ölçer; kazandıran kanal büyür, kazandırmayan kapanır.",
+        en: "Performance marketing measures what every unit of ad spend returns and allocates budget according to that measurement. In Turkish the same discipline is called performans pazarlama; the vocabulary differs across the two markets, the measure does not. Instead of impressions and clicks, one question is asked: how many customers did this channel win, and at what cost. INDOLES measures each channel against that question; the ones that earn grow, the ones that do not are closed.",
       },
     },
     {

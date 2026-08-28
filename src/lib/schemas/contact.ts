@@ -77,7 +77,12 @@ export function buildContactSchema(locale: ContactLocale = 'tr') {
     timeline: z.enum(TIMELINES, { errorMap: () => ({ message: m.timeline }) }),
     kvkkConsent: z.literal(true, { errorMap: () => ({ message: m.kvkkConsent }) }),
     locale: z.enum(['tr', 'en']),
-    turnstileToken: z.string().min(1),
+    /** Turnstile bayrakla devre dışı olabilir (ADR-028); doğrulama rotada koşullu. */
+    turnstileToken: z.string().optional(),
+    /** Bal küpü — insanlar görmez, botlar doldurur. Doluysa rota sahte başarı döner. */
+    website: z.string().optional(),
+    /** Formun yüklenmesinden gönderime geçen süre (ms). Yokluğu bot işaretidir. */
+    elapsedMs: z.number().int().nonnegative().optional(),
   });
 }
 

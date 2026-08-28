@@ -1,4 +1,21 @@
-## Durum: SEO/GEO denetimi + Cloudflare deploy zinciri kuruldu — 2026-08-27
+## Durum: Dalga 1 içerik partisi tamamlandı — 2026-08-28
+
+7,5 aydır duran içerik motoru yeniden çalıştı. Takvimin 1-4. hafta slotları dolduruldu (strateji v1.8 changelog satırı):
+
+- **7 yeni yazı** `articles.ts`'e girdi (16→23; hepsi `publishedAt: 2026-08-28`, TR+EN parite): `ai-donusumu-nedir` · `ai-danismani-secerken-sorulacak-12-soru` · `google-ai-overviews-da-yer-almak` · `llms-txt-nedir` · `cro-nedir` · `cro-ajansi-nasil-secilir` · `is-gelistirme-studyosu-nedir`
+- **K-3 uygulandı:** GEO kanonik rehberi aynı slug'da ~1.000→2.000+ kelimeye derinleştirildi (`updatedAt` + `updateNote`); `yapay zeka optimizasyonu` (GSC 136 gösterim) kendi H2'siyle yerleşti
+- **C-02 kapandı:** `yapay-zeka` konusu 0→2 makale; 7 hizmet sayfasının boş "ilgili yazı" bloğu artık render ediliyor (curl ile doğrulandı)
+- **Teknik yan ürün:** `resolveInlineHref` yazı slug'larını da locale'e çözüyor (`yazilar/[slug]/page.tsx` +12 satır) — yazıdan yazıya iç link EN'de 404 üretmez, render'da doğrulandı
+- **Regresyon:** `keyword-coverage.test.ts`'e 16 kelime-yazı çifti (`TARGETS_ARTICLES`); SSS/H2 tekrar yasağı ve anafora regex'i (kelime sınırı) güncellendi; llms per-locale testi link-hedefi denetimine daraltıldı; en-spelling istisnası korunarak EN metinler İngiliz imlasına çevrildi
+- **Dil standardı:** `docs/03` §6a.1 eklendi (soru-H2 ≥%70, rehber ≥1.500 kelime, kurgu şeffaflığı, sahipsiz rakam yasağı, deyim dozu, cümle düzeni)
+
+**Doğrulama:** typecheck temiz · test 691 geçti / 1 atlandı · `seo:audit` 138 URL: 119 PASS / 19 WARN (hepsi eski word-count) / **0 FAIL** · production build exit 0. Worker boyutu ölçümü: son oturum kaydına bakın (2,98/3 MB sınırına içerik eklendi — cutover öncesi `wrangler deploy --dry-run` şart).
+
+**Yayın notu:** Yazılar cutover ile canlıya çıkar. Yayın haftasında: GEO 10-prompt baz çizgisi alınmalı (G-10), GSC G1-G5 grupları kaydedilmeli, K-7 şerhi (baz çizgisi ticaret persona kopyasız alındı) ölçüm kaydına yazılmalı.
+
+---
+
+## Önceki durum: SEO/GEO denetimi + Cloudflare deploy zinciri kuruldu — 2026-08-27
 
 - Branch: `main` (çalışma ağacında ~51 commit edilmemiş değişiklik)
 - **Doğrulama adresi yayında: https://preview.indoles.com.tr** (Worker açılışı 36 ms)

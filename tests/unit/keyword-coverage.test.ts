@@ -45,7 +45,16 @@ function searchSurface(s: ServiceContent): string {
   );
 }
 
-/** Strateji §2'de adıyla geçen ticari kelimeler → hedef hizmet (TR slug). */
+/**
+ * Strateji §2'de adıyla geçen ticari kelimeler → hedef hizmet (TR slug).
+ *
+ * Son iki çift Keyword-Onceliklendirme-2026-08-27 §1.5'ten ("ucuz kazançlar —
+ * yazım/varyant boşlukları") geliyor: `e ticaret dönüşüm oranı artırma` GSC'de
+ * gösterim alıyor ama C-07 yalnız kısa formları CRO sayfasına dağıtmıştı,
+ * `e-ticaret` önekli tam form hiçbir yüzeyde yoktu; `performance marketing`
+ * CSV'de TR kelimesi olarak listeli, sitede yalnız EN metinlerde geçiyordu.
+ * İkisi de 2026-08-28'de tek cümleyle hedef sayfasına yerleşti.
+ */
 const TARGETS: Array<[slug: string, keyword: string]> = [
   ["cro", "cro ajansı"],
   ["cro", "dönüşüm oranı optimizasyonu"],
@@ -61,6 +70,8 @@ const TARGETS: Array<[slug: string, keyword: string]> = [
   ["ai-danismanlik", "yapay zeka ajansı"],
   ["ai-danismanlik", "yapay zeka danışmanı"],
   ["ai-danismanlik", "yapay zeka firmaları"],
+  ["e-ticaret", "e ticaret dönüşüm oranı artırma"],
+  ["performans-pazarlama", "performance marketing"],
 ];
 
 describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
@@ -196,5 +207,63 @@ describe("EN keyword yerleşimi (strateji §2.0 karar 6, docs/19 C-13)", () => {
         expect(norm(surface).includes("agency"), `${s.slug.tr}: "${surface}"`).toBe(false);
       }
     }
+  });
+});
+
+/**
+ * Dalga 1 makale yüzeyi (Keyword-Onceliklendirme-2026-08-27 §2 + §5).
+ *
+ * 2026-08-28 içerik partisi: 7 yeni yazı + derinleştirilen GEO kanonik
+ * rehberi, takvimin 1-4. hafta slotlarını doldurdu. Her yazının hedef
+ * kelimesi arama yüzeyinde (başlık, seo, gövde, SSS) geçmek zorunda —
+ * özellikle GSC'de gösterim alıp sitede karşılığı olmayan `yapay zeka
+ * optimizasyonu` (136 gösterim) ve yazım varyantı `ab testi` bu partiyle
+ * yerleşti; bu test o yerleşimlerin sökülmemesini sağlar (alarm A-7).
+ */
+import { ARTICLES } from "@/lib/content/articles";
+import type { ArticleContent } from "@/lib/content/types";
+
+function articleSurface(a: ArticleContent): string {
+  return norm(
+    [
+      a.title.tr,
+      a.excerpt.tr,
+      a.seo?.title?.tr ?? "",
+      a.seo?.description?.tr ?? "",
+      ...a.blocks.flatMap((b) => {
+        if (b.type === "list") return b.items.map((i) => i.tr);
+        if ("text" in b) return [b.text.tr];
+        return [];
+      }),
+      ...(a.faq ?? []).flatMap((f) => [f.question.tr, f.answer.tr]),
+    ].join(" ")
+  );
+}
+
+/** Dalga 1 kelime → hedef yazı (TR slug). Kelimeler norm() sonrası biçimde. */
+const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
+  ["ai-donusumu-nedir", "ai dönüşümü"],
+  ["ai-donusumu-nedir", "yapay zeka yol haritası"],
+  ["ai-danismani-secerken-sorulacak-12-soru", "yapay zeka danışmanı"],
+  ["ai-danismani-secerken-sorulacak-12-soru", "yapay zeka ajansı"],
+  ["google-ai-overviews-da-yer-almak", "google ai overviews"],
+  ["google-ai-overviews-da-yer-almak", "ai overview"],
+  ["llms-txt-nedir", "llms txt"],
+  ["cro-nedir", "cro nedir"],
+  ["cro-nedir", "ab testi"],
+  ["cro-nedir", "sepet terk"],
+  ["cro-ajansi-nasil-secilir", "cro ajansı"],
+  ["cro-ajansi-nasil-secilir", "cro danışmanlığı"],
+  ["is-gelistirme-studyosu-nedir", "iş geliştirme stüdyosu"],
+  ["is-gelistirme-studyosu-nedir", "iş inşası"],
+  ["yapay-zeka-aramalarinda-nasil-one-cikarsiniz", "yapay zeka optimizasyonu"],
+  ["yapay-zeka-aramalarinda-nasil-one-cikarsiniz", "geo optimizasyonu"],
+];
+
+describe("Dalga 1 makale keyword yerleşimi (2026-08-28 partisi)", () => {
+  it.each(TARGETS_ARTICLES)("%s yazısı '%s' kelimesini taşıyor", (slug, keyword) => {
+    const article = ARTICLES.find((a) => a.slug.tr === slug);
+    expect(article, `yazı bulunamadı: ${slug}`).toBeDefined();
+    expect(articleSurface(article!)).toContain(norm(keyword));
   });
 });

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { reportError } from '@/lib/observability/report';
 import { visitorProfileSchema } from '@/lib/schemas/visitor-profile';
 import { verifyTurnstile } from '@/lib/security/turnstile';
+import { spamSignal, turnstileEnabled } from '@/lib/security/anti-spam';
 import { sendMailWithRetry, recipients } from '@/lib/mail/client';
 import VisitorProfileLeadNotification from '../../../../emails/VisitorProfileLeadNotification';
 import VisitorProfileAutoreply from '../../../../emails/VisitorProfileAutoreply';
@@ -25,10 +26,20 @@ export async function POST(req: Request): Promise<Response> {
   }
   const data = parsed.data;
 
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '0.0.0.0';
-  const ok = await verifyTurnstile(data.turnstileToken, ip);
-  if (!ok) {
-    return NextResponse.json({ error: 'turnstile_failed' }, { status: 403 });
+  // Popup'ta bal küpü alanı yok; süre sinyali yeter — akış üç aşamalı,
+  // insan 2 saniyenin altında bitiremez. Sahte başarı gerekçesi: anti-spam.ts.
+  const spam = spamSignal({ elapsedMs: data.elapsedMs });
+  if (spam) {
+    console.warn(`[api/visitor-profile] spam_suspect signal=${spam}`);
+    return NextResponse.json({ ok: true });
+  }
+
+  if (turnstileEnabled()) {
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '0.0.0.0';
+    const ok = data.turnstileToken ? await verifyTurnstile(data.turnstileToken, ip) : false;
+    if (!ok) {
+      return NextResponse.json({ error: 'turnstile_failed' }, { status: 403 });
+    }
   }
 
   const kvkkConsentAt = new Date().toISOString();

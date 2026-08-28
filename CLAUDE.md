@@ -69,7 +69,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | i18n | next-intl | Path-based TR+EN |
 | Background Jobs | **Yok** | ADR-011 |
 | Email | **Veridyen SMTP** (`worker-mailer`) + React Email | Transactional; From `noreply@`, Reply-To `digital@` — ADR-026 |
-| Spam koruma | Cloudflare Turnstile | Invisible |
+| Spam koruma | Bal küpü + süre tuzağı (`lib/security/anti-spam.ts`) | Turnstile bayrakla devre dışı — challenge host'u IPv4'te çözülmüyor; ADR-028 |
 | Analytics | Google Analytics 4 | Tek ölçüm sağlayıcı (ADR-021; PostHog kaldırıldı) |
 | Observability | Cloudflare Workers observability + `lib/observability/report.ts` | Sentry kaldırıldı — init edilmiyordu, ~864 KiB ölü ağırlıktı (ADR-027) |
 | Deploy | **Cloudflare Workers + OpenNext** · kanonik host `www.indoles.com.tr` | ADR-024 (ADR-012/Vercel superseded) |

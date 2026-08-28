@@ -10,9 +10,11 @@ import { CaseMetricBand } from "@/components/marketing/case-metric-band";
 import { CaseGallery, CaseHeroMedia } from "@/components/marketing/case-media";
 import { CaseFlowDiagram } from "@/components/marketing/case-flow";
 import { CaseCard } from "@/components/marketing/case-card";
+import { ArticleCard } from "@/components/marketing/article-card";
 import { getCaseBySlug, CASES } from "@/lib/content/cases";
 import { getPillar } from "@/lib/content/pillars";
 import { SERVICES } from "@/lib/content/services";
+import { relatedArticlesForCase } from "@/lib/content/related-articles";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { TrackView } from "@/components/analytics/track-view";
@@ -226,6 +228,13 @@ export default async function CaseDetail({
     ...others.filter((x) => x.pillar === c.pillar),
     ...others.filter((x) => x.pillar !== c.pillar),
   ].slice(0, 3);
+
+  /**
+   * Vaka → yazı köprüsü (denetim C-09, vaka yönü). Künyedeki hizmetleri
+   * (`serviceSlugs`) konu eden yazılar — hiçbiri hedeflemezse blok hiç
+   * basılmaz (`relatedArticlesForCase`).
+   */
+  const relatedArticles = relatedArticlesForCase(c.serviceSlugs);
 
   const tr = loc === "tr";
 
@@ -499,6 +508,28 @@ export default async function CaseDetail({
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((r) => (
                 <CaseCard key={r.slug} c={r} locale={loc} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* İlgili yazılar — künyedeki hizmetleri konu eden yazılar (C-09) */}
+      {relatedArticles.length > 0 && (
+        <section
+          aria-labelledby="related-articles-heading"
+          className="v2-surface border-t border-surface-2"
+        >
+          <div className="ds-container py-20 md:py-24">
+            <h2
+              id="related-articles-heading"
+              className="typography-h2 text-ink-900"
+            >
+              {tr ? "İlgili yazılar" : "Related articles"}
+            </h2>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+              {relatedArticles.map((a) => (
+                <ArticleCard key={a.slug[loc]} article={a} locale={loc} />
               ))}
             </div>
           </div>

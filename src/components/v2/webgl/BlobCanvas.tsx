@@ -78,6 +78,20 @@ export function BlobCanvas({
    * sonra 30 fps'e iner. `advance` gerçek zaman damgası aldığı için ambient
    * gürültünün HIZI değişmez — yalnız örnekleme sıklığı düşer.
    */
+  /**
+   * Yöneticinin saat epoch'u. r3f, frameloop="never" modunda `advance`e
+   * verilen değeri DOĞRUDAN clock.elapsedTime yapar ve delta'yı ondan türetir
+   * (kaynaktan doğrulandı: `delta = timestamp - state.clock.elapsedTime`).
+   * Birim, ne geçirirsek o. THREE saniye bekler; ilk sürümde milisaniye
+   * geçirilmişti ve uTime 1000 kat hızlı akıp gürültüyü çıldırtmıştı
+   * (2026-08-28, canlıda görüldü). Epoch ref'te: görünürlük değişip effect
+   * yeniden kurulunca sıfırlanmaz, saat asla geri sıçramaz.
+   */
+  const clockRef = React.useRef<{ epoch: number | null; elapsed: number }>({
+    epoch: null,
+    elapsed: 0,
+  });
+
   React.useEffect(() => {
     if (!running) return;
     let raf = 0;
@@ -109,7 +123,19 @@ export function BlobCanvas({
         : BLOB.governor.idleFps;
       if (t - last < 1000 / fps - 1) return;
       last = t;
-      advance(t);
+
+      const c = clockRef.current;
+      if (c.epoch === null) c.epoch = t;
+      let elapsed = (t - c.epoch) / 1000;
+      // Sekme gizli kalıp geri gelince zaman ileri sıçrar; delta'yı tek karelik
+      // makul bir adıma kelepçele ki gürültü fazı görünür biçimde zıplamasın.
+      const maxStep = 1 / BLOB.governor.idleFps + 0.05;
+      if (elapsed - c.elapsed > maxStep) {
+        c.epoch = t - (c.elapsed + maxStep) * 1000;
+        elapsed = c.elapsed + maxStep;
+      }
+      c.elapsed = elapsed;
+      advance(elapsed);
     };
     raf = requestAnimationFrame(loop);
     return () => {

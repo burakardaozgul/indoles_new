@@ -105,6 +105,7 @@ export const CONSULTANTS: ConsultantContent[] = [
     },
     pillars: ["growth"],
     expertise: ["Marka dili", "Kurumsal iletişim", "İçerik stratejisi"],
+    linkedinUrl: "https://www.linkedin.com/in/cagrierdogan",
   },
   {
     slug: "renata-begasova",
@@ -136,6 +137,7 @@ export const CONSULTANTS: ConsultantContent[] = [
     },
     pillars: ["growth", "build"],
     expertise: ["Proje yönetimi", "Müşteri ilişkileri", "Uluslararası operasyon"],
+    linkedinUrl: "https://www.linkedin.com/in/renata-begasova-344910333",
   },
   {
     slug: "mert-kaplan",
@@ -248,34 +250,6 @@ export const CONSULTANTS: ConsultantContent[] = [
     },
     pillars: ["growth"],
     expertise: ["Grafik tasarım", "Basılı mecra", "Kimlik uygulaması"],
-  },
-  {
-    slug: "ridvan-deger",
-    name: "Rıdvan Değer",
-    order: 9,
-    initials: "RD",
-    portraitTone: "#8B7B9A",
-    title: { tr: "Kreatif Asistan · Web Tasarım", en: "Creative Assistant · Web Design" },
-    quote: {
-      tr: "İyi bir arayüz, varlığını unutturduğunda işini yapmıştır.",
-      en: "A good interface has done its job when you forget it is there.",
-    },
-    shortBio: {
-      tr: "Kod ile tasarım arasındaki sınırda çalışıyor. Etkileşim, mikro animasyon ve arayüz detaylarıyla markanın dijital dokusunu yumuşatan bir uygulayıcı.",
-      en: "Works on the border between code and design. A practitioner who softens the brand's digital texture through interaction, micro-animation and interface detail.",
-    },
-    longBio: {
-      tr: [
-        "Tasarım sistemini arayüz koduna kayıpsız aktaran uygulama disiplinini kurar.",
-        "Mikro etkileşimleri dekorasyon değil, okunabilirlik aracı olarak kullanır.",
-      ],
-      en: [
-        "Establishes the implementation discipline that carries the design system into interface code without loss.",
-        "Uses micro-interaction as a readability tool, not decoration.",
-      ],
-    },
-    pillars: ["build", "growth"],
-    expertise: ["Web tasarım", "Arayüz geliştirme", "Etkileşim tasarımı"],
   },
   {
     slug: "hipnoz",

@@ -316,7 +316,9 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
   const successRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (state !== 'success') return;
-    successRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    // Opsiyonel çağrı: jsdom `scrollIntoView` uygulamıyor ve testlerde
+    // yakalanmayan hata fırlatıyordu. Tarayıcıda her zaman mevcut.
+    successRef.current?.scrollIntoView?.({ block: 'center', behavior: 'smooth' });
   }, [state]);
 
   /**

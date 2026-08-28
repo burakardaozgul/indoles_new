@@ -76,8 +76,18 @@ export function Hero({ locale }: { locale: "tr" | "en" }) {
       };
 
       if (reduced || isMobile) {
-        // Mobil ve reduced-motion: yalnız fade (spec §10)
-        gsap.to(letters, { opacity: 0, ease: "none", scrollTrigger: trigger });
+        /**
+         * Mobil ve reduced-motion: yalnız fade (spec §10). Hedef harfler değil
+         * iki kopya kapsayıcısı (2026-08-28): fade zaten bütün harflere aynı
+         * opaklığı veriyordu, ama harf başına tween scrub sırasında yüzlerce
+         * elemana stil yazıp mobil scroll'u tıkıyordu. İki elemana yazmak
+         * görsel olarak birebir aynı.
+         */
+        gsap.to(root.querySelectorAll<HTMLElement>(".v2-title-copy"), {
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: trigger,
+        });
         return;
       }
 

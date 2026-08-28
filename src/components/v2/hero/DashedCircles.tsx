@@ -29,15 +29,28 @@ const DASH = "0.3 0.62";
 export function DashedCircles() {
   return (
     <div className="v2-orbit-layer" aria-hidden="true">
-      <svg
-        className="v2-orbit"
-        viewBox="-100 -100 200 200"
-        preserveAspectRatio="xMidYMid meet"
-        fill="none"
-      >
-        {RINGS.map((ring, i) => (
+      {/**
+        * Her halka KENDİ svg kökünde ve rotasyon svg elementinin üzerinde
+        * (2026-08-28 performans çalışması). Önceki yapı tek svg içinde üç
+        * <ellipse>'i döndürüyordu; SVG-içi transform + non-scaling-stroke
+        * birleşimi compositor'a taşınamaz ve her karede ~680'er çizgilik üç
+        * halka yeniden rasterize ediliyordu — hero'da boştayken bile süren,
+        * scroll'la ekran dışına çıkınca kaybolan yükün ta kendisi. Elementin
+        * kendisi dönünce raster bir kez alınır, kareler yalnız composite olur.
+        */}
+      {RINGS.map((ring, i) => (
+        <svg
+          key={i}
+          className="v2-orbit v2-orbit-ring"
+          viewBox="-100 -100 200 200"
+          preserveAspectRatio="xMidYMid meet"
+          fill="none"
+          style={{
+            animationDuration: `${HERO.dashedCircleDurations[i] ?? 180}s`,
+            animationDirection: i % 2 === 1 ? "reverse" : "normal",
+          }}
+        >
           <ellipse
-            key={i}
             cx="0"
             cy="0"
             rx={ring.rx}
@@ -47,14 +60,9 @@ export function DashedCircles() {
             strokeWidth="1"
             strokeDasharray={DASH}
             vectorEffect="non-scaling-stroke"
-            className="v2-orbit-ring"
-            style={{
-              animationDuration: `${HERO.dashedCircleDurations[i] ?? 180}s`,
-              animationDirection: i % 2 === 1 ? "reverse" : "normal",
-            }}
           />
-        ))}
-      </svg>
+        </svg>
+      ))}
     </div>
   );
 }

@@ -204,7 +204,9 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  translate: -50% -50%;
+  /* translate kısayolu DEĞİL transform: animasyon transform'u translate+rotate
+     olarak tek özellikte döner, iki ayrı özellik çakışıp merkezi kaydırırdı. */
+  transform: translate(-50%, -50%);
   /* Hero blob'unun çapı 0.65 × 100vh; halkalar bunun biraz dışında kalsın */
   width: 118vh;
   height: 118vh;
@@ -213,11 +215,16 @@
   pointer-events: none;
 }
 .v2-orbit-ring {
-  transform-origin: center;
-  transform-box: fill-box;
-  animation-name: v2-spin;
+  /* Rotasyon svg ELEMENTİNDE döner (SVG içi değil): raster bir kez alınır,
+     kareler compositor'da biter. translate ile birlikte tek transform'da. */
+  animation-name: v2-orbit-spin;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  will-change: transform;
+}
+@keyframes v2-orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 @keyframes v2-spin {
   to { transform: rotate(360deg); }

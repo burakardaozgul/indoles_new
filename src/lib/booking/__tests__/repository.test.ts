@@ -3,7 +3,7 @@ import Database from "better-sqlite3";
 import { readFileSync } from "node:fs";
 import {
   createBooking, findBookingByToken, listSoldSlots,
-  cancelBooking, hasActiveBooking, attachCalendarResult,
+  cancelBooking, hasActiveBooking, attachCalendarResult, rescheduleBooking,
 } from "../repository";
 
 /**
@@ -58,11 +58,12 @@ describe("repository", () => {
   });
 
   it("EŞZAMANLI iki yazmadan tam olarak biri başarılı olur", async () => {
-    // Spec §7'nin asıl talebi bu: "tek tek çağrılarla test etmek kanıt
-    // değil". Sıralı test yalnız ikinci çağrının reddedildiğini gösterir;
-    // yarışın gerçekten veritabanında çözüldüğünü göstermez. Promise.all
-    // ikisini de aynı olay döngüsü turunda başlatıyor, dolayısıyla
-    // "önce kontrol et sonra yaz" deseni kurulsaydı ikisi de geçerdi.
+    // Bu test "önce kontrol et sonra yaz" desenini yakalar: iki okuma da
+    // herhangi bir yazma commit olmadan önce çalışıyor, dolayısıyla ön
+    // kontrole güvenen bir uygulama ikisini de kabul ederdi. Kanıtladığı
+    // şey kısıtın SQL seviyesinde tuttuğu. Kanıtlamadığı şey: better-sqlite3
+    // senkron olduğu için burada gerçek paralellik yok; D1'in ağ üzerinden
+    // gelen eşzamanlı isteklerdeki davranışı ancak canlı ortamda doğrulanır.
     const results = await Promise.all([
       createBooking(db, { ...base, email: "bir@example.com" }),
       createBooking(db, { ...base, email: "iki@example.com" }),
@@ -76,6 +77,18 @@ describe("repository", () => {
     // Ve veritabanında gerçekten tek satır var.
     const sold = await listSoldSlots(db, "2026-09-01T00:00:00.000Z", "2026-09-30T00:00:00.000Z");
     expect(sold).toEqual(["2026-09-07T10:00:00.000Z"]);
+  });
+
+  it("EŞZAMANLI aynı e-posta iki farklı slota yazamaz", async () => {
+    // Ön kontrol tek başına yeterli değildi: iki istek de "aktif randevu yok"
+    // görüp ikisi de yazabiliyordu. Garanti artık kısmi indekste
+    // (idx_bookings_active_email).
+    const results = await Promise.all([
+      createBooking(db, base),
+      createBooking(db, { ...base, startsAtUtc: "2026-09-08T10:00:00.000Z", endsAtUtc: "2026-09-08T11:30:00.000Z" }),
+    ]);
+    expect(results.filter((r) => r.ok)).toHaveLength(1);
+    expect(results.filter((r) => !r.ok)[0]).toEqual({ ok: false, reason: "duplicate_email" });
   });
 
   it("iptal edilen slot yeniden satılabilir — kısmi indeks doğrulaması", async () => {
@@ -133,5 +146,45 @@ describe("repository", () => {
     expect(await hasActiveBooking(db, base.email)).not.toBeNull();
     await cancelBooking(db, r.row.cancelToken);
     expect(await hasActiveBooking(db, base.email)).toBeNull();
+  });
+
+  describe("rescheduleBooking", () => {
+    it("mutlu yol: boş bir slota taşır", async () => {
+      const r = await createBooking(db, base);
+      if (!r.ok) throw new Error("kurulum başarısız");
+      const newStart = "2026-09-08T10:00:00.000Z";
+      const newEnd = "2026-09-08T11:30:00.000Z";
+      const res = await rescheduleBooking(db, r.row.cancelToken, newStart, newEnd);
+      expect(res).toEqual({ ok: true, row: { ...r.row, startsAtUtc: newStart, endsAtUtc: newEnd } });
+
+      // Veritabanı da güncellenmiş olmalı, dönen değer kadar değil.
+      const found = await findBookingByToken(db, r.row.cancelToken);
+      expect(found?.startsAtUtc).toBe(newStart);
+    });
+
+    it("dolu bir slota taşımak slot_taken döner", async () => {
+      const r = await createBooking(db, base);
+      if (!r.ok) throw new Error("kurulum başarısız");
+      const otherStart = "2026-09-08T10:00:00.000Z";
+      const otherEnd = "2026-09-08T11:30:00.000Z";
+      const other = await createBooking(db, { ...base, email: "baska@example.com", startsAtUtc: otherStart, endsAtUtc: otherEnd });
+      expect(other.ok).toBe(true);
+
+      const res = await rescheduleBooking(db, r.row.cancelToken, otherStart, otherEnd);
+      expect(res).toEqual({ ok: false, reason: "slot_taken" });
+
+      // İlk randevu hâlâ eski saatinde duruyor olmalı.
+      const found = await findBookingByToken(db, r.row.cancelToken);
+      expect(found?.startsAtUtc).toBe(base.startsAtUtc);
+    });
+
+    it("iptal edilmiş randevu için not_found döner", async () => {
+      const r = await createBooking(db, base);
+      if (!r.ok) throw new Error("kurulum başarısız");
+      await cancelBooking(db, r.row.cancelToken);
+
+      const res = await rescheduleBooking(db, r.row.cancelToken, "2026-09-08T10:00:00.000Z", "2026-09-08T11:30:00.000Z");
+      expect(res).toEqual({ ok: false, reason: "not_found" });
+    });
   });
 });

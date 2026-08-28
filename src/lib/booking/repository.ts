@@ -103,9 +103,19 @@ export async function createBooking(
       )
       .run();
   } catch (err) {
-    // Kısmi benzersizlik indeksi reddetti: slot bu arada satıldı.
-    // Yarışı kod değil veritabanı çözüyor — burada yalnız çeviriyoruz.
-    if (String(err).includes("UNIQUE")) return { ok: false, reason: "slot_taken" };
+    const msg = String(err);
+    if (msg.includes("UNIQUE")) {
+      // Hangi kısıt patladı: slot mu, aktif e-posta mı? Yukarıdaki
+      // hasActiveBooking ön kontrolü hızlı yol ve net hata mesajı için var,
+      // ama tek başına güvence değil — eşzamanlı iki istek ikisi de "aktif
+      // randevu yok" görüp ikisi de buraya kadar gelebilir. Nihai ayrımı
+      // veritabanının kendisi yapıyor: better-sqlite3 (ve D1'in temelindeki
+      // SQLite) UNIQUE hata mesajına ihlal edilen sütunu yazıyor
+      // ("UNIQUE constraint failed: bookings.email" vs.
+      // "...bookings.consultant_id, bookings.starts_at_utc").
+      if (msg.includes("email")) return { ok: false, reason: "duplicate_email" };
+      return { ok: false, reason: "slot_taken" };
+    }
     throw err;
   }
   return { ok: true, row };
@@ -163,8 +173,14 @@ export async function rescheduleBooking(
   const row = await findBookingByToken(db, token);
   if (!row || row.status !== "confirmed") return { ok: false, reason: "not_found" };
   try {
+    // `AND status = 'confirmed'` okuma anındaki değil YAZMA anındaki durumu
+    // kilitliyor: yukarıdaki kontrol ile bu UPDATE arasında eşzamanlı bir
+    // cancelBooking araya girerse, guard olmadan iptal edilmiş satırın
+    // saatleri sessizce güncellenirdi.
     await db
-      .prepare("UPDATE bookings SET starts_at_utc = ?, ends_at_utc = ?, updated_at = ? WHERE id = ?")
+      .prepare(
+        "UPDATE bookings SET starts_at_utc = ?, ends_at_utc = ?, updated_at = ? WHERE id = ? AND status = 'confirmed'",
+      )
       .bind(startsAtUtc, endsAtUtc, new Date().toISOString(), row.id)
       .run();
   } catch (err) {

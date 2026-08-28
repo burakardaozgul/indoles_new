@@ -26,6 +26,13 @@ CREATE UNIQUE INDEX idx_bookings_slot
   ON bookings (consultant_id, starts_at_utc)
   WHERE status = 'confirmed';
 
+-- Aynı e-postadan ikinci AKTİF randevu engellenir (spec §4). Kısıt burada
+-- duruyor çünkü uygulama kodundaki ön kontrol eşzamanlı iki istekte yarışa
+-- açıktı: ikisi de "aktif randevu yok" görüp ikisi de yazabiliyordu.
+CREATE UNIQUE INDEX idx_bookings_active_email
+  ON bookings (email)
+  WHERE status = 'confirmed';
+
 -- Aktif randevu kontrolü ve temizlik işi bu sütunlardan tarar.
 CREATE INDEX idx_bookings_email_status ON bookings (email, status);
 CREATE INDEX idx_bookings_starts_at ON bookings (starts_at_utc);

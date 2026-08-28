@@ -39,7 +39,13 @@ async function loadConnect(): Promise<ConnectFn> {
    * çalışma zamanında `cloudflare:sockets` zaten mevcut, dolayısıyla import
    * orada sorunsuz çözülüyor.
    */
-  const mod = (await import(specifier).catch((e: unknown) => {
+  /**
+   * `webpackIgnore` de şart: yorum olmadan webpack ifadeyi kendi modül
+   * sistemine çevirir ve çalışma zamanında "Cannot find module" fırlatır
+   * (canlıda ölçüldü). Yorumla birlikte webpack native import() bırakır,
+   * onu da workerd kendisi çözer.
+   */
+  const mod = (await import(/* webpackIgnore: true */ specifier).catch((e: unknown) => {
     throw new Error(
       `cloudflare:sockets yüklenemedi — Workers dışı bir ortamda mı çalışıyoruz? ${String(e)}`,
     );
@@ -137,6 +143,11 @@ class Reader {
   private buf = '';
   constructor(private reader: ReadableStreamDefaultReader<Uint8Array>) {}
 
+  /** startTls öncesi: kilidi bırak ki akış yeni TLS soketine devredilebilsin. */
+  release(): void {
+    this.reader.releaseLock();
+  }
+
   async readResponse(): Promise<{ code: number; text: string }> {
     for (;;) {
       const lines = this.buf.split(CRLF);
@@ -196,8 +207,14 @@ export async function sendSmtpMail(o: SmtpOptions): Promise<void> {
     if (!implicitTls) {
       await send('STARTTLS');
       await expect([220], 'STARTTLS');
-      // TLS'e yükseldikten sonra akışlar değişiyor; okuyucu/yazıcı yenilenmeli.
-      await writer.close().catch(() => {});
+      /**
+       * Kilitler bırakılır, akış KAPATILMAZ: `writer.close()` yazma yarısını
+       * kapatır ve sunucu bağlantıyı FIN ile sonlandırır — TLS'e yükselecek
+       * bağlantı kalmaz. `releaseLock` yalnız tutamacı bırakır; startTls aynı
+       * bağlantının üstüne TLS kurar.
+       */
+      writer.releaseLock();
+      reader.release();
       socket = socket.startTls();
       writer = socket.writable.getWriter();
       reader = new Reader(socket.readable.getReader());

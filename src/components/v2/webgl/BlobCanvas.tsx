@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, advance } from "@react-three/fiber";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Blob } from "./Blob";
@@ -39,7 +39,9 @@ export function BlobCanvas({
   const stateRef = React.useRef<BlobState>(createBlobState());
   const mouse = useMouse();
   const reduced = usePrefersReducedMotion();
-  const [isMobile, setIsMobile] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(
+    () => typeof window !== "undefined" && window.innerWidth < BREAKPOINT.mobile,
+  );
   const [running, setRunning] = React.useState(true);
 
   React.useEffect(() => {
@@ -62,6 +64,59 @@ export function BlobCanvas({
     document.addEventListener("visibilitychange", onVis);
     return () => document.removeEventListener("visibilitychange", onVis);
   }, []);
+
+  /**
+   * Kare yöneticisi (2026-08-28 performans çalışması).
+   *
+   * Önceki hâl `frameloop="always"` idi: sekme görünür olduğu sürece HER rAF
+   * karesinde render — ProMotion cihazlarda saniyede 120 çizim, iç sayfalarda
+   * süs olarak duran düşük opaklıklı blob için bile. Telefonda ısınmanın ve
+   * boştaki GPU yükünün ana kaynağı buydu (ölçüldü: boşta 108-120 draw/s).
+   *
+   * Yeni hâl `frameloop="never"` + kendi sürücümüz: etkileşim veya koreografi
+   * tween'i sürerken 60 fps tavan (ProMotion'da da 60), 2.5 sn hareketsizlikten
+   * sonra 30 fps'e iner. `advance` gerçek zaman damgası aldığı için ambient
+   * gürültünün HIZI değişmez — yalnız örnekleme sıklığı düşer.
+   */
+  React.useEffect(() => {
+    if (!running) return;
+    let raf = 0;
+    let last = 0;
+    let lastActivity = performance.now();
+    const bump = () => {
+      lastActivity = performance.now();
+    };
+    const events = ["wheel", "touchmove", "pointermove", "keydown", "scroll"] as const;
+    events.forEach((e) => window.addEventListener(e, bump, { passive: true }));
+
+    // Etkileşim bitse de scrub tween'i sürüyor olabilir; state değişimi de
+    // aktiflik sayılır (intro animasyonu dahil).
+    const prev = { x: NaN, y: NaN, scale: NaN, opacity: NaN, noiseAmp: NaN };
+
+    const loop = (t: number) => {
+      raf = requestAnimationFrame(loop);
+      const s = stateRef.current;
+      if (
+        s.x !== prev.x || s.y !== prev.y || s.scale !== prev.scale ||
+        s.opacity !== prev.opacity || s.noiseAmp !== prev.noiseAmp
+      ) {
+        prev.x = s.x; prev.y = s.y; prev.scale = s.scale;
+        prev.opacity = s.opacity; prev.noiseAmp = s.noiseAmp;
+        lastActivity = t;
+      }
+      const fps = t - lastActivity < BLOB.governor.activeWindowMs
+        ? BLOB.governor.activeFps
+        : BLOB.governor.idleFps;
+      if (t - last < 1000 / fps - 1) return;
+      last = t;
+      advance(t);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => {
+      cancelAnimationFrame(raf);
+      events.forEach((e) => window.removeEventListener(e, bump));
+    };
+  }, [running]);
 
   // --- Koreografi (spec §2.1) — yalnız anasayfada
   React.useEffect(() => {
@@ -198,10 +253,18 @@ export function BlobCanvas({
       data-blob-canvas
     >
       <Canvas
-        gl={{ antialias: true, alpha: true }}
+        gl={{
+          // Mobil GPU'da MSAA pahalı; blob'un silüeti shader'da zaten yumuşak.
+          antialias: !isMobile,
+          alpha: true,
+          // Çift GPU'lu makinelerde ayrık GPU'yu uyandırma — ısı/pil.
+          powerPreference: "low-power",
+        }}
         dpr={isMobile ? BLOB.dprMobile : BLOB.dpr}
         camera={{ fov: BLOB.camera.fov, position: [0, 0, BLOB.camera.z] }}
-        frameloop={running ? "always" : "never"}
+        // Render'ı yukarıdaki kare yöneticisi sürüyor; sekme gizliyken
+        // yönetici zaten kurulmuyor.
+        frameloop="never"
       >
         <Blob
           state={stateRef}

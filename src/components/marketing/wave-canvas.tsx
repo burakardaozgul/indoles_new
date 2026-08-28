@@ -77,7 +77,35 @@ export function WaveCanvas({
 
     let t = 0;
 
-    const draw = () => {
+    /**
+     * Görünürlük kapısı + 30 fps tavan (2026-08-28 performans çalışması).
+     *
+     * Döngü kapısızdı: canvas ekran dışındayken bile her rAF karesinde tam
+     * genişlik sinüs katmanları çiziliyordu — sayfada birden fazla dalga
+     * varken boştaki yükün görünmez payı. Ekran dışında döngü tamamen durur,
+     * görünürken yavaş ambient hareket için 30 fps yeter.
+     */
+    let visible = true;
+    let lastFrame = 0;
+    const io = new IntersectionObserver((entries) => {
+      const was = visible;
+      visible = Boolean(entries[0]?.isIntersecting);
+      if (visible && !was && rafRef.current === null && !reduced) {
+        rafRef.current = requestAnimationFrame(draw);
+      }
+    });
+    io.observe(canvas);
+
+    const draw = (now: number = performance.now()) => {
+      if (!visible) {
+        rafRef.current = null;
+        return;
+      }
+      if (now - lastFrame < 1000 / 30 - 1) {
+        rafRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      lastFrame = now;
       t += 0.003 * intensity;
       mouseRef.current.x += (mouseRef.current.tx - mouseRef.current.x) * 0.04;
       mouseRef.current.y += (mouseRef.current.ty - mouseRef.current.y) * 0.04;
@@ -140,6 +168,7 @@ export function WaveCanvas({
 
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      io.disconnect();
       ro.disconnect();
       window.removeEventListener("mousemove", onMove);
     };

@@ -49,6 +49,12 @@ export const BLOB = {
   dpr: [1, 1.75] as [number, number],
   dprMobile: [1, 1.5] as [number, number],
   /**
+   * Kare yöneticisi (BlobCanvas): etkileşim/tween sürerken activeFps tavanı,
+   * activeWindowMs hareketsizlikten sonra idleFps. ProMotion'ın 120Hz'ine hiç
+   * çıkılmaz — ısınmanın ana kaynağıydı.
+   */
+  governor: { activeFps: 60, idleFps: 30, activeWindowMs: 2500 },
+  /**
    * Dar ekranda tüm keyframe ölçeklerine uygulanan çarpan.
    *
    * Ölçek viewport YÜKSEKLİĞİNE göre hesaplanıyor; portre telefonda yükseklik

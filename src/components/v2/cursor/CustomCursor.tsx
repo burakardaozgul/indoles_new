@@ -25,9 +25,14 @@ export function CustomCursor() {
     const pos = { ...target };
     let raf = 0;
 
+    let lastMove = 0;
+
     const onMove = (e: MouseEvent) => {
       target.x = e.clientX;
       target.y = e.clientY;
+      lastMove = performance.now();
+      // Uyuyorsa uyandır — döngü aşağıda kendini durdurmuş olabilir.
+      if (raf === 0) raf = requestAnimationFrame(tick);
     };
 
     const onOver = (e: MouseEvent) => {
@@ -41,6 +46,17 @@ export function CustomCursor() {
       const dot = dotRef.current;
       if (dot) {
         dot.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`;
+      }
+      /**
+       * Uyku modu (2026-08-28): fare durup lerp hedefe oturunca döngü kendini
+       * durdurur; `onMove` yeniden başlatır. Önceki hâl fare hiç kımıldamasa
+       * da her karede çalışıyordu — boşta ısınan sayfada paylardan biri.
+       */
+      const settled =
+        Math.abs(target.x - pos.x) < 0.3 && Math.abs(target.y - pos.y) < 0.3;
+      if (settled && performance.now() - lastMove > 150) {
+        raf = 0;
+        return;
       }
       raf = requestAnimationFrame(tick);
     };

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import {
-  getAccessToken, fetchBusy, createEvent, patchEventTime, CalendarAuthError,
+  getAccessToken, fetchBusy, createEvent, deleteEvent, patchEventTime, CalendarAuthError,
 } from "../google-calendar";
 
 const env = {
@@ -60,6 +60,31 @@ describe("fetchBusy", () => {
       "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z");
     expect(busy).toHaveLength(1);
   });
+
+  it("401 durumunda CalendarAuthError fırlatır", async () => {
+    // Yetkinin koptuğu tek görünür an burada da geçerli: fetchBusy'nin
+    // genel Error fırlatması uyarı mekanizmasının hiç tetiklenmemesi
+    // demekti.
+    vi.stubGlobal("fetch", mockFetchOnce({ error: "unauthorized" }, false, 401));
+    await expect(
+      fetchBusy("tok", ["digital@indoles.com.tr"], "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z"),
+    ).rejects.toBeInstanceOf(CalendarAuthError);
+  });
+
+  it("istenen takvimlerin TAMAMI hatalıysa sessiz boş kutu yerine fırlatır", async () => {
+    // Kısmi hata yok sayılır ama hepsi hatalıysa boş dizi "müsait"
+    // anlamına gelir ve dolu saatler satılır (spec §4).
+    vi.stubGlobal("fetch", mockFetchOnce({
+      calendars: {
+        "digital@indoles.com.tr": { errors: [{ reason: "notFound" }] },
+        "yok@example.com": { errors: [{ reason: "notFound" }] },
+      },
+    }));
+    await expect(
+      fetchBusy("tok", ["digital@indoles.com.tr", "yok@example.com"],
+        "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z"),
+    ).rejects.toThrow();
+  });
 });
 
 describe("createEvent", () => {
@@ -81,6 +106,67 @@ describe("createEvent", () => {
     const [url, init] = f.mock.calls[0] as [string, RequestInit];
     expect(url).toContain("conferenceDataVersion=1");
     expect(String(init.body)).toContain("hangoutsMeet");
+  });
+
+  it("Meet linki hazır gelmezse events.get ile teyit eder", async () => {
+    // Google konferansı asenkron üretebilir; insert yanıtı linki henüz
+    // taşımayabilir (spec §8: status.statusCode success değilse teyit).
+    const f = vi.fn()
+      .mockResolvedValueOnce({
+        ok: true, status: 200,
+        json: async () => ({ id: "evt_1", conferenceData: { createRequest: { status: { statusCode: "pending" } } } }),
+        text: async () => "",
+      })
+      .mockResolvedValueOnce({
+        ok: true, status: 200,
+        json: async () => ({ id: "evt_1", hangoutLink: "https://meet.google.com/xyz" }),
+        text: async () => "",
+      });
+    vi.stubGlobal("fetch", f);
+    const res = await createEvent("tok", "cal", {
+      summary: "s", description: "d",
+      startUtc: "2026-09-07T10:00:00.000Z", endUtc: "2026-09-07T11:30:00.000Z",
+      attendeeEmail: "a@b.com",
+    });
+    expect(res.meetUrl).toBe("https://meet.google.com/xyz");
+    expect(f).toHaveBeenCalledTimes(2);
+  });
+
+  it("teyit çağrısı da başarısız olursa etkinlik yine döner, hata fırlatmaz", async () => {
+    const f = vi.fn()
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ id: "evt_1" }), text: async () => "" })
+      .mockResolvedValueOnce({ ok: false, status: 500, json: async () => ({}), text: async () => "" });
+    vi.stubGlobal("fetch", f);
+    const res = await createEvent("tok", "cal", {
+      summary: "s", description: "d",
+      startUtc: "2026-09-07T10:00:00.000Z", endUtc: "2026-09-07T11:30:00.000Z",
+      attendeeEmail: "a@b.com",
+    });
+    expect(res).toEqual({ eventId: "evt_1", meetUrl: null });
+  });
+});
+
+describe("deleteEvent", () => {
+  // Spec §7 test stratejisi: "İptal linki ikinci tıklamada hata vermiyor
+  // mu (idempotent)". 404/410 zaten silinmiş anlamına gelir, hata değil.
+  it("404 başarı sayılır (zaten yok)", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({}, false, 404));
+    await expect(deleteEvent("tok", "cal", "evt_1")).resolves.toBeUndefined();
+  });
+
+  it("410 başarı sayılır (zaten silinmiş — iptal idempotent)", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({}, false, 410));
+    await expect(deleteEvent("tok", "cal", "evt_1")).resolves.toBeUndefined();
+  });
+
+  it("500 genel hata olarak fırlatır", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({}, false, 500));
+    await expect(deleteEvent("tok", "cal", "evt_1")).rejects.toThrow();
+  });
+
+  it("401 CalendarAuthError olarak fırlatır", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({}, false, 401));
+    await expect(deleteEvent("tok", "cal", "evt_1")).rejects.toBeInstanceOf(CalendarAuthError);
   });
 });
 

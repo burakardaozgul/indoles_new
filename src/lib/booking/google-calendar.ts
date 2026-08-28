@@ -20,6 +20,18 @@ type OAuthEnv = {
   GOOGLE_OAUTH_REFRESH_TOKEN: string;
 };
 
+/**
+ * 401/403 yetki kaybının sinyali; çağıran bu tipe bakıp uyarı gönderiyor.
+ * Diğer HTTP hataları (500, ağ vb.) genel `Error` olarak kalır — yalnız
+ * yetki kaybı ayrı işlem gerektiriyor.
+ */
+function throwForStatus(res: Response, op: string, detail: string): never {
+  if (res.status === 401 || res.status === 403) {
+    throw new CalendarAuthError(`${op}: HTTP ${res.status}`);
+  }
+  throw new Error(`${op} başarısız: HTTP ${res.status} ${detail}`);
+}
+
 export async function getAccessToken(env: OAuthEnv): Promise<string> {
   const res = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
@@ -47,16 +59,29 @@ export async function fetchBusy(
     headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
     body: JSON.stringify({ timeMin: fromUtc, timeMax: toUtc, items: calendarIds.map((id) => ({ id })) }),
   });
-  if (!res.ok) throw new Error(`freeBusy başarısız: HTTP ${res.status}`);
+  if (!res.ok) throwForStatus(res, "freeBusy", await res.text());
   const data = (await res.json()) as {
     calendars?: Record<string, { busy?: { start: string; end: string }[]; errors?: unknown[] }>;
   };
   const out: { start: string; end: string }[] = [];
+  const requested = calendarIds.length;
+  let failed = 0;
   for (const entry of Object.values(data.calendars ?? {})) {
     // Erişilemeyen bir takvim (paylaşım kaldırılmış olabilir) tüm sorguyu
-    // düşürmemeli; o takvim yok sayılır, diğerleri korunur.
-    if (entry.errors) continue;
+    // düşürmemeli; o takvim yok sayılır, diğerleri korunur. `errors` boş
+    // dizi olarak da gelebilir (JS'te truthy) — yalnız gerçekten dolu
+    // olduğunda hata sayılır, aksi halde geçerli `busy` verisi atlanırdı.
+    if (Array.isArray(entry.errors) && entry.errors.length > 0) {
+      failed++;
+      continue;
+    }
     out.push(...(entry.busy ?? []));
+  }
+  // Kısmi hata yok sayılır ama istenen takvimlerin HEPSİ hatalıysa dönen
+  // boş dizi "tamamen müsait" anlamına gelir ve dolu saatler satılır — bu
+  // sessiz yanlış, gürültülü bir hatadan daha kötü (spec §4).
+  if (requested > 0 && failed === requested) {
+    throw new Error(`freeBusy: istenen ${requested} takvimin tamamı erişilemedi`);
   }
   return out;
 }
@@ -86,9 +111,36 @@ export async function createEvent(
       },
     }),
   });
-  if (!res.ok) throw new Error(`events.insert başarısız: HTTP ${res.status} ${await res.text()}`);
-  const data = (await res.json()) as { id: string; hangoutLink?: string };
-  return { eventId: data.id, meetUrl: data.hangoutLink ?? null };
+  if (!res.ok) throwForStatus(res, "events.insert", await res.text());
+  const data = (await res.json()) as {
+    id: string;
+    hangoutLink?: string;
+    conferenceData?: { createRequest?: { status?: { statusCode?: string } } };
+  };
+
+  let meetUrl = data.hangoutLink ?? null;
+
+  // Google konferansı asenkron üretebiliyor: insert yanıtı linki henüz
+  // taşımayabilir. Spec §8 bu durumda tek bir events.get ile teyit istiyor —
+  // aksi halde ziyaretçi Meet linki olmayan bir onay maili alır ve bunu
+  // kimse fark etmez.
+  const status = data.conferenceData?.createRequest?.status?.statusCode;
+  if (!meetUrl && status !== "success") {
+    try {
+      const check = await fetch(
+        `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events/${data.id}`,
+        { headers: { authorization: `Bearer ${token}` } },
+      );
+      if (check.ok) {
+        const confirmed = (await check.json()) as { hangoutLink?: string };
+        meetUrl = confirmed.hangoutLink ?? null;
+      }
+    } catch {
+      // Teyit çağrısı ağ hatasıyla da başarısız olabilir; etkinlik zaten
+      // oluştu, link eksikliği randevuyu iptal ettirmemeli.
+    }
+  }
+  return { eventId: data.id, meetUrl };
 }
 
 export async function deleteEvent(token: string, calendarId: string, eventId: string): Promise<void> {
@@ -98,7 +150,7 @@ export async function deleteEvent(token: string, calendarId: string, eventId: st
   );
   // 410 = zaten silinmiş; iptal idempotent olmalı.
   if (!res.ok && res.status !== 404 && res.status !== 410) {
-    throw new Error(`events.delete başarısız: HTTP ${res.status}`);
+    throwForStatus(res, "events.delete", await res.text());
   }
 }
 
@@ -118,5 +170,5 @@ export async function patchEventTime(
       }),
     },
   );
-  if (!res.ok) throw new Error(`events.patch başarısız: HTTP ${res.status}`);
+  if (!res.ok) throwForStatus(res, "events.patch", await res.text());
 }

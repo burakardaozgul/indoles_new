@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeAvailability } from "../availability";
+import { computeAvailability, localDateIso } from "../availability";
 
 const NOW = new Date("2026-09-01T09:00:00.000Z");
 
@@ -54,5 +54,24 @@ describe("computeAvailability", () => {
       fromDate: "2026-09-07", days: 28, now: NOW, busy: [], soldSlots: [],
     });
     expect(days).toHaveLength(28);
+  });
+
+  it("dönen günler ardışık takvim günleridir — ay geçişi dahil", () => {
+    const days = computeAvailability({
+      fromDate: "2026-09-28", days: 7, now: NOW, busy: [], soldSlots: [],
+    });
+    expect(days.map((d) => d.date)).toEqual([
+      "2026-09-28", "2026-09-29", "2026-09-30",
+      "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04",
+    ]);
+  });
+});
+
+describe("localDateIso", () => {
+  it("bugün, UTC'ye göre değil İstanbul dilimine göre belirlenir", () => {
+    // 21:00Z = İstanbul'da ertesi gün 00:00. UTC günü kullanan bir uygulama
+    // burada bir gün geride kalır ve pencerenin başına boş gün koyar.
+    expect(localDateIso(new Date("2026-10-15T21:00:00.000Z"), "Europe/Istanbul")).toBe("2026-10-16");
+    expect(localDateIso(new Date("2026-10-15T20:59:00.000Z"), "Europe/Istanbul")).toBe("2026-10-15");
   });
 });

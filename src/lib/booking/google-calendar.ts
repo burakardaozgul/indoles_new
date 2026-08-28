@@ -14,7 +14,7 @@ export class CalendarAuthError extends Error {
   }
 }
 
-type OAuthEnv = {
+export type OAuthEnv = {
   GOOGLE_OAUTH_CLIENT_ID: string;
   GOOGLE_OAUTH_CLIENT_SECRET: string;
   GOOGLE_OAUTH_REFRESH_TOKEN: string;

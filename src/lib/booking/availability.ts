@@ -2,6 +2,20 @@ import { generateSlotsForDay, isSlotBookable } from "./slots";
 
 type Interval = { start: string; end: string };
 
+/**
+ * "Bugün" iş günü modelinin dilimine göre belirlenir, UTC'ye göre değil.
+ * UTC gününü kullanmak her gün 21:00-23:59 UTC arasında pencereyi bir gün
+ * geriye kaydırıyor ve listenin başına anlamsız bir boş gün koyuyordu.
+ */
+export function localDateIso(now: Date, timeZone: string): string {
+  const p = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone, year: "numeric", month: "2-digit", day: "2-digit",
+    }).formatToParts(now).map((x) => [x.type, x.value]),
+  );
+  return `${p.year}-${p.month}-${p.day}`;
+}
+
 export type AvailabilityDay = {
   date: string;
   slots: { startUtc: string; endUtc: string }[];

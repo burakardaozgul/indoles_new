@@ -69,6 +69,11 @@
     // Lead bildirimi üç kutuya birden gider; virgülle ayrılır ve
     // lib/mail/client.ts `recipients()` diziye çevirir.
     "LEAD_INBOX_EMAIL": "digital@indoles.com.tr,burak@indoles.com.tr,b.a.ozgul@gmail.com",
-    "SALES_INBOX_EMAIL": "digital@indoles.com.tr,burak@indoles.com.tr,b.a.ozgul@gmail.com"
+    "SALES_INBOX_EMAIL": "digital@indoles.com.tr,burak@indoles.com.tr,b.a.ozgul@gmail.com",
+
+    // Müsaitlik birden fazla takvimden okunuyor (spec §2.1b): iş takvimi ve
+    // "yalnız müsaitlik" düzeyinde paylaşılan kişisel takvim. Sır değil —
+    // takvim kimliği zaten paylaşım davetinde açık; virgülle ayrılır.
+    "BOOKING_CALENDAR_IDS": "digital@indoles.com.tr,b.a.ozgul@gmail.com"
   }
 }

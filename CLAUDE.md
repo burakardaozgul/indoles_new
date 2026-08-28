@@ -73,7 +73,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Analytics | Google Analytics 4 | Tek ölçüm sağlayıcı (ADR-021; PostHog kaldırıldı) |
 | Observability | Cloudflare Workers observability + `lib/observability/report.ts` | Sentry kaldırıldı — init edilmiyordu, ~864 KiB ölü ağırlıktı (ADR-027) |
 | Deploy | **Cloudflare Workers + OpenNext** · kanonik host `www.indoles.com.tr` | ADR-024 (ADR-012/Vercel superseded) |
-| CI/CD | GitHub Actions + `pnpm cf:deploy:preview` → `preview.indoles.com.tr` | — |
+| CI/CD | GitHub Actions (test/lint/robots/SEO denetimi) · dağıtım elle `pnpm cf:deploy` | Doğrulama adresi yok — gerekçe `wrangler.jsonc` |
 | Test | Vitest + Playwright | — |
 
 ---

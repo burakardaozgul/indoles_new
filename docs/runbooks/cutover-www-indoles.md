@@ -125,3 +125,37 @@ Bir şey ters giderse `www`yi WordPress'e döndürmek:
 Site içeriği WordPress'te durmaya devam ettiği için veri kaybı riski yok; geri dönüş yalnız DNS meselesi.
 
 > **Cutover öncesi mutlaka:** Cloudflare DNS panelinde `www` kaydının mevcut değerinin ekran görüntüsünü al. Token DNS okuyamadığı için bu değeri programatik olarak kaydedemiyorum.
+
+---
+
+## Cutover kaydı (2026-08-28, tamamlandı)
+
+| Adım | Sonuç |
+|---|---|
+| Eski `www` A kaydının silinmesi | Burak (Cloudflare elle oluşturulmuş kaydın üstüne yazmıyor — `code 100117`) |
+| Worker custom domain | `www.indoles.com.tr` bağlandı |
+| Duman testi | **30/30** |
+| robots.txt | `Allow: /` + AI crawler'lar açık |
+| Sitemap | 136 URL · GSC'ye gönderildi, 136 bağlantı okundu |
+| GA4 | `G-236D96V8XL` canlıda |
+| Apex | 301 → `www` (Veridyen üretiyor) |
+| İletişim formu | Canlıda uçtan uca: HTTP 200, mail üç kutuya |
+
+**`preview.indoles.com.tr` kaldırıldı.** Tek Worker'da iki host olduğu için preview
+kendi `robots.txt`'sini alamıyor, üretim robots'unu (`Allow`) servis ediyordu —
+indekslenme riski. Cutover'dan sonra doğrulama adresine ihtiyaç kalmadığı için
+host tamamen kaldırıldı; DNS kaydı da wrangler tarafından silindi.
+
+Aynı sebeple `cf:build:preview` ve `cf:deploy:preview` script'leri de silindi:
+preview host'u yokken bu script'ler üretim Worker'ına `Disallow: /` basardı —
+LG-02'nin en pahalı biçimi. Doğrulama artık `pnpm cf:preview` (yerel Workers
+çalışma zamanı) ve CI'daki robots/SEO kontrolleriyle yapılıyor.
+
+Yeniden bir doğrulama adresi gerekirse **ayrı bir Worker script'i** olarak
+kurulmalı — aynı script'e ikinci host bağlamak bu sorunu geri getirir.
+
+### Hâlâ açık
+
+- **Veridyen kapatılmayacak:** apex 301'ini ve mail'i o taşıyor (Burak: "bir süre açık")
+- Apex'i de Worker'a almak — ayrı iş, launch'ı bloke etmiyor
+- Bing Webmaster sitemap gönderimi

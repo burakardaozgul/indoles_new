@@ -34,13 +34,15 @@
   // WordPress'e dokunmaz.
   //
   // CUTOVER 2026-08-28: www bu Worker'a bağlı — WordPress devre dışı.
-  // Kanonik host `www` (ADR-024). preview aynı Worker'ı servis ediyor;
-  // indekslenmemesi zone-level X-Robots-Tag kuralıyla sağlanıyor
-  // (runbook: cutover-www-indoles.md, "cutover sonrası" bölümü).
-  "routes": [
-    { "pattern": "www.indoles.com.tr", "custom_domain": true },
-    { "pattern": "preview.indoles.com.tr", "custom_domain": true }
-  ],
+  // Kanonik host `www` (ADR-024).
+  //
+  // `preview.indoles.com.tr` cutover'dan sonra KALDIRILDI. Sebebi tek Worker
+  // olması: iki host aynı script'i servis ettiği için preview kendi robots'unu
+  // alamıyordu, üretim robots'unu (Allow) servis ediyordu — indekslenme riski.
+  // Doğrulama artık üretim öncesi `pnpm cf:preview` (yerel) ve CI'daki
+  // robots/SEO kontrolleriyle yapılıyor. Ayrı bir doğrulama adresi gerekirse
+  // AYRI bir Worker script'i olarak kurulmalı, aynı script'e ikinci host değil.
+  "routes": [{ "pattern": "www.indoles.com.tr", "custom_domain": true }],
 
   // NOT: `NEXT_PUBLIC_*` değişkenleri buraya YAZILMAZ — onlar build anında
   // koda gömülüyor, çalışma zamanında okunmuyor. Değerleri `package.json`

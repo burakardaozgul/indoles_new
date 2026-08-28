@@ -55,8 +55,7 @@ pnpm dev                      # http://localhost:3000 → /tr
 | Komut | Ne yapar |
 |---|---|
 | `pnpm cf:build` | OpenNext derlemesi — `NEXT_PUBLIC_APP_STAGE=production` ve kanonik host script'e gömülü |
-| `pnpm cf:preview` | Derleyip Workers çalışma zamanını **yerelde** ayağa kaldırır |
-| `pnpm cf:deploy:preview` | `stage=preview` ile dağıtır — `workers.dev` adresi `noindex` olur, canlıya dokunmaz |
+| `pnpm cf:preview` | Üretim build'ini derleyip Workers çalışma zamanını **yerelde** ayağa kaldırır — canlıya dokunmaz |
 | `pnpm cf:deploy` | Production dağıtımı |
 | `pnpm cf:typegen` | Worker binding'lerinden tip üretir |
 

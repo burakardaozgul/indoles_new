@@ -83,7 +83,16 @@ export function Hero({ locale }: { locale: "tr" | "en" }) {
          * elemana stil yazıp mobil scroll'u tıkıyordu. İki elemana yazmak
          * görsel olarak birebir aynı.
          */
-        gsap.to(root.querySelectorAll<HTMLElement>(".v2-title-copy"), {
+        /**
+         * Hedef `.v2-title-copy` DEĞİL, z-index'i zaten taşıyan iç katmanlar
+         * (`[data-title-layer]` → .v2-layer-under/over). opacity < 1 hedefine
+         * yeni bir stacking context açar; kapsayıcıda açılınca içindeki z-20
+         * o bağlama hapsoluyor ve kopya z-10'daki sabit canvas'ın ALTINA
+         * düşüyordu — mobilde ilk dokunuşta scrub başlar başlamaz "blob
+         * yazıların önüne atladı" (2026-08-28, canlıda görüldü). İç katman
+         * kendi z-20/z-0'ını taşıdığı için orada açılan bağlam sırayı korur.
+         */
+        gsap.to(root.querySelectorAll<HTMLElement>("[data-title-layer]"), {
           opacity: 0,
           ease: "none",
           scrollTrigger: trigger,

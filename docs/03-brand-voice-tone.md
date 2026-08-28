@@ -429,8 +429,10 @@ taşır (`types.ts` `ArticleContent.seo` gerekçesi).
 - İngilizce terim ilk geçişte Türkçe açıklamasıyla; yerleşik terimler (ROAS, CAC, LTV) İngilizce kalır
 
 **Zorunlu kurallar** (yeni ve güncellenen her yazıda):
-1. **Soru-H2 disiplini:** H2'lerin en az %70'i soru formunda; her H2'nin ilk 2 cümlesi
-   bağlamsız okunduğunda kendine yeten net cevap (GEO alıntılanabilirlik şartı, strateji §4).
+1. **Soru-H2 disiplini:** Yeni yazılarda H2'lerin en az %70'i soru formunda; mevcut yazı
+   retrofit'inde hedef, doğallık bozulmadan ulaşılabilen en yüksek oran (külliyat geneli ≥%50 —
+   numaralı seri başlıkları ve editoryal sonuç başlıkları zorlanmaz). Her soru-H2'nin ilk
+   2 cümlesi bağlamsız okunduğunda kendine yeten net cevap (GEO alıntılanabilirlik şartı, strateji §4).
 2. **Rehber uzunluğu:** "rehber" iddialı yazıda gövde (SSS hariç) en az 1.500 kelime,
    kapsamlı rehberde 2.000+. SSS gövdenin yerine geçmez.
 3. **Kurgu şeffaflığı:** Kurgulanan karakter veya sahne tek cümleyle beyan edilir

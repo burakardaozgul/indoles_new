@@ -1,3 +1,22 @@
+## Durum: Faz 2 yapısal içerik işleri tamamlandı — 2026-08-28 öğleden sonra
+
+Dalga 1'in (aşağıda) üstüne, Burak'ın onayıyla Faz 2 uygulandı (LinkedIn URL'leri hariç; strateji **v1.9** changelog satırı):
+
+- **C-08:** 3 marka-hikaye yazısına 13 iç link (0→4/5/4) — hedeflerin 13/13'ü doğrulandı
+- **C-09:** makale→hizmet köprü kartı (`topics.serviceSlug` artık render ediliyor, `yazilar/[slug]/page.tsx`) + vaka→makale yönü (`src/lib/content/related-articles.ts` + `article-card.tsx` ortak bileşen, 8 yeni test)
+- **Soru-H2 retrofiti:** eski 15 yazı %12,7→%56,9 (külliyat %69,7); 12 yazı `updatedAt: 2026-08-28`; numaralı seriler bilinçle korundu; Title Case düzeltmeleri (web-tasarım, RFM, video)
+- **GSC varyantları:** `e ticaret dönüşüm oranı artırma` (e-ticaret scope) + `performance marketing` (performans-pazarlama SSS glosu); `keyword-coverage` TARGETS +2
+- **G-10:** `docs/strateji/GEO-Olcum-Rutini.md` kuruldu (10 sabit prompt 4/3/3, 3 motor, kayıt tablosu, A-5 bağı) — **Burak onayına açık**, baz çizgisi cutover haftasında
+- **docs/03 §6a.1** retrofit hedefi netleştirildi; `Keyword-Onceliklendirme` §1.5'e kapanış notu
+
+**Ertelenen:** görsel katmanı — kök klasördeki `blog-*.jpg` dosyaları kapak değil tam-sayfa ekran görüntüsü çıktı (1430×~10.000 px); kapak asset'i veya tipografik SVG kapak ADR kararı bekleniyor.
+
+**Kadro güncellemesi (11:21, Burak):** Rıdvan Değer ekipten çıkarıldı (`consultants.ts`; danışman URL'leri 18→16, sitemap/llms otomatik türer, yazı yazarlığı yoktu). LinkedIn: Çağrı Erdoğan + Renata Begasova eklendi → `Person.sameAs` 3/8 (Burak, Çağrı, Renata). Kalan 5: Can, Mert, Berk, Sude, Doğan.
+
+**Commit notu:** Paralel oturumun `fadda9f` (ADR-028/Turnstile) commit'i o anki çalışma ağacını genişçe süpürdü — Dalga 1 içerikleri ve Faz 2'nin bir kısmı o commit'in içinde, mesajı yalnız Turnstile'ı anlatıyor. Geçici scriptler `299743b` ile temizlendi.
+
+---
+
 ## Durum: Dalga 1 içerik partisi tamamlandı — 2026-08-28
 
 7,5 aydır duran içerik motoru yeniden çalıştı. Takvimin 1-4. hafta slotları dolduruldu (strateji v1.8 changelog satırı):
@@ -9,7 +28,7 @@
 - **Regresyon:** `keyword-coverage.test.ts`'e 16 kelime-yazı çifti (`TARGETS_ARTICLES`); SSS/H2 tekrar yasağı ve anafora regex'i (kelime sınırı) güncellendi; llms per-locale testi link-hedefi denetimine daraltıldı; en-spelling istisnası korunarak EN metinler İngiliz imlasına çevrildi
 - **Dil standardı:** `docs/03` §6a.1 eklendi (soru-H2 ≥%70, rehber ≥1.500 kelime, kurgu şeffaflığı, sahipsiz rakam yasağı, deyim dozu, cümle düzeni)
 
-**Doğrulama:** typecheck temiz · test 691 geçti / 1 atlandı · `seo:audit` 138 URL: 119 PASS / 19 WARN (hepsi eski word-count) / **0 FAIL** · production build exit 0. Worker boyutu ölçümü: son oturum kaydına bakın (2,98/3 MB sınırına içerik eklendi — cutover öncesi `wrangler deploy --dry-run` şart).
+**Doğrulama:** typecheck temiz · test 691 geçti / 1 atlandı · `seo:audit` 138 URL: 119 PASS / 19 WARN (hepsi eski word-count) / **0 FAIL** · production build exit 0. Worker boyutu ölçüldü: **gzip 2.311 KiB** — 3 MB sınırının rahat altında (Resend/Sentry kaldırılınca küçüldü); içerik eklemesi sınırı zorlamıyor.
 
 **Yayın notu:** Yazılar cutover ile canlıya çıkar. Yayın haftasında: GEO 10-prompt baz çizgisi alınmalı (G-10), GSC G1-G5 grupları kaydedilmeli, K-7 şerhi (baz çizgisi ticaret persona kopyasız alındı) ölçüm kaydına yazılmalı.
 

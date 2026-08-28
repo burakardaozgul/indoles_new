@@ -50,6 +50,8 @@ EN'deki sıçrama tek başına C-12 (iki kelimenin yerleşmesi) + C-13 (regresyo
 
 ### 1.5 Ucuz kazançlar — yazım/varyant boşlukları
 
+> **Durum güncellemesi (2026-08-28, strateji v1.8-v1.9):** Bu tablodaki boşlukların tamamı kapandı — `yapay zeka optimizasyonu` GEO kanonik rehberine kendi H2'siyle (K-3 derinleştirmesi), `ab testi nedir` boşluksuz varyantı `cro-nedir` yazısına, `geo optimizasyonu` tam formu kanonik rehbere, `ai overview nedir` tekil formu `google-ai-overviews-da-yer-almak` yazısına, `e ticaret dönüşüm oranı artırma` tam formu e-ticaret hizmet sayfası scope'una, `performance marketing` TR yüzeyi performans-pazarlama SSS'ine yerleşti. Hepsi `keyword-coverage.test.ts` regresyonu altında. Aşağıdaki tablo 27 Ağustos kesitinin tarihsel kaydıdır.
+
 Bunlar içerik üretimi değil, tek cümlelik eklemeler:
 
 | Kelime | Hacim / Rekabet | Durum |

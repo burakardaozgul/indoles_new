@@ -85,6 +85,44 @@ describe("fetchBusy", () => {
         "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z"),
     ).rejects.toThrow();
   });
+
+  it("yanıtta calendars anahtarı hiç yoksa fırlatır", async () => {
+    // Eski sayaç yalnız yanıtta fiilen bulunan girdileri sayıyordu; bir
+    // takvim yanıtta hiç yer almazsa (anahtar eksik) döngüye hiç girmiyor,
+    // koruma tetiklenmiyordu.
+    vi.stubGlobal("fetch", mockFetchOnce({}));
+    await expect(
+      fetchBusy("tok", ["a@x.com", "b@x.com"], "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z"),
+    ).rejects.toThrow(/hiçbirinden müsaitlik alınamadı/);
+  });
+
+  it("calendars boş obje ise fırlatır", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({ calendars: {} }));
+    await expect(
+      fetchBusy("tok", ["a@x.com", "b@x.com"], "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z"),
+    ).rejects.toThrow();
+  });
+
+  it("biri hatalı diğeri yanıtta hiç yoksa fırlatır", async () => {
+    // Eski sayaç bu senaryoda failed=1 görüp koşulu sağlayamıyordu.
+    vi.stubGlobal("fetch", mockFetchOnce({
+      calendars: { "a@x.com": { errors: [{ reason: "notFound" }] } },
+    }));
+    await expect(
+      fetchBusy("tok", ["a@x.com", "b@x.com"], "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z"),
+    ).rejects.toThrow();
+  });
+
+  it("biri hatalı biri sağlamsa fırlatmaz, sağlamın verisi gelir", async () => {
+    vi.stubGlobal("fetch", mockFetchOnce({
+      calendars: {
+        "a@x.com": { errors: [{ reason: "notFound" }] },
+        "b@x.com": { busy: [{ start: "2026-09-07T10:00:00Z", end: "2026-09-07T11:00:00Z" }] },
+      },
+    }));
+    const busy = await fetchBusy("tok", ["a@x.com", "b@x.com"], "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z");
+    expect(busy).toHaveLength(1);
+  });
 });
 
 describe("createEvent", () => {

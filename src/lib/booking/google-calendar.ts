@@ -63,25 +63,29 @@ export async function fetchBusy(
   const data = (await res.json()) as {
     calendars?: Record<string, { busy?: { start: string; end: string }[]; errors?: unknown[] }>;
   };
+  const calendars = data.calendars ?? {};
   const out: { start: string; end: string }[] = [];
-  const requested = calendarIds.length;
-  let failed = 0;
-  for (const entry of Object.values(data.calendars ?? {})) {
-    // Erişilemeyen bir takvim (paylaşım kaldırılmış olabilir) tüm sorguyu
-    // düşürmemeli; o takvim yok sayılır, diğerleri korunur. `errors` boş
-    // dizi olarak da gelebilir (JS'te truthy) — yalnız gerçekten dolu
-    // olduğunda hata sayılır, aksi halde geçerli `busy` verisi atlanırdı.
-    if (Array.isArray(entry.errors) && entry.errors.length > 0) {
-      failed++;
-      continue;
-    }
+  let usable = 0;
+
+  // Sayaç İSTENEN listeden yürüyor, yanıttan değil: bir takvim yanıtta hiç
+  // yer almazsa (anahtar eksik, calendars hiç gelmemiş) o da bir başarısızlık.
+  // Yanıttakileri saymak, eksik girdileri görünmez kılıyordu ve koruma hiç
+  // tetiklenmiyordu — boş dizi çağırana "tamamen müsait" diyor.
+  for (const id of calendarIds) {
+    const entry = calendars[id];
+    if (!entry) continue;
+    if (Array.isArray(entry.errors) && entry.errors.length > 0) continue;
+    usable++;
     out.push(...(entry.busy ?? []));
   }
-  // Kısmi hata yok sayılır ama istenen takvimlerin HEPSİ hatalıysa dönen
-  // boş dizi "tamamen müsait" anlamına gelir ve dolu saatler satılır — bu
-  // sessiz yanlış, gürültülü bir hatadan daha kötü (spec §4).
-  if (requested > 0 && failed === requested) {
-    throw new Error(`freeBusy: istenen ${requested} takvimin tamamı erişilemedi`);
+
+  // Bir takvimin erişilemez olması (paylaşım kaldırılmış) diğerlerini
+  // düşürmemeli. Ama hiçbiri kullanılabilir değilse müsaitlik bilgisi YOK
+  // demektir; bunu boş müsaitlikle karıştırmak dolu saatleri satmak olur.
+  if (calendarIds.length > 0 && usable === 0) {
+    throw new Error(
+      `freeBusy: istenen ${calendarIds.length} takvimin hiçbirinden müsaitlik alınamadı`,
+    );
   }
   return out;
 }

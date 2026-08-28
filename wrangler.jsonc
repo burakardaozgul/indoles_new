@@ -33,12 +33,14 @@
   // öncesi gerçek koşullarda duman testi yapmanın tek yolu. www'ye ve
   // WordPress'e dokunmaz.
   //
-  // --- CUTOVER'DA EKLENECEK ---
-  // Aşağıdaki satır açıldığı an www.indoles.com.tr bu Worker'a bağlanır ve
-  // WordPress trafiği keser. Launch kapısı tamamlanmadan (preview smoke +
-  // GSC hazırlığı) AÇILMAMALI. Kanonik host `www` (ADR-024).
-  //   { "pattern": "www.indoles.com.tr", "custom_domain": true }
-  "routes": [{ "pattern": "preview.indoles.com.tr", "custom_domain": true }],
+  // CUTOVER 2026-08-28: www bu Worker'a bağlı — WordPress devre dışı.
+  // Kanonik host `www` (ADR-024). preview aynı Worker'ı servis ediyor;
+  // indekslenmemesi zone-level X-Robots-Tag kuralıyla sağlanıyor
+  // (runbook: cutover-www-indoles.md, "cutover sonrası" bölümü).
+  "routes": [
+    { "pattern": "www.indoles.com.tr", "custom_domain": true },
+    { "pattern": "preview.indoles.com.tr", "custom_domain": true }
+  ],
 
   // NOT: `NEXT_PUBLIC_*` değişkenleri buraya YAZILMAZ — onlar build anında
   // koda gömülüyor, çalışma zamanında okunmuyor. Değerleri `package.json`

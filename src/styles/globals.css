@@ -500,3 +500,16 @@ html[data-iframe="true"] body {
    `::-webkit-details-marker` kullanıyor, ikisi de gerekli. */
 summary { list-style: none; }
 summary::-webkit-details-marker { display: none; }
+
+/* iOS Safari, odaklanılan form alanının yazı boyutu 16px'in ALTINDAysa sayfayı
+   otomatik büyütür ve düzen kayar — kullanıcı bunu "form zoom yapıyor" diye
+   görür (2026-08-28, popup booking formunda bildirildi). Kural yalnız dar
+   ekranda ve yalnız form kontrollerinde geçerli; masaüstü tipografisi
+   (ör. popup'ın `text-sm` alanları) olduğu gibi kalır. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

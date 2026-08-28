@@ -65,6 +65,13 @@ export function EntryPopup({
   );
   const [turnstileToken, setTurnstileToken] = React.useState<string>("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  /**
+   * Gönderim hatası (2026-08-28). Önceden hem eksik-bağlam guard'ı hem
+   * `!result.ok` dalı sessizce `return` ediyordu: ziyaretçi düğmeye basıyor,
+   * hiçbir şey olmuyor, hiçbir mesaj çıkmıyor ve lead kayboluyor. Sessiz
+   * başarısızlık, sunucu hatasından daha pahalı çünkü kimse fark etmiyor.
+   */
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
   // Tracks which stage booking was reached from (stage3 or existing-booking)
   const [bookingSource, setBookingSource] = React.useState<PopupStage>(
     initialStage === "existing-booking" ? "existing-booking" : "stage3"
@@ -183,7 +190,26 @@ export function EntryPopup({
     type: "booking" | "contact",
     slot?: { date: string; time: string } | null,
   ) => {
-    if (!persona || problems.length !== 3 || (TURNSTILE_ENABLED && !turnstileToken)) return;
+    // Bağlam eksikse akışı baştan aldırıyoruz. Eskiden sessizce return ediliyordu:
+    // düğme etkin görünüyor, tıklama hiçbir şey yapmıyordu.
+    if (!persona || problems.length !== 3) {
+      setSubmitError(
+        locale === "tr"
+          ? "Seçimlerin kaydedilmemiş. Baştan başlayalım."
+          : "Your selections were not saved. Let's start over.",
+      );
+      setStage("stage1");
+      return;
+    }
+    if (TURNSTILE_ENABLED && !turnstileToken) {
+      setSubmitError(
+        locale === "tr"
+          ? "Güvenlik doğrulaması tamamlanmadı, birkaç saniye sonra tekrar dene."
+          : "The security check did not finish; try again in a few seconds.",
+      );
+      return;
+    }
+    setSubmitError(null);
 
     const { kvkkConsent: _kvkk, ...leadFields } = form;
 
@@ -204,6 +230,11 @@ export function EntryPopup({
     setIsSubmitting(false);
 
     if (!result.ok) {
+      setSubmitError(
+        locale === "tr"
+          ? "Gönderemedik. Tekrar dene ya da digital@indoles.com.tr adresine yaz."
+          : "We could not send it. Try again or email digital@indoles.com.tr.",
+      );
       return;
     }
 
@@ -278,6 +309,16 @@ export function EntryPopup({
         >
           <Dialog.Title className="sr-only">{t("stage1.title")}</Dialog.Title>
           <Dialog.Description className="sr-only">{t("stage1.subtitle")}</Dialog.Description>
+
+          {/* Gönderim hatası — `role="alert"` ekran okuyucuya da duyurur. */}
+          {submitError && (
+            <p
+              role="alert"
+              className="mb-4 rounded-md border border-danger-500/40 bg-danger-50 px-3 py-2 text-sm text-danger-700"
+            >
+              {submitError}
+            </p>
+          )}
 
           <div className="flex flex-col items-center mb-5">
             <BrandLogo variant="light-bg" height={28} className="md:hidden" priority />

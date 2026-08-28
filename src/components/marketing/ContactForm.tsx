@@ -306,6 +306,20 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
   }, []);
 
   /**
+   * Başarı kartı ekrana getirilir (2026-08-28).
+   *
+   * Uzun form kısa bir kartla değişince sayfa yüksekliği aniden düşüyor;
+   * tarayıcı mevcut kaydırma konumunu yeni sınıra kelepçeliyor ve mobilde
+   * ziyaretçi kendini sayfanın en altında buluyordu — "gönderdim, en alta
+   * atladı". Kart görünür alana çekilince onay gerçekten okunuyor.
+   */
+  const successRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (state !== 'success') return;
+    successRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [state]);
+
+  /**
    * Bekçi: durum `pending`de takılı kalırsa ziyaretçiyi süresiz bekletmek
    * yerine açık bir mesaja ve alternatif kanala düşürüyoruz.
    */
@@ -369,7 +383,11 @@ export function ContactForm({ locale }: { locale: ContactLocale }) {
 
   if (state === 'success') {
     return (
-      <div role="status" className="v2-surface border border-surface-2 rounded-2xl p-10 text-center">
+      <div
+        ref={successRef}
+        role="status"
+        className="v2-surface border border-surface-2 rounded-2xl p-10 text-center"
+      >
         <h3 className="typography-h3 text-ink-900">
           {isTr ? 'Mesajın elimizde.' : 'We got your message.'}
         </h3>

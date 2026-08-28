@@ -548,8 +548,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "sezardan-dil-modellerine",
         text: {
-          tr: "2026 notu: Sezar'dan dil modellerine",
-          en: "2026 note: from Caesar to language models",
+          tr: "2026 notu: Sezar'dan dil modellerine ne değişti, ne değişmedi?",
+          en: "2026 note: from Caesar to language models — what changed, what didn't?",
         },
       },
       {
@@ -733,10 +733,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "İnternet yok, sosyal medya yok, posta sistemi bile yok — ama mesaj iki bin yıldır yayılıyor. Net vizyon, topluluk, meseller ve ağlar üzerine eskimeyen bir marka dersi.",
       en: "No internet, no social media, not even a reliable postal system — yet the message has spread for two thousand years. A timeless brand lesson on vision, community, parables and networks.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 1 Ağustos 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: bonus bölümü metne işlendi; kampanya listesine 2020'lerden Barbie ve Spotify Wrapped eklendi; \"Gutenberg'den dil modellerine\" notu ve sık sorulan sorular eklendi.",
-      en: "First published on 1 August 2024. Revised on 23 August 2026: the bonus section was woven into the text; Barbie and Spotify Wrapped joined the campaign list from the 2020s; the \"From Gutenberg to language models\" note and the FAQ were added.",
+      tr: "Bu yazı ilk olarak 1 Ağustos 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: bonus bölümü metne işlendi; kampanya listesine 2020'lerden Barbie ve Spotify Wrapped eklendi; \"Gutenberg'den dil modellerine\" notu ve sık sorulan sorular eklendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi ve ilgili hizmet, vaka ve yazı sayfalarına iç bağlantılar eklendi.",
+      en: "First published on 1 August 2024. Revised on 23 August 2026: the bonus section was woven into the text; Barbie and Spotify Wrapped joined the campaign list from the 2020s; the \"From Gutenberg to language models\" note and the FAQ were added. On 28 August 2026 the section headings were rewritten as questions and internal links to the related service, case and article pages were added.",
     },
     blocks: [
       {
@@ -757,8 +757,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "mutevazi-baslangiclar-net-vizyon",
         text: {
-          tr: "Mütevazı başlangıçlar, net vizyon",
-          en: "Humble beginnings, clear vision",
+          tr: "Net vizyon bir markayı nasıl odakta tutar?",
+          en: "How does a clear vision keep a brand focused?",
         },
       },
       {
@@ -779,8 +779,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "topluluk-olusturmak",
         text: {
-          tr: "İlişki kurmak, topluluk oluşturmak",
-          en: "Building relationships, building community",
+          tr: "Topluluk neden takipçi sayısından değerli?",
+          en: "Why is a community worth more than a follower count?",
         },
       },
       {
@@ -793,8 +793,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Harley-Davidson'ı düşünün: bir Harley'e sahip olmak motosiklete sahip olmaktan fazlasıdır, bir kabileye ait olmaktır. Lego, nesillere yayılan bir inşacı ve meraklı topluluğu yarattı. Bu markalar topluluğun ve kişisel bağın gücünü anlıyor.",
-          en: "Think of Harley-Davidson: owning a Harley is more than owning a motorcycle, it's belonging to a tribe. Lego created a community of builders and enthusiasts spanning generations. These brands understand the power of community and personal connection.",
+          tr: "Harley-Davidson'ı düşünün: bir Harley'e sahip olmak motosiklete sahip olmaktan fazlasıdır, bir kabileye ait olmaktır. Lego, nesillere yayılan bir inşacı ve meraklı topluluğu yarattı. Bu markalar topluluğun ve kişisel bağın gücünü anlıyor; ikisini de kuran iş [marka stratejisidir](/hizmetler/marka-stratejisi).",
+          en: "Think of Harley-Davidson: owning a Harley is more than owning a motorcycle, it's belonging to a tribe. Lego created a community of builders and enthusiasts spanning generations. These brands understand the power of community and personal connection; the work that builds both is [brand strategy](/hizmetler/marka-stratejisi).",
         },
       },
       {
@@ -871,23 +871,23 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "aglardan-faydalanmak",
         text: {
-          tr: "Mevcut ağlardan faydalanmak",
-          en: "Leveraging existing networks",
+          tr: "Mevcut ağlardan nasıl faydalanılır?",
+          en: "How do you leverage existing networks?",
         },
       },
       {
         type: "p",
         text: {
-          tr: "Mesaj yalnız yayılmadı. Sinagoglar, meydanlar, festivaller — insanlara bulundukları yerde ulaşıldı; öğretinin yayılmasını zamanın kanaat önderleri, havariler taşıdı. Bugünün karşılığını biliyorsunuz: markalar değerleriyle örtüşen influencer'larla çalışarak var olan ağlardan güvenilirlik ödünç alıyor. Glossier, sadık bir müşteri tabanını tam olarak bu yolla kurdu.",
-          en: "The message didn't spread on its own. Synagogues, squares, festivals — people were reached where they already were, and the era's opinion leaders, the apostles, carried the teaching outward. You know today's equivalent: brands borrow credibility from existing networks by working with influencers who match their values. Glossier built its loyal customer base exactly this way.",
+          tr: "Mesaj yalnız yayılmadı. Sinagoglar, meydanlar, festivaller — insanlara bulundukları yerde ulaşıldı; öğretinin yayılmasını zamanın kanaat önderleri, havariler taşıdı. Bugünün karşılığını biliyorsunuz: markalar değerleriyle örtüşen influencer'larla çalışarak var olan ağlardan güvenilirlik ödünç alıyor. Glossier, sadık bir müşteri tabanını tam olarak bu yolla kurdu. [Kullanıcı içeriği ve sosyal kanıt](/yazilar/ugc-kullanimi-ve-sosyal-kanit) aynı ödünç alma mekaniğinin bugünkü hâlidir.",
+          en: "The message didn't spread on its own. Synagogues, squares, festivals — people were reached where they already were, and the era's opinion leaders, the apostles, carried the teaching outward. You know today's equivalent: brands borrow credibility from existing networks by working with influencers who match their values. Glossier built its loyal customer base exactly this way. [User content and social proof](/yazilar/ugc-kullanimi-ve-sosyal-kanit) are today's version of the same borrowing mechanic.",
         },
       },
       {
         type: "h2",
         id: "uyarlanabilirlik-ve-dayaniklilik",
         text: {
-          tr: "Uyarlanabilirlik ve dayanıklılık",
-          en: "Adaptability and resilience",
+          tr: "Bir marka mesajı değişen zamana nasıl uyum sağlar?",
+          en: "How does a brand message adapt to changing times?",
         },
       },
       {
@@ -901,8 +901,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "kadim-dunyadan-dort-paralel",
         text: {
-          tr: "Kadim dünyadan dört paralel",
-          en: "Four parallels from the ancient world",
+          tr: "Kadim dünya marka mühendisliğine ne öğretir?",
+          en: "What does the ancient world teach brand engineering?",
         },
       },
       {
@@ -930,8 +930,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bu yazıyı 2024'te yayımladık. Geçen iki yılda, mesaj yayılımının üçüncü büyük sıçraması netleşti: matbaa çoğaltmayı, internet dağıtımı, üretken AI ise anlatımı ölçekledi. Mesajınız artık yalnızca insanlar arasında değil, motorlar arasında da dolaşıyor — insanlar markaları ChatGPT'ye, Gemini'ye, Perplexity'ye soruyor ve bu motorlar hikâyesi net, hakkında tutarlı konuşulan markaları anlatıyor.",
-          en: "We published this piece in 2024. In the two years since, the third great leap in message propagation has come into focus: the press scaled reproduction, the internet scaled distribution, and generative AI scales narration. Your message now travels not only between people but between engines — people ask ChatGPT, Gemini and Perplexity about brands, and those engines retell the brands whose stories are clear and consistently spoken of.",
+          tr: "Bu yazıyı 2024'te yayımladık. Geçen iki yılda, mesaj yayılımının üçüncü büyük sıçraması netleşti: matbaa çoğaltmayı, internet dağıtımı, üretken AI ise anlatımı ölçekledi. Mesajınız artık yalnızca insanlar arasında değil, motorlar arasında da dolaşıyor — insanlar markaları ChatGPT'ye, Gemini'ye, Perplexity'ye soruyor ve bu motorlar hikâyesi net, hakkında tutarlı konuşulan markaları anlatıyor. Bu motorlarda [nasıl öne çıkıldığı](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) artık ayrı bir disiplin.",
+          en: "We published this piece in 2024. In the two years since, the third great leap in message propagation has come into focus: the press scaled reproduction, the internet scaled distribution, and generative AI scales narration. Your message now travels not only between people but between engines — people ask ChatGPT, Gemini and Perplexity about brands, and those engines retell the brands whose stories are clear and consistently spoken of. [Standing out inside those engines](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) is now a discipline of its own.",
         },
       },
       {
@@ -952,8 +952,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Net bir vizyona sahip olmak, derin ilişkiler kurmak, hikâye anlatımını kullanmak, ağlardan faydalanmak ve uyarlanabilir kalmak — bu beş strateji, modern pazarlamacıya eskimeyen dersler sunuyor. Bu ilkeleri markanıza uygulayarak, küresel yankı uyandıran ve zamanın testinden geçen bir mesaj yaratabilirsiniz.",
-          en: "Holding a clear vision, building deep relationships, using storytelling, leveraging networks and staying adaptable — these five strategies offer the modern marketer timeless lessons. Apply these principles to your brand and you can create a message that resonates globally and stands the test of time.",
+          tr: "Net bir vizyona sahip olmak, derin ilişkiler kurmak, hikâye anlatımını kullanmak, ağlardan faydalanmak ve uyarlanabilir kalmak — bu beş strateji, modern pazarlamacıya eskimeyen dersler sunuyor. Bu ilkeleri markanıza uygulayarak, küresel yankı uyandıran ve zamanın testinden geçen bir mesaj yaratabilirsiniz. Beşinin birlikte çalıştığında ne kurduğunu [OdorGo vakasında](/vakalar/odorgo-kategori-yaratma) okuyabilirsiniz.",
+          en: "Holding a clear vision, building deep relationships, using storytelling, leveraging networks and staying adaptable — these five strategies offer the modern marketer timeless lessons. Apply these principles to your brand and you can create a message that resonates globally and stands the test of time. You can read what the five build together in the [OdorGo case](/vakalar/odorgo-kategori-yaratma).",
         },
       },
       {
@@ -1101,10 +1101,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Telefonu sessize almadan yattığınız ve satış bildirimleriyle uyandığınız bir sabah. Bu sahneyi yaşadım — sıfırdan üç ay sürdü. Bu yazı, o üç ayda nelerin doğru yapıldığının rehberi.",
       en: "A morning where you go to bed without silencing your phone and wake to sales notifications. I lived that scene — it took three months from zero. This is the guide to what was done right in those three months.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 6 Ağustos 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık yenilendi, o gün anonim anlattığımız örnekler bugün sitede yayımlanan gerçek vakalarımıza bağlandı, platform listesi ve sık sorulan sorular güncellendi.",
-      en: "First published on 6 August 2024. Revised on 23 August 2026: the title was renewed, the examples we once told anonymously are now linked to the real case studies published on this site, and the platform list and FAQ were updated.",
+      tr: "Bu yazı ilk olarak 6 Ağustos 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık yenilendi, o gün anonim anlattığımız örnekler bugün sitede yayımlanan gerçek vakalarımıza bağlandı, platform listesi ve sık sorulan sorular güncellendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi.",
+      en: "First published on 6 August 2024. Revised on 23 August 2026: the title was renewed, the examples we once told anonymously are now linked to the real case studies published on this site, and the platform list and FAQ were updated. On 28 August 2026 the section headings were rewritten as questions.",
     },
     blocks: [
       {
@@ -1132,8 +1132,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "e-ticaret-dunyasini-anlamak",
         text: {
-          tr: "E-ticaret dünyasını anlamak",
-          en: "Understanding the e-commerce world",
+          tr: "E-ticaret dünyası son on yılda nasıl değişti?",
+          en: "How has the e-commerce world changed in the past decade?",
         },
       },
       {
@@ -1183,8 +1183,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "teknoloji-ve-altyapi",
         text: {
-          tr: "Teknoloji ve yazılım altyapısı",
-          en: "Technology and software infrastructure",
+          tr: "Teknoloji ve yazılım altyapısı neden belirleyici?",
+          en: "Why is the technology and software foundation decisive?",
         },
       },
       {
@@ -1226,8 +1226,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "dijital-pazarlama-plani",
         text: {
-          tr: "Dijital pazarlama planı: senfoni",
-          en: "The digital marketing plan: a symphony",
+          tr: "Dijital pazarlama planı neleri kapsar?",
+          en: "What does a digital marketing plan cover?",
         },
       },
       {
@@ -1241,8 +1241,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "mevcut-kurulumu-denetlemek",
         text: {
-          tr: "Mevcut kurulumu denetlemek",
-          en: "Auditing your current setup",
+          tr: "Mevcut kurulum nasıl denetlenir?",
+          en: "How do you audit your current setup?",
         },
       },
       {
@@ -1256,8 +1256,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "yaraticilik-kitle-marka",
         text: {
-          tr: "Yaratıcılık, kitle ve marka kimliği",
-          en: "Creativity, audience and brand identity",
+          tr: "Yaratıcılık e-ticarette nasıl rekabet avantajına dönüşür?",
+          en: "How does creativity become a competitive edge in e-commerce?",
         },
       },
       {
@@ -1271,8 +1271,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "geliri-ve-gorunurlugu-buyutmek",
         text: {
-          tr: "Geliri ve görünürlüğü büyütmek",
-          en: "Growing revenue and visibility",
+          tr: "Gelir ve görünürlük nasıl birlikte büyür?",
+          en: "How do revenue and visibility grow together?",
         },
       },
       {
@@ -1286,8 +1286,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "dogru-danismanligi-secmek",
         text: {
-          tr: "Doğru danışmanlığı seçmek",
-          en: "Choosing the right consultancy",
+          tr: "Doğru e-ticaret danışmanlığı nasıl seçilir?",
+          en: "How do you choose the right e-commerce consultancy?",
         },
       },
       {
@@ -2220,10 +2220,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Doomscroll'da dikkatinizi çeken şey cilalı bir reklam değil, sizin gibi birinin samimi videosu. UGC'nin arkasındaki nörobilim, GoPro ve Airbnb örnekleri ve markanızı kamp ateşinin başına indirmenin yolu.",
       en: "What catches your eye mid-doomscroll isn't a polished ad but a sincere video from someone like you. The neuroscience behind UGC, the GoPro and Airbnb examples, and how to bring your brand down to the campfire.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 14 Kasım 2024'te yayımlandı ve Aralık 2025'te kısmen güncellenmişti. 23 Ağustos 2026'da gözden geçirildi: yıl tutarsızlıkları giderildi, düşünce soruları tek bölümde toplandı, \"AI çağında sahicilik\" bölümü ve sık sorulan sorular eklendi.",
-      en: "First published on 14 November 2024 and partially updated in December 2025. Revised on 23 August 2026: year inconsistencies were fixed, the reflection questions were gathered into one section, and the \"Authenticity in the AI age\" section and FAQ were added.",
+      tr: "Bu yazı ilk olarak 14 Kasım 2024'te yayımlandı ve Aralık 2025'te kısmen güncellenmişti. 23 Ağustos 2026'da gözden geçirildi: yıl tutarsızlıkları giderildi, düşünce soruları tek bölümde toplandı, \"AI çağında sahicilik\" bölümü ve sık sorulan sorular eklendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi.",
+      en: "First published on 14 November 2024 and partially updated in December 2025. Revised on 23 August 2026: year inconsistencies were fixed, the reflection questions were gathered into one section, and the \"Authenticity in the AI age\" section and FAQ were added. On 28 August 2026 the section headings were rewritten as questions.",
     },
     blocks: [
       {
@@ -2303,15 +2303,15 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "sosyal-kanitla-guven",
         text: {
-          tr: "Sosyal kanıtla güven inşa etmek",
-          en: "Building trust through social proof",
+          tr: "Sosyal kanıt güveni nasıl inşa eder?",
+          en: "How does social proof build trust?",
         },
       },
       {
         type: "p",
         text: {
-          tr: "Şu senaryoyu hayal edin: benzer ürünler sunan iki marka arasında karar veriyorsunuz. Birinin yüzlerce müşteri yorumu ve gerçek kullanıcı fotoğrafı var, diğerinde birkaç tane. İçgüdüsel olarak sosyal kanıtı çok olana yönelirsiniz — tesadüf değil, iş başındaki psikolojik ilke. Seçeneklerle bunalan kitleler için sosyal kanıt, karar yorgunluğunu hafifletir ve aranan güvenceyi verir.",
-          en: "Picture this scenario: you're deciding between two brands with similar products. One has hundreds of customer reviews and real user photos; the other has a handful. Instinctively you lean toward the one with more social proof — not a coincidence but a psychological principle at work. For audiences overwhelmed by options, social proof eases decision fatigue and provides the reassurance they're looking for.",
+          tr: "Sosyal kanıt güveni en kısa yoldan kurar: kararı başkalarının deneyimiyle destekler. Şu senaryoyu hayal edin: benzer ürünler sunan iki marka arasında karar veriyorsunuz. Birinin yüzlerce müşteri yorumu ve gerçek kullanıcı fotoğrafı var, diğerinde birkaç tane. İçgüdüsel olarak sosyal kanıtı çok olana yönelirsiniz — tesadüf değil, iş başındaki psikolojik ilke. Seçeneklerle bunalan kitleler için sosyal kanıt, karar yorgunluğunu hafifletir ve aranan güvenceyi verir.",
+          en: "Social proof builds trust by the shortest route: it backs a decision with other people's experience. Picture this scenario: you're deciding between two brands with similar products. One has hundreds of customer reviews and real user photos; the other has a handful. Instinctively you lean toward the one with more social proof — not a coincidence but a psychological principle at work. For audiences overwhelmed by options, social proof eases decision fatigue and provides the reassurance they're looking for.",
         },
       },
       {
@@ -2342,8 +2342,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "marka-dostlugu",
         text: {
-          tr: "Markanızı ilişkilenebilir kılmak: \"marka dostluğu\"",
-          en: "Making your brand relatable: \"brand friendship\"",
+          tr: "Markanızı ilişkilenebilir kılmak: \"marka dostluğu\" nasıl kurulur?",
+          en: "Making your brand relatable: how do you build \"brand friendship\"?",
         },
       },
       {
@@ -2374,8 +2374,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "ai-caginda-sahicilik",
         text: {
-          tr: "2026 notu: AI çağında sahicilik",
-          en: "2026 note: authenticity in the AI age",
+          tr: "2026 notu: AI çağında sahicilik neden değerlendi?",
+          en: "2026 note: why did authenticity gain value in the AI age?",
         },
       },
       {
@@ -3119,17 +3119,17 @@ export const ARTICLES: ArticleContent[] = [
     en: "2026-web-design-trends",
   },
   title: {
-    tr: "2026 Web Tasarım Trendleri: Minimalizm, Hız ve Mobil Öncelik",
-    en: "2026 Web Design Trends: Minimalism, Speed and Mobile-First",
+    tr: "2026 web tasarım trendleri: minimalizm, hız ve mobil öncelik",
+    en: "2026 web design trends: minimalism, speed and mobile-first",
   },
   excerpt: {
     tr: "Web siteniz reklam bütçenizi mi tüketiyor? Vitrini ışıl ışıl bir mağaza düşünün: kapı ağırsa müşteri içeri girmeden gider. 2026'nın ikinci yarısında web tasarımı da aynı kapı meselesi — hız, kod hijyeni ve mobil zorunluluk üzerine kuruluyor.",
     en: "Is your website draining your ad budget? Picture a dazzling storefront with a door too heavy to open — the customer leaves before ever stepping in. In the second half of 2026, web design faces the same door problem: it now rests on speed, code hygiene and mobile necessity.",
   },
-  updatedAt: "2026-08-23",
+  updatedAt: "2026-08-28",
   updateNote: {
-    tr: "Bu yazı ilk olarak 4 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: yıl ortası gerçeklik kontrolü bölümü eklendi, tekrarlanan hız ve minimalizm anlatımları tek bölüme indirildi, arama ve komut deneyimi trendi eklendi, örnekler SIM Baskı Malzemeleri ve Meccanotecnica Umbra vakalarına bağlandı, kırık iç bağlantılar ve taslak kalıntıları temizlendi, dört soruluk SSS eklendi.",
-    en: "First published on 4 December 2025. Revised on 23 August 2026: added a mid-year reality-check section, consolidated the repeated speed and minimalism narratives into one section, added the search-and-command-experience trend, tied the examples to our SIM Printing Suppliers and Meccanotecnica Umbra case studies, cleaned up broken internal links and leftover draft text, and added a four-question FAQ.",
+    tr: "Bu yazı ilk olarak 4 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: yıl ortası gerçeklik kontrolü bölümü eklendi, tekrarlanan hız ve minimalizm anlatımları tek bölüme indirildi, arama ve komut deneyimi trendi eklendi, örnekler SIM Baskı Malzemeleri ve Meccanotecnica Umbra vakalarına bağlandı, kırık iç bağlantılar ve taslak kalıntıları temizlendi, dört soruluk SSS eklendi. 28 Ağustos 2026'da başlık ve ara başlıklar külliyatın cümle düzenine getirildi, ara başlıkların bir bölümü soru formuna çevrildi.",
+    en: "First published on 4 December 2025. Revised on 23 August 2026: added a mid-year reality-check section, consolidated the repeated speed and minimalism narratives into one section, added the search-and-command-experience trend, tied the examples to our SIM Printing Suppliers and Meccanotecnica Umbra case studies, cleaned up broken internal links and leftover draft text, and added a four-question FAQ. On 28 August 2026 the title and headings were brought into the sentence case used across the journal, and several headings were rewritten as questions.",
   },
   blocks: [
     {
@@ -3157,8 +3157,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "hiz-yeni-estetiktir",
       text: {
-        tr: "Yeni minimalizm: hız, gerçek estetiktir",
-        en: "The new minimalism: speed is the real aesthetic",
+        tr: "Yeni minimalizm: hız neden gerçek estetik?",
+        en: "The new minimalism: why is speed the real aesthetic?",
       },
     },
     {
@@ -3258,8 +3258,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "mobil-zorunlu-donem",
       text: {
-        tr: "Mobil öncelikli değil, mobil zorunlu dönem",
-        en: "Not mobile-first anymore — mobile-mandatory",
+        tr: "Mobil öncelikli dönem neden bitti?",
+        en: "Why is the mobile-first era over?",
       },
     },
     {
@@ -3290,8 +3290,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "arama-ve-komut-deneyimi",
       text: {
-        tr: "Fonksiyonel arayüzler: arama ve komut deneyimi",
-        en: "Functional interfaces: search and command experience",
+        tr: "Fonksiyonel arayüzler: arama ve komut deneyimi neyi değiştiriyor?",
+        en: "Functional interfaces: what are search and command experiences changing?",
       },
     },
     {
@@ -3504,10 +3504,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Aralık 2025'te tek bir tez kurmuştum: 2026'nın kazananı en çok trafiği alan değil, aldığı trafikten en çok ciroyu çıkaran olacak. Ağustos 2026 — tezin karnesi, delik kovanın matematiği ve kovayı tamir etme sırası.",
       en: "In December 2025 I made one claim: the winner of 2026 wouldn't be whoever bought the most traffic, but whoever squeezed the most revenue out of it. It's August 2026 — here's the report card, the math of the leaky bucket, and the order in which you fix it.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 8 Aralık 2025'te \"2026 trendleri\" başlığıyla yayımlandı. 23 Ağustos 2026'da yıl ortası gerçeklik kontrolüyle güncellendi: hangi öngörünün tuttuğunu, hangisinin beklediğimizden hızlı geldiğini ve hangisinin yavaş kaldığını anlatan yeni bir bölüm eklendi. Örnekler yayımlanmış vakalarımıza bağlandı, kırık bağlantılar temizlendi, dört soruluk SSS eklendi.",
-      en: "First published on 8 December 2025 under the title \"2026 trends\". Revised on 23 August 2026 with a mid-year reality check: a new section on which prediction held, which arrived faster than expected and which lagged. The examples now link to our published case studies, broken links were cleaned up, and a four-question FAQ was added.",
+      tr: "Bu yazı ilk olarak 8 Aralık 2025'te \"2026 trendleri\" başlığıyla yayımlandı. 23 Ağustos 2026'da yıl ortası gerçeklik kontrolüyle güncellendi: hangi öngörünün tuttuğunu, hangisinin beklediğimizden hızlı geldiğini ve hangisinin yavaş kaldığını anlatan yeni bir bölüm eklendi. Örnekler yayımlanmış vakalarımıza bağlandı, kırık bağlantılar temizlendi, dört soruluk SSS eklendi. 28 Ağustos 2026'da kalan ara başlıklar soru formuna getirildi.",
+      en: "First published on 8 December 2025 under the title \"2026 trends\". Revised on 23 August 2026 with a mid-year reality check: a new section on which prediction held, which arrived faster than expected and which lagged. The examples now link to our published case studies, broken links were cleaned up, and a four-question FAQ was added. On 28 August 2026 the remaining section headings were rewritten as questions.",
     },
     blocks: [
       {
@@ -3664,8 +3664,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "segmentasyon-muhendisligi",
         text: {
-          tr: "Segmentasyon mühendisliği: her müşteri eşit değildir",
-          en: "Segmentation engineering: not every customer is equal",
+          tr: "Segmentasyon mühendisliği: her müşteri neden eşit değil?",
+          en: "Segmentation engineering: why isn't every customer equal?",
         },
       },
       {
@@ -3850,8 +3850,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "kovayi-tamir-etmek",
         text: {
-          tr: "Kovayı tamir etmek: 90 günlük sıra",
-          en: "Fixing the bucket: the 90-day order",
+          tr: "Kovayı tamir etmek: 90 günde hangi sıra izlenir?",
+          en: "Fixing the bucket: what order do you follow in 90 days?",
         },
       },
       {
@@ -4037,17 +4037,17 @@ export const ARTICLES: ArticleContent[] = [
       en: "rfm-analysis-for-small-businesses",
     },
     title: {
-      tr: "Küçük İşletmeler İçin RFM Analizi ile Satışları Artırma Rehberi",
-      en: "RFM Analysis for Small Businesses: A Practical Guide to Selling More",
+      tr: "Küçük işletmeler için RFM analizi ile satışları artırma rehberi",
+      en: "RFM analysis for small businesses: a practical guide to selling more",
     },
     excerpt: {
       tr: "Selim Bey, butik kahve dükkanına uğrayan herkese aynı indirimi gönderiyor — ve kârının büyük kısmını sırtlayan sadık müşterisini fark etmeden kaybediyor. RFM, üç harfle (Recency-Frequency-Monetary) bu körlüğü çözer; tek ihtiyacınız bir Excel tablosu.",
       en: "Selim Bey sends the same discount to everyone who walks into his boutique coffee shop — and loses the loyal customer carrying most of his margin without ever noticing. RFM fixes that blind spot with three letters (Recency, Frequency, Monetary) and nothing more than a spreadsheet.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 16 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık hiyerarşisi ve liste blokları eklendi, sondaki kırık \"tüm makalelerimizi okuyun\" bağlantısı kaldırılıp ilgili vaka ve hizmet sayfalarına gerçek bağlantılarla değiştirildi, sık sorulan sorular bölümü eklendi.",
-      en: "First published on 16 December 2025. Revised on 23 August 2026: heading hierarchy and list blocks were added, the broken \"read all our articles\" link at the end was removed and replaced with real links to relevant case studies and service pages, and an FAQ section was added.",
+      tr: "Bu yazı ilk olarak 16 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık hiyerarşisi ve liste blokları eklendi, sondaki kırık \"tüm makalelerimizi okuyun\" bağlantısı kaldırılıp ilgili vaka ve hizmet sayfalarına gerçek bağlantılarla değiştirildi, sık sorulan sorular bölümü eklendi. 28 Ağustos 2026'da başlık ve ara başlıklar külliyatın cümle düzenine getirildi, ara başlıkların bir bölümü soru formuna çevrildi.",
+      en: "First published on 16 December 2025. Revised on 23 August 2026: heading hierarchy and list blocks were added, the broken \"read all our articles\" link at the end was removed and replaced with real links to relevant case studies and service pages, and an FAQ section was added. On 28 August 2026 the title and headings were brought into the sentence case used across the journal, and several headings were rewritten as questions.",
     },
     blocks: [
       {
@@ -4089,15 +4089,15 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "rfm-nedir",
         text: {
-          tr: "RFM Nedir?",
-          en: "What Is RFM?",
+          tr: "RFM nedir?",
+          en: "What is RFM?",
         },
       },
       {
         type: "h3",
         text: {
-          tr: "Bir Matematik Dersi Değil, Müşteri Empatisidir",
-          en: "Not a Math Lesson — Customer Empathy",
+          tr: "Bir matematik dersi değil, müşteri empatisi",
+          en: "Not a math lesson — customer empathy",
         },
       },
       {
@@ -4135,8 +4135,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "neden-herkese-ayni-mesaj-para-kaybettirir",
         text: {
-          tr: "Neden Herkese Aynı Mesajı Atmak Paranızı Çöpe Atar?",
-          en: "Why Sending Everyone the Same Message Burns Your Budget",
+          tr: "Neden herkese aynı mesajı atmak paranızı çöpe atar?",
+          en: "Why does sending everyone the same message burn your budget?",
         },
       },
       {
@@ -4170,8 +4170,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "adim-adim-rfm-analizi",
         text: {
-          tr: "Adım Adım RFM Analizi: Excel Yeterli",
-          en: "Step by Step RFM: A Spreadsheet Is Enough",
+          tr: "RFM analizi Excel'de adım adım nasıl yapılır?",
+          en: "How do you run RFM step by step in a spreadsheet?",
         },
       },
       {
@@ -4184,7 +4184,7 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "h3",
         text: {
-          tr: "Puanlama (Skorlama)",
+          tr: "Puanlama (skorlama)",
           en: "Scoring",
         },
       },
@@ -4198,7 +4198,7 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "h3",
         text: {
-          tr: "Segmentasyon (Gruplama)",
+          tr: "Segmentasyon (gruplama)",
           en: "Segmentation",
         },
       },
@@ -4230,8 +4230,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "musteri-segmentlerine-gore-psikolojik-taktikler",
         text: {
-          tr: "Müşteri Segmentlerine Göre Psikolojik Taktikler",
-          en: "Psychological Tactics by Segment",
+          tr: "Hangi segmente hangi psikolojik taktik uygulanır?",
+          en: "Which psychological tactic fits which segment?",
         },
       },
       {
@@ -4266,8 +4266,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "veriyi-eyleme-donusturme-zamani",
         text: {
-          tr: "Veriyi Eyleme Dönüştürme Zamanı",
-          en: "Time to Turn Data Into Action",
+          tr: "Veriyi eyleme dönüştürme zamanı",
+          en: "Time to turn data into action",
         },
       },
       {
@@ -4444,10 +4444,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Reklam panelinde harcama yukarı, karlılıkta çizgi aşağı — e-ticaret yöneticilerinin ortak kâbusu bu. Çare daha fazla reklam değil: müşteriyi bir kez kazanıp bırakmak yerine, yaşam boyu değerini (LTV) büyütmek.",
       en: "Spend climbing on the ad dashboard, profit sliding on the P&L — the shared nightmare of e-commerce managers. The fix isn't more ad spend: it's growing what a customer is worth over a lifetime (LTV) instead of winning them once and letting go.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 16 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: \"delik kova sendromu\" merkezi bir bölüm ve alıntı olarak eklendi, kırık CTA'lar GYMWOLVES vakası ve hizmet bağlantısına çevrildi, LTV:CAC oranı \"kesin kural\" değil \"yaygın kıyaslama\" olarak yeniden çerçevelendi, sık sorulan sorular eklendi.",
-      en: "First published on 16 December 2025. Revised on 23 August 2026: the \"leaky bucket syndrome\" was added as its own section and pull quote, broken CTAs were replaced with a link to the GYMWOLVES case and a service page, the LTV:CAC ratio was reframed from a \"hard rule\" to a \"common benchmark\", and an FAQ was added.",
+      tr: "Bu yazı ilk olarak 16 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: \"delik kova sendromu\" merkezi bir bölüm ve alıntı olarak eklendi, kırık CTA'lar GYMWOLVES vakası ve hizmet bağlantısına çevrildi, LTV:CAC oranı \"kesin kural\" değil \"yaygın kıyaslama\" olarak yeniden çerçevelendi, sık sorulan sorular eklendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi.",
+      en: "First published on 16 December 2025. Revised on 23 August 2026: the \"leaky bucket syndrome\" was added as its own section and pull quote, broken CTAs were replaced with a link to the GYMWOLVES case and a service page, the LTV:CAC ratio was reframed from a \"hard rule\" to a \"common benchmark\", and an FAQ was added. On 28 August 2026 the section headings were rewritten as questions.",
     },
     blocks: [
       {
@@ -4490,8 +4490,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "ltv-cac-orani",
         text: {
-          tr: "Matematik yalan söylemez: LTV:CAC oranı",
-          en: "The math doesn't lie: the LTV:CAC ratio",
+          tr: "Matematik yalan söylemez: LTV:CAC oranı ne anlatır?",
+          en: "The math doesn't lie: what does the LTV:CAC ratio tell you?",
         },
       },
       {
@@ -4529,8 +4529,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "delik-kova-sendromu",
         text: {
-          tr: "Delik kova sendromu",
-          en: "Leaky bucket syndrome",
+          tr: "Delik kova sendromu markaya ne kaybettirir?",
+          en: "What does leaky bucket syndrome cost a brand?",
         },
       },
       {
@@ -4558,8 +4558,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "davranis-bilimiyle-sadakat",
         text: {
-          tr: "Davranış bilimiyle sadakat inşası",
-          en: "Building loyalty with behavioural science",
+          tr: "Sadakat davranış bilimiyle nasıl inşa edilir?",
+          en: "How do you build loyalty with behavioural science?",
         },
       },
       {
@@ -4608,8 +4608,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "retention-muhendisligi",
         text: {
-          tr: "Retention mühendisliği: veriyi aksiyona dönüştürmek",
-          en: "Retention engineering: turning data into action",
+          tr: "Retention mühendisliği: veri nasıl aksiyona dönüşür?",
+          en: "Retention engineering: how does data become action?",
         },
       },
       {
@@ -4803,10 +4803,10 @@ export const ARTICLES: ArticleContent[] = [
     tr: "İstanbul'da otuz yıldır tekstil üreten Ahmet Bey'i hayal edin: işçiliği özenli ama yan binadaki genç girişimci, deposu bile yokken dünyaya satış yapıyor. Fark bütçede değil stratejide. Dijitalde ölçeklenmek isteyen KOBİ'ler için 5 adımlı yol haritası.",
     en: "Picture Ahmet Bey, thirty years into the textile trade in Istanbul: his craftsmanship is careful, but the young founder next door sells to the world without owning a warehouse. The difference isn't budget — it's strategy. A 5-step roadmap for SMEs that want to scale digitally.",
   },
-  updatedAt: "2026-08-23",
+  updatedAt: "2026-08-28",
   updateNote: {
-    tr: "Bu yazı ilk olarak 21 Aralık 2025'te \"yeni yıl stratejisi\" çerçevesiyle yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık ve giriş takvime bağlı \"yeni yıl\" vurgusundan çıkarılıp \"önümüzdeki 12 ay\" çerçevesine taşındı — adımların sırası ne zaman başlarsanız başlayın aynı kalıyor. Kaynaksız genel örnekler (isimsiz bir mobilya markası, isimsiz bir kahve markası) sitede yayımlanan gerçek vakalara (FYR, İstanbul Ortez Protez) bağlandı, kırık CTA'lar gerçek bağlantılara çevrildi ve 4 soruluk SSS eklendi.",
-    en: "First published on 21 December 2025 under a \"new year strategy\" framing. Revised on 23 August 2026: the title and opening moved from the calendar-bound \"new year\" framing to a \"next 12 months\" framing — the order of the steps holds regardless of when you start. The unsourced generic examples (an unnamed furniture brand, an unnamed coffee brand) were replaced with real published cases (FYR, İstanbul Ortez Protez), broken CTAs became real links, and a 4-question FAQ was added.",
+    tr: "Bu yazı ilk olarak 21 Aralık 2025'te \"yeni yıl stratejisi\" çerçevesiyle yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık ve giriş takvime bağlı \"yeni yıl\" vurgusundan çıkarılıp \"önümüzdeki 12 ay\" çerçevesine taşındı — adımların sırası ne zaman başlarsanız başlayın aynı kalıyor. Kaynaksız genel örnekler (isimsiz bir mobilya markası, isimsiz bir kahve markası) sitede yayımlanan gerçek vakalara (FYR, İstanbul Ortez Protez) bağlandı, kırık CTA'lar gerçek bağlantılara çevrildi ve 4 soruluk SSS eklendi. 28 Ağustos 2026'da adım başlıkları soru formuna getirildi.",
+    en: "First published on 21 December 2025 under a \"new year strategy\" framing. Revised on 23 August 2026: the title and opening moved from the calendar-bound \"new year\" framing to a \"next 12 months\" framing — the order of the steps holds regardless of when you start. The unsourced generic examples (an unnamed furniture brand, an unnamed coffee brand) were replaced with real published cases (FYR, İstanbul Ortez Protez), broken CTAs became real links, and a 4-question FAQ was added. On 28 August 2026 the step headings were rewritten as questions.",
   },
   blocks: [
     {
@@ -4827,8 +4827,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "musteriyi-veriyle-taniyin",
       text: {
-        tr: "1. Müşterinizi veriyle yeniden tanıyın",
-        en: "1. Get to know your customer through data",
+        tr: "1. Müşterinizi veriyle nasıl yeniden tanırsınız?",
+        en: "1. How do you get to know your customer through data?",
       },
     },
     {
@@ -4863,8 +4863,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "bilissel-yuku-azaltin",
       text: {
-        tr: "2. Dijital mağazadaki bilişsel yükü azaltın",
-        en: "2. Cut the cognitive load in your digital storefront",
+        tr: "2. Dijital mağaza neden bir labirente dönmemeli?",
+        en: "2. Why must a digital storefront never feel like a maze?",
       },
     },
     {
@@ -4903,8 +4903,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "icerik-otoritesiyle-guven-insa-edin",
       text: {
-        tr: "3. İçerik otoritesiyle güven inşa edin",
-        en: "3. Build trust through content authority",
+        tr: "3. İçerik otoritesi neden ölçeklenmenin yakıtı?",
+        en: "3. Why is content authority the fuel of scale?",
       },
     },
     {
@@ -4932,8 +4932,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "reklam-butcesini-yatirima-cevirin",
       text: {
-        tr: "4. Reklam bütçesini bir yatırım aracı olarak görün",
-        en: "4. Treat your ad budget as an investment",
+        tr: "4. Reklam bütçesi neden gider değil yatırımdır?",
+        en: "4. Why is an ad budget an investment, not an expense?",
       },
     },
     {
@@ -4961,8 +4961,8 @@ export const ARTICLES: ArticleContent[] = [
       type: "h2",
       id: "otomasyon-ve-ai-ile-zaman-kazanin",
       text: {
-        tr: "5. Otomasyon ve AI ile zaman kazanın",
-        en: "5. Buy back time with automation and AI",
+        tr: "5. Otomasyon ve AI zamanı nasıl geri kazandırır?",
+        en: "5. How do automation and AI buy back your time?",
       },
     },
     {
@@ -5138,10 +5138,10 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Pazarlama 1.000 yeni lead girdi diye kutluyor, satış ekibi hepsini arayıp sıfıra yakın sonuç alıyor. Bu rehber sayıyı değil alıcıyı büyütmenin yolunu anlatıyor: ICP daraltma, smarketing uyumu, lead scoring ve formda bilinçli sürtünme.",
       en: "Marketing celebrates 1,000 new leads while sales calls all of them for close to nothing. This guide is about growing the buyer, not the count: narrowing your ICP, smarketing alignment, lead scoring and deliberate form friction.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 22 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: sürtünme ve puanlama tavsiyelerini gerçek bir uygulamada gösteren Meccanotecnica Umbra vakası eklendi, smarketing bölümüne SLA açıklaması getirildi, MQL/SQL/ICP terimleri ilk geçtikleri yerde açıklandı ve dört soruluk SSS eklendi.",
-      en: "First published on 22 December 2025. Revised on 23 August 2026: added the Meccanotecnica Umbra case showing the friction and scoring advice in a real deployment, added an SLA explanation to the smarketing section, defined MQL/SQL/ICP on first use, and added a four-question FAQ.",
+      tr: "Bu yazı ilk olarak 22 Aralık 2025'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: sürtünme ve puanlama tavsiyelerini gerçek bir uygulamada gösteren Meccanotecnica Umbra vakası eklendi, smarketing bölümüne SLA açıklaması getirildi, MQL/SQL/ICP terimleri ilk geçtikleri yerde açıklandı ve dört soruluk SSS eklendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi.",
+      en: "First published on 22 December 2025. Revised on 23 August 2026: added the Meccanotecnica Umbra case showing the friction and scoring advice in a real deployment, added an SLA explanation to the smarketing section, defined MQL/SQL/ICP on first use, and added a four-question FAQ. On 28 August 2026 the section headings were rewritten as questions.",
     },
     blocks: [
       {
@@ -5162,8 +5162,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "ideal-musteri-profilini-daraltin",
         text: {
-          tr: "İdeal müşteri profilini (ICP) daraltın",
-          en: "Narrow your Ideal Customer Profile (ICP)",
+          tr: "İdeal müşteri profilini (ICP) neden daraltmalısınız?",
+          en: "Why should you narrow your Ideal Customer Profile (ICP)?",
         },
       },
       {
@@ -5208,8 +5208,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "mql-sql-smarketing",
         text: {
-          tr: "Smarketing uyumu: MQL ve SQL savaşı bitsin",
-          en: "Smarketing alignment: end the MQL vs. SQL war",
+          tr: "Smarketing uyumu: MQL ve SQL savaşı nasıl biter?",
+          en: "Smarketing alignment: how does the MQL vs. SQL war end?",
         },
       },
       {
@@ -5237,8 +5237,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "lead-puanlama-sistemi",
         text: {
-          tr: "Puanlama (lead scoring) sistemi kurun",
-          en: "Build a lead scoring system",
+          tr: "Puanlama (lead scoring) sistemi neyi çözer?",
+          en: "What does a lead scoring system solve?",
         },
       },
       {
@@ -5284,8 +5284,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "formlarda-bilincli-surtunme",
         text: {
-          tr: "Formlarda bilinçli sürtünme yaratın",
-          en: "Create deliberate friction in your forms",
+          tr: "Formda bilinçli sürtünme neden işe yarar?",
+          en: "Why does deliberate friction in a form work?",
         },
       },
       {
@@ -6085,17 +6085,17 @@ export const ARTICLES: ArticleContent[] = [
       en: "why-professional-video-is-non-negotiable",
     },
     title: {
-      tr: "\"Abi Telefonla Çekeriz\" Demeyin: Neden Profesyonel Video Şart?",
-      en: "Don't Say \"Abi, We'll Just Shoot It on a Phone\": Why Professional Video Is Non-Negotiable",
+      tr: "\"Abi telefonla çekeriz\" demeyin: neden profesyonel video şart?",
+      en: "Don't say \"abi, we'll just shoot it on a phone\": why professional video is non-negotiable",
     },
     excerpt: {
       tr: "Bir dostum yeni koleksiyonunu \"bizim çocuklarla ofiste çekeriz\" diyerek telefonla çekti. Sonuç hüsran oldu. Bu yazı o hüsranın neden kaçınılmaz olduğunu ve OdorGo'nun aynı kararı tersten alıp olmayan bir kategoride nasıl 10 milyon TL'ye ulaştığını anlatıyor.",
       en: "A friend of mine shot his new collection himself, saying \"we'll just film it in the office.\" It was a disaster. This piece explains why — and how OdorGo made the opposite call and built a ₺10M category that didn't exist.",
     },
-    updatedAt: "2026-08-23",
+    updatedAt: "2026-08-28",
     updateNote: {
-      tr: "Bu yazı ilk olarak 15 Ocak 2026'da yayımlandı. 23 Ağustos 2026'da gözden geçirildi: teze somut kanıt olarak OdorGo, GYMWOLVES ve FYR Luxury vakalarına bağlantı eklendi, UGC ile çelişmeyen bir denge bölümü ve 4 soruluk SSS eklendi, kırık CTA kaldırıldı.",
-      en: "First published on 15 January 2026. Revised on 23 August 2026: added links to the OdorGo, GYMWOLVES and FYR Luxury cases as concrete proof, a section balancing the argument against UGC, a 4-question FAQ, and removed a broken CTA.",
+      tr: "Bu yazı ilk olarak 15 Ocak 2026'da yayımlandı. 23 Ağustos 2026'da gözden geçirildi: teze somut kanıt olarak OdorGo, GYMWOLVES ve FYR Luxury vakalarına bağlantı eklendi, UGC ile çelişmeyen bir denge bölümü ve 4 soruluk SSS eklendi, kırık CTA kaldırıldı. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi.",
+      en: "First published on 15 January 2026. Revised on 23 August 2026: added links to the OdorGo, GYMWOLVES and FYR Luxury cases as concrete proof, a section balancing the argument against UGC, a 4-question FAQ, and removed a broken CTA. On 28 August 2026 the section headings were rewritten as questions.",
     },
     blocks: [
       {
@@ -6188,8 +6188,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "guclu-kanit-odorgo",
         text: {
-          tr: "Güçlü kanıt: OdorGo nasıl on milyon TL'lik bir kategori kurdu",
-          en: "The hard evidence: how OdorGo built a ₺10M category that didn't exist",
+          tr: "Güçlü kanıt: OdorGo on milyon TL'lik kategoriyi nasıl kurdu?",
+          en: "The hard evidence: how did OdorGo build a ₺10M category from nothing?",
         },
       },
       {
@@ -6224,8 +6224,8 @@ export const ARTICLES: ArticleContent[] = [
         type: "h2",
         id: "ugc-ile-celismez",
         text: {
-          tr: "UGC ile çelişmez: ikisi birden çalışır",
-          en: "It doesn't compete with UGC — both work together",
+          tr: "Profesyonel video UGC ile çelişir mi?",
+          en: "Does professional video compete with UGC?",
         },
       },
       {

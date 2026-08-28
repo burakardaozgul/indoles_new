@@ -20,7 +20,12 @@ function makeDb() {
       let bound: unknown[] = [];
       const api = {
         bind: (...args: unknown[]) => { bound = args; return api; },
-        run: async () => { stmt.run(...bound); return { success: true }; },
+        run: async () => {
+          const info = stmt.run(...bound);
+          // better-sqlite3 `run()` sonucu `changes` alanını zaten veriyor —
+          // rescheduleBooking'in sahte-başarı kontrolü bunu okuyor.
+          return { success: true, meta: { changes: info.changes } };
+        },
         first: async () => stmt.get(...bound) ?? null,
         all: async () => ({ results: stmt.all(...bound) }),
       };
@@ -105,6 +110,20 @@ describe("repository", () => {
     expect(second).toEqual({ ok: false, reason: "duplicate_email" });
   });
 
+  it("e-posta büyük/küçük harf farkı aktif randevu kontrolünü atlatamaz", async () => {
+    // SQLite BINARY collation kullanır: normalize edilmeseydi bu iki e-posta
+    // farklı sayılır ve ikisi de aktif randevu açabilirdi.
+    const first = await createBooking(db, { ...base, email: "AYSE@Example.com" });
+    expect(first.ok).toBe(true);
+    const second = await createBooking(db, {
+      ...base,
+      email: "ayse@example.com",
+      startsAtUtc: "2026-09-08T10:00:00.000Z",
+      endsAtUtc: "2026-09-08T11:30:00.000Z",
+    });
+    expect(second).toEqual({ ok: false, reason: "duplicate_email" });
+  });
+
   it("iptal iki kez çağrılınca hata vermez (idempotent)", async () => {
     const r = await createBooking(db, base);
     if (!r.ok) throw new Error("kurulum başarısız");
@@ -185,6 +204,40 @@ describe("repository", () => {
 
       const res = await rescheduleBooking(db, r.row.cancelToken, "2026-09-08T10:00:00.000Z", "2026-09-08T11:30:00.000Z");
       expect(res).toEqual({ ok: false, reason: "not_found" });
+    });
+
+    it("ön kontrolden sonra araya iptal girerse SAHTE BAŞARI dönmez", async () => {
+      // Yukarıdaki "iptal edilmiş randevu için not_found döner" testinden
+      // FARKLI bir yolu kanıtlaması gerekiyor: o testte iptal
+      // rescheduleBooking ÇAĞRILMADAN ÖNCE tamamlanıyor, dolayısıyla
+      // fonksiyonun EN BAŞINDAKİ ön kontrolü (`row.status !== "confirmed"`)
+      // zaten "cancelled" görüp orada dönüyor — UPDATE'e hiç ulaşılmıyor.
+      // better-sqlite3 senkron olduğu için ön kontrol ile UPDATE arasına
+      // GERÇEK bir eşzamanlı yazma sokmanın yolu yok; bu yüzden UPDATE
+      // çağrısını (yalnızca onu) db.prepare'ı geçici olarak sararak
+      // yakalıyoruz ve gerçek UPDATE çalışmadan HEMEN ÖNCE satırı iptal
+      // ediyoruz. Böylece rescheduleBooking'in ön kontrolü hâlâ "confirmed"
+      // okuyor, ama `AND status = 'confirmed'` guard'lı UPDATE artık 0 satır
+      // etkiliyor — SQLite bunu hata olarak fırlatmaz. meta.changes'i
+      // okumayan bir uygulama burada ok:true derdi (denetçinin ampirik
+      // kanıtladığı sahte-başarı senaryosu).
+      const r = await createBooking(db, base);
+      if (!r.ok) throw new Error("kurulum başarısız");
+
+      const originalPrepare = db.prepare.bind(db);
+      db.prepare = ((sql: string) => {
+        if (sql.startsWith("UPDATE bookings SET starts_at_utc")) {
+          originalPrepare("UPDATE bookings SET status = 'cancelled' WHERE id = ?").bind(r.row.id).run();
+        }
+        return originalPrepare(sql);
+      }) as typeof db.prepare;
+
+      const moved = await rescheduleBooking(db, r.row.cancelToken, "2026-09-08T10:00:00.000Z", "2026-09-08T11:30:00.000Z");
+      expect(moved).toEqual({ ok: false, reason: "not_found" });
+
+      // Ve saatler gerçekten değişmemiş.
+      const found = await findBookingByToken(db, r.row.cancelToken);
+      expect(found?.startsAtUtc).toBe(base.startsAtUtc);
     });
   });
 });

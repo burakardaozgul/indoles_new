@@ -22,6 +22,9 @@ declare global {
   interface D1Result<T = unknown> {
     results: T[];
     success: boolean;
+    // `run()`'ın UPDATE/DELETE'te kaç satır etkilediğini görmek için şart:
+    // SQLite eşleşme bulamayınca hata fırlatmaz, sessizce 0 satır günceller.
+    meta?: { changes: number };
   }
 
   interface D1PreparedStatement {

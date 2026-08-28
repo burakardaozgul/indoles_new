@@ -62,10 +62,21 @@ function newToken(): string {
     .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
+/**
+ * SQLite varsayılan olarak BINARY collation kullanır: "Ayse@x.com" ve
+ * "ayse@x.com" farklı string sayılır, dolayısıyla idx_bookings_active_email
+ * kısıtı ikisini ayrı e-posta olarak görüp ikisine de aktif randevu açardı.
+ * Karşılaştırma ve depolama TEK bir yerde normalize edilir ki indeks
+ * tutarlı kalsın.
+ */
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
 export async function hasActiveBooking(db: D1Database, email: string): Promise<BookingRow | null> {
   const row = await db
     .prepare("SELECT * FROM bookings WHERE email = ? AND status = 'confirmed' LIMIT 1")
-    .bind(email)
+    .bind(normalizeEmail(email))
     .first();
   return row ? toRow(row as Raw) : null;
 }
@@ -74,7 +85,8 @@ export async function createBooking(
   db: D1Database,
   input: CreateInput,
 ): Promise<{ ok: true; row: BookingRow } | { ok: false; reason: "slot_taken" | "duplicate_email" }> {
-  const existing = await hasActiveBooking(db, input.email);
+  const email = normalizeEmail(input.email);
+  const existing = await hasActiveBooking(db, email);
   if (existing) return { ok: false, reason: "duplicate_email" };
 
   const now = new Date().toISOString();
@@ -87,6 +99,7 @@ export async function createBooking(
     createdAt: now,
     updatedAt: now,
     ...input,
+    email,
   };
 
   try {
@@ -177,12 +190,21 @@ export async function rescheduleBooking(
     // kilitliyor: yukarıdaki kontrol ile bu UPDATE arasında eşzamanlı bir
     // cancelBooking araya girerse, guard olmadan iptal edilmiş satırın
     // saatleri sessizce güncellenirdi.
-    await db
+    const res = await db
       .prepare(
         "UPDATE bookings SET starts_at_utc = ?, ends_at_utc = ?, updated_at = ? WHERE id = ? AND status = 'confirmed'",
       )
       .bind(startsAtUtc, endsAtUtc, new Date().toISOString(), row.id)
       .run();
+
+    // SQLite eşleşme bulamayınca HATA FIRLATMIYOR, sessizce 0 satır günceller.
+    // Sonucu okumazsak, ön kontrol ile UPDATE arasına giren bir iptal sonrası
+    // çağırana "taşındı" demiş oluruz — Calendar ve mail o yalana göre hareket
+    // eder. `res.meta` yoksa (ör. eksik bir adaptör) güvenli tarafta kal ve
+    // başarı iddia etme.
+    if ((res.meta?.changes ?? 0) === 0) {
+      return { ok: false, reason: "not_found" };
+    }
   } catch (err) {
     if (String(err).includes("UNIQUE")) return { ok: false, reason: "slot_taken" };
     throw err;

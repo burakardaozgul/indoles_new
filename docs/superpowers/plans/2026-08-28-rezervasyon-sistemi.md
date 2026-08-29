@@ -2601,9 +2601,17 @@ ve minimizasyon kuralı yazılı."
 - Modify: `docs/superpowers/specs/2026-08-27-rezervasyon-sistemi-design.md` (ilk gün tarihi)
 - Test: elle canlı doğrulama
 
-- [ ] **Adım 1: Spec'teki ilk müsait günü güncelle**
+- [x] ~~**Adım 1: Spec'teki ilk müsait günü güncelle**~~ — **GEÇERSİZ, yapılmayacak**
 
-`§3.1b` tablosunda `2026-08-31` → `2026-09-07`. Gerekçe satırı ekle: geliştirme için ertelendi (Burak kararı, 2026-08-28); ADR-025'in geçiş kurgusu o tarihe kadar geçerli.
+> Bu adım spec'i `2026-08-31` → `2026-09-07` çekecekti (Burak kararı, 2026-08-28:
+> "kurulum için 10 gün"). **2026-08-29'da Burak kararı geri aldı:** sistem hazır,
+> ilk müsait gün `2026-08-31` kalıyor. Spec §3.1b zaten bu tarihi yazıyor,
+> dolayısıyla spec'te DEĞİŞİKLİK YOK.
+>
+> Controller notu: 2026-08-28 kararı Görev 1'in `config.ts`'ine erkenden
+> uygulanmış ama kaynağı "spec §3.1b" diye yanlış etiketlenmişti; spec
+> güncellemesi bu adıma bırakıldığı için iki belge bir gün boyunca çelişti.
+> Bir karar iki belgeyi ayrıştırıyorsa ikisi AYNI turda güncellenmeli.
 
 - [ ] **Adım 2: `/iletisim` sayfasına `BookingScreen`i göm**
 

@@ -1,7 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "indoles-web",
-  "main": ".open-next/worker.js",
+  // OpenNext'in ürettiği `.open-next/worker.js` DEĞİL — onu saran özel
+  // sarmalayıcı (`custom-worker.ts`, kök dizinde). Neden: OpenNext'in
+  // worker'ı yalnız `fetch` export ediyor, ama Cloudflare Cron Trigger
+  // Worker'ın `scheduled(event, env, ctx)` olayını çağırıyor. Sarmalayıcı
+  // `fetch`i olduğu gibi devrediyor, `scheduled`ı ekliyor, üç Durable Object
+  // sınıfını (DOQueueHandler, DOShardedTagCache, BucketCachePurge) yeniden
+  // export ediyor — resmi yöntem:
+  // https://opennext.js.org/cloudflare/howtos/custom-worker
+  "main": "custom-worker.ts",
   "account_id": "05ac1dc62c4c62391d47923ddebeef03",
 
   // Adaptörün istediği taban 2024-09-23; kurulu workerd (1.20260820.x) daha
@@ -104,16 +112,10 @@
   // 03:00 UTC seçildi: Europe/Istanbul (UTC+3) gece yarısından sonrası,
   // trafiğin en düşük olduğu saat.
   //
-  // AÇIK UÇ (bu görevin kapsamı dışında bırakıldı, bkz. teslim raporu):
-  // Cloudflare Cron Trigger, deploy edilen Worker'ın `scheduled()` olayını
-  // çağırır — bu dosyanın ürettiği `src/app/api/cron/route.ts`'teki HTTP
-  // `GET` rotasını DEĞİL. `.open-next/worker.js` (OpenNext'in ürettiği
-  // giriş noktası) yalnız `fetch` export ediyor, `scheduled` yok; bu ikisi
-  // birbirine bağlanmadan bu tetikleyici GERÇEKTE ateşlenmez. Resmî çözüm
-  // (opennext.js.org/cloudflare/howtos/custom-worker) `.open-next/worker.js`
-  // sarıp `scheduled` ekleyen özel bir worker dosyası + `main`i ona
-  // yöneltmek; bu, "main" alanını ve deploy akışını değiştirdiği için
-  // Görev 9'un altı maddesinin dışında bırakıldı ve Görev 10'un canlı
-  // doğrulama adımına devredildi.
+  // Bu tetikleyici Worker'ın `scheduled(event, env, ctx)` olayını çağırır —
+  // `src/app/api/cron/route.ts`'teki HTTP `GET` rotasını DEĞİL. Bu olay artık
+  // yukarıdaki `main` (`custom-worker.ts`) tarafından karşılanıyor ve aynı
+  // `runDailyCronJob`'u (`src/lib/booking/scheduled-cron.ts` üzerinden)
+  // çağırıyor — bkz. `main` alanının yorumu.
   "triggers": { "crons": ["0 3 * * *"] },
 }

@@ -38,6 +38,13 @@
     "playwright.config.ts",
     "drizzle.config.ts",
     "tailwind.config.ts",
-    "next.config.ts"
+    "next.config.ts",
+    // `.open-next/worker.js`'i saran Cloudflare Worker sarmalayıcısı
+    // (bkz. dosyanın kendi başlık yorumu). Build zamanında üretilen bir
+    // dosyayı import ediyor (depoda durmaz, .gitignore) ve bu depoda
+    // bilerek kurulu olmayan Workers ambient tiplerine (ExportedHandler vb.,
+    // Görev 4 ruling'i) dayanmıyor — diğer kök yapılandırma dosyalarıyla
+    // aynı gerekçeyle tsc programının dışında.
+    "custom-worker.ts"
   ]
 }

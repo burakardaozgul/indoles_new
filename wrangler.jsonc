@@ -75,5 +75,21 @@
     // "yalnız müsaitlik" düzeyinde paylaşılan kişisel takvim. Sır değil —
     // takvim kimliği zaten paylaşım davetinde açık; virgülle ayrılır.
     "BOOKING_CALENDAR_IDS": "digital@indoles.com.tr,b.a.ozgul@gmail.com"
-  }
+  },
+
+  // Rezervasyon kayıtları. Kalıcı DB launch kapsamında yoktu (ADR-010);
+  // rezervasyon sistemi onu tek bir tablo için geri getiriyor: çakışma kilidi
+  // uygulama kodunda tutulamıyor — "önce kontrol et sonra yaz" eşzamanlı iki
+  // istekte aynı slotu iki kez satar. Kısıt veritabanında, kısmi unique
+  // indeks olarak duruyor (migrations/0001_bookings.sql).
+  //
+  // database_id sır değil: yetki API token'ında, kimlikte değil.
+  "d1_databases": [
+    {
+      "binding": "BOOKINGS_DB",
+      "database_name": "indoles-bookings",
+      "database_id": "0cde790c-6ba4-4cb6-b94f-7041152e14b5",
+      "migrations_dir": "migrations"
+    }
+  ]
 }

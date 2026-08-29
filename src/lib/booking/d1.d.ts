@@ -1,10 +1,12 @@
 /**
- * GEÇİCİ D1 tip tanımı — D1 binding'i eklenip gerçek tipler geldiğinde
+ * GEÇİCİ D1 tip tanımı — gerçek Workers tipleri depoya girdiğinde
  * BU DOSYANIN SİLİNMESİ ZORUNLUDUR.
  *
- * `@cloudflare/workers-types` henüz kurulu değil çünkü `wrangler.jsonc`'ye
- * D1 binding'i bu görevde eklenmedi (görev 2 kapsam kararı: veritabanı
- * henüz oluşturulamadı, bkz. gorev-2-report.md "ADIM 2 ATLANDI").
+ * D1 binding'i 2026-08-29'da `wrangler.jsonc`'ye eklendi, ama gerçek tipler
+ * HÂLÂ YOK: `pnpm cf:typegen` üretilen `cloudflare-env.d.ts` mevcut dört test
+ * dosyasında typecheck hatası doğurduğu için bilinçli çalıştırılmıyor (Görev 4
+ * ruling'i). Yani silme koşulu artık "binding eklenince" değil,
+ * "`@cloudflare/workers-types` kurulunca veya typegen çıktısı depoya girince".
  *
  * "Sessizce birleşir" varsayımı YANLIŞ: TypeScript arayüz birleştirmesi
  * (declaration merging) aynı adlı bir property'nin iki bildiriminin

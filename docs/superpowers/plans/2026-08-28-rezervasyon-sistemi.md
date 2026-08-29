@@ -1562,11 +1562,15 @@ tek koruma istemci olamaz."
 - Create: `emails/BookingConfirmation.tsx`
 - Create: `emails/BookingNotification.tsx`
 - Create: `emails/BookingCancelled.tsx`
+- Create: `emails/CalendarAuthAlert.tsx`
 - Test: `emails/__tests__/booking-emails.test.tsx`
 
 **Interfaces:**
 - Consumes: yok
-- Produces: üç React Email bileşeni; props imzaları Görev 5 ve 7'de kullanılıyor
+- Produces: DÖRT React Email bileşeni; props imzaları Görev 5, 7 ve 9'da kullanılıyor.
+  `CalendarAuthAlert` planın ilk halinde yoktu — Görev 9'un `react: null as never`
+  yer tutucusu `sendMailWithRetry`'nin `render(input.react)` çağrısında patlardı
+  (ön-tarama ÇELİŞKİ-3). Şablon buraya alındı, Görev 9 onu tüketiyor.
 
 - [ ] **Adım 1: Başarısız testi yaz**
 
@@ -2353,7 +2357,7 @@ rezervasyonla birlikte geri geldi: Meet linki ve iptal adresi."
 - Test: `src/app/api/cron/__tests__/route.test.ts`
 
 **Interfaces:**
-- Consumes: `fetchBusy`, `getAccessToken` (Görev 3)
+- Consumes: `fetchBusy`, `getAccessToken` (Görev 3), `CalendarAuthAlert` (Görev 6)
 - Produces: `GET /api/cron` — günlük temizlik + aylık canlılık
 
 - [ ] **Adım 1: Başarısız testi yaz**
@@ -2453,8 +2457,15 @@ export async function GET(_req: Request): Promise<Response> {
       await sendMailWithRetry({
         to: recipients(process.env.SALES_INBOX_EMAIL, "digital@indoles.com.tr"),
         subject: "INDOLES — takvim bağlantısı yeniden yetkilendirme istiyor",
-        react: null as never,
-        // Şablona gerek yok: tek cümlelik operasyonel uyarı.
+        // Düz fonksiyon çağrısı, JSX değil: rota dosyası `.ts` ve JSX orada
+        // derlenmez. Depodaki diğer üç mail çağrısı da aynı biçimde
+        // (bkz. src/app/api/contact/route.ts).
+        react: CalendarAuthAlert({
+          // CalendarAuthError `code` alanı taşımıyor; yetkinin ölme
+          // biçimi pratikte tek: refresh token reddedildi.
+          errorCode: "invalid_grant",
+          detectedAtUtc: new Date().toISOString(),
+        }),
       }).catch(() => {});
     }
   }

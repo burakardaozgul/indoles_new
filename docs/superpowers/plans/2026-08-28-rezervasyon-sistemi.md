@@ -2076,7 +2076,11 @@ export async function PATCH(req: Request, ctx: Ctx): Promise<Response> {
 }
 ```
 
-- [ ] **Adım 4: İptal/erteleme sayfasını yaz**
+- [ ] ~~**Adım 4: İptal/erteleme sayfasını yaz**~~ — **GÖREV 8'E TAŞINDI**
+
+> Aşağıdaki taslak Görev 7'nin teslimi DEĞİL; Görev 8 uygulayıcısı için burada
+> duruyor. Sayfa `ManageBooking`'i import ediyor ve o bileşen Görev 8'de
+> üretiliyor — Görev 7'de yazılsa derlenmezdi (ÇELİŞKİ-2).
 
 `src/app/(marketing)/[locale]/rezervasyon/[token]/page.tsx`:
 
@@ -2116,7 +2120,7 @@ Beklenen: PASS — 7 test
 - [ ] **Adım 6: Commit**
 
 ```bash
-git add "src/app/api/booking/[token]/route.ts" "src/app/(marketing)/[locale]/rezervasyon/[token]/page.tsx" src/app/api/booking/__tests__/token-route.test.ts
+git add "src/app/api/booking/[token]/route.ts" src/app/api/booking/__tests__/token-route.test.ts
 git commit -m "feat(booking): iptal ve erteleme uç noktaları
 
 İptal idempotent: ikinci tıklama hata değil, aynı sonucun tekrarı. Mail
@@ -2142,7 +2146,12 @@ Görsel tasarım korunuyor; değişen tek şey verinin kaynağı (spec §5).
 - Modify: `src/components/marketing/entry-popup/SuccessState.tsx`
 - Modify: `src/components/marketing/entry-popup/EntryPopup.tsx`
 - Create: `src/components/marketing/booking/ManageBooking.tsx`
+- Create: `src/app/(marketing)/[locale]/rezervasyon/[token]/page.tsx` (Görev 7'den taşındı; taslak kodu Görev 7'nin Adım 4'ünde duruyor)
 - Test: `src/components/marketing/entry-popup/__tests__/calendar-picker.test.tsx`
+
+> Sayfa ÇELİŞKİ-2 ruling'iyle Görev 7'den buraya alındı: `ManageBooking`'i import
+> ediyor ve erteleme akışı bu görevin `CalendarPicker`'ına dayanıyor. Sayfa
+> `noindex` olmalı — kişiye özel bir adres arama motoruna girmemeli.
 
 **Interfaces:**
 - Consumes: `GET /api/booking/availability` (Görev 4), `POST /api/booking` (Görev 5), token rotası (Görev 7)

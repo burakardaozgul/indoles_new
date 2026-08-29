@@ -300,6 +300,40 @@ describe("completePastBookings — Görev 9 Ek 1", () => {
     expect(count).toBe(0);
   });
 
+  // --- Görev 9 fix turu 1, bulgu 2 — mutasyon kanıtı: sorgu `starts_at_utc`
+  // esas alsaydı bu üç test FAIL ederdi (devam eden görüşme erken
+  // completed'e çekilirdi, bitiş sınırı yanlış anda tetiklenirdi). ---
+  it("BAŞLADI ama BİTMEDİ (devam eden görüşme) confirmed KALIR", async () => {
+    // starts 10:00, ends 11:30 (2026-09-07). "Şimdi" 10:30 — görüşme hâlâ
+    // sürüyor. `starts_at_utc` esas alınsaydı bu satır completed'e çekilir,
+    // ziyaretçinin iptal/erteleme bağlantısı (cancelBooking/rescheduleBooking
+    // `status='confirmed'` şartına bağlı) görüşme SIRASINDA kırılırdı.
+    const r = await createBooking(db, base);
+    if (!r.ok) throw new Error("kurulum başarısız");
+    const count = await completePastBookings(db, "2026-09-07T10:30:00.000Z");
+    expect(count).toBe(0);
+    const found = await findBookingByToken(db, r.row.cancelToken);
+    expect(found?.status).toBe("confirmed");
+  });
+
+  it("BİTMİŞ randevu completed'e çekilir", async () => {
+    const r = await createBooking(db, base); // ends 11:30
+    if (!r.ok) throw new Error("kurulum başarısız");
+    const count = await completePastBookings(db, "2026-09-07T11:31:00.000Z"); // bitişten 1 dk sonra
+    expect(count).toBe(1);
+    const found = await findBookingByToken(db, r.row.cancelToken);
+    expect(found?.status).toBe("completed");
+  });
+
+  it("sınır: ends_at_utc TAM şu an olan satıra dokunmaz (strict less-than)", async () => {
+    const r = await createBooking(db, base); // ends 11:30
+    if (!r.ok) throw new Error("kurulum başarısız");
+    const count = await completePastBookings(db, base.endsAtUtc); // now === ends_at_utc
+    expect(count).toBe(0);
+    const found = await findBookingByToken(db, r.row.cancelToken);
+    expect(found?.status).toBe("confirmed");
+  });
+
   it("iptal edilmiş satıra dokunmaz (yalnız confirmed hedeflenir)", async () => {
     const r = await createBooking(db, base);
     if (!r.ok) throw new Error("kurulum başarısız");

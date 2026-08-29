@@ -85,7 +85,8 @@ export async function POST(req: Request): Promise<Response> {
   const row = created.row;
 
   // 2) Calendar + Meet. Buradaki başarısızlık randevuyu iptal ETMEZ ve satır
-  //    `markFailed` ile 'failed'e ÇEKİLMEZ (ADR-029). `idx_bookings_slot` ve
+  //    'failed'e ÇEKİLMEZ (ADR-029; bu yolu üreten `markFailed` Görev 9 fix
+  //    turu 1'de ölü kod olarak silindi). `idx_bookings_slot` ve
   //    `idx_bookings_active_email` kısmi indeksleri yalnız 'confirmed'
   //    satırları kapsıyor — satır 'failed' olduğu an slot VE e-posta kilidi
   //    aynı anda düşer, yani ziyaretçiye onay maili giderken saat başka

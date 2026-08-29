@@ -6,11 +6,17 @@
  */
 
 // "completed" Görev 9'da eklendi (migrations/0002_completed_status.sql):
-// başlangıcı geçmiş 'confirmed' satırlar cron tarafından buraya çekiliyor.
-// Bunun nedeni statü estetiği değil — idx_bookings_slot ve
-// idx_bookings_active_email kısmi indeksleri YALNIZ 'confirmed' satırları
-// kapsıyor, dolayısıyla geçmişte kalmış bir randevu 'confirmed' kaldığı
-// sürece o e-postanın "aktif randevu" kilidi süresiz açık kalırdı.
+// bitişi geçmiş 'confirmed' satırlar cron tarafından buraya çekiliyor (bkz.
+// `completePastBookings` — Görev 9 fix turu 1, bulgu 2: `ends_at_utc` esas
+// alınır, `starts_at_utc` DEĞİL). Bunun nedeni statü estetiği değil —
+// idx_bookings_slot ve idx_bookings_active_email kısmi indeksleri YALNIZ
+// 'confirmed' satırları kapsıyor, dolayısıyla geçmişte kalmış bir randevu
+// 'confirmed' kaldığı sürece o e-postanın "aktif randevu" kilidi süresiz
+// açık kalırdı.
+//
+// "failed" ADR-029'dan sonra ÜRETİLMİYOR (markFailed Görev 9 fix turu 1,
+// bulgu 3'te silindi) ama CHECK kısıtında kalıyor — eski veriyle uyum için
+// zararsız, yeni bir migration gerektirmiyor.
 export type BookingStatus = "confirmed" | "cancelled" | "failed" | "completed";
 
 export type BookingRow = {
@@ -165,13 +171,6 @@ export async function attachCalendarResult(
     .run();
 }
 
-export async function markFailed(db: D1Database, id: string): Promise<void> {
-  await db
-    .prepare("UPDATE bookings SET status = 'failed', updated_at = ? WHERE id = ?")
-    .bind(new Date().toISOString(), id)
-    .run();
-}
-
 export async function cancelBooking(
   db: D1Database, token: string,
 ): Promise<"cancelled" | "already_cancelled" | "not_found"> {
@@ -233,18 +232,35 @@ export async function rescheduleBooking(
 }
 
 /**
- * Görev 9, Ek 1 — başlangıcı geçmiş 'confirmed' satırları 'completed'e çeker.
+ * Görev 9, Ek 1 — bitişi geçmiş 'confirmed' satırları 'completed'e çeker.
  *
  * Bu, bir statü güncellemesinden fazlası: idx_bookings_slot ve
  * idx_bookings_active_email kısmi indeksleri yalnız status = 'confirmed'
  * satırları kapsıyor. Bu adım çalışmazsa geçmişte görüşülmüş bir e-posta
  * süresiz "aktif randevu var" kilidinde kalır — Eylül'de görüşen biri
  * Ekim'de randevu alamaz. Cron bunu her gün çağırır (`cron-job.ts`).
+ *
+ * NİÇİN `ends_at_utc`, `starts_at_utc` DEĞİL (Görev 9 fix turu 1, bulgu 2):
+ * fonksiyon adı "past" (geçmiş) diyor — bir randevu ancak BİTTİĞİNDE geçmiş
+ * sayılır. `starts_at_utc` kullanmak, hâlâ devam eden bir görüşmeyi (başladı,
+ * bitmedi) erken `completed`e çekerdi; `cancelBooking`/`rescheduleBooking`
+ * (yukarıda) `status = 'confirmed'` şartına bağlı olduğu için ziyaretçinin
+ * iptal/erteleme bağlantısı görüşme SIRASINDA kırılırdı. Otomatik cron
+ * yalnız 03:00 UTC'de çalıştığı için gerçek dünya etkisi düşük, ama
+ * `/api/cron` elle tetiklenirse (ör. Görev 10 canlı doğrulaması) tam bir
+ * görüşme sırasında gerçekleşebilir.
+ *
+ * DİKKAT — `deleteBookingsOlderThan` (aşağıda) BİLİNÇLİ olarak farklı bir
+ * sütuna, `starts_at_utc`'ye bakıyor. Bu bir tutarsızlık DEĞİL: o adımın
+ * sorusu "görüşme tarihinden 90 gün geçti mi" (docs/14-privacy-kvkk.md §2.3,
+ * randevu SAATİ esas alınır), bu fonksiyonun sorusu ise "görüşme BİTTİ mi".
+ * İki farklı soru, iki farklı sütun — ikisini "tutarlılık" adına aynı sütuna
+ * bağlamak birini yanlış cevaplar.
  */
 export async function completePastBookings(db: D1Database, nowUtc: string): Promise<number> {
   const res = await db
     .prepare(
-      "UPDATE bookings SET status = 'completed', updated_at = ? WHERE status = 'confirmed' AND starts_at_utc < ?",
+      "UPDATE bookings SET status = 'completed', updated_at = ? WHERE status = 'confirmed' AND ends_at_utc < ?",
     )
     .bind(nowUtc, nowUtc)
     .run();
@@ -255,7 +271,12 @@ export async function completePastBookings(db: D1Database, nowUtc: string): Prom
  * KVKK saklama süresi (spec §2.2b, docs/14): görüşme tarihinden 90 gün sonra
  * satır TAMAMEN silinir, statüsü ne olursa olsun. `starts_at_utc` üzerinden
  * çalışır — işlenme amacı (görüşmeyi gerçekleştirmek) tamamlandıktan sonraki
- * takip süresi budur, kaydın oluşturulma tarihi değil.
+ * takip süresi budur, kaydın oluşturulma tarihi değil. `docs/14`'teki
+ * "görüşme tarihi" ifadesi başlangıç saatini işaret ediyor; bu, YUKARIDAKİ
+ * `completePastBookings`'in bilinçli olarak `ends_at_utc` kullanmasıyla
+ * ÇELİŞMİYOR — 90 gün sonra silme sorusu "görüşme SAATİNDEN bu yana ne kadar
+ * geçti", completed'e çekme sorusu ise "görüşme BİTTİ mi" olduğu için iki
+ * farklı sütuna bakmaları doğru.
  */
 export async function deleteBookingsOlderThan(db: D1Database, cutoffUtc: string): Promise<number> {
   const res = await db.prepare("DELETE FROM bookings WHERE starts_at_utc < ?").bind(cutoffUtc).run();

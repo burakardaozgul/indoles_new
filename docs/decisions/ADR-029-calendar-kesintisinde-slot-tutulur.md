@@ -108,6 +108,12 @@ uyarısını taşıyor (`emails/BookingNotification.tsx` props'una dokunulmadı)
 - `calendar_event_id IS NULL` satırların takibi için ayrı bir admin görünümü
   veya rapor gerektiği ortaya çıkarsa.
 
+### Sonuç (Görev 9 fix turu 1)
+`markFailed` silindi — açık uç (a) değil (b) yönünde kapatıldı. Görev 9 boyunca
+`failed`i üreten yeni bir çağrı yolu tanımlanmadı; ADR-029'un bıraktığı karara
+göre çağrılmayan fonksiyonu tutmak var olmayan bir yeteneği vaat ediyordu.
+`'failed'` CHECK kısıtında kalıyor (eski veri uyumu, zararsız).
+
 ## Implementasyon notları
 
 - `src/app/api/booking/route.ts`: Calendar `catch` bloğundan `markFailed`

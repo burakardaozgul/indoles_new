@@ -196,11 +196,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // Vaka detayları — slug locale'den bağımsız, segment çevrilir (ADR-019).
+  // Vaka detayları — slug locale başına farklı (2026-08-29, ADR-019 revizyonu:
+  // `/en/case-studies/...` artık EN kelimeler taşır). hreflang çifti
+  // `entry()` içinde iki ayrı adresi eşler; eski TR-slug'lı EN adresler
+  // `next.config.ts`'te 301 ile buraya taşınır.
   for (const c of CASES) {
     const path = {
-      tr: `/tr/vakalar/${c.slug}`,
-      en: `/en/case-studies/${c.slug}`,
+      tr: `/tr/vakalar/${c.slug.tr}`,
+      en: `/en/case-studies/${c.slug.en}`,
     };
     const lastModified = caseLastModified(c);
     for (const locale of ["tr", "en"] as const) {

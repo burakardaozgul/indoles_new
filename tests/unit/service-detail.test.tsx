@@ -135,7 +135,7 @@ describe("ServiceDetail — vaka eşlemesi (C-03)", () => {
       const matchesByPillar = c.pillar === service.pillar;
       expect(
         matchesBySlug || matchesByPillar,
-        `${service.slug.tr} → "${c.slug}" ne künyede ne pillar'da eşleşiyor`,
+        `${service.slug.tr} → "${c.slug.tr}" ne künyede ne pillar'da eşleşiyor`,
       ).toBe(true);
     }
   });
@@ -181,14 +181,14 @@ describe("ServiceDetail — vaka eşlemesi (C-03)", () => {
 
   it("CRO hizmet sayfası artık künyesinde cro geçen bir vakayı gösterir", () => {
     const soyluAvm = CASES.find(
-      (c) => c.slug === "soylu-avm-e-ticaret-buyume",
+      (c) => c.slug.tr === "soylu-avm-e-ticaret-buyume",
     )!;
     expect(soyluAvm.serviceSlugs).not.toContain("cro");
 
     const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
     const chosen = relatedCaseForService("cro", cro.pillar)!;
     expect(chosen.serviceSlugs).toContain("cro");
-    expect(chosen.slug).not.toBe("soylu-avm-e-ticaret-buyume");
+    expect(chosen.slug.tr).not.toBe("soylu-avm-e-ticaret-buyume");
   });
 
   it("seçim deterministiktir — tekrar çağrıda aynı vaka çıkar", () => {

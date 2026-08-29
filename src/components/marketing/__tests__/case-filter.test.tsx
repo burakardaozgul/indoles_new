@@ -10,7 +10,7 @@ import type { CaseStudyContent } from "@/lib/content/types";
  */
 const CASES: CaseStudyContent[] = [
   {
-    slug: "vaka-a",
+    slug: { tr: "vaka-a", en: "case-a" },
     clientName: { tr: "A Şirketi", en: "Company A" },
     clientSector: { tr: "E-ticaret", en: "E-commerce" },
     problemType: "customer_acquisition",
@@ -24,7 +24,7 @@ const CASES: CaseStudyContent[] = [
     durationWeeks: 4,
   },
   {
-    slug: "vaka-b",
+    slug: { tr: "vaka-b", en: "case-b" },
     clientName: { tr: "B Şirketi", en: "Company B" },
     clientSector: { tr: "Perakende", en: "Retail" },
     problemType: "customer_acquisition",
@@ -38,7 +38,7 @@ const CASES: CaseStudyContent[] = [
     durationWeeks: 4,
   },
   {
-    slug: "vaka-c",
+    slug: { tr: "vaka-c", en: "case-c" },
     clientName: { tr: "C Şirketi", en: "Company C" },
     clientSector: { tr: "Üretim", en: "Manufacturing" },
     problemType: "efficiency_loss",

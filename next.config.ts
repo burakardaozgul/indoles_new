@@ -104,6 +104,20 @@ const nextConfig: NextConfig = {
       { source: "/pazarlama-testi", destination: "/tr/paketler", permanent: true },
       // WP yazar arşivi → kadro sayfası.
       { source: "/author/:slug*", destination: "/tr/danismanlar", permanent: true },
+      // 2026-08-29 EN vaka slug lokalizasyonu — launch+1 gün, eski URL'ler
+      // GSC/IndexNow'a bildirilmişti. Vaka slug'ı locale'den bağımsızdı
+      // (ADR-019), yani 9 EN adresin tamamı Türkçe kelimelerden oluşuyordu;
+      // slug lokalize edilince o adresler 404'e düşerdi. TR adresler
+      // DEĞİŞMEDİ — burada yalnız `/en/case-studies/*` taşınır.
+      { source: "/en/case-studies/soylu-avm-e-ticaret-buyume", destination: "/en/case-studies/soylu-avm-ecommerce-growth", permanent: true },
+      { source: "/en/case-studies/gymwolves-12-kat-satis", destination: "/en/case-studies/gymwolves-12x-sales-growth", permanent: true },
+      { source: "/en/case-studies/mkcomputer-dropshipping-otomasyonu", destination: "/en/case-studies/mkcomputer-dropshipping-automation", permanent: true },
+      { source: "/en/case-studies/istanbul-ortez-protez-arama-gorunurlugu", destination: "/en/case-studies/istanbul-orthosis-prosthetics-search-visibility", permanent: true },
+      { source: "/en/case-studies/fyr-luks-dekorasyon-lansmani", destination: "/en/case-studies/fyr-luxury-decor-launch", permanent: true },
+      { source: "/en/case-studies/feruza-luks-perakende-anlasmasi", destination: "/en/case-studies/feruza-luxury-retail-deal", permanent: true },
+      { source: "/en/case-studies/sim-baski-ihracat-icerigi", destination: "/en/case-studies/sim-printing-export-content", permanent: true },
+      { source: "/en/case-studies/meccanotecnica-umbra-teklif-portali", destination: "/en/case-studies/meccanotecnica-umbra-quote-portal", permanent: true },
+      { source: "/en/case-studies/odorgo-kategori-yaratma", destination: "/en/case-studies/odorgo-category-creation", permanent: true },
     ];
   },
 

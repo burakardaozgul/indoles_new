@@ -65,9 +65,12 @@ export function caseViewEvent(
 ): Extract<AnalyticsEvent, { name: "case_study_viewed" }> {
   return {
     name: "case_study_viewed",
-    // Vaka slug'ı dilden bağımsız (ADR-019), locale boyutuna gerek yok.
+    // Olay kimliği HER ZAMAN TR slug: vaka slug'ı 2026-08-29'da lokalize
+    // edildi, ama EN sayfa aynı varlığın ikinci satırını açmamalı — hizmet ve
+    // paket olaylarındaki kuralın aynısı (yukarı bkz.). Locale boyutu da
+    // gerekmiyor: kimlik tek, dil kırılımı GA4'te sayfa yolundan okunur.
     properties: {
-      slug: study.slug,
+      slug: study.slug.tr,
       problemType: study.problemType,
       pillar: study.pillar,
     },

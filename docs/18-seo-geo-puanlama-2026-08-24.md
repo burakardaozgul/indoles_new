@@ -223,6 +223,8 @@ Bu, projenin en olgun katmanı.
 
 **Tek gerçek eksik:** vaka slug'ları locale'den bağımsız — `/en/case-studies/istanbul-ortez-protez-arama-gorunurlugu`, `/en/case-studies/sim-baski-ihracat-icerigi`. 9 EN vaka URL'inin tamamı Türkçe. EN okurun ve EN arama motorunun okuyamadığı URL'ler. (ADR-019'da bilinçli karar; EN eşit öncelikliyse yeniden değerlendirilmeli — 301 maliyeti şimdi düşük.)
 
+> **2026-08-29'da kapandı:** Bulgu kabul edildi ve uygulandı — 9 vakanın tamamına EN slug verildi (`sim-printing-export-content`, `istanbul-orthosis-prosthetics-search-visibility`, …), TR slug'lar değişmedi. Eski 9 EN URL 301 ile taşınıyor (`next.config.ts`); çapraz locale 404 disiplini ve TR slug'lı analitik kimliği korundu. Karar ve gerekçe **ADR-019 "Revizyon — 2026-08-29"** bölümünde. Aynı turda yan bir kusur da kapandı: iç EN vaka bağlantıları middleware 307'si yiyordu, 8 bağlantı `localeHref`e geçirildi — yani yukarıdaki "Dil değiştirici: `localeHref()` ile 307 zincirsiz" satırı artık vaka bağlantıları için de geçerli.
+
 ---
 
 ## 10. İngilizce SEO & GEO — 4.5/10

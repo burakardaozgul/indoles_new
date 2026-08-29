@@ -16,7 +16,7 @@ import type { CaseStudyContent } from "./types";
  */
 export const CASES: CaseStudyContent[] = [
   {
-    slug: "soylu-avm-e-ticaret-buyume",
+    slug: { tr: "soylu-avm-e-ticaret-buyume", en: "soylu-avm-ecommerce-growth" },
     clientName: { tr: "SOYLU AVM", en: "SOYLU AVM" },
     clientSector: { tr: "E-ticaret ve perakende", en: "E-commerce & retail" },
     problemType: "customer_acquisition",
@@ -262,7 +262,7 @@ export const CASES: CaseStudyContent[] = [
     },
   },
   {
-    slug: "gymwolves-12-kat-satis",
+    slug: { tr: "gymwolves-12-kat-satis", en: "gymwolves-12x-sales-growth" },
     clientName: { tr: "GYMWOLVES", en: "GYMWOLVES" },
     clientSector: { tr: "Spor giyim e-ticareti", en: "Sportswear e-commerce" },
     problemType: "customer_acquisition",
@@ -548,7 +548,7 @@ export const CASES: CaseStudyContent[] = [
     },
   },
   {
-    slug: "mkcomputer-dropshipping-otomasyonu",
+    slug: { tr: "mkcomputer-dropshipping-otomasyonu", en: "mkcomputer-dropshipping-automation" },
     clientName: { tr: "MKComputer", en: "MKComputer" },
     clientSector: {
       tr: "Teknoloji e-ticareti (Almanya)",
@@ -792,7 +792,7 @@ export const CASES: CaseStudyContent[] = [
     },
   },
   {
-    slug: "istanbul-ortez-protez-arama-gorunurlugu",
+    slug: { tr: "istanbul-ortez-protez-arama-gorunurlugu", en: "istanbul-orthosis-prosthetics-search-visibility" },
     clientName: { tr: "İstanbul Ortez Protez", en: "İstanbul Ortez Protez" },
     clientSector: {
       tr: "Tıbbi ürün ve sağlık",
@@ -1101,7 +1101,7 @@ export const CASES: CaseStudyContent[] = [
     },
   },
   {
-    slug: "fyr-luks-dekorasyon-lansmani",
+    slug: { tr: "fyr-luks-dekorasyon-lansmani", en: "fyr-luxury-decor-launch" },
     clientName: { tr: "FYR Luxury", en: "FYR Luxury" },
     clientSector: {
       tr: "Lüks ev dekorasyonu",
@@ -1396,7 +1396,7 @@ export const CASES: CaseStudyContent[] = [
     },
   },
   {
-    slug: "feruza-luks-perakende-anlasmasi",
+    slug: { tr: "feruza-luks-perakende-anlasmasi", en: "feruza-luxury-retail-deal" },
     clientName: { tr: "Feruza Elegance", en: "Feruza Elegance" },
     clientSector: { tr: "Ayakkabı ve moda", en: "Footwear & fashion" },
     problemType: "market_expansion",
@@ -1652,7 +1652,7 @@ export const CASES: CaseStudyContent[] = [
     ],
   },
   {
-    slug: "sim-baski-ihracat-icerigi",
+    slug: { tr: "sim-baski-ihracat-icerigi", en: "sim-printing-export-content" },
     clientName: { tr: "SIM Baskı Malzemeleri", en: "SIM Printing Suppliers" },
     clientSector: {
       tr: "Baskı ve matbaa malzemeleri",
@@ -1969,7 +1969,7 @@ export const CASES: CaseStudyContent[] = [
     },
   },
   {
-    slug: "meccanotecnica-umbra-teklif-portali",
+    slug: { tr: "meccanotecnica-umbra-teklif-portali", en: "meccanotecnica-umbra-quote-portal" },
     clientName: {
       tr: "Meccanotecnica Umbra Türkiye",
       en: "Meccanotecnica Umbra Türkiye",
@@ -2253,7 +2253,7 @@ export const CASES: CaseStudyContent[] = [
     },
   },
   {
-    slug: "odorgo-kategori-yaratma",
+    slug: { tr: "odorgo-kategori-yaratma", en: "odorgo-category-creation" },
     clientName: { tr: "OdorGo", en: "OdorGo" },
     clientSector: {
       tr: "Ev bakım ürünleri — koku giderici",
@@ -2625,6 +2625,22 @@ export const CASES: CaseStudyContent[] = [
   },
 ];
 
-export function getCaseBySlug(slug: string): CaseStudyContent | null {
-  return CASES.find((c) => c.slug === slug) ?? null;
+export function getCaseBySlug(
+  slug: string,
+  locale: "tr" | "en",
+): CaseStudyContent | null {
+  // Çapraz locale slug'ı bilerek çözülmez (ADR-018 kuralı): /en altında TR
+  // slug 404 döner. İki URL'in aynı içeriği sunması canonical sinyalini böler.
+  return CASES.find((c) => c.slug[locale] === slug) ?? null;
+}
+
+/**
+ * TR slug'ından vaka — kanonik iç bağlantı çözümü için.
+ *
+ * `articles.ts` gövdesindeki satır içi linkler ve `work-content.ts`
+ * kart kaydı kanonik TR yolu tutar (`/vakalar/<tr-slug>`); okunan locale ne
+ * olursa olsun kayıt TR slug'ıyla bulunur, URL sonra locale'e göre kurulur.
+ */
+export function getCaseByTrSlug(slug: string): CaseStudyContent | null {
+  return CASES.find((c) => c.slug.tr === slug) ?? null;
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { CaseStudyContent, Locale } from "@/lib/content/types";
 import { getPillar } from "@/lib/content/pillars";
+import { localeHref } from "@/lib/i18n/locale-href";
 
 /**
  * Vaka kartı (ADR-019) — kapak görselli tek kaynak.
@@ -42,7 +43,7 @@ export function CaseCard({
 
   return (
     <Link
-      href={`/${locale}/vakalar/${c.slug}`}
+      href={localeHref(`/vakalar/${c.slug[locale]}`, locale)}
       hidden={hidden}
       data-problem-type={c.problemType}
       className="group flex flex-col overflow-hidden rounded-2xl border border-surface-2 v2-surface transition-colors hover:border-teal-300"

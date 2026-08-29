@@ -34,7 +34,14 @@ const TAG = {
   ops: { glyph: "△", label: { tr: "Operasyon", en: "Operations" } },
 } as const satisfies Record<string, WorkTag>;
 
-/** `cases.ts` slug'larıyla eşleşir; eşleşmeyen vaka karta çıkmaz. */
+/**
+ * `cases.ts` TR slug'larıyla eşleşir; eşleşmeyen vaka karta çıkmaz.
+ *
+ * Anahtar TR slug'dır çünkü kayıt kimliği locale'den bağımsızdır ve
+ * `public/work/<tr-slug>/` görsel klasörleriyle aynı adı taşır — slug
+ * 2026-08-29'da lokalize edildiğinde (EN karşılıkları eklendi) bu tarafın
+ * değişmesi gerekmedi.
+ */
 const CARD_META: Record<string, Omit<WorkCard, "slug">> = {
   "soylu-avm-e-ticaret-buyume": {
     image: "/work/soylu-avm/vitrin.jpg",
@@ -73,11 +80,13 @@ const CARD_META: Record<string, Omit<WorkCard, "slug">> = {
 export type FeaturedWork = ReturnType<typeof getFeaturedWork>[number];
 
 export function getFeaturedWork(locale: Locale) {
-  return CASES.filter((c) => CARD_META[c.slug]).map((c) => {
-    const meta = CARD_META[c.slug]!;
+  return CASES.filter((c) => CARD_META[c.slug.tr]).map((c) => {
+    const meta = CARD_META[c.slug.tr]!;
     const metric = c.metrics[0];
     return {
-      slug: c.slug,
+      // Kartın linki bu slug üzerinden kurulur (`WorkCard`), o yüzden
+      // okunan locale'in slug'ı döner — TR kimliği burada gerekmiyor.
+      slug: c.slug[locale],
       title: c.title[locale],
       sector: c.clientSector[locale],
       client: c.clientName[locale],

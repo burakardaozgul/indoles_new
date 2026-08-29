@@ -5,6 +5,9 @@
 > **Karar sahibi:** Burak Arda Özgül
 > **Bağlı belgeler:** `docs/02-information-architecture.md`, `docs/03-brand-voice-tone.md`, `docs/04-design-system-principles.md` (§10 içerik dürüstlüğü, §12.10 iç sayfa dili), `docs/08-seo-i18n-strategy.md`
 > **İlişkili kararlar:** ADR-017 (site geneli v2), ADR-018 (hizmet detay sayfaları)
+> **Revize edildi (2026-08-29):** Karar 6'daki "slug locale'den bağımsız" kısmı
+> geçerli değil — vaka slug'ları locale-bazlı yapıldı. Belge sonundaki
+> "Revizyon — 2026-08-29" bölümüne bakın.
 
 ---
 
@@ -131,3 +134,72 @@ script'e bağlar. Ölçüm: sayfa açılışında 0 iframe, tıklamadan sonra 1.
   YouTube facade (karar 9).
 - Toplam 9 vaka: Growth 6, Build 3. `/vakalar` listesi ve anasayfa kartları
   aynı `case-card.tsx` kaynağından beslenir.
+
+---
+
+## Revizyon — 2026-08-29: Vaka slug'ları locale-bazlı yapıldı
+
+> **Durum:** Kabul edildi · **Karar sahibi:** Burak Arda Özgül
+> **Revize edilen:** Karar 6 (SEO: metadata + redirect + JSON-LD) — slug'ın
+> locale'den bağımsız tek değer olması
+> **Tetikleyen:** `docs/18-seo-geo-puanlama-2026-08-24.md` §9 "Tek gerçek eksik"
+
+### Ne değişti
+
+`CaseStudyContent.slug` `string` iken `Localized<string>` oldu. TR slug'ların
+**hiçbiri değişmedi**; 9 vakaya EN karşılık eklendi:
+
+| TR (değişmedi) | EN (yeni) |
+|---|---|
+| `soylu-avm-e-ticaret-buyume` | `soylu-avm-ecommerce-growth` |
+| `gymwolves-12-kat-satis` | `gymwolves-12x-sales-growth` |
+| `mkcomputer-dropshipping-otomasyonu` | `mkcomputer-dropshipping-automation` |
+| `istanbul-ortez-protez-arama-gorunurlugu` | `istanbul-orthosis-prosthetics-search-visibility` |
+| `fyr-luks-dekorasyon-lansmani` | `fyr-luxury-decor-launch` |
+| `feruza-luks-perakende-anlasmasi` | `feruza-luxury-retail-deal` |
+| `sim-baski-ihracat-icerigi` | `sim-printing-export-content` |
+| `meccanotecnica-umbra-teklif-portali` | `meccanotecnica-umbra-quote-portal` |
+| `odorgo-kategori-yaratma` | `odorgo-category-creation` |
+
+### Gerekçe
+
+1. **EN SERP güveni ve CTR.** URL, sonuç satırında başlığın üstünde okunur ve
+   tıklama kararına girer. `/en/case-studies/sim-baski-ihracat-icerigi` EN
+   okur için anlamsız bir karakter dizisiydi; arama motoru da URL'deki
+   kelimelerden konu sinyali alamıyordu. Yazılar ve hizmetler zaten lokalize
+   slug taşıyordu (ADR-020, ADR-018) — vakalar tek istisnaydı, yani kusur
+   tutarsızlıktı, tercih değil.
+2. **EN ölçüm netliği.** EN kanıt sayfalarının arama performansı GSC'de
+   Türkçe URL'ler altında toplanıyordu; EN kümesinin kendi başına okunması
+   zorlaşıyordu.
+3. **301 maliyeti launch+1'de sıfıra yakın.** Site 2026-08-28'de canlıya
+   çıktı. Eski 9 EN URL henüz yaş, backlink veya sıralama biriktirmemişti;
+   aynı değişim üç ay sonra çok daha pahalı olurdu. ADR-019'un orijinal
+   kararı bu pencereyi hesaba katmıyordu.
+
+### Korumalar
+
+- **Eski 9 EN URL 301 (Next `permanent: true` → 308) ile taşınır**
+  (`next.config.ts`): `/en/case-studies/<tr-slug>` → `/en/case-studies/<en-slug>`.
+  URL'ler launch günü GSC ve IndexNow'a bildirildiği için yönlendirme şart.
+  Eski WordPress `/portfolyo/*` kuralları TR hedefli — dokunulmadı.
+- **Çapraz locale çözülmez** (ADR-018 disiplini): `/tr/vakalar/<en-slug>` ve
+  `/en/case-studies/<tr-slug>` (301 öncesi) 404 döner. İki URL'in aynı içeriği
+  sunması canonical sinyalini böler.
+- **Analitik kimliği TR slug kalır** (`view-events.ts`): EN sayfa aynı vakanın
+  ikinci satırını açmaz. Hizmet ve paket olaylarındaki kuralın aynısı.
+- **Kanonik iç bağlantı konvansiyonu korundu:** `articles.ts` gövdelerindeki
+  `/vakalar/<tr-slug>` linkleri değişmedi; `resolveInlineHref` EN'de gerçek EN
+  slug'a çözer (hizmet ve yazı dallarıyla aynı desen).
+- **Regresyon ağı:** `cases-content.test.ts` EN slug'ın Türkçe harf
+  taşımadığını, TR'den farklı olduğunu ve iki havuzun kesişmediğini doğrular.
+
+### Yan düzeltme — iç bağlantılarda 307 atlaması kaldırıldı
+
+Slug denetimi sırasında ayrı bir kusur görüldü: vaka linkleri ham
+`/${locale}/vakalar/${slug}` olarak basılıyordu. TR'de doğru, EN'de değil —
+next-intl middleware `/en/vakalar/...` adresini `/en/case-studies/...`e 307 ile
+çeviriyordu, yani **her iç EN vaka bağlantısı bir yönlendirme atlaması**
+yiyordu. 8 bağlantı (5 detay + 3 liste) `localeHref` kanonik yardımcısına
+geçirildi (`article-card.tsx` deseni). Kural `tests/unit/case-links.test.tsx`
+ile kilitlendi.

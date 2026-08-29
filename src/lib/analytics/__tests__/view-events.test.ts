@@ -71,7 +71,11 @@ describe("caseViewEvent", () => {
     const c = CASES[0]!;
     expect(caseViewEvent(c)).toEqual({
       name: "case_study_viewed",
-      properties: { slug: c.slug, problemType: c.problemType, pillar: c.pillar },
+      properties: {
+        slug: c.slug.tr,
+        problemType: c.problemType,
+        pillar: c.pillar,
+      },
     });
   });
 
@@ -80,6 +84,19 @@ describe("caseViewEvent", () => {
       const e = caseViewEvent(c);
       expect(e.name).toBe("case_study_viewed");
       expect(e.properties.problemType.length).toBeGreaterThan(0);
+    }
+  });
+
+  /**
+   * Slug 2026-08-29'da lokalize edildi (`/en/case-studies/...` artık EN
+   * kelimeler taşır). Olay kimliği yine de TR slug'dır: EN sayfa aynı vakanın
+   * ikinci satırını açarsa GA4'te tek varlık ikiye bölünür — hizmet ve paket
+   * olaylarındaki kuralın aynısı.
+   */
+  it("olay kimliği EN slug'a kaymaz — her vakada TR slug basılır", () => {
+    for (const c of CASES) {
+      expect(caseViewEvent(c).properties.slug, c.slug.tr).toBe(c.slug.tr);
+      expect(caseViewEvent(c).properties.slug).not.toBe(c.slug.en);
     }
   });
 });

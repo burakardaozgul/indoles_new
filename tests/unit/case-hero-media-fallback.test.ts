@@ -70,7 +70,7 @@ describe("resolveHeroMedia", () => {
   });
 
   it("örnek slug (gymwolves-12-kat-satis, heroMedia yok) cover'dan hero üretir", () => {
-    const c = getCaseBySlug("gymwolves-12-kat-satis");
+    const c = getCaseBySlug("gymwolves-12-kat-satis", "tr");
     expect(c).toBeDefined();
     expect(c?.heroMedia).toBeUndefined();
     const result = resolveHeroMedia(c!);

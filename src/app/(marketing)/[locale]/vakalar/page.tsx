@@ -13,6 +13,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
+import { localeHref } from "@/lib/i18n/locale-href";
 import type { Locale } from "@/lib/content/types";
 
 
@@ -89,7 +90,7 @@ export default async function CaseIndex({
               position: i + 1,
               name: c.title[loc],
               url: absoluteUrl(
-                `/${loc}/${loc === "tr" ? "vakalar" : "case-studies"}/${c.slug}`
+                `/${loc}/${loc === "tr" ? "vakalar" : "case-studies"}/${c.slug[loc]}`
               ),
             })),
           },
@@ -120,7 +121,7 @@ export default async function CaseIndex({
       <section className="border-b border-surface-2">
         <div className="ds-container py-20 md:py-28">
           <Link
-            href={`/${locale}/vakalar/${featured.slug}`}
+            href={localeHref(`/vakalar/${featured.slug[loc]}`, loc)}
             className="group grid grid-cols-1 md:grid-cols-12 gap-10"
           >
             <div className="md:col-span-7 flex flex-col">

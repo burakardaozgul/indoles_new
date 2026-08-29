@@ -14,6 +14,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { TrackView } from "@/components/analytics/track-view";
 import { packageViewEvent } from "@/lib/analytics/view-events";
+import { localeHref } from "@/lib/i18n/locale-href";
 import {
   breadcrumbLd,
   faqLd,
@@ -356,7 +357,7 @@ export default async function PackageDetail({
                   {relatedCase.lead[loc]}
                 </p>
                 <Link
-                  href={`/${locale}/vakalar/${relatedCase.slug}`}
+                  href={localeHref(`/vakalar/${relatedCase.slug[loc]}`, loc)}
                   className="inline-flex items-center gap-2 text-brand-700 typography-body-md mt-8"
                 >
                   <span className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500">

@@ -112,7 +112,7 @@ function packageSection(locale: Locale): string {
 function caseSection(locale: Locale): string {
   const L = locale === "tr";
   return CASES.map((c) => {
-    const link = url(locale, "cases", c.slug);
+    const link = url(locale, "cases", c.slug[locale]);
     const period = c.period ? ` · ${c.period[locale]}` : "";
     return [
       `### ${c.clientName[locale]} — ${c.title[locale]}`,

@@ -667,7 +667,7 @@ export function ServiceDetail({
                 sourceLabel={t.caseProofSource}
                 clientName={relatedCase.clientName[locale]}
                 caseTitle={relatedCase.title[locale]}
-                href={`/${locale}/${t.casesRoot}/${relatedCase.slug}`}
+                href={`/${locale}/${t.casesRoot}/${relatedCase.slug[locale]}`}
                 metrics={caseProofMetrics.map((m) => ({
                   value: m.value[locale],
                   label: m.label[locale],
@@ -731,7 +731,7 @@ export function ServiceDetail({
                   {relatedCase.lead[locale]}
                 </p>
                 <Link
-                  href={`/${locale}/${t.casesRoot}/${relatedCase.slug}`}
+                  href={`/${locale}/${t.casesRoot}/${relatedCase.slug[locale]}`}
                   className="inline-flex items-center gap-2 mt-6 text-brand-700 typography-body-md"
                 >
                   <span className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500">

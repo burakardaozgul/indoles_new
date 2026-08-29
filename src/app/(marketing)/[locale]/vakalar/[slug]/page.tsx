@@ -19,6 +19,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { TrackView } from "@/components/analytics/track-view";
 import { caseViewEvent } from "@/lib/analytics/view-events";
+import { localeHref } from "@/lib/i18n/locale-href";
 import {
   breadcrumbLd,
   caseStudyLd,
@@ -28,16 +29,24 @@ import {
 } from "@/lib/seo/json-ld";
 import type { Locale } from "@/lib/content/types";
 
-function casePaths(slug: string) {
+/**
+ * hreflang çifti: segment de slug da locale başına farklı. Slug 2026-08-29'da
+ * lokalize edildi — hreflang artık iki ayrı adresi eşler, self-canonical
+ * her locale'de kendi slug'ını gösterir.
+ */
+function casePaths(c: CaseStudy) {
   return {
-    tr: `/tr/vakalar/${slug}`,
-    en: `/en/case-studies/${slug}`,
+    tr: `/tr/vakalar/${c.slug.tr}`,
+    en: `/en/case-studies/${c.slug.en}`,
   };
 }
 
 export async function generateStaticParams() {
   return CASES.flatMap((c) =>
-    (["tr", "en"] as const).map((locale) => ({ locale, slug: c.slug }))
+    (["tr", "en"] as const).map((locale) => ({
+      locale,
+      slug: c.slug[locale],
+    }))
   );
 }
 
@@ -85,13 +94,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const loc = locale as Locale;
-  const c = getCaseBySlug(slug);
+  const c = getCaseBySlug(slug, loc);
   if (!c) return {};
 
   return buildMetadata({
     title: seoTitle(c, loc),
     description: seoDescription(c, loc),
-    paths: casePaths(c.slug),
+    paths: casePaths(c),
     locale: loc,
   });
 }
@@ -212,7 +221,7 @@ export default async function CaseDetail({
   const { locale, slug } = await params;
   setRequestLocale(locale);
   const loc = locale as Locale;
-  const c = getCaseBySlug(slug);
+  const c = getCaseBySlug(slug, loc);
   if (!c) notFound();
 
   const pillar = getPillar(c.pillar);
@@ -223,7 +232,8 @@ export default async function CaseDetail({
    * kanıt sayfası hiçbir yere link vermeden bitiyordu. Sıralama korunur,
    * boşluk diğer vakalarla doldurulur.
    */
-  const others = CASES.filter((x) => x.slug !== c.slug);
+  // Kimlik karşılaştırması TR slug üzerinden: locale'den bağımsız tek anahtar.
+  const others = CASES.filter((x) => x.slug.tr !== c.slug.tr);
   const related = [
     ...others.filter((x) => x.pillar === c.pillar),
     ...others.filter((x) => x.pillar !== c.pillar),
@@ -259,7 +269,7 @@ export default async function CaseDetail({
           webPageLd({
             name: seoTitle(c, loc),
             description: seoDescription(c, loc),
-            path: casePaths(c.slug)[loc],
+            path: casePaths(c)[loc],
             locale: loc,
           }),
           breadcrumbLd([
@@ -277,7 +287,7 @@ export default async function CaseDetail({
             // eşleşmek zorunda; kısaltma yalnız arama yüzeyine uygulanır.
             headline: c.title[loc],
             description: seoDescription(c, loc),
-            path: casePaths(c.slug)[loc],
+            path: casePaths(c)[loc],
             locale: loc,
             clientName: c.clientName[loc],
             clientSector: c.clientSector[loc],
@@ -496,7 +506,7 @@ export default async function CaseDetail({
                 {tr ? "Benzer vakalar" : "Related cases"}
               </h2>
               <Link
-                href={`/${locale}/vakalar`}
+                href={localeHref("/vakalar", loc)}
                 className="typography-body-md text-brand-700"
               >
                 <span className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500">
@@ -507,7 +517,7 @@ export default async function CaseDetail({
             </div>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((r) => (
-                <CaseCard key={r.slug} c={r} locale={loc} />
+                <CaseCard key={r.slug.tr} c={r} locale={loc} />
               ))}
             </div>
           </div>

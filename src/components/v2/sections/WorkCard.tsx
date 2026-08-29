@@ -59,8 +59,9 @@ export function WorkCard({
     <article className="v2-card" ref={ref}>
       {/* Segment locale'e göre çevrilir (`/vakalar` ↔ `/case-studies`).
           Ham TR segmenti EN'de 307 zinciri üretiyordu: `/en/vakalar/...` →
-          `/en/case-studies/...`. Vaka slug'ı locale'den bağımsız tek değer
-          (`cases.ts`), o yüzden `localeHref` burada tam doğru sonucu verir. */}
+          `/en/case-studies/...`. `item.slug` zaten okunan locale'in slug'ıdır
+          (`getFeaturedWork(locale)`), o yüzden `localeHref`in yalnız ilk
+          segmenti çevirmesi burada tam doğru sonucu verir. */}
       <Link
         href={localeHref(`/vakalar/${item.slug}`, locale)}
         className="v2-card-link"

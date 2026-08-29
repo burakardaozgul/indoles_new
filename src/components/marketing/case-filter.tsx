@@ -94,7 +94,7 @@ export function CaseFilter({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 md:mt-10">
         {cases.map((c) => (
           <CaseCard
-            key={c.slug}
+            key={c.slug.tr}
             c={c}
             locale={locale}
             hidden={active !== null && active !== c.problemType}

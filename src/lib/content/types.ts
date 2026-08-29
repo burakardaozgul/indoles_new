@@ -139,7 +139,24 @@ export type CaseMedia = {
 };
 
 export type CaseStudyContent = {
-  slug: string;
+  /**
+   * Vaka slug'ı locale başına ayrıdır (2026-08-29'da localize edildi;
+   * ADR-019'un "slug locale'den bağımsız" kararı bu tarihte revize oldu).
+   *
+   * Gerekçe: TR slug EN sayfaya da basıldığı için 9 EN URL'in tamamı Türkçe
+   * kelimelerden oluşuyordu (`/en/case-studies/sim-baski-ihracat-icerigi`) —
+   * EN okur da EN arama motoru da URL'i okuyamıyordu. Yazılar zaten
+   * lokalize slug taşıyor (ADR-020); vakalar tek istisnaydı.
+   *
+   * Çapraz locale çözüm YOK: `/en` altında TR slug 404 döner (ADR-018) —
+   * iki URL'in aynı içeriği sunması canonical sinyalini böler. Değişim
+   * launch'tan bir gün sonra yapıldığı ve eski EN URL'ler GSC/IndexNow'a
+   * bildirildiği için 9 eski adres `next.config.ts`'te 301 taşınır.
+   *
+   * TR slug'lar DEĞİŞMEDİ — analitik olay kimliği (`view-events.ts`) ve
+   * `articles.ts` gövdesindeki kanonik iç bağlantılar hep `slug.tr` okur.
+   */
+  slug: Localized<string>;
   clientName: Localized<string>;
   clientSector: Localized<string>;
   problemType: ProblemType;

@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { CASES } from "@/lib/content/cases";
+import { localeHref } from "@/lib/i18n/locale-href";
 import { usePersonaState } from "@/lib/hooks/use-persona";
 
 const T = "#2C5566"; // teal-700
@@ -165,7 +166,10 @@ function CaseItem({
             ))}
           </dl>
 
-          <Link href={`/${locale}/vakalar/${item.slug}`} className="case-link">
+          <Link
+            href={localeHref(`/vakalar/${item.slug[locale]}`, locale)}
+            className="case-link"
+          >
             {isTr ? "Vakayı oku" : "Read the case"}
             <svg viewBox="0 0 14 14" width="14" height="14" aria-hidden="true">
               <path d="M3 11 L11 3 M5 3 H11 V9" stroke="currentColor" strokeWidth="1.4" fill="none" />
@@ -192,7 +196,7 @@ export function CasesSection({ locale }: { locale: "tr" | "en" }) {
           <h2 id="cases-title" className="typography-display-lg">
             {t(`_personas.${persona}.headline` as never)}
           </h2>
-          <Link href={`/${locale}/vakalar`} className="btn btn-ghost">
+          <Link href={localeHref("/vakalar", locale)} className="btn btn-ghost">
             {tCommon("cta.viewAll")}
             <svg className="arrow" viewBox="0 0 14 14" aria-hidden="true">
               <path d="M3 11 L11 3 M5 3 H11 V9" stroke="currentColor" strokeWidth="1.4" fill="none" />
@@ -206,7 +210,7 @@ export function CasesSection({ locale }: { locale: "tr" | "en" }) {
 
         <div className="flex flex-col">
           {CASES.map((c, i) => (
-            <CaseItem key={c.slug} item={c} locale={locale} index={i} />
+            <CaseItem key={c.slug.tr} item={c} locale={locale} index={i} />
           ))}
         </div>
       </div>

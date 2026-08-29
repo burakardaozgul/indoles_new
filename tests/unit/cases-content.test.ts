@@ -6,6 +6,56 @@ import { SERVICES } from "@/lib/content/services";
 const LOCALES = ["tr", "en"] as const;
 
 /**
+ * Vaka slug'ı 2026-08-29'da lokalize edildi (ADR-019 revizyonu): denetim
+ * bulgusu "EN vaka slug'ları Türkçe, 9 URL". Buradaki kural o düzeltmenin
+ * geri kaymasını engeller — EN slug Türkçe kelime taşırsa test düşer.
+ */
+describe("CASES.slug — locale başına ayrı", () => {
+  it("her vakanın iki dilde de slug'ı var ve URL'e uygun", () => {
+    for (const c of CASES) {
+      for (const loc of LOCALES) {
+        expect(c.slug[loc], `${c.slug.tr}/${loc} slug boş`).toBeTruthy();
+        // Küçük harf, rakam ve tire; Türkçe harf (ı, ş, ğ, ü, ö, ç) yok.
+        expect(
+          c.slug[loc],
+          `${c.slug.tr}/${loc}: "${c.slug[loc]}" URL'e uygun değil`,
+        ).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+      }
+    }
+  });
+
+  it("EN slug TR slug'dan farklı — EN URL Türkçe kelime taşımaz", () => {
+    for (const c of CASES) {
+      expect(
+        c.slug.en,
+        `${c.slug.tr}: EN slug TR ile aynı, EN URL hâlâ Türkçe`,
+      ).not.toBe(c.slug.tr);
+    }
+  });
+
+  it("slug'lar locale içinde tekil — iki vaka aynı URL'i paylaşmaz", () => {
+    for (const loc of LOCALES) {
+      const all = CASES.map((c) => c.slug[loc]);
+      expect(new Set(all).size, `${loc} slug tekrarı`).toBe(all.length);
+    }
+  });
+
+  /**
+   * Çapraz locale çakışması: bir vakanın TR slug'ı başka bir vakanın EN
+   * slug'ı olursa `/en/case-studies/<x>` için hem 301 kuralı hem gerçek sayfa
+   * doğar ve eski URL yanlış vakaya iner.
+   */
+  it("TR ve EN slug havuzları kesişmez — 301 kuralları yanlış vakaya inmez", () => {
+    const en = new Set(CASES.map((c) => c.slug.en));
+    for (const c of CASES) {
+      expect(en, `"${c.slug.tr}" hem TR hem EN slug olarak kullanılıyor`).not.toContain(
+        c.slug.tr,
+      );
+    }
+  });
+});
+
+/**
  * L-01: vaka künyesindeki disiplinler hizmet sayfalarına bağlanır.
  *
  * Vaka detay sayfası çözülemeyen slug'ı sessizce eler — kırık bağlantı yerine
@@ -17,7 +67,7 @@ describe("CASES.serviceSlugs", () => {
     const known = new Set(SERVICES.map((s) => s.slug.tr));
     for (const c of CASES) {
       for (const slug of c.serviceSlugs ?? []) {
-        expect(known, `${c.slug} → bilinmeyen hizmet "${slug}"`).toContain(slug);
+        expect(known, `${c.slug.tr} → bilinmeyen hizmet "${slug}"`).toContain(slug);
       }
     }
   });
@@ -25,13 +75,13 @@ describe("CASES.serviceSlugs", () => {
   it("aynı vaka içinde slug tekrarlanmaz", () => {
     for (const c of CASES) {
       const slugs = c.serviceSlugs ?? [];
-      expect(new Set(slugs).size, `${c.slug} slug tekrarı`).toBe(slugs.length);
+      expect(new Set(slugs).size, `${c.slug.tr} slug tekrarı`).toBe(slugs.length);
     }
   });
 
   it("her vaka en az bir hizmete bağlanır — kanıt sayfası çıkışsız kalmaz", () => {
     for (const c of CASES) {
-      expect(c.serviceSlugs?.length ?? 0, `${c.slug} hiçbir hizmete bağlanmıyor`)
+      expect(c.serviceSlugs?.length ?? 0, `${c.slug.tr} hiçbir hizmete bağlanmıyor`)
         .toBeGreaterThan(0);
     }
   });
@@ -60,7 +110,7 @@ describe("CASES metrikleri", () => {
         for (const loc of LOCALES) {
           expect(
             m.value[loc]?.length ?? 0,
-            `${c.slug} / ${m.label.tr} → ${loc} değeri boş`,
+            `${c.slug.tr} / ${m.label.tr} → ${loc} değeri boş`,
           ).toBeGreaterThan(0);
         }
       }
@@ -89,7 +139,7 @@ describe("CASES metrikleri", () => {
       for (const m of c.metrics) {
         expect(
           trFormat.test(m.value.en),
-          `${c.slug} / ${m.label.tr} → EN değeri Türkçe biçimde: ${m.value.en}`,
+          `${c.slug.tr} / ${m.label.tr} → EN değeri Türkçe biçimde: ${m.value.en}`,
         ).toBe(false);
       }
     }
@@ -107,7 +157,7 @@ describe("CASES metrikleri", () => {
 describe("CASES SSS", () => {
   it("her vakada en az 10 soru var", () => {
     for (const c of CASES) {
-      expect(c.faq?.length ?? 0, `${c.slug} SSS eksik`).toBeGreaterThanOrEqual(10);
+      expect(c.faq?.length ?? 0, `${c.slug.tr} SSS eksik`).toBeGreaterThanOrEqual(10);
     }
   });
 
@@ -115,11 +165,11 @@ describe("CASES SSS", () => {
     for (const c of CASES) {
       for (const f of c.faq ?? []) {
         for (const loc of LOCALES) {
-          expect(f.question[loc]?.trim().length ?? 0, `${c.slug}/${loc} soru boş`)
+          expect(f.question[loc]?.trim().length ?? 0, `${c.slug.tr}/${loc} soru boş`)
             .toBeGreaterThan(0);
           expect(
             f.answer[loc]?.trim().length ?? 0,
-            `${c.slug}/${loc}: "${f.question.tr}" cevabı boş`,
+            `${c.slug.tr}/${loc}: "${f.question.tr}" cevabı boş`,
           ).toBeGreaterThan(0);
         }
       }
@@ -129,7 +179,7 @@ describe("CASES SSS", () => {
   it("soru tekrarı yok — aynı vakada aynı soru iki kez sorulmaz", () => {
     for (const c of CASES) {
       const qs = (c.faq ?? []).map((f) => f.question.tr);
-      expect(new Set(qs).size, `${c.slug} soru tekrarı`).toBe(qs.length);
+      expect(new Set(qs).size, `${c.slug.tr} soru tekrarı`).toBe(qs.length);
     }
   });
 
@@ -142,7 +192,7 @@ describe("CASES SSS", () => {
         for (const loc of LOCALES) {
           expect(
             anaphora.test(f.answer[loc].trim()),
-            `${c.slug}/${loc}: "${f.question[loc]}"`,
+            `${c.slug.tr}/${loc}: "${f.question[loc]}"`,
           ).toBe(false);
         }
       }
@@ -156,7 +206,7 @@ describe("CASES SSS", () => {
           const words = f.answer[loc].trim().split(/\s+/).length;
           expect(
             words,
-            `${c.slug}/${loc}: "${f.question[loc]}" (${words} kelime)`,
+            `${c.slug.tr}/${loc}: "${f.question[loc]}" (${words} kelime)`,
           ).toBeGreaterThanOrEqual(40);
         }
       }
@@ -179,10 +229,10 @@ describe("CASES arama yüzeyi", () => {
   it("her vaka iki dilde arama başlığı ve açıklaması taşır", () => {
     for (const c of CASES) {
       for (const loc of LOCALES) {
-        expect(c.seo?.title?.[loc]?.trim(), `${c.slug}/${loc}`).toBeTruthy();
+        expect(c.seo?.title?.[loc]?.trim(), `${c.slug.tr}/${loc}`).toBeTruthy();
         expect(
           c.seo?.description?.[loc]?.trim(),
-          `${c.slug}/${loc}`
+          `${c.slug.tr}/${loc}`
         ).toBeTruthy();
       }
     }
@@ -194,11 +244,11 @@ describe("CASES arama yüzeyi", () => {
         const rendered = `${c.seo!.title![loc]}${TEMPLATE_SUFFIX}`;
         expect(
           rendered.length,
-          `${c.slug}/${loc}: "${rendered}"`
+          `${c.slug.tr}/${loc}: "${rendered}"`
         ).toBeGreaterThanOrEqual(15);
         expect(
           rendered.length,
-          `${c.slug}/${loc}: "${rendered}"`
+          `${c.slug.tr}/${loc}: "${rendered}"`
         ).toBeLessThanOrEqual(60);
       }
     }
@@ -208,8 +258,8 @@ describe("CASES arama yüzeyi", () => {
     for (const c of CASES) {
       for (const loc of LOCALES) {
         const d = c.seo!.description![loc];
-        expect(d.length, `${c.slug}/${loc}: "${d}"`).toBeGreaterThanOrEqual(80);
-        expect(d.length, `${c.slug}/${loc}: "${d}"`).toBeLessThanOrEqual(160);
+        expect(d.length, `${c.slug.tr}/${loc}: "${d}"`).toBeGreaterThanOrEqual(80);
+        expect(d.length, `${c.slug.tr}/${loc}: "${d}"`).toBeLessThanOrEqual(160);
       }
     }
   });
@@ -226,7 +276,7 @@ describe("CASES arama yüzeyi", () => {
         const brand = title.split(":")[0]!.trim();
         expect(
           c.clientName[loc].startsWith(brand),
-          `${c.slug}/${loc}: "${brand}" müşteri adı "${c.clientName[loc]}" ile başlamıyor`
+          `${c.slug.tr}/${loc}: "${brand}" müşteri adı "${c.clientName[loc]}" ile başlamıyor`
         ).toBe(true);
       }
     }
@@ -250,7 +300,7 @@ describe("CASES arama yüzeyi", () => {
           const token = n.replace(/[.,]$/, "");
           expect(
             corpus.includes(token),
-            `${c.slug}/${loc}: "${token}" vaka metninde geçmiyor`
+            `${c.slug.tr}/${loc}: "${token}" vaka metninde geçmiyor`
           ).toBe(true);
         }
       }
@@ -264,10 +314,12 @@ describe("CASES arama yüzeyi", () => {
     for (const c of CASES) {
       for (const loc of LOCALES) {
         const meta = await generateMetadata({
-          params: Promise.resolve({ locale: loc, slug: c.slug }),
+          // Slug locale başına ayrı (2026-08-29): her locale kendi slug'ıyla
+          // çağrılır, çapraz locale zaten çözülmez.
+          params: Promise.resolve({ locale: loc, slug: c.slug[loc] }),
         });
-        expect(meta.title, `${c.slug}/${loc}`).toBe(c.seo!.title![loc]);
-        expect(meta.description, `${c.slug}/${loc}`).toBe(
+        expect(meta.title, `${c.slug.tr}/${loc}`).toBe(c.seo!.title![loc]);
+        expect(meta.description, `${c.slug.tr}/${loc}`).toBe(
           c.seo!.description![loc]
         );
       }
@@ -284,8 +336,8 @@ describe("CASES arama yüzeyi", () => {
     );
     vi.doMock("@/lib/content/cases", () => ({
       CASES: stripped,
-      getCaseBySlug: (slug: string) =>
-        stripped.find((c) => c.slug === slug) ?? null,
+      getCaseBySlug: (slug: string, locale: "tr" | "en") =>
+        stripped.find((c) => c.slug[locale] === slug) ?? null,
     }));
     try {
       const { generateMetadata } = await import(
@@ -293,7 +345,7 @@ describe("CASES arama yüzeyi", () => {
       );
       const sample = stripped[0]!;
       const meta = await generateMetadata({
-        params: Promise.resolve({ locale: "tr", slug: sample.slug }),
+        params: Promise.resolve({ locale: "tr", slug: sample.slug.tr }),
       });
       expect(meta.title).toBe(
         `${sample.clientName.tr} — ${sample.title.tr}`

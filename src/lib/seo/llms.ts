@@ -49,7 +49,7 @@ function caseLines(locale: Locale): string {
   const root = locale === "tr" ? "vakalar" : "case-studies";
   return CASES.map(
     (c) =>
-      `- [${c.clientName[locale]} — ${c.title[locale]}](${SITE_URL}/${locale}/${root}/${c.slug})`,
+      `- [${c.clientName[locale]} — ${c.title[locale]}](${SITE_URL}/${locale}/${root}/${c.slug[locale]})`,
   ).join("\n");
 }
 

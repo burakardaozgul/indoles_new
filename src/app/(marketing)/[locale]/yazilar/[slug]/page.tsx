@@ -7,6 +7,7 @@ import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { ArticleCard } from "@/components/marketing/article-card";
 import { getArticleBySlug, ARTICLES } from "@/lib/content/articles";
+import { CASES } from "@/lib/content/cases";
 import { getConsultantBySlug } from "@/lib/content/consultants";
 import { getTopic } from "@/lib/content/topics";
 import { SERVICES } from "@/lib/content/services";
@@ -126,6 +127,19 @@ function resolveInlineHref(href: string, loc: Locale): string {
       return loc === "tr"
         ? `/tr/yazilar/${art.slug.tr}`
         : `/en/articles/${art.slug.en}`;
+    }
+  }
+  // Yazıdan vakaya link (2026-08-29): vaka slug'ı da locale başına ayrıldı,
+  // yani hizmet ve yazı dallarıyla aynı sorun burada da doğdu — `localeHref`
+  // yalnız `/vakalar` → `/case-studies` segmentini çevirirdi ve EN'de TR slug
+  // 404 olurdu. İçerikte kanonik TR yol yazılır (`articles.ts` gövdeleri
+  // değişmedi), gerçek EN slug burada çözülür.
+  if (parts[0] === "vakalar" && parts[1]) {
+    const study = CASES.find((c) => c.slug.tr === parts[1]);
+    if (study) {
+      return loc === "tr"
+        ? `/tr/vakalar/${study.slug.tr}`
+        : `/en/case-studies/${study.slug.en}`;
     }
   }
   return localeHref(href, loc);

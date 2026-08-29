@@ -77,7 +77,7 @@ describe("relatedArticlesForCase", () => {
       for (const a of relatedArticlesForCase(c.serviceSlugs)) {
         expect(
           allowedTopics,
-          `${c.slug} → "${a.title.tr}" (${a.topic}) künyedeki hizmetlerin konusu değil`,
+          `${c.slug.tr} → "${a.title.tr}" (${a.topic}) künyedeki hizmetlerin konusu değil`,
         ).toContain(a.topic);
       }
     }

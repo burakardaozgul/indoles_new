@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { INDUSTRIES } from "@/lib/content/industries";
+import { localeHref } from "@/lib/i18n/locale-href";
 
 const GLYPH = ["◐", "◓", "◑", "◒"] as const;
 
@@ -30,7 +31,7 @@ export function IndustriesSection({ locale }: { locale: "tr" | "en" }) {
           {INDUSTRIES.map((it, i) => (
             <Link
               key={it.slug}
-              href={`/${locale}/vakalar`}
+              href={localeHref("/vakalar", locale)}
               className="ind-item"
               aria-label={`${it.name[locale]} — ${isTr ? "ilgili vakalar" : "related cases"}`}
             >

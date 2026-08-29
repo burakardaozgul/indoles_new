@@ -259,11 +259,14 @@ describe("token rotası", () => {
     // --- Görev 7 fix turu 1, bulgu 3: BİLİNÇLİ, denetçinin önerisinin AKSİ ---
     // Denetçi geçmiş bir randevunun geleceğe ertelenmesinin engellenmesini
     // önerdi; Burak'ın kararı bunun TERSİ (bkz. route.ts PATCH içindeki
-    // gerekçe): `idx_bookings_active_email` kısmi indeksi zaman sınırı
-    // taşımıyor ve Görev 9 temizliği yalnız 90 günden eski satırları siliyor,
-    // status'ü değiştirmiyor — erteleme kapatılırsa ziyaretçi 90 gün o
-    // e-postayla yeni randevu alamaz hale gelir. Bu test davranışı KİLİTLİYOR.
-    it("geçmişte kalmış bir randevu geçerli bir gelecek slota ertelenebilir (bilinçli — Görev 9'a bkz.)", async () => {
+    // gerekçe). GÜNCELLEME (Görev 9): bu davranış artık "tek kaçış yolu"
+    // değil — Görev 9'un günlük cron'u geçmiş 'confirmed' satırları
+    // 'completed'e çekip idx_bookings_active_email kilidini kendiliğinden
+    // serbest bırakıyor (migrations/0002_completed_status.sql,
+    // src/lib/booking/cron-job.ts). Erteleme yalnız cron'un henüz
+    // süpürmediği kısa aralıkta bir kolaylık. Test SİLİNMEDİ — davranış hâlâ
+    // geçerli, yalnız gerekçesi güncellendi.
+    it("geçmişte kalmış bir randevu geçerli bir gelecek slota ertelenebilir (kolaylık — cron süpürmeden önce, bkz. Görev 9)", async () => {
       vi.mocked(findBookingByToken).mockResolvedValue({
         ...row,
         startsAtUtc: "2026-08-25T10:00:00.000Z", // "now" (2026-09-01) öncesinde

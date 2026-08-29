@@ -5,7 +5,13 @@
  * değişir. Rotalar SQL görmez.
  */
 
-export type BookingStatus = "confirmed" | "cancelled" | "failed";
+// "completed" Görev 9'da eklendi (migrations/0002_completed_status.sql):
+// başlangıcı geçmiş 'confirmed' satırlar cron tarafından buraya çekiliyor.
+// Bunun nedeni statü estetiği değil — idx_bookings_slot ve
+// idx_bookings_active_email kısmi indeksleri YALNIZ 'confirmed' satırları
+// kapsıyor, dolayısıyla geçmişte kalmış bir randevu 'confirmed' kaldığı
+// sürece o e-postanın "aktif randevu" kilidi süresiz açık kalırdı.
+export type BookingStatus = "confirmed" | "cancelled" | "failed" | "completed";
 
 export type BookingRow = {
   id: string;
@@ -224,4 +230,50 @@ export async function rescheduleBooking(
     throw err;
   }
   return { ok: true, row: { ...row, startsAtUtc, endsAtUtc } };
+}
+
+/**
+ * Görev 9, Ek 1 — başlangıcı geçmiş 'confirmed' satırları 'completed'e çeker.
+ *
+ * Bu, bir statü güncellemesinden fazlası: idx_bookings_slot ve
+ * idx_bookings_active_email kısmi indeksleri yalnız status = 'confirmed'
+ * satırları kapsıyor. Bu adım çalışmazsa geçmişte görüşülmüş bir e-posta
+ * süresiz "aktif randevu var" kilidinde kalır — Eylül'de görüşen biri
+ * Ekim'de randevu alamaz. Cron bunu her gün çağırır (`cron-job.ts`).
+ */
+export async function completePastBookings(db: D1Database, nowUtc: string): Promise<number> {
+  const res = await db
+    .prepare(
+      "UPDATE bookings SET status = 'completed', updated_at = ? WHERE status = 'confirmed' AND starts_at_utc < ?",
+    )
+    .bind(nowUtc, nowUtc)
+    .run();
+  return res.meta?.changes ?? 0;
+}
+
+/**
+ * KVKK saklama süresi (spec §2.2b, docs/14): görüşme tarihinden 90 gün sonra
+ * satır TAMAMEN silinir, statüsü ne olursa olsun. `starts_at_utc` üzerinden
+ * çalışır — işlenme amacı (görüşmeyi gerçekleştirmek) tamamlandıktan sonraki
+ * takip süresi budur, kaydın oluşturulma tarihi değil.
+ */
+export async function deleteBookingsOlderThan(db: D1Database, cutoffUtc: string): Promise<number> {
+  const res = await db.prepare("DELETE FROM bookings WHERE starts_at_utc < ?").bind(cutoffUtc).run();
+  return res.meta?.changes ?? 0;
+}
+
+/**
+ * Görev 9, Ek 2 — Calendar'a hiç yazılamamış (ADR-029: satır 'confirmed'
+ * kalır, işaret calendar_event_id IS NULL) ve hâlâ GELECEKTE olan randevular.
+ * Geçmişte kalmış öksüz randevular raporlanmaz — artık yapılacak bir şey yok,
+ * yalnız gürültü eklerdi.
+ */
+export async function listOrphanedBookings(db: D1Database, nowUtc: string): Promise<BookingRow[]> {
+  const res = await db
+    .prepare(
+      "SELECT * FROM bookings WHERE status = 'confirmed' AND calendar_event_id IS NULL AND starts_at_utc > ?",
+    )
+    .bind(nowUtc)
+    .all();
+  return (res.results as Raw[]).map(toRow);
 }

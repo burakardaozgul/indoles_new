@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import {
   createBooking, findBookingByToken, listSoldSlots,
   cancelBooking, hasActiveBooking, attachCalendarResult, rescheduleBooking,
+  completePastBookings, deleteBookingsOlderThan, listOrphanedBookings,
 } from "../repository";
 
 /**
@@ -14,6 +15,11 @@ import {
 function makeDb() {
   const sqlite = new Database(":memory:");
   sqlite.exec(readFileSync("migrations/0001_bookings.sql", "utf-8"));
+  // Görev 9: 0002 CHECK kısıtına 'completed' ekliyor. Gerçek `wrangler d1
+  // migrations apply` iki dosyayı da SIRAYLA uygular; testin de aynı sırayı
+  // izlemesi gerekiyor, yoksa 'completed' durumu test DB'sinde hiç geçerli
+  // olmaz.
+  sqlite.exec(readFileSync("migrations/0002_completed_status.sql", "utf-8"));
   return {
     prepare(sql: string) {
       const stmt = sqlite.prepare(sql);
@@ -268,5 +274,109 @@ describe("repository", () => {
       const found = await findBookingByToken(db, r.row.cancelToken);
       expect(found?.startsAtUtc).toBe(base.startsAtUtc);
     });
+  });
+});
+
+// Görev 9, Ek 1 ve Ek 2 — bu üçü cron'un (src/lib/booking/cron-job.ts)
+// dayandığı veri katmanı. Gerçek SQLite üzerinde test ediliyor çünkü asıl
+// kanıtlanması gereken şey kısmi indekslerin GERÇEKTEN serbest bıraktığı —
+// mock bir depo bunu kanıtlayamaz (bkz. dosyanın başındaki gerekçe).
+describe("completePastBookings — Görev 9 Ek 1", () => {
+  let db: D1Database;
+  beforeEach(() => { db = makeDb(); });
+
+  it("başlangıcı geçmiş confirmed satırı completed'e çeker", async () => {
+    const r = await createBooking(db, base);
+    if (!r.ok) throw new Error("kurulum başarısız");
+    const count = await completePastBookings(db, "2026-09-08T00:00:00.000Z"); // slot 2026-09-07
+    expect(count).toBe(1);
+    const found = await findBookingByToken(db, r.row.cancelToken);
+    expect(found?.status).toBe("completed");
+  });
+
+  it("başlangıcı GELECEKTE olan confirmed satıra dokunmaz", async () => {
+    await createBooking(db, base); // slot 2026-09-07
+    const count = await completePastBookings(db, "2026-09-01T00:00:00.000Z"); // henüz geçmemiş
+    expect(count).toBe(0);
+  });
+
+  it("iptal edilmiş satıra dokunmaz (yalnız confirmed hedeflenir)", async () => {
+    const r = await createBooking(db, base);
+    if (!r.ok) throw new Error("kurulum başarısız");
+    await cancelBooking(db, r.row.cancelToken);
+    const count = await completePastBookings(db, "2026-09-08T00:00:00.000Z");
+    expect(count).toBe(0);
+  });
+
+  it("BUDUR ASIL KANIT: geçmiş randevu completed'e çekilince aynı e-postadan yeni randevu alınabilir", async () => {
+    // Bu test Görev 9 Ek 1'in tüm gerekçesi: idx_bookings_active_email
+    // yalnız status='confirmed' satırları kapsıyor, dolayısıyla bu adım
+    // çalışmadan geçmiş bir randevu o e-postayı süresiz kilitli tutardı.
+    const r = await createBooking(db, base);
+    if (!r.ok) throw new Error("kurulum başarısız");
+
+    const blocked = await createBooking(db, { ...base, startsAtUtc: "2026-10-01T10:00:00.000Z", endsAtUtc: "2026-10-01T11:30:00.000Z" });
+    expect(blocked).toEqual({ ok: false, reason: "duplicate_email" });
+
+    await completePastBookings(db, "2026-09-08T00:00:00.000Z");
+
+    const unblocked = await createBooking(db, { ...base, startsAtUtc: "2026-10-01T10:00:00.000Z", endsAtUtc: "2026-10-01T11:30:00.000Z" });
+    expect(unblocked.ok).toBe(true);
+  });
+});
+
+describe("deleteBookingsOlderThan — KVKK 90 gün saklama", () => {
+  let db: D1Database;
+  beforeEach(() => { db = makeDb(); });
+
+  it("90 günden eski satırı statüsünden bağımsız siler", async () => {
+    const r = await createBooking(db, base); // starts_at_utc = 2026-09-07
+    if (!r.ok) throw new Error("kurulum başarısız");
+    const count = await deleteBookingsOlderThan(db, "2026-12-06T00:00:00.000Z"); // 90 gün sonrası
+    expect(count).toBe(1);
+    expect(await findBookingByToken(db, r.row.cancelToken)).toBeNull();
+  });
+
+  it("90 günden yeni satıra dokunmaz", async () => {
+    const r = await createBooking(db, base); // starts_at_utc = 2026-09-07
+    if (!r.ok) throw new Error("kurulum başarısız");
+    const count = await deleteBookingsOlderThan(db, "2026-09-01T00:00:00.000Z"); // cutoff slottan ÖNCE
+    expect(count).toBe(0);
+    expect(await findBookingByToken(db, r.row.cancelToken)).not.toBeNull();
+  });
+});
+
+describe("listOrphanedBookings — Görev 9 Ek 2", () => {
+  let db: D1Database;
+  beforeEach(() => { db = makeDb(); });
+
+  it("calendar_event_id NULL ve GELECEKTE olan confirmed satırı listeler", async () => {
+    const r = await createBooking(db, base); // slot 2026-09-07, gelecekte
+    if (!r.ok) throw new Error("kurulum başarısız");
+    const orphans = await listOrphanedBookings(db, "2026-09-01T00:00:00.000Z");
+    expect(orphans).toHaveLength(1);
+    expect(orphans[0]?.email).toBe(base.email);
+  });
+
+  it("calendar_event_id doluysa listelemez", async () => {
+    const r = await createBooking(db, base);
+    if (!r.ok) throw new Error("kurulum başarısız");
+    await attachCalendarResult(db, r.row.id, "evt_1", "https://meet.google.com/abc");
+    const orphans = await listOrphanedBookings(db, "2026-09-01T00:00:00.000Z");
+    expect(orphans).toHaveLength(0);
+  });
+
+  it("geçmişte kalmış öksüz randevuyu listelemez — artık yapılacak bir şey yok", async () => {
+    await createBooking(db, base); // slot 2026-09-07
+    const orphans = await listOrphanedBookings(db, "2026-09-08T00:00:00.000Z"); // "şimdi" slottan sonra
+    expect(orphans).toHaveLength(0);
+  });
+
+  it("iptal edilmiş satırı listelemez", async () => {
+    const r = await createBooking(db, base);
+    if (!r.ok) throw new Error("kurulum başarısız");
+    await cancelBooking(db, r.row.cancelToken);
+    const orphans = await listOrphanedBookings(db, "2026-09-01T00:00:00.000Z");
+    expect(orphans).toHaveLength(0);
   });
 });

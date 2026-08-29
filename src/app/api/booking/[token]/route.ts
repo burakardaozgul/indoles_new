@@ -126,14 +126,19 @@ export async function PATCH(req: Request, ctx: Ctx): Promise<Response> {
   // kontrol edilmiyor — yalnız HEDEF slot (`startsAtUtc`) doğrulanıyor. Yani
   // geçmişte kalmış/gerçekleşmiş bir randevu geçerli bir gelecek slota
   // ertelenebilir. Denetçi bunu engellenmesi gereken bir kusur olarak
-  // işaretledi; bilinçli olarak ENGELLENMEDİ (Görev 7 fix turu 1, bulgu 3):
-  // "aktif randevu" kısıtı (`idx_bookings_active_email`, yalnız
-  // `status='confirmed'`) zaman sınırı taşımıyor, ve Görev 9'un temizlik işi
-  // yalnız 90 günden eski SATIRLARI siliyor, geçmişte kalmış bir randevunun
-  // `status`'ünü değiştirmiyor. Erteleme burada kapatılırsa, geçmişte kalan
-  // bir randevusu olan ziyaretçi o e-postayla 90 gün boyunca yeni randevu
-  // ALAMAZ hale gelir — erteleme bugün onun TEK kaçış yolu. Asıl çözüm
-  // (geçmiş randevuları ayrı bir status'e taşımak) Görev 9'a bırakıldı.
+  // işaretledi; bilinçli olarak ENGELLENMEDİ (Görev 7 fix turu 1, bulgu 3).
+  //
+  // GÜNCELLEME (Görev 9): bu artık bir kaçış yolu DEĞİL, yalnız bir
+  // kolaylık. Görev 9'un günlük cron'u (`src/lib/booking/cron-job.ts`)
+  // başlangıcı geçmiş 'confirmed' satırları 'completed'e çekiyor —
+  // idx_bookings_active_email yalnız status='confirmed' satırları kapsadığı
+  // için bu adım "aktif randevu" kilidini gerçek çözümüyle serbest bırakıyor.
+  // Yani ziyaretçi artık o e-postayla YENİ bir randevu da alabiliyor; erteleme
+  // yalnız cron'un henüz süpürmediği kısa aralıkta (aynı gün içinde, cron
+  // 03:00 UTC'de çalışana kadar) daha hızlı bir alternatif. Burada hâlâ
+  // ENGELLENMİYOR çünkü kapatmanın kazandırdığı bir şey yok — ziyaretçi zaten
+  // dürüst bir işlem yapıyor (kendi randevusunu taşıyor) ve cron birkaç saat
+  // içinde aynı sonucu kendiliğinden üretecek.
   const endsAtUtc = new Date(Date.parse(startsAtUtc) + BOOKING_CONFIG.slotMinutes * 60_000).toISOString();
 
   // Çakışma kontrolü veritabanı kısıtında yaşıyor (Görev 2 ruling); uygulama

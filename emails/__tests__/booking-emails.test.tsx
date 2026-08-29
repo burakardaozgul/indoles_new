@@ -4,6 +4,7 @@ import BookingConfirmation from "../BookingConfirmation";
 import BookingNotification from "../BookingNotification";
 import BookingCancelled from "../BookingCancelled";
 import CalendarAuthAlert from "../CalendarAuthAlert";
+import OrphanBookingsReport from "../OrphanBookingsReport";
 
 // react-email render() bir ReactElement bekliyor; sendMailWithRetry de aynı
 // şekilde çağırıyor (`render(input.react)`, src/lib/mail/client.ts). Mevcut
@@ -187,5 +188,41 @@ describe("CalendarAuthAlert", () => {
   it("o ana kadar müsaitlik takviminin kapalı göründüğünü belirtir", async () => {
     const html = await render(<CalendarAuthAlert {...props} />);
     expect(html).toMatch(/müsaitlik takvimi.*kapalı|kapalı görünüyor/i);
+  });
+});
+
+describe("OrphanBookingsReport — Görev 9 Ek 2", () => {
+  const bookings = [
+    {
+      name: "Ayşe Yılmaz",
+      email: "ayse@example.com",
+      startsAtUtc: "2026-09-07T10:00:00.000Z",
+    },
+    {
+      name: "Mehmet Kaya",
+      email: "mehmet@example.com",
+      startsAtUtc: "2026-09-08T11:45:00.000Z",
+    },
+  ];
+
+  it("her randevunun ad, e-posta ve İstanbul saatini basar", async () => {
+    const html = plain(
+      await render(<OrphanBookingsReport bookings={bookings} />)
+    );
+    for (const b of bookings) {
+      expect(html).toContain(b.name);
+      expect(html).toContain(b.email);
+    }
+    expect(html).toContain("13:00"); // ilk randevu, İstanbul
+  });
+
+  it("Preview ve başlık kaç randevu olduğunu söyler", async () => {
+    const html = await render(<OrphanBookingsReport bookings={bookings} />);
+    expect(html).toMatch(/2 randevu/);
+  });
+
+  it("elle tamamlama talimatı içerir", async () => {
+    const html = await render(<OrphanBookingsReport bookings={bookings} />);
+    expect(html).toMatch(/elle (oluştur|tamamla)/i);
   });
 });

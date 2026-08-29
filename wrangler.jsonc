@@ -13,19 +13,19 @@
     "nodejs_compat",
     // fetch() yalnız gerçek dış adreslere gitsin — Worker kendi kendine
     // çağrı yapıp döngüye girmesin
-    "global_fetch_strictly_public"
+    "global_fetch_strictly_public",
   ],
 
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
     // run_worker_first varsayılan (false): statik varlıklar Worker'a hiç
     // uğramadan servis edilir — hem hızlı hem faturasız. Site SSG olduğu
     // için isteklerin büyük çoğunluğu buradan karşılanacak.
   },
 
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
 
   // Doğrulama alanı. `*.workers.dev` Türkiye'deki bazı ağlardan HTTPS ile
@@ -51,8 +51,13 @@
   //
   // Sır OLMAYAN çalışma zamanı ayarları burada duruyor: versiyonlanıyor,
   // gözle görülüyor, yeniden kurulumda elle girilmesi gerekmiyor.
-  // Gerçek sırlar (SMTP_PASS, TURNSTILE_SECRET_KEY, SENTRY_DSN) repoya
-  // yazılmaz; `wrangler secret put <AD>` ile tanımlanır.
+  // Gerçek sırlar (SMTP_PASS, TURNSTILE_SECRET_KEY, SENTRY_DSN, CRON_SECRET)
+  // repoya yazılmaz; `wrangler secret put <AD>` ile tanımlanır. CRON_SECRET:
+  // `src/app/api/cron/route.ts`'in `x-cron-secret` başlığıyla karşılaştırdığı
+  // paylaşılan sır — bu rota `vars`'a değil bir sıra ihtiyaç duyuyor çünkü
+  // GET olduğu için internetten herkes tarafından çağrılabilir (Cloudflare
+  // Cron Trigger'ın kendisi bu rotayı değil Worker'ın `scheduled()` olayını
+  // tetikler — aşağıdaki `triggers` yorumuna bkz.).
   "vars": {
     // Mail: Veridyen SMTP (ADR-026). Host proxy'siz olmak zorunda —
     // mail.indoles.com.tr Cloudflare proxy'sinde ve SMTP taşımaz.
@@ -74,7 +79,7 @@
     // Müsaitlik birden fazla takvimden okunuyor (spec §2.1b): iş takvimi ve
     // "yalnız müsaitlik" düzeyinde paylaşılan kişisel takvim. Sır değil —
     // takvim kimliği zaten paylaşım davetinde açık; virgülle ayrılır.
-    "BOOKING_CALENDAR_IDS": "digital@indoles.com.tr,b.a.ozgul@gmail.com"
+    "BOOKING_CALENDAR_IDS": "digital@indoles.com.tr,b.a.ozgul@gmail.com",
   },
 
   // Rezervasyon kayıtları. Kalıcı DB launch kapsamında yoktu (ADR-010);
@@ -89,7 +94,26 @@
       "binding": "BOOKINGS_DB",
       "database_name": "indoles-bookings",
       "database_id": "0cde790c-6ba4-4cb6-b94f-7041152e14b5",
-      "migrations_dir": "migrations"
-    }
-  ]
+      "migrations_dir": "migrations",
+    },
+  ],
+
+  // Günlük yaşam döngüsü işi (Görev 9): 90 günden eski kayıtların KVKK
+  // silmesi, geçmiş 'confirmed' randevuların 'completed'e çekilmesi, öksüz
+  // randevu raporu, Calendar canlılık sorgusu — src/lib/booking/cron-job.ts.
+  // 03:00 UTC seçildi: Europe/Istanbul (UTC+3) gece yarısından sonrası,
+  // trafiğin en düşük olduğu saat.
+  //
+  // AÇIK UÇ (bu görevin kapsamı dışında bırakıldı, bkz. teslim raporu):
+  // Cloudflare Cron Trigger, deploy edilen Worker'ın `scheduled()` olayını
+  // çağırır — bu dosyanın ürettiği `src/app/api/cron/route.ts`'teki HTTP
+  // `GET` rotasını DEĞİL. `.open-next/worker.js` (OpenNext'in ürettiği
+  // giriş noktası) yalnız `fetch` export ediyor, `scheduled` yok; bu ikisi
+  // birbirine bağlanmadan bu tetikleyici GERÇEKTE ateşlenmez. Resmî çözüm
+  // (opennext.js.org/cloudflare/howtos/custom-worker) `.open-next/worker.js`
+  // sarıp `scheduled` ekleyen özel bir worker dosyası + `main`i ona
+  // yöneltmek; bu, "main" alanını ve deploy akışını değiştirdiği için
+  // Görev 9'un altı maddesinin dışında bırakıldı ve Görev 10'un canlı
+  // doğrulama adımına devredildi.
+  "triggers": { "crons": ["0 3 * * *"] },
 }

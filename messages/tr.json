@@ -399,7 +399,10 @@
       "bookingBody": "Detayları e-postanızda bulacaksınız.",
       "contactTitle": "Teşekkürler.",
       "contactBody": "1 iş günü içinde ulaşacağız.",
-      "close": "Kapat"
+      "close": "Kapat",
+      "meetLink": "Görüşme bağlantısını aç",
+      "manageLink": "Randevunu görüntüle veya iptal et",
+      "degradedNotice": "Randevun alındı. Görüşme bağlantısını ayrıca e-posta ile ileteceğiz."
     },
     "chip": {
       "current": "{personaLabel}",
@@ -411,8 +414,13 @@
       "slotSelected": "{date} · {time}",
       "selectDatePrompt": "Aşağıdan bir gün seçin",
       "selectTimePrompt": "Tercih ettiğiniz saati seçin",
-      "disabledDayHint": "Hafta sonları ve geçmiş günler seçilemez",
-      "submitCta": "Görüşme talebini ilet"
+      "disabledDayHint": "Bu gün için uygun saat yok",
+      "submitCta": "Görüşme talebini ilet",
+      "systemUnavailable": "Şu an uygun saat görünmüyor. Bize yazın, biz dönelim.",
+      "istanbulTimeLabel": "İstanbul saati: {time}",
+      "slotTakenError": "Bu saat az önce alındı. Güncel liste yeniden yüklendi, lütfen başka bir saat seçin.",
+      "duplicateEmailError": "Bu e-posta ile zaten aktif bir randevunuz var. Onay mailinizdeki bağlantıdan görüntüleyip yönetebilirsiniz.",
+      "genericError": "Randevu oluşturulamadı. Tekrar dene ya da digital@indoles.com.tr adresine yaz."
     },
     "problems": {
       "manuel-surec-yavaslatiyor": "Manuel süreçler ekibimi yavaşlatıyor.",
@@ -504,5 +512,34 @@
     "accept": "Kabul et",
     "reject": "Yalnız gerekli olanlar",
     "policyLabel": "Çerez ve KVKK aydınlatması"
+  },
+  "bookingManage": {
+    "pageEyebrow": "Randevu",
+    "pageTitle": "Randevunu yönet",
+    "loading": "Randevun yükleniyor...",
+    "notFoundTitle": "Bu bağlantı geçerli değil.",
+    "notFoundBody": "Randevu bulunamadı. Bağlantı yanlış kopyalanmış olabilir. Yardım için digital@indoles.com.tr adresine yaz.",
+    "cancelledTitle": "Bu randevu iptal edilmiş.",
+    "cancelledBody": "Yeni bir görüşme planlamak istersen ana sayfadan tekrar rezervasyon yapabilirsin.",
+    "activeTitle": "Randevun.",
+    "istanbulTimeLabel": "İstanbul saati: {time}",
+    "meetLink": "Görüşme bağlantısını aç",
+    "noMeetYet": "Görüşme bağlantısını ayrıca e-posta ile ileteceğiz.",
+    "cancelCta": "Randevuyu iptal et",
+    "cancelConfirmPrompt": "Emin misin? Bu işlem geri alınamaz.",
+    "cancelConfirmYes": "Evet, iptal et",
+    "cancelConfirmNo": "Vazgeç",
+    "cancelling": "İptal ediliyor...",
+    "cancelError": "İptal edilemedi. Tekrar dene ya da digital@indoles.com.tr adresine yaz.",
+    "rescheduleCta": "Farklı bir zaman seç",
+    "reschedulePrompt": "Yeni bir gün ve saat seç.",
+    "rescheduleConfirmCta": "Ertelemeyi onayla",
+    "rescheduleCancelCta": "Vazgeç",
+    "rescheduling": "Taşınıyor...",
+    "rescheduleTakenError": "Bu saat az önce alındı. Listeyi güncelledik, lütfen başka bir saat seç.",
+    "rescheduleInvalidError": "Bu saat artık uygun değil. Lütfen başka bir saat seç.",
+    "rescheduleGenericError": "Erteleme tamamlanamadı. Tekrar dene ya da digital@indoles.com.tr adresine yaz.",
+    "rescheduleSuccess": "Randevun yeni saate taşındı.",
+    "backCta": "Geri"
   }
 }

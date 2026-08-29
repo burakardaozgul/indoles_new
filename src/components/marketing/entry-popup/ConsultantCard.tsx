@@ -22,7 +22,7 @@ export function ConsultantCard({ locale, selectedDate, selectedTime }: Props) {
   const fullName = `${BOOKING_CONSULTANT.firstName} ${BOOKING_CONSULTANT.lastName}`;
 
   const slotDisplay = selectedDate && selectedTime
-    ? `${formatDate(selectedDate, locale)} · ${selectedTime}`
+    ? `${formatDate(selectedDate, locale)} · ${formatTime(selectedTime, locale)}`
     : null;
 
   return (
@@ -70,6 +70,23 @@ export function ConsultantCard({ locale, selectedDate, selectedTime }: Props) {
       </div>
     </div>
   );
+}
+
+/**
+ * `CalendarPicker` artık `onSlotChange`e "saat" olarak sabit bir "HH:MM"
+ * string'i değil, UTC ISO zaman damgası veriyor (Görev 8 — seçim yukarı UTC
+ * iletiliyor). Bu kart yalnız GÖSTERİM yapıyor; ISO gelirse ziyaretçinin
+ * yerel saatine çeviriyor, tanımadığı bir biçim gelirse (savunma amaçlı)
+ * olduğu gibi basıyor.
+ */
+function formatTime(value: string, locale: "tr" | "en"): string {
+  if (!/^\d{4}-\d{2}-\d{2}T/.test(value)) return value;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value;
+  return new Intl.DateTimeFormat(locale === "tr" ? "tr-TR" : "en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(d);
 }
 
 // Minimal date formatter — no date-fns

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { CalendarPicker } from "./CalendarPicker";
+import { CalendarPicker, BOOKING_AVAILABILITY_REFRESH_EVENT } from "./CalendarPicker";
 import { ConsultantCard } from "./ConsultantCard";
 import { LeadFieldsForm } from "./LeadFieldsForm";
 import type { PopupLeadForm } from "../../../lib/popup/types";
@@ -20,6 +20,22 @@ export function BookingScreen({ locale, onBack, onSubmit, loading, turnstileSlot
 
   const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
   const [selectedTime, setSelectedTime] = React.useState<string | null>(null);
+
+  /**
+   * "Bu saat az önce alındı" (409) sonrası `EntryPopup` bu olayı yayınlıyor:
+   * `CalendarPicker` müsaitliği tazeliyor, biz de artık geçersiz olan seçimi
+   * temizliyoruz. Ad/e-posta gibi ziyaretçi bilgileri `LeadFieldsForm`in
+   * KENDİ state'inde yaşıyor — bu bileşen ona dokunmuyor, o yüzden form
+   * içeriği korunuyor (spec §4, kural 3).
+   */
+  React.useEffect(() => {
+    const clearStaleSelection = () => {
+      setSelectedDate(null);
+      setSelectedTime(null);
+    };
+    window.addEventListener(BOOKING_AVAILABILITY_REFRESH_EVENT, clearStaleSelection);
+    return () => window.removeEventListener(BOOKING_AVAILABILITY_REFRESH_EVENT, clearStaleSelection);
+  }, []);
 
   const handleSlotChange = (date: string | null, time: string | null) => {
     setSelectedDate(date);

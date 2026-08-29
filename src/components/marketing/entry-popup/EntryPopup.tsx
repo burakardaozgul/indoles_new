@@ -10,6 +10,7 @@ import { Stage1Persona } from "./Stage1Persona";
 import { Stage2Problems } from "./Stage2Problems";
 import { Stage3Actions } from "./Stage3Actions";
 import { BookingScreen } from "./BookingScreen";
+import { BOOKING_AVAILABILITY_REFRESH_EVENT } from "./CalendarPicker";
 import { ContactForm } from "./ContactForm";
 import { SuccessState } from "./SuccessState";
 import { ExistingBookingState } from "./ExistingBookingState";
@@ -72,6 +73,16 @@ export function EntryPopup({
    * başarısızlık, sunucu hatasından daha pahalı çünkü kimse fark etmiyor.
    */
   const [submitError, setSubmitError] = React.useState<string | null>(null);
+  /**
+   * ADR-025'te kaldırılan Meet/iptal bağlantısı gerçek rezervasyonla birlikte
+   * geri geldi (Görev 8). `POST /api/booking` cevabından okunuyor,
+   * `SuccessState`e geçiriliyor.
+   */
+  const [bookingResult, setBookingResult] = React.useState<{
+    cancelToken: string | null;
+    meetUrl: string | null;
+    degraded: boolean;
+  } | null>(null);
   // Tracks which stage booking was reached from (stage3 or existing-booking)
   const [bookingSource, setBookingSource] = React.useState<PopupStage>(
     initialStage === "existing-booking" ? "existing-booking" : "stage3"
@@ -216,26 +227,93 @@ export function EntryPopup({
     if (slot) setPreferredSlot(slot);
 
     setIsSubmitting(true);
-    const result = await submitVisitorProfile({
-      persona,
-      problems: problems as [string, string, string],
-      lead: leadFields,
-      submissionType: type,
-      kvkkConsent: true,
-      locale,
-      elapsedMs: Date.now() - openedAtRef.current,
-      ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
-      ...(slot ? { preferredSlot: slot } : {}),
-    });
-    setIsSubmitting(false);
 
-    if (!result.ok) {
-      setSubmitError(
-        locale === "tr"
-          ? "Gönderemedik. Tekrar dene ya da digital@indoles.com.tr adresine yaz."
-          : "We could not send it. Try again or email digital@indoles.com.tr.",
-      );
-      return;
+    if (type === "booking") {
+      // `BookingScreen`in `extraDisabled={!preferredSlot}` guard'ı düğmeyi
+      // zaten kilitliyor; bu savunma amaçlı ikinci kapı.
+      if (!slot) {
+        setIsSubmitting(false);
+        setSubmitError(t("booking.genericError"));
+        return;
+      }
+
+      let httpOk = false;
+      let status = 0;
+      let data: {
+        ok?: boolean;
+        reason?: string;
+        cancelToken?: string;
+        meetUrl?: string | null;
+        degraded?: boolean;
+      } = {};
+      try {
+        const res = await fetch("/api/booking", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            startsAtUtc: slot.time,
+            // `CalendarPicker` yukarı UTC iletiyor (Görev 8) — `slot.time`
+            // artık bir "HH:MM" gösterim string'i değil, `startsAtUtc`.
+            visitorTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            locale,
+            lead: leadFields,
+            persona,
+            problems,
+            kvkkConsent: true,
+            elapsedMs: Date.now() - openedAtRef.current,
+            ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
+          }),
+        });
+        status = res.status;
+        httpOk = res.ok;
+        data = await res.json().catch(() => ({}));
+      } catch {
+        httpOk = false;
+      }
+      setIsSubmitting(false);
+
+      if (!httpOk || !data.ok) {
+        if (status === 409) {
+          // "Bu saat az önce alındı" (spec §4, kural 3): mesaj gösterilir,
+          // müsaitlik yeniden yüklenir, form içeriği KORUNUR — ziyaretçi
+          // bilgileri `LeadFieldsForm`in kendi state'inde durur, burada
+          // dokunulmuyor.
+          setSubmitError(
+            data.reason === "duplicate_email" ? t("booking.duplicateEmailError") : t("booking.slotTakenError"),
+          );
+          window.dispatchEvent(new Event(BOOKING_AVAILABILITY_REFRESH_EVENT));
+          return;
+        }
+        setSubmitError(t("booking.genericError"));
+        return;
+      }
+
+      setBookingResult({
+        cancelToken: data.cancelToken ?? null,
+        meetUrl: data.meetUrl ?? null,
+        degraded: Boolean(data.degraded),
+      });
+    } else {
+      const result = await submitVisitorProfile({
+        persona,
+        problems: problems as [string, string, string],
+        lead: leadFields,
+        submissionType: type,
+        kvkkConsent: true,
+        locale,
+        elapsedMs: Date.now() - openedAtRef.current,
+        ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
+      });
+      setIsSubmitting(false);
+
+      if (!result.ok) {
+        setSubmitError(
+          locale === "tr"
+            ? "Gönderemedik. Tekrar dene ya da digital@indoles.com.tr adresine yaz."
+            : "We could not send it. Try again or email digital@indoles.com.tr.",
+        );
+        return;
+      }
     }
 
     /**
@@ -382,6 +460,13 @@ export function EntryPopup({
                 <SuccessState
                   variant={stage === "success-booking" ? "booking" : "contact"}
                   onClose={() => onClose("completed")}
+                  meetUrl={bookingResult?.meetUrl ?? null}
+                  degraded={bookingResult?.degraded ?? false}
+                  cancelUrl={
+                    bookingResult?.cancelToken && typeof window !== "undefined"
+                      ? `${window.location.origin}/${locale}/rezervasyon/${bookingResult.cancelToken}`
+                      : null
+                  }
                 />
               )}
               {stage === "existing-booking" && (

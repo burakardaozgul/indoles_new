@@ -399,7 +399,10 @@
       "bookingBody": "You'll find the details in your inbox.",
       "contactTitle": "Thanks.",
       "contactBody": "We'll be in touch within one business day.",
-      "close": "Close"
+      "close": "Close",
+      "meetLink": "Open the meeting link",
+      "manageLink": "View or cancel your booking",
+      "degradedNotice": "Your booking is set. We'll send the meeting link separately by email."
     },
     "chip": {
       "current": "{personaLabel}",
@@ -411,8 +414,13 @@
       "slotSelected": "{date} · {time}",
       "selectDatePrompt": "Pick a day below",
       "selectTimePrompt": "Pick the time that suits you",
-      "disabledDayHint": "Weekends and past dates are unavailable",
-      "submitCta": "Submit meeting request"
+      "disabledDayHint": "No times available this day",
+      "submitCta": "Submit meeting request",
+      "systemUnavailable": "No times are available right now. Write to us and we will get back to you.",
+      "istanbulTimeLabel": "Istanbul time: {time}",
+      "slotTakenError": "That time was just taken. We refreshed the list — please pick another time.",
+      "duplicateEmailError": "You already have an active booking with this email. You can view or manage it from the link in your confirmation email.",
+      "genericError": "We could not create the booking. Try again or email digital@indoles.com.tr."
     },
     "problems": {
       "manuel-surec-yavaslatiyor": "Manual processes are slowing my team down.",
@@ -504,5 +512,34 @@
     "accept": "Accept",
     "reject": "Essential only",
     "policyLabel": "Cookies and privacy"
+  },
+  "bookingManage": {
+    "pageEyebrow": "Booking",
+    "pageTitle": "Manage your booking",
+    "loading": "Loading your booking...",
+    "notFoundTitle": "This link isn't valid.",
+    "notFoundBody": "We couldn't find this booking. The link may have been copied incorrectly. For help, email digital@indoles.com.tr.",
+    "cancelledTitle": "This booking has been cancelled.",
+    "cancelledBody": "If you'd like to schedule a new call, you can book again from the homepage.",
+    "activeTitle": "Your booking.",
+    "istanbulTimeLabel": "Istanbul time: {time}",
+    "meetLink": "Open the meeting link",
+    "noMeetYet": "We'll send the meeting link separately by email.",
+    "cancelCta": "Cancel booking",
+    "cancelConfirmPrompt": "Are you sure? This can't be undone.",
+    "cancelConfirmYes": "Yes, cancel it",
+    "cancelConfirmNo": "Never mind",
+    "cancelling": "Cancelling...",
+    "cancelError": "We couldn't cancel this. Try again or email digital@indoles.com.tr.",
+    "rescheduleCta": "Pick a different time",
+    "reschedulePrompt": "Choose a new day and time.",
+    "rescheduleConfirmCta": "Confirm reschedule",
+    "rescheduleCancelCta": "Never mind",
+    "rescheduling": "Moving your booking...",
+    "rescheduleTakenError": "That time was just taken. We refreshed the list — please pick another time.",
+    "rescheduleInvalidError": "That time is no longer available. Please pick another time.",
+    "rescheduleGenericError": "We couldn't complete the reschedule. Try again or email digital@indoles.com.tr.",
+    "rescheduleSuccess": "Your booking has been moved to the new time.",
+    "backCta": "Back"
   }
 }

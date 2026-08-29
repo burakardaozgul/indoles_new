@@ -90,6 +90,9 @@ describe("BookingNotification", () => {
   it("lead bağlamının tamamını taşır — veritabanında tutulmayan alanlar dahil", async () => {
     const html = await render(<BookingNotification {...props} />);
     for (const v of [
+      // lead.email KVKK gereği veritabanında tutulmuyor (spec §2.2b) — bu
+      // satır düşerse ziyaretçiye ulaşmanın tek yolu bu mail olur.
+      "ayse@example.com",
       "+905550001122",
       "Acme",
       "CTO",
@@ -100,10 +103,25 @@ describe("BookingNotification", () => {
     ]) {
       expect(html).toContain(v);
     }
+    // İsim doğrudan lead'den değil üst seviye `name` prop'undan geliyor
+    // (tasarım gereği) — ama çıktıda göründüğü ayrıca doğrulanmalı.
+    expect(html).toContain(props.name);
   });
 
   it("degraded false ise elle oluşturma uyarısı basmaz", async () => {
     const html = await render(<BookingNotification {...props} />);
+    expect(html).not.toMatch(/YAZILAMADI/);
+  });
+
+  it("meetUrl null ama degraded false ise dürüst mesaj basar, Meet linki sızdırmaz", async () => {
+    // Bu guard'ı `degraded: true` testinden ayrı tutuyoruz: ikisi birlikte
+    // test edilirse `meetUrl: null` dalının degraded'dan bağımsız çalıştığı
+    // hiç doğrulanmamış olur.
+    const html = await render(
+      <BookingNotification {...props} meetUrl={null} degraded={false} />
+    );
+    expect(html).not.toContain("meet.google.com");
+    expect(html).toContain("Meet bağlantısı üretilemedi.");
     expect(html).not.toMatch(/YAZILAMADI/);
   });
 
@@ -112,6 +130,23 @@ describe("BookingNotification", () => {
       <BookingNotification {...props} degraded={true} meetUrl={null} />
     );
     expect(html).toMatch(/takvime YAZILAMADI|elle/i);
+  });
+
+  it("degraded uyarısı lead detaylarının ÜSTÜNDE görünür (konum, sadece varlık değil)", async () => {
+    // toMatch/not.toMatch yalnız metnin var olduğunu kanıtlar, nerede
+    // olduğunu değil — uyarı bloğu lead detaylarının altına kayarsa bu
+    // testler olmadan CI yeşil kalır ve takvime yazılamamış randevu
+    // sessizce kaçar. Bu yüzden indeks karşılaştırması şart.
+    const html = await render(
+      <BookingNotification {...props} degraded={true} meetUrl={null} />
+    );
+    const warningIndex = html.indexOf("YAZILAMADI");
+    const leadDetailIndex = html.indexOf("E-posta:");
+    // -1 durumunda `-1 < leadDetailIndex` yanlış nedenle geçebilir; ikisinin
+    // de gerçekten bulunduğunu ayrıca iddia ediyoruz.
+    expect(warningIndex).toBeGreaterThanOrEqual(0);
+    expect(leadDetailIndex).toBeGreaterThanOrEqual(0);
+    expect(warningIndex).toBeLessThan(leadDetailIndex);
   });
 });
 

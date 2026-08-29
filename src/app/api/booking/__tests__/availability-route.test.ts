@@ -80,4 +80,37 @@ describe("GET /api/booking/availability", () => {
     expect(body.ok).toBe(true);
     expect(body.days).toHaveLength(28);
   });
+
+  it("İstanbul UTC'den farklı güne geçmişken ilk gün İstanbul gününü kullanır (Bulgu A regresyonu)", async () => {
+    // UTC 15 Eylül 21:00 = İstanbul (UTC+3) 16 Eylül 00:00. Rota
+    // `now.toISOString().slice(0,10)`'a geri dönerse ilk gün yanlışlıkla
+    // 15'te kalır; `localDateIso` kullanan doğru davranış 16'dır.
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-09-15T21:00:00.000Z"));
+    try {
+      mockEnv(baseEnv);
+      vi.mocked(getAccessToken).mockResolvedValue("token");
+      vi.mocked(fetchBusy).mockResolvedValue([]);
+      vi.mocked(listSoldSlots).mockResolvedValue([]);
+
+      const res = await GET();
+      const body = await res.json();
+      expect(body.days[0].date).toBe("2026-09-16");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("BOOKING_CALENDAR_IDS boş string ise unavailable:true döner, tüm slotlar 'müsait' sayılmaz (Bulgu B regresyonu)", async () => {
+    // "".split(",").filter(Boolean) => [] — env eksikmiş gibi davranan
+    // Bulgu 1 korumasını atlatıyordu ve fetchBusy([]) sessizce boş
+    // meşguliyet dönüyordu (= tüm slotlar satılabilir).
+    mockEnv({ ...baseEnv, BOOKING_CALENDAR_IDS: "" });
+
+    const res = await GET();
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.unavailable).toBe(true);
+    expect(body.days).toEqual([]);
+  });
 });

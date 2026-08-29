@@ -113,6 +113,20 @@ describe("fetchBusy", () => {
     ).rejects.toThrow();
   });
 
+  it("calendarIds boş dizi ise fırlatır — çağıran hatası, ağa hiç çıkmaz (Bulgu B regresyonu)", async () => {
+    // `calendarIds.length > 0 && usable === 0` koruması boş dizide hiç
+    // tetiklenmiyordu (`length > 0` şartı sağlanmıyor); fonksiyon sessizce
+    // `[]` (= tam müsaitlik) dönüyordu. Bu ayrı ve erken bir kontrolle
+    // kapatılıyor — bir çağıran boş liste yollarsa bu bir programlama
+    // hatasıdır, sessizce geçilmez.
+    const f = vi.fn();
+    vi.stubGlobal("fetch", f);
+    await expect(
+      fetchBusy("tok", [], "2026-09-01T00:00:00Z", "2026-09-30T00:00:00Z"),
+    ).rejects.toThrow();
+    expect(f).not.toHaveBeenCalled();
+  });
+
   it("biri hatalı biri sağlamsa fırlatmaz, sağlamın verisi gelir", async () => {
     vi.stubGlobal("fetch", mockFetchOnce({
       calendars: {

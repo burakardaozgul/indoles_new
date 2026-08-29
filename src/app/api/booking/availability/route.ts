@@ -42,6 +42,13 @@ export async function GET(): Promise<Response> {
     // "yalnız müsaitlik" düzeyinde paylaşılan kişisel takvim.
     const calendarIds = bookingEnv.BOOKING_CALENDAR_IDS
       .split(",").map((s) => s.trim()).filter(Boolean);
+    // Boş string (`""`) `.split()`'i fırlatmadan `[]` üretir — env eksikmiş
+    // gibi davranmayı atlatır. Liste boşsa env hiç yokmuş gibi aynı
+    // `unavailable` yoluna düşüyoruz; aksi halde `fetchBusy([])` hiç
+    // meşguliyet göremeden sessizce "tamamen müsait" döner (spec §4 ihlali).
+    if (calendarIds.length === 0) {
+      throw new Error("BOOKING_CALENDAR_IDS boş — hiçbir takvim tanımlı değil");
+    }
 
     const token = await getAccessToken(bookingEnv);
     const [busy, soldSlots] = await Promise.all([

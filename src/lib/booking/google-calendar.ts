@@ -54,6 +54,13 @@ export async function getAccessToken(env: OAuthEnv): Promise<string> {
 export async function fetchBusy(
   token: string, calendarIds: string[], fromUtc: string, toUtc: string,
 ): Promise<{ start: string; end: string }[]> {
+  // Boş liste ayrı bir kontrolü hak ediyor: aşağıdaki `usable === 0` koruması
+  // `calendarIds.length > 0` şartına bağlı, yani boş dizide hiç tetiklenmez
+  // ve fonksiyon sessizce `[]` (= tam müsaitlik) döner. Bu bir çağıran hatası
+  // — programlama hatası — sessizce geçilecek bir durum değil.
+  if (calendarIds.length === 0) {
+    throw new Error("fetchBusy: calendarIds boş — en az bir takvim kimliği gerekir");
+  }
   const res = await fetch("https://www.googleapis.com/calendar/v3/freeBusy", {
     method: "POST",
     headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },

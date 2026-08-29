@@ -153,14 +153,50 @@ describe("POST /api/booking", () => {
     expect(createEvent).not.toHaveBeenCalled();
   });
 
-  it("Calendar düşerse satır failed işaretlenir AMA bildirim maili yine gider", async () => {
-    // Lead kaybolmamalı: manuel dönülebilsin (spec §4).
+  it("Calendar düşerse satır confirmed KALIR (markFailed çağrılmaz) AMA bildirim maili yine gider (ADR-029)", async () => {
+    // Lead kaybolmamalı: manuel dönülebilsin (spec §4). Mekanizma ADR-029 ile
+    // değişti: `failed` işaretlemek `idx_bookings_slot` ve
+    // `idx_bookings_active_email` kısmi indekslerinden satırı düşürüp slotu
+    // aynı anda yeniden satılabilir kılıyordu — tam da niyetin (lead kaybolmaz,
+    // manuel dönülebilir) karşısında bir davranış. Artık satır `confirmed`
+    // kalıyor, işaret `calendar_event_id IS NULL`.
     vi.mocked(createEvent).mockRejectedValue(new Error("calendar down"));
     const res = await POST(req(validBody));
-    expect(markFailed).toHaveBeenCalledWith(expect.anything(), "b1");
+    expect(markFailed).not.toHaveBeenCalled();
+    expect(attachCalendarResult).not.toHaveBeenCalled();
     expect(sendMailWithRetry).toHaveBeenCalled();
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ ok: true, degraded: true });
+  });
+
+  it("Calendar düşmüş bir rezervasyondan sonra AYNI slota ikinci POST 409 alır (ADR-029 mutasyon kanıtı)", async () => {
+    // Kusurun tam karşılığı: satır `failed`e düşseydi `idx_bookings_slot`
+    // kısmi unique indeksten çıkar, slot anında yeniden satılabilir olurdu.
+    // `createBooking`/`markFailed` burada BİRLİKTE, gerçekçi kuruluyor: ortak
+    // bir "sahte satır durumu" tutuyorlar, tıpkı D1'deki kısmi indeksin
+    // yalnız `status = 'confirmed'` satırları kapsaması gibi. Eğer rota hâlâ
+    // `markFailed` çağırsaydı, bu sahte durum 'failed'e döner, ikinci POST
+    // slotu boş bulup 200 dönerdi — test o regresyonu yakalamak için var.
+    let slotStatus: "confirmed" | "failed" | null = null;
+    vi.mocked(createBooking).mockImplementation(async () => {
+      if (slotStatus === "confirmed") return { ok: false, reason: "slot_taken" };
+      slotStatus = "confirmed";
+      return { ok: true, row } as never;
+    });
+    vi.mocked(markFailed).mockImplementation(async () => {
+      slotStatus = "failed";
+    });
+    vi.mocked(createEvent).mockRejectedValue(new Error("calendar down"));
+
+    const first = await POST(req(validBody));
+    expect(first.status).toBe(200);
+    expect(await first.json()).toMatchObject({ ok: true, degraded: true });
+    // Doğru davranış: satır hâlâ `confirmed`, ikinci istek aynı slota çarpar.
+    expect(markFailed).not.toHaveBeenCalled();
+
+    const second = await POST(req(validBody));
+    expect(second.status).toBe(409);
+    expect(await second.json()).toMatchObject({ ok: false, reason: "slot_taken" });
   });
 
   it("24 saatten yakın slot sunucuda reddedilir", async () => {
@@ -242,7 +278,8 @@ describe("POST /api/booking", () => {
       mockEnv({ ...baseEnv, BOOKING_CALENDAR_IDS: "" });
       const res = await POST(req(validBody));
       expect(createEvent).not.toHaveBeenCalled();
-      expect(markFailed).toHaveBeenCalledWith(expect.anything(), "b1");
+      // Aynı catch bloğu — ADR-029 sonrası burada da satır confirmed kalır.
+      expect(markFailed).not.toHaveBeenCalled();
       expect(reportError).toHaveBeenCalledWith(
         expect.objectContaining({ message: expect.stringContaining("BOOKING_CALENDAR_IDS") }),
         expect.anything(),

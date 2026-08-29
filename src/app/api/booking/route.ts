@@ -4,7 +4,7 @@ import { bookingSchema } from "@/lib/schemas/booking";
 import { BOOKING_CONFIG } from "@/lib/booking/config";
 import { isSlotBookable } from "@/lib/booking/slots";
 import { isLegitimateSlot } from "@/lib/booking/availability";
-import { createBooking, attachCalendarResult, markFailed } from "@/lib/booking/repository";
+import { createBooking, attachCalendarResult } from "@/lib/booking/repository";
 import { createEvent, getAccessToken, firstCalendarId, type OAuthEnv } from "@/lib/booking/google-calendar";
 import { sendMailWithRetry, recipients } from "@/lib/mail/client";
 import { spamSignal, turnstileEnabled } from "@/lib/security/anti-spam";
@@ -84,8 +84,16 @@ export async function POST(req: Request): Promise<Response> {
   }
   const row = created.row;
 
-  // 2) Calendar + Meet. Buradaki başarısızlık randevuyu iptal etmez:
-  //    satır failed işaretlenir, bildirim maili YİNE gider, lead kaybolmaz.
+  // 2) Calendar + Meet. Buradaki başarısızlık randevuyu iptal ETMEZ ve satır
+  //    `markFailed` ile 'failed'e ÇEKİLMEZ (ADR-029). `idx_bookings_slot` ve
+  //    `idx_bookings_active_email` kısmi indeksleri yalnız 'confirmed'
+  //    satırları kapsıyor — satır 'failed' olduğu an slot VE e-posta kilidi
+  //    aynı anda düşer, yani ziyaretçiye onay maili giderken saat başka
+  //    birine satılabilir hale gelirdi. Niyet (spec §4) randevunun geçerli
+  //    kalması, Burak'ın etkinliği elle açabilmesi; bunun işareti zaten
+  //    bedava: `calendar_event_id` NULL kalır. Satır 'confirmed' kalır,
+  //    slot tutulur, ziyaretçinin iptal/erteleme bağlantısı çalışmaya devam
+  //    eder.
   let meetUrl: string | null = null;
   let degraded = false;
   try {
@@ -117,7 +125,6 @@ export async function POST(req: Request): Promise<Response> {
     await attachCalendarResult(db, row.id, res.eventId, res.meetUrl);
   } catch (err) {
     reportError(err, { route: "booking", step: "calendar" });
-    await markFailed(db, row.id);
     degraded = true;
   }
 

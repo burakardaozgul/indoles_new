@@ -172,7 +172,7 @@ Onay mailindeki bağlantı `cancel_token` taşır; oturum açma gerektirmez, yal
 | Durum | Davranış |
 |---|---|
 | Slot az önce doldu | Kısıt reddeder. "Bu saat az önce alındı" + güncel liste yeniden yüklenir. Form içeriği korunur |
-| Calendar erişimi kesik | Satır `failed`, ziyaretçiye dürüst mesaj, **bildirim maili yine gider** — lead kaybolmaz, manuel dönülebilir |
+| Calendar erişimi kesik | Satır **`confirmed` KALIR** (slot tutulur, iptal/erteleme bağlantısı çalışır), işaret `calendar_event_id IS NULL`, ziyaretçiye dürüst mesaj, **bildirim maili yine gider** — lead kaybolmaz, manuel dönülebilir (ADR-029; `failed` mekanizması slotu kısmi indeksten düşürüp niyetin tam tersini üretiyordu) |
 | Mail gönderilemedi | Randevu geçerli kalır, silinmez. Hata loglanır ve bildirilir. Ziyaretçiye "onay maili birazdan ulaşacak" denir |
 | İptal linki iki kez tıklandı | Hata değil: "bu randevu zaten iptal edilmiş". İşlem tekrarlanabilir yazılır |
 | Geçmiş saate rezervasyon | Sunucuda reddedilir. İstemci zaten göstermiyor, ama tek koruma istemci olamaz |

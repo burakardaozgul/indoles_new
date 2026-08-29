@@ -99,6 +99,11 @@ TURNSTILE_SECRET_KEY=0x4AAA...
 6. Elle doğrulama: iletişim formu gerçekten mail gönderiyor mu (üç alıcıya da), Turnstile gerçekten doğruluyor mu, GA4 olay düşüyor mu
 7. Eski WP URL'lerinden örnek 301 kontrolü (45 yönlendirme haritası)
 8. GSC + Bing'e sitemap gönderimi, IndexNow
+   - **IndexNow kuruldu (2026-08-29):** anahtar `public/3ca954102189ce68ac53510ae6a35b09.txt`,
+     ping `scripts/indexnow-ping.ts` — `pnpm cf:deploy` zincirinin sonunda otomatik çalışır,
+     elle tetik: `pnpm seo:indexnow`. İlk başarılı ping bir sonraki production deploy'da
+     (anahtar dosyası canlıya çıktıktan sonra) atılır; script anahtar dosyasını bildirimden
+     önce canlıda doğrular. Bing Webmaster Tools'a site ekleme (GSC'den import) Burak'ta.
 
 **4. adımda `www` DNS kaydı Veridyen'den Worker'a geçer.** Cloudflare mevcut kaydı ezer; o an eski site erişilemez olur.
 

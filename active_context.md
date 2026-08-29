@@ -11,6 +11,8 @@ Dalga 1'in (aşağıda) üstüne, Burak'ın onayıyla Faz 2 uygulandı (LinkedIn
 
 **Ertelenen:** görsel katmanı — kök klasördeki `blog-*.jpg` dosyaları kapak değil tam-sayfa ekran görüntüsü çıktı (1430×~10.000 px); kapak asset'i veya tipografik SVG kapak ADR kararı bekleniyor.
 
+**Launch sonrası (2026-08-29):** Site canlıda, GSC sitemap işlendi. Canlı doğrulama: robots'ta 10 AI botu Allow (zone engeli yok), sitemap 136 URL, 8 kritik 301 doğru hedefe iniyor, yazılar + llms.txt yayında. **IndexNow kuruldu:** `scripts/indexnow-ping.ts` + `public/3ca954…txt` anahtarı, `cf:deploy` sonuna zincirlendi — ilk ping bir sonraki deploy'da (anahtar dosyası o zaman canlıya çıkar). Sırada Burak'ta: GEO 10-prompt baz çizgisi (G-10 + K-7 şerhi), GSC G1-G5 kesiti + 8 yazıya indeksleme talebi, Bing Webmaster import. Persona Seçenek B hâlâ uygulanmadı — site canlıyken en riskli açık (22 URL ticaret kopyası indekssiz). Not: `emails/OrphanBookingsReport.tsx(36)` typecheck hatası rezervasyon oturumunun devam eden işi.
+
 **Kadro güncellemesi (11:21, Burak):** Rıdvan Değer ekipten çıkarıldı (`consultants.ts`; danışman URL'leri 18→16, sitemap/llms otomatik türer, yazı yazarlığı yoktu). LinkedIn: Çağrı Erdoğan + Renata Begasova eklendi → `Person.sameAs` 3/8 (Burak, Çağrı, Renata). Kalan 5: Can, Mert, Berk, Sude, Doğan.
 
 **Commit notu:** Paralel oturumun `fadda9f` (ADR-028/Turnstile) commit'i o anki çalışma ağacını genişçe süpürdü — Dalga 1 içerikleri ve Faz 2'nin bir kısmı o commit'in içinde, mesajı yalnız Turnstile'ı anlatıyor. Geçici scriptler `299743b` ile temizlendi.

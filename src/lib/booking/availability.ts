@@ -1,3 +1,4 @@
+import { BOOKING_CONFIG } from "./config";
 import { generateSlotsForDay, isSlotBookable } from "./slots";
 
 type Interval = { start: string; end: string };
@@ -14,6 +15,32 @@ export function localDateIso(now: Date, timeZone: string): string {
     }).formatToParts(now).map((x) => [x.type, x.value]),
   );
   return `${p.year}-${p.month}-${p.day}`;
+}
+
+/**
+ * Slotun MEŞRU olduğunu doğrular: açık gün, çalışma saatleri, 90 dakikalık
+ * ızgaraya hizalı bir an ve `firstAvailableDate` — hepsi tek çağrıda kapanır.
+ * `generateSlotsForDay` zaten istemcinin de kullandığı slot üretecidir; ayrı
+ * bir doğrulama kümesi icat edilmiyor, tek kaynağa güveniliyor.
+ *
+ * Tek başına `isSlotBookable` (24 saat kuralı) yeterli değildi: Pazar günü,
+ * gece 03:00 veya ızgaraya oturmayan bir an bu kontrolden geçip el yapımı bir
+ * POST/PATCH ile D1'e satır yazdırabilirdi (Görev 5 Fix A).
+ *
+ * Gün, ziyaretçinin "şimdi"sinden değil SLOTUN KENDİ UTC başlangıcından
+ * İstanbul yerel gününe çevrilerek türetiliyor. UTC gününü kullanmak
+ * 21:00-23:59 UTC arasında yanlış güne bakar — Görev 4'te aynı hata
+ * yaşanmıştı (bkz. `availability/route.ts`).
+ *
+ * Görev 5'te `/api/booking` (POST, rezervasyon) için tanımlandı; Görev 7'de
+ * `/api/booking/:token` (PATCH, erteleme) de AYNI kontrole tabi olmalı —
+ * iki kopya bırakılırsa biri güncellenip diğeri unutulduğunda delik geri
+ * gelir (bkz. Görev 7 denetim notu, "Fix A"). Bu yüzden burada, iki rotanın
+ * da içe aktarabileceği tek yerde tanımlanıyor.
+ */
+export function isLegitimateSlot(startsAtUtc: string): boolean {
+  const dateIso = localDateIso(new Date(startsAtUtc), BOOKING_CONFIG.timezone);
+  return generateSlotsForDay(dateIso).some((s) => s.startUtc === startsAtUtc);
 }
 
 export type AvailabilityDay = {

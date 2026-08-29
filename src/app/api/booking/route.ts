@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { bookingSchema } from "@/lib/schemas/booking";
 import { BOOKING_CONFIG } from "@/lib/booking/config";
-import { generateSlotsForDay, isSlotBookable } from "@/lib/booking/slots";
-import { localDateIso } from "@/lib/booking/availability";
+import { isSlotBookable } from "@/lib/booking/slots";
+import { isLegitimateSlot } from "@/lib/booking/availability";
 import { createBooking, attachCalendarResult, markFailed } from "@/lib/booking/repository";
 import { createEvent, getAccessToken, type OAuthEnv } from "@/lib/booking/google-calendar";
 import { sendMailWithRetry, recipients } from "@/lib/mail/client";
@@ -21,26 +21,6 @@ export const runtime = "nodejs";
 // `availability/route.ts`te düzeltildi). `getAccessToken`'ın gerçek `OAuthEnv`
 // tipini içe alıp genişletiyoruz; aynı dar cast deseni.
 type BookingEnv = OAuthEnv & { BOOKING_CALENDAR_IDS: string; BOOKINGS_DB: D1Database };
-
-/**
- * Slotun MEŞRU olduğunu doğrular: açık gün, çalışma saatleri, 90 dakikalık
- * ızgaraya hizalı bir an ve `firstAvailableDate` — hepsi tek çağrıda kapanır.
- * `generateSlotsForDay` zaten istemcinin de kullandığı slot üretecidir; ayrı
- * bir doğrulama kümesi icat edilmiyor, tek kaynağa güveniliyor.
- *
- * Tek başına `isSlotBookable` (24 saat kuralı) yeterli değildi: Pazar günü,
- * gece 03:00 veya ızgaraya oturmayan bir an bu kontrolden geçip el yapımı bir
- * POST ile D1'e satır yazdırabilirdi.
- *
- * Gün, ziyaretçinin "şimdi"sinden değil SLOTUN KENDİ UTC başlangıcından
- * İstanbul yerel gününe çevrilerek türetiliyor. UTC gününü kullanmak
- * 21:00-23:59 UTC arasında yanlış güne bakar — Görev 4'te aynı hata
- * yaşanmıştı (bkz. `availability/route.ts`).
- */
-function isLegitimateSlot(startsAtUtc: string): boolean {
-  const dateIso = localDateIso(new Date(startsAtUtc), BOOKING_CONFIG.timezone);
-  return generateSlotsForDay(dateIso).some((s) => s.startUtc === startsAtUtc);
-}
 
 export async function POST(req: Request): Promise<Response> {
   let body: unknown;

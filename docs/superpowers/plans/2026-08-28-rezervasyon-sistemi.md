@@ -2373,6 +2373,56 @@ rezervasyonla birlikte geri geldi: Meet linki ve iptal adresi."
 - Consumes: `fetchBusy`, `getAccessToken` (Görev 3), `CalendarAuthAlert` (Görev 6)
 - Produces: `GET /api/cron` — günlük temizlik + aylık canlılık
 
+### Denetimlerden gelen İKİ EK (2026-08-29, controller)
+
+Bunlar planın ilk halinde yoktu; Görev 5 ve 7 denetimlerinde çıktılar ve ikisi de
+yaşam döngüsü sorunu, yani bu görevin yeri.
+
+#### Ek 1 — "Aktif randevu" tanımının zaman sınırı yok (Important)
+
+`idx_bookings_active_email` kısmi indeksi `WHERE status = 'confirmed'`. Geçmişte
+kalmış bir randevu 90 güne kadar `confirmed` kalıyor (temizlik yalnız 90 günden
+eski SATIRLARI siliyor, statü değiştirmiyor), dolayısıyla o e-posta yeni randevu
+**alamıyor**. Eylül'de görüşen biri Ekim'de rezervasyon yapamaz.
+
+Bugün tek kaçış yolu geçmiş randevuyu ertelemek — Görev 7 bunu bilerek açık
+bıraktı ve testle kilitledi (`[token]/route.ts` içindeki gerekçe yorumu).
+
+**Çözüm:** cron, başlangıcı geçmiş `confirmed` satırları `completed`'a çeker.
+İki kısmi indeks de `status = 'confirmed'` yüklemine bağlı olduğu için bu tek
+hamle hem e-posta kilidini serbest bırakır hem slotu (zaten geçmiş, önemsiz).
+
+**Göç gerekiyor:** `CHECK (status IN ('confirmed','cancelled','failed'))` yeni
+değeri kabul etmiyor ve SQLite bir CHECK kısıtını tablo yeniden kurmadan
+değiştiremiyor. `migrations/0002_completed_status.sql`: yeni tablo + kopyala +
+eski tabloyu düşür + yeniden adlandır + dört indeksi yeniden kur.
+
+> **Zamanlama:** 2026-08-29 itibarıyla `bookings` tablosu BOŞ (canlıda doğrulandı,
+> `SELECT COUNT(*)` = 0) ve ilk rezervasyonlar 31 Ağustos'ta açılıyor. Göç şu an
+> bedava, bir hafta sonra canlı veri üstünde olacak. Bu yüzden Görev 9'a alındı,
+> ertelenmedi.
+
+**Görev 7 ile etkileşimi:** bu iş bitince "geçmiş randevu ertelenebilir" davranışı
+artık bir kaçış yolu değil, yalnız cron'un henüz süpürmediği kısa aralıkta
+geçerli bir kolaylık. `[token]/route.ts`'teki gerekçe yorumu ve Görev 7'nin o
+davranışı kilitleyen testi buna göre güncellenmeli — test SİLİNMEZ, gerekçesi
+değişir.
+
+#### Ek 2 — Öksüz randevular kimseye raporlanmıyor (Minor)
+
+ADR-029'dan sonra Calendar yazılamadığında satır `confirmed` kalıyor ve işaret
+`calendar_event_id IS NULL` oluyor. O anki bildirim maili "takvime YAZILAMADI,
+elle oluştur" diyor — yani sinyal VAR. Ama o mail kaçarsa veya elle oluşturma
+unutulursa randevu sessizce takvimsiz kalıyor ve ikinci bir hatırlatma yok.
+
+**Çözüm:** günlük işe bir sorgu ekle — `status='confirmed' AND
+calendar_event_id IS NULL AND starts_at_utc > now`. Sonuç boş değilse iç kutuya
+tek bir özet maili. Boşsa mail YOK (her gün gelen bir "her şey yolunda" maili
+okunmaz hale gelir ve gerçek uyarıyı gömer).
+
+Bu, ADR-029'un açık bıraktığı "elle Calendar oluşturma iş akışı" maddesinin
+karşılığı.
+
 - [ ] **Adım 1: Başarısız testi yaz**
 
 `src/app/api/cron/__tests__/route.test.ts`:

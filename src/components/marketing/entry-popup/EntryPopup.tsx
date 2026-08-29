@@ -248,6 +248,10 @@ export function EntryPopup({
             lead: leadFields,
             persona,
             problems,
+            // Popup'ta Stage1/Stage2 gerçek problem seçimini üretiyor —
+            // `bookingSchema` bu yüzden `source: "popup"` için tam 3 istiyor
+            // (@/lib/schemas/booking.ts, superRefine).
+            source: "popup",
             kvkkConsent: true,
             elapsedMs: Date.now() - openedAtRef.current,
             ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),

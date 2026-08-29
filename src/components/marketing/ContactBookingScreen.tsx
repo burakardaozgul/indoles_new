@@ -13,21 +13,6 @@ import { sessionId } from "@/lib/analytics/session";
 /** Turnstile bayrağı (ADR-028) — `EntryPopup`/`ContactForm` ile aynı tek kaynak. */
 const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
-/**
- * `problems` alanı, gerçek problem seçimi (Stage1/Stage2) yalnız popup'ta
- * var olduğu için burada YOK. `bookingSchema` (`@/lib/schemas/booking.ts`)
- * yine de tam 3 elemanlı bir dizi istiyor — şema bu görevin kapsamı dışında
- * (spec §5'te `BookingScreen` "değişmiyor" işaretli, API de aynı listede
- * değil). Üç uydurma problem etiketi basmak yerine (ki bu Burak'ın dahili
- * bildirim mailini ve Calendar açıklamasını yanlış yönlendirirdi) dürüst,
- * okunabilir bir not gönderiyoruz — bkz. Görev 10 raporu "açık soru".
- */
-const DIRECT_CONTACT_PROBLEMS_NOTE = [
-  "İletişim sayfası",
-  "doğrudan rezervasyon",
-  "problem seçimi yapılmadı",
-] as const;
-
 /** Şemanın kabul ettiği tek iki değer — `usePersonaState` boşsa siteni geneli varsayılanı (`toContentPersona(null) === "industrial"`) ile hizalı kalır. */
 const DEFAULT_PERSONA_SLUG = "donusum-teknoloji";
 
@@ -154,7 +139,13 @@ export function ContactBookingScreen({ locale }: { locale: "tr" | "en" }) {
           locale,
           lead: leadFields,
           persona: personaSlug ?? DEFAULT_PERSONA_SLUG,
-          problems: DIRECT_CONTACT_PROBLEMS_NOTE,
+          // Gerçek problem seçimi (Stage1/Stage2) yalnız popup'ta var; burada
+          // hiç yok. Uydurma dize basmak yerine boş dizi + `source: "contact"`
+          // gönderiyoruz — şema (`@/lib/schemas/booking.ts`) bu kombinasyonu
+          // `superRefine` ile açıkça kabul ediyor, mail/Calendar tarafı da
+          // `source`a bakıp dürüst bir not basıyor.
+          problems: [],
+          source: "contact",
           kvkkConsent: true,
           elapsedMs: Date.now() - openedAtRef.current,
           ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),

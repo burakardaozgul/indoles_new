@@ -83,6 +83,7 @@ describe("BookingNotification", () => {
     },
     persona: "donusum-teknoloji",
     problems: ["p1", "p2", "p3"],
+    source: "popup" as const,
     startsAtUtc: "2026-09-07T10:00:00.000Z",
     meetUrl: "https://meet.google.com/abc",
     degraded: false,
@@ -148,6 +149,28 @@ describe("BookingNotification", () => {
     expect(warningIndex).toBeGreaterThanOrEqual(0);
     expect(leadDetailIndex).toBeGreaterThanOrEqual(0);
     expect(warningIndex).toBeLessThan(leadDetailIndex);
+  });
+
+  it("problems boşsa (source: contact) uydurma dize basmaz, kaynağı dürüstçe söyler", async () => {
+    // `bookingSchema` yalnız `source: "contact"` için `problems: []`e izin
+    // verir (superRefine, @/lib/schemas/booking.ts) — önceden bu durum üç
+    // uydurma dize basıyordu (`["İletişim sayfası", ...]`), artık kaynağı
+    // söyleyen dürüst bir cümle basıyor.
+    const html = await render(
+      <BookingNotification {...props} problems={[]} source="contact" />
+    );
+    expect(html).not.toContain("p1");
+    expect(html).not.toContain("İletişim sayfası");
+    expect(html).not.toContain("doğrudan rezervasyon");
+    expect(html).not.toContain("problem seçimi yapılmadı");
+    expect(html).toMatch(/Seçim yok/);
+    expect(html).toContain("contact");
+  });
+
+  it("problems doluysa (source: popup) mevcut davranış aynen kalır", async () => {
+    const html = await render(<BookingNotification {...props} />);
+    expect(html).toContain("p1 · p2 · p3");
+    expect(html).not.toMatch(/Seçim yok/);
   });
 });
 

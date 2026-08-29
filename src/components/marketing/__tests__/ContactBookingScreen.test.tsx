@@ -14,11 +14,12 @@ import { ContactBookingScreen } from "../ContactBookingScreen";
  *    409 mesajı + müsaitlik yenileme + form korunumu, mutlu yolda
  *    `SuccessState`e geçiş. (`BookingSubmit.test.tsx` ile bilinçli paralel.)
  *
- * `bookingSchema` (`@/lib/schemas/booking.ts`) `persona` ve `problems`i
- * zorunlu tutuyor ama `/iletisim`de Stage1/Stage2 seçimi YOK — bu testler
- * gönderilen değerlerin şemaya uyduğunu ve uydurma olmadığını (persona:
- * sitenin var olan persona merceği, problems: dürüst bir "seçim yapılmadı"
- * notu) kilitliyor.
+ * `bookingSchema` (`@/lib/schemas/booking.ts`) `persona`yı zorunlu tutuyor;
+ * `problems` kısıtı `source`a bağlı (superRefine) — `/iletisim`de Stage1/
+ * Stage2 seçimi YOK, bu yüzden `source: "contact"` + `problems: []`
+ * gönderiliyor. Bu testler gönderilen değerlerin şemaya uyduğunu ve uydurma
+ * olmadığını (persona: sitenin var olan persona merceği, problems: gerçekten
+ * boş, üç uydurma dize DEĞİL) kilitliyor.
  */
 vi.mock("next-intl", () => ({
   useTranslations: (ns?: string) => {
@@ -163,7 +164,7 @@ describe("ContactBookingScreen — gömülü rezervasyon (spec §5)", () => {
     });
   });
 
-  it("persona merceği boşsa şemaya uygun varsayılan persona gönderir, problems dürüst bir not taşır (uydurma yok)", async () => {
+  it("persona merceği boşsa şemaya uygun varsayılan persona gönderir, problems gerçekten boş kalır (uydurma yok)", async () => {
     personaState.slug = null;
     const fetchMock = vi.fn((url: unknown, init?: RequestInit) => {
       const u = String(url);
@@ -173,9 +174,9 @@ describe("ContactBookingScreen — gömülü rezervasyon (spec §5)", () => {
       if (u === "/api/booking" && init?.method === "POST") {
         const body = JSON.parse(String(init.body));
         expect(["donusum-teknoloji", "buyume-pazarlar"]).toContain(body.persona);
+        expect(body.source).toBe("contact");
         expect(Array.isArray(body.problems)).toBe(true);
-        expect(body.problems).toHaveLength(3);
-        for (const p of body.problems) expect(typeof p).toBe("string");
+        expect(body.problems).toHaveLength(0);
         return Promise.resolve({
           ok: true,
           status: 200,

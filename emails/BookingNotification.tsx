@@ -25,6 +25,13 @@ export interface Props {
   lead: Lead;
   persona: string;
   problems: string[];
+  /**
+   * Rezervasyonun geldiği yüzey (`@/lib/schemas/booking.ts`). `problems`
+   * boşken (yalnız `source: "contact"` bunu üretebilir) bu, aşağıdaki
+   * "Problemler" satırının neden boş olduğunu dürüstçe açıklamak için
+   * kullanılıyor — üç uydurma dize basmak yerine.
+   */
+  source: "popup" | "contact";
   startsAtUtc: string;
   /** Calendar'a yazılamadıysa (degraded) Meet de üretilemez — null gelir. */
   meetUrl: string | null;
@@ -37,6 +44,7 @@ export default function BookingNotification({
   lead,
   persona,
   problems,
+  source,
   startsAtUtc,
   meetUrl,
   degraded,
@@ -99,9 +107,19 @@ export default function BookingNotification({
           <Text>
             <b>Persona:</b> {persona}
           </Text>
-          <Text>
-            <b>Problemler:</b> {problems.join(" · ")}
-          </Text>
+          {problems.length > 0 ? (
+            <Text>
+              <b>Problemler:</b> {problems.join(" · ")}
+            </Text>
+          ) : (
+            // `problems` boş yalnız `source: "contact"` ile mümkün (şema
+            // kısıtı) — burada üç uydurma dize basmak yerine kaynağı
+            // dürüstçe söylüyoruz.
+            <Text>
+              <b>Problemler:</b> Seçim yok — iletişim sayfasından gelen
+              rezervasyon (kaynak: {source}).
+            </Text>
+          )}
 
           {meetUrl ? (
             <Text>

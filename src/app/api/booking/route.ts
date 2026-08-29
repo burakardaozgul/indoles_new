@@ -106,6 +106,15 @@ export async function POST(req: Request): Promise<Response> {
     // `firstCalendarId` PATCH/DELETE ile paylaşılan tek tanım
     // (`@/lib/booking/google-calendar`, Görev 7 fix turu 1, bulgu C1).
     const calId = firstCalendarId(bookingEnv.BOOKING_CALENDAR_IDS);
+    // `problems` yalnız `source: "popup"` için tam 3 (bookingSchema
+    // superRefine) — `source: "contact"` için hep boş. Boşken "Problemler: "
+    // basmak (uydurma değil ama içi boş, yine de gerçek bir seçimmiş gibi
+    // Burak'ın takviminde görünür) yanıltıcı; satırı kaynağı söyleyecek
+    // şekilde değiştiriyoruz.
+    const problemsLine =
+      data.problems.length > 0
+        ? `Problemler: ${data.problems.join(" · ")}`
+        : `Problemler: Seçim yok — iletişim sayfasından gelen rezervasyon (kaynak: ${data.source})`;
     const res = await createEvent(token, calId, {
       summary: `INDOLES görüşmesi — ${name}`,
       // Lead bağlamı burada duruyor, veritabanında değil (spec §2.2b).
@@ -116,7 +125,7 @@ export async function POST(req: Request): Promise<Response> {
         `Şirket: ${data.lead.company}`,
         `Unvan: ${data.lead.title}`,
         `Persona: ${data.persona}`,
-        `Problemler: ${data.problems.join(" · ")}`,
+        problemsLine,
       ].join("\n"),
       startUtc: row.startsAtUtc,
       endUtc: row.endsAtUtc,
@@ -140,6 +149,7 @@ export async function POST(req: Request): Promise<Response> {
         lead: data.lead,
         persona: data.persona,
         problems: data.problems,
+        source: data.source,
         startsAtUtc: row.startsAtUtc,
         meetUrl,
         degraded,

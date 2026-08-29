@@ -58,6 +58,7 @@ const validBody = {
   },
   persona: "donusum-teknoloji",
   problems: ["a", "b", "c"],
+  source: "popup",
   kvkkConsent: true,
   website: "",
   elapsedMs: 9000,
@@ -227,6 +228,22 @@ describe("POST /api/booking", () => {
       "startsAtUtc",
       "visitorTimezone",
     ]);
+  });
+
+  it("iletişim kaynaklı (source: contact) POST'ta Calendar açıklaması sahte 'Problemler' içeriği basmaz", async () => {
+    // `/iletisim`in gömülü rezervasyon yüzeyi (Görev 10) `problems: []` +
+    // `source: "contact"` gönderir (bookingSchema superRefine bu kombinasyonu
+    // kabul ediyor). Önceden üç uydurma dize ("İletişim sayfası" vb.) Burak'ın
+    // takviminde gerçek bir problem seçimiymiş gibi görünüyordu — artık
+    // kaynağı dürüstçe söyleyen bir satır basılmalı.
+    await POST(req({ ...validBody, source: "contact", problems: [] }));
+    const [, , eventInput] = vi.mocked(createEvent).mock.calls[0]!;
+    const description = (eventInput as { description: string }).description;
+    expect(description).not.toContain("İletişim sayfası");
+    expect(description).not.toContain("doğrudan rezervasyon");
+    expect(description).not.toContain("problem seçimi yapılmadı");
+    expect(description).toMatch(/Problemler: Seçim yok/);
+    expect(description).toContain("contact");
   });
 
   // --- Fix A: sunucu slotun MEŞRU olduğunu doğrulamalı ------------------

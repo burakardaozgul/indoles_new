@@ -1,6 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactForm } from "@/components/marketing/ContactForm";
+import { ContactBookingScreen } from "@/components/marketing/ContactBookingScreen";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
@@ -14,9 +15,12 @@ import type { Locale } from "@/lib/content/types";
 
 /**
  * Cal.com kaldırıldı (ADR-025): rezervasyon INDOLES'in kendi takvim
- * sistemine taşınıyor; entegrasyon URL'i hazır olana kadar sayfa form +
- * doğrudan iletişim odaklıdır. Takvim geri geldiğinde form kolonunun
- * yanına tek bileşenle eklenir.
+ * sistemine taşındı. Görev 10 (spec §5): popup'ta modal olarak kullanılan
+ * AYNI `BookingScreen` bileşeni burada `ContactBookingScreen` sarmalayıcısı
+ * üzerinden modalsız, doğrudan sayfada gömülü render ediliyor — iki yüzey
+ * tek bileşeni paylaşıyor, ayrı bir takvim arayüzü yazılmadı. `ContactForm`
+ * olduğu gibi kalıyor: ziyaretçi "randevu al" ile "mesaj bırak" arasında
+ * seçim yapabilir.
  */
 
 const PATHS = { tr: "/tr/iletisim", en: "/en/contact" };
@@ -108,9 +112,27 @@ export default async function ContactPage({
         }
       />
 
+      {/* Randevu al — gömülü rezervasyon takvimi (Görev 10, spec §5): popup'taki
+          AYNI `BookingScreen` bileşeni, modal olmadan doğrudan burada. Ana CTA
+          "1 saatlik görüşme" bu yüzeyle karşılanıyor; mesaj bırakmayı tercih
+          edenler için aşağıdaki form olduğu gibi duruyor. */}
+      <section className="border-b border-surface-2" aria-labelledby="booking-heading">
+        <div className="ds-container py-24 md:py-32">
+          <span className="typography-label uppercase tracking-widest text-ink-500">
+            {loc === "tr" ? "Randevu al" : "Book a call"}
+          </span>
+          <h2 id="booking-heading" className="typography-h2 mt-4 text-ink-900">
+            {loc === "tr" ? "Takvimden uygun bir saat seç." : "Pick a time that works."}
+          </h2>
+          <div className="mt-10 mx-auto max-w-popup-wide">
+            <ContactBookingScreen locale={loc} />
+          </div>
+        </div>
+      </section>
+
       <section className="border-b border-surface-2">
         <div className="ds-container py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-          {/* Form — sayfanın birincil yolu */}
+          {/* Form — randevuyu tercih etmeyenler için alternatif yol */}
           <div className="md:col-span-7">
             <span className="typography-label uppercase tracking-widest text-ink-500">
               {loc === "tr" ? "Mesaj gönder" : "Send a message"}

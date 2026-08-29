@@ -21,6 +21,7 @@ import { setPersonaSlug } from "@/lib/hooks/use-persona";
 import { trackPopupEvent } from "../../../lib/popup/analytics";
 import { submitVisitorProfile } from "../../../lib/popup/api";
 import { track } from "@/lib/analytics/ga";
+import { sessionId } from "@/lib/analytics/session";
 
 export type EntryPopupProps = {
   open: boolean;
@@ -33,18 +34,6 @@ export type EntryPopupProps = {
 
 /** Turnstile bayrağı (ADR-028) — ContactForm ile aynı tek kaynak. */
 const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
-
-function sessionId(): string {
-  if (typeof window === "undefined") return "ssr";
-  let v = window.sessionStorage.getItem("indoles_session_id");
-  if (!v) {
-    v = typeof crypto !== "undefined" && crypto.randomUUID
-      ? `sess_${crypto.randomUUID()}`
-      : `sess_${Math.random().toString(36).slice(2)}`;
-    window.sessionStorage.setItem("indoles_session_id", v);
-  }
-  return v;
-}
 
 export function EntryPopup({
   open,
@@ -317,18 +306,23 @@ export function EntryPopup({
     }
 
     /**
-     * `brief_submitted` — huninin en değerli anı. Tek çağrı noktası burada:
-     * `handleSubmitForm` yalnız kullanıcının submit tıklamasıyla (ve
-     * `isSubmitting`/`disabled` guard'ı geçtikten sonra) bir kez çalışır.
-     * Olayı `SuccessState`in render'ına bağlamadık — bileşenin
+     * `brief_submitted` — huninin en değerli anı. Popup içindeki tek çağrı
+     * noktası burada: `handleSubmitForm` yalnız kullanıcının submit
+     * tıklamasıyla (ve `isSubmitting`/`disabled` guard'ı geçtikten sonra) bir
+     * kez çalışır. Olayı `SuccessState`in render'ına bağlamadık — bileşenin
      * mount/re-mount'unda (StrictMode dahil) tetiklenip çift gönderime yol
      * açardı; burada olay zaten "tam olarak bir başarılı submit" ile
      * bire bir eşleşiyor.
      *
+     * `/iletisim`in gömülü rezervasyon yüzeyi (`ContactBookingScreen`, Görev
+     * 10) aynı olayı kendi başarılı gönderiminde ayrıca ateşliyor — GA4 her
+     * olaya `page_location` eklediği için iki yüzey zaten ayrıştırılabilir,
+     * taksonomiye yeni bir alan gerekmedi.
+     *
      * `briefId`: sunucu tarafında kalıcı DB yok (ADR-010), bu yüzden
-     * sunucudan dönen bir kimlik yok. Bu popup oturumunu zaten benzersiz
-     * biçimde etiketleyen `sessionId()`i (aşağıda tanımlı, aynı çağrı
-     * sözleşmesiyle) yeniden kullanıyoruz.
+     * sunucudan dönen bir kimlik yok. Bu ziyaretçi oturumunu zaten benzersiz
+     * biçimde etiketleyen `sessionId()`i (`@/lib/analytics/session` — iki
+     * yüzeyin paylaştığı tek kaynak) yeniden kullanıyoruz.
      */
     track({ name: "brief_submitted", properties: { briefId: sessionId() } });
 

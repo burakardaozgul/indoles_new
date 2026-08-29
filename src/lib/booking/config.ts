@@ -16,7 +16,7 @@ export const BOOKING_CONFIG = {
   /** 1=Pazartesi … 6=Cumartesi. Pazar kapalı. */
   openDays: [1, 2, 3, 4, 5, 6],
   /** Tek seferlik başlangıç; bundan önceki günler hiç gösterilmez. */
-  firstAvailableDate: "2026-09-07",
+  firstAvailableDate: "2026-08-31",
   /** Sürekli kural: başlangıcına bu kadar saatten az kalan slot gösterilmez. */
   minLeadHours: 24,
   timezone: "Europe/Istanbul",

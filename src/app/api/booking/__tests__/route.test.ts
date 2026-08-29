@@ -224,7 +224,7 @@ describe("POST /api/booking", () => {
       expect(createBooking).not.toHaveBeenCalled();
     });
 
-    it("firstAvailableDate (2026-09-07) öncesi bir tarih reddedilir, D1'e hiçbir şey yazılmaz", async () => {
+    it("firstAvailableDate (2026-08-31) öncesi bir tarih reddedilir, D1'e hiçbir şey yazılmaz", async () => {
       // 2026-08-25 Salı, 13:00 yerel — hafta günü ve saat ızgaraya uygun ama
       // tek seferlik başlangıçtan önce. "now" bu test için 2026-08-20'ye
       // çekiliyor: ~5 gün lead var, yalnız 24 saat kuralı olsaydı geçerdi.

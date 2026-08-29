@@ -40,7 +40,7 @@ describe("generateSlotsForDay", () => {
   });
 
   it("ilk müsait günden önceki tarih slot vermez", () => {
-    expect(generateSlotsForDay("2026-09-04")).toHaveLength(0); // Cuma ama erken
+    expect(generateSlotsForDay("2026-08-28")).toHaveLength(0); // Cuma ama erken
   });
 });
 

@@ -15,7 +15,7 @@
 Bu bölüm her görevin gereklerine örtük olarak dahildir.
 
 - **Zaman:** Veritabanında ve Calendar'da **her şey UTC**. Ziyaretçiye tarayıcı diliminde gösterilir. Onay mailinde saat **hem ziyaretçinin dilimi hem Europe/Istanbul** ile yazılır. (spec §3.3)
-- **Slot değerleri koda gömülmez** — tek yapılandırma dosyasında durur: süre 90 dk, tampon 15 dk, pencere 13:00–20:00, açık günler Pzt–Cmt, ilk müsait gün **2026-09-07**, en erken rezervasyon **24 saat**. (spec §3.1b)
+- **Slot değerleri koda gömülmez** — tek yapılandırma dosyasında durur: süre 90 dk, tampon 15 dk, pencere 13:00–20:00, açık günler Pzt–Cmt, ilk müsait gün **2026-08-31**, en erken rezervasyon **24 saat**. (spec §3.1b)
 - **Vaat 1 saat / blok 90 dakika ayrımı kasıtlıdır.** Site kopyası "1 saatlik keşif görüşmesi" der, takvimde 90 dk kapanır. Kopyayı 90'a çekmek veya bloğu 60'a indirmek **karar değişikliğidir, hata düzeltmesi değil**. (spec §3.1b)
 - **KVKK minimizasyonu:** Veritabanına **yalnız** ad + e-posta yazılır. Telefon, şirket, unvan, persona, üç problem **yalnız maile ve Calendar etkinlik açıklamasına** gider. (spec §2.2b)
 - **Sırlar repoya girmez** — `wrangler secret`. Sır olmayan çalışma zamanı ayarları `wrangler.jsonc` → `vars`.
@@ -85,7 +85,7 @@ export const BOOKING_CONFIG = {
   /** 1=Pazartesi … 6=Cumartesi. Pazar kapalı. */
   openDays: [1, 2, 3, 4, 5, 6],
   /** Tek seferlik başlangıç; bundan önceki günler hiç gösterilmez. */
-  firstAvailableDate: "2026-09-07",
+  firstAvailableDate: "2026-08-31",
   /** Sürekli kural: başlangıcına bu kadar saatten az kalan slot gösterilmez. */
   minLeadHours: 24,
   timezone: "Europe/Istanbul",

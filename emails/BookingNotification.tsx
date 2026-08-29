@@ -23,7 +23,14 @@ export interface Lead {
 export interface Props {
   name: string;
   lead: Lead;
-  persona: string;
+  /**
+   * `null` yalnız `source: "contact"` ile mümkün (`@/lib/schemas/booking.ts`
+   * `superRefine`, popup için zorunlu tutuyor) — `/iletisim`de persona seçen
+   * bir arayüz yok. Site genelindeki varsayılanı uydurmak yerine `null`
+   * geldiğinde aşağıda dürüstçe "belirtilmedi" yazılıyor (`problems` için
+   * yapılan aynı muamele).
+   */
+  persona: string | null;
   problems: string[];
   /**
    * Rezervasyonun geldiği yüzey (`@/lib/schemas/booking.ts`). `problems`
@@ -104,9 +111,19 @@ export default function BookingNotification({
           <Text>
             <b>Unvan:</b> {lead.title}
           </Text>
-          <Text>
-            <b>Persona:</b> {persona}
-          </Text>
+          {persona ? (
+            <Text>
+              <b>Persona:</b> {persona}
+            </Text>
+          ) : (
+            // `persona` yalnız `source: "contact"` ile boş olabilir (şema
+            // kısıtı) — burada site varsayılanını uydurmak yerine bilinmediğini
+            // dürüstçe söylüyoruz (`problems` için aşağıdaki aynı desen).
+            <Text>
+              <b>Persona:</b> Belirtilmedi — iletişim sayfasından gelen
+              rezervasyon, persona seçimi yapılmadı (kaynak: {source}).
+            </Text>
+          )}
           {problems.length > 0 ? (
             <Text>
               <b>Problemler:</b> {problems.join(" · ")}

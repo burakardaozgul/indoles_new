@@ -172,6 +172,27 @@ describe("BookingNotification", () => {
     expect(html).toContain("p1 · p2 · p3");
     expect(html).not.toMatch(/Seçim yok/);
   });
+
+  it("persona bilinmiyorsa (source: contact) site varsayılanını uydurmaz, kaynağı dürüstçe söyler", async () => {
+    // `bookingSchema` yalnız `source: "contact"` için `persona`yı opsiyonel
+    // bırakıyor (superRefine, @/lib/schemas/booking.ts) — önceden çağıran
+    // taraf (`ContactBookingScreen`) bu durumda site varsayılanı
+    // (`donusum-teknoloji`) gönderiyordu, mail bunu gerçek bir seçimmiş gibi
+    // basıyordu.
+    const html = await render(
+      <BookingNotification {...props} persona={null} problems={[]} source="contact" />
+    );
+    expect(html).not.toContain("donusum-teknoloji");
+    expect(html).not.toContain("buyume-pazarlar");
+    expect(html).toMatch(/Belirtilmedi/);
+    expect(html).toContain("contact");
+  });
+
+  it("persona biliniyorsa mevcut davranış aynen kalır", async () => {
+    const html = await render(<BookingNotification {...props} />);
+    expect(html).toContain("donusum-teknoloji");
+    expect(html).not.toMatch(/Belirtilmedi/);
+  });
 });
 
 describe("BookingCancelled", () => {

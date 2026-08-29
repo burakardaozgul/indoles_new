@@ -115,6 +115,13 @@ export async function POST(req: Request): Promise<Response> {
       data.problems.length > 0
         ? `Problemler: ${data.problems.join(" · ")}`
         : `Problemler: Seçim yok — iletişim sayfasından gelen rezervasyon (kaynak: ${data.source})`;
+    // `persona` yalnız `source: "popup"` için zorunlu (aynı superRefine) —
+    // `/iletisim`de persona seçen bir arayüz yok. Boşken site varsayılanını
+    // uydurmak yerine (önceki davranış) kaynağı söyleyen dürüst bir satır
+    // basıyoruz — `problemsLine` ile aynı desen.
+    const personaLine = data.persona
+      ? `Persona: ${data.persona}`
+      : `Persona: Belirtilmedi — iletişim sayfasından gelen rezervasyon (kaynak: ${data.source})`;
     const res = await createEvent(token, calId, {
       summary: `INDOLES görüşmesi — ${name}`,
       // Lead bağlamı burada duruyor, veritabanında değil (spec §2.2b).
@@ -124,7 +131,7 @@ export async function POST(req: Request): Promise<Response> {
         `Telefon: ${data.lead.phone}`,
         `Şirket: ${data.lead.company}`,
         `Unvan: ${data.lead.title}`,
-        `Persona: ${data.persona}`,
+        personaLine,
         problemsLine,
       ].join("\n"),
       startUtc: row.startsAtUtc,
@@ -147,7 +154,7 @@ export async function POST(req: Request): Promise<Response> {
       react: BookingNotification({
         name,
         lead: data.lead,
-        persona: data.persona,
+        persona: data.persona ?? null,
         problems: data.problems,
         source: data.source,
         startsAtUtc: row.startsAtUtc,

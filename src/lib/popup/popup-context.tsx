@@ -1,14 +1,32 @@
 "use client";
 
 import * as React from "react";
+import { usePathname } from "next/navigation";
 import { EntryPopup } from "@/components/marketing/entry-popup/EntryPopup";
 import { shouldShowPopup, readPopupCookie } from "./cookie";
 import { whenConsentResolved } from "@/lib/consent/gate";
 import { track } from "@/lib/analytics/ga";
+import { routing } from "@/lib/i18n/routing";
 import type { BookingCtaSource, Pillar } from "@/lib/analytics/events";
 import type { PopupStage, PersonaSlug, ProblemSlug } from "./types";
 
 const TRIGGER_DELAY_MS = 4000;
+
+/**
+ * `/iletisim` artık kendi gömülü rezervasyon yüzeyine sahip (Görev 10);
+ * global popup'ın otomatik tetiği o sayfada ikinci, çakışan bir rezervasyon
+ * arayüzü açar (denetim bulgusu). Yol burada sabit yazılmıyor —
+ * `routing.pathnames["/iletisim"]` ve `routing.locales`ten türetiliyor;
+ * aksi halde EN karşılığı (`/en/contact`) burada ayrı elle yazılır ve
+ * gelecekte rota adı değişirse sessizce senkronsuz kalırdı.
+ */
+const CONTACT_PATHNAMES: readonly string[] = (() => {
+  const entry = routing.pathnames["/iletisim"];
+  return routing.locales.map((locale) => {
+    const segment = typeof entry === "string" ? entry : entry[locale];
+    return `/${locale}${segment}`;
+  });
+})();
 
 type PopupInitial = {
   stage: PopupStage;
@@ -41,12 +59,19 @@ export function PopupProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const [key, setKey] = React.useState(0);
   const [initial, setInitial] = React.useState<PopupInitial>(DEFAULT_INITIAL);
+  const pathname = usePathname();
 
   React.useEffect(() => {
-    const isIframe = typeof window !== "undefined" && 
+    const isIframe = typeof window !== "undefined" &&
       (window.self !== window.top || new URLSearchParams(window.location.search).get("iframe") === "true");
     if (isIframe) return;
-    
+
+    // Sayfa zaten kendi rezervasyon akışını gösteriyor — üstüne ikinci bir
+    // modal açmak sürtünme üretir (denetim bulgusu). Yalnız OTOMATİK tetik
+    // bastırılıyor: `openPopup()`un elle çağrıları (nav CTA'sı gibi) bu
+    // rotada da olduğu gibi çalışmaya devam eder.
+    if (pathname && CONTACT_PATHNAMES.includes(pathname)) return;
+
     if (!shouldShowPopup()) return;
 
     /**
@@ -63,7 +88,7 @@ export function PopupProvider({ children }: { children: React.ReactNode }) {
       stopWaiting();
       if (timer) clearTimeout(timer);
     };
-  }, []);
+  }, [pathname]);
 
   const openPopup = React.useCallback((source: BookingCtaSource, pillar?: Pillar) => {
     track({

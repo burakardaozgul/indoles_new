@@ -246,6 +246,21 @@ describe("POST /api/booking", () => {
     expect(description).toContain("contact");
   });
 
+  it("persona gönderilmemişse (source: contact) Calendar açıklaması site varsayılanını uydurmaz", async () => {
+    // `/iletisim` persona seçen bir arayüz taşımıyor; `ContactBookingScreen`
+    // artık bilinmeyen persona için alanı hiç göndermiyor (denetim bulgusu,
+    // önceden `donusum-teknoloji` uyduruluyordu). `persona: undefined`
+    // `JSON.stringify` ile gövdeden tamamen düşer — gerçek isteği taklit eder.
+    const { persona: _persona, ...bodyWithoutPersona } = validBody;
+    await POST(req({ ...bodyWithoutPersona, source: "contact", problems: [] }));
+    const [, , eventInput] = vi.mocked(createEvent).mock.calls[0]!;
+    const description = (eventInput as { description: string }).description;
+    expect(description).not.toContain("donusum-teknoloji");
+    expect(description).not.toContain("buyume-pazarlar");
+    expect(description).toMatch(/Persona: Belirtilmedi/);
+    expect(description).toContain("contact");
+  });
+
   // --- Fix A: sunucu slotun MEŞRU olduğunu doğrulamalı ------------------
   // Tek koruma olarak `isSlotBookable` yalnız 24 saat kuralını kapatıyordu.
   // Kapalı gün, ızgara dışı bir an ve `firstAvailableDate` öncesi bir tarih

@@ -56,4 +56,29 @@ describe("bookingSchema", () => {
       bookingSchema.parse({ ...validPayload, source: "widget", problems: ["a", "b", "c"] }),
     ).toThrow();
   });
+
+  /**
+   * `persona` aynı `source`-bağımlı ilkeyi izliyor (`problems`in yanına
+   * eklendi): popup'ta Stage1'de gerçekten seçiliyor, bu yüzden orada
+   * zorunlu kalıyor. `/iletisim`in gömülü yüzeyinde persona seçen bir
+   * arayüz yok — önceden çağıran taraf site varsayılanını uyduruyordu,
+   * artık şema `undefined`ı açıkça kabul ediyor.
+   */
+  it("source: popup + persona yok REDDEDİLİR — orada gerçekten seçiliyor", () => {
+    const { persona: _persona, ...withoutPersona } = validPayload;
+    expect(() =>
+      bookingSchema.parse({ ...withoutPersona, source: "popup", problems: ["a", "b", "c"] }),
+    ).toThrow();
+  });
+
+  it("source: contact + persona yok kabul edilir — /iletisim'de seçim yok, uydurulmaz", () => {
+    const { persona: _persona, ...withoutPersona } = validPayload;
+    const result = bookingSchema.parse({ ...withoutPersona, source: "contact", problems: [] });
+    expect(result.persona).toBeUndefined();
+  });
+
+  it("source: contact + persona verilmişse (gelecekte bir seçici eklenirse) kabul edilir", () => {
+    const result = bookingSchema.parse({ ...validPayload, source: "contact", problems: [] });
+    expect(result.persona).toBe("donusum-teknoloji");
+  });
 });

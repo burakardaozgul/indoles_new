@@ -17,6 +17,15 @@ import { z } from "zod";
  * `source`a bağlı, `superRefine` ile kuruluyor (aşağıda). Popup'ın önceki
  * garantisi (tam 3) ZAYIFLAMADI — yalnız artık `source === "popup"` şartına
  * bağlı, çünkü tek çağıran zaten hep popup'tı.
+ *
+ * `persona` aynı sınıftan bir sorunu tekrarlıyordu: `/iletisim`de persona
+ * seçen bir arayüz YOK, ama alan zorunlu tutulduğu için çağıran taraf
+ * (`ContactBookingScreen`) site genelindeki varsayılanı (`donusum-teknoloji`)
+ * uyduruyordu — bilinmeyen bir ziyaretçi (ör. ticaret/e-ticaret) sessizce
+ * "sanayi" etiketiyle Burak'ın mail/Calendar'ına yazılıyordu. `problems`de
+ * uygulanan ilke burada da geçerli: `source === "popup"` iken zorunlu (orada
+ * gerçekten seçiliyor), `source === "contact"` iken opsiyonel — bilinmiyorsa
+ * uydurulmaz, `undefined` kalır.
  */
 export const bookingSchema = z
   .object({
@@ -31,7 +40,8 @@ export const bookingSchema = z
       company: z.string().min(2),
       title: z.string().min(2),
     }),
-    persona: z.enum(["donusum-teknoloji", "buyume-pazarlar"]),
+    /** Zorunluluk `source`a bağlı — bkz. üstteki dosya yorumu ve `superRefine`. */
+    persona: z.enum(["donusum-teknoloji", "buyume-pazarlar"]).optional(),
     /** Uzunluk kısıtı burada YOK — `source`a bağlı olduğu için `superRefine`da. */
     problems: z.array(z.string().min(1)),
     source: z.enum(["popup", "contact"]),
@@ -55,6 +65,13 @@ export const bookingSchema = z
         code: z.ZodIssueCode.custom,
         message: "İletişim kaynaklı rezervasyonda problem seçimi olamaz — Stage1/Stage2 orada yok.",
         path: ["problems"],
+      });
+    }
+    if (data.source === "popup" && data.persona === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Popup kaynaklı rezervasyon persona seçimi gerektirir.",
+        path: ["persona"],
       });
     }
   });

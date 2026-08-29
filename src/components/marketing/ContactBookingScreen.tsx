@@ -13,9 +13,6 @@ import { sessionId } from "@/lib/analytics/session";
 /** Turnstile bayrağı (ADR-028) — `EntryPopup`/`ContactForm` ile aynı tek kaynak. */
 const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
-/** Şemanın kabul ettiği tek iki değer — `usePersonaState` boşsa siteni geneli varsayılanı (`toContentPersona(null) === "industrial"`) ile hizalı kalır. */
-const DEFAULT_PERSONA_SLUG = "donusum-teknoloji";
-
 type BookingResult = { cancelToken: string | null; meetUrl: string | null; degraded: boolean };
 
 /**
@@ -138,7 +135,14 @@ export function ContactBookingScreen({ locale }: { locale: "tr" | "en" }) {
           visitorTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           locale,
           lead: leadFields,
-          persona: personaSlug ?? DEFAULT_PERSONA_SLUG,
+          // `/iletisim` hiçbir persona-seçim arayüzü içermiyor — `personaSlug`
+          // yalnız ziyaretçi daha önce (ana sayfa/hizmetler'de) anahtarı
+          // çevirdiyse ya da popup'ın Stage1'ini gördüyse dolu gelir. Boşsa
+          // site genelindeki varsayılanı uydurmak yerine alanı hiç
+          // GÖNDERMİYORUZ — şema (`@/lib/schemas/booking.ts`) `source:
+          // "contact"` için `persona`yı opsiyonel kabul ediyor, mail/Calendar
+          // tarafı da bilinmediğini dürüstçe söylüyor.
+          ...(personaSlug ? { persona: personaSlug } : {}),
           // Gerçek problem seçimi (Stage1/Stage2) yalnız popup'ta var; burada
           // hiç yok. Uydurma dize basmak yerine boş dizi + `source: "contact"`
           // gönderiyoruz — şema (`@/lib/schemas/booking.ts`) bu kombinasyonu

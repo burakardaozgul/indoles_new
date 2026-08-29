@@ -14,12 +14,13 @@ import { ContactBookingScreen } from "../ContactBookingScreen";
  *    409 mesajı + müsaitlik yenileme + form korunumu, mutlu yolda
  *    `SuccessState`e geçiş. (`BookingSubmit.test.tsx` ile bilinçli paralel.)
  *
- * `bookingSchema` (`@/lib/schemas/booking.ts`) `persona`yı zorunlu tutuyor;
- * `problems` kısıtı `source`a bağlı (superRefine) — `/iletisim`de Stage1/
- * Stage2 seçimi YOK, bu yüzden `source: "contact"` + `problems: []`
- * gönderiliyor. Bu testler gönderilen değerlerin şemaya uyduğunu ve uydurma
- * olmadığını (persona: sitenin var olan persona merceği, problems: gerçekten
- * boş, üç uydurma dize DEĞİL) kilitliyor.
+ * `bookingSchema` (`@/lib/schemas/booking.ts`) `persona`yı yalnız
+ * `source: "popup"` için zorunlu tutuyor; `problems` kısıtı da `source`a
+ * bağlı (superRefine) — `/iletisim`de Stage1/Stage2 seçimi YOK, bu yüzden
+ * `source: "contact"` + `problems: []` gönderiliyor. Bu testler gönderilen
+ * değerlerin şemaya uyduğunu ve uydurma olmadığını (persona: sitenin var
+ * olan persona merceği doluysa o, boşsa alan hiç gönderilmiyor; problems:
+ * gerçekten boş, üç uydurma dize DEĞİL) kilitliyor.
  */
 vi.mock("next-intl", () => ({
   useTranslations: (ns?: string) => {
@@ -164,7 +165,7 @@ describe("ContactBookingScreen — gömülü rezervasyon (spec §5)", () => {
     });
   });
 
-  it("persona merceği boşsa şemaya uygun varsayılan persona gönderir, problems gerçekten boş kalır (uydurma yok)", async () => {
+  it("persona merceği boşsa alanı hiç göndermez — site varsayılanı uydurulmaz, problems gerçekten boş kalır", async () => {
     personaState.slug = null;
     const fetchMock = vi.fn((url: unknown, init?: RequestInit) => {
       const u = String(url);
@@ -173,7 +174,10 @@ describe("ContactBookingScreen — gömülü rezervasyon (spec §5)", () => {
       }
       if (u === "/api/booking" && init?.method === "POST") {
         const body = JSON.parse(String(init.body));
-        expect(["donusum-teknoloji", "buyume-pazarlar"]).toContain(body.persona);
+        // `personaSlug` null iken `persona` anahtarı JSON gövdesinde hiç
+        // yer almamalı — daha önce burada site geneli varsayılan
+        // (`donusum-teknoloji`) uyduruluyordu (denetim bulgusu).
+        expect(body).not.toHaveProperty("persona");
         expect(body.source).toBe("contact");
         expect(Array.isArray(body.problems)).toBe(true);
         expect(body.problems).toHaveLength(0);

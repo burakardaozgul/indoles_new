@@ -1,10 +1,17 @@
 import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { rescheduleSchema } from "@/lib/schemas/booking";
 import { BOOKING_CONFIG } from "@/lib/booking/config";
 import { isSlotBookable } from "@/lib/booking/slots";
 import { isLegitimateSlot } from "@/lib/booking/availability";
 import { findBookingByToken, cancelBooking, rescheduleBooking } from "@/lib/booking/repository";
-import { deleteEvent, patchEventTime, getAccessToken, type OAuthEnv } from "@/lib/booking/google-calendar";
+import {
+  deleteEvent,
+  patchEventTime,
+  getAccessToken,
+  firstCalendarId,
+  type OAuthEnv,
+} from "@/lib/booking/google-calendar";
 import { sendMailWithRetry, recipients } from "@/lib/mail/client";
 import { reportError } from "@/lib/observability/report";
 import BookingCancelled from "../../../../../emails/BookingCancelled";
@@ -18,23 +25,6 @@ type Ctx = { params: Promise<{ token: string }> };
 // bkz. `src/app/api/booking/route.ts`). `getAccessToken`'ın gerçek `OAuthEnv`
 // tipini içe alıp genişletiyoruz; dar cast deseni tek yerde tanımlı.
 type BookingEnv = OAuthEnv & { BOOKING_CALENDAR_IDS: string; BOOKINGS_DB: D1Database };
-
-/**
- * Yapılandırılmış takvim kimliklerinin ilkini döndürür.
- *
- * Boş env (tamamen boş ya da baştan virgülle başlıyorsa ilk eleman boş)
- * `.split(",")[0]!.trim()` ile sessizce `""` verir ve Calendar çağrısı
- * anlamsız bir kimlikle sessizce gider (Görev 5 Fix C ile aynı delik).
- * Açık, aranabilir bir hata fırlatılıyor — çağıran (DELETE/PATCH) bunu
- * yakalayıp `reportError` ile bildiriyor, işlemi geçersiz kılmıyor.
- */
-function firstCalendarId(raw: string): string {
-  const id = raw.split(",")[0]?.trim();
-  if (!id) {
-    throw new Error("BOOKING_CALENDAR_IDS env değişkeninin ilk elemanı boş");
-  }
-  return id;
-}
 
 export async function GET(_req: Request, ctx: Ctx): Promise<Response> {
   const { token } = await ctx.params;
@@ -101,10 +91,17 @@ export async function DELETE(_req: Request, ctx: Ctx): Promise<Response> {
 
 export async function PATCH(req: Request, ctx: Ctx): Promise<Response> {
   const { token } = await ctx.params;
-  const body = (await req.json().catch(() => null)) as { startsAtUtc?: string } | null;
-  if (!body?.startsAtUtc) {
+  const body = await req.json().catch(() => null);
+  // POST'un `bookingSchema.safeParse` disiplini (spec, `route.ts`) burada da
+  // geçerli: ham `body.startsAtUtc`'ye güvenmek "banana" gibi tarih olarak
+  // anlamsız bir stringi `isLegitimateSlot`'un `new Date(...)` çağrısına kadar
+  // sızdırıyor ve orada yakalanmayan bir `RangeError` fırlatıyordu (Görev 7
+  // denetim bulgusu B5) — geçerli bir `cancel_token` bile gerektirmeden.
+  const parsed = rescheduleSchema.safeParse(body);
+  if (!parsed.success) {
     return NextResponse.json({ ok: false, reason: "validation" }, { status: 400 });
   }
+  const { startsAtUtc } = parsed.data;
 
   // Fix A: erteleme, POST /api/booking'e Görev 5'te eklenen slot meşruluk
   // kontrolünü ATLAYAMAZ. Tek başına `isSlotBookable` (24 saat kuralı) yeterli
@@ -115,7 +112,7 @@ export async function PATCH(req: Request, ctx: Ctx): Promise<Response> {
   // fonksiyonlar, `@/lib/booking/availability`'den paylaşılıyor (iki kopya
   // ayrışırsa delik geri gelir).
   const now = new Date();
-  if (!isLegitimateSlot(body.startsAtUtc) || !isSlotBookable(body.startsAtUtc, now)) {
+  if (!isLegitimateSlot(startsAtUtc) || !isSlotBookable(startsAtUtc, now)) {
     return NextResponse.json({ ok: false, reason: "slot_unavailable" }, { status: 422 });
   }
 
@@ -125,17 +122,24 @@ export async function PATCH(req: Request, ctx: Ctx): Promise<Response> {
   const row = await findBookingByToken(db, token);
   if (!row) return NextResponse.json({ ok: false, reason: "not_found" }, { status: 404 });
 
-  // Erteleme sonrası da blok 90 dakika (BOOKING_CONFIG.slotMinutes) — spec
-  // §3.1b KİLİTLİ: ziyaretçiye verilen vaat 1 saat, takvimde kapanan blok 90
-  // dakika. Bu satır bir "düzeltme" değildir, bilinçli tasarım kararıdır.
-  const endsAtUtc = new Date(
-    Date.parse(body.startsAtUtc) + BOOKING_CONFIG.slotMinutes * 60_000,
-  ).toISOString();
+  // Bilinçli: `row.startsAtUtc` (KAYNAK, randevunun kendi zamanı) burada HİÇ
+  // kontrol edilmiyor — yalnız HEDEF slot (`startsAtUtc`) doğrulanıyor. Yani
+  // geçmişte kalmış/gerçekleşmiş bir randevu geçerli bir gelecek slota
+  // ertelenebilir. Denetçi bunu engellenmesi gereken bir kusur olarak
+  // işaretledi; bilinçli olarak ENGELLENMEDİ (Görev 7 fix turu 1, bulgu 3):
+  // "aktif randevu" kısıtı (`idx_bookings_active_email`, yalnız
+  // `status='confirmed'`) zaman sınırı taşımıyor, ve Görev 9'un temizlik işi
+  // yalnız 90 günden eski SATIRLARI siliyor, geçmişte kalmış bir randevunun
+  // `status`'ünü değiştirmiyor. Erteleme burada kapatılırsa, geçmişte kalan
+  // bir randevusu olan ziyaretçi o e-postayla 90 gün boyunca yeni randevu
+  // ALAMAZ hale gelir — erteleme bugün onun TEK kaçış yolu. Asıl çözüm
+  // (geçmiş randevuları ayrı bir status'e taşımak) Görev 9'a bırakıldı.
+  const endsAtUtc = new Date(Date.parse(startsAtUtc) + BOOKING_CONFIG.slotMinutes * 60_000).toISOString();
 
   // Çakışma kontrolü veritabanı kısıtında yaşıyor (Görev 2 ruling); uygulama
   // burada kendi ön kontrolünü icat etmiyor, `rescheduleBooking`'in
   // döndürdüğü sonuca güveniyor.
-  const moved = await rescheduleBooking(db, token, body.startsAtUtc, endsAtUtc);
+  const moved = await rescheduleBooking(db, token, startsAtUtc, endsAtUtc);
   if (!moved.ok) {
     const status = moved.reason === "slot_taken" ? 409 : 404;
     return NextResponse.json({ ok: false, reason: moved.reason }, { status });
@@ -147,12 +151,12 @@ export async function PATCH(req: Request, ctx: Ctx): Promise<Response> {
       const calId = firstCalendarId(bookingEnv.BOOKING_CALENDAR_IDS);
       // `patchEventTime` `conferenceDataVersion` GÖNDERMEZ: yalnız saat
       // güncelleniyor, mevcut Meet bağlantısı korunuyor (spec §3.4, Görev 3).
-      await patchEventTime(at, calId, row.calendarEventId, body.startsAtUtc, endsAtUtc);
+      await patchEventTime(at, calId, row.calendarEventId, startsAtUtc, endsAtUtc);
     } catch (err) {
       // Satır zaten taşındı; Calendar tarafı manuel senkronize edilebilir.
       reportError(err, { route: "booking/reschedule", step: "calendar" });
     }
   }
 
-  return NextResponse.json({ ok: true, startsAtUtc: body.startsAtUtc, endsAtUtc });
+  return NextResponse.json({ ok: true, startsAtUtc, endsAtUtc });
 }

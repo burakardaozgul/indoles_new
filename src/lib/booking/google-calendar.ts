@@ -32,6 +32,34 @@ function throwForStatus(res: Response, op: string, detail: string): never {
   throw new Error(`${op} başarısız: HTTP ${res.status} ${detail}`);
 }
 
+/**
+ * Yapılandırılmış takvim kimliklerinin ilkini döndürür.
+ *
+ * Boş env (tamamen boş ya da baştan virgülle başlıyorsa ilk eleman boş)
+ * `.split(",")[0]!.trim()` ile sessizce `""` verir ve Calendar çağrısı
+ * anlamsız bir kimlikle sessizce gider (Görev 5 Fix C). Açık, aranabilir bir
+ * hata fırlatılıyor — çağıran (POST/PATCH/DELETE rotaları) bunu yakalayıp
+ * `reportError` ile bildiriyor, işlemi geçersiz kılmıyor.
+ *
+ * Daha önce POST (`app/api/booking/route.ts`) ve PATCH/DELETE
+ * (`app/api/booking/[token]/route.ts`) rotalarında AYRI AYRI tanımlıydı
+ * (Görev 7 denetim bulgusu C1) — davranış birebir aynı olsa da tek kaynakta
+ * değildi. `isLegitimateSlot`'a Görev 5→7'de uygulanan aynı ders burada da
+ * geçerli: iki kopya bırakılırsa biri güncellenip diğeri unutulduğunda delik
+ * geri gelir. Burada duruyor çünkü her iki rota zaten bu dosyadan
+ * `getAccessToken`/`createEvent`/`deleteEvent`/`patchEventTime` içe aktarıyor
+ * — yeni bir modül eklemeden, döngüsel import riski olmayan mevcut tek noktaya
+ * taşınıyor (`config.ts` yalnız veri taşır, ayrıştırma mantığı için uygun yer
+ * değil).
+ */
+export function firstCalendarId(raw: string): string {
+  const id = raw.split(",")[0]?.trim();
+  if (!id) {
+    throw new Error("BOOKING_CALENDAR_IDS env değişkeninin ilk elemanı boş");
+  }
+  return id;
+}
+
 export async function getAccessToken(env: OAuthEnv): Promise<string> {
   const res = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",

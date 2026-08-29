@@ -197,6 +197,42 @@ describe("token rotası", () => {
       expect(rescheduleBooking).not.toHaveBeenCalled();
     });
 
+    // --- Görev 7 fix turu 1, bulgu 1: PATCH gövdesi artık zod ile doğrulanır ---
+    // Öncesinde ham `body.startsAtUtc` doğrudan `isLegitimateSlot`'un
+    // `new Date(...)`'ine gidiyordu; "banana" gibi anlamsız ama boş olmayan
+    // bir string hiçbir `try/catch`in yakalamadığı bir
+    // `RangeError: Invalid time value` fırlatıyordu (400 değil, çalışma
+    // zamanı hatası) — üstelik geçerli bir `cancel_token` bile gerekmiyordu.
+    describe("Bulgu 1 — gövde doğrulaması", () => {
+      it("geçersiz startsAtUtc (\"banana\") 400 döner, çalışma zamanı hatası FIRLATMAZ", async () => {
+        // `await` burada zaten kanıt: PATCH bir `RangeError` fırlatsaydı bu
+        // satır reddedilir (throw) ve test bu haliyle çöker — try/catch'e
+        // gerek yok, düzeltmeden ÖNCE bu test tam olarak böyle kırmızıydı.
+        const res = await PATCH(req({ startsAtUtc: "banana" }), ctx);
+        expect(res.status).toBe(400);
+        expect(await res.json()).toMatchObject({ ok: false, reason: "validation" });
+        expect(rescheduleBooking).not.toHaveBeenCalled();
+      });
+
+      it("eksik alan (startsAtUtc yok) 400 döner", async () => {
+        const res = await PATCH(req({ visitorTimezone: "Europe/Istanbul" }), ctx);
+        expect(res.status).toBe(400);
+        expect(await res.json()).toMatchObject({ ok: false, reason: "validation" });
+        expect(rescheduleBooking).not.toHaveBeenCalled();
+      });
+
+      it("bozuk JSON gövdesi 400 döner, çalışma zamanı hatası FIRLATMAZ", async () => {
+        const malformed = new Request("http://localhost/api/booking/tok123", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: "{bozuk json",
+        });
+        const res = await PATCH(malformed, ctx);
+        expect(res.status).toBe(400);
+        expect(rescheduleBooking).not.toHaveBeenCalled();
+      });
+    });
+
     // --- Fix A: PATCH, Görev 5'e eklenen slot meşruluk kontrolünü ATLAMAMALI ---
     // Meşru bir slot rezerve edip sonra PATCH ile ızgara dışına ertelemek aynı
     // deliği yeniden açardı. "now" kasıtlı olarak hedef slotun günlerce
@@ -218,6 +254,27 @@ describe("token rotası", () => {
         expect(await res.json()).toMatchObject({ ok: false, reason: "slot_unavailable" });
         expect(rescheduleBooking).not.toHaveBeenCalled();
       });
+    });
+
+    // --- Görev 7 fix turu 1, bulgu 3: BİLİNÇLİ, denetçinin önerisinin AKSİ ---
+    // Denetçi geçmiş bir randevunun geleceğe ertelenmesinin engellenmesini
+    // önerdi; Burak'ın kararı bunun TERSİ (bkz. route.ts PATCH içindeki
+    // gerekçe): `idx_bookings_active_email` kısmi indeksi zaman sınırı
+    // taşımıyor ve Görev 9 temizliği yalnız 90 günden eski satırları siliyor,
+    // status'ü değiştirmiyor — erteleme kapatılırsa ziyaretçi 90 gün o
+    // e-postayla yeni randevu alamaz hale gelir. Bu test davranışı KİLİTLİYOR.
+    it("geçmişte kalmış bir randevu geçerli bir gelecek slota ertelenebilir (bilinçli — Görev 9'a bkz.)", async () => {
+      vi.mocked(findBookingByToken).mockResolvedValue({
+        ...row,
+        startsAtUtc: "2026-08-25T10:00:00.000Z", // "now" (2026-09-01) öncesinde
+        endsAtUtc: "2026-08-25T11:30:00.000Z",
+      } as never);
+      vi.mocked(rescheduleBooking).mockResolvedValue({
+        ok: true,
+        row: { ...row, startsAtUtc: "2026-09-08T10:00:00.000Z", endsAtUtc: "2026-09-08T11:30:00.000Z" } as never,
+      });
+      const res = await PATCH(req({ startsAtUtc: "2026-09-08T10:00:00.000Z" }), ctx);
+      expect(res.status).toBe(200);
     });
 
     it("mail hatası ertelemeyi geçersiz kılmaz — yakalanır, reportError çağrılır", async () => {

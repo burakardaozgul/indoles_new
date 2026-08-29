@@ -30,3 +30,20 @@ export const bookingSchema = z.object({
 });
 
 export type BookingPayload = z.infer<typeof bookingSchema>;
+
+/**
+ * Erteleme (PATCH /api/booking/:token) gövdesi.
+ *
+ * POST'un `bookingSchema.safeParse` disiplini PATCH'e taşınmamıştı (Görev 7
+ * denetim bulgusu B5): ham `body.startsAtUtc` doğrudan `isLegitimateSlot`
+ * içindeki `new Date(...)`'e gidiyordu — "banana" gibi tarih olarak anlamsız
+ * ama boş olmayan bir string, hiçbir `try/catch`in yakalamadığı bir
+ * `RangeError: Invalid time value` fırlatıyordu (400 değil). Bu doğrulama
+ * DB sorgusundan (token arama) önce çalıştığı için geçerli bir `cancel_token`
+ * bile gerekmiyordu — herhangi bir istek bu çökmeyi tetikleyebiliyordu.
+ */
+export const rescheduleSchema = z.object({
+  startsAtUtc: z.string().datetime(),
+});
+
+export type ReschedulePayload = z.infer<typeof rescheduleSchema>;

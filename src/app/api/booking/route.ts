@@ -5,7 +5,7 @@ import { BOOKING_CONFIG } from "@/lib/booking/config";
 import { isSlotBookable } from "@/lib/booking/slots";
 import { isLegitimateSlot } from "@/lib/booking/availability";
 import { createBooking, attachCalendarResult, markFailed } from "@/lib/booking/repository";
-import { createEvent, getAccessToken, type OAuthEnv } from "@/lib/booking/google-calendar";
+import { createEvent, getAccessToken, firstCalendarId, type OAuthEnv } from "@/lib/booking/google-calendar";
 import { sendMailWithRetry, recipients } from "@/lib/mail/client";
 import { spamSignal, turnstileEnabled } from "@/lib/security/anti-spam";
 import { verifyTurnstile } from "@/lib/security/turnstile";
@@ -93,12 +93,11 @@ export async function POST(req: Request): Promise<Response> {
     // İlk kimlik boşsa (env tamamen boş, ya da baştan virgülle başlıyorsa)
     // `createEvent`'i boş bir calendarId ile çağırmak sessizce degraded'a
     // düşerdi ve sebebi hiçbir yerde görünmezdi (Görev 4 fix turu 2'de kardeş
-    // delik kapatıldı). Açık, aranabilir bir hata fırlatılıyor.
-    const firstCalendarId = bookingEnv.BOOKING_CALENDAR_IDS.split(",")[0]?.trim();
-    if (!firstCalendarId) {
-      throw new Error("BOOKING_CALENDAR_IDS env değişkeninin ilk elemanı boş");
-    }
-    const res = await createEvent(token, firstCalendarId, {
+    // delik kapatıldı). Açık, aranabilir bir hata fırlatılıyor —
+    // `firstCalendarId` PATCH/DELETE ile paylaşılan tek tanım
+    // (`@/lib/booking/google-calendar`, Görev 7 fix turu 1, bulgu C1).
+    const calId = firstCalendarId(bookingEnv.BOOKING_CALENDAR_IDS);
+    const res = await createEvent(token, calId, {
       summary: `INDOLES görüşmesi — ${name}`,
       // Lead bağlamı burada duruyor, veritabanında değil (spec §2.2b).
       description: [

@@ -172,11 +172,25 @@ export async function cancelBooking(
   const row = await findBookingByToken(db, token);
   if (!row) return "not_found";
   // İdempotent: ikinci tıklama hata değil, aynı sonucun tekrarı (spec §4).
+  // Bu ön kontrol yalnız HIZLI YOL ve net "not_found" ayrımı için var — tek
+  // başına güvence DEĞİL. Nihai kısıt aşağıdaki UPDATE'in kendisinde:
+  // `rescheduleBooking` ile AYNI desen (Görev 7 fix turu 1, bulgu 2). Ön
+  // kontrol ile UPDATE arasına eşzamanlı bir İKİNCİ DELETE girip satırı zaten
+  // iptal etmiş olabilir; `AND status = 'confirmed'` guard'ı ve
+  // `res.meta.changes` kontrolü olmadan bu UPDATE yine "başarılı" görünür ve
+  // iki eşzamanlı istek de "cancelled" dönüp iki ayrı bildirim maili tetikler
+  // (denetçinin gerçek SQLite enjeksiyonuyla kanıtladığı TOCTOU).
   if (row.status !== "confirmed") return "already_cancelled";
-  await db
-    .prepare("UPDATE bookings SET status = 'cancelled', updated_at = ? WHERE id = ?")
+  const res = await db
+    .prepare("UPDATE bookings SET status = 'cancelled', updated_at = ? WHERE id = ? AND status = 'confirmed'")
     .bind(new Date().toISOString(), row.id)
     .run();
+  // SQLite eşleşme bulamayınca hata FIRLATMAZ, sessizce 0 satır günceller.
+  // Sonucu okumazsak, ön kontrol ile UPDATE arasına giren eşzamanlı bir iptal
+  // sonrası çağırana yine "cancelled" (sahte başarı) demiş oluruz.
+  if ((res.meta?.changes ?? 0) === 0) {
+    return "already_cancelled";
+  }
   return "cancelled";
 }
 

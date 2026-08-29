@@ -131,6 +131,35 @@ describe("repository", () => {
     expect(await cancelBooking(db, r.row.cancelToken)).toBe("already_cancelled");
   });
 
+  it("ön kontrolden sonra araya EŞZAMANLI ikinci iptal girerse SAHTE 'cancelled' dönmez (Görev 7 fix turu 1, bulgu 2)", async () => {
+    // `rescheduleBooking`'in TOCTOU testiyle AYNI enjeksiyon tekniği: A'nın
+    // UPDATE'i çalışmadan hemen önce, B'nin (eşzamanlı ikinci DELETE) satırı
+    // ZATEN iptal etmiş olduğunu simüle ediyoruz. Guard'sız bir UPDATE
+    // (`WHERE id = ?`, `status='confirmed'` şartı yok) bunu sessizce
+    // "başarılı" sayardı ve A da "cancelled" dönerdi — DELETE rotasında bu,
+    // iki eşzamanlı isteğin İKİSİNİN DE bildirim maili göndermesi demek
+    // (denetçinin gerçek SQLite üzerinde kanıtladığı senaryo).
+    const r = await createBooking(db, base);
+    if (!r.ok) throw new Error("kurulum başarısız");
+
+    const originalPrepare = db.prepare.bind(db);
+    db.prepare = ((sql: string) => {
+      if (sql.startsWith("UPDATE bookings SET status = 'cancelled'")) {
+        originalPrepare("UPDATE bookings SET status = 'cancelled' WHERE id = ?").bind(r.row.id).run();
+      }
+      return originalPrepare(sql);
+    }) as typeof db.prepare;
+
+    const result = await cancelBooking(db, r.row.cancelToken);
+    expect(result).toBe("already_cancelled");
+
+    // Satır gerçekten iptal durumunda — veri bütünlüğü bozulmadı, yalnız
+    // ikinci çağıranın yanlışlıkla "cancelled" (ve dolayısıyla ikinci bir
+    // bildirim maili) alması engellendi.
+    const found = await findBookingByToken(db, r.row.cancelToken);
+    expect(found?.status).toBe("cancelled");
+  });
+
   it("listSoldSlots yalnız confirmed satırları döndürür", async () => {
     const r = await createBooking(db, base);
     if (!r.ok) throw new Error("kurulum başarısız");

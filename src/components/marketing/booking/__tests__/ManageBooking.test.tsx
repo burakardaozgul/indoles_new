@@ -191,4 +191,90 @@ describe("ManageBooking — görüntüle / iptal et / ertele", () => {
     await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent(/rescheduleTakenError/i));
     expect(patchCalls).toBe(1);
   });
+
+  it("erteleme 422 (slot_unavailable) verirse geçersiz saat hatası gösterir", async () => {
+    // Kod incelemesiyle doğru dallanıyordu (ManageBooking.tsx:145-146) ama
+    // ayrı testi yoktu — denetim notu, Eksen B-2.
+    let patchCalls = 0;
+    const fetchMock = vi.fn((url: unknown, init?: RequestInit) => {
+      const u = String(url);
+      if (u.includes("/api/booking/availability")) {
+        return Promise.resolve({ ok: true, json: async () => ({ ok: true, days }) });
+      }
+      if (init?.method === "PATCH") {
+        patchCalls += 1;
+        return Promise.resolve({ ok: false, status: 422, json: async () => ({ ok: false, reason: "slot_unavailable" }) });
+      }
+      return Promise.resolve({ ok: true, json: async () => activeBooking });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<ManageBooking locale="tr" token="tok123" />);
+    await waitFor(() => expect(screen.getByRole("button", { name: /rescheduleCta/i })).toBeInTheDocument());
+    fireEvent.click(screen.getByRole("button", { name: /rescheduleCta/i }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "14 Eylül" })).toBeEnabled());
+    fireEvent.click(screen.getByRole("button", { name: "14 Eylül" }));
+    const slotBtn = await screen.findByRole("button", { name: /^\d{2}:\d{2}$/ });
+    fireEvent.click(slotBtn);
+    fireEvent.click(screen.getByRole("button", { name: /rescheduleConfirmCta/i }));
+
+    await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent(/rescheduleInvalidError/i));
+    expect(patchCalls).toBe(1);
+  });
+
+  it("erteleme ağ hatasında (fetch reddi) dürüst bir genel hata gösterir, sessiz kalmaz", async () => {
+    const fetchMock = vi.fn((url: unknown, init?: RequestInit) => {
+      const u = String(url);
+      if (u.includes("/api/booking/availability")) {
+        return Promise.resolve({ ok: true, json: async () => ({ ok: true, days }) });
+      }
+      if (init?.method === "PATCH") {
+        return Promise.reject(new Error("network down"));
+      }
+      return Promise.resolve({ ok: true, json: async () => activeBooking });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<ManageBooking locale="tr" token="tok123" />);
+    await waitFor(() => expect(screen.getByRole("button", { name: /rescheduleCta/i })).toBeInTheDocument());
+    fireEvent.click(screen.getByRole("button", { name: /rescheduleCta/i }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "14 Eylül" })).toBeEnabled());
+    fireEvent.click(screen.getByRole("button", { name: "14 Eylül" }));
+    const slotBtn = await screen.findByRole("button", { name: /^\d{2}:\d{2}$/ });
+    fireEvent.click(slotBtn);
+    fireEvent.click(screen.getByRole("button", { name: /rescheduleConfirmCta/i }));
+
+    await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent(/rescheduleGenericError/i));
+  });
+
+  it("erteleme başarılı olunca 'randevun taşındı' onayını gösterir (rescheduleSuccess)", async () => {
+    // Denetim notu: bu anahtar tanımlıydı ama hiç kullanılmıyordu (Minor).
+    const fetchMock = vi.fn((url: unknown, init?: RequestInit) => {
+      const u = String(url);
+      if (u.includes("/api/booking/availability")) {
+        return Promise.resolve({ ok: true, json: async () => ({ ok: true, days }) });
+      }
+      if (init?.method === "PATCH") {
+        return Promise.resolve({
+          ok: true,
+          json: async () => ({ ok: true, startsAtUtc: "2026-09-14T10:00:00.000Z", endsAtUtc: "2026-09-14T11:30:00.000Z" }),
+        });
+      }
+      return Promise.resolve({ ok: true, json: async () => activeBooking });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<ManageBooking locale="tr" token="tok123" />);
+    await waitFor(() => expect(screen.getByRole("button", { name: /rescheduleCta/i })).toBeInTheDocument());
+    fireEvent.click(screen.getByRole("button", { name: /rescheduleCta/i }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "14 Eylül" })).toBeEnabled());
+    fireEvent.click(screen.getByRole("button", { name: "14 Eylül" }));
+    const slotBtn = await screen.findByRole("button", { name: /^\d{2}:\d{2}$/ });
+    fireEvent.click(slotBtn);
+    fireEvent.click(screen.getByRole("button", { name: /rescheduleConfirmCta/i }));
+
+    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(/rescheduleSuccess/i));
+    // Erteleme paneli kapanmış, yeni saat üstte görünüyor.
+    expect(screen.queryByRole("grid")).toBeNull();
+  });
 });

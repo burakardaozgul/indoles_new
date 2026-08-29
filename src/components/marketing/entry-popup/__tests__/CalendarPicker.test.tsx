@@ -122,6 +122,35 @@ describe("CalendarPicker — sunucudan müsaitlik", () => {
     await waitFor(() => expect(screen.getByRole("button", { name: "7 Eylül" })).toBeEnabled());
   });
 
+  it("yükleme sırasında 'müsaitlik yükleniyor' duyurusu var, gün 'uygun saat yok' YALANI söylemez", async () => {
+    // Denetim bulgusu (Bulgu 3): müsaitlik gelene kadar her gün disabled +
+    // title="disabledDayHint" basılıyordu — bu o an için YANLIŞ bir iddia
+    // (slot olup olmadığı henüz bilinmiyor). Sessiz de değildi ("uygun saat
+    // yok" görünüyordu) ama YANLIŞ bir mesajdı.
+    let resolveFetch!: (v: unknown) => void;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockReturnValue(new Promise((res) => { resolveFetch = res; })),
+    );
+    render(<CalendarPicker {...baseProps} />);
+
+    // Yükleniyor duyurusu DOM'da.
+    expect(screen.getByRole("status")).toHaveTextContent("loadingAvailability");
+    // Disabled gün henüz "uygun saat yok" demiyor — title basılmıyor.
+    expect(screen.getByRole("button", { name: "7 Eylül" })).not.toHaveAttribute("title");
+
+    resolveFetch({ ok: true, json: async () => ({ ok: true, days }) });
+    // Veri geldikten sonra yükleniyor duyurusu kalkar.
+    await waitFor(() => expect(screen.queryByRole("status")).toBeNull());
+    // Gerçekten slotsuz bir gün için artık doğru mesaj görünür.
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "8 Eylül" })).toHaveAttribute(
+        "title",
+        "disabledDayHint",
+      ),
+    );
+  });
+
   it("sistem bozuksa iletişim formuna yönlendiren mesaj gösterir", async () => {
     // Sessiz boş kutu gösterilmiyor (spec §4).
     vi.stubGlobal(

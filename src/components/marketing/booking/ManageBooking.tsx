@@ -5,7 +5,11 @@ import { useTranslations } from "next-intl";
 import { CalendarPicker } from "../entry-popup/CalendarPicker";
 import type { Locale } from "@/lib/content/types";
 
-type BookingStatus = "confirmed" | "cancelled" | "failed";
+// ADR-029 sonrası "failed" statüsü POST /api/booking yolunda hiç
+// üretilmiyor (Calendar kesintisinde satır `confirmed` kalır, işaret
+// `calendar_event_id IS NULL`) — arayüzün bilmesi gereken tek ayrım
+// "cancelled" olup olmadığı, tip buna göre daraltıldı.
+type BookingStatus = "confirmed" | "cancelled";
 
 type Booking = {
   startsAtUtc: string;
@@ -44,6 +48,12 @@ export function ManageBooking({ locale, token }: Props) {
   const [rescheduleError, setRescheduleError] = React.useState<string | null>(null);
   const [rescheduleDate, setRescheduleDate] = React.useState<string | null>(null);
   const [rescheduleTime, setRescheduleTime] = React.useState<string | null>(null);
+  // Erteleme paneli başarıyla kapanınca üstteki yeni saat zaten görünür
+  // oluyor, ama bunun BİLİNÇLİ bir sonuç olduğunu (yanlışlıkla değişmiş bir
+  // randevu değil) doğrulayan ayrı bir onay yoktu — `rescheduleSuccess`
+  // anahtarı tanımlıydı ama hiç okunmuyordu. Yeni bir erteleme denemesi
+  // başlayınca (panel yeniden açılınca) temizleniyor.
+  const [rescheduleSuccessVisible, setRescheduleSuccessVisible] = React.useState(false);
   // `CalendarPicker`i tazelemek için: 409/422 sonrası bayat müsaitlik
   // listesiyle kalmasın diye bileşeni yeniden monte ediyoruz. Burada,
   // `EntryPopup`in aksine, korunması gereken ayrı bir lead formu yok —
@@ -152,6 +162,7 @@ export function ManageBooking({ locale, token }: Props) {
       setRescheduling(false);
       setRescheduleDate(null);
       setRescheduleTime(null);
+      setRescheduleSuccessVisible(true);
     } catch {
       setReschedulingSubmitting(false);
       setRescheduleError(t("rescheduleGenericError"));
@@ -169,7 +180,7 @@ export function ManageBooking({ locale, token }: Props) {
   if (state.kind === "not_found") {
     // Sessiz boş kutu yok (spec §4): dürüst mesaj + iletişim yolu.
     return (
-      <div role="status" className="max-w-[560px]">
+      <div role="status" className="max-w-popup">
         <h1 className="typography-h1 text-ink-900">{t("notFoundTitle")}</h1>
         <p className="typography-body-md text-ink-500 mt-3">{t("notFoundBody")}</p>
       </div>
@@ -180,7 +191,7 @@ export function ManageBooking({ locale, token }: Props) {
 
   if (booking.status === "cancelled") {
     return (
-      <div className="max-w-[560px]">
+      <div className="max-w-popup">
         <h1 className="typography-h1 text-ink-900">{t("cancelledTitle")}</h1>
         <p className="typography-body-md text-ink-500 mt-3">{t("cancelledBody")}</p>
       </div>
@@ -190,7 +201,7 @@ export function ManageBooking({ locale, token }: Props) {
   const { local, istanbul } = formatDateTime(booking.startsAtUtc);
 
   return (
-    <div className="max-w-[640px]">
+    <div className="max-w-160">
       <h1 className="typography-h1 text-ink-900">{t("activeTitle")}</h1>
       <p className="typography-body-md text-ink-900 mt-3">
         {local}
@@ -214,6 +225,12 @@ export function ManageBooking({ locale, token }: Props) {
         <p className="typography-body-sm text-ink-500 mt-4">{t("noMeetYet")}</p>
       )}
 
+      {rescheduleSuccessVisible && (
+        <p role="status" className="mt-4 rounded-md border border-success-500/40 bg-success-50 px-3 py-2 text-sm text-success-700">
+          {t("rescheduleSuccess")}
+        </p>
+      )}
+
       {cancelError && (
         <p role="alert" className="mt-4 rounded-md border border-danger-500/40 bg-danger-50 px-3 py-2 text-sm text-danger-700">
           {cancelError}
@@ -224,7 +241,10 @@ export function ManageBooking({ locale, token }: Props) {
         {!cancelConfirming && (
           <button
             type="button"
-            onClick={() => setRescheduling((v) => !v)}
+            onClick={() => {
+              setRescheduling((v) => !v);
+              setRescheduleSuccessVisible(false);
+            }}
             className="btn btn-ghost"
           >
             {t("rescheduleCta")}
@@ -268,7 +288,7 @@ export function ManageBooking({ locale, token }: Props) {
         <div className="mt-8 pt-8 border-t border-surface-2">
           <p className="typography-body-sm font-medium text-ink-900 mb-4">{t("reschedulePrompt")}</p>
 
-          <div className="max-w-[360px]">
+          <div className="max-w-90">
             <CalendarPicker
               key={calendarKey}
               locale={locale}

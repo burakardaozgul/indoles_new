@@ -415,9 +415,11 @@
       "selectDatePrompt": "Pick a day below",
       "selectTimePrompt": "Pick the time that suits you",
       "disabledDayHint": "No times available this day",
+      "loadingAvailability": "Checking availability…",
       "submitCta": "Submit meeting request",
       "systemUnavailable": "No times are available right now. Write to us and we will get back to you.",
       "istanbulTimeLabel": "Istanbul time: {time}",
+      "istanbulRangeNote": "Times are shown in your time zone: {tz} · In Istanbul: {start}–{end}",
       "slotTakenError": "That time was just taken. We refreshed the list — please pick another time.",
       "duplicateEmailError": "You already have an active booking with this email. You can view or manage it from the link in your confirmation email.",
       "genericError": "We could not create the booking. Try again or email digital@indoles.com.tr."

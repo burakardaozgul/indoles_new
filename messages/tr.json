@@ -415,9 +415,11 @@
       "selectDatePrompt": "Aşağıdan bir gün seçin",
       "selectTimePrompt": "Tercih ettiğiniz saati seçin",
       "disabledDayHint": "Bu gün için uygun saat yok",
+      "loadingAvailability": "Müsaitlik kontrol ediliyor…",
       "submitCta": "Görüşme talebini ilet",
       "systemUnavailable": "Şu an uygun saat görünmüyor. Bize yazın, biz dönelim.",
       "istanbulTimeLabel": "İstanbul saati: {time}",
+      "istanbulRangeNote": "Saatler kendi saat diliminde gösteriliyor: {tz} · İstanbul'da {start}–{end}",
       "slotTakenError": "Bu saat az önce alındı. Güncel liste yeniden yüklendi, lütfen başka bir saat seçin.",
       "duplicateEmailError": "Bu e-posta ile zaten aktif bir randevunuz var. Onay mailinizdeki bağlantıdan görüntüleyip yönetebilirsiniz.",
       "genericError": "Randevu oluşturulamadı. Tekrar dene ya da digital@indoles.com.tr adresine yaz."

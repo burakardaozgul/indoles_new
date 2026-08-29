@@ -13,9 +13,11 @@ type Props = {
   meetUrl?: string | null;
   cancelUrl?: string | null;
   /**
-   * Calendar/Meet oluşturma başarısız olduğunda satır `failed` işaretlenir
-   * ama randevu geçerli kalır (spec §4). Sahte bir Meet linki BASILMAZ —
-   * dürüst bir "bağlantı ayrıca iletilecek" mesajı gösterilir.
+   * Calendar/Meet oluşturma başarısız olduğunda satır `confirmed` KALIR
+   * (ADR-029) — `failed` diye bir statü artık hiç üretilmiyor, işaret
+   * `calendar_event_id IS NULL`. Randevu geçerli, yalnız Meet linki eksik.
+   * Sahte bir Meet linki BASILMAZ — dürüst bir "bağlantı ayrıca
+   * iletilecek" mesajı gösterilir.
    */
   degraded?: boolean;
 };

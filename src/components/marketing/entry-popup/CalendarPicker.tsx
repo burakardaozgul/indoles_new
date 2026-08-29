@@ -114,6 +114,14 @@ export function CalendarPicker({ locale, onSlotChange, selectedDate, selectedTim
     };
   }, []);
 
+  // Sunucu cevabı gelmeden `isDayDisabled` her günü disabled sayar (aşağıda),
+  // ama bu iki farklı durumu KARIŞTIRMAMALI: "henüz bilinmiyor" ile "bu gün
+  // için gerçekten uygun saat yok" ayrı iddialar. Ayrım olmadan ziyaretçi
+  // yavaş bir bağlantıda ayı "tamamen dolu" sanıp ayrılabilir — bu yüzden
+  // `isLoading` ayrı tutuluyor: yalnız "bilinmiyor" durumunda görünür bir
+  // duyuru basılır, gün title'ı yanlış "uygun saat yok" mesajını taşımaz.
+  const isLoading = days === null;
+
   const slotsByDate = React.useMemo(() => {
     const m = new Map<string, AvailabilitySlot[]>();
     for (const d of days ?? []) m.set(d.date, d.slots);
@@ -141,6 +149,30 @@ export function CalendarPicker({ locale, onSlotChange, selectedDate, selectedTim
       }),
     [locale],
   );
+
+  // Gören ziyaretçi İstanbul saatini GÖRSEL olarak da bilmeli (Görev 8 kural
+  // 8) — ama her saat butonuna tekrar tekrar basmak hem gürültü hem de
+  // erişilebilir adı kirleten şeydi (bkz. aşağıdaki `descId` span'i). Bunun
+  // yerine seçili günün saat aralığı için TEK bir not hesaplanıyor; buton
+  // içindeki `sr-only` span yalnız ekran okuyucuya PER-SLOT ayrıntı verir.
+  const istanbulNote = React.useMemo(() => {
+    if (!selectedDate || visitorTimeZone === "Europe/Istanbul") return null;
+    const slots = slotsByDate.get(selectedDate) ?? [];
+    if (slots.length === 0) return null;
+    const anyDiffers = slots.some(
+      (s) =>
+        istanbulTimeFormatter.format(new Date(s.startUtc)) !==
+        localTimeFormatter.format(new Date(s.startUtc)),
+    );
+    if (!anyDiffers) return null;
+    const rangeStart = Math.min(...slots.map((s) => Date.parse(s.startUtc)));
+    const rangeEnd = Math.max(...slots.map((s) => Date.parse(s.endUtc)));
+    return t("istanbulRangeNote", {
+      tz: visitorTimeZone,
+      start: istanbulTimeFormatter.format(new Date(rangeStart)),
+      end: istanbulTimeFormatter.format(new Date(rangeEnd)),
+    });
+  }, [selectedDate, slotsByDate, visitorTimeZone, istanbulTimeFormatter, localTimeFormatter, t]);
 
   const monthNames = locale === "tr" ? MONTH_NAMES_TR : MONTH_NAMES_EN;
   const dayHeaders = locale === "tr" ? DAY_HEADERS_TR : DAY_HEADERS_EN;
@@ -252,6 +284,15 @@ export function CalendarPicker({ locale, onSlotChange, selectedDate, selectedTim
         </button>
       </div>
 
+      {/* Müsaitlik henüz gelmedi: her gün disabled görünür ama sebep "uygun
+          saat yok" DEĞİL, "henüz bilinmiyor" — ikisi aynı boş kutuya
+          düşerse ziyaretçi dolu bir ayı boş sanıp ayrılabilir. */}
+      {isLoading && (
+        <p role="status" className="text-xs text-ink-500 text-center">
+          {t("loadingAvailability")}
+        </p>
+      )}
+
       {/* Day-of-week headers */}
       <div className="grid grid-cols-7 gap-px text-center" role="row">
         {dayHeaders.map((h) => (
@@ -287,7 +328,9 @@ export function CalendarPicker({ locale, onSlotChange, selectedDate, selectedTim
                 aria-disabled={disabled}
                 aria-selected={selected}
                 aria-label={`${date.getDate()} ${monthNames[viewMonth]}`}
-                title={disabled ? t("disabledDayHint") : undefined}
+                // Yükleme sırasında title basılmıyor: "uygun saat yok" o an
+                // için YANLIŞ bir iddia olurdu, sunucu cevabı henüz yok.
+                title={disabled && !isLoading ? t("disabledDayHint") : undefined}
                 className={[
                   "w-9 h-9 flex items-center justify-center rounded-md text-sm transition-colors",
                   "focus-visible:ring-2 focus-visible:ring-brand-500",
@@ -339,29 +382,28 @@ export function CalendarPicker({ locale, onSlotChange, selectedDate, selectedTim
                 >
                   {local}
                   {showIstanbul && (
-                    <>
-                      {/* Görünür ama isimlendirmeye katılmaz: buton adı yine
-                          salt "HH:MM" kalır (klavye/ekran okuyucu testleri
-                          bunu bekler), İstanbul saati `aria-describedby` ile
-                          ayrıca duyurulur. */}
-                      <span
-                        aria-hidden="true"
-                        className={[
-                          "block text-xs font-normal",
-                          selectedTime === s.startUtc ? "text-paper/70" : "text-ink-500",
-                        ].join(" ")}
-                      >
-                        {t("istanbulTimeLabel", { time: istanbul })}
-                      </span>
-                      <span id={descId} className="sr-only">
-                        {t("istanbulTimeLabel", { time: istanbul })}
-                      </span>
-                    </>
+                    // Yalnız ekran okuyucuya PER-SLOT açıklama: `aria-hidden`
+                    // olmadan bu span (sr-only olsa da) buton adına karışıp
+                    // "06:00 İstanbul saati: 13:00" gibi kirli bir isim
+                    // üretiyordu (denetim bulgusu) — accname hesabı yalnız
+                    // display:none/visibility:hidden'i "gizli" sayar, sr-only
+                    // CSS hilesini saymaz. `aria-hidden="true"` adı temizler;
+                    // `aria-describedby` açıkça referans verilen düğümleri
+                    // gizli olsalar da açıklama olarak okumaya devam eder,
+                    // yani duyuru bozulmaz. Görsel karşılığı artık burada
+                    // TEKRARLANMIYOR — listenin altındaki tek `istanbulNote`
+                    // gören ziyaretçiye aynı bilgiyi bir kez veriyor.
+                    <span id={descId} aria-hidden="true" className="sr-only">
+                      {t("istanbulTimeLabel", { time: istanbul })}
+                    </span>
                   )}
                 </button>
               );
             })}
           </div>
+          {istanbulNote && (
+            <p className="text-xs text-ink-500 mt-2">{istanbulNote}</p>
+          )}
         </div>
       )}
 

@@ -1842,8 +1842,12 @@ başında elle oluşturma uyarısı çıkıyor."
 
 **Files:**
 - Create: `src/app/api/booking/[token]/route.ts`
-- Create: `src/app/(marketing)/[locale]/rezervasyon/[token]/page.tsx`
 - Test: `src/app/api/booking/__tests__/token-route.test.ts`
+
+> `rezervasyon/[token]/page.tsx` ve `ManageBooking` bu görevden ÇIKARILDI, Görev 8'e
+> taşındı (ön-tarama ÇELİŞKİ-2): sayfa, Görev 8'in ürettiği bileşeni import ediyor ve
+> erteleme akışı yine Görev 8'in sunucu tabanlı `CalendarPicker`'ına dayanıyor. Görev 7
+> yalnız API uçlarını teslim ediyor.
 
 **Interfaces:**
 - Consumes: `findBookingByToken`, `cancelBooking`, `rescheduleBooking` (Görev 2), `deleteEvent`, `patchEventTime` (Görev 3), `BookingCancelled` (Görev 6)

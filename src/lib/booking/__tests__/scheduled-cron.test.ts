@@ -45,10 +45,13 @@ beforeEach(() => {
 });
 
 describe("runForScheduledEvent — scheduled() giriş noktasının mantığı", () => {
-  it("env'i argümandan aldığı gibi, olduğu gibi runDailyCronJob'a geçirir", async () => {
+  it("env'i argümandan aldığı gibi, olduğu gibi runDailyCronJob'a geçirir; trigger: \"scheduled\" sabit", async () => {
+    // trigger: "scheduled" burada sabit geçiriliyor olmalı — gözlemlenebilirlik
+    // özetinde bu yolun Cloudflare'in gerçek Cron Trigger'ından geldiğini,
+    // elle atılan bir HTTP çağrısından (trigger: "http") ayırt edebilmek için.
     await runForScheduledEvent(fakeEnv);
     expect(runDailyCronJob).toHaveBeenCalledTimes(1);
-    expect(runDailyCronJob).toHaveBeenCalledWith(fakeEnv);
+    expect(runDailyCronJob).toHaveBeenCalledWith(fakeEnv, "scheduled");
   });
 
   it("runDailyCronJob reddederse fırlatmaz — reportError'a düşer", async () => {
@@ -78,8 +81,11 @@ describe("scheduled() ve GET /api/cron aynı runDailyCronJob'u çağırır", () 
       );
 
       expect(runDailyCronJob).toHaveBeenCalledTimes(2);
-      expect(runDailyCronJob).toHaveBeenNthCalledWith(1, fakeEnv);
-      expect(runDailyCronJob).toHaveBeenNthCalledWith(2, fakeEnv);
+      // İkisi de AYNI fonksiyonu tetikliyor ama trigger farklı — tam da bu
+      // ayrım olmadan elle tetiklenen çağrı ile Cloudflare'in tetiklediği
+      // observability'de ayırt edilemiyordu.
+      expect(runDailyCronJob).toHaveBeenNthCalledWith(1, fakeEnv, "scheduled");
+      expect(runDailyCronJob).toHaveBeenNthCalledWith(2, fakeEnv, "http");
     } finally {
       process.env.CRON_SECRET = originalSecret;
     }

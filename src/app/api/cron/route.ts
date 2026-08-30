@@ -31,7 +31,11 @@ export async function GET(req: Request): Promise<Response> {
 
   const { env } = getCloudflareContext();
   try {
-    const result = await runDailyCronJob(env as unknown as CronEnv);
+    // "http": bu rota Cloudflare'in Cron Trigger'ı DEĞİL, elle veya dış bir
+    // sistemden atılan bir HTTP isteği ile çağrılıyor — gözlemlenebilirlik
+    // özetinde gerçek zamanlanmış çalışmadan ayırt edilebilmesi için sabit
+    // geçiriliyor.
+    const result = await runDailyCronJob(env as unknown as CronEnv, "http");
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     reportError(err, { route: "cron", step: "run" });

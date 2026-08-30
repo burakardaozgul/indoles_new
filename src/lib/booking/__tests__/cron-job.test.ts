@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 
 /**
  * Görev 9 fix turu 1, bulgu 1 — dört adımın (silme, completed'e çekme, öksüz
@@ -86,7 +86,7 @@ describe("runDailyCronJob — adım izolasyonu (Görev 9 fix turu 1, bulgu 1)", 
       new Error("SIMULATED DB FAILURE in DELETE step")
     );
 
-    const result = await runDailyCronJob(fakeEnv);
+    const result = await runDailyCronJob(fakeEnv, "http");
 
     expect(completePastBookings).toHaveBeenCalledTimes(1);
     expect(listOrphanedBookings).toHaveBeenCalledTimes(1);
@@ -104,7 +104,7 @@ describe("runDailyCronJob — adım izolasyonu (Görev 9 fix turu 1, bulgu 1)", 
       new Error("SIMULATED DB FAILURE in complete-past step")
     );
 
-    const result = await runDailyCronJob(fakeEnv);
+    const result = await runDailyCronJob(fakeEnv, "http");
 
     expect(deleteBookingsOlderThan).toHaveBeenCalledTimes(1);
     expect(listOrphanedBookings).toHaveBeenCalledTimes(1);
@@ -121,7 +121,7 @@ describe("runDailyCronJob — adım izolasyonu (Görev 9 fix turu 1, bulgu 1)", 
       new Error("SIMULATED DB FAILURE in orphan query")
     );
 
-    const result = await runDailyCronJob(fakeEnv);
+    const result = await runDailyCronJob(fakeEnv, "http");
 
     expect(deleteBookingsOlderThan).toHaveBeenCalledTimes(1);
     expect(completePastBookings).toHaveBeenCalledTimes(1);
@@ -141,7 +141,7 @@ describe("runDailyCronJob — adım izolasyonu (Görev 9 fix turu 1, bulgu 1)", 
     vi.mocked(listOrphanedBookings).mockResolvedValue([orphanRow]);
     vi.mocked(sendMailWithRetry).mockRejectedValue(new Error("SMTP down"));
 
-    const result = await runDailyCronJob(fakeEnv);
+    const result = await runDailyCronJob(fakeEnv, "http");
 
     expect(fetchBusy).toHaveBeenCalledTimes(1);
     expect(reportError).toHaveBeenCalledWith(
@@ -158,7 +158,7 @@ describe("runDailyCronJob — adım izolasyonu (Görev 9 fix turu 1, bulgu 1)", 
     // güveniyor).
     vi.mocked(fetchBusy).mockRejectedValue(new Error("network blip"));
 
-    await expect(runDailyCronJob(fakeEnv)).resolves.toMatchObject({
+    await expect(runDailyCronJob(fakeEnv, "http")).resolves.toMatchObject({
       deletedCount: 0,
       completedCount: 0,
       orphanCount: 0,
@@ -168,5 +168,109 @@ describe("runDailyCronJob — adım izolasyonu (Görev 9 fix turu 1, bulgu 1)", 
       expect.any(Error),
       expect.objectContaining({ route: "cron", step: "liveness" })
     );
+  });
+});
+
+/**
+ * Gözlemlenebilirlik özeti: cron'un temiz bir turda Cloudflare Workers
+ * Observability'de HİÇBİR iz bırakmadığı sorununu kapatır. Bu satır
+ * olmadan "cron dün gece çalıştı mı" hiç cevaplanamıyor (bkz. görev
+ * özeti) — dolayısıyla hem başarı hem hata yollarında çıktığını, hem de
+ * `trigger` alanının çağırana göre doğru geldiğini kanıtlamak gerekiyor.
+ */
+describe("runDailyCronJob — gözlemlenebilirlik özeti (console.log)", () => {
+  let logSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    logSpy.mockRestore();
+  });
+
+  function lastSummary(): Record<string, unknown> {
+    const call = logSpy.mock.calls.at(-1);
+    if (!call) throw new Error("console.log hiç çağrılmadı");
+    return JSON.parse(call[0] as string) as Record<string, unknown>;
+  }
+
+  it("başarılı turda tek özet satırı yazar; sabit etiket, sayaçlar ve süre içerir", async () => {
+    vi.mocked(deleteBookingsOlderThan).mockResolvedValue(3);
+    vi.mocked(completePastBookings).mockResolvedValue(2);
+    vi.mocked(listOrphanedBookings).mockResolvedValue([]);
+
+    await runDailyCronJob(fakeEnv, "http");
+
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    const summary = lastSummary();
+    expect(summary).toMatchObject({
+      tag: "cron:daily",
+      trigger: "http",
+      deletedCount: 3,
+      completedCount: 2,
+      orphanCount: 0,
+      steps: {
+        retentionDelete: "ok",
+        completePast: "ok",
+        orphanReportQuery: "ok",
+        orphanReportMail: "skipped",
+        liveness: "ok",
+      },
+    });
+    expect(typeof summary.durationMs).toBe("number");
+    expect(summary.durationMs as number).toBeGreaterThanOrEqual(0);
+  });
+
+  it('`trigger: "scheduled"` geçilirse özet satırında aynen görünür — HTTP çağrısıyla karışmaz', async () => {
+    await runDailyCronJob(fakeEnv, "scheduled");
+
+    expect(lastSummary()).toMatchObject({ trigger: "scheduled" });
+  });
+
+  it('`trigger: "http"` geçilirse özet satırında aynen görünür', async () => {
+    await runDailyCronJob(fakeEnv, "http");
+
+    expect(lastSummary()).toMatchObject({ trigger: "http" });
+  });
+
+  it("bir adım fırlarsa özet satırı YİNE yazılır ve o adımı hatalı gösterir — sessiz kalmaz", async () => {
+    vi.mocked(deleteBookingsOlderThan).mockRejectedValue(
+      new Error("SIMULATED DB FAILURE")
+    );
+
+    await runDailyCronJob(fakeEnv, "scheduled");
+
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    const summary = lastSummary();
+    expect(summary).toMatchObject({
+      tag: "cron:daily",
+      trigger: "scheduled",
+      deletedCount: 0,
+      steps: expect.objectContaining({ retentionDelete: "error" }),
+    });
+  });
+
+  it('canlılık adımı fırlarsa özet satırı yine yazılır ve `liveness: "error"` gösterir', async () => {
+    vi.mocked(fetchBusy).mockRejectedValue(new Error("network blip"));
+
+    await runDailyCronJob(fakeEnv, "http");
+
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    expect(lastSummary()).toMatchObject({
+      steps: expect.objectContaining({ liveness: "error" }),
+    });
+  });
+
+  it('öksüz raporu maili patlarsa özet satırında `orphanReportMail: "error"` görünür', async () => {
+    vi.mocked(listOrphanedBookings).mockResolvedValue([orphanRow]);
+    vi.mocked(sendMailWithRetry).mockRejectedValue(new Error("SMTP down"));
+
+    await runDailyCronJob(fakeEnv, "http");
+
+    expect(lastSummary()).toMatchObject({
+      orphanCount: 1,
+      steps: expect.objectContaining({ orphanReportMail: "error" }),
+    });
   });
 });

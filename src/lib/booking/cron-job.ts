@@ -43,7 +43,24 @@ export type CronResult = {
   orphanCount: number;
 };
 
-export async function runDailyCronJob(env: CronEnv): Promise<CronResult> {
+/**
+ * Cron'u fiilen kim tetikledi: Cloudflare'in kendi Cron Trigger'ı
+ * (`scheduled-cron.ts` → "scheduled") mi, yoksa `/api/cron`'a atılan bir HTTP
+ * isteği ("http", elle veya dış bir sistemden) mi. Yalnızca aşağıdaki
+ * gözlemlenebilirlik özetine yazılır, iş mantığını etkilemez — amaç
+ * observability sorgusunda "bu çalışma gerçekten Cloudflare'in zamanlayıcısından
+ * mı geldi" sorusuna, elle yapılan bir test çağrısıyla karıştırmadan cevap
+ * verebilmek.
+ */
+export type CronTrigger = "scheduled" | "http";
+
+type StepStatus = "ok" | "error" | "skipped";
+
+export async function runDailyCronJob(
+  env: CronEnv,
+  trigger: CronTrigger
+): Promise<CronResult> {
+  const startedAt = Date.now();
   const db = env.BOOKINGS_DB;
   const now = new Date();
   const nowUtc = now.toISOString();
@@ -64,10 +81,20 @@ export async function runDailyCronJob(env: CronEnv): Promise<CronResult> {
   let completedCount = 0;
   let orphans: Awaited<ReturnType<typeof listOrphanedBookings>> = [];
 
+  // Adım durumları yalnızca aşağıdaki özet log'u için toplanıyor — adımların
+  // kendi try/catch izolasyonunu DEĞİŞTİRMİYOR, yalnız zaten var olan
+  // bilgiyi (hangi adım patladı) gözlemlenebilir hale getiriyor.
+  let retentionDeleteStatus: StepStatus = "ok";
+  let completePastStatus: StepStatus = "ok";
+  let orphanQueryStatus: StepStatus = "ok";
+  let orphanMailStatus: StepStatus = "skipped";
+  let livenessStatus: StepStatus = "ok";
+
   // 1) KVKK saklama süresi: 90 günden eski satırlar statüsünden bağımsız silinir.
   try {
     deletedCount = await deleteBookingsOlderThan(db, cutoffUtc);
   } catch (err) {
+    retentionDeleteStatus = "error";
     reportError(err, { route: "cron", step: "retention-delete" });
   }
 
@@ -80,6 +107,7 @@ export async function runDailyCronJob(env: CronEnv): Promise<CronResult> {
   try {
     completedCount = await completePastBookings(db, nowUtc);
   } catch (err) {
+    completePastStatus = "error";
     reportError(err, { route: "cron", step: "complete-past" });
   }
 
@@ -92,6 +120,7 @@ export async function runDailyCronJob(env: CronEnv): Promise<CronResult> {
   try {
     orphans = await listOrphanedBookings(db, nowUtc);
     if (orphans.length > 0) {
+      orphanMailStatus = "ok";
       try {
         await sendMailWithRetry({
           to: recipients(
@@ -108,10 +137,12 @@ export async function runDailyCronJob(env: CronEnv): Promise<CronResult> {
           }),
         });
       } catch (err) {
+        orphanMailStatus = "error";
         reportError(err, { route: "cron", step: "orphan-report-mail" });
       }
     }
   } catch (err) {
+    orphanQueryStatus = "error";
     reportError(err, { route: "cron", step: "orphan-report-query" });
   }
 
@@ -130,6 +161,7 @@ export async function runDailyCronJob(env: CronEnv): Promise<CronResult> {
     const to = new Date(now.getTime() + 3_600_000).toISOString();
     await fetchBusy(token, ids, nowUtc, to);
   } catch (err) {
+    livenessStatus = "error";
     reportError(err, { route: "cron", step: "liveness" });
     if (err instanceof CalendarAuthError) {
       await sendMailWithRetry({
@@ -144,6 +176,34 @@ export async function runDailyCronJob(env: CronEnv): Promise<CronResult> {
       }).catch(() => {});
     }
   }
+
+  // Gözlemlenebilirlik özeti (bu görevin asıl amacı): Cloudflare Workers
+  // Observability yalnız `console` çıktısı üreten çağrıları saklıyor ve
+  // cron'a özel bir GraphQL veri kümesi yok — bu tek satır olmadan "cron dün
+  // gece gerçekten çalıştı mı" sorusu hiç cevaplanamıyor. Dört adım yukarıda
+  // birbirinden izole (bkz. üstteki yorum) ve HİÇBİRİ bu noktaya ulaşmadan
+  // fırlamıyor; dolayısıyla bir adım patlasa bile bu satır HER ZAMAN yazılır
+  // ve o adımı "error" olarak gösterir — sessiz kalmaz. Kasıtlı olarak
+  // `console.log`: `reportError` (console.error) bunu karşılamıyor çünkü
+  // yalnız hata durumunda yazıyor, burada başarı turunda da iz gerekiyor.
+  // eslint-disable-next-line no-console -- kasıtlı, yukarıdaki gerekçeyle
+  console.log(
+    JSON.stringify({
+      tag: "cron:daily",
+      trigger,
+      durationMs: Date.now() - startedAt,
+      deletedCount,
+      completedCount,
+      orphanCount: orphans.length,
+      steps: {
+        retentionDelete: retentionDeleteStatus,
+        completePast: completePastStatus,
+        orphanReportQuery: orphanQueryStatus,
+        orphanReportMail: orphanMailStatus,
+        liveness: livenessStatus,
+      },
+    })
+  );
 
   return { deletedCount, completedCount, orphanCount: orphans.length };
 }

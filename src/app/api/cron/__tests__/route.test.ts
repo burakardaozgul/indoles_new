@@ -263,3 +263,55 @@ describe("GET /api/cron — öksüz randevu raporu (Görev 9 Ek 2)", () => {
     );
   });
 });
+
+/**
+ * Bu rota `runDailyCronJob`'u MOCK'lamıyor (yalnız google-calendar ve mail
+ * katmanı sahte) — dolayısıyla burada doğrulanan gözlemlenebilirlik özeti,
+ * `/api/cron`'un gerçekten üreteceği çıktının aynısı. `trigger: "http"` bu
+ * uç noktaya sabit geçiriliyor (bkz. `route.ts`); Cloudflare'in kendi Cron
+ * Trigger'ından gelen "scheduled" yoluyla karışmaması gerektiği burada
+ * kanıtlanıyor — `scheduled-cron.test.ts`'teki "scheduled" karşılığıyla
+ * birlikte iki giriş noktasının da ayrı doğrulanmış olması için.
+ */
+describe("GET /api/cron — gözlemlenebilirlik özeti (console.log)", () => {
+  it('her turun sonunda tek özet satırı yazar; trigger: "http"tir', async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    try {
+      const db = makeDb();
+      mockEnv(db);
+
+      await GET(req({ "x-cron-secret": CRON_SECRET }));
+
+      expect(logSpy).toHaveBeenCalledTimes(1);
+      const call = logSpy.mock.calls.at(-1);
+      if (!call) throw new Error("console.log hiç çağrılmadı");
+      const summary = JSON.parse(call[0] as string) as Record<string, unknown>;
+      expect(summary).toMatchObject({ tag: "cron:daily", trigger: "http" });
+    } finally {
+      logSpy.mockRestore();
+    }
+  });
+
+  // --- MUTASYON KANITI: `cron-job.ts`'teki `console.log(JSON.stringify(...))`
+  // satırı geçici kaldırıldığında bu test FAIL etmeli (bkz. teslim raporu). ---
+  it("bir adım fırlasa bile özet satırı YİNE yazılır ve o adımı hatalı gösterir", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    try {
+      const db = makeDb();
+      mockEnv(db);
+      vi.mocked(fetchBusy).mockRejectedValue(new Error("network blip"));
+
+      await GET(req({ "x-cron-secret": CRON_SECRET }));
+
+      expect(logSpy).toHaveBeenCalledTimes(1);
+      const call = logSpy.mock.calls.at(-1);
+      if (!call) throw new Error("console.log hiç çağrılmadı");
+      const summary = JSON.parse(call[0] as string) as {
+        steps: { liveness: string };
+      };
+      expect(summary.steps.liveness).toBe("error");
+    } finally {
+      logSpy.mockRestore();
+    }
+  });
+});

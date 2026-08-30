@@ -26,7 +26,10 @@ import { reportError } from "@/lib/observability/report";
  */
 export async function runForScheduledEvent(env: CronEnv): Promise<void> {
   try {
-    await runDailyCronJob(env);
+    // "scheduled": bu yol yalnız Cloudflare'in gerçek Cron Trigger'ından
+    // gelir — gözlemlenebilirlik özetinde elle tetiklenen HTTP çağrısından
+    // ayırt edilebilmesi için sabit geçiriliyor.
+    await runDailyCronJob(env, "scheduled");
   } catch (err) {
     reportError(err, { route: "cron-scheduled", step: "run" });
   }

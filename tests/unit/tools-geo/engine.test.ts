@@ -44,7 +44,13 @@ describe("runGeoScan", () => {
   });
 
   it("CPU bütçesi: 500 KB fixture < 50 ms", () => {
-    const big = fx("page-qa.html").repeat(200).slice(0, 500_000);
+    // Sabit bir tekrar çarpanı (ör. `.repeat(200)`) fixture boyutuna bağımlı
+    // ve fixture küçükse (veya büyüyorsa) 500 KB garantisi vermez — burada
+    // tekrar sayısı hedef boyuttan türetilir, böylece fixture içeriği
+    // değişse bile test her zaman tam 500 KB'lık bir girdi üretir.
+    const base = fx("page-qa.html");
+    const big = base.repeat(Math.ceil(500_000 / base.length)).slice(0, 500_000);
+    expect(big.length).toBe(500_000);
     const t0 = performance.now();
     runGeoScan({ url: "https://x.com/a", pageHtml: big, robotsTxt: null, llmsTxt: null });
     expect(performance.now() - t0).toBeLessThan(50);

@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { SERVICES } from "@/lib/content/services";
+import { TOOLS } from "@/lib/content/tools";
+import type { ToolContent } from "@/lib/content/tools";
 import type { ServiceContent } from "@/lib/content/types";
 
 /**
@@ -265,5 +267,42 @@ describe("Dalga 1 makale keyword yerleşimi (2026-08-28 partisi)", () => {
     const article = ARTICLES.find((a) => a.slug.tr === slug);
     expect(article, `yazı bulunamadı: ${slug}`).toBeDefined();
     expect(articleSurface(article!)).toContain(norm(keyword));
+  });
+});
+
+/**
+ * Araç yüzeyi keyword yerleşimi (Görev 13, SEO entegrasyonu).
+ *
+ * Kanibalizasyon kuralı (strateji A-6): `/araclar/geo-gorunurluk-denetleyicisi`
+ * ARAÇ niyeti kelimelerini hedefler — "geo denetimi", "ai görünürlük testi",
+ * "llms txt kontrolü". Bilgi niyeti ("geo optimizasyonu nedir") kanonik rehber
+ * yazısında (`yapay-zeka-aramalarinda-nasil-one-cikarsiniz`) kalır, araç
+ * yüzeyine eklenmez — bu test yalnız araç niyeti kelimelerini denetler.
+ */
+function toolSurface(t: ToolContent): string {
+  return norm(
+    [
+      t.name.tr,
+      t.lede.tr,
+      ...t.steps.flatMap((s) => [s.title.tr, s.description.tr]),
+      ...t.faq.flatMap((f) => [f.question.tr, f.answer.tr]),
+      t.seo.title.tr,
+      t.seo.description.tr,
+    ].join(" ")
+  );
+}
+
+/** Araç niyeti kelimesi → hedef araç (TR slug). */
+const TARGETS_TOOLS: Array<[slug: string, keyword: string]> = [
+  ["geo-gorunurluk-denetleyicisi", "geo denetimi"],
+  ["geo-gorunurluk-denetleyicisi", "ai görünürlük testi"],
+  ["geo-gorunurluk-denetleyicisi", "llms txt kontrolü"],
+];
+
+describe("Araç keyword yerleşimi (Görev 13, strateji A-6)", () => {
+  it.each(TARGETS_TOOLS)("%s aracı '%s' kelimesini taşıyor", (slug, keyword) => {
+    const tool = TOOLS.find((t) => t.slug.tr === slug);
+    expect(tool, `araç bulunamadı: ${slug}`).toBeDefined();
+    expect(toolSurface(tool!)).toContain(norm(keyword));
   });
 });

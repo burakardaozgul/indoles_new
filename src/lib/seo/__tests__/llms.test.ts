@@ -31,10 +31,17 @@ describe("buildLlmsTxtLocale", () => {
     const tr = buildLlmsTxtLocale("tr");
 
     expect(tr).toContain("# INDOLES");
+    expect(tr).toContain("## Araçlar");
     expect(tr).toContain("## Vaka çalışmaları");
     expect(tr).toContain("## İletişim");
     expect(tr).toContain("## Kaynaklar");
     expect(tr).toContain(`${SITE_URL}/tr/hizmetler`);
+
+    // Araç bölümü markdown bağlantı biçiminde — `- [Ad](URL): açıklama`
+    // (llmstxt.org sözleşmesi, diğer tüm bölümlerle aynı disiplin).
+    expect(tr).toMatch(
+      /## Araçlar\n- \[GEO Görünürlük Denetleyicisi\]\(https?:\/\/[^)]+\/tr\/araclar\/geo-gorunurluk-denetleyicisi\): .+/,
+    );
 
     // Çapraz dil sızıntısı yok: hiçbir `/en/` yolu geçmiyor, "(English)"
     // başlığı da yok (tek dilli dosyada bu ayrım gereksiz).
@@ -48,10 +55,16 @@ describe("buildLlmsTxtLocale", () => {
     const en = buildLlmsTxtLocale("en");
 
     expect(en).toContain("# INDOLES");
+    expect(en).toContain("## Tools");
     expect(en).toContain("## Case studies");
     expect(en).toContain("## Contact");
     expect(en).toContain("## Resources");
     expect(en).toContain(`${SITE_URL}/en/services`);
+
+    // Tools bölümü markdown bağlantı biçiminde.
+    expect(en).toMatch(
+      /## Tools\n- \[GEO Visibility Checker\]\(https?:\/\/[^)]+\/en\/tools\/geo-visibility-checker\): .+/,
+    );
 
     // Çapraz dil sızıntısı yok: hiçbir `/tr/` yolu geçmiyor.
     expect(en).not.toContain("/tr/");

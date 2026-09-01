@@ -2,6 +2,7 @@ import { SITE_URL } from "@/lib/seo/site";
 import { SERVICES } from "@/lib/content/services";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
+import { TOOLS } from "@/lib/content/tools";
 import type { Locale, Pillar } from "@/lib/content/types";
 
 /**
@@ -50,6 +51,20 @@ function caseLines(locale: Locale): string {
   return CASES.map(
     (c) =>
       `- [${c.clientName[locale]} — ${c.title[locale]}](${SITE_URL}/${locale}/${root}/${c.slug[locale]})`,
+  ).join("\n");
+}
+
+/**
+ * Araç satırları: ad + URL + arama açıklaması (Görev 13). Serviste kullanılan
+ * desenle aynı — `TOOLS`ten türer, slug değişirse llms.txt sessizce eskimez.
+ * Sonuç sayfaları (`/araclar/.../sonuc/[id]`) burada YOK: noindex, ajanın
+ * keşfetmesi beklenen kanonik bir yüzey değil (sitemap'te de yoklar).
+ */
+function toolLines(locale: Locale): string {
+  const root = locale === "tr" ? "araclar" : "tools";
+  return TOOLS.map(
+    (t) =>
+      `- [${t.name[locale]}](${SITE_URL}/${locale}/${root}/${t.slug[locale]}): ${t.seo.description[locale]}`,
   ).join("\n");
 }
 
@@ -104,6 +119,9 @@ ${serviceLines("transform", "tr")}
 ### Build — Teknoloji ve Ürün
 ${serviceLines("build", "tr")}
 
+## Araçlar
+${toolLines("tr")}
+
 ## Vaka çalışmaları
 ${caseLines("tr")}
 
@@ -117,6 +135,7 @@ ${articleLines("tr")}
 ## Kaynaklar
 - [Hizmetler](${SITE_URL}/tr/hizmetler)
 - [Paketler](${SITE_URL}/tr/paketler)
+- [Araçlar](${SITE_URL}/tr/araclar)
 - [Vaka çalışmaları](${SITE_URL}/tr/vakalar)
 - [Yazılar](${SITE_URL}/tr/yazilar)
 - [Site haritası](${SITE_URL}/sitemap.xml)${extraResourceLines}`;
@@ -144,6 +163,9 @@ ${serviceLines("transform", "en")}
 ### Build
 ${serviceLines("build", "en")}
 
+## Tools
+${toolLines("en")}
+
 ## Case studies
 ${caseLines("en")}
 
@@ -157,6 +179,7 @@ ${articleLines("en")}
 ## Resources
 - [Services](${SITE_URL}/en/services)
 - [Packages](${SITE_URL}/en/packages)
+- [Tools](${SITE_URL}/en/tools)
 - [Case studies](${SITE_URL}/en/case-studies)
 - [Articles](${SITE_URL}/en/articles)
 - [Sitemap](${SITE_URL}/sitemap.xml)${extraResourceLines}`;

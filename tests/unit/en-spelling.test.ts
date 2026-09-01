@@ -1,9 +1,12 @@
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { SERVICES } from "@/lib/content/services";
 import { PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
+import { TOOLS } from "@/lib/content/tools";
 
 /**
  * İngilizce imla tekilliği (Karar 4, 2026-08-24).
@@ -12,7 +15,7 @@ import { ARTICLES } from "@/lib/content/articles";
  * aynı sayfada ikisi birden (CRO `name.en` "optimization", `lede.en`
  * "optimisation"). Hedef pazar UK/Avrupa olduğu için İngiliz imlası seçildi.
  *
- * İKİ İSTİSNA SINIFI — ikisi de bilinçli:
+ * ÜÇ İSTİSNA SINIFI — hepsi bilinçli:
  *
  * 1. **Kanonik terim adları.** "Generative Engine Optimization" ve "answer
  *    engine optimization" alanın kendi adıdır ve `-z` ile yazılır; ayrıca
@@ -20,6 +23,18 @@ import { ARTICLES } from "@/lib/content/articles";
  *    Britanyalaştırmak birebir eşleşmeyi kaybettirirdi.
  * 2. **Marka adları.** "Happy Center" bir perakende zinciri; süpürüm onu
  *    "Happy Centre" yapmıştı. Marka adı imla kuralına tabi değildir.
+ * 3. **schema.org `@type` adları.** GEO motoru ve araç sayfası metinlerinde
+ *    "Organization" bir cümle kelimesi değil, JSON-LD sözlüğündeki sabit
+ *    `@type` adı (`json-ld.ts` `RECOGNIZED_TYPES`, `tools.ts` sinyal
+ *    açıklaması) — "Organisation" yazmak @type ile eşleşmeyen, yanlış bir
+ *    referans üretirdi. Yalnız BÜYÜK-O ile başlayan biçim korunur; küçük
+ *    harfli "organization" kelimesi hâlâ kural kapsamındadır.
+ *
+ * KAPSAM GENİŞLEMESİ (Görev 13 carry-notes, G4 + G10 ruling'i): bu korpus
+ * önceden `src/lib/content/tools.ts` (TOOLS) içeriğini ve
+ * `src/lib/tools/geo/*` GEO motorunun İngilizce yüzeyini (kullanıcıya görünen
+ * `summary`/`findings`/hata metinleri) taramıyordu — regresyon koruması
+ * yoktu. İkisi de aşağıda eklendi (bkz. `geoEngineEnCorpus()`).
  */
 
 function enCorpus(): string {
@@ -51,7 +66,46 @@ function enCorpus(): string {
       ),
       ...(a.faq ?? []).flatMap((f) => [f.question.en, f.answer.en]),
     ]),
+    ...TOOLS.flatMap((t) => [
+      t.name.en, t.eyebrow.en, t.lede.en, t.footnote.en,
+      t.seo.title.en, t.seo.description.en,
+      ...t.steps.flatMap((s) => [s.title.en, s.description.en]),
+      ...t.signals.flatMap((s) => [s.title.en, s.description.en]),
+      ...t.faq.flatMap((f) => [f.question.en, f.answer.en]),
+    ]),
+    geoEngineEnCorpus(),
   ].join("\n");
+}
+
+/**
+ * `src/lib/tools/geo/*` GEO motorunun İngilizce `summary`/`findings`/hata
+ * metinlerini KAYNAK DOSYADAN tarar — fonksiyonları çağırıp çıktı üretmek
+ * yerine. Sebep: her kontrol fonksiyonu dallı (robots.txt var/yok, JSON-LD
+ * bloğu bozuk/geçerli vb.); tüm dalları tetiklemek için birden çok girdi
+ * kurgulamak bu testin kapsamını gereksiz büyütürdü. Motorun İngilizce
+ * yüzeyinin tamamı `en: "..."` / `en: \`...\`` biçiminde statik literal —
+ * dinamik kısımlar yalnız `${...}` enterpolasyonuyla sayı/liste taşır, imla
+ * kuralına tabi kelimeler asla enterpolasyon içinde geçmez — bu yüzden kaynak
+ * taraması, fonksiyonu her dalıyla çalıştırmaya eşdeğer kapsam sağlar.
+ */
+const GEO_ENGINE_DIR = path.join(process.cwd(), "src/lib/tools/geo");
+const GEO_ENGINE_FILES = [
+  "ai-access.ts",
+  "llms-txt.ts",
+  "json-ld.ts",
+  "lang-signals.ts",
+  "question-h2.ts",
+  "safe-fetch.ts",
+];
+
+/** `en:` alanının değerini yakalar — hem tırnaklı hem template literal. */
+const EN_LITERAL_REGEX = /en:\s*(["'`])((?:\\.|(?!\1)[\s\S])*)\1/g;
+
+function geoEngineEnCorpus(): string {
+  return GEO_ENGINE_FILES.map((file) => {
+    const src = readFileSync(path.join(GEO_ENGINE_DIR, file), "utf8");
+    return [...src.matchAll(EN_LITERAL_REGEX)].map((m) => m[2]).join("\n");
+  }).join("\n");
 }
 
 /** Kanonik terim adları — imla kuralının dışında. */
@@ -66,9 +120,18 @@ const PROTECTED_TERMS = [
 /** İmla kuralına tabi olmayan özel isimler. */
 const BRAND_NAMES = [/Happy Center/g, /MacroCenter/g];
 
+/**
+ * schema.org `@type` adları — sabit JSON-LD sözlüğü, imla kuralına tabi
+ * değil (istisna sınıfı 3). Yalnız BÜYÜK-O ile eşleşir (`g`, `i` bayrağı
+ * YOK): küçük harfli "organization" kelimesi hâlâ kural kapsamında kalır.
+ */
+const SCHEMA_TYPE_NAMES = [/\bOrganization\b/g];
+
 function strippedCorpus(): string {
   let s = enCorpus();
-  for (const re of [...PROTECTED_TERMS, ...BRAND_NAMES]) s = s.replace(re, " ");
+  for (const re of [...PROTECTED_TERMS, ...BRAND_NAMES, ...SCHEMA_TYPE_NAMES]) {
+    s = s.replace(re, " ");
+  }
   return s;
 }
 

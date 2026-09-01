@@ -41,7 +41,7 @@ echo
 
 # --- 1. Temel erişilebilirlik
 echo "1) Rotalar"
-for path in /tr /en /tr/hizmetler/cro /tr/vakalar /tr/yazilar; do
+for path in /tr /en /tr/hizmetler/cro /tr/vakalar /tr/yazilar /tr/araclar/geo-gorunurluk-denetleyicisi /en/tools/geo-visibility-checker; do
   c=$(code "$BASE$path")
   [[ "$c" == "200" ]] && ok "$path → 200" || bad "$path → $c (200 bekleniyordu)"
 done

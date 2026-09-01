@@ -5942,6 +5942,13 @@ export const ARTICLES: ArticleContent[] = [
           en: "If you'd like to see this structure built, with the numbers attached, [our case pages](/vakalar) are open. Emre's dashboard may not be real; the curve on it very much is.",
         },
       },
+      {
+        type: "p",
+        text: {
+          tr: "Bu beş sinyali kendi sitenizde elle saymak yerine [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) ölçer: robots.txt'teki bot izinlerinden soru biçimli başlık oranına kadar aynı kalemleri tarar ve yüz puanlık bir skorla nereden başlayacağınızı gösterir.",
+          en: "Rather than counting these five signals by hand, the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) scans the same items — from robots.txt bot permissions to the ratio of question-phrased headings — and returns a score out of a hundred that shows where to start.",
+        },
+      },
     ],
     faq: [
       {
@@ -7859,6 +7866,13 @@ export const ARTICLES: ArticleContent[] = [
           en: "At the end of that test you hold a list, and that list is more honest than a content calendar. To restate the thesis: there is no guarantee of appearing in Google AI Overviews, but the probability can be raised systematically — an indexable foundation, paragraphs that survive being cut out, headings written in the customer's sentence, and proof placed inside the text. The whole picture of AI search — ChatGPT, Perplexity and the measurement side — sits in [the canonical GEO guide](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz). This article looked at Google's box alone, because in Turkey that is still the search box your buyer opens most.",
         },
       },
+      {
+        type: "p",
+        text: {
+          tr: "Bu test Google'ın kutusuna bakar. Sayfanızın kendisinin AI botlarına açık olup olmadığını, yapısal veri taşıyıp taşımadığını ve soru biçimli başlık oranını [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) ölçer — beş sinyali saniyeler içinde tarayıp yüz puanlık bir skora çevirir.",
+          en: "That test looks at Google's box. Whether the page itself is open to AI crawlers, carries structured data and uses question-phrased headings is measured by the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) — it scans five signals within seconds and turns them into a score out of a hundred.",
+        },
+      },
     ],
     faq: [
       {
@@ -8357,6 +8371,13 @@ export const ARTICLES: ArticleContent[] = [
         text: {
           tr: "Listeyi çıkardıktan sonra sıradaki iş içeriğin kendisi. [Yapay zeka aramalarında öne çıkma rehberi](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) o kısmı adım adım anlatıyor; kurulmuş hâlinin rakamları da [vaka sayfalarımızda](/vakalar) duruyor.",
           en: "Once the list exists, the next job is the content itself. [Our guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) walks through that part step by step, and the numbers from where it has been built sit on [our case pages](/vakalar).",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu iki dakikalık test yalnız llms.txt'in var olup olmadığını gösterir; [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) aynı dosyayı biçim açısından da okur ve onu AI erişimi, yapısal veri, dil sinyalleri ve soru başlıklarıyla birlikte tek bir skora toplar.",
+          en: "That two-minute test only shows whether llms.txt exists; the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) also reads the file's format and rolls it into one score together with AI access, structured data, language signals and question headings.",
         },
       },
     ],

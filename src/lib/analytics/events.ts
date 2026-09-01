@@ -29,7 +29,13 @@ export type BookingCtaSource =
   | "consultant-detail";
 
 /** SSS bloğunun bulunduğu sayfa tipi. */
-export type FaqSurface = "service" | "pillar" | "package" | "case" | "article";
+export type FaqSurface =
+  | "service"
+  | "pillar"
+  | "package"
+  | "case"
+  | "article"
+  | "tool";
 
 /**
  * GA4 metin parametresi üst sınırı. Aşan değer sessizce kırpılır — kırpmayı

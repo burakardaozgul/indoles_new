@@ -87,8 +87,8 @@ export const TOOLS: ToolContent[] = [
       en: "The first Turkish GEO audit tool",
     },
     lede: {
-      tr: "Sitenizin adresini girin; cevap motorlarının markanızı okuyup okuyamadığını beş sinyalde ölçelim. Denetim 100 puan verir ve her sinyalde ne düzelteceğinizi gösterir.",
-      en: "Enter your site's address and we measure, across five signals, whether answer engines can read your brand. The audit returns a score out of 100 and shows what to fix in each signal.",
+      tr: "Sitenizin adresini girin; cevap motorlarının markanızı okuyup okuyamadığını beş sinyalde ölçelim. Denetim yalnızca girdiğiniz URL içindir — farklı bir sayfa için yeniden çalıştırmanız gerekir. Sonuç 100 üzerinden bir puandır ve her sinyalde ne düzeltebileceğinizi gösterir.",
+      en: "Enter your site's address and we measure, across five signals, whether answer engines can read your brand. The audit covers only the URL you enter — run it again for a different page. The result is a score out of 100 that shows what you can fix in every signal.",
     },
     steps: [
       {

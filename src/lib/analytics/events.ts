@@ -28,7 +28,9 @@ export type BookingCtaSource =
   | "contact-callout"
   | "service-detail"
   | "package-detail"
-  | "consultant-detail";
+  | "consultant-detail"
+  // GEO araç raporunun kilidi açıldığında görünen görüşme CTA'sı (Görev 12).
+  | "tool-geo-report";
 
 /** SSS bloğunun bulunduğu sayfa tipi. */
 export type FaqSurface =

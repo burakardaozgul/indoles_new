@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils/cn";
+import { GeoReportForm } from "@/components/tools/geo-report-form";
 import type { ToolSignal } from "@/lib/content/tools";
 import type { GeoBand, GeoCheckStatus, GeoScanResult } from "@/lib/tools/geo/types";
 import type { Locale } from "@/lib/content/types";
@@ -7,10 +8,10 @@ import type { Locale } from "@/lib/content/types";
  * Tarama sonucunun basit görünümü — spec §4 "Basit sonuç": toplam skor +
  * bant + 5 kalem rozeti + kalem başına `summary` cümlesi.
  *
- * `findings` (detaylı bulgu listesi) BİLİNÇLİ OLARAK render edilmez — o
- * e-posta karşılığı rapora ait (Görev 12, spec §3 "Detaylı rapor"). Bu
- * ayrım MOFU lead akışının temeli: ücretsiz ekran teşhis eder, rapor kilidi
- * e-postayla açılır.
+ * `findings` (detaylı bulgu listesi) BURADA render edilmez — MOFU lead kapısının
+ * arkasında: `GeoReportForm` (Görev 12, spec §3 "Detaylı rapor") e-posta + KVKK
+ * rızasıyla hem raporu postalar hem AYNI sayfada `findings`in kilidini açar.
+ * Ücretsiz ekran teşhis eder, ayrıntı rapor kilidiyle gelir.
  *
  * Sunucu (paylaşım sayfası) ve istemci (`GeoScanForm` başarı sonrası) her
  * ikisinde de aynı biçimde kullanılır — bileşenin kendisi hook/tarayıcı
@@ -123,6 +124,17 @@ export function GeoResult({
           );
         })}
       </ul>
+
+      {/* Rapor kilidi — ayrıntılı `findings` bu formun arkasında (Görev 12). */}
+      <div className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-12">
+        <GeoReportForm
+          scanId={result.id}
+          band={result.band}
+          locale={locale}
+          checks={result.checks}
+          signals={signals}
+        />
+      </div>
     </div>
   );
 }

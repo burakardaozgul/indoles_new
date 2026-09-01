@@ -4,6 +4,7 @@ import { verifyTurnstile } from "@/lib/security/turnstile";
 import { fetchScanTargets } from "@/lib/tools/geo/safe-fetch";
 import { runGeoScan } from "@/lib/tools/geo/engine";
 import { insertScan, countScansSince, hashClientIp } from "@/lib/tools/geo/repository";
+import { reportError } from "@/lib/observability/report";
 import type { GeoCheckResult } from "@/lib/tools/geo/types";
 import { POST } from "../route";
 
@@ -71,10 +72,17 @@ function req(body: unknown, headers: Record<string, string> = { "cf-connecting-i
   });
 }
 
+let originalToolIpSalt: string | undefined;
+
 describe("POST /api/tools/geo-scan", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockEnv({ BOOKINGS_DB: {} });
+    // Diğer tüm testler `TOOL_IP_SALT`'ın yapılandırılmış olduğu (üretim)
+    // yolu kanıtlıyor — eksik-sır fail-closed davranışı ayrı, tek bir testte
+    // (aşağıda) sırrı bilinçli olarak siliyor.
+    originalToolIpSalt = process.env.TOOL_IP_SALT;
+    process.env.TOOL_IP_SALT = "test-salt";
     vi.mocked(verifyTurnstile).mockResolvedValue(true);
     vi.mocked(hashClientIp).mockResolvedValue("hash_abc");
     vi.mocked(countScansSince).mockResolvedValue(0);
@@ -89,6 +97,8 @@ describe("POST /api/tools/geo-scan", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    if (originalToolIpSalt === undefined) delete process.env.TOOL_IP_SALT;
+    else process.env.TOOL_IP_SALT = originalToolIpSalt;
   });
 
   it("geçersiz URL gövdesi (şema başarısız) → 400 invalid-url", async () => {
@@ -183,5 +193,37 @@ describe("POST /api/tools/geo-scan", () => {
   it("cf-connecting-ip yoksa 'unknown' ile devam eder (isteği düşürmez)", async () => {
     const res = await POST(req(validBody, {}));
     expect(res.status).toBe(200);
+  });
+
+  // KVKK: `TOOL_IP_SALT` yoksa tuzsuz SHA-256(IP) 32-bit IPv4 uzayında
+  // rainbow-table ile anında geri çevrilir — ham IP saklamakla eşdeğer.
+  // Kod tabanı emsali fail-closed (`src/app/api/cron/route.ts` — sır yoksa
+  // TÜM istekler reddedilir); bu rota da aynı duruşu izler. Sır eksikse
+  // hash/insertScan'e HİÇ gidilmemeli.
+  it("TOOL_IP_SALT sırrı yoksa (undefined) → 500 misconfigured, hash/insertScan hiç çağrılmaz", async () => {
+    delete process.env.TOOL_IP_SALT;
+    const res = await POST(req(validBody));
+    expect(res.status).toBe(500);
+    expect(await res.json()).toEqual({ error: "misconfigured" });
+    expect(hashClientIp).not.toHaveBeenCalled();
+    expect(insertScan).not.toHaveBeenCalled();
+    expect(reportError).toHaveBeenCalledTimes(1);
+  });
+
+  it("TOOL_IP_SALT sırrı boş dizgeyse → 500 misconfigured, hash/insertScan hiç çağrılmaz", async () => {
+    process.env.TOOL_IP_SALT = "";
+    const res = await POST(req(validBody));
+    expect(res.status).toBe(500);
+    expect(await res.json()).toEqual({ error: "misconfigured" });
+    expect(hashClientIp).not.toHaveBeenCalled();
+    expect(insertScan).not.toHaveBeenCalled();
+  });
+
+  it("D1 yazma hatası (insertScan fırlatır) → 500 misconfigured, sözleşme gövdesi bozulmaz", async () => {
+    vi.mocked(insertScan).mockRejectedValueOnce(new Error("D1_ERROR"));
+    const res = await POST(req(validBody));
+    expect(res.status).toBe(500);
+    expect(await res.json()).toEqual({ error: "misconfigured" });
+    expect(reportError).toHaveBeenCalledTimes(1);
   });
 });

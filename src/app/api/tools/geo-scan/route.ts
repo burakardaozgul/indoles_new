@@ -2,9 +2,10 @@
  * `POST /api/tools/geo-scan` — GEO görünürlük denetleyicisi tarama uç
  * noktası. Spec §4 "Tarama akışı", Görev 9.
  *
- * Akış (brief'in tanımladığı sıra, KESİN): Turnstile → IP hash → limitler
- * (IP/saat 10, global/24s 500) → `validateTargetUrl` (SSRF matrisi, Görev 7)
- * → `fetchScanTargets` → `runGeoScan` (Görev 6) → `crypto.randomUUID()` →
+ * Akış (brief'in tanımladığı sıra, KESİN): Turnstile → `TOOL_IP_SALT`
+ * yapılandırma kontrolü (fail-closed, KVKK) → IP hash → limitler (IP/saat
+ * 10, global/24s 500) → `validateTargetUrl` (SSRF matrisi, Görev 7) →
+ * `fetchScanTargets` → `runGeoScan` (Görev 6) → `crypto.randomUUID()` →
  * `insertScan` → 200. Desen contact route'unu (`src/app/api/contact/route.ts`)
  * izler: aynı Turnstile yardımcısı (`verifyTurnstile`), aynı D1 erişim
  * biçimi (`getCloudflareContext`, booking route'unun deseni).
@@ -33,7 +34,15 @@ export const runtime = "nodejs";
 // (repository.ts başlık yorumu), bu yüzden binding adı da AYNI: `BOOKINGS_DB`.
 type GeoScanEnv = { BOOKINGS_DB: D1Database };
 
-type GeoScanErrorCode = "invalid-url" | "rate-limited" | "target-unreachable" | "turnstile-failed";
+type GeoScanErrorCode =
+  | "invalid-url"
+  | "rate-limited"
+  | "target-unreachable"
+  | "turnstile-failed"
+  // 5. kod — brief'in kapalı dört-kod sözlüğünü bilinçli genişletir.
+  // Sunucu-tarafı yapılandırma/altyapı hatalarını (bkz. aşağıdaki iki
+  // kullanım) istemciye SIZDIRMADAN tek bir opak koda toplar.
+  | "misconfigured";
 
 function errorResponse(error: GeoScanErrorCode, status: number): Response {
   return NextResponse.json({ error }, { status });
@@ -99,12 +108,21 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   // KVKK: ham IP hiçbir yerde saklanmaz — yalnız SHA-256(ip + gizli tuz)
-  // hash'i (repository.ts). Tuz `TOOL_IP_SALT` sırrı eksikse (yerel/CI'de
-  // yapılandırılmamışsa) boş dizgeyle devam edilir; rota bu durumda
-  // ÇALIŞMAYA devam eder (CRON_SECRET'in aksine bu sır isteği reddetmez) —
-  // eksik tuz yalnız hash'in tuzsuz gücünü zayıflatır, akışı kesmez.
-  // Üretimde sır `wrangler secret put TOOL_IP_SALT` ile girilir (README).
-  const salt = process.env.TOOL_IP_SALT ?? "";
+  // hash'i (repository.ts). Tuz `TOOL_IP_SALT` sırrı eksikse (veya boşsa)
+  // tuzsuz SHA-256(IP) 32-bit IPv4 uzayında rainbow-table ile ANINDA geri
+  // çevrilir — bu, ham IP saklamakla eşdeğerdir ve "ham IP saklanmaz"
+  // gereksinimini sessizce sıfırlar. Fail-closed: kod tabanı emsali
+  // `src/app/api/cron/route.ts` (CRON_SECRET yoksa TÜM istekler reddedilir)
+  // — aynı duruş burada da izlenir. Üretimde sır `wrangler secret put
+  // TOOL_IP_SALT` ile girilir (README).
+  const salt = process.env.TOOL_IP_SALT;
+  if (!salt) {
+    reportError(new Error("TOOL_IP_SALT is not configured"), {
+      route: "tools/geo-scan",
+      step: "config",
+    });
+    return errorResponse("misconfigured", 500);
+  }
   const ipHash = await hashClientIp(ip, salt);
 
   const { env } = getCloudflareContext();
@@ -146,14 +164,22 @@ export async function POST(req: Request): Promise<Response> {
   const scannedAt = new Date().toISOString();
   const result = { id, scannedAt, ...partial };
 
-  await insertScan(db, {
-    id,
-    url: result.url,
-    totalScore: result.totalScore,
-    band: result.band,
-    checksJson: JSON.stringify(result.checks),
-    clientIpHash: ipHash,
-  });
+  try {
+    await insertScan(db, {
+      id,
+      url: result.url,
+      totalScore: result.totalScore,
+      band: result.band,
+      checksJson: JSON.stringify(result.checks),
+      clientIpHash: ipHash,
+    });
+  } catch (err) {
+    // Try/catch olmadan bir D1 yazma hatası burada yakalanmadan fırlar —
+    // rota çöker ve istemci JSON gövdesi yerine framework'ün genel HTML
+    // hata sayfasını alır, `{error:...}` sözleşmesi tamamen bozulur.
+    reportError(err, { route: "tools/geo-scan", step: "insert" });
+    return errorResponse("misconfigured", 500);
+  }
 
   return NextResponse.json({ id, result }, { status: 200 });
 }

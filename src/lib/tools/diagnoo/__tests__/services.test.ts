@@ -32,6 +32,20 @@ describe("scrapePage", () => {
     fetchMock.mockResolvedValueOnce(jsonResponse({ success: false }, 402));
     await expect(scrapePage(env, "https://a.com")).rejects.toBeInstanceOf(ScrapeError);
   });
+  it("hata mesajında URL yok, sadece hostname", async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse({ success: false }, 402));
+    try {
+      await scrapePage(env, "https://a.com/gizli/sayfa");
+      throw new Error("should have thrown");
+    } catch (e) {
+      if (e instanceof ScrapeError) {
+        expect(e.message).toContain("a.com");
+        expect(e.message).not.toContain("/gizli/");
+      } else {
+        throw e;
+      }
+    }
+  });
 });
 
 describe("geminiJson", () => {
@@ -42,7 +56,10 @@ describe("geminiJson", () => {
     fetchMock.mockResolvedValueOnce(jsonResponse(geminiBody('{"score": 0.7}')));
     const out = await geminiJson(env, { system: "s", user: "u", schema });
     expect(out.score).toBe(0.7);
-    expect(String(fetchMock.mock.calls[0]![0])).toContain("gemini-3.5-flash");
+    const [reqUrl, init] = fetchMock.mock.calls[0]!;
+    expect(String(reqUrl)).toContain("gemini-3.5-flash");
+    expect(String(reqUrl)).not.toContain("key=");
+    expect((init as RequestInit).headers).toMatchObject({ "x-goog-api-key": "g-key" });
   });
   it("bozuk JSON'da bir onarım denemesi yapar", async () => {
     fetchMock
@@ -58,7 +75,9 @@ describe("geminiJson", () => {
       .mockResolvedValueOnce(jsonResponse(geminiBody('{"score": 0.9}')));
     const out = await geminiJson(env, { system: "s", user: "u", schema });
     expect(out.score).toBe(0.9);
-    expect(String(fetchMock.mock.calls[1]![0])).toContain("gemini-3.1-flash-lite");
+    const [reqUrl] = fetchMock.mock.calls[1]!;
+    expect(String(reqUrl)).toContain("gemini-3.1-flash-lite");
+    expect(String(reqUrl)).not.toContain("key=");
   });
 });
 
@@ -74,6 +93,9 @@ describe("fetchCwv", () => {
     }));
     const cwv = await fetchCwv(env, "https://a.com");
     expect(cwv).toEqual({ lcpMs: 4123, cls: 0.15, ttfbMs: 820, inpMs: 240 });
+    const [reqUrl, init] = fetchMock.mock.calls[0]!;
+    expect(String(reqUrl)).not.toContain("key=");
+    expect((init as RequestInit).headers).toMatchObject({ "x-goog-api-key": "p-key" });
   });
   it("PSI hatasında null döner (fırlatmaz)", async () => {
     fetchMock.mockResolvedValueOnce(new Response("err", { status: 500 }));

@@ -5,9 +5,17 @@ export type FirecrawlPage = {
   screenshotUrl: string | null; title: string; description: string;
 };
 
+function safeHost(url: string): string {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "<geçersiz-url>";
+  }
+}
+
 export class ScrapeError extends Error {
   constructor(public url: string, public status: number) {
-    super(`Firecrawl scrape failed (${status}): ${url}`);
+    super(`Firecrawl scrape failed (${status}): ${safeHost(url)}`);
   }
 }
 

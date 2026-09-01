@@ -3,10 +3,10 @@ import type { DiagnooEnv } from "./firecrawl";
 export async function fetchCwv(
   env: DiagnooEnv, url: string,
 ): Promise<{ lcpMs: number; cls: number; ttfbMs: number; inpMs: number | null } | null> {
-  const key = env.PSI_API_KEY ? `&key=${env.PSI_API_KEY}` : "";
-  const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=MOBILE${key}`;
+  const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=MOBILE`;
+  const headers = env.PSI_API_KEY ? { "x-goog-api-key": env.PSI_API_KEY } : undefined;
   try {
-    const res = await fetch(api);
+    const res = await fetch(api, headers ? { headers } : {});
     if (!res.ok) return null;
     const body = (await res.json()) as { lighthouseResult?: { audits?: Record<string, { numericValue?: number }> } };
     const audits = body.lighthouseResult?.audits;

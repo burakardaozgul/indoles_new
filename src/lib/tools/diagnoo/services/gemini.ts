@@ -4,16 +4,16 @@ import type { DiagnooEnv } from "./firecrawl";
 const PRIMARY = "gemini-3.5-flash";
 const FALLBACK = "gemini-3.1-flash-lite";
 
-function endpoint(model: string, key: string): string {
-  return `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+function endpoint(model: string): string {
+  return `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 }
 
 async function callOnce(env: DiagnooEnv, model: string, system: string, user: string, imagesBase64: string[]): Promise<{ ok: true; text: string } | { ok: false; status: number }> {
   const parts: unknown[] = [{ text: user }];
   for (const img of imagesBase64) parts.push({ inlineData: { mimeType: "image/png", data: img } });
-  const res = await fetch(endpoint(model, env.GEMINI_API_KEY), {
+  const res = await fetch(endpoint(model), {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: system }] },
       contents: [{ role: "user", parts }],

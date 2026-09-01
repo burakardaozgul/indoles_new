@@ -80,7 +80,16 @@ export function computeFinancialProjection(input: FinancialInput): FinancialProj
     adWaste = range(wasteExpected, width);
     methodology.push(C.WASTE_ATTRIBUTION_FACTOR);
   }
-  methodology.push(estimatedRatio > 0 ? C.RANGE_WIDTH_ESTIMATED : C.RANGE_WIDTH_MEASURED);
+  // Aralık genişliği sabitleri: karışık girdilerde her iki sabit, saf hallerde birer tane.
+  if (estimatedRatio > 0) methodology.push(C.RANGE_WIDTH_ESTIMATED);
+  if (estimatedRatio < 1) methodology.push(C.RANGE_WIDTH_MEASURED);
+  // Gerçekten uygulanan genişlik dinamik olarak kaydedilir.
+  methodology.push({
+    constant: "APPLIED_RANGE_WIDTH",
+    value: Number(width.toFixed(3)),
+    source: "INDOLES metodolojisi",
+    note: `Ölçülen girdi oranına göre ±%12 ile ±%35 arasında doğrusal harmanlandı; bu projeksiyonda ±%${Math.round(width * 100)} uygulandı`,
+  });
 
   const totalRecoverable: RangeValue = {
     low: lostRevenueSpeed.low + (adWaste?.low ?? 0),

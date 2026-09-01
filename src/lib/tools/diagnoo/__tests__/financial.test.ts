@@ -51,4 +51,37 @@ describe("computeFinancialProjection", () => {
     expect(constants).toContain("WASTE_ATTRIBUTION_FACTOR");
     expect(p.methodology.every((m) => m.source.length > 5)).toBe(true);
   });
+
+  it("karışık girdilerde her iki genişlik sabiti ve uygulanan genişlik dipnota girer", () => {
+    const p = computeFinancialProjection({ ...base, known: { monthlyTraffic: 200000 } });
+    const constants = p.methodology.map((m) => m.constant);
+    expect(constants).toContain("RANGE_WIDTH_ESTIMATED");
+    expect(constants).toContain("RANGE_WIDTH_MEASURED");
+    expect(constants).toContain("APPLIED_RANGE_WIDTH");
+    const appliedNote = p.methodology.find((m) => m.constant === "APPLIED_RANGE_WIDTH");
+    expect(appliedNote?.value).toBeCloseTo(0.273, 2);
+  });
+
+  it("tüm ölçülen girdilerde RANGE_WIDTH_ESTIMATED yok, RANGE_WIDTH_MEASURED var", () => {
+    const p = computeFinancialProjection({
+      ...base,
+      known: { monthlyTraffic: 200000, aov: 950, conversionRate: 0.021 },
+    });
+    const constants = p.methodology.map((m) => m.constant);
+    expect(constants).toContain("RANGE_WIDTH_MEASURED");
+    expect(constants).not.toContain("RANGE_WIDTH_ESTIMATED");
+    expect(constants).toContain("APPLIED_RANGE_WIDTH");
+    const appliedNote = p.methodology.find((m) => m.constant === "APPLIED_RANGE_WIDTH");
+    expect(appliedNote?.value).toBeCloseTo(0.12, 2);
+  });
+
+  it("tüm tahminiyken RANGE_WIDTH_ESTIMATED var, RANGE_WIDTH_MEASURED yok", () => {
+    const p = computeFinancialProjection(base);
+    const constants = p.methodology.map((m) => m.constant);
+    expect(constants).toContain("RANGE_WIDTH_ESTIMATED");
+    expect(constants).not.toContain("RANGE_WIDTH_MEASURED");
+    expect(constants).toContain("APPLIED_RANGE_WIDTH");
+    const appliedNote = p.methodology.find((m) => m.constant === "APPLIED_RANGE_WIDTH");
+    expect(appliedNote?.value).toBeCloseTo(0.35, 2);
+  });
 });

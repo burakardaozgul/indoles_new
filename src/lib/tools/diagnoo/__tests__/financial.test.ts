@@ -1,0 +1,54 @@
+import { describe, it, expect } from "vitest";
+import { computeFinancialProjection, METHODOLOGY_CONSTANTS } from "../financial";
+
+const base = {
+  avgLcpMs: 4500, messageCohesionScore: 0.6,
+  known: {}, benchmarkDefaults: { monthlyTraffic: 100000, aov: 800, conversionRate: 0.018 },
+};
+
+describe("computeFinancialProjection", () => {
+  it("tüm girdiler tahminiyken geniş aralık (±%35) üretir", () => {
+    const p = computeFinancialProjection(base);
+    const { low, expected, high } = p.lostRevenueSpeed;
+    expect(low).toBeCloseTo(expected * 0.65, 0);
+    expect(high).toBeCloseTo(expected * 1.35, 0);
+    expect(Object.values(p.inputSources).every((s) => s === "estimated")).toBe(true);
+  });
+
+  it("gerçek girdilerle aralık daralır ve measured işaretlenir", () => {
+    const p = computeFinancialProjection({
+      ...base, known: { monthlyTraffic: 200000, aov: 950, conversionRate: 0.021 },
+    });
+    expect(p.inputSources.monthlyTraffic).toBe("measured");
+    expect(p.lostRevenueSpeed.low / p.lostRevenueSpeed.expected).toBeGreaterThan(0.65);
+    expect(p.inputs.monthlyTraffic).toBe(200000);
+  });
+
+  it("Formül A: LCP eşik altındaysa hız kaybı 0", () => {
+    const p = computeFinancialProjection({ ...base, avgLcpMs: 2000 });
+    expect(p.lostRevenueSpeed.expected).toBe(0);
+  });
+
+  it("Formül A beklenen değer: traffic*aov*cr*lossRate*delaySn", () => {
+    const p = computeFinancialProjection(base);
+    const delay = (4500 - METHODOLOGY_CONSTANTS.LCP_THRESHOLD_MS.value) / 1000;
+    const exp = 100000 * 800 * 0.018 * METHODOLOGY_CONSTANTS.SPEED_LOSS_PER_SECOND.value * delay;
+    expect(p.lostRevenueSpeed.expected).toBeCloseTo(exp, 0);
+  });
+
+  it("adWaste yalnız reklam bütçesi verildiğinde hesaplanır", () => {
+    expect(computeFinancialProjection(base).adWaste).toBeNull();
+    const p = computeFinancialProjection({ ...base, known: { monthlyAdSpend: 50000 } });
+    const exp = 50000 * (1 - 0.6) * METHODOLOGY_CONSTANTS.WASTE_ATTRIBUTION_FACTOR.value;
+    expect(p.adWaste?.expected).toBeCloseTo(exp, 0);
+    expect(p.totalRecoverable.expected).toBeCloseTo(p.lostRevenueSpeed.expected + exp, 0);
+  });
+
+  it("methodology dipnotları kullanılan her sabiti içerir", () => {
+    const p = computeFinancialProjection({ ...base, known: { monthlyAdSpend: 50000 } });
+    const constants = p.methodology.map((m) => m.constant);
+    expect(constants).toContain("SPEED_LOSS_PER_SECOND");
+    expect(constants).toContain("WASTE_ATTRIBUTION_FACTOR");
+    expect(p.methodology.every((m) => m.source.length > 5)).toBe(true);
+  });
+});

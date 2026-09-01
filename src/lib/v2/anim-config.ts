@@ -187,6 +187,58 @@ export const BLOB_PAGE = {
 } as const;
 
 /**
+ * Araç sayfası hero blobu — merkezî ve belirgin, ama koreografisiz.
+ *
+ * Araç sayfası üçüncü bir sayfa tipidir (docs/04 §12.10 "Bilinçli istisna"):
+ * hizmet/vaka/yazı sayfası OKUNUR, araç sayfası KULLANILIR — ilk ekranı bir
+ * metin bloğu değil bir giriş alanıdır. Sessiz eşlikçi blob orada ilk ekranı
+ * boş bir formla baş başa bırakıyordu.
+ *
+ * Anasayfanın 7 duraklı koreografisi KOPYALANMAZ: o koreografi bir scroll
+ * anlatısıdır, araç sayfasının anlatısı yok. Burada tek bir durum var —
+ * hero'da büyük ve merkezî — ve scroll ettikçe `BLOB_PAGE` hâline çekilir.
+ * Böylece "blob okuma kolonuna girmez" kuralı okuma bölümlerinde aynen
+ * yürürlükte kalır; istisna yalnız ilk ekranı kapsar.
+ */
+export const BLOB_TOOL_HERO = {
+  /** Merkezî: `.tool-hero` tek sütunlu ve ortalanmış, blob da öyle. */
+  x: 0,
+  /**
+   * Hafif aşağı (-y = aşağı). Gövdenin en yoğun/en parlak bölgesi h1'in
+   * tepesine değil, lede + giriş kartı hizasına düşsün diye: kart zaten
+   * yarı saydam beyaz (`.v2-surface`), blob'un çekirdeği onun arkasında
+   * buzlu cam gibi okunuyor, başlığın üstüne ise yumuşak üst kenarı geliyor.
+   */
+  y: -0.12,
+  /**
+   * Anasayfa hero'su 0.65 ile başlayıp 1.1'e büyür. 0.78 o aralığın içinde
+   * ama tepesinde değil: "anasayfadaki gibi büyük", "anasayfanın kopyası"
+   * değil.
+   */
+  scale: 0.78,
+  noiseAmp: 0.1,
+  /**
+   * 0.26 (iç sayfa) belirgin değil, 1.0 (anasayfa) metnin altında gürültü.
+   * 0.55'te krem üstündeki en koyu bölge bile açık kalıyor: 4 viewport'ta
+   * ölçülen en düşük kontrast teal-700 eyebrow'da 6.5:1, gövde 10.2:1
+   * (AA sınırı 4.5). Ölçüm yöntemi docs/04 §12.10'da.
+   */
+  opacity: 0.55,
+  /**
+   * Dar ekranda okuma kolonu = ekranın tamamı; gövde küçülür ve solar.
+   * Ölçek ayrıca `BLOB.mobileScaleFactor` (0.72) ile çarpılır: 0.62 → 0.45,
+   * anasayfa mobil hero'sunun (0.65 → 0.47) hemen altında.
+   */
+  mobile: { x: 0, y: -0.05, scale: 0.62, opacity: 0.4 },
+  /**
+   * Hero durumundan `BLOB_PAGE` durumuna geçişin süreceği scroll payı
+   * (viewport yüksekliğine oran). Bir ekran boyu: kullanıcı ilk bölüme
+   * ("Nasıl çalışır") vardığında blob çoktan sessiz eşlikçi olmuştur.
+   */
+  settleVh: 0.9,
+} as const;
+
+/**
  * Chrome (siyah şerit + nav) — hero'ya değil layout'a ait olduğu için kendi
  * bloğunda tutulur; hero kaldırılsa bile nav zamanlaması burada kalır.
  */

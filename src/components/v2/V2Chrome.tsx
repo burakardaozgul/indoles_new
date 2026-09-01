@@ -19,6 +19,26 @@ const CustomCursor = dynamic(
   { ssr: false },
 );
 
+type BlobVariant = "home" | "page" | "tool-hero";
+
+/**
+ * Blob'un merkezî/belirgin hâlde durduğu sayfalar (docs/04 §12.10 istisnası).
+ *
+ * `usePathname` next-intl'in KANONİK yolunu döner (locale ön eki ve segment
+ * çevirisi çözülmüş hâli), bu yüzden tek giriş TR ve EN adresinin ikisini de
+ * kapsar. Araç ailesinin tamamı değil, yalnız giriş sayfası: sonuç sayfası
+ * bir rapor, yani okuma sayfasıdır ve `page` kalır.
+ */
+const TOOL_HERO_ROUTES = new Set<string>([
+  "/araclar/geo-gorunurluk-denetleyicisi",
+]);
+
+function resolveBlobVariant(pathname: string): BlobVariant {
+  if (pathname === "/") return "home";
+  if (TOOL_HERO_ROUTES.has(pathname)) return "tool-hero";
+  return "page";
+}
+
 export function V2Chrome({
   children,
   chrome,
@@ -33,13 +53,14 @@ export function V2Chrome({
   footer?: React.ReactNode;
   skipLabel: string;
   /**
-   * Anasayfada koreografi, iç sayfada sessiz eşlikçi. Verilmezse route'tan
-   * türetilir — layout hangi sayfada olduğunu bilmediği için karar burada.
+   * Anasayfada koreografi, araç hero'sunda merkezî/belirgin, diğer iç
+   * sayfalarda sessiz eşlikçi. Verilmezse route'tan türetilir — layout hangi
+   * sayfada olduğunu bilmediği için karar burada.
    */
-  blobVariant?: "home" | "page";
+  blobVariant?: BlobVariant;
 }) {
   const pathname = usePathname();
-  const variant = blobVariant ?? (pathname === "/" ? "home" : "page");
+  const variant = blobVariant ?? resolveBlobVariant(pathname);
 
   return (
     <SmoothScrollProvider>

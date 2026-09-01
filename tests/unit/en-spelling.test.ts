@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import ts from "typescript";
 import { SERVICES } from "@/lib/content/services";
 import { PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
@@ -82,11 +83,20 @@ function enCorpus(): string {
  * metinlerini KAYNAK DOSYADAN tarar — fonksiyonları çağırıp çıktı üretmek
  * yerine. Sebep: her kontrol fonksiyonu dallı (robots.txt var/yok, JSON-LD
  * bloğu bozuk/geçerli vb.); tüm dalları tetiklemek için birden çok girdi
- * kurgulamak bu testin kapsamını gereksiz büyütürdü. Motorun İngilizce
- * yüzeyinin tamamı `en: "..."` / `en: \`...\`` biçiminde statik literal —
- * dinamik kısımlar yalnız `${...}` enterpolasyonuyla sayı/liste taşır, imla
- * kuralına tabi kelimeler asla enterpolasyon içinde geçmez — bu yüzden kaynak
- * taraması, fonksiyonu her dalıyla çalıştırmaya eşdeğer kapsam sağlar.
+ * kurgulamak bu testin kapsamını gereksiz büyütürdü. Kaynaktaki her `en:`
+ * property'sinin literal metni, o metni üreten dal HİÇ çalıştırılmasa bile
+ * kaynak dosyada zaten mevcuttur — bu yüzden statik tarama, imla kontrolü
+ * amacıyla dalların hepsini tetiklemeye eşdeğer kapsam sağlar.
+ *
+ * ÇIKARIM TypeScript AST'İYLE YAPILIR, regex'le DEĞİL (fix — code review
+ * bulgusu): ilk sürüm `en:\s*(["'\`])((?:\\.|(?!\1)[\s\S])*)\1` gibi bir
+ * backreference regex'i kullanıyordu ve `json-ld.ts`'teki
+ * `` en: `...${typeList ? `; recognised types: ${typeList}` : ""}...` ``
+ * satırında İÇ İÇE template literal'in iç backtick'ini dış backtick'le
+ * karıştırıp metni "; recognised types..." noktasında SESSİZCE kesiyordu —
+ * kesilen kısımdaki bir Amerikan yazımı hiç görülmeden PASS alırdı. Gerçek
+ * bir parser (TS derleyicisinin kendi AST'si) bu sınıfın tamamını kapatır:
+ * template literal ne kadar derin iç içe geçerse geçsin doğru ayrıştırılır.
  */
 const GEO_ENGINE_DIR = path.join(process.cwd(), "src/lib/tools/geo");
 const GEO_ENGINE_FILES = [
@@ -98,13 +108,49 @@ const GEO_ENGINE_FILES = [
   "safe-fetch.ts",
 ];
 
-/** `en:` alanının değerini yakalar — hem tırnaklı hem template literal. */
-const EN_LITERAL_REGEX = /en:\s*(["'`])((?:\\.|(?!\1)[\s\S])*)\1/g;
+/**
+ * Bir alt-ağaçtaki TÜM string ve template literal metin parçalarını toplar
+ * — iç içe geçmiş template literal'ler dahil (`TemplateHead`/`Middle`/`Tail`
+ * ayrı düğümler olduğu için `forEachChild` her derinlikte doğru iner).
+ */
+function collectLiteralText(node: ts.Node, out: string[]): void {
+  if (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) {
+    out.push(node.text);
+  } else if (
+    node.kind === ts.SyntaxKind.TemplateHead ||
+    node.kind === ts.SyntaxKind.TemplateMiddle ||
+    node.kind === ts.SyntaxKind.TemplateTail
+  ) {
+    out.push((node as ts.LiteralLikeNode).text);
+  }
+  node.forEachChild((child) => collectLiteralText(child, out));
+}
+
+/** `en: <ifade>` biçimindeki her property assignment'ın değer ağacını bulur. */
+function findEnPropertyLiterals(node: ts.Node, out: string[]): void {
+  if (
+    ts.isPropertyAssignment(node) &&
+    ts.isIdentifier(node.name) &&
+    node.name.text === "en"
+  ) {
+    collectLiteralText(node.initializer, out);
+  }
+  node.forEachChild((child) => findEnPropertyLiterals(child, out));
+}
 
 function geoEngineEnCorpus(): string {
   return GEO_ENGINE_FILES.map((file) => {
-    const src = readFileSync(path.join(GEO_ENGINE_DIR, file), "utf8");
-    return [...src.matchAll(EN_LITERAL_REGEX)].map((m) => m[2]).join("\n");
+    const filePath = path.join(GEO_ENGINE_DIR, file);
+    const src = readFileSync(filePath, "utf8");
+    const sourceFile = ts.createSourceFile(
+      filePath,
+      src,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const out: string[] = [];
+    findEnPropertyLiterals(sourceFile, out);
+    return out.join("\n");
   }).join("\n");
 }
 
@@ -179,5 +225,13 @@ describe("İngilizce imla — İngiliz biçimi (Karar 4)", () => {
     const all = enCorpus();
     expect(all).not.toMatch(/Happy Centre/);
     expect(all).toMatch(/Happy Center/);
+  });
+
+  it("iç içe template literal'deki İngilizce metin taramaya dahil (json-ld.ts nested-backtick regresyonu)", () => {
+    // json-ld.ts: `en: \`...${typeList ? \`; recognised types: ${typeList}\` : ""}...\``
+    // Eski regex tabanlı çıkarım bu iç içe backtick'te sessizce kesiliyor,
+    // "; recognised types" ve sonrası hiç taranmıyordu (code review bulgusu).
+    // AST tabanlı çıkarım bu metni artık korpusa dahil ediyor.
+    expect(geoEngineEnCorpus()).toContain("recognised types");
   });
 });

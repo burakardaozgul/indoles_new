@@ -61,9 +61,16 @@ pnpm dev                      # http://localhost:3000 → /tr
 
 Aşama değişkeni bilerek script'e gömülü: `NEXT_PUBLIC_APP_STAGE` production değilse `robots.txt` tüm siteyi kapatır ve GA4 yüklenmez (denetim LG-02). Deploy sonrası ilk kontrol `curl <adres>/robots.txt` olmalı.
 
-Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `SENTRY_DSN`. Kanonik host `www.indoles.com.tr`; custom domain bağlama `wrangler.jsonc` içinde yorumda bekliyor ve **cutover'da** açılır.
+Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `SENTRY_DSN`, `TOOL_IP_SALT`. Kanonik host `www.indoles.com.tr`; custom domain bağlama `wrangler.jsonc` içinde yorumda bekliyor ve **cutover'da** açılır.
 
-> **TODO (Görev 14'te tam dokümante edilir):** GEO araç deposu (`src/lib/tools/geo/repository.ts`, `hashClientIp`) istemci IP'sini KVKK gereği ham saklamıyor, SHA-256(ip + gizli tuz) hash'liyor. Tuz `TOOL_IP_SALT` — yerelde `.dev.vars`'a, canlıda `wrangler secret put TOOL_IP_SALT` ile eklenmeli. Bu satır yalnız bir hatırlatma; adım-adım kurulum Görev 14'te bu runbook'a veya `docs/runbooks/cutover-www-indoles.md`'ye taşınır.
+> **`TOOL_IP_SALT` (ADR-030):** GEO araç deposu (`src/lib/tools/geo/repository.ts`,
+> `hashClientIp`) istemci IP'sini KVKK gereği ham saklamıyor, SHA-256(ip + gizli
+> tuz) hash'liyor. Tuz eksikse/boşsa hem `/api/tools/geo-scan` hem
+> `/api/tools/geo-report` **fail-closed** olur (`500 {error:"misconfigured"}`) —
+> tuzsuz SHA-256(IP) 32-bit IPv4 uzayında anında geri çevrilebilir, bu ham IP
+> saklamakla eşdeğerdir. Yerelde `.dev.vars`'a `TOOL_IP_SALT=<rastgele-uzun-dize>`
+> eklenir; üretimde `wrangler secret put TOOL_IP_SALT` ile girilir (adım-adım:
+> `docs/runbooks/cutover-www-indoles.md` "GEO araç sırrı" bölümü).
 
 ---
 

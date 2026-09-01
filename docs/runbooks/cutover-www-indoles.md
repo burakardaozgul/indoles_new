@@ -75,6 +75,34 @@ Bu, planın önceki halindeki en büyük riski ortadan kaldırdı: dış bir gö
 
 > Not: `CLAUDE.md` Turnstile'ı "Invisible" diye kaydediyor. Form görünür bir kapsayıcıyla render ediyor ve token gelene kadar gönder düğmesini kilitliyor — iki mod da çalışır. Managed daha güçlü koruma verdiği için önerilen o; Invisible tercih edilirse `CLAUDE.md` satırı zaten doğru kalır.
 
+### GEO araç sırrı — `TOOL_IP_SALT` (ADR-030)
+
+GEO Görünürlük Denetleyicisi (`/araclar`) istemci IP'sini KVKK gereği ham
+saklamıyor — `hashClientIp` (`src/lib/tools/geo/repository.ts`) yalnız
+`SHA-256(ip + gizli tuz)` hash'ini D1'e yazıyor. Tuz eksikse veya boşsa
+tuzsuz `SHA-256(IP)` 32-bit IPv4 adres uzayında rainbow-table ile **anında**
+geri çevrilir — bu ham IP saklamakla fiilen eşdeğerdir. Bu yüzden hem
+`POST /api/tools/geo-scan` hem `POST /api/tools/geo-report` tuz yoksa
+**fail-closed** olur: `500 {error:"misconfigured"}`, istek D1'e hiç
+ulaşmaz.
+
+1. Rastgele, uzun bir dize üret (ör. `openssl rand -hex 32`) — bu değer
+   gizli, repoya veya sohbete yapıştırılmaz.
+2. Yerel geliştirme: `.dev.vars`'a `TOOL_IP_SALT=<üretilen-değer>` ekle.
+3. Üretim: `wrangler secret put TOOL_IP_SALT` çalıştır, istendiğinde
+   değeri yapıştır (Cloudflare panelinde şifreli saklanır, `wrangler secret
+   list` yalnız adını gösterir).
+4. Doğrulama: cutover sonrası `pnpm seo:audit`/duman testine ek olarak
+   araç sayfasında gerçek bir tarama dene — `misconfigured` hatası
+   dönerse sır ya girilmemiş ya da yanlış environment'a girilmiş demektir
+   (`wrangler secret put` ortam bayrağını doğrula).
+
+**Değer bir kez üretilip sabit kalmalı** — tuz değişirse önceki taramaların
+`client_ip_hash` değerleri artık aynı IP'ye eşlenmez (yalnız hız sınırı
+sayaçlarını etkiler, geçmiş tarama kayıtlarını bozmaz — `tool_scans`/
+`tool_leads` IP hash'i yalnız hız sınırı için tutuluyor, kullanıcıya
+gösterilmiyor).
+
 ### Değerleri nereye koyacaksın
 
 Üçünü `.env.local`'e ekle, bana göndermene gerek yok:

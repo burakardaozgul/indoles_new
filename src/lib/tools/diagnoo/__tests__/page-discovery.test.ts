@@ -59,4 +59,27 @@ describe("discoverAndScrapePages", () => {
     expect(pages.some((p) => p.url === "https://a.com/k1")).toBe(false);
     expect(pages.length).toBeGreaterThanOrEqual(2);
   });
+
+  it("farklı domaindeki URL'ler scrapePage'e geçilmez, tekilleştirme yapılır", async () => {
+    vi.mocked(scrapePage).mockResolvedValue(page({ links: ["https://a.com/k1"] }) as never);
+    vi.mocked(geminiJson).mockResolvedValue({
+      category: ["https://a.com/k1", "https://baska.com/p9", "https://a.com/k1"],
+      product: ["https://a.com/p1"],
+      checkout: null,
+    } as never);
+    const pages = await discoverAndScrapePages(env, "https://a.com");
+    const scrapedUrls = vi.mocked(scrapePage).mock.calls.map((c) => c[1]);
+    expect(scrapedUrls).not.toContain("https://baska.com/p9");
+    expect(scrapedUrls.filter((u) => u === "https://a.com/k1")).toHaveLength(1);
+  });
+
+  it("geminiJson çağrısında 'aynı domaindeki' metni varır", async () => {
+    vi.mocked(scrapePage).mockResolvedValue(page() as never);
+    vi.mocked(geminiJson).mockResolvedValue({
+      category: [], product: [], checkout: null,
+    } as never);
+    await discoverAndScrapePages(env, "https://a.com");
+    const userPrompt = vi.mocked(geminiJson).mock.calls[0]![1].user;
+    expect(userPrompt).toContain("aynı domaindeki");
+  });
 });

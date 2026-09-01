@@ -9,6 +9,71 @@ const ClassificationSchema = z.object({
   checkout: z.string().url().nullable(),
 });
 
+type Classification = z.infer<typeof ClassificationSchema>;
+
+function filterSameOrigin(rootUrl: string, classification: Classification): Classification {
+  // Gemini çıktısı güvenilmez; kod seviyesinde aynı domain kontrolü (sosyal, ödeme, CDN
+  // gibi üçüncü taraf URL'leri Firecrawl bütçesini boşaltmaz).
+  const rootHost = (() => {
+    try {
+      return new URL(rootUrl).hostname;
+    } catch {
+      return "";
+    }
+  })();
+
+  const normalizeUrl = (u: string): string => {
+    try {
+      const url = new URL(u);
+      return url.toString().replace(/\/$/, ""); // Trailing slash kaldır
+    } catch {
+      return "";
+    }
+  };
+
+  const normalizedRoot = normalizeUrl(rootUrl);
+  const seen = new Set<string>();
+
+  const filterUrls = (urls: string[]): string[] => {
+    return urls
+      .filter((u) => {
+        try {
+          const host = new URL(u).hostname;
+          return host === rootHost;
+        } catch {
+          return false;
+        }
+      })
+      .filter((u) => normalizeUrl(u) !== normalizedRoot)
+      .filter((u) => {
+        const normalized = normalizeUrl(u);
+        if (seen.has(normalized)) return false;
+        seen.add(normalized);
+        return true;
+      });
+  };
+
+  return {
+    category: filterUrls(classification.category),
+    product: filterUrls(classification.product),
+    checkout: classification.checkout
+      ? (() => {
+          try {
+            const host = new URL(classification.checkout).hostname;
+            const normalized = normalizeUrl(classification.checkout);
+            if (host !== rootHost || normalized === normalizedRoot || seen.has(normalized)) {
+              return null;
+            }
+            seen.add(normalized);
+            return classification.checkout;
+          } catch {
+            return null;
+          }
+        })()
+      : null,
+  };
+}
+
 function headings(markdown: string): string[] {
   return markdown.split("\n").filter((l) => /^#{1,3} /.test(l)).map((l) => l.replace(/^#+ /, "").trim()).slice(0, 20);
 }
@@ -32,16 +97,19 @@ export async function discoverAndScrapePages(env: DiagnooEnv, rootUrl: string): 
     user: [
       `Site: ${rootUrl}`,
       `Linkler:\n${home.links.slice(0, 150).join("\n")}`,
-      'Şu şemayla seç: {"category": [en fazla 2 kategori/koleksiyon URL], "product": [en fazla 3 ürün detay URL], "checkout": sepet/checkout URL veya null}. Aynı domain dışındakileri eleme.',
+      'Şu şemayla seç: {"category": [en fazla 2 kategori/koleksiyon URL], "product": [en fazla 3 ürün detay URL], "checkout": sepet/checkout URL veya null}. Yalnızca aynı domaindeki linkleri seç; farklı domaindeki linkleri dışarıda bırak.',
     ].join("\n\n"),
     schema: ClassificationSchema,
   });
 
+  // Kod seviyesinde aynı domain kontrolü (Gemini çıktısı güvenilmez).
+  const filtered = filterSameOrigin(rootUrl, classification);
+
   const targets: { url: string; pageType: PageType; screenshot: boolean; rawHtml: boolean }[] = [
-    ...classification.category.map((u) => ({ url: u, pageType: "category" as const, screenshot: false, rawHtml: false })),
-    ...classification.product.map((u) => ({ url: u, pageType: "product" as const, screenshot: true, rawHtml: false })),
-    ...(classification.checkout
-      ? [{ url: classification.checkout, pageType: "checkout" as const, screenshot: true, rawHtml: true }]
+    ...filtered.category.map((u) => ({ url: u, pageType: "category" as const, screenshot: false, rawHtml: false })),
+    ...filtered.product.map((u) => ({ url: u, pageType: "product" as const, screenshot: true, rawHtml: false })),
+    ...(filtered.checkout
+      ? [{ url: filtered.checkout, pageType: "checkout" as const, screenshot: true, rawHtml: true }]
       : []),
   ];
 

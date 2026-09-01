@@ -4,9 +4,14 @@
  * IP, kendi API'lerimiz) istek zorlanabilir. Spec §2, Görev 7.
  *
  * `validateTargetUrl` iki noktada çağrılır: (1) kullanıcı girdisi üzerinde,
- * (2) `fetchScanTargets` içinde her yanıtın `res.url`'i üzerinde — sunucu
- * izinli bir hedeften izinsiz bir hedefe yönlendirebilir (redirect-based
- * SSRF), bu yüzden ilk kontrol tek başına yetmez.
+ * (2) `fetchScanTargets` içinde HER yönlendirme hop'unun (`Location`
+ * başlığından çözülen) hedefinde. Yönlendirmeler `redirect: "manual"` ile
+ * elle takip edilir — `fetch`'in kendi `redirect: "follow"` modu ara
+ * adımları asla dışarı vermez, yalnız zincirin son `res.url`'i görünür olur.
+ * Bu, public→localhost→public gibi bir ara sekmenin son adımda temiz
+ * görünüp gözden kaçmasına yol açardı (fix round 1: iki bağımsız güvenlik
+ * incelemesinin ortak bulgusu). En fazla `MAX_REDIRECT_HOPS` hop izlenir;
+ * aşılırsa veya herhangi bir hop reddedilirse hedef erişilemez sayılır.
  *
  * IP-literal reddi kasten geniştir: yalnız private aralıklar (10/8,
  * 172.16/12, 192.168/16, 127/8, 169.254/16) değil, TÜM IP-literal host'lar
@@ -17,6 +22,13 @@
  * her zaman bir alan adı olmasını bekler; IP ile taranan bir hedefin private
  * olup olmadığını coğrafi/kurumsal DNS bağlamı olmadan güvenle ayırt etmek
  * mümkün değildir (ör. `[::ffff:127.0.0.1]` gibi IPv6-eşlemeli biçimler).
+ *
+ * Host karşılaştırmaları öncesi `hostname`'in sonundaki TEK bir nokta
+ * kırpılır (`indoles.com.tr.` gibi FQDN gösterimleri). WHATWG URL
+ * ayrıştırıcısı bu noktayı domain host'larda korur (`new
+ * URL("http://localhost./").hostname === "localhost."`); kırpılmazsa
+ * `indoles.com.tr.` hem kendi API döngü korumasını hem de
+ * localhost/*.local/*.internal reddini atlatabilirdi (fix round 1, critical).
  */
 
 import { Localized } from "@/lib/content/types";
@@ -71,8 +83,15 @@ function isOwnHost(hostname: string): boolean {
   return hostname === "indoles.com.tr" || hostname.endsWith(".indoles.com.tr");
 }
 
+/**
+ * Öncü slash sayısından bağımsız `/api/` kontrolü. WHATWG URL ayrıştırıcısı
+ * `//api/contact` gibi çift öncü slash'ı normalize ETMEZ (pathname birebir
+ * korunur) — sabit `pathname.startsWith("/api/")` kontrolü bu biçimi
+ * atlatılabilir bırakırdı (fix round 1, minor).
+ */
 function isOwnApiPath(pathname: string): boolean {
-  return pathname === "/api" || pathname.startsWith("/api/");
+  const trimmed = pathname.replace(/^\/+/, "");
+  return trimmed === "api" || trimmed.startsWith("api/");
 }
 
 /**
@@ -92,7 +111,8 @@ export function validateTargetUrl(raw: string): ValidateTargetUrlResult {
     return { ok: false, reason: REASON_PROTOCOL };
   }
 
-  const hostname = url.hostname.toLowerCase();
+  // Tek trailing dot kırpılır — bkz. modül başı doküman notu (fix round 1).
+  const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
 
   if (isIpLiteralHost(hostname)) {
     return { ok: false, reason: REASON_IP_LITERAL };
@@ -113,7 +133,9 @@ export const SCANNER_USER_AGENT =
   "INDOLES-GEO-Denetleyici/1.0 (+https://www.indoles.com.tr/tr/araclar/geo-gorunurluk-denetleyicisi)";
 
 const REQUEST_TIMEOUT_MS = 10_000;
-const MAX_PAGE_BYTES = 2_000_000;
+const MAX_BODY_BYTES = 2_000_000;
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+const MAX_REDIRECT_HOPS = 3;
 
 export type ScanTargets = {
   pageHtml: string;
@@ -121,20 +143,8 @@ export type ScanTargets = {
   llmsTxt: string | null;
 };
 
-/**
- * Doğrudan test amaçlı oluşturulan `Response` nesnelerinde `url` boş
- * dizgedir (Fetch standardı: yalnız gerçek bir ağ isteğinden dönen yanıt bu
- * alanı doldurur). Boşsa hedef zaten çağıran tarafta doğrulanmış demektir —
- * revalidasyon atlanır. Gerçek `fetch` her zaman doldurduğu için üretimde bu
- * kısayol devre dışıdır; SSRF reddi yalnız gerçek yönlendirmelerde çalışır.
- */
-function isFinalUrlSafe(res: Response): boolean {
-  if (!res.url) return true;
-  return validateTargetUrl(res.url).ok;
-}
-
 function isHtmlContentType(res: Response): boolean {
-  const contentType = res.headers.get("content-type") ?? "";
+  const contentType = (res.headers.get("content-type") ?? "").toLowerCase();
   return contentType.includes("text/html");
 }
 
@@ -142,7 +152,10 @@ function isHtmlContentType(res: Response): boolean {
  * Yanıt gövdesini `ReadableStream` reader döngüsüyle okur, `maxBytes`'a
  * ulaşınca kalan akışı iptal edip döngüden çıkar. Tüm gövdeyi belleğe alıp
  * sonradan kesmek yerine akış üzerinde erken durmak, kötü niyetli/aşırı
- * büyük bir yanıtın tüm baytlarının işçi belleğine taşınmasını önler.
+ * büyük bir yanıtın tüm baytlarının işçi belleğine taşınmasını önler. Sayfa,
+ * robots.txt ve llms.txt — üçü de aynı üst sınırdan geçer (fix round 1: eskiden
+ * yalnız sayfa kesiliyordu, robots/llms `.text()` ile sınırsız belleğe
+ * alınıyordu — public endpoint'te OOM vektörüydü).
  */
 async function readTruncatedText(res: Response, maxBytes: number): Promise<string> {
   const body = res.body;
@@ -178,38 +191,75 @@ async function readTruncatedText(res: Response, maxBytes: number): Promise<strin
 }
 
 /**
- * Hedef sayfayı ve `origin/robots.txt` + `origin/llms.txt`'i paralel çeker.
- * Sayfa erişilemezse (200 dışı durum, `text/html` olmayan içerik türü veya
- * yönlendirme sonrası reddedilen hedef) `Error("target-unreachable")`
- * fırlatılır — bu, motorun skorlayacağı bir veri yok demektir. robots.txt
- * ve llms.txt için aynı durum sert bir hata değil, `null` demektir: bu
- * dosyaların yokluğu motorun kendi kontrol mantığının (ai-access, llms-txt)
- * yorumlayacağı bir sinyaldir, tarama düşmez.
+ * `redirect: "manual"` ile yönlendirmeleri kendimiz takip ederiz — zincirin
+ * yalnız son adımını değil HER hop'unu `validateTargetUrl`'den geçirmek
+ * için (bkz. modül başı doküman notu). `Location` başlığı `currentUrl`'e
+ * göre çözülür (göreli yönlendirmeler için). Ağ hatası (zaman aşımı, DNS,
+ * bağlantı reddi) veya herhangi bir hop'un reddi `null` ile sonuçlanır;
+ * ham hata hiçbir zaman çağırana sızmaz — çağıran taraf `null`'ı sayfa için
+ * `target-unreachable`'a, robots/llms için "yok say"a çevirir.
  */
-/**
- * Ağ hatası (zaman aşımı, DNS, bağlantı reddi) fırlatan bir isteği `null`'a
- * indirger. robots.txt/llms.txt için bu, 200 dışı durumla aynı anlama gelir
- * (dosya yok say). Sayfa isteği için de aynı yoldan geçer — çağıran taraf
- * `pageRes === null`'ı 200-dışı durumla birlikte tek bir
- * `Error("target-unreachable")`'a indirger; ham ağ hatası (`TypeError:
- * fetch failed`, `AbortError`) hiçbir zaman çağırana sızmaz.
- */
-async function safeRequest(
-  target: string | URL,
+async function fetchWithValidatedRedirects(
+  initialUrl: URL,
   fetcher: typeof fetch,
   headers: Record<string, string>
 ): Promise<Response | null> {
+  let currentUrl = initialUrl;
+
+  for (let hop = 0; ; hop++) {
+    if (!validateTargetUrl(currentUrl.href).ok) return null;
+
+    let res: Response;
+    try {
+      res = await fetcher(currentUrl, {
+        headers,
+        redirect: "manual",
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      });
+    } catch {
+      return null;
+    }
+
+    if (!REDIRECT_STATUSES.has(res.status)) return res;
+    if (hop >= MAX_REDIRECT_HOPS) return null;
+
+    const location = res.headers.get("location");
+    if (!location) return null;
+
+    try {
+      currentUrl = new URL(location, currentUrl);
+    } catch {
+      return null;
+    }
+  }
+}
+
+/**
+ * robots.txt/llms.txt için 200 dışı durumu VE gövde-fazı hatasını (zaman
+ * aşımı gövde okurken ateşlenirse, bağlantı kopması) aynı "yok say"
+ * sözleşmesine indirger — sert hata değil, `null`. Aksi hâlde gövde
+ * okunurken düşen bir hata ham haliyle tüm taramayı düşürürdü (fix round 1,
+ * important).
+ */
+async function readBodyOrNull(res: Response | null, maxBytes: number): Promise<string | null> {
+  if (!res || res.status !== 200) return null;
   try {
-    return await fetcher(target, {
-      headers,
-      redirect: "follow",
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-    });
+    return await readTruncatedText(res, maxBytes);
   } catch {
     return null;
   }
 }
 
+/**
+ * Hedef sayfayı ve `origin/robots.txt` + `origin/llms.txt`'i paralel çeker.
+ * Sayfa erişilemezse (200 dışı durum, `text/html` olmayan içerik türü,
+ * reddedilen/aşırı uzun yönlendirme zinciri veya gövde-fazı hatası)
+ * `Error("target-unreachable")` fırlatılır — bu, motorun skorlayacağı bir
+ * veri yok demektir. robots.txt ve llms.txt için aynı durum sert bir hata
+ * değil, `null` demektir: bu dosyaların yokluğu motorun kendi kontrol
+ * mantığının (ai-access, llms-txt) yorumlayacağı bir sinyaldir, tarama
+ * düşmez.
+ */
 export async function fetchScanTargets(
   url: URL,
   fetcher: typeof fetch = fetch
@@ -218,20 +268,24 @@ export async function fetchScanTargets(
   const headers = { "User-Agent": SCANNER_USER_AGENT };
 
   const [pageRes, robotsRes, llmsRes] = await Promise.all([
-    safeRequest(url, fetcher, headers),
-    safeRequest(`${origin}/robots.txt`, fetcher, headers),
-    safeRequest(`${origin}/llms.txt`, fetcher, headers),
+    fetchWithValidatedRedirects(url, fetcher, headers),
+    fetchWithValidatedRedirects(new URL("/robots.txt", origin), fetcher, headers),
+    fetchWithValidatedRedirects(new URL("/llms.txt", origin), fetcher, headers),
   ]);
 
-  if (!pageRes || !isFinalUrlSafe(pageRes) || pageRes.status !== 200 || !isHtmlContentType(pageRes)) {
+  if (!pageRes || pageRes.status !== 200 || !isHtmlContentType(pageRes)) {
     throw new Error("target-unreachable");
   }
 
-  const pageHtml = await readTruncatedText(pageRes, MAX_PAGE_BYTES);
-  const robotsTxt =
-    robotsRes && isFinalUrlSafe(robotsRes) && robotsRes.status === 200 ? await robotsRes.text() : null;
-  const llmsTxt =
-    llmsRes && isFinalUrlSafe(llmsRes) && llmsRes.status === 200 ? await llmsRes.text() : null;
+  let pageHtml: string;
+  try {
+    pageHtml = await readTruncatedText(pageRes, MAX_BODY_BYTES);
+  } catch {
+    throw new Error("target-unreachable");
+  }
+
+  const robotsTxt = await readBodyOrNull(robotsRes, MAX_BODY_BYTES);
+  const llmsTxt = await readBodyOrNull(llmsRes, MAX_BODY_BYTES);
 
   return { pageHtml, robotsTxt, llmsTxt };
 }

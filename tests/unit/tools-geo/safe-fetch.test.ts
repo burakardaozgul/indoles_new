@@ -45,6 +45,17 @@ describe("validateTargetUrl", () => {
     expect(r.ok).toBe(true);
     if (r.ok) expect(r.url.href).toBe("https://example.com/blog/yazi");
   });
+
+  it.each([
+    "http://indoles.com.tr./api/contact",
+    "http://localhost./",
+    "http://svc.local./",
+    "http://a.b.internal./",
+  ])("trailing-dot FQDN bypass'ı reddedilir: %s", (u) => expect(validateTargetUrl(u).ok).toBe(false));
+
+  it("çift öncü slash ile /api/ bypass edilemez", () => {
+    expect(validateTargetUrl("https://www.indoles.com.tr//api/contact").ok).toBe(false);
+  });
 });
 
 describe("fetchScanTargets", () => {
@@ -103,17 +114,145 @@ describe("fetchScanTargets", () => {
     );
   });
 
-  it("redirect sonrası hedef reddedilirse tarama düşer (SSRF: res.url yeniden doğrulanır)", async () => {
-    const fake = (() => {
-      const res = new Response('<html lang="tr"></html>', {
-        headers: { "content-type": "text/html" },
-      });
-      Object.defineProperty(res, "url", { value: "http://127.0.0.1/internal", configurable: true });
-      return Promise.resolve(res);
+  it("redirect: public→public tek hop izlenir", async () => {
+    const fake = ((input: RequestInfo | URL) => {
+      const u = String(input instanceof Request ? input.url : input);
+      if (u === "https://x.com/a") {
+        return Promise.resolve(
+          new Response(null, { status: 302, headers: { location: "https://x.com/b" } })
+        );
+      }
+      if (u === "https://x.com/b") {
+        return Promise.resolve(
+          new Response('<html lang="tr"></html>', { headers: { "content-type": "text/html" } })
+        );
+      }
+      return Promise.resolve(new Response("", { status: 404 })); // robots/llms
+    }) as typeof fetch;
+    const out = await fetchScanTargets(new URL("https://x.com/a"), fake);
+    expect(out.pageHtml).toContain("<html");
+  });
+
+  it("redirect: public→localhost hop'u reddedilir (ara sekme, son URL değil)", async () => {
+    const fake = ((input: RequestInfo | URL) => {
+      const u = String(input instanceof Request ? input.url : input);
+      if (u === "https://x.com/a") {
+        return Promise.resolve(
+          new Response(null, { status: 302, headers: { location: "http://127.0.0.1/secret" } })
+        );
+      }
+      return Promise.resolve(new Response("", { status: 404 }));
     }) as typeof fetch;
     await expect(fetchScanTargets(new URL("https://x.com/a"), fake)).rejects.toThrow(
       "target-unreachable"
     );
+  });
+
+  it("redirect: tam 3 hop izlenir, 4. hop gerekmeden başarı", async () => {
+    const hopMap: Record<string, string> = {
+      "https://x.com/a": "https://x.com/b",
+      "https://x.com/b": "https://x.com/c",
+      "https://x.com/c": "https://x.com/d",
+    };
+    const fake = ((input: RequestInfo | URL) => {
+      const u = String(input instanceof Request ? input.url : input);
+      if (u in hopMap) {
+        return Promise.resolve(
+          new Response(null, { status: 302, headers: { location: hopMap[u] as string } })
+        );
+      }
+      if (u === "https://x.com/d") {
+        return Promise.resolve(
+          new Response('<html lang="tr"></html>', { headers: { "content-type": "text/html" } })
+        );
+      }
+      return Promise.resolve(new Response("", { status: 404 }));
+    }) as typeof fetch;
+    const out = await fetchScanTargets(new URL("https://x.com/a"), fake);
+    expect(out.pageHtml).toContain("<html");
+  });
+
+  it("redirect: 4 hop zinciri reddedilir (en fazla 3 hop izin verilir)", async () => {
+    const hopMap: Record<string, string> = {
+      "https://x.com/a": "https://x.com/b",
+      "https://x.com/b": "https://x.com/c",
+      "https://x.com/c": "https://x.com/d",
+      "https://x.com/d": "https://x.com/e",
+    };
+    const fake = ((input: RequestInfo | URL) => {
+      const u = String(input instanceof Request ? input.url : input);
+      if (u in hopMap) {
+        return Promise.resolve(
+          new Response(null, { status: 302, headers: { location: hopMap[u] as string } })
+        );
+      }
+      if (u === "https://x.com/e") {
+        return Promise.resolve(
+          new Response('<html lang="tr"></html>', { headers: { "content-type": "text/html" } })
+        );
+      }
+      return Promise.resolve(new Response("", { status: 404 }));
+    }) as typeof fetch;
+    await expect(fetchScanTargets(new URL("https://x.com/a"), fake)).rejects.toThrow(
+      "target-unreachable"
+    );
+  });
+
+  it("sayfa gövdesi okunurken hata verirse target-unreachable fırlatılır (ham hata sızmaz)", async () => {
+    const brokenBody = new ReadableStream<Uint8Array>({
+      pull() {
+        return Promise.reject(new DOMException("The operation was aborted.", "AbortError"));
+      },
+    });
+    const fake = (() =>
+      Promise.resolve(new Response(brokenBody, { headers: { "content-type": "text/html" } }))) as typeof fetch;
+    await expect(fetchScanTargets(new URL("https://x.com/a"), fake)).rejects.toThrow(
+      "target-unreachable"
+    );
+  });
+
+  it("robots.txt gövdesi okunurken hata verirse null'a düşer, tarama düşmez", async () => {
+    const brokenBody = new ReadableStream<Uint8Array>({
+      pull() {
+        return Promise.reject(new DOMException("The operation was aborted.", "AbortError"));
+      },
+    });
+    const fake = ((input: RequestInfo | URL) => {
+      const u = String(input instanceof Request ? input.url : input);
+      if (u.endsWith("robots.txt")) return Promise.resolve(new Response(brokenBody));
+      if (u.endsWith("llms.txt")) return Promise.resolve(new Response("", { status: 404 }));
+      return Promise.resolve(
+        new Response('<html lang="tr"></html>', { headers: { "content-type": "text/html" } })
+      );
+    }) as typeof fetch;
+    const out = await fetchScanTargets(new URL("https://x.com/a"), fake);
+    expect(out.robotsTxt).toBeNull();
+    expect(out.pageHtml).toContain("<html");
+  });
+
+  it("robots.txt 2 MB sınırı: aşırı büyük dosya kesilir (sınırsız buffer yok)", async () => {
+    const fake = ((input: RequestInfo | URL) => {
+      const u = String(input instanceof Request ? input.url : input);
+      if (u.endsWith("robots.txt")) return Promise.resolve(new Response("x".repeat(3_000_000)));
+      if (u.endsWith("llms.txt")) return Promise.resolve(new Response("", { status: 404 }));
+      return Promise.resolve(
+        new Response('<html lang="tr"></html>', { headers: { "content-type": "text/html" } })
+      );
+    }) as typeof fetch;
+    const out = await fetchScanTargets(new URL("https://x.com/a"), fake);
+    expect(out.robotsTxt).not.toBeNull();
+    expect((out.robotsTxt as string).length).toBeLessThanOrEqual(2_000_000);
+  });
+
+  it("content-type büyük/karışık harfle de text/html sayılır", async () => {
+    const fake = (() =>
+      Promise.resolve(
+        new Response('<html lang="tr"></html>', {
+          headers: { "content-type": "TEXT/HTML; charset=utf-8" },
+        })
+      )) as typeof fetch;
+    const out = await fetchScanTargets(new URL("https://x.com/a"), fake);
+    expect(out.pageHtml).toContain("<html");
   });
 
   it("sayfa isteği ağ hatasıyla reddedilirse target-unreachable fırlatılır (ham hata sızmaz)", async () => {
@@ -137,7 +276,7 @@ describe("fetchScanTargets", () => {
     expect(out.pageHtml).toContain("<html");
   });
 
-  it("her istek AbortSignal.timeout, redirect:follow ve doğru User-Agent taşır", async () => {
+  it("her istek AbortSignal.timeout, redirect:manual (per-hop doğrulama) ve doğru User-Agent taşır", async () => {
     const calls: Array<{ input: RequestInfo | URL; init: RequestInit | undefined }> = [];
     const fake = ((input: RequestInfo | URL, init?: RequestInit) => {
       calls.push({ input, init });
@@ -150,7 +289,10 @@ describe("fetchScanTargets", () => {
 
     expect(calls.length).toBe(3);
     for (const { init } of calls) {
-      expect(init?.redirect).toBe("follow");
+      // "manual": ara yönlendirme hop'larının kendi tarafımızda tek tek
+      // validateTargetUrl'den geçmesi için — fetch'in "follow" modu ara
+      // adımları asla dışarı vermez (fix round 1, per-hop SSRF sertleştirme).
+      expect(init?.redirect).toBe("manual");
       expect(init?.signal).toBeInstanceOf(AbortSignal);
       const headers = init?.headers as Record<string, string>;
       expect(headers["User-Agent"]).toBe(SCANNER_USER_AGENT);

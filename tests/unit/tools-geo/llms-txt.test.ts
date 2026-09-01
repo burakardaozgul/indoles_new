@@ -12,4 +12,16 @@ describe("checkLlmsTxt", () => {
     expect(r.score).toBe(10);
     expect(r.status).toBe("partial");
   });
+
+  it("boş string → 0 fail", () => {
+    const r = checkLlmsTxt("");
+    expect(r.score).toBe(0);
+    expect(r.status).toBe("fail");
+  });
+
+  it("yalnız whitespace → 0 fail", () => {
+    const r = checkLlmsTxt("   \n  ");
+    expect(r.score).toBe(0);
+    expect(r.status).toBe("fail");
+  });
 });

@@ -67,7 +67,7 @@ export function extractJsonLdBlocks(html: string): Array<{ raw: string; parsed: 
  * kendi iç alanlarına (ör. `author`, `mainEntity`) inilmez — çeşitlilik
  * skoru yalnız grafiğin üst düzey düğümlerini sayar.
  */
-function collectTypes(parsed: unknown): string[] {
+export function collectTypes(parsed: unknown): string[] {
   const types: string[] = [];
 
   const visit = (node: unknown): void => {

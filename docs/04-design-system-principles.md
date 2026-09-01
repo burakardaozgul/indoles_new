@@ -349,6 +349,9 @@ Sıra bir argümandır: *ne vaat ediyoruz → kimler güveniyor → neye inanıy
 içerik bölümleri (`.ds-container`, zeminsiz) → `ContactCallout`. Arkada blob
 `page` modunda sessizce durur. Ayrıntı §12.10.
 
+Araç sayfaları bu düzenin istisnasıdır: `.tool-hero` (tek merkezî sütun,
+giriş alanı ilk ekranda) + `tool-hero` blob varyantı. Gerekçe §12.10.
+
 > Eski `PageHeader` (`.page-hero` + dalga zemin) ADR-017 ile kullanımdan kalktı.
 
 ---
@@ -557,3 +560,49 @@ bütçesini deler. Yarı saydamlık krem zeminin üstünde zaten yeterli.
 ayrı turda önce sayfa başlığının lede'ini, sonra paket sayfasının fiyat
 kolonunu örttüğü görülüp geri çekildi. Yeni bir sayfa düzeni eklendiğinde aynı
 kontrol yapılır — "arkada duruyor" varsayımı yeterli değil.
+
+#### Bilinçli istisna: araç sayfası hero'su (`tool-hero` varyantı)
+
+Araç sayfaları üçüncü bir sayfa tipidir. Hizmet/vaka/yazı sayfası *okunur*;
+araç sayfası *kullanılır* — ilk ekranı bir metin bloğu değil bir giriş alanıdır
+("adresini gir, tara"). Bu sayfalarda blob sessiz eşlikçi olarak kalırsa ilk
+ekran boş bir formdan ibaret kalıyor; sayfanın INDOLES'e ait olduğunu söyleyen
+tek malzeme kayboluyor.
+
+Bu yüzden araç sayfası hero'sunda blob anasayfadaki gibi **merkezî, büyük ve
+belirgin** durur. Anasayfanın 7 duraklı koreografisi **kopyalanmaz** — o
+koreografi bir scroll anlatısıdır ve araç sayfasının anlatısı yoktur.
+
+| | Anasayfa | Araç hero'su | Diğer iç sayfalar |
+|---|---|---|---|
+| Konum | Koreografi, 7 durak | Merkezî (`x: 0`), hero'ya çapalı | Sağ üst, `x: 0.88` |
+| Ölçek | 0.35 – 1.6 arası gezer | 0.78 sabit | 0.4 sabit |
+| Opaklık | 0.45 – 1.0 | 0.55 | 0.26 |
+| Scroll | Anlatıyı sürer | Hero'dan sonra `page` hâline **çekilir** | Hafif dikey kayma |
+
+**"Okuma kolonuna girmez" kuralı iptal edilmedi, kapsamı daraltıldı.** Kural
+okuma bölümleri için aynen geçerli: `tool-hero` varyantı ilk ekran boyunca
+belirgin durur, sonra tek bir scrub tween'le `BLOB_PAGE` değerlerine yerleşir.
+Kullanıcı "Nasıl çalışır", "Ne ölçüyoruz" ve SSS bölümlerine ulaştığında
+arkasında yine 0.26 opaklıklı sessiz eşlikçi vardır.
+
+**Okunabilirlik ölçümle güvenceye alınır, varsayımla değil.** Hero metni
+canvas'ın (z-10) üstündedir (`.tool-hero` z-20) ve anasayfadaki iki katmanlı
+başlık sandviçi burada kullanılmaz. Blob paleti shader'da %50 beyaza lift'lendiği
+için en koyu bölgesi bile krem üstünde açık kalır.
+
+Ölçüm yöntemi: hero metni gizlenip ekran görüntüsü alınır, her metin
+dikdörtgeninin ARKASINDAKİ en koyu piksel bulunur, kontrast o pikselle
+hesaplanır (4 viewport, 2026-09-01):
+
+| Metin | En düşük kontrast | Eşik |
+|---|---|---|
+| `h1` (ink-900) | 15.6:1 | 4.5:1 |
+| Lede (ink-700) | 10.2:1 | 4.5:1 |
+| Eyebrow (teal-700) | 6.5:1 | 4.5:1 |
+
+Yeni bir araç sayfası eklendiğinde bu ölçüm tekrarlanır. Ölçüme custom cursor
+noktası (`mix-blend-difference`, z-60) dahil EDİLMEZ — o zemin değil imleçtir.
+
+Değerler `src/lib/v2/anim-config.ts` → `BLOB_TOOL_HERO`. Varyant seçimi
+`V2Chrome`'da route listesinden yapılır; sayfa dosyasına gömülmez.

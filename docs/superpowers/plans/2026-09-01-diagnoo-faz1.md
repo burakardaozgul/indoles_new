@@ -4,17 +4,19 @@
 
 **Goal:** URL girilen e-ticaret sitesine AI destekli GAP analizi yapıp ücretsiz Health Snapshot + lead-unlock'lu tam rapor üreten Diagnoo aracının çekirdeğini indoles-web içinde canlıya hazır hale getirmek.
 
-**Architecture:** Analiz hattı Cloudflare Workflow olarak mevcut `custom-worker.ts` içinden export edilir (ayrı wrangler projesi YOK); tüm iş mantığı `src/lib/diagnoo/` altında env-parametreli saf modüllerdedir. İlerleme ve rapor D1'e (`BOOKINGS_DB`, yeni `diagnoo_*` tabloları) yazılır; Next.js route handler'ları start/status/unlock uçlarını sunar; frontend 2 sn'de bir status poll eder.
+**Architecture:** Analiz hattı Cloudflare Workflow olarak mevcut `custom-worker.ts` içinden export edilir (ayrı wrangler projesi YOK); tüm iş mantığı `src/lib/tools/diagnoo/` altında env-parametreli saf modüllerdedir. İlerleme ve rapor D1'e (`BOOKINGS_DB`, yeni `diagnoo_*` tabloları) yazılır; Next.js route handler'ları start/status/unlock uçlarını sunar; frontend 2 sn'de bir status poll eder.
 
 **Tech Stack:** Next.js 15 (App Router, mevcut), TypeScript strict, Zod ^3, Cloudflare Workflows + D1, Gemini REST (`gemini-3.5-flash` → fallback `gemini-3.1-flash-lite`), Firecrawl REST, PageSpeed Insights REST, vitest 2 + better-sqlite3 D1 adaptörü. Yeni grafik kütüphanesi YOK (özel SVG/CSS).
 
 **Spec:** `docs/superpowers/specs/2026-09-01-diagnoo-design.md`
 
+**Revizyon R1 (2026-09-01 23:10):** GEO aracı dalı (`feat/geo-gorunurluk-denetleyicisi`) araç portföyü altyapısını kurdu; bu plan o dalın üzerine hizalandı (yerleşim `src/lib/tools/diagnoo/`, `api/tools/diagnoo-*`, `components/tools/`, migration 0004, `tool_*` GA4 taksonomisi, `hashClientIp`/`TOOL_IP_SALT` fail-closed, koşulsuz Turnstile, `TOOLS` kayıt defteri). Rulings: `.superpowers/sdd/2026-09-01-diagnoo-faz1/progress.md`.
+
 **Spec'ten bilinçli sapmalar** (keşifte repo gerçeğiyle çakışan noktalar):
 1. §9.1 `workers/diagnoo-pipeline/` yerine Workflow sınıfı `custom-worker.ts`'e eklenir — repo tek wrangler projesi (`wrangler.jsonc`), DO sınıfları da oradan export ediliyor; ikinci proje gereksiz karmaşıklık.
 2. §9.5'teki GSC + Meta Ads servisleri Faz 3'e ertelendi: herkese açık URL aracı, rastgele ziyaretçinin GSC/Meta hesabına erişemez (eski Python kodu odorgo pilotuna özeldi). Formül B'nin `semantic_similarity` girdisi, sitenin 7 sayfası arasındaki **mesaj tutarlılığı skoru** (LLM) ile; `ad_spend` girdisi unlock formundaki opsiyonel "aylık reklam bütçesi" alanı ile karşılanır. Rakip/Mesaj bölümü (spec §6.5) Faz 3'e kalır; rapor Faz 1'de 6 bölümdür.
 3. Grafikler: recharts/@nivo repoya EKLENMEZ (mevcut değil, bundle maliyeti); gauge/bar/funnel görselleştirmeleri design-token uyumlu özel SVG/CSS. Kurtarılan chart bileşenleri yalnız referans.
-4. Yeni D1 veritabanı açılmaz; `BOOKINGS_DB`'ye `0003_diagnoo.sql` migration'ı ile `diagnoo_*` tabloları eklenir.
+4. Yeni D1 veritabanı açılmaz; `BOOKINGS_DB`'ye `0004_diagnoo.sql` migration'ı ile `diagnoo_*` tabloları eklenir.
 
 ## Global Constraints
 
@@ -24,7 +26,7 @@
 - Test yerleşimi: kod yanında `__tests__/`; sayfa/içerik testleri `tests/unit/`.
 - D1 erişimi: rota içinde `getCloudflareContext()` + dar cast; SQL yalnız repository modülünde; testte better-sqlite3 adaptörü + `vi.mock("@opennextjs/cloudflare")`.
 - E-posta: `sendMailWithRetry({ to, subject, react })` (`src/lib/mail/client.ts`); şablonlar `emails/*.tsx`.
-- Anti-spam: `turnstileEnabled()` + `verifyTurnstile(token, ip)` + `spamSignal({ website, elapsedMs })` (contact rotası kalıbı; Turnstile şu an bayrakla kapalı — ADR-028).
+- Anti-spam (araç rotaları): GEO kalıbı — `verifyTurnstile(token, ip)` KOŞULSUZ (`turnstileToken` şemada zorunlu; ADR-028 bayrağı araçları kapsamaz), `TOOL_IP_SALT` yoksa fail-closed `500 {error:"misconfigured"}`, D1 tabanlı IP/global sayım. Honeypot/elapsedMs kullanılmaz.
 - GA4: `events.ts`'te ayrımlı birleşim + `EVENT_NAMES` listesi birlikte güncellenir; string param'lar `truncateParam` (EVENT_PARAM_MAX=100).
 - Kullanıcıya görünen TR/EN metinler execution sırasında `indoles-brand-voice` skill'inden geçirilir; UI stilleri `indoles-design-tokens` skill'ine tabidir. Plandaki metinler işlevsel taslaktır.
 - Migration yorumları Türkçe ve gerekçeli; dosya adı `NNNN_snake_case.sql`.
@@ -79,11 +81,11 @@ Burak'a hatırlat (plan yürütücüsü yapamaz): GCP konsolunda eski `odorgo-e8
 ### Task 2: D1 migration — diagnoo tabloları
 
 **Files:**
-- Create: `migrations/0003_diagnoo.sql`
+- Create: `migrations/0004_diagnoo.sql` (0003 GEO aracının `tool_scans`/`tool_leads` migration'ıdır)
 
 **Interfaces:**
-- Consumes: mevcut `BOOKINGS_DB` (indoles-bookings).
-- Produces: `diagnoo_diagnostics`, `diagnoo_leads`, `diagnoo_rate_limits` tabloları; repository (Task 6) bu şemaya yazar.
+- Consumes: mevcut `BOOKINGS_DB` (indoles-bookings); GEO kalıbı `tool_scans.client_ip_hash` + `(client_ip_hash, created_at)` indeksi.
+- Produces: `diagnoo_diagnostics`, `diagnoo_leads` tabloları; repository (Task 6) bu şemaya yazar. Ayrı rate-limit tablosu YOK — sayım `diagnoo_diagnostics.client_ip_hash/created_at` üzerinden.
 
 - [ ] **Step 1: Migration dosyasını yaz**
 
@@ -91,6 +93,7 @@ Burak'a hatırlat (plan yürütücüsü yapamaz): GCP konsolunda eski `odorgo-e8
 -- Diagnoo GAP analizi aracı (spec: docs/superpowers/specs/2026-09-01-diagnoo-design.md §9.4)
 -- Rapor tek JSON kolonda tutulur: pipeline çıktısı atomik yazılır, şema evrimi
 -- uygulama katmanındaki Zod'da yönetilir (ayrı kolonlara normalize etmek YAGNI).
+-- IP hash: tool_scans ile aynı kalıp (TOOL_IP_SALT ile SHA-256); ham IP asla yazılmaz (docs/14).
 
 CREATE TABLE diagnoo_diagnostics (
   id TEXT PRIMARY KEY,
@@ -101,6 +104,7 @@ CREATE TABLE diagnoo_diagnostics (
   progress_pct INTEGER NOT NULL DEFAULT 0,
   report_json TEXT,                             -- DiagnooReport (Zod ile doğrulanmış)
   fail_reason TEXT,
+  client_ip_hash TEXT,
   demo_mode INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -110,26 +114,24 @@ CREATE TABLE diagnoo_diagnostics (
 CREATE INDEX idx_diagnoo_url_completed
   ON diagnoo_diagnostics (url, created_at) WHERE status = 'completed';
 
+-- IP başına günlük analiz limiti ve global günlük tavan bu indeksle sayılır.
+CREATE INDEX idx_diagnoo_ip ON diagnoo_diagnostics (client_ip_hash, created_at);
+CREATE INDEX idx_diagnoo_time ON diagnoo_diagnostics (created_at);
+
 CREATE TABLE diagnoo_leads (
   id TEXT PRIMARY KEY,
   diagnostic_id TEXT NOT NULL REFERENCES diagnoo_diagnostics(id),
   email TEXT NOT NULL,
   company TEXT NOT NULL,
   full_name TEXT,
+  kvkk_consent INTEGER NOT NULL CHECK (kvkk_consent = 1),  -- tool_leads kalıbı: onaysız satır yazılamaz
   known_metrics_json TEXT,                      -- KnownMetrics (opsiyonel gerçek veriler)
+  client_ip_hash TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 -- Bir teşhise en fazla bir lead: unlock idempotent olmalı.
 CREATE UNIQUE INDEX idx_diagnoo_leads_diagnostic ON diagnoo_leads (diagnostic_id);
-
--- IP başına günlük analiz limiti (her koşunun gerçek API maliyeti var).
-CREATE TABLE diagnoo_rate_limits (
-  ip_hash TEXT NOT NULL,
-  day TEXT NOT NULL,                            -- YYYY-MM-DD (UTC)
-  count INTEGER NOT NULL DEFAULT 0,
-  PRIMARY KEY (ip_hash, day)
-);
 ```
 
 - [ ] **Step 2: Lokal migration'ı uygula ve doğrula**
@@ -138,13 +140,13 @@ CREATE TABLE diagnoo_rate_limits (
 pnpm wrangler d1 migrations apply indoles-bookings --local
 pnpm wrangler d1 execute indoles-bookings --local --command "SELECT name FROM sqlite_master WHERE name LIKE 'diagnoo_%'"
 ```
-Expected: üç tablo adı listelenir.
+Expected: iki tablo adı listelenir.
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add migrations/0003_diagnoo.sql
-git commit -m "feat(diagnoo): D1 şeması — diagnostics, leads, rate limits"
+git add migrations/0004_diagnoo.sql
+git commit -m "feat(diagnoo): D1 şeması — diagnostics ve leads tabloları"
 ```
 
 ---
@@ -152,8 +154,8 @@ git commit -m "feat(diagnoo): D1 şeması — diagnostics, leads, rate limits"
 ### Task 3: Zod şeması (`schema.ts`)
 
 **Files:**
-- Create: `src/lib/diagnoo/schema.ts`
-- Test: `src/lib/diagnoo/__tests__/schema.test.ts`
+- Create: `src/lib/tools/diagnoo/schema.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/schema.test.ts`
 
 **Interfaces:**
 - Consumes: zod ^3.
@@ -178,7 +180,7 @@ git commit -m "feat(diagnoo): D1 şeması — diagnostics, leads, rate limits"
 - [ ] **Step 1: Failing test yaz**
 
 ```ts
-// src/lib/diagnoo/__tests__/schema.test.ts
+// src/lib/tools/diagnoo/__tests__/schema.test.ts
 import { describe, it, expect } from "vitest";
 import { DiagnooReportSchema, toSnapshot, RangeValueSchema } from "../schema";
 import { sampleReport } from "./fixtures";
@@ -210,7 +212,7 @@ describe("toSnapshot", () => {
 });
 ```
 
-Fixture (`src/lib/diagnoo/__tests__/fixtures.ts`) — diğer test dosyaları da kullanır:
+Fixture (`src/lib/tools/diagnoo/__tests__/fixtures.ts`) — diğer test dosyaları da kullanır:
 
 ```ts
 import type { DiagnooReport } from "../schema";
@@ -257,13 +259,13 @@ export function sampleReport(): DiagnooReport {
 
 - [ ] **Step 2: Testin FAIL ettiğini gör**
 
-Run: `pnpm vitest run src/lib/diagnoo --reporter=dot`
+Run: `pnpm vitest run src/lib/tools/diagnoo --reporter=dot`
 Expected: FAIL — `Cannot find module '../schema'`
 
 - [ ] **Step 3: schema.ts'i yaz**
 
 ```ts
-// src/lib/diagnoo/schema.ts
+// src/lib/tools/diagnoo/schema.ts
 import { z } from "zod";
 
 export const PageTypeSchema = z.enum(["homepage", "category", "product", "checkout"]);
@@ -393,12 +395,12 @@ export function toSnapshot(report: DiagnooReport): SnapshotView {
 
 - [ ] **Step 4: Testler PASS**
 
-Run: `pnpm vitest run src/lib/diagnoo --reporter=dot` → PASS. Ardından `pnpm typecheck`.
+Run: `pnpm vitest run src/lib/tools/diagnoo --reporter=dot` → PASS. Ardından `pnpm typecheck`.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/schema.ts src/lib/diagnoo/__tests__/
+git add src/lib/tools/diagnoo/schema.ts src/lib/tools/diagnoo/__tests__/
 git commit -m "feat(diagnoo): Zod veri modeli + snapshot türetici"
 ```
 
@@ -407,8 +409,8 @@ git commit -m "feat(diagnoo): Zod veri modeli + snapshot türetici"
 ### Task 4: Finansal motor v2 (`financial.ts`)
 
 **Files:**
-- Create: `src/lib/diagnoo/financial.ts`
-- Test: `src/lib/diagnoo/__tests__/financial.test.ts`
+- Create: `src/lib/tools/diagnoo/financial.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/financial.test.ts`
 
 **Interfaces:**
 - Consumes: `RangeValue`, `KnownMetrics`, `FinancialProjection`, `MethodologyNote` (Task 3).
@@ -420,7 +422,7 @@ git commit -m "feat(diagnoo): Zod veri modeli + snapshot türetici"
 - [ ] **Step 1: Failing test yaz**
 
 ```ts
-// src/lib/diagnoo/__tests__/financial.test.ts
+// src/lib/tools/diagnoo/__tests__/financial.test.ts
 import { describe, it, expect } from "vitest";
 import { computeFinancialProjection, METHODOLOGY_CONSTANTS } from "../financial";
 
@@ -477,12 +479,12 @@ describe("computeFinancialProjection", () => {
 });
 ```
 
-- [ ] **Step 2: FAIL doğrula** — `pnpm vitest run src/lib/diagnoo/__tests__/financial.test.ts`
+- [ ] **Step 2: FAIL doğrula** — `pnpm vitest run src/lib/tools/diagnoo/__tests__/financial.test.ts`
 
 - [ ] **Step 3: financial.ts'i yaz**
 
 ```ts
-// src/lib/diagnoo/financial.ts
+// src/lib/tools/diagnoo/financial.ts
 // Saf finansal motor: hem Workflow'un financial adımı hem unlock-recompute aynı fonksiyonu çağırır.
 import type { FinancialProjection, InputSource, KnownMetrics, MethodologyNote, RangeValue } from "./schema";
 
@@ -581,12 +583,12 @@ export function computeFinancialProjection(input: FinancialInput): FinancialProj
 }
 ```
 
-- [ ] **Step 4: PASS doğrula** — `pnpm vitest run src/lib/diagnoo` + `pnpm typecheck`
+- [ ] **Step 4: PASS doğrula** — `pnpm vitest run src/lib/tools/diagnoo` + `pnpm typecheck`
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/financial.ts src/lib/diagnoo/__tests__/financial.test.ts
+git add src/lib/tools/diagnoo/financial.ts src/lib/tools/diagnoo/__tests__/financial.test.ts
 git commit -m "feat(diagnoo): finansal motor v2 — aralıklı projeksiyon + metodoloji dipnotları"
 ```
 
@@ -595,8 +597,8 @@ git commit -m "feat(diagnoo): finansal motor v2 — aralıklı projeksiyon + met
 ### Task 5: Benchmark seti (`benchmarks.ts`)
 
 **Files:**
-- Create: `src/lib/diagnoo/benchmarks.ts`
-- Test: `src/lib/diagnoo/__tests__/benchmarks.test.ts`
+- Create: `src/lib/tools/diagnoo/benchmarks.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/benchmarks.test.ts`
 
 **Interfaces:**
 - Consumes: `BenchmarkComparison` (Task 3).
@@ -608,7 +610,7 @@ git commit -m "feat(diagnoo): finansal motor v2 — aralıklı projeksiyon + met
 - [ ] **Step 1: Failing test yaz**
 
 ```ts
-// src/lib/diagnoo/__tests__/benchmarks.test.ts
+// src/lib/tools/diagnoo/__tests__/benchmarks.test.ts
 import { describe, it, expect } from "vitest";
 import { compareBenchmarks, BENCHMARK_DEFAULTS, BENCHMARKS_VERSION } from "../benchmarks";
 
@@ -644,7 +646,7 @@ describe("benchmarks", () => {
 - [ ] **Step 3: benchmarks.ts yaz**
 
 ```ts
-// src/lib/diagnoo/benchmarks.ts
+// src/lib/tools/diagnoo/benchmarks.ts
 // Küratörlü, versiyonlu statik benchmark seti (spec §5). Canlı rakip scraping YOK.
 // Kaynak değerleri implementasyon sırasında güncel yayınlardan doğrulanır ve
 // version damgasıyla birlikte güncellenir.
@@ -681,42 +683,43 @@ export function compareBenchmarks(input: {
 }
 ```
 
-- [ ] **Step 4: PASS + typecheck** — `pnpm vitest run src/lib/diagnoo && pnpm typecheck`
+- [ ] **Step 4: PASS + typecheck** — `pnpm vitest run src/lib/tools/diagnoo && pnpm typecheck`
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/benchmarks.ts src/lib/diagnoo/__tests__/benchmarks.test.ts
+git add src/lib/tools/diagnoo/benchmarks.ts src/lib/tools/diagnoo/__tests__/benchmarks.test.ts
 git commit -m "feat(diagnoo): versiyonlu statik benchmark seti"
 ```
 
 ---
 
-### Task 6: D1 repository (`repository.ts`)
+### Task 6: D1 repository (`repository.ts`) + paylaşılan IP hash
 
 **Files:**
-- Create: `src/lib/diagnoo/repository.ts`
-- Test: `src/lib/diagnoo/__tests__/repository.test.ts`
+- Create: `src/lib/tools/shared/ip-hash.ts` (GEO repository'deki `hashClientIp` buraya taşınır)
+- Modify: `src/lib/tools/geo/repository.ts` (`hashClientIp` gövdesi silinir; `export { hashClientIp } from "../shared/ip-hash"` ile yeniden export edilir — GEO rotaları/testleri değişmez)
+- Create: `src/lib/tools/diagnoo/repository.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/d1-helper.ts`, `src/lib/tools/diagnoo/__tests__/repository.test.ts`, `src/lib/tools/shared/__tests__/ip-hash.test.ts`
 
 **Interfaces:**
 - Consumes: `D1Database` (global tip, `src/lib/booking/d1.d.ts`), `DiagnooReport`, `KnownMetrics` (Task 3). Booking testlerindeki better-sqlite3 adaptör kalıbı.
 - Produces (route ve pipeline task'ları kullanır):
-  - `createDiagnostic(db: D1Database, input: { id: string; url: string; locale: "tr"|"en" }): Promise<void>`
+  - `hashClientIp(ip: string, salt: string): Promise<string>` — SHA-256 hex (`src/lib/tools/shared/ip-hash.ts`; GEO'daki mevcut gövde birebir).
+  - `createDiagnostic(db: D1Database, input: { id: string; url: string; locale: "tr"|"en"; clientIpHash: string }): Promise<void>`
   - `findFreshCompleted(db: D1Database, url: string, maxAgeHours: number): Promise<DiagnosticRow | null>`
   - `setProgress(db: D1Database, id: string, step: string, pct: number): Promise<void>`
   - `markFailed(db: D1Database, id: string, reason: string): Promise<void>`
   - `saveReport(db: D1Database, id: string, report: DiagnooReport): Promise<void>`
   - `getDiagnostic(db: D1Database, id: string): Promise<DiagnosticRow | null>` — `type DiagnosticRow = { id: string; url: string; locale: "tr"|"en"; status: "queued"|"running"|"completed"|"failed"; currentStep: string | null; progressPct: number; report: DiagnooReport | null; failReason: string | null }`
-  - `createLead(db: D1Database, input: { id: string; diagnosticId: string; email: string; company: string; fullName: string | null; knownMetrics: KnownMetrics | null }): Promise<{ ok: true } | { ok: false; reason: "duplicate" }>`
+  - `createLead(db: D1Database, input: { id: string; diagnosticId: string; email: string; company: string; fullName: string | null; knownMetrics: KnownMetrics | null; clientIpHash: string }): Promise<{ ok: true } | { ok: false; reason: "duplicate" }>`
   - `hasLead(db: D1Database, diagnosticId: string): Promise<boolean>`
-  - `consumeRateLimit(db: D1Database, ipHash: string, day: string, limit: number): Promise<boolean>` — limit aşıldıysa `false`.
+  - `countDiagnosticsSince(db: D1Database, ipHash: string | null, sinceIso: string): Promise<number>` — `ipHash` null ise global sayım (GEO `countScansSince` kalıbı).
 
-- [ ] **Step 1: Önce paylaşılan D1 test yardımcısını, sonra failing testi yaz**
-
-Yardımcı — Task 12'nin route testleri de aynı dosyayı import eder (DRY):
+- [ ] **Step 1: Paylaşılan D1 test yardımcısı + failing testler**
 
 ```ts
-// src/lib/diagnoo/__tests__/d1-helper.ts
+// src/lib/tools/diagnoo/__tests__/d1-helper.ts
 // better-sqlite3'ü D1Database arayüzüne saran test adaptörü (booking test kalıbından).
 import Database from "better-sqlite3";
 import { readFileSync } from "node:fs";
@@ -739,34 +742,53 @@ export function d1(db: Database.Database): D1Database {
 
 export function freshDiagnooDb(): D1Database {
   const raw = new Database(":memory:");
-  raw.exec(readFileSync("migrations/0003_diagnoo.sql", "utf8"));
+  raw.exec(readFileSync("migrations/0003_tool_scans.sql", "utf8"));
+  raw.exec(readFileSync("migrations/0004_diagnoo.sql", "utf8"));
   return d1(raw);
 }
 ```
 
 ```ts
-// src/lib/diagnoo/__tests__/repository.test.ts
+// src/lib/tools/shared/__tests__/ip-hash.test.ts
+import { describe, it, expect } from "vitest";
+import { hashClientIp } from "../ip-hash";
+
+describe("hashClientIp", () => {
+  it("64 karakter hex üretir ve deterministiktir", async () => {
+    const a = await hashClientIp("1.2.3.4", "tuz");
+    expect(a).toMatch(/^[0-9a-f]{64}$/);
+    expect(await hashClientIp("1.2.3.4", "tuz")).toBe(a);
+  });
+  it("tuz değişince hash değişir", async () => {
+    expect(await hashClientIp("1.2.3.4", "a")).not.toBe(await hashClientIp("1.2.3.4", "b"));
+  });
+});
+```
+
+```ts
+// src/lib/tools/diagnoo/__tests__/repository.test.ts
 import { describe, it, expect, beforeEach } from "vitest";
 import {
   createDiagnostic, findFreshCompleted, setProgress, saveReport, getDiagnostic,
-  createLead, hasLead, consumeRateLimit, markFailed,
+  createLead, hasLead, countDiagnosticsSince, markFailed,
 } from "../repository";
 import { sampleReport } from "./fixtures";
 import { freshDiagnooDb } from "./d1-helper";
 
 let db: D1Database;
 beforeEach(() => { db = freshDiagnooDb(); });
+const base = { url: "https://a.com", locale: "tr" as const, clientIpHash: "h1" };
 
 describe("diagnoo repository", () => {
   it("teşhis oluşturur ve okur", async () => {
-    await createDiagnostic(db, { id: "d1", url: "https://a.com", locale: "tr" });
+    await createDiagnostic(db, { id: "d1", ...base });
     const row = await getDiagnostic(db, "d1");
     expect(row?.status).toBe("queued");
     expect(row?.report).toBeNull();
   });
 
   it("progress ve rapor yazımı", async () => {
-    await createDiagnostic(db, { id: "d1", url: "https://a.com", locale: "tr" });
+    await createDiagnostic(db, { id: "d1", ...base });
     await setProgress(db, "d1", "vision", 40);
     await saveReport(db, "d1", sampleReport());
     const row = await getDiagnostic(db, "d1");
@@ -776,7 +798,7 @@ describe("diagnoo repository", () => {
   });
 
   it("markFailed durumu ve nedeni yazar", async () => {
-    await createDiagnostic(db, { id: "d1", url: "https://a.com", locale: "tr" });
+    await createDiagnostic(db, { id: "d1", ...base });
     await markFailed(db, "d1", "scrape_failed");
     const row = await getDiagnostic(db, "d1");
     expect(row?.status).toBe("failed");
@@ -784,37 +806,42 @@ describe("diagnoo repository", () => {
   });
 
   it("findFreshCompleted 24 saatlik tamamlanmış raporu bulur", async () => {
-    await createDiagnostic(db, { id: "d1", url: "https://a.com", locale: "tr" });
+    await createDiagnostic(db, { id: "d1", ...base });
     await saveReport(db, "d1", sampleReport());
     expect(await findFreshCompleted(db, "https://a.com", 24)).not.toBeNull();
     expect(await findFreshCompleted(db, "https://baska.com", 24)).toBeNull();
   });
 
   it("lead: ikinci kayıt duplicate döner, hasLead true olur", async () => {
-    await createDiagnostic(db, { id: "d1", url: "https://a.com", locale: "tr" });
-    const input = { id: "l1", diagnosticId: "d1", email: "cmo@firma.com", company: "Firma", fullName: null, knownMetrics: null };
+    await createDiagnostic(db, { id: "d1", ...base });
+    const input = { id: "l1", diagnosticId: "d1", email: "cmo@firma.com", company: "Firma",
+      fullName: null, knownMetrics: null, clientIpHash: "h1" };
     expect(await createLead(db, input)).toEqual({ ok: true });
     expect(await createLead(db, { ...input, id: "l2" })).toEqual({ ok: false, reason: "duplicate" });
     expect(await hasLead(db, "d1")).toBe(true);
   });
 
-  it("rate limit: limit içinde true, aşınca false", async () => {
-    expect(await consumeRateLimit(db, "h1", "2026-09-01", 3)).toBe(true);
-    expect(await consumeRateLimit(db, "h1", "2026-09-01", 3)).toBe(true);
-    expect(await consumeRateLimit(db, "h1", "2026-09-01", 3)).toBe(true);
-    expect(await consumeRateLimit(db, "h1", "2026-09-01", 3)).toBe(false);
-    expect(await consumeRateLimit(db, "h1", "2026-09-02", 3)).toBe(true);
+  it("countDiagnosticsSince: IP bazlı ve global sayım", async () => {
+    await createDiagnostic(db, { id: "d1", ...base });
+    await createDiagnostic(db, { id: "d2", ...base, url: "https://b.com" });
+    await createDiagnostic(db, { id: "d3", ...base, clientIpHash: "h2" });
+    const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+    expect(await countDiagnosticsSince(db, "h1", since)).toBe(2);
+    expect(await countDiagnosticsSince(db, null, since)).toBe(3);
+    expect(await countDiagnosticsSince(db, "h1", new Date(Date.now() + 60_000).toISOString())).toBe(0);
   });
 });
 ```
 
-- [ ] **Step 2: FAIL doğrula**
+- [ ] **Step 2: FAIL doğrula** — `pnpm vitest run src/lib/tools/diagnoo src/lib/tools/shared`
 
-- [ ] **Step 3: repository.ts yaz**
+- [ ] **Step 3: ip-hash.ts'i çıkar, geo repository'yi yeniden export'a çevir, repository.ts'i yaz**
+
+`src/lib/tools/shared/ip-hash.ts`: GEO `repository.ts`'teki `hashClientIp` gövdesi (`crypto.subtle.digest("SHA-256", new TextEncoder().encode(ip + salt))` → hex) birebir taşınır. GEO dosyasında gövde silinir, `export { hashClientIp } from "../shared/ip-hash";` eklenir; `pnpm vitest run src/lib/tools/geo src/app/api/tools` yeşil kalmalı.
 
 ```ts
-// src/lib/diagnoo/repository.ts
-// SQL yalnız burada yaşar; rotalar ve pipeline bu fonksiyonları çağırır (booking repository kalıbı).
+// src/lib/tools/diagnoo/repository.ts
+// SQL yalnız burada yaşar; rotalar ve pipeline bu fonksiyonları çağırır (booking/geo repository kalıbı).
 import { DiagnooReportSchema, type DiagnooReport, type KnownMetrics } from "./schema";
 
 export type DiagnosticRow = {
@@ -843,10 +870,10 @@ function toRow(r: Raw): DiagnosticRow {
 }
 
 export async function createDiagnostic(
-  db: D1Database, input: { id: string; url: string; locale: "tr" | "en" },
+  db: D1Database, input: { id: string; url: string; locale: "tr" | "en"; clientIpHash: string },
 ): Promise<void> {
-  await db.prepare("INSERT INTO diagnoo_diagnostics (id, url, locale) VALUES (?, ?, ?)")
-    .bind(input.id, input.url, input.locale).run();
+  await db.prepare("INSERT INTO diagnoo_diagnostics (id, url, locale, client_ip_hash) VALUES (?, ?, ?, ?)")
+    .bind(input.id, input.url, input.locale, input.clientIpHash).run();
 }
 
 export async function findFreshCompleted(
@@ -885,14 +912,16 @@ export async function getDiagnostic(db: D1Database, id: string): Promise<Diagnos
 
 export async function createLead(
   db: D1Database,
-  input: { id: string; diagnosticId: string; email: string; company: string; fullName: string | null; knownMetrics: KnownMetrics | null },
+  input: { id: string; diagnosticId: string; email: string; company: string; fullName: string | null;
+    knownMetrics: KnownMetrics | null; clientIpHash: string },
 ): Promise<{ ok: true } | { ok: false; reason: "duplicate" }> {
   try {
     await db.prepare(
-      "INSERT INTO diagnoo_leads (id, diagnostic_id, email, company, full_name, known_metrics_json) VALUES (?, ?, ?, ?, ?, ?)",
+      `INSERT INTO diagnoo_leads (id, diagnostic_id, email, company, full_name, kvkk_consent, known_metrics_json, client_ip_hash)
+       VALUES (?, ?, ?, ?, ?, 1, ?, ?)`,
     ).bind(
       input.id, input.diagnosticId, input.email.trim().toLowerCase(), input.company,
-      input.fullName, input.knownMetrics ? JSON.stringify(input.knownMetrics) : null,
+      input.fullName, input.knownMetrics ? JSON.stringify(input.knownMetrics) : null, input.clientIpHash,
     ).run();
     return { ok: true };
   } catch (err) {
@@ -907,29 +936,26 @@ export async function hasLead(db: D1Database, diagnosticId: string): Promise<boo
   return row != null;
 }
 
-export async function consumeRateLimit(
-  db: D1Database, ipHash: string, day: string, limit: number,
-): Promise<boolean> {
-  await db.prepare(
-    `INSERT INTO diagnoo_rate_limits (ip_hash, day, count) VALUES (?, ?, 0)
-     ON CONFLICT (ip_hash, day) DO NOTHING`,
-  ).bind(ipHash, day).run();
-  const row = (await db.prepare("SELECT count FROM diagnoo_rate_limits WHERE ip_hash=? AND day=?")
-    .bind(ipHash, day).first()) as { count: number } | null;
-  if ((row?.count ?? 0) >= limit) return false;
-  await db.prepare("UPDATE diagnoo_rate_limits SET count = count + 1 WHERE ip_hash=? AND day=?")
-    .bind(ipHash, day).run();
-  return true;
+export async function countDiagnosticsSince(
+  db: D1Database, ipHash: string | null, sinceIso: string,
+): Promise<number> {
+  const stmt = ipHash === null
+    ? db.prepare("SELECT COUNT(*) AS n FROM diagnoo_diagnostics WHERE created_at >= ?").bind(sinceIso)
+    : db.prepare("SELECT COUNT(*) AS n FROM diagnoo_diagnostics WHERE client_ip_hash = ? AND created_at >= ?").bind(ipHash, sinceIso);
+  const row = (await stmt.first()) as { n: number } | null;
+  return row?.n ?? 0;
 }
 ```
 
-- [ ] **Step 4: PASS + typecheck**
+Not: `created_at` D1'de `datetime('now')` → `YYYY-MM-DD HH:MM:SS` biçimi; `sinceIso` karşılaştırması için rotalar `since.toISOString().slice(0, 19).replace("T", " ")` biçimini geçirir (GEO `countScansSince` ile aynı sözleşme — GEO rotasındaki `sinceIso` üretimini birebir kopyala; testte de aynı biçimi kullan).
+
+- [ ] **Step 4: PASS + typecheck** — `pnpm vitest run src/lib/tools && pnpm typecheck` (geo testleri de yeşil)
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/repository.ts src/lib/diagnoo/__tests__/repository.test.ts
-git commit -m "feat(diagnoo): D1 repository — teşhis, lead, rate limit"
+git add src/lib/tools/shared/ src/lib/tools/geo/repository.ts src/lib/tools/diagnoo/repository.ts src/lib/tools/diagnoo/__tests__/
+git commit -m "feat(diagnoo): D1 repository + paylaşılan IP hash yardımcısı"
 ```
 
 ---
@@ -937,8 +963,8 @@ git commit -m "feat(diagnoo): D1 repository — teşhis, lead, rate limit"
 ### Task 7: Dış servis istemcileri (`services/firecrawl.ts`, `services/gemini.ts`, `services/psi.ts`)
 
 **Files:**
-- Create: `src/lib/diagnoo/services/firecrawl.ts`, `src/lib/diagnoo/services/gemini.ts`, `src/lib/diagnoo/services/psi.ts`
-- Test: `src/lib/diagnoo/__tests__/services.test.ts`
+- Create: `src/lib/tools/diagnoo/services/firecrawl.ts`, `src/lib/tools/diagnoo/services/gemini.ts`, `src/lib/tools/diagnoo/services/psi.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/services.test.ts`
 
 **Interfaces:**
 - Consumes: global `fetch`; env değerleri parametre olarak (rota/pipeline geçirir — `getCloudflareContext` burada ÇAĞRILMAZ, cron-job kalıbı).
@@ -952,7 +978,7 @@ git commit -m "feat(diagnoo): D1 repository — teşhis, lead, rate limit"
 - [ ] **Step 1: Failing test yaz** (fetch mock ile; ağa çıkılmaz)
 
 ```ts
-// src/lib/diagnoo/__tests__/services.test.ts
+// src/lib/tools/diagnoo/__tests__/services.test.ts
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { z } from "zod";
 import { scrapePage, ScrapeError } from "../services/firecrawl";
@@ -1042,7 +1068,7 @@ describe("fetchCwv", () => {
 - [ ] **Step 3: Üç servis dosyasını yaz**
 
 ```ts
-// src/lib/diagnoo/services/firecrawl.ts
+// src/lib/tools/diagnoo/services/firecrawl.ts
 export type DiagnooEnv = { GEMINI_API_KEY: string; FIRECRAWL_API_KEY: string; PSI_API_KEY?: string };
 
 export type FirecrawlPage = {
@@ -1083,7 +1109,7 @@ export async function scrapePage(
 ```
 
 ```ts
-// src/lib/diagnoo/services/gemini.ts
+// src/lib/tools/diagnoo/services/gemini.ts
 import type { ZodType } from "zod";
 import type { DiagnooEnv } from "./firecrawl";
 
@@ -1144,7 +1170,7 @@ export async function geminiJson<T>(
 ```
 
 ```ts
-// src/lib/diagnoo/services/psi.ts
+// src/lib/tools/diagnoo/services/psi.ts
 import type { DiagnooEnv } from "./firecrawl";
 
 export async function fetchCwv(
@@ -1175,8 +1201,8 @@ export async function fetchCwv(
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/services/
-git add src/lib/diagnoo/__tests__/services.test.ts
+git add src/lib/tools/diagnoo/services/
+git add src/lib/tools/diagnoo/__tests__/services.test.ts
 git commit -m "feat(diagnoo): Firecrawl, Gemini (JSON+fallback+onarım), PSI istemcileri"
 ```
 
@@ -1185,8 +1211,8 @@ git commit -m "feat(diagnoo): Firecrawl, Gemini (JSON+fallback+onarım), PSI ist
 ### Task 8: Sayfa keşfi (`page-discovery.ts`)
 
 **Files:**
-- Create: `src/lib/diagnoo/page-discovery.ts`
-- Test: `src/lib/diagnoo/__tests__/page-discovery.test.ts`
+- Create: `src/lib/tools/diagnoo/page-discovery.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/page-discovery.test.ts`
 
 **Interfaces:**
 - Consumes: `scrapePage`, `geminiJson`, `DiagnooEnv` (Task 7); `ScrapedPage`, `PageType` (Task 3).
@@ -1195,7 +1221,7 @@ git commit -m "feat(diagnoo): Firecrawl, Gemini (JSON+fallback+onarım), PSI ist
 - [ ] **Step 1: Failing test yaz**
 
 ```ts
-// src/lib/diagnoo/__tests__/page-discovery.test.ts
+// src/lib/tools/diagnoo/__tests__/page-discovery.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { discoverAndScrapePages } from "../page-discovery";
 
@@ -1265,7 +1291,7 @@ describe("discoverAndScrapePages", () => {
 - [ ] **Step 3: page-discovery.ts yaz**
 
 ```ts
-// src/lib/diagnoo/page-discovery.ts
+// src/lib/tools/diagnoo/page-discovery.ts
 import { z } from "zod";
 import { scrapePage, type DiagnooEnv, type FirecrawlPage } from "./services/firecrawl";
 import { geminiJson } from "./services/gemini";
@@ -1286,7 +1312,7 @@ function toScraped(url: string, pageType: PageType, p: FirecrawlPage): ScrapedPa
     url, pageType, title: p.title, metaDescription: p.description,
     h1: headings(p.markdown)[0] ?? "", headings: headings(p.markdown),
     bodyText: p.markdown.slice(0, 12000),
-    ...(p.rawHtml ? { rawHtml: p.rawHtml } : {}),
+    ...(p.rawHtml ? { rawHtml: p.rawHtml.slice(0, 300_000) } : {}), // ücretsiz plan CPU bütçesi (regex taraması)
     ...(p.screenshotUrl ? { screenshotUrl: p.screenshotUrl } : {}),
   };
 }
@@ -1331,7 +1357,7 @@ export async function discoverAndScrapePages(env: DiagnooEnv, rootUrl: string): 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/page-discovery.ts src/lib/diagnoo/__tests__/page-discovery.test.ts
+git add src/lib/tools/diagnoo/page-discovery.ts src/lib/tools/diagnoo/__tests__/page-discovery.test.ts
 git commit -m "feat(diagnoo): sayfa keşfi — anasayfa linklerinden 7 kritik sayfa"
 ```
 
@@ -1340,8 +1366,8 @@ git commit -m "feat(diagnoo): sayfa keşfi — anasayfa linklerinden 7 kritik sa
 ### Task 9: Analiz ajanları (`agents/semantic.ts`, `agents/vision.ts`, `agents/funnel.ts`)
 
 **Files:**
-- Create: `src/lib/diagnoo/agents/semantic.ts`, `src/lib/diagnoo/agents/vision.ts`, `src/lib/diagnoo/agents/funnel.ts`
-- Test: `src/lib/diagnoo/__tests__/agents.test.ts`
+- Create: `src/lib/tools/diagnoo/agents/semantic.ts`, `src/lib/tools/diagnoo/agents/vision.ts`, `src/lib/tools/diagnoo/agents/funnel.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/agents.test.ts`
 
 **Interfaces:**
 - Consumes: `geminiJson`, `fetchCwv`, `DiagnooEnv` (Task 7); şema tipleri (Task 3).
@@ -1353,7 +1379,7 @@ git commit -m "feat(diagnoo): sayfa keşfi — anasayfa linklerinden 7 kritik sa
 - [ ] **Step 1: Failing test yaz**
 
 ```ts
-// src/lib/diagnoo/__tests__/agents.test.ts
+// src/lib/tools/diagnoo/__tests__/agents.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { analyzeSemantic } from "../agents/semantic";
 import { analyzeVision } from "../agents/vision";
@@ -1438,7 +1464,7 @@ describe("analyzeFunnel", () => {
 - [ ] **Step 3: Üç ajan dosyasını yaz**
 
 ```ts
-// src/lib/diagnoo/agents/semantic.ts
+// src/lib/tools/diagnoo/agents/semantic.ts
 import { SemanticResultSchema, type ScrapedPage, type SemanticResult } from "../schema";
 import { geminiJson } from "../services/gemini";
 import type { DiagnooEnv } from "../services/firecrawl";
@@ -1464,7 +1490,7 @@ export async function analyzeSemantic(
 ```
 
 ```ts
-// src/lib/diagnoo/agents/vision.ts
+// src/lib/tools/diagnoo/agents/vision.ts
 import { VisionResultSchema, type ScrapedPage, type VisionResult } from "../schema";
 import { geminiJson } from "../services/gemini";
 import type { DiagnooEnv } from "../services/firecrawl";
@@ -1473,10 +1499,9 @@ async function toBase64(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
-    const buf = new Uint8Array(await res.arrayBuffer());
-    let bin = "";
-    for (const b of buf) bin += String.fromCharCode(b);
-    return btoa(bin);
+    // Native latin1 decode + btoa: karakter döngüsü ücretsiz plan adım CPU bütçesini (~10 ms) aşar.
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    return btoa(new TextDecoder("latin1").decode(bytes));
   } catch { return null; }
 }
 
@@ -1503,7 +1528,7 @@ export async function analyzeVision(
 ```
 
 ```ts
-// src/lib/diagnoo/agents/funnel.ts
+// src/lib/tools/diagnoo/agents/funnel.ts
 import { z } from "zod";
 import type { FunnelResult, PageSpeed, ScrapedPage } from "../schema";
 import { geminiJson } from "../services/gemini";
@@ -1559,7 +1584,7 @@ export async function analyzeFunnel(env: DiagnooEnv, pages: ScrapedPage[]): Prom
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/agents/ src/lib/diagnoo/__tests__/agents.test.ts
+git add src/lib/tools/diagnoo/agents/ src/lib/tools/diagnoo/__tests__/agents.test.ts
 git commit -m "feat(diagnoo): semantik, vision ve funnel ajanları"
 ```
 
@@ -1568,8 +1593,8 @@ git commit -m "feat(diagnoo): semantik, vision ve funnel ajanları"
 ### Task 10: Rapor birleştirici (`report.ts`)
 
 **Files:**
-- Create: `src/lib/diagnoo/report.ts`
-- Test: `src/lib/diagnoo/__tests__/report.test.ts`
+- Create: `src/lib/tools/diagnoo/report.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/report.test.ts`
 
 **Interfaces:**
 - Consumes: tüm ajan çıktı tipleri, `computeFinancialProjection` (Task 4), `compareBenchmarks`/`BENCHMARK_DEFAULTS` (Task 5), `geminiJson` (Task 7).
@@ -1583,7 +1608,7 @@ git commit -m "feat(diagnoo): semantik, vision ve funnel ajanları"
 - [ ] **Step 1: Failing test yaz**
 
 ```ts
-// src/lib/diagnoo/__tests__/report.test.ts
+// src/lib/tools/diagnoo/__tests__/report.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { computeHealthScore, scaleRoadmapImpacts, recomputeWithKnownMetrics } from "../report";
 import { sampleReport } from "./fixtures";
@@ -1637,7 +1662,7 @@ describe("recomputeWithKnownMetrics", () => {
 - [ ] **Step 3: report.ts yaz**
 
 ```ts
-// src/lib/diagnoo/report.ts
+// src/lib/tools/diagnoo/report.ts
 import { z } from "zod";
 import {
   RoadmapItemSchema, type DiagnooReport, type FunnelResult, type KnownMetrics,
@@ -1763,7 +1788,7 @@ export function recomputeWithKnownMetrics(report: DiagnooReport, known: KnownMet
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/diagnoo/report.ts src/lib/diagnoo/__tests__/report.test.ts
+git add src/lib/tools/diagnoo/report.ts src/lib/tools/diagnoo/__tests__/report.test.ts
 git commit -m "feat(diagnoo): rapor birleştirici — health score, roadmap, recompute"
 ```
 
@@ -1772,9 +1797,9 @@ git commit -m "feat(diagnoo): rapor birleştirici — health score, roadmap, rec
 ### Task 11: Pipeline + Workflow kaydı
 
 **Files:**
-- Create: `src/lib/diagnoo/pipeline.ts`
+- Create: `src/lib/tools/diagnoo/pipeline.ts`
 - Modify: `custom-worker.ts` (Workflow sınıfı export'u), `wrangler.jsonc` (workflows binding)
-- Test: `src/lib/diagnoo/__tests__/pipeline.test.ts`
+- Test: `src/lib/tools/diagnoo/__tests__/pipeline.test.ts`
 
 **Interfaces:**
 - Consumes: Task 6–10'un tüm fonksiyonları.
@@ -1788,7 +1813,7 @@ git commit -m "feat(diagnoo): rapor birleştirici — health score, roadmap, rec
 - [ ] **Step 1: Failing test yaz** (tüm alt modüller mock; adım sırası ve hata yolları doğrulanır)
 
 ```ts
-// src/lib/diagnoo/__tests__/pipeline.test.ts
+// src/lib/tools/diagnoo/__tests__/pipeline.test.ts
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { runDiagnosticPipeline, type StepRunner } from "../pipeline";
 import { sampleReport } from "./fixtures";
@@ -1866,7 +1891,7 @@ describe("runDiagnosticPipeline", () => {
 - [ ] **Step 3: pipeline.ts yaz**
 
 ```ts
-// src/lib/diagnoo/pipeline.ts
+// src/lib/tools/diagnoo/pipeline.ts
 // Workflow adım mantığı. cloudflare:workers burada import EDİLMEZ (cron-job kalıbı:
 // entrypoint custom-worker.ts'te, mantık env-parametreli).
 import { discoverAndScrapePages } from "./page-discovery";
@@ -1925,7 +1950,7 @@ export async function runDiagnosticPipeline(
 
 ```ts
 import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloudflare:workers";
-import { runDiagnosticPipeline, type PipelineEnv } from "./src/lib/diagnoo/pipeline";
+import { runDiagnosticPipeline, type PipelineEnv } from "./src/lib/tools/diagnoo/pipeline";
 
 export class DiagnooDiagnosticWorkflow extends WorkflowEntrypoint<unknown, { diagnosticId: string }> {
   async run(event: WorkflowEvent<{ diagnosticId: string }>, step: WorkflowStep): Promise<void> {
@@ -1942,16 +1967,20 @@ export class DiagnooDiagnosticWorkflow extends WorkflowEntrypoint<unknown, { dia
 ],
 ```
 
-- [ ] **Step 5: Build doğrulaması**
+- [ ] **Step 5: ADR-031 + sır dokümantasyonu**
+
+`docs/decisions/ADR-031-diagnoo-workflow-ve-dis-api.md` yaz (ADR-030 biçiminde): Bağlam — ADR-030 Diagnoo'yu "Seçenek B — ertelendi" saymış ve ücretsiz plan / sıfır yeni altyapı disiplinini kural yapmıştı; spec (docs/superpowers/specs/2026-09-01-diagnoo-design.md, Burak onaylı) Workflows + dış API (Gemini, Firecrawl, PageSpeed Insights) kararını veriyor. Karar — Diagnoo mevcut Worker içinde Cloudflare Workflow (ücretsiz plan) olarak koşar; adım başına CPU bütçesi korunur (I/O-bound adımlar, native base64); yeni sırlar `GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`; D1 aynı veritabanı (0004). Reddedilenler — ayrı Python servisi (ikinci platform), paid plan, regex-only motor (LLM analizi gerektiriyor). Sonuçlar — wrangler.jsonc'a ilk `workflows` binding'i; dış API maliyeti IP 3/gün + global 100/gün ile sınırlanır; ADR-030'un "yeniden değerlendirme tetikleyicisi" bu ADR ile tüketildi. `README.md`'deki ADR-030 sır uyarı bloğuna üç yeni sır eklenir; `.dev.vars.example` (yoksa oluştur) üç satır alır.
+
+- [ ] **Step 6: Build doğrulaması**
 
 Run: `pnpm typecheck && pnpm cf:build`
 Expected: ikisi de temiz. (`custom-worker.ts` tsconfig dışı olduğundan typecheck onu görmez; cf:build worker'ı derleyerek doğrular.)
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add src/lib/diagnoo/pipeline.ts src/lib/diagnoo/__tests__/pipeline.test.ts custom-worker.ts wrangler.jsonc
-git commit -m "feat(diagnoo): Workflow pipeline — adımlı yürütme, dürüst hata yolları"
+git add src/lib/tools/diagnoo/pipeline.ts src/lib/tools/diagnoo/__tests__/pipeline.test.ts custom-worker.ts wrangler.jsonc docs/decisions/ADR-031-diagnoo-workflow-ve-dis-api.md README.md .dev.vars.example
+git commit -m "feat(diagnoo): Workflow pipeline + ADR-031 (Workflows ve dış API kararı)"
 ```
 
 ---
@@ -1959,188 +1988,212 @@ git commit -m "feat(diagnoo): Workflow pipeline — adımlı yürütme, dürüst
 ### Task 12: API route'ları + lead e-postası
 
 **Files:**
-- Create: `src/app/api/diagnoo/start/route.ts`, `src/app/api/diagnoo/[id]/status/route.ts`, `src/app/api/diagnoo/[id]/unlock/route.ts`, `emails/DiagnooLeadNotification.tsx`
-- Modify: `.dev.vars.example` (varsa; yoksa oluştur) — `GEMINI_API_KEY=`, `FIRECRAWL_API_KEY=`, `PSI_API_KEY=`
-- Test: `src/app/api/diagnoo/__tests__/routes.test.ts`, `emails/__tests__/diagnoo-lead-notification.test.tsx`
+- Modify: `src/lib/schemas/tools.ts` (istek şemaları buraya — GEO kalıbı)
+- Create: `src/app/api/tools/diagnoo-start/route.ts`, `src/app/api/tools/diagnoo-status/[id]/route.ts`, `src/app/api/tools/diagnoo-unlock/route.ts`, `emails/DiagnooLeadNotification.tsx`
+- Test: `src/app/api/tools/__tests__/diagnoo-routes.test.ts`, `emails/__tests__/diagnoo-lead-notification.test.tsx`
 
 **Interfaces:**
-- Consumes: repository (Task 6), `toSnapshot`/şemalar (Task 3), `recomputeWithKnownMetrics` (Task 10), `sendMailWithRetry`/`recipients` (`@/lib/mail/client`), `verifyTurnstile`/`turnstileEnabled` (`@/lib/security/turnstile`), `spamSignal` (`@/lib/security/anti-spam`), `reportError` (`@/lib/observability/report`), `getCloudflareContext` (`@opennextjs/cloudflare`).
-- Produces (frontend Task 14–15 bunları çağırır):
-  - `POST /api/diagnoo/start` body `{ url: string; locale: "tr"|"en"; turnstileToken?: string; website?: string; elapsedMs?: number }` → `202 { id: string, reused: boolean }` | `400 { error: "validation" }` | `403 { error: "turnstile_failed" }` | `429 { error: "rate_limited" }`. Akış: Zod validate → `spamSignal` varsa sahte başarı `202 { id: "spam", reused: false }` → Turnstile → IP SHA-256 hash + `consumeRateLimit(db, hash, bugünUTC, 3)` → `findFreshCompleted(db, url, 24)` varsa `{ id: mevcut, reused: true }` → değilse `createDiagnostic` + `DIAGNOO_WORKFLOW.create({ params: { diagnosticId } })`.
-  - `GET /api/diagnoo/[id]/status` → `200 { status, currentStep, progressPct, snapshot: SnapshotView | null, report: DiagnooReport | null, leadCaptured: boolean }` — `snapshot` completed olunca hep dolu; `report` yalnız `leadCaptured` true iken döner (rakam kilidi ağ katmanında da korunur). `404` bilinmeyen id.
-  - `POST /api/diagnoo/[id]/unlock` body `{ email, company, fullName?, knownMetrics?: KnownMetrics, website?, elapsedMs? }` → `200 { report: DiagnooReport }` | `400` | `404` | `409 { error: "not_ready" }` (teşhis completed değilse). Akış: validate → `createLead` (duplicate ise idempotent devam) → `knownMetrics` varsa `recomputeWithKnownMetrics` + `saveReport` → `sendMailWithRetry` try/catch (hata yutulur + `reportError` — spec §10) → rapor döner.
-  - E-posta: `DiagnooLeadNotification({ email, company, fullName, url, healthScore, totalRecoverable, hasRealMetrics })` react-email şablonu; alıcı `recipients(env.SALES_INBOX_EMAIL, env.LEAD_INBOX_EMAIL)`.
-- Route env cast kalıbı: `type DiagnooRouteEnv = { BOOKINGS_DB: D1Database; DIAGNOO_WORKFLOW: { create(opts: { params: { diagnosticId: string } }): Promise<unknown> }; GEMINI_API_KEY: string; FIRECRAWL_API_KEY: string; PSI_API_KEY?: string; SALES_INBOX_EMAIL?: string; LEAD_INBOX_EMAIL: string }`; `export const runtime = "nodejs"`.
+- Consumes: repository + `hashClientIp` (Task 6), `toSnapshot`/`KnownMetricsSchema` (Task 3), `recomputeWithKnownMetrics` (Task 10), `sendMailWithRetry`/`recipients` (`@/lib/mail/client`), `verifyTurnstile` (`@/lib/security/turnstile`), `reportError` (`@/lib/observability/report`), `getCloudflareContext` (`@opennextjs/cloudflare`). GEO rotaları `src/app/api/tools/geo-scan/route.ts` ve `geo-report/route.ts` yapı emsalidir (env cast, `errorResponse`, `cf-connecting-ip`, koşulsuz Turnstile, `TOOL_IP_SALT` fail-closed, `sinceIso` üretimi) — aynı sırayı izle.
+- Produces:
+  - `src/lib/schemas/tools.ts`'e:
+    ```ts
+    export const diagnooStartSchema = z.object({
+      url: z.string().url().max(2048), locale: z.enum(["tr", "en"]), turnstileToken: z.string().min(1),
+    });
+    export type DiagnooStartPayload = z.infer<typeof diagnooStartSchema>;
+    export const diagnooUnlockSchema = z.object({
+      diagnosticId: z.string().uuid(), email: z.string().email(),
+      company: z.string().min(2).max(120), fullName: z.string().max(120).optional(),
+      knownMetrics: KnownMetricsSchema.optional(), kvkkConsent: z.literal(true),
+      turnstileToken: z.string().min(1),
+    });
+    export type DiagnooUnlockPayload = z.infer<typeof diagnooUnlockSchema>;
+    ```
+    (`KnownMetricsSchema` `@/lib/tools/diagnoo/schema`'dan import edilir.)
+  - `POST /api/tools/diagnoo-start` → `202 { id: string; reused: boolean }` | `400 {error:"invalid"}` | `403 {error:"turnstile-failed"}` | `500 {error:"misconfigured"}` (TOOL_IP_SALT yok / D1 hatası) | `429 {error:"rate-limited"}`. Sıra: json → `diagnooStartSchema.safeParse` → ip (`cf-connecting-ip`, yoksa `"0.0.0.0"`) → `verifyTurnstile(token, ip)` → `process.env.TOOL_IP_SALT` yoksa misconfigured → `hashClientIp` → `countDiagnosticsSince(db, ipHash, since24h) >= IP_DAILY_LIMIT (3)` → 429 → `countDiagnosticsSince(db, null, since24h) >= GLOBAL_DAILY_LIMIT (100)` → 429 → URL normalize (`const u = new URL(url); u.origin + u.pathname.replace(/\/$/, "")`) → `findFreshCompleted(db, normalized, 24)` varsa `{ id, reused: true }` → `crypto.randomUUID()` + `createDiagnostic` + `env.DIAGNOO_WORKFLOW.create({ params: { diagnosticId } })` → `202 { id, reused: false }`.
+  - `GET /api/tools/diagnoo-status/[id]` (`type Ctx = { params: Promise<{ id: string }> }`) → `200 { status, currentStep, progressPct, failReason, snapshot: SnapshotView | null, report: DiagnooReport | null, leadCaptured: boolean }` — `snapshot` completed olunca dolu; `report` yalnız `leadCaptured` true iken (kilit sunucu sözleşmesi — ADR-030 carry-note 3 ile aynı ilke). `404 {error:"not-found"}`.
+  - `POST /api/tools/diagnoo-unlock` → `200 { report: DiagnooReport }` | `400 invalid` | `403 turnstile-failed` | `500 misconfigured` | `404 not-found` | `409 {error:"not-ready"}`. Sıra: json → şema → ip → Turnstile → salt → hash → `getDiagnostic` (yok → 404; status ≠ completed veya report null → 409) → `createLead` (duplicate → devam, idempotent) → `knownMetrics` varsa `recomputeWithKnownMetrics` + `saveReport` → satış e-postası `try/catch` (hata: `reportError(err, { route: "diagnoo-unlock", step: "mail" })` + `console.error`, cevap ENGELLENMEZ — spec §10) → `200 { report }`.
+  - Env cast: `type DiagnooRouteEnv = { BOOKINGS_DB: D1Database; DIAGNOO_WORKFLOW: { create(opts: { params: { diagnosticId: string } }): Promise<unknown> } }`; `export const runtime = "nodejs"`.
+  - E-posta: `emails/DiagnooLeadNotification.tsx` — props `{ email: string; company: string; fullName: string | null; url: string; healthScore: number; totalRecoverable: RangeValue; hasRealMetrics: boolean; reportPath: string }`; alıcı `recipients(process.env.SALES_INBOX_EMAIL, "digital@indoles.com.tr")`; konu `Diagnoo lead — ${company} — ${healthScore}/100`; `reportPath` = `/tr/araclar/diagnoo/rapor/${id}`. Şablon `GeoReportEmail`'in `audience:"sales"` bloğunu emsal alır (React Email bileşenleri, TR metin).
 
-- [ ] **Step 1: Failing testler yaz** (contact route test kalıbı: `vi.mock("@opennextjs/cloudflare")` + better-sqlite3 D1; workflow binding `create` spy)
+- [ ] **Step 1: Failing testler yaz**
 
 ```ts
-// src/app/api/diagnoo/__tests__/routes.test.ts — çekirdek senaryolar
-import { describe, it, expect, vi, beforeEach } from "vitest";
+// src/app/api/tools/__tests__/diagnoo-routes.test.ts
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 vi.mock("@opennextjs/cloudflare", () => ({ getCloudflareContext: vi.fn() }));
 vi.mock("@/lib/mail/client", () => ({ sendMailWithRetry: vi.fn(), recipients: () => ["satis@indoles.com.tr"] }));
 vi.mock("@/lib/security/turnstile", () => ({ verifyTurnstile: vi.fn().mockResolvedValue(true) }));
-vi.mock("@/lib/security/anti-spam", () => ({ turnstileEnabled: () => false, spamSignal: vi.fn().mockReturnValue(null) }));
 vi.mock("@/lib/observability/report", () => ({ reportError: vi.fn() }));
 
-import { POST as startPOST } from "../start/route";
-import { GET as statusGET } from "../[id]/status/route";
-import { POST as unlockPOST } from "../[id]/unlock/route";
-import { saveReport, createDiagnostic } from "@/lib/diagnoo/repository";
-import { sampleReport } from "@/lib/diagnoo/__tests__/fixtures";
-import { freshDiagnooDb } from "@/lib/diagnoo/__tests__/d1-helper";
+import { POST as startPOST } from "../diagnoo-start/route";
+import { GET as statusGET } from "../diagnoo-status/[id]/route";
+import { POST as unlockPOST } from "../diagnoo-unlock/route";
+import { saveReport, createDiagnostic } from "@/lib/tools/diagnoo/repository";
+import { sampleReport } from "@/lib/tools/diagnoo/__tests__/fixtures";
+import { freshDiagnooDb } from "@/lib/tools/diagnoo/__tests__/d1-helper";
 import { sendMailWithRetry } from "@/lib/mail/client";
+import { verifyTurnstile } from "@/lib/security/turnstile";
 
 let db: D1Database;
 const workflowCreate = vi.fn();
+const ID = "11111111-1111-4111-8111-111111111111";
+const base = { url: "https://a.com", locale: "tr" as const, clientIpHash: "h" };
+
 beforeEach(() => {
   db = freshDiagnooDb();
   workflowCreate.mockReset();
+  vi.stubEnv("TOOL_IP_SALT", "test-salt");
   vi.mocked(getCloudflareContext).mockReturnValue({
-    env: { BOOKINGS_DB: db, DIAGNOO_WORKFLOW: { create: workflowCreate },
-      GEMINI_API_KEY: "g", FIRECRAWL_API_KEY: "f", LEAD_INBOX_EMAIL: "lead@indoles.com.tr" },
+    env: { BOOKINGS_DB: db, DIAGNOO_WORKFLOW: { create: workflowCreate } },
   } as never);
 });
+afterEach(() => { vi.unstubAllEnvs(); });
 
-const req = (url: string, body?: unknown) => new Request(`http://localhost${url}`, {
-  method: body ? "POST" : "GET",
-  headers: { "content-type": "application/json", "x-forwarded-for": "1.2.3.4" },
-  ...(body ? { body: JSON.stringify(body) } : {}),
+const post = (url: string, body: unknown) => new Request(`http://localhost${url}`, {
+  method: "POST",
+  headers: { "content-type": "application/json", "cf-connecting-ip": "1.2.3.4" },
+  body: JSON.stringify(body),
 });
+const get = (url: string) => new Request(`http://localhost${url}`);
+const startBody = (url: string) => ({ url, locale: "tr", turnstileToken: "tok" });
 
-describe("POST /api/diagnoo/start", () => {
+describe("POST /api/tools/diagnoo-start", () => {
   it("teşhis oluşturur ve workflow başlatır", async () => {
-    const res = await startPOST(req("/api/diagnoo/start", { url: "https://a.com", locale: "tr", elapsedMs: 5000 }));
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
     expect(res.status).toBe(202);
     const body = (await res.json()) as { id: string; reused: boolean };
     expect(body.reused).toBe(false);
     expect(workflowCreate).toHaveBeenCalledWith({ params: { diagnosticId: body.id } });
   });
-  it("24 saatlik taze rapor varsa yeniden koşturmaz", async () => {
-    await createDiagnostic(db, { id: "d0", url: "https://a.com/", locale: "tr" });
-    await saveReport(db, "d0", sampleReport());
-    const res = await startPOST(req("/api/diagnoo/start", { url: "https://a.com/", locale: "tr", elapsedMs: 5000 }));
+  it("24 saatlik taze rapor varsa yeniden koşturmaz (normalize URL ile eşleşir)", async () => {
+    await createDiagnostic(db, { id: ID, ...base });      // normalize form: sondaki / yok
+    await saveReport(db, ID, sampleReport());
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com/")));
     expect(((await res.json()) as { reused: boolean }).reused).toBe(true);
     expect(workflowCreate).not.toHaveBeenCalled();
   });
-  it("4. istekte 429 döner", async () => {
-    for (let i = 0; i < 3; i++) {
-      await startPOST(req("/api/diagnoo/start", { url: `https://s${i}.com`, locale: "tr", elapsedMs: 5000 }));
-    }
-    const res = await startPOST(req("/api/diagnoo/start", { url: "https://s4.com", locale: "tr", elapsedMs: 5000 }));
+  it("aynı IP 4. istekte 429", async () => {
+    for (let i = 0; i < 3; i++) await startPOST(post("/api/tools/diagnoo-start", startBody(`https://s${i}.com`)));
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://s4.com")));
     expect(res.status).toBe(429);
   });
+  it("Turnstile başarısızsa 403", async () => {
+    vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
+    expect(res.status).toBe(403);
+  });
+  it("TOOL_IP_SALT yoksa 500 misconfigured (fail-closed)", async () => {
+    vi.stubEnv("TOOL_IP_SALT", "");
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
+    expect(res.status).toBe(500);
+    expect(((await res.json()) as { error: string }).error).toBe("misconfigured");
+  });
   it("geçersiz URL 400", async () => {
-    const res = await startPOST(req("/api/diagnoo/start", { url: "abc", locale: "tr" }));
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("abc")));
     expect(res.status).toBe(400);
   });
 });
 
-describe("GET /api/diagnoo/[id]/status", () => {
+describe("GET /api/tools/diagnoo-status/[id]", () => {
   it("completed + lead yokken snapshot döner, report dönmez", async () => {
-    await createDiagnostic(db, { id: "d1", url: "https://a.com", locale: "tr" });
-    await saveReport(db, "d1", sampleReport());
-    const res = await statusGET(req("/api/diagnoo/d1/status"), { params: Promise.resolve({ id: "d1" }) });
+    await createDiagnostic(db, { id: ID, ...base });
+    await saveReport(db, ID, sampleReport());
+    const res = await statusGET(get(`/api/tools/diagnoo-status/${ID}`), { params: Promise.resolve({ id: ID }) });
     const body = (await res.json()) as { snapshot: unknown; report: unknown; leadCaptured: boolean };
     expect(body.snapshot).toBeTruthy();
     expect(body.report).toBeNull();
     expect(body.leadCaptured).toBe(false);
   });
   it("bilinmeyen id 404", async () => {
-    const res = await statusGET(req("/api/diagnoo/yok/status"), { params: Promise.resolve({ id: "yok" }) });
+    const res = await statusGET(get("/api/tools/diagnoo-status/yok"), { params: Promise.resolve({ id: "yok" }) });
     expect(res.status).toBe(404);
   });
 });
 
-describe("POST /api/diagnoo/[id]/unlock", () => {
-  beforeEach(async () => {
-    await createDiagnostic(db, { id: "d1", url: "https://a.com", locale: "tr" });
-    await saveReport(db, "d1", sampleReport());
+describe("POST /api/tools/diagnoo-unlock", () => {
+  const unlockBody = (over: Record<string, unknown> = {}) => ({
+    diagnosticId: ID, email: "cmo@firma.com", company: "Firma", kvkkConsent: true, turnstileToken: "tok", ...over,
   });
-  it("lead yazar, e-posta atar, tam raporu döner", async () => {
-    const res = await unlockPOST(
-      req("/api/diagnoo/d1/unlock", { email: "cmo@firma.com", company: "Firma", elapsedMs: 4000 }),
-      { params: Promise.resolve({ id: "d1" }) },
-    );
+  beforeEach(async () => {
+    await createDiagnostic(db, { id: ID, ...base });
+    await saveReport(db, ID, sampleReport());
+  });
+  it("lead yazar, satış e-postası atar, tam raporu döner", async () => {
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
     expect(res.status).toBe(200);
     expect(((await res.json()) as { report: { healthScore: number } }).report.healthScore).toBe(54);
-    expect(sendMailWithRetry).toHaveBeenCalled();
+    expect(sendMailWithRetry).toHaveBeenCalledTimes(1);
   });
-  it("knownMetrics ile finansal recompute edilir ve kalıcılaşır", async () => {
-    await unlockPOST(
-      req("/api/diagnoo/d1/unlock", { email: "a@b.com", company: "F", knownMetrics: { monthlyTraffic: 500000 }, elapsedMs: 4000 }),
-      { params: Promise.resolve({ id: "d1" }) },
-    );
-    const status = await statusGET(req("/api/diagnoo/d1/status"), { params: Promise.resolve({ id: "d1" }) });
+  it("knownMetrics ile finansal recompute edilir ve status'ta report açılır", async () => {
+    await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody({ knownMetrics: { monthlyTraffic: 500000 } })));
+    const status = await statusGET(get(`/api/tools/diagnoo-status/${ID}`), { params: Promise.resolve({ id: ID }) });
     const body = (await status.json()) as { report: { financial: { inputs: { monthlyTraffic: number } } }; leadCaptured: boolean };
     expect(body.leadCaptured).toBe(true);
     expect(body.report.financial.inputs.monthlyTraffic).toBe(500000);
   });
+  it("kvkkConsent olmadan 400", async () => {
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody({ kvkkConsent: false })));
+    expect(res.status).toBe(400);
+  });
   it("e-posta hatası raporu engellemez", async () => {
     vi.mocked(sendMailWithRetry).mockRejectedValueOnce(new Error("smtp down"));
-    const res = await unlockPOST(
-      req("/api/diagnoo/d1/unlock", { email: "a@b.com", company: "F", elapsedMs: 4000 }),
-      { params: Promise.resolve({ id: "d1" }) },
-    );
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
+    expect(res.status).toBe(200);
+  });
+  it("ikinci unlock idempotent (200, tek lead)", async () => {
+    await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
     expect(res.status).toBe(200);
   });
   it("teşhis tamam değilse 409", async () => {
-    await createDiagnostic(db, { id: "d2", url: "https://b.com", locale: "tr" });
-    const res = await unlockPOST(
-      req("/api/diagnoo/d2/unlock", { email: "a@b.com", company: "F", elapsedMs: 4000 }),
-      { params: Promise.resolve({ id: "d2" }) },
-    );
+    const other = "22222222-2222-4222-8222-222222222222";
+    await createDiagnostic(db, { id: other, ...base, url: "https://b.com" });
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody({ diagnosticId: other })));
     expect(res.status).toBe(409);
   });
 });
 ```
 
-E-posta şablon testi (`emails/__tests__/diagnoo-lead-notification.test.tsx`): `render(<DiagnooLeadNotification ... />)` çıktısında email, company, url ve skor geçer (mevcut `ContactNotification` test kalıbı).
+E-posta şablon testi (`emails/__tests__/diagnoo-lead-notification.test.tsx`): `render(<DiagnooLeadNotification ... />)` çıktısında e-posta, şirket, url, skor ve `reportPath` geçer; `hasRealMetrics` true iken "gerçek veri" ibaresi var (mevcut `geo-report-email.test.tsx` kalıbı).
 
 - [ ] **Step 2: FAIL doğrula**
 
-- [ ] **Step 3: Route'ları ve şablonu yaz** — contact rotasının yapısını (runtime, invalid_json, validation, spamSignal sahte başarı, Turnstile, reportError) aynen izle; Interfaces bloğundaki akış ve dönüş kodlarını uygula. `start` rotasında `crypto.randomUUID()` ile id; IP hash'i `crypto.subtle.digest("SHA-256", ...)` hex. URL normalizasyonu: `new URL(input).origin + pathname` (sondaki `/` kırpılır) — `findFreshCompleted` eşleşmesi tutarlı olsun.
+- [ ] **Step 3: Şemaları, rotaları ve şablonu yaz** — GEO rotalarının yapısını (runtime, `errorResponse`, sıra, `sinceIso` üretimi) aynen izle; Interfaces bloğundaki akış ve dönüş kodlarını uygula. Sabitler dosya başında: `IP_DAILY_LIMIT = 3`, `GLOBAL_DAILY_LIMIT = 100`, `FRESH_HOURS = 24`.
 
-- [ ] **Step 4: PASS + typecheck** — `pnpm vitest run src/app/api/diagnoo emails && pnpm typecheck`
+- [ ] **Step 4: PASS + typecheck** — `pnpm vitest run src/app/api/tools emails && pnpm typecheck` (GEO rota testleri de yeşil)
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/app/api/diagnoo/ emails/DiagnooLeadNotification.tsx emails/__tests__/diagnoo-lead-notification.test.tsx .dev.vars.example
-git commit -m "feat(diagnoo): start/status/unlock rotaları + lead e-posta bildirimi"
+git add src/lib/schemas/tools.ts src/app/api/tools/diagnoo-start src/app/api/tools/diagnoo-status src/app/api/tools/diagnoo-unlock src/app/api/tools/__tests__/diagnoo-routes.test.ts emails/DiagnooLeadNotification.tsx emails/__tests__/diagnoo-lead-notification.test.tsx
+git commit -m "feat(diagnoo): start/status/unlock rotaları + satış lead bildirimi"
 ```
 
 ---
 
-### Task 13: GA4 event genişletmesi
+### Task 13: GA4 event genişletmesi (tools taksonomisi)
 
 **Files:**
 - Modify: `src/lib/analytics/events.ts`
 - Test: `src/lib/analytics/__tests__/events.test.ts` (mevcut dosyaya ekleme)
 
 **Interfaces:**
-- Consumes: mevcut `EVENT_NAMES`/`AnalyticsEvent` kalıbı.
-- Produces — birleşime 7 varyant + `EVENT_NAMES`'e 7 ad (spec §8 tablosu):
-  - `{ name: "diagnostic_started"; properties: { locale: "tr"|"en" } }`
-  - `{ name: "diagnostic_snapshot_viewed"; properties: { health_score_bucket: "0-25"|"26-50"|"51-75"|"76-100" } }`
-  - `{ name: "diagnostic_unlock_opened"; properties: Record<string, never> }`
-  - `{ name: "diagnostic_unlock_submitted"; properties: { has_real_metrics: boolean } }`
-  - `{ name: "diagnostic_report_viewed"; properties: Record<string, never> }`
-  - `{ name: "diagnostic_roadmap_item_expanded"; properties: { category: "speed"|"semantic"|"ux"|"tracking"|"funnel" } }`
-  - `{ name: "diagnostic_service_cta_clicked"; properties: { target_service: string } }`
-  - Yardımcı: `export function healthScoreBucket(score: number): "0-25"|"26-50"|"51-75"|"76-100"`
+- Consumes: mevcut `EVENT_NAMES`/`AnalyticsEvent` kalıbı ve GEO'nun `tool_used` / `tool_scan_completed` / `tool_report_requested` olayları (`band: GeoBand`), `BookingCtaSource`.
+- Produces (spec §8'in `diagnostic_*` olayları GEO `tool_*` taksonomisine eşlendi — ledger ruling):
+  - `export type HealthScoreBucket = "0-25" | "26-50" | "51-75" | "76-100"`; `export type ToolBand = GeoBand | HealthScoreBucket`; `tool_scan_completed` ve `tool_report_requested` property'lerindeki `band: GeoBand` → `band: ToolBand`.
+  - `export function healthScoreBucket(score: number): HealthScoreBucket` (0–25 / 26–50 / 51–75 / 76–100).
+  - Yeni varyantlar + `EVENT_NAMES` girdileri: `{ name: "tool_roadmap_item_expanded"; properties: { slug: string; category: "speed"|"semantic"|"ux"|"tracking"|"funnel"; locale: "tr"|"en" } }`, `{ name: "tool_service_cta_clicked"; properties: { slug: string; target_service: string; locale: "tr"|"en" } }`.
+  - `BookingCtaSource`'a `| "tool-diagnoo-report"`.
+  - Diagnoo eşlemesi (UI Task 15 uygular): URL gönderimi → `tool_used{slug:"diagnoo"}`; snapshot görünümü → `tool_scan_completed{slug:"diagnoo", band: healthScoreBucket(score)}`; unlock başarısı → `tool_report_requested{slug:"diagnoo", band}`; yol haritası `<details>` açılışı → `tool_roadmap_item_expanded`; rapor içi hizmet linki → `tool_service_cta_clicked`.
 
 - [ ] **Step 1: Mevcut test dosyasına failing testler ekle**
 
 ```ts
-it("diagnoo eventleri EVENT_NAMES'te kayıtlı", () => {
-  for (const name of [
-    "diagnostic_started", "diagnostic_snapshot_viewed", "diagnostic_unlock_opened",
-    "diagnostic_unlock_submitted", "diagnostic_report_viewed",
-    "diagnostic_roadmap_item_expanded", "diagnostic_service_cta_clicked",
-  ]) expect(EVENT_NAMES).toContain(name);
+it("diagnoo tools eventleri EVENT_NAMES'te kayıtlı", () => {
+  for (const name of ["tool_roadmap_item_expanded", "tool_service_cta_clicked"]) expect(EVENT_NAMES).toContain(name);
 });
 
 it("healthScoreBucket sınırları doğru kovalar", () => {
@@ -2150,37 +2203,43 @@ it("healthScoreBucket sınırları doğru kovalar", () => {
   expect(healthScoreBucket(54)).toBe("51-75");
   expect(healthScoreBucket(100)).toBe("76-100");
 });
+
+it("tool_scan_completed sağlık kovasını band olarak kabul eder (tip)", () => {
+  const ev: AnalyticsEvent = { name: "tool_scan_completed", properties: { slug: "diagnoo", band: "51-75", locale: "tr" } };
+  expect(ev.name).toBe("tool_scan_completed");
+});
 ```
 
-- [ ] **Step 2: FAIL doğrula** → **Step 3:** varyantları + `EVENT_NAMES` girdilerini + `healthScoreBucket`'ı ekle (dosyanın mevcut düzenine uyarak; `AssertNamesCovered` derleme güvencesi otomatik doğrular) → **Step 4: PASS + typecheck** → **Step 5: Commit**
+- [ ] **Step 2: FAIL doğrula** → **Step 3:** tipleri, varyantları, `EVENT_NAMES` girdilerini ve `healthScoreBucket`'ı ekle (dosyanın mevcut düzenine uyarak; `AssertNamesCovered` derleme güvencesi otomatik doğrular) → **Step 4: PASS + typecheck** (GEO bileşen testleri de yeşil — `band` genişlemesi geriye uyumlu) → **Step 5: Commit**
 
 ```bash
 git add src/lib/analytics/events.ts src/lib/analytics/__tests__/events.test.ts
-git commit -m "feat(diagnoo): GA4 event taksonomisi — 7 diagnostic eventi"
+git commit -m "feat(diagnoo): GA4 tools taksonomisi — sağlık kovası bandı, roadmap ve hizmet CTA olayları"
 ```
 
 ---
 
-### Task 14: Route kaydı — `/araclar/diagnoo` + rapor sayfası (SEO altyapı uyumu)
+### Task 14: Araç kaydı + route'lar — `/araclar/diagnoo` ve rapor sayfası
 
 **Files:**
-- Modify: `src/lib/i18n/routing.ts` (pathnames: `"/araclar/diagnoo": { tr: "/araclar/diagnoo", en: "/tools/diagnoo" }`), `src/app/sitemap.ts` (STATIC_ROUTES), `src/lib/seo/audit.ts` (PageProfile + PROFILE_RULES), `messages/tr.json` + `messages/en.json` (parite), `src/app/(marketing)/[locale]/layout.tsx` (V2Nav — YALNIZ karar Burak'taysa; varsayılan: nav'a Faz 2'de eklenir, bu task'ta eklenmez)
-- Create: `src/app/(marketing)/[locale]/araclar/diagnoo/page.tsx` (araç sayfası — Task 15 bileşenlerini kompoze eder; Faz 1'de kısa açıklama + araç, zengin landing içeriği Faz 2), `src/app/(marketing)/[locale]/araclar/diagnoo/rapor/[id]/page.tsx` (kalıcı rapor sayfası, `robots: { index: false, follow: false }`)
-- Test: `tests/unit/` mevcut sitemap/alternates/metadata testlerine yeni route girdileri
+- Modify: `src/lib/content/tools.ts` (Diagnoo kaydı; `ToolSignal.id` tipi `GeoCheckId | DiagnooSignalId`), `src/lib/i18n/routing.ts` (pathnames: `"/araclar/diagnoo": { tr: "/araclar/diagnoo", en: "/tools/diagnoo" }`, `"/araclar/diagnoo/rapor/[id]": { tr: "/araclar/diagnoo/rapor/[id]", en: "/tools/diagnoo/report/[id]" }`), `src/app/(marketing)/[locale]/araclar/page.tsx` (META metni iki araca göre; `ItemList` zaten `TOOLS.length`), `src/components/v2/V2Chrome.tsx` (`TOOL_HERO_ROUTES`'a `"/araclar/diagnoo"`), `docs/02-information-architecture.md` (route satırları)
+- Create: `src/lib/tools/diagnoo/signals.ts` (`export type DiagnooSignalId = "speed" | "semantic" | "ux" | "tracking" | "funnel"` + `DIAGNOO_SLUG = "diagnoo"`), `src/app/(marketing)/[locale]/araclar/diagnoo/page.tsx`, `src/app/(marketing)/[locale]/araclar/diagnoo/rapor/[id]/page.tsx`
+- Test: `tests/unit/tools-content.test.ts` (otomatik kapsar), `tests/unit/sitemap.test.ts` + `tests/unit/seo-alternates.test.ts` + `tests/unit/page-metadata.test.ts`'e yeni URL beklentileri, `tests/unit/seo-audit.test.ts` (yol → `tool` profili)
 
 **Interfaces:**
-- Consumes: `buildMetadata`/`buildAlternates`/`ogImage` (`src/lib/seo/*`), `setRequestLocale`, hizmetler sayfası iskelet kalıbı (Task açıklamasındaki keşif raporu örneği).
-- Produces: `PATHS = { tr: "/tr/araclar/diagnoo", en: "/en/tools/diagnoo" }`; rapor sayfası `generateMetadata`'sı `robots: { index: false }` döndürür; araç sayfası Task 15'in `<DiagnooTool locale={loc} />` client bileşenini render eder.
+- Consumes: `ToolContent` şekli (`slug/name/eyebrow/lede` Localized, `steps` tam 3, `signals`, `faq` tam 6 — her cevap ≥40 kelime, anafora ile başlamaz, soru tekrarı yok —, `seo.title` ≤50, `seo.description` 140–160, `footnote`), GEO sayfası `araclar/geo-gorunurluk-denetleyicisi/page.tsx` iskeleti (hero + form + adımlar + sinyaller + SSS + JSON-LD grafiği `organizationLd/webPageLd/breadcrumbLd/softwareApplicationLd/faqLd`), `sonuc/[id]/page.tsx` noindex kalıbı (`runtime = "nodejs"`, `dynamic = "force-dynamic"`, `robots: { index: false, follow: true }`), `buildMetadata`, `getToolBySlug`, repository `getDiagnostic`/`hasLead` (Task 6), `toSnapshot` (Task 3).
+- Produces: TR `/araclar/diagnoo` + EN `/tools/diagnoo` (indeks, sitemap, llms.txt `TOOLS`'tan otomatik); `<DiagnooTool locale tool={content} />` yuvası (Task 15 bileşeni; bu task'ta geçici olarak `null` render eden bir iskelet bileşen `src/components/tools/diagnoo-tool.tsx` oluşturulur — Task 15 doldurur); rapor sayfası `rapor/[id]`: teşhis yoksa `notFound()`; lead varsa `<DiagnooReport report />`, yoksa `<DiagnooSnapshot snapshot diagnosticId />` + unlock formu (Task 15 bileşenleri; bu task'ta iskelet).
+- İçerik: metinler işlevsel taslak — execution'da `indoles-brand-voice` skill'i zorunlu; SSS soruları Diagnoo'nun ne ölçtüğü, verinin nereden geldiği, tahmini/gerçek veri farkı, süre, KVKK, ücret; `signals` beş kategori (`DiagnooSignalId`) ağırlıkları rapor skorlamasıyla (25/25/30/20 — semantik/UX/hız-funnel/ölçüm) uyumlu, `funnel` ağırlığı hız-funnel'ın içinde açıklanır.
 
-- [ ] **Step 1:** Mevcut sitemap/alternates/metadata testlerine failing beklentiler ekle (yeni URL'ler sitemap'te; rapor sayfası sitemap'te DEĞİL; hreflang çifti doğru)
-- [ ] **Step 2:** FAIL doğrula
-- [ ] **Step 3:** routing.ts + sitemap + audit profili + messages + iki sayfayı yaz (hizmetler sayfası iskeletiyle aynı kalıp; metadata TR: "Diagnoo — E-Ticaret GAP Analizi Aracı" / açıklamalar brand-voice taslağı, execution'da skill'den geçer)
-- [ ] **Step 4:** `pnpm test && pnpm typecheck && pnpm seo:audit` — üçü yeşil (seo:audit yeni URL'leri sayar; FAIL 0)
+- [ ] **Step 1:** Mevcut sitemap/alternates/metadata/seo-audit testlerine failing beklentiler ekle (`/tr/araclar/diagnoo` + `/en/tools/diagnoo` sitemap'te; `rapor/[id]` sitemap'te DEĞİL; hreflang çifti; `araclar/diagnoo` yolu `tool` profili)
+- [ ] **Step 2:** FAIL doğrula (`pnpm vitest run tests/unit`)
+- [ ] **Step 3:** `signals.ts`, `tools.ts` kaydı + tip genişletme, routing, indeks META, `TOOL_HERO_ROUTES`, iki sayfa, iskelet bileşen, docs/02 satırları
+- [ ] **Step 4:** `pnpm test && pnpm typecheck && pnpm seo:audit` — üçü yeşil (`tools-content` testi 6 SSS/uzunluk kurallarını, `seo:audit` tool profilini doğrular: FAQPage + SoftwareApplication LD, ≥300 kelime, ≥4 iç link)
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/lib/i18n/routing.ts src/app/sitemap.ts src/lib/seo/audit.ts messages/ "src/app/(marketing)/[locale]/araclar/" tests/unit/
-git commit -m "feat(diagnoo): /araclar/diagnoo route kaydı — i18n, sitemap, seo audit, noindex rapor"
+git add src/lib/content/tools.ts src/lib/tools/diagnoo/signals.ts src/lib/i18n/routing.ts "src/app/(marketing)/[locale]/araclar/" src/components/tools/diagnoo-tool.tsx src/components/v2/V2Chrome.tsx docs/02-information-architecture.md tests/unit/
+git commit -m "feat(diagnoo): araç kaydı, /araclar/diagnoo ve noindex rapor sayfası"
 ```
 
 ---
@@ -2188,23 +2247,24 @@ git commit -m "feat(diagnoo): /araclar/diagnoo route kaydı — i18n, sitemap, s
 ### Task 15: Araç UI'ı (client bileşenleri)
 
 **Files:**
-- Create: `src/components/diagnoo/diagnoo-tool.tsx` (durum makinesi: idle → running → snapshot → unlocked; `useDiagnostic` hook'u ile 2 sn polling), `src/components/diagnoo/url-form.tsx`, `src/components/diagnoo/progress-stepper.tsx`, `src/components/diagnoo/snapshot-view.tsx` (gauge SVG + kilitli GAP kartları + fırsat aralığı + unlock CTA), `src/components/diagnoo/unlock-form.tsx` (react-hook-form + zod resolver — repo kalıbı; honeypot `website` + `elapsedMs`), `src/components/diagnoo/report-view.tsx` (6 bölüm: özet, skor karnesi bar'ları, GAP kartları, finansal tablo + metodoloji `<details>`, yol haritası tablosu, INDOLES CTA), `src/components/diagnoo/use-diagnostic.ts`
-- Test: `src/components/diagnoo/__tests__/use-diagnostic.test.ts` (hook: poll → completed'da durur; jsdom ortamı için vitest.config `environmentMatchGlobs` listesine `.ts` dosyası eklenir), `src/components/diagnoo/__tests__/snapshot-view.test.tsx` (kilitli kartlarda ₺ rakamı render edilmez; CTA `diagnostic_unlock_opened` tetikler)
+- Create: `src/components/tools/use-turnstile.ts` (GEO `geo-scan-form.tsx` içindeki Turnstile render/poll/expire/clear mantığı `useTurnstileToken({ enabled }): { token, containerRef, reset, error }` hook'una çıkarılır — sabitler `TURNSTILE_POLL_MS=300`, `TURNSTILE_POLL_LIMIT=60`, `TURNSTILE_TOKEN_TIMEOUT_MS=25_000` korunur), `src/components/tools/diagnoo-tool.tsx` (Task 14 iskeleti doldurulur: durum makinesi idle → running → snapshot → unlocked; `useDiagnooStatus`), `src/components/tools/diagnoo-form.tsx` (`DiagnooForm`: URL + Turnstile; submit → `tool_used`), `src/components/tools/diagnoo-progress.tsx` (`DiagnooProgress`: 6 adım), `src/components/tools/diagnoo-snapshot.tsx` (`DiagnooSnapshot`: gauge SVG + benchmark rozeti + kilitli GAP kartları + fırsat aralığı; mount'ta `tool_scan_completed`), `src/components/tools/diagnoo-unlock-form.tsx` (`DiagnooUnlockForm`: e-posta, şirket, ad-soyad, KVKK onay kutusu, opsiyonel metrik alanları — trafik/AOV/CR/reklam bütçesi —, Turnstile; başarı → `tool_report_requested`), `src/components/tools/diagnoo-report.tsx` (`DiagnooReport`: 6 bölüm — özet, skor karnesi bar'ları, GAP kartları, finansal tablo + metodoloji `<details>`, yol haritası `<details>` satırları → `tool_roadmap_item_expanded`, INDOLES CTA `<PopupCTAButton source="tool-diagnoo-report">` + hizmet linkleri → `tool_service_cta_clicked`), `src/components/tools/use-diagnoo-status.ts`
+- Modify: `src/components/tools/geo-scan-form.tsx` (hook'u kullanır; davranış aynı; `tests/unit/tools-geo/geo-scan-form.test.tsx` yeşil kalır)
+- Test: `src/components/tools/__tests__/use-diagnoo-status.test.ts` (hook: 2 sn poll → completed'da durur; fetch mock; jsdom için `vitest.config.ts` `environmentMatchGlobs`'a bu dosya), `src/components/tools/__tests__/diagnoo-snapshot.test.tsx` (kilitli kartlarda ₺/`impactMonthly` rakamı render edilmez; skor ve 3 GAP başlığı görünür), `src/components/tools/__tests__/diagnoo-unlock-form.test.tsx` (KVKK işaretsiz submit engellenir; başarıda `onUnlocked(report)` çağrılır)
 
 **Interfaces:**
-- Consumes: Task 12 API sözleşmeleri (`start`/`status`/`unlock` istek-cevap şekilleri), Task 13 eventleri + `track()`, `SnapshotView`/`DiagnooReport` tipleri, mevcut tasarım tokenları (`indoles-design-tokens` skill'i execution'da yüklenir), `TrackView` bileşeni.
-- Produces: `<DiagnooTool locale={"tr"|"en"} />` — Task 14 sayfası render eder; `useDiagnostic(id)` → `{ status, progressPct, currentStep, snapshot, report, leadCaptured, refetch }`.
-- Görselleştirme: grafik kütüphanesi YOK — gauge tek `<svg>` arc, skor karnesi ve benchmark karşılaştırmaları token'lı div bar'ları, funnel basit yüzde bar listesi. GA4: `diagnostic_started` (form submit), `diagnostic_snapshot_viewed` (snapshot mount, `healthScoreBucket`), `diagnostic_unlock_opened`/`_submitted`, `diagnostic_report_viewed`, `diagnostic_roadmap_item_expanded` (`<details>` toggle), `diagnostic_service_cta_clicked` (hizmet linkleri).
+- Consumes: Task 12 API sözleşmeleri (`diagnoo-start`/`diagnoo-status/[id]`/`diagnoo-unlock`), Task 13 olayları + `track()` + `healthScoreBucket`, `SnapshotView`/`DiagnooReport`/`RangeValue` tipleri, GEO bileşen kalıpları (`useState` formlar, `COPY` sabitleri, `ERROR_MAP` → kullanıcı mesajı, `history.replaceState` ile sonuç URL'i `getPathname({ href: { pathname: "/araclar/diagnoo/rapor/[id]", params: { id } }, locale })`), `indoles-design-tokens` skill'i (execution'da yüklenir), `PopupCTAButton`.
+- Produces: `<DiagnooTool locale tool />` (Task 14 sayfası render eder); `useDiagnooStatus(id: string | null)` → `{ status, progressPct, currentStep, failReason, snapshot, report, leadCaptured, refetch }`.
+- Görselleştirme: grafik kütüphanesi YOK — gauge tek `<svg>` arc, skor karnesi ve benchmark karşılaştırmaları token'lı div bar'ları, funnel yüzde bar listesi. Para biçimi `Intl.NumberFormat(locale === "tr" ? "tr-TR" : "en-GB", { style: "currency", currency: "TRY", maximumFractionDigits: 0 })`; aralık "₺74.000 – ₺154.000" biçiminde, nokta tahmin tek başına gösterilmez (spec §4).
 
-- [ ] **Step 1:** `use-diagnostic` + `snapshot-view` failing testlerini yaz (fetch mock ile: running→completed geçişinde polling durur; snapshot'ta `impactMonthly` metni yok)
+- [ ] **Step 1:** `use-diagnoo-status` + `diagnoo-snapshot` + `diagnoo-unlock-form` failing testlerini yaz
 - [ ] **Step 2:** FAIL doğrula
-- [ ] **Step 3:** Hook + bileşenleri yaz (design-token skill'i eşliğinde; metinler brand-voice skill'inden)
-- [ ] **Step 4:** `pnpm test && pnpm typecheck` yeşil; `pnpm dev` ile manuel duman: URL gir → stepper ilerler (lokal Workflow yoksa `wrangler dev` notu: pipeline lokalde `pnpm cf:preview` ile koşar)
+- [ ] **Step 3:** `use-turnstile.ts` çıkar (geo-scan-form refactor, testleri yeşil) → hook + bileşenler (design-token skill'i eşliğinde; metinler brand-voice skill'inden)
+- [ ] **Step 4:** `pnpm test && pnpm typecheck` yeşil; `pnpm cf:preview` ile manuel duman: URL gir → adımlar ilerler → snapshot → unlock → rapor (`.dev.vars`'ta gerçek anahtarlar gerekir; yoksa pipeline `scrape_failed` ile dürüst hata verir — bu da doğrulanır)
 - [ ] **Step 5: Commit**
 
 ```bash
-git add src/components/diagnoo/ vitest.config.ts
-git commit -m "feat(diagnoo): araç UI — akış makinesi, snapshot, unlock, rapor görünümü"
+git add src/components/tools/ vitest.config.ts
+git commit -m "feat(diagnoo): araç UI — akış makinesi, snapshot, unlock, rapor görünümü; paylaşılan Turnstile hook'u"
 ```
 
 ---
@@ -2212,8 +2272,8 @@ git commit -m "feat(diagnoo): araç UI — akış makinesi, snapshot, unlock, ra
 ### Task 16: Uçtan uca doğrulama + deploy hazırlığı
 
 **Files:**
-- Modify: `scripts/cf-smoke.sh` (varsa diagnoo smoke satırı), `docs/12-analytics-measurement.md` (yeni eventler bölümü)
-- Create: `docs/superpowers/runbooks/diagnoo-ga4-kurulum.md` (GA4 arayüz adımları: `diagnostic_unlock_submitted` key event işaretleme + funnel exploration kurulumu — spec §8)
+- Modify: `scripts/cf-smoke.sh` (varsa diagnoo smoke satırı), `docs/12-analytics-measurement.md` (araç tablosuna Diagnoo satırları + 2 yeni olay)
+- Create: `docs/superpowers/runbooks/diagnoo-ga4-kurulum.md` (GA4 arayüz adımları: `tool_report_requested` (slug=diagnoo) key event işaretleme + funnel exploration tool_used → tool_scan_completed → tool_report_requested → tool_service_cta_clicked — spec §8)
 
 **Interfaces:**
 - Consumes: önceki tüm task'ların çıktısı.

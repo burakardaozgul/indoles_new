@@ -76,10 +76,13 @@ for (const vp of VIEWPORTS) {
       test.skip(vp.name !== "mobile", "yalnız mobile");
       await page.goto(URL_PATH, { waitUntil: "networkidle" });
       // Kapsam: araç sayfasının BİRİNCİL kontrolleri (giriş, düğme, kart
-      // linkleri). Hariç: (a) breadcrumb ve (b) paylaşılan ContactCallout'un
+      // linkleri). Hariç: (a) breadcrumb, (b) paylaşılan ContactCallout'un
       // satır-içi metin linkleri — bunlar WCAG 2.2 AA satır-içi link istisnası
       // (2.5.8) kapsamında ve site geneli V2PageHeader/callout ile aynı desen,
-      // bu görevin kapsamı dışı.
+      // bu görevin kapsamı dışı — ve (c) `aria-hidden="true"` bal küpü alanı
+      // (final review C1, `GeoScanForm`/`GeoReportForm`): `tabIndex={-1}` ile
+      // klavye sırasından da çıkarılmış, hiçbir kullanıcıya (görme veya ekran
+      // okuyucu) hiç görünmez/erişilmez — touch-target gereksinimi anlamsız.
       const tooSmall = await page.evaluate(() => {
         const interactive = document.querySelectorAll(
           'main a, main button, main input, main [role="button"]',
@@ -88,6 +91,7 @@ for (const vp of VIEWPORTS) {
           .filter((el) => {
             if (el.closest('nav[aria-label="Breadcrumb"]')) return false;
             if (el.closest(".bg-ink-900")) return false; // ContactCallout
+            if (el.closest('[aria-hidden="true"]')) return false; // bal küpü
             const r = (el as HTMLElement).getBoundingClientRect();
             if (r.width === 0 && r.height === 0) return false; // gizli widget
             return r.width < 44 || r.height < 44;

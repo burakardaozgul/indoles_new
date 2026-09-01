@@ -7,15 +7,30 @@ import { z } from "zod";
  * izin var mı" sorusu (SSRF matrisi) burada DEĞİL, rotada AYRI ve ZORUNLU bir
  * ikinci geçişte (`validateTargetUrl`, Görev 7) sorulur — ikisi karıştırılmaz.
  *
- * `turnstileToken`: bu araçta Turnstile ZORUNLU — contact/booking'in aksine
- * (ADR-028 bayrağı, Cloudflare'in challenge sunucusundaki DNS arızası
- * nedeniyle o iki formda koşullu hale geldi) bu form Turnstile'sız hiç
- * render edilmez (spec §5: "iki formda da görünmez Turnstile"), o yüzden
- * alan burada `min(1)` ile zorunlu, contact'taki gibi `.optional()` değil.
+ * `turnstileToken`: final review (C1) düzeltmesi — contact/booking'in izlediği
+ * AYNI koşullu desen (ADR-028, `src/lib/security/anti-spam.ts`). Görev 9'un
+ * ilk halinde bu alan `min(1)` ile KOŞULSUZ zorunluydu ("araç Turnstile'sız
+ * hiç render edilmez" varsayımıyla) — ama ADR-028 bayrağı
+ * (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`) launch konfigürasyonunda KAPALI
+ * (Cloudflare'in challenge sunucusu IPv4-only ağlarda çözülmüyor,
+ * `.env.example`). Bayrak kapalıyken istemci hiç token göndermiyordu ve
+ * `safeParse` her geçerli URL'i "invalid-url" olarak reddediyordu — kullanıcı
+ * URL'i suçlanıyordu, sunucu konfigürasyonu suçlu olduğu halde. Alan artık
+ * contact'taki gibi `.optional()`; doğrulama rotada `turnstileEnabled()`
+ * bayrağına göre KOŞULLU çalışır.
+ *
+ * `website`/`elapsedMs`: bal küpü + süre tuzağı — Turnstile bayrağı KAPALIYKEN
+ * devreye giren ikincil savunma (`spamSignal()`, anti-spam.ts). Alan adları
+ * contact şemasıyla (`src/lib/schemas/contact.ts`) BİREBİR aynı — `spamSignal`
+ * bu adları bekler.
  */
 export const geoScanSchema = z.object({
   url: z.string().url().max(2048),
-  turnstileToken: z.string().min(1),
+  turnstileToken: z.string().optional(),
+  /** Bal küpü — insanlar görmez, botlar doldurur. */
+  website: z.string().optional(),
+  /** Formun yüklenmesinden gönderime geçen süre (ms). Yokluğu bot işaretidir. */
+  elapsedMs: z.number().int().nonnegative().optional(),
 });
 
 export type GeoScanPayload = z.infer<typeof geoScanSchema>;
@@ -32,8 +47,12 @@ export type GeoScanPayload = z.infer<typeof geoScanSchema>;
  * şemada zorunlu kılınır, dolayısıyla `false`/eksik rıza `safeParse`te düşer ve
  * `insertLead` HİÇ çağrılmaz — rızasız hiçbir lead yazılmaz.
  *
- * `turnstileToken`: geo-scan'deki gibi KOŞULSUZ zorunlu (rapor formu da
- * görünmez Turnstile taşır, ADR-028 bayrağı bu rotayı da kapsamaz).
+ * `turnstileToken`: geo-scan'deki gibi final review (C1) ile `.optional()`e
+ * çevrildi — ADR-028 bayrağı bu rotayı da kapsar artık (aynı gerekçe, geo-scan
+ * şemasının başlık yorumuna bkz).
+ *
+ * `website`/`elapsedMs`: bal küpü + süre tuzağı — geo-scan şemasıyla AYNI
+ * alan adları, AYNI amaç.
  *
  * `locale`: rapor e-postası bu dilde gider — form hangi locale sayfasından
  * geldiyse o dil (controller ruling, Görev 12). Kapalı `enum`: `de`, `fr` gibi
@@ -43,8 +62,10 @@ export const geoReportSchema = z.object({
   scanId: z.string().uuid(),
   email: z.string().email(),
   kvkkConsent: z.literal(true),
-  turnstileToken: z.string().min(1),
+  turnstileToken: z.string().optional(),
   locale: z.enum(["tr", "en"]),
+  website: z.string().optional(),
+  elapsedMs: z.number().int().nonnegative().optional(),
 });
 
 export type GeoReportPayload = z.infer<typeof geoReportSchema>;

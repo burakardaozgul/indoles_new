@@ -18,8 +18,10 @@ import type { GeoBand, GeoCheckResult, GeoCheckStatus } from "@/lib/tools/geo/ty
  *
  * Turnstile deseni `GeoScanForm` ile birebir: görünmez widget geç yüklenebildiği
  * için yoklanır, token gelene dek gönderim kilitli, token tek kullanımlık ve
- * başarısız denemede sıfırlanır. Rota tarafında Turnstile KOŞULSUZ zorunlu
- * (`geoReportSchema`) — ADR-028 bayrağı bu rotayı kapsamaz.
+ * başarısız denemede sıfırlanır. Final review (C1) düzeltmesi: Turnstile
+ * artık ADR-028 bayrağına (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`) göre KOŞULLU —
+ * kapalıyken (launch konfigürasyonu) YERİNE bal küpü + süre tuzağı gönderilir
+ * (`GeoScanForm`/`ContactForm` ile BİREBİR aynı sözleşme).
  */
 
 const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
@@ -164,6 +166,10 @@ export function GeoReportForm({
   const [turnstileStatus, setTurnstileStatus] = useState<
     "pending" | "ready" | "unavailable"
   >(TURNSTILE_ENABLED ? "pending" : "ready");
+  /** Bal küpü + süre tuzağı (ADR-028, final review C1) — `ContactForm`/
+   * `GeoScanForm` ile BİREBİR aynı desen. */
+  const [website, setWebsite] = useState("");
+  const mountedAtRef = useRef<number>(Date.now());
 
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | undefined>(undefined);
@@ -266,7 +272,9 @@ export function GeoReportForm({
           email: email.trim(),
           kvkkConsent: true,
           locale,
-          turnstileToken: TURNSTILE_ENABLED ? turnstileToken : "",
+          website,
+          elapsedMs: Date.now() - mountedAtRef.current,
+          ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
         }),
       });
       if (res.ok) {
@@ -401,6 +409,22 @@ export function GeoReportForm({
           </a>
         </span>
       </label>
+
+      {/* Bal küpü: görsel olarak gizli, klavye/okuyucu erişiminden çıkarılmış
+          — `ContactForm`/`GeoScanForm`'daki desenin birebir aynısı. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+        <label>
+          Web sitesi (boş bırak)
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </label>
+      </div>
 
       {TURNSTILE_ENABLED ? (
         <div ref={turnstileRef} className="cf-turnstile" />

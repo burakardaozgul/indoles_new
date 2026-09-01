@@ -12,14 +12,15 @@ import type { GeoScanResult } from "@/lib/tools/geo/types";
 /**
  * GEO Görünürlük Denetleyicisi giriş formu — `POST /api/tools/geo-scan`.
  *
- * Desen `ContactForm`'un Turnstile entegrasyonunu izler: görünmez widget geç
- * yüklenebildiği için kısa aralıkla yoklanır, token gelene dek gönderim
- * kilitlenir, token tek kullanımlıktır ve başarısız denemede sıfırlanır.
- *
- * FARK: bu araçta Turnstile rota tarafında KOŞULSUZ zorunlu (`geoScanSchema`,
- * spec §5) — ADR-028 bayrağı bu rotayı kapsamaz. İstemci yine de bayrağa
- * bakar: site anahtarı build'de yoksa widget render edilmez (geliştirme
- * ortamı), üretimde anahtar `wrangler secret` ile girilidir.
+ * Desen `ContactForm`'u BİREBİR izler: görünmez widget geç yüklenebildiği
+ * için kısa aralıkla yoklanır, token gelene dek gönderim kilitlenir, token
+ * tek kullanımlıktır ve başarısız denemede sıfırlanır. Final review (C1)
+ * düzeltmesi: Turnstile artık `ContactForm`'daki gibi ADR-028 bayrağına
+ * (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`) göre KOŞULLU — bayrak açıksa widget
+ * render edilir ve token beklenir; kapalıysa (launch konfigürasyonu, üretimde
+ * Cloudflare'in challenge sunucusu IPv4-only ağlarda çözülmüyor) widget hiç
+ * render edilmez, YERİNE bal küpü (`website`) + süre tuzağı (`elapsedMs`)
+ * gönderilir — rota tarafında `spamSignal` bunları değerlendirir.
  *
  * SAYFA GEÇİŞİ YOK (Görev 11): başarıda `GeoResult` AYNI sayfada basılır —
  * `router.push` ile paylaşım rotasına gitmek bir tam sayfa geçişi anlamına
@@ -87,8 +88,12 @@ type ScanErrorKind = keyof GeoScanFormLabels["errors"];
 // Her rota hata kodu anlamlı bir mesaja çözülür. `misconfigured` kullanıcının
 // hatası değil (araç tarafı config eksik) — nötr "yanıt veremiyor" mesajına
 // düşer; gövdesiz/beklenmedik yanıt ve ağ hatası `generic`e ("tamamlanamadı").
+// `invalid-request` (final review C1): `url` alanıyla İLGİLİ OLMAYAN şema
+// hataları — "URL geçersiz" mesajına DÜŞMEMELİ, bilerek `generic`e (nötr,
+// URL'i suçlamayan) eşlenir.
 const ERROR_MAP: Record<string, ScanErrorKind> = {
   "invalid-url": "invalidUrl",
+  "invalid-request": "generic",
   "rate-limited": "rateLimited",
   "target-unreachable": "unreachable",
   "turnstile-failed": "turnstile",
@@ -115,10 +120,24 @@ export function GeoScanForm({
   const [turnstileStatus, setTurnstileStatus] = useState<
     "pending" | "ready" | "unavailable"
   >(TURNSTILE_ENABLED ? "pending" : "ready");
+  /** Bal küpü + süre tuzağı (ADR-028, final review C1). mountedAt: form
+   * ekrana geldiği an — `ContactForm`'daki desenle BİREBİR aynı. */
+  const [website, setWebsite] = useState("");
+  const mountedAtRef = useRef<number>(Date.now());
 
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | undefined>(undefined);
   const renderedRef = useRef(false);
+  /** "Bağlantı kopyalandı" düğme metni geri sayımı — unmount'ta temizlenir
+   * (final review Minor: eskiden çıplak `setTimeout`, unmount sonrası bir
+   * kapanmış component'i `setState` ile güncellemeye çalışıyordu). */
+  const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current !== undefined) clearTimeout(copyTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (!TURNSTILE_ENABLED) return;
@@ -219,7 +238,9 @@ export function GeoScanForm({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           url: url.trim(),
-          ...(TURNSTILE_ENABLED ? { turnstileToken } : { turnstileToken: "" }),
+          website,
+          elapsedMs: Date.now() - mountedAtRef.current,
+          ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
         }),
       });
       if (res.ok) {
@@ -261,7 +282,8 @@ export function GeoScanForm({
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      if (copyTimeoutRef.current !== undefined) clearTimeout(copyTimeoutRef.current);
+      copyTimeoutRef.current = setTimeout(() => setCopied(false), 2500);
     } catch {
       /* pano erişimi reddedilmiş olabilir — sessizce düş, düğme tekrar denenebilir */
     }
@@ -322,6 +344,24 @@ export function GeoScanForm({
             {submitting ? labels.submitting : labels.submit}
           </Button>
         </div>
+      </div>
+
+      {/* Bal küpü: görsel olarak gizli, klavye/okuyucu erişiminden çıkarılmış
+          — `ContactForm`'daki desenin birebir aynısı (metin bilerek
+          lokalize edilmez, hiçbir kullanıcıya hiç görünmez). İnsan
+          dolduramaz; dolduran bot rota tarafında sahte başarıya düşer. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+        <label>
+          Web sitesi (boş bırak)
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </label>
       </div>
 
       {TURNSTILE_ENABLED ? (

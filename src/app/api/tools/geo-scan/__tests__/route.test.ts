@@ -14,6 +14,11 @@ vi.mock("@opennextjs/cloudflare", () => ({ getCloudflareContext: vi.fn() }));
 
 vi.mock("@/lib/security/turnstile", () => ({ verifyTurnstile: vi.fn() }));
 
+// `@/lib/security/anti-spam` (`spamSignal`/`turnstileEnabled`) BİLEREK mock'lanmıyor
+// — contact route testinin izlediği AYNI desen (src/app/api/contact/__tests__/route.test.ts):
+// bayrak `vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", ...)` ile kontrol edilir,
+// `spamSignal` gerçek (saf) hesaplamasıyla çalışır.
+
 // `validateTargetUrl` GERÇEK uygulamasıyla mock'lanıyor: SSRF matrisi saf
 // hesaplama, testten atlanacak bir I/O değil — rotanın onunla gerçekten
 // doğru bağlandığını (localhost reddi → invalid-url 400) kanıtlamak
@@ -65,7 +70,16 @@ function mockEnv(env: Record<string, unknown>): void {
   vi.mocked(getCloudflareContext).mockReturnValue({ env } as never);
 }
 
-const validBody = { url: "https://example.com/", turnstileToken: "tkn" };
+// İnsan davranışı (final review C1): bal küpü boş, doldurma süresi eşiğin
+// (2000ms, anti-spam.ts) üstünde — contact route testinin AYNI deseni.
+// Turnstile bayrağı VARSAYILAN KAPALI (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` env'i
+// stub'lanmadıkça) — `turnstileToken` bu durumda rota tarafından hiç okunmaz.
+const validBody = {
+  url: "https://example.com/",
+  turnstileToken: "tkn",
+  website: "",
+  elapsedMs: 5000,
+};
 
 function req(body: unknown, headers: Record<string, string> = { "cf-connecting-ip": "1.2.3.4" }): Request {
   return new Request("http://localhost/api/tools/geo-scan", {
@@ -100,31 +114,120 @@ describe("POST /api/tools/geo-scan", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.unstubAllEnvs();
     if (originalToolIpSalt === undefined) delete process.env.TOOL_IP_SALT;
     else process.env.TOOL_IP_SALT = originalToolIpSalt;
   });
 
   it("geçersiz URL gövdesi (şema başarısız) → 400 invalid-url", async () => {
-    const res = await POST(req({ url: "boyle-bir-url-yok", turnstileToken: "tkn" }));
+    const res = await POST(req({ ...validBody, url: "boyle-bir-url-yok" }));
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({ error: "invalid-url" });
   });
 
+  // Final review C1 — hata mesajı güvenliği: `url` alanıyla İLGİLİ OLMAYAN
+  // bir şema hatası "URL geçersiz" mesajına DÜŞMEMELİ.
+  it("url ALANIYLA İLGİLİ OLMAYAN şema hatası → 400 invalid-request (URL'i suçlamaz)", async () => {
+    const res = await POST(req({ ...validBody, elapsedMs: -5 }));
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "invalid-request" });
+  });
+
+  it("bozuk JSON gövdesi → 400 invalid-request (URL'i suçlamaz)", async () => {
+    const res = await POST(
+      new Request("http://localhost/api/tools/geo-scan", {
+        method: "POST",
+        headers: { "content-type": "application/json", "cf-connecting-ip": "1.2.3.4" },
+        body: "{ bozuk json",
+      }),
+    );
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "invalid-request" });
+  });
+
   it("SSRF matrisince reddedilen hedef (localhost) → 400 invalid-url", async () => {
-    const res = await POST(req({ url: "http://localhost/panel", turnstileToken: "tkn" }));
+    const res = await POST(req({ ...validBody, url: "http://localhost/panel" }));
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({ error: "invalid-url" });
-    // SSRF reddi Turnstile'dan SONRA kontrol edilir (akış: Turnstile → IP hash
-    // → limitler → validateTargetUrl) — buraya varılmışsa Turnstile zaten geçti.
+    expect(fetchScanTargets).not.toHaveBeenCalled();
+  });
+
+  // ---- Final review C1: Turnstile artık ADR-028'e göre KOŞULLU ----
+
+  it("bayrak KAPALIYKEN (varsayılan, env stub yok) Turnstile hiç sorgulanmaz — mutlu yol yine 200", async () => {
+    const res = await POST(req(validBody));
+    expect(res.status).toBe(200);
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+  });
+
+  it("bayrak AÇIKKEN Turnstile SSRF kontrolünden ÖNCE çalışır (akış sırası korunur)", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const res = await POST(req({ ...validBody, url: "http://localhost/panel" }));
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "invalid-url" });
     expect(verifyTurnstile).toHaveBeenCalledTimes(1);
     expect(fetchScanTargets).not.toHaveBeenCalled();
   });
 
-  it("Turnstile düşerse → 400 turnstile-failed", async () => {
+  it("bayrak AÇIKKEN Turnstile düşerse → 400 turnstile-failed", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
     vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
     const res = await POST(req(validBody));
     expect(res.status).toBe(400);
     expect(await res.json()).toEqual({ error: "turnstile-failed" });
+    expect(fetchScanTargets).not.toHaveBeenCalled();
+  });
+
+  it("bayrak AÇIKKEN token boşsa (istemci hiç göndermemiş) → 400 turnstile-failed, verifyTurnstile'a HİÇ gidilmez", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const { turnstileToken, ...withoutToken } = validBody;
+    void turnstileToken;
+    const res = await POST(req(withoutToken));
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "turnstile-failed" });
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+  });
+
+  it("bayrak AÇIKKEN Turnstile geçerse mevcut akış devam eder → 200", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const res = await POST(req(validBody));
+    expect(res.status).toBe(200);
+    expect(verifyTurnstile).toHaveBeenCalledTimes(1);
+  });
+
+  // ---- Final review C1: bal küpü + süre tuzağı (contact route'un deseni) ----
+
+  it("bal küpü doluysa → sahte başarı (200 ok:true), tarama HİÇ çalışmaz", async () => {
+    const res = await POST(req({ ...validBody, website: "https://spam.example" }));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(fetchScanTargets).not.toHaveBeenCalled();
+    expect(insertScan).not.toHaveBeenCalled();
+    expect(countScansSince).not.toHaveBeenCalled();
+  });
+
+  it("süre eşiğin (2 sn) altındaysa → sahte başarı, tarama çalışmaz", async () => {
+    const res = await POST(req({ ...validBody, elapsedMs: 400 }));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(fetchScanTargets).not.toHaveBeenCalled();
+  });
+
+  it("süre bilgisi hiç yoksa (doğrudan API botu) → sahte başarı, tarama çalışmaz", async () => {
+    const { elapsedMs, ...withoutElapsed } = validBody;
+    void elapsedMs;
+    const res = await POST(req(withoutElapsed));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(fetchScanTargets).not.toHaveBeenCalled();
+  });
+
+  it("bal küpü/süre tuzağı bayrak AÇIKKEN de çalışır (HER ZAMAN kontrol edilir)", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const res = await POST(req({ ...validBody, website: "https://spam.example" }));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(verifyTurnstile).not.toHaveBeenCalled();
     expect(fetchScanTargets).not.toHaveBeenCalled();
   });
 

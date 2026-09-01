@@ -76,6 +76,8 @@ const SCAN_FORM_LABELS = {
     turnstileLoading: "Güvenlik doğrulaması yükleniyor…",
     turnstileUnavailable:
       "Güvenlik doğrulaması yüklenemedi. Sayfayı yenileyip yeniden deneyin.",
+    share: "Sonucu paylaş",
+    shareCopied: "Bağlantı kopyalandı",
     errors: {
       invalidUrl: "Geçerli bir site adresi girin (örneğin https://ornek.com.tr).",
       rateLimited: "Çok fazla tarama yapıldı. Bir süre sonra tekrar deneyin.",
@@ -92,6 +94,8 @@ const SCAN_FORM_LABELS = {
     turnstileLoading: "Loading the security check…",
     turnstileUnavailable:
       "The security check did not load. Refresh the page and try again.",
+    share: "Share result",
+    shareCopied: "Link copied",
     errors: {
       invalidUrl: "Enter a valid site address (for example https://example.com).",
       rateLimited: "Too many scans for now. Please try again later.",
@@ -188,7 +192,11 @@ export default async function GeoVisibilityCheckerPage({
             {c.formTitle}
           </h2>
           <div className="mt-6">
-            <GeoScanForm locale={loc} labels={SCAN_FORM_LABELS[loc]} />
+            <GeoScanForm
+              locale={loc}
+              labels={SCAN_FORM_LABELS[loc]}
+              signals={tool.signals}
+            />
           </div>
           <p className="typography-caption text-ink-500 mt-6">{tool.footnote[loc]}</p>
         </div>

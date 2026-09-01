@@ -3,8 +3,11 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "@/lib/i18n/navigation";
-import { gaEvent } from "@/lib/analytics/ga";
+import { getPathname } from "@/lib/i18n/navigation";
+import { track } from "@/lib/analytics/ga";
+import { GeoResult } from "@/components/tools/geo-result";
+import type { ToolSignal } from "@/lib/content/tools";
+import type { GeoScanResult } from "@/lib/tools/geo/types";
 
 /**
  * GEO Görünürlük Denetleyicisi giriş formu — `POST /api/tools/geo-scan`.
@@ -18,15 +21,25 @@ import { gaEvent } from "@/lib/analytics/ga";
  * bakar: site anahtarı build'de yoksa widget render edilmez (geliştirme
  * ortamı), üretimde anahtar `wrangler secret` ile girilidir.
  *
- * Başarıda sonuç sayfasına yönlendirir; skor ve rapor orada render edilir
- * (sonuç rotası ayrı görevde). Metin propla gelir — copy `tools.ts` içerik
- * katmanında (`indoles-brand-voice`), bileşende literal string yok.
+ * SAYFA GEÇİŞİ YOK (Görev 11): başarıda `GeoResult` AYNI sayfada basılır —
+ * `router.push` ile paylaşım rotasına gitmek bir tam sayfa geçişi anlamına
+ * gelirdi ve o an sonucu zaten elimizdeki veriyi atıp sunucudan yeniden
+ * isteyen gereksiz bir round-trip olurdu. Onun yerine URL çubuğu
+ * `history.replaceState` ile paylaşım linkine güncellenir (spec §4 adım 3);
+ * paylaşım rotası (`sonuc/[id]/page.tsx`) yalnız doğrudan ziyaret/paylaşım
+ * durumunda sunucuda `getScan` ile aynı sonucu üretir.
  */
 
 const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 const TURNSTILE_POLL_MS = 300;
 const TURNSTILE_POLL_LIMIT = 60;
 const TURNSTILE_TOKEN_TIMEOUT_MS = 25_000;
+
+/** Kararlı TR slug — içerik kaydının kimliği (`tools.ts`, `page.tsx` ile aynı). */
+const SLUG = "geo-gorunurluk-denetleyicisi";
+
+/** Paylaşım linkine giden statik iç yol (`routing.ts` — `sonuc ↔ result`). */
+const RESULT_PATHNAME = "/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]";
 
 type TurnstileApi = {
   render: (
@@ -53,6 +66,10 @@ export type GeoScanFormLabels = {
   submitting: string;
   turnstileLoading: string;
   turnstileUnavailable: string;
+  /** "Sonucu paylaş" düğmesi — varsayılan durum. */
+  share: string;
+  /** Kopyalama başarılı olduğunda düğmenin geçici metni. */
+  shareCopied: string;
   errors: {
     invalidUrl: string;
     rateLimited: string;
@@ -76,15 +93,19 @@ const ERROR_MAP: Record<string, ScanErrorKind> = {
 export function GeoScanForm({
   locale,
   labels,
+  signals,
 }: {
   locale: "tr" | "en";
   labels: GeoScanFormLabels;
+  /** Kalem tanıtım kartları — sonuç rozetlerinin başlığı için (`GeoResult`). */
+  signals: ToolSignal[];
 }) {
   const uid = useId();
-  const router = useRouter();
   const [url, setUrl] = useState("");
-  const [state, setState] = useState<"idle" | "submitting" | "error">("idle");
+  const [state, setState] = useState<"idle" | "submitting" | "error" | "result">("idle");
   const [errorKind, setErrorKind] = useState<ScanErrorKind>("generic");
+  const [scan, setScan] = useState<{ id: string; result: GeoScanResult } | null>(null);
+  const [copied, setCopied] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileStatus, setTurnstileStatus] = useState<
     "pending" | "ready" | "unavailable"
@@ -172,10 +193,21 @@ export function GeoScanForm({
     }
   }
 
+  /** Paylaşım linkinin iç yolu — locale'e göre çevrilmiş tam segment zinciri. */
+  function resultPathname(id: string): string {
+    return getPathname({
+      href: { pathname: RESULT_PATHNAME, params: { id } },
+      locale,
+    });
+  }
+
   async function onSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault();
     if (state === "submitting") return;
     setState("submitting");
+    // Tarama başlatıldı — sonuç beklenmeden atılır (spec §4 adım 4): huninin
+    // giriş adımı, `tool_scan_completed`in payda kırılımına baz oluşturur.
+    track({ name: "tool_used", properties: { slug: SLUG, locale } });
     try {
       const res = await fetch("/api/tools/geo-scan", {
         method: "POST",
@@ -188,18 +220,21 @@ export function GeoScanForm({
       if (res.ok) {
         const body = (await res.json().catch(() => null)) as {
           id?: string;
+          result?: GeoScanResult;
         } | null;
-        if (!body?.id) {
+        if (!body?.id || !body.result) {
           setErrorKind("generic");
           setState("error");
           clearTurnstileToken();
           return;
         }
-        gaEvent("geo_scan_submitted", { locale });
-        router.push({
-          pathname: "/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]",
-          params: { id: body.id },
+        track({
+          name: "tool_scan_completed",
+          properties: { slug: SLUG, band: body.result.band, locale },
         });
+        setScan({ id: body.id, result: body.result });
+        setState("result");
+        window.history.replaceState(null, "", resultPathname(body.id));
         return;
       }
       const body = (await res.json().catch(() => null)) as {
@@ -213,6 +248,35 @@ export function GeoScanForm({
       setState("error");
       clearTurnstileToken();
     }
+  }
+
+  async function onShare(): Promise<void> {
+    if (!scan) return;
+    const shareUrl = `${window.location.origin}${resultPathname(scan.id)}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      /* pano erişimi reddedilmiş olabilir — sessizce düş, düğme tekrar denenebilir */
+    }
+  }
+
+  if (state === "result" && scan) {
+    return (
+      <div>
+        <GeoResult result={scan.result} signals={signals} locale={locale} />
+        {/* `aria-live` sarmalayıcının kendisinde: düğmenin metni değiştiğinde
+            ekran okuyucu bunu anons eder — metni ikinci bir gizli düğümde
+            tekrarlamaya gerek yok (`role="status"` içeriği düğmeyle aynı
+            olurdu, çift anons). */}
+        <div className="mt-8 flex items-center gap-4" aria-live="polite">
+          <Button type="button" variant="secondary" onClick={onShare}>
+            {copied ? labels.shareCopied : labels.share}
+          </Button>
+        </div>
+      </div>
+    );
   }
 
   const urlId = `${uid}-url`;

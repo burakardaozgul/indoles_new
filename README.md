@@ -63,6 +63,8 @@ Aşama değişkeni bilerek script'e gömülü: `NEXT_PUBLIC_APP_STAGE` productio
 
 Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `SENTRY_DSN`. Kanonik host `www.indoles.com.tr`; custom domain bağlama `wrangler.jsonc` içinde yorumda bekliyor ve **cutover'da** açılır.
 
+> **TODO (Görev 14'te tam dokümante edilir):** GEO araç deposu (`src/lib/tools/geo/repository.ts`, `hashClientIp`) istemci IP'sini KVKK gereği ham saklamıyor, SHA-256(ip + gizli tuz) hash'liyor. Tuz `TOOL_IP_SALT` — yerelde `.dev.vars`'a, canlıda `wrangler secret put TOOL_IP_SALT` ile eklenmeli. Bu satır yalnız bir hatırlatma; adım-adım kurulum Görev 14'te bu runbook'a veya `docs/runbooks/cutover-www-indoles.md`'ye taşınır.
+
 ---
 
 ## Tasarım sistemi

@@ -155,23 +155,28 @@ export async function POST(req: Request): Promise<Response> {
   const links = guideLinks(locale);
   const booking = bookingUrl(locale);
 
+  // Satış bildirimi (controller ruling, Görev 12b): ContactNotification emsali
+  // (`src/app/api/contact/route.ts`) — iç ekip Türkçe okur, ziyaretçinin
+  // locale'i BURADA hiç rol oynamaz. Rehber linkleri/rezervasyon adresi de
+  // tr sabitlenir — satış ekibi hangi dilde okuduğuna bakılmaksızın aynı
+  // (TR) bağlamı görür.
+  const salesLinks = guideLinks("tr");
+  const salesBooking = bookingUrl("tr");
+
   // Satış bildirimi lead'in kendisidir: düşerse 500, ikinci mail denenmez.
   try {
     await sendMailWithRetry({
       to: recipients(process.env.SALES_INBOX_EMAIL, "digital@indoles.com.tr"),
-      subject:
-        locale === "tr"
-          ? `GEO rapor talebi — ${data.email} — ${scan.totalScore}/100`
-          : `GEO report request — ${data.email} — ${scan.totalScore}/100`,
+      subject: `GEO rapor talebi — ${data.email} — ${scan.totalScore}/100`,
       react: GeoReportEmail({
-        locale,
+        locale: "tr",
         url: scan.url,
         totalScore: scan.totalScore,
         band: scan.band,
         checks: scan.checks,
         signals,
-        guideLinks: links,
-        bookingUrl: booking,
+        guideLinks: salesLinks,
+        bookingUrl: salesBooking,
         audience: "sales",
         leadEmail: data.email,
       }),
@@ -209,5 +214,8 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   // `tool_report_requested` dönüşüm olayı istemcide (GeoReportForm) atılır.
-  return NextResponse.json({ ok: true });
+  // Görev 12b: rapor akışı KVKK rızalıdır (üstteki `insertLead`) — bu yüzden
+  // 200 yanıtı `checks`i (findings dahil) TAŞIR; `GeoReportForm` kilidi
+  // açınca bu gövdeden render eder, başlangıç prop'undan DEĞİL.
+  return NextResponse.json({ ok: true, checks: scan.checks });
 }

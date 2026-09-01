@@ -7,6 +7,7 @@ import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { GeoResult } from "@/components/tools/geo-result";
 import { getToolBySlug } from "@/lib/content/tools";
 import { getScan } from "@/lib/tools/geo/repository";
+import { stripFindings } from "@/lib/tools/geo/findings";
 import { buildMetadata } from "@/lib/seo/metadata";
 import type { Locale } from "@/lib/content/types";
 import type { GeoScanResult } from "@/lib/tools/geo/types";
@@ -69,7 +70,11 @@ async function loadScan(id: string): Promise<GeoScanResult | null> {
   const db = (env as unknown as GeoScanEnv).BOOKINGS_DB;
   const record = await getScan(db, id);
   if (!record) return null;
-  return { id, ...record };
+  // Görev 12b: D1'deki kayıt TAM findings taşır — bu sayfa `noindex` olsa da
+  // SSR HTML'i herkese açık (paylaşım linki), findings mail kapısının
+  // arkasında kalmalı. `stripFindings` public yüzey/rapor yüzeyi ayrımının
+  // TEK tanımı (`src/lib/tools/geo/findings.ts`).
+  return { id, ...record, checks: stripFindings(record.checks) };
 }
 
 const COPY = {

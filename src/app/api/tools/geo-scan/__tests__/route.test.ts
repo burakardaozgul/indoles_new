@@ -48,7 +48,10 @@ const checks: GeoCheckResult[] = (
   max: 20,
   status: "partial",
   summary: { tr: `${id} özeti`, en: `${id} summary` },
-  findings: [],
+  // Motor gerçek taramada findings DOLU döner (Görev 6) — bilerek dolu tutuyoruz:
+  // aşağıdaki "findings kapılama" testi yanıtın BOŞALTILDIĞINI, D1 yazımının
+  // TAM kaldığını bu sabit girdiyle kanıtlar.
+  findings: [{ tr: `${id} bulgu`, en: `${id} finding` }],
 }));
 
 const geoScanResult = {
@@ -188,6 +191,27 @@ describe("POST /api/tools/geo-scan", () => {
     expect(JSON.parse(call?.checksJson ?? "[]")).toHaveLength(5);
     expect(typeof call?.clientIpHash).toBe("string");
     expect(call?.clientIpHash.length).toBeGreaterThan(0);
+  });
+
+  // Görev 12b: ücretsiz tarama yanıtı MOFU mail kapısını atlatmasın —
+  // `findings` yalnız rapor route'unun (geo-report) 200 yanıtında görünür.
+  it("200 yanıtındaki checks[*].findings HEPSİ boş; D1'e giden checksJson TAM findings taşır", async () => {
+    const res = await POST(req(validBody));
+    const body = (await res.json()) as {
+      result: { checks: GeoCheckResult[] };
+    };
+
+    expect(body.result.checks).toHaveLength(5);
+    for (const check of body.result.checks) {
+      expect(check.findings).toEqual([]);
+    }
+
+    const call = vi.mocked(insertScan).mock.calls[0]?.[1];
+    const persisted = JSON.parse(call?.checksJson ?? "[]") as GeoCheckResult[];
+    expect(persisted).toHaveLength(5);
+    for (const check of persisted) {
+      expect(check.findings.length).toBeGreaterThan(0);
+    }
   });
 
   it("cf-connecting-ip yoksa 'unknown' ile devam eder (isteği düşürmez)", async () => {

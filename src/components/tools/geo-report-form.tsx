@@ -145,6 +145,11 @@ export function GeoReportForm({
     "idle",
   );
   const [errorKind, setErrorKind] = useState<ErrorKind>("generic");
+  // Görev 12b: `checks` prop'u artık findings TAŞIMAZ (public yüzey sunucuda
+  // stripleniyor) — kilit açılınca gösterilecek TAM checks, rapor route'unun
+  // 200 yanıtından gelir. `checks` prop'u yalnızca yanıt beklenmedik şekilde
+  // `checks` alanı taşımazsa (savunmacı düşüş) ilk değer olarak kalır.
+  const [unlockedChecks, setUnlockedChecks] = useState<GeoCheckResult[]>(checks);
 
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileStatus, setTurnstileStatus] = useState<
@@ -256,6 +261,15 @@ export function GeoReportForm({
         }),
       });
       if (res.ok) {
+        // Kilidi açan bulgular BU yanıttan gelir — başlangıç `checks` prop'u
+        // (public yüzey) findings taşımaz (Görev 12b). Gövde beklenmedik
+        // şekilde `checks` içermezse savunmacı düşüş: prop'taki (boş) haliyle
+        // kalır, çökmez.
+        const body = (await res.json().catch(() => null)) as {
+          ok?: boolean;
+          checks?: GeoCheckResult[];
+        } | null;
+        if (body?.checks) setUnlockedChecks(body.checks);
         track({
           name: "tool_report_requested",
           properties: { slug: SLUG, band, locale },
@@ -281,7 +295,7 @@ export function GeoReportForm({
         <p className="typography-body-md text-ink-700 mt-2">{c.unlockedLede}</p>
 
         <ul className="mt-8 space-y-6">
-          {checks.map((check) => {
+          {unlockedChecks.map((check) => {
             const signal = signals.find((s) => s.id === check.id);
             return (
               <li key={check.id}>

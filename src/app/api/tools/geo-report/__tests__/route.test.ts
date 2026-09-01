@@ -10,7 +10,16 @@ import {
 import { sendMailWithRetry } from "@/lib/mail/client";
 import { reportError } from "@/lib/observability/report";
 import type { GeoCheckResult } from "@/lib/tools/geo/types";
+import GeoReportEmail from "../../../../../../emails/GeoReportEmail";
 import { POST } from "../route";
+
+// Satış e-postasının locale'ini `GeoReportEmail` çağrısından doğrulamak
+// istiyoruz (Görev 12b: audience:"sales" HER ZAMAN tr render) — component'i
+// mock'luyoruz, gerçek JSX render'ına gerek yok (contact route testinin
+// deseni: I/O ve çağrı argümanı mock'tan doğrulanır).
+vi.mock("../../../../../../emails/GeoReportEmail", () => ({
+  default: vi.fn(() => null),
+}));
 
 // D1 binding'i testten enjekte etmek için — geo-scan/booking route testinin
 // AYNI deseni.
@@ -170,7 +179,7 @@ describe("POST /api/tools/geo-report", () => {
   it("mutlu yol → 200 {ok:true}, lead yazılır, iki mail gider", async () => {
     const res = await POST(req(validBody));
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ ok: true });
+    expect(await res.json()).toMatchObject({ ok: true });
 
     expect(insertLead).toHaveBeenCalledTimes(1);
     const leadArg = vi.mocked(insertLead).mock.calls[0]?.[1];
@@ -211,7 +220,7 @@ describe("POST /api/tools/geo-report", () => {
       .mockRejectedValueOnce(new Error("smtp"));
     const res = await POST(req(validBody));
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ ok: true });
+    expect(await res.json()).toMatchObject({ ok: true });
     expect(sendMailWithRetry).toHaveBeenCalledTimes(2);
   });
 
@@ -235,5 +244,38 @@ describe("POST /api/tools/geo-report", () => {
     expect(vi.mocked(sendMailWithRetry).mock.calls[1]?.[0]).toMatchObject({
       to: "lead@ornek.com.tr",
     });
+  });
+
+  // Görev 12b: rapor akışı ZATEN KVKK rızalı — bu yüzden 200 yanıtı
+  // `checks`i (findings dahil) taşır. Public yüzeyin (geo-scan/paylaşım
+  // sayfası) aksine burada strip YOK: form kilidi açılınca `GeoReportForm`
+  // bu yanıttan render eder (başlangıç prop'undan değil).
+  it("mutlu yol 200 yanıtı `checks` içerir ve findings DOLU", async () => {
+    const res = await POST(req(validBody));
+    const body = (await res.json()) as { ok: boolean; checks: GeoCheckResult[] };
+    expect(body.checks).toHaveLength(5);
+    for (const check of body.checks) {
+      expect(check.findings.length).toBeGreaterThan(0);
+    }
+  });
+
+  // Görev 12b controller ruling: satış e-postası HER ZAMAN Türkçe render
+  // edilir — ziyaretçinin locale'i ne olursa olsun (ContactNotification
+  // emsali: iç ekip Türkçe okur). Kullanıcı maili ziyaretçi locale'inde kalır.
+  it("ziyaretçi locale'i 'en' olsa bile satış e-postası (audience:sales) locale:'tr' ile render edilir", async () => {
+    await POST(req({ ...validBody, locale: "en" }));
+
+    expect(GeoReportEmail).toHaveBeenCalledTimes(2);
+    const salesCallArg = vi.mocked(GeoReportEmail).mock.calls[0]?.[0];
+    expect(salesCallArg).toMatchObject({ audience: "sales", locale: "tr" });
+
+    const userCallArg = vi.mocked(GeoReportEmail).mock.calls[1]?.[0];
+    expect(userCallArg).toMatchObject({ audience: "user", locale: "en" });
+  });
+
+  it("ziyaretçi locale'i 'tr' iken de satış e-postası locale:'tr' ile render edilir (davranış görünmez şekilde aynı kalır)", async () => {
+    await POST(req({ ...validBody, locale: "tr" }));
+    const salesCallArg = vi.mocked(GeoReportEmail).mock.calls[0]?.[0];
+    expect(salesCallArg).toMatchObject({ audience: "sales", locale: "tr" });
   });
 });

@@ -24,6 +24,7 @@ import { verifyTurnstile } from "@/lib/security/turnstile";
 import { validateTargetUrl, fetchScanTargets } from "@/lib/tools/geo/safe-fetch";
 import { runGeoScan } from "@/lib/tools/geo/engine";
 import { insertScan, countScansSince, hashClientIp } from "@/lib/tools/geo/repository";
+import { stripFindings } from "@/lib/tools/geo/findings";
 import { reportError } from "@/lib/observability/report";
 
 export const runtime = "nodejs";
@@ -162,6 +163,8 @@ export async function POST(req: Request): Promise<Response> {
 
   const id = crypto.randomUUID();
   const scannedAt = new Date().toISOString();
+  // TAM sonuç (findings dahil) — yalnız D1 yazımı için kullanılır. Rapor
+  // maili (geo-report route) bu tam kaydı `getScan`ten okuyup kullanır.
   const result = { id, scannedAt, ...partial };
 
   try {
@@ -181,5 +184,10 @@ export async function POST(req: Request): Promise<Response> {
     return errorResponse("misconfigured", 500);
   }
 
-  return NextResponse.json({ id, result }, { status: 200 });
+  // Görev 12b: findings mail kapısının arkasında — ücretsiz tarama yanıtı
+  // (public yüzey) `stripFindings` ile boşaltılır, D1'e yazılan TAM kayıt
+  // (üstteki `insertScan`) etkilenmez (`stripFindings` saf/kopya döner).
+  const publicResult = { ...result, checks: stripFindings(result.checks) };
+
+  return NextResponse.json({ id, result: publicResult }, { status: 200 });
 }

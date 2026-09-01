@@ -47,7 +47,8 @@ const LABELS = {
     rateLimited: "Çok fazla tarama yapıldı.",
     unreachable: "Bu adrese ulaşılamadı.",
     turnstile: "Güvenlik doğrulaması geçmedi.",
-    generic: "Bir sorun oluştu, tekrar deneyin.",
+    unavailable: "Araç şu an yanıt veremiyor, birazdan tekrar deneyin.",
+    generic: "Tarama şu an tamamlanamadı, birazdan tekrar deneyin.",
   },
 };
 

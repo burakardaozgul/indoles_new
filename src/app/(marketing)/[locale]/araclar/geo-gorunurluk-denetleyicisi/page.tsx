@@ -83,7 +83,8 @@ const SCAN_FORM_LABELS = {
       rateLimited: "Çok fazla tarama yapıldı. Bir süre sonra tekrar deneyin.",
       unreachable: "Bu adrese ulaşılamadı. Adresi kontrol edip tekrar deneyin.",
       turnstile: "Güvenlik doğrulaması geçmedi; sayfayı yenileyip tekrar deneyin.",
-      generic: "Bir sorun oluştu, tekrar deneyin.",
+      unavailable: "Araç şu an yanıt veremiyor, birazdan tekrar deneyin.",
+      generic: "Tarama şu an tamamlanamadı, birazdan tekrar deneyin.",
     },
   },
   en: {
@@ -101,7 +102,8 @@ const SCAN_FORM_LABELS = {
       rateLimited: "Too many scans for now. Please try again later.",
       unreachable: "We could not reach that address. Check it and try again.",
       turnstile: "The security check did not pass; refresh the page and try again.",
-      generic: "Something went wrong, please retry.",
+      unavailable: "The tool cannot respond right now. Try again shortly.",
+      generic: "The scan could not finish right now. Try again shortly.",
     },
   },
 } as const;

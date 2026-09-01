@@ -75,6 +75,8 @@ export type GeoScanFormLabels = {
     rateLimited: string;
     unreachable: string;
     turnstile: string;
+    /** Sunucu/araç geçici olarak yanıt veremiyor (config eksik vb.). */
+    unavailable: string;
     generic: string;
   };
 };
@@ -82,12 +84,15 @@ export type GeoScanFormLabels = {
 /** Rota `{ error }` sözlüğü → istemci mesaj anahtarı. */
 type ScanErrorKind = keyof GeoScanFormLabels["errors"];
 
+// Her rota hata kodu anlamlı bir mesaja çözülür. `misconfigured` kullanıcının
+// hatası değil (araç tarafı config eksik) — nötr "yanıt veremiyor" mesajına
+// düşer; gövdesiz/beklenmedik yanıt ve ağ hatası `generic`e ("tamamlanamadı").
 const ERROR_MAP: Record<string, ScanErrorKind> = {
   "invalid-url": "invalidUrl",
   "rate-limited": "rateLimited",
   "target-unreachable": "unreachable",
   "turnstile-failed": "turnstile",
-  misconfigured: "generic",
+  misconfigured: "unavailable",
 };
 
 export function GeoScanForm({

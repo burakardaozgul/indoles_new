@@ -70,7 +70,9 @@ const COPY = {
       rateLimited: "Çok fazla talep gönderildi. Bir süre sonra tekrar deneyin.",
       notFound: "Bu tarama bulunamadı. Yeni bir tarama başlatıp tekrar deneyin.",
       turnstile: "Güvenlik doğrulaması geçmedi; sayfayı yenileyip tekrar deneyin.",
-      generic: "Bir sorun oluştu, tekrar deneyin.",
+      mailFailed: "Rapor şu an gönderilemedi, birazdan tekrar deneyin.",
+      unavailable: "Araç şu an yanıt veremiyor, birazdan tekrar deneyin.",
+      generic: "Bir sorun oluştu, birazdan tekrar deneyin.",
     },
   },
   en: {
@@ -95,7 +97,9 @@ const COPY = {
       rateLimited: "Too many requests for now. Please try again later.",
       notFound: "This scan was not found. Start a new scan and try again.",
       turnstile: "The security check did not pass; refresh the page and try again.",
-      generic: "Something went wrong, please retry.",
+      mailFailed: "The report could not be sent right now. Try again shortly.",
+      unavailable: "The tool cannot respond right now. Try again shortly.",
+      generic: "Something went wrong. Try again shortly.",
     },
   },
 } as const;
@@ -114,13 +118,18 @@ const STATUS_TONE: Record<GeoCheckStatus, string> = {
 
 type ErrorKind = keyof (typeof COPY)["tr"]["errors"];
 
+// Her rota hata kodu anlamlı bir mesaja çözülür. `mail-failed` gönderim
+// katmanının geçici hatası ("rapor gönderilemedi"), `misconfigured` araç tarafı
+// config eksikliği ("yanıt veremiyor") — ikisi de kullanıcının suçu değil,
+// suçlamasız/ünlemsiz. `invalid` yalnız beklenmedik istek biçiminde oluşur
+// (UI normal akışta üretmez) → `generic`.
 const ERROR_MAP: Record<string, ErrorKind> = {
   "rate-limited": "rateLimited",
   "not-found": "notFound",
   "turnstile-failed": "turnstile",
+  "mail-failed": "mailFailed",
+  misconfigured: "unavailable",
   invalid: "generic",
-  misconfigured: "generic",
-  "mail-failed": "generic",
 };
 
 export function GeoReportForm({

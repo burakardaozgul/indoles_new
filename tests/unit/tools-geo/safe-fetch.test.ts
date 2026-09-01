@@ -53,6 +53,18 @@ describe("validateTargetUrl", () => {
     "http://a.b.internal./",
   ])("trailing-dot FQDN bypass'ı reddedilir: %s", (u) => expect(validateTargetUrl(u).ok).toBe(false));
 
+  // I1 (final review, deferred Görev 7 notu): `/\.$/` yalnız TEK bir sonek
+  // noktası kırpıyordu — `http://localhost../` gibi ÇOK-nokta biçimleri
+  // `localhost.` olarak normalize olup dört predicate'in hiçbirine uymadan
+  // sızıyordu. `/\.+$/` ile bu sınıfın tamamı kapanır.
+  it.each([
+    "http://localhost../",
+    "http://localhost.../",
+    "http://svc.local../",
+    "http://a.b.internal../",
+    "http://indoles.com.tr../api/contact",
+  ])("çok-nokta trailing FQDN bypass'ı reddedilir: %s", (u) => expect(validateTargetUrl(u).ok).toBe(false));
+
   it("çift öncü slash ile /api/ bypass edilemez", () => {
     expect(validateTargetUrl("https://www.indoles.com.tr//api/contact").ok).toBe(false);
   });

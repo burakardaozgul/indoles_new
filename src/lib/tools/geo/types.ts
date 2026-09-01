@@ -3,7 +3,7 @@
  *
  * Sonraki TÜM GEO görevleri bu tip koleksiyonu üzerine inşa edilir; her yeni
  * görev bu tanımları tüketir. Kontratın sabitliği, çeşitli araçların
- * interop'unu möglich kılar: ai-access, llms-txt, json-ld motorları aynı
+ * interop'unu mümkün kılar: ai-access, llms-txt, json-ld motorları aynı
  * tarama girdisini okur, aynı çıktı şemasına yazar. Spec §2.
  */
 

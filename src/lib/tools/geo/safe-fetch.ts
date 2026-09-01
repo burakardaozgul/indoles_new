@@ -23,12 +23,18 @@
  * olup olmadığını coğrafi/kurumsal DNS bağlamı olmadan güvenle ayırt etmek
  * mümkün değildir (ör. `[::ffff:127.0.0.1]` gibi IPv6-eşlemeli biçimler).
  *
- * Host karşılaştırmaları öncesi `hostname`'in sonundaki TEK bir nokta
- * kırpılır (`indoles.com.tr.` gibi FQDN gösterimleri). WHATWG URL
- * ayrıştırıcısı bu noktayı domain host'larda korur (`new
- * URL("http://localhost./").hostname === "localhost."`); kırpılmazsa
- * `indoles.com.tr.` hem kendi API döngü korumasını hem de
- * localhost/*.local/*.internal reddini atlatabilirdi (fix round 1, critical).
+ * Host karşılaştırmaları öncesi `hostname`'in sonundaki BİR VEYA DAHA FAZLA
+ * nokta kırpılır (`indoles.com.tr.` gibi FQDN gösterimleri, `localhost..`
+ * gibi çok-nokta biçimleri dahil). WHATWG URL ayrıştırıcısı bu noktaları
+ * domain host'larda korur ve TEKİL değil ÇOĞUL da olabilir (`new
+ * URL("http://localhost../").hostname === "localhost.."`); yalnız tek bir
+ * nokta kırpan bir kural (`/\.$/`) `localhost..`'yi `localhost.`'e indirger
+ * ve dört predicate'in (IP-literal, local/internal, own-API, own-host)
+ * hiçbirine uymadan sızardı (final review C-borç, spec Görev 7'nin deferred
+ * notu: "final review'da uygula"). Sonek TÜM noktaları kırpan `/\.+$/` ile
+ * bu sınıfın tamamı kapatılır — `indoles.com.tr.` hem kendi API döngü
+ * korumasını hem de localhost/*.local/*.internal reddini atlatabilirdi (fix
+ * round 1, critical).
  */
 
 import { Localized } from "@/lib/content/types";
@@ -111,8 +117,8 @@ export function validateTargetUrl(raw: string): ValidateTargetUrlResult {
     return { ok: false, reason: REASON_PROTOCOL };
   }
 
-  // Tek trailing dot kırpılır — bkz. modül başı doküman notu (fix round 1).
-  const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
+  // TÜM trailing nokta(lar) kırpılır — bkz. modül başı doküman notu.
+  const hostname = url.hostname.toLowerCase().replace(/\.+$/, "");
 
   if (isIpLiteralHost(hostname)) {
     return { ok: false, reason: REASON_IP_LITERAL };

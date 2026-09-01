@@ -106,7 +106,7 @@ export function checkJsonLd(pageHtml: string): GeoCheckResult {
     const findings: Array<Localized<string>> = [
       {
         tr: "JSON-LD şeması yok: Organization, Article gibi tanınan @type değerleri makine tarafından okunamıyor.",
-        en: "No JSON-LD schema exists: recognized @type values such as Organization and Article cannot be read by machines.",
+        en: "No JSON-LD schema exists: recognised @type values such as Organization and Article cannot be read by machines.",
       },
     ];
     return {
@@ -144,7 +144,7 @@ export function checkJsonLd(pageHtml: string): GeoCheckResult {
             typeList ? `; tanınan tipler: ${typeList}` : ""
           }${hasFaq ? "; FAQPage şeması mevcut" : ""}.`,
           en: `${validBlocks.length} valid JSON-LD block(s) found on the page${
-            typeList ? `; recognized types: ${typeList}` : ""
+            typeList ? `; recognised types: ${typeList}` : ""
           }${hasFaq ? "; FAQPage schema present" : ""}.`,
         }
       : {
@@ -162,7 +162,7 @@ export function checkJsonLd(pageHtml: string): GeoCheckResult {
   if (validBlocks.length > 0 && recognizedTypes.size === 0 && !hasFaq) {
     findings.push({
       tr: "Doküman: bulunan bloklarda tanınan @type kümesinden hiçbir tür yok.",
-      en: "Document: none of the blocks contain a type from the recognized @type set.",
+      en: "Document: none of the blocks contain a type from the recognised @type set.",
     });
   }
 

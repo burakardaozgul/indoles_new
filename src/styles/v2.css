@@ -1672,6 +1672,22 @@
 }
 
 /* ============================================================================
+   Araç hero — V2PageHeader'ın araç-özel karşılığı (Burak yönü, 2026-09-01)
+   Araç sayfaları klasik iki sütunlu başlık mimarisini kullanmaz: ilk ekran
+   "URL'ini gir, tara" akışıdır. Kısa intro'nun hemen altında giriş alanı gelir,
+   sayfa tek merkezî sütunda dikey akar. Bu kural yalnız sabit chrome telafisini
+   (topbar + nav) taşır; geri kalan her şey sayfada typography-* ve primitive'-
+   lerle ifade edilir. `.v2-pagehead` ile aynı üst boşluk, farkı: dev başlık
+   ölçeği ve iki sütunlu gövde yok.
+   ============================================================================ */
+
+.tool-hero {
+  position: relative;
+  z-index: 20;
+  padding-top: clamp(120px, 14vw, 190px);
+}
+
+/* ============================================================================
    İç sayfa yüzeyleri
    Opak kart yerine krem üstünde yarı saydam beyaz: blob arkadan görünür kalır,
    sayfalar aynı malzemeden yapılmış olur. `backdrop-filter` bilerek yok —

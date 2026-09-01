@@ -327,8 +327,8 @@ export function webPageLd({
 /**
  * SoftwareApplication — interaktif araç sayfası (Görev 10).
  *
- * `@type` `WebApplication`: araç tarayıcıda çalışan, kurulum istemeyen bir
- * uygulama. `applicationCategory` uydurma bir tür ("SEOApplication") DEĞİL,
+ * `@type` `SoftwareApplication`: araç tarayıcıda çalışan bir uygulama.
+ * `applicationCategory` uydurma bir tür ("SEOApplication") DEĞİL,
  * schema.org'un tanıdığı `WebApplication` değeriyle basılır.
  *
  * `offers` price `"0"`: araç ücretsiz. Fiyat alanını hiç basmamak "fiyat
@@ -348,7 +348,7 @@ export function softwareApplicationLd({
   path: string;
 }) {
   return {
-    "@type": "WebApplication",
+    "@type": "SoftwareApplication",
     name,
     description,
     url: absoluteUrl(path),

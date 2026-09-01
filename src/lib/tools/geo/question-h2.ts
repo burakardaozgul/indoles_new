@@ -66,7 +66,7 @@ export function checkQuestionH2(pageHtml: string): GeoCheckResult {
         : Math.round((RATIO_MAX_SCORE * ratio) / RATIO_THRESHOLD);
     if (ratioScore < RATIO_MAX_SCORE) {
       findings.push({
-        tr: "Doküman: H2 başlıklarının en az yarısı soru biçiminde değil; soru oranı düşük.",
+        tr: "Doküman: H2 başlıklarının yarısından azı soru biçiminde; soru oranı düşük.",
         en: "Document: fewer than half of the H2 headings are phrased as questions; the question ratio is low.",
       });
     }

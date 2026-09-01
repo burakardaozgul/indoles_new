@@ -72,7 +72,7 @@ const CARD_META: Record<string, Omit<WorkCard, "slug">> = {
     tags: [TAG.dev, TAG.ops, TAG.growth],
   },
   "odorgo-kategori-yaratma": {
-    image: "/work/odorgo/icindekiler.png",
+    image: "/work/odorgo/icindekiler.jpg",
     tags: [TAG.brand, TAG.growth, TAG.dev],
   },
 };

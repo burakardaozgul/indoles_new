@@ -2513,9 +2513,9 @@ export const CASES: CaseStudyContent[] = [
     ],
     cover: {
       type: "image",
-      src: "/work/odorgo/icindekiler.png",
-      width: 2160,
-      height: 2700,
+      src: "/work/odorgo/icindekiler.jpg",
+      width: 1440,
+      height: 1800,
       alt: {
         tr: "OdorGo içindekiler infografiği — misket limonu, sedir, çam, anason ve karanfil yağları, ortada vegan işareti",
         en: "OdorGo ingredients infographic — lime, cedar, pine, anise and clove oils around a vegan mark",
@@ -2598,9 +2598,9 @@ export const CASES: CaseStudyContent[] = [
       },
       {
         type: "image",
-        src: "/work/odorgo/icindekiler.png",
-        width: 2160,
-        height: 2700,
+        src: "/work/odorgo/icindekiler.jpg",
+        width: 1440,
+        height: 1800,
         alt: {
           tr: "OdorGo içindekiler infografiği — misket limonu, sedir, çam, anason ve karanfil yağları, ortada vegan işareti",
           en: "OdorGo ingredients infographic — lime, cedar, pine, anise and clove oils around a vegan mark",

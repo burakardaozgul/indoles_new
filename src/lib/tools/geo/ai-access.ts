@@ -61,7 +61,9 @@ function ruleToRegex(pattern: string): RegExp {
 function parseRobots(robotsTxt: string): Group[] {
   const groups: Group[] = [];
   let current: Group | null = null;
-  let currentHasRules = false;
+  // Geçerli grup için bir Allow/Disallow satırı görüldü mü — değeri boş olsa
+  // bile grup sınırını belirlemek için kullanılır (bkz. aşağıdaki not).
+  let currentHasDirective = false;
 
   for (const rawLine of robotsTxt.split(/\r?\n/)) {
     const line = rawLine.trim();
@@ -75,17 +77,22 @@ function parseRobots(robotsTxt: string): Group[] {
 
     if (field === "user-agent") {
       // Ardışık User-agent satırları tek grup oluşturur; bir önceki grup
-      // zaten kural topladıysa yeni bir grup başlar.
-      if (!current || currentHasRules) {
+      // zaten bir yönerge gördüyse yeni bir grup başlar.
+      if (!current || currentHasDirective) {
         current = { agents: [], rules: [] };
         groups.push(current);
-        currentHasRules = false;
+        currentHasDirective = false;
       }
       current.agents.push(value);
     } else if (field === "allow" || field === "disallow") {
       if (!current) continue; // gruptan önceki başıboş kural yok sayılır
+      currentHasDirective = true;
+      // Değeri boş olan Allow/Disallow satırı ("Disallow:") robots.txt
+      // konvansiyonunda "bu grup için kısıt yok" anlamına gelir — eşleşme
+      // kuralı listesine girmez. Aksi halde boş desen `^` regex'ine dönüşüp
+      // her path'i eşleştirir ve "Disallow:" yanlışlıkla tüm siteyi engeller.
+      if (value === "") continue;
       current.rules.push({ type: field, pattern: value, regex: ruleToRegex(value) });
-      currentHasRules = true;
     }
   }
 
@@ -149,7 +156,10 @@ export function checkAiAccess(robotsTxt: string | null, urlPath: string): GeoChe
   const blockedSuffixTr = blocked.length > 0 ? `; ${blocked.join(", ")} engelli` : "";
   const blockedSuffixEn = blocked.length > 0 ? `; ${blocked.join(", ")} blocked` : "";
   const summary: Localized<string> = {
-    tr: `${AI_CRAWLERS.length} bilinen AI botundan ${allowedCount}'i bu sayfaya erişebiliyor${blockedSuffixTr}.`,
+    // "${allowedCount}'i" gibi ek-bitişik bir kalıp 0-10 aralığının çoğunda
+    // yanlış ünlü uyumu üretir (ör. 9 için doğrusu "9'u", "9'i" değil).
+    // Rakama ek eklemeyen, değişmez bir kalıp kullanılır.
+    tr: `${AI_CRAWLERS.length} bilinen AI botundan ${allowedCount} tanesi bu sayfaya erişebiliyor${blockedSuffixTr}.`,
     en: `${allowedCount} of ${AI_CRAWLERS.length} known AI bots can access this page${blockedSuffixEn}.`,
   };
 

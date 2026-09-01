@@ -36,4 +36,10 @@ describe("checkAiAccess", () => {
   it("AI_CRAWLERS 10 bilinen bot içerir", () => {
     expect(AI_CRAWLERS.length).toBe(10);
   });
+
+  it("boş Disallow → kısıt yok, tümü izinli, skor 25", () => {
+    const r = checkAiAccess("User-agent: *\nDisallow:", "/blog/x");
+    expect(r.score).toBe(25);
+    expect(r.status).toBe("pass");
+  });
 });

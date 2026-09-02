@@ -1762,6 +1762,9 @@
   transition: width var(--tool-count-ms, 800ms) var(--ease-out);
 }
 @media (prefers-reduced-motion: reduce) { .signal-bar-fill { transition: none; } }
+@starting-style { .signal-bar-fill { width: 0; } }
+.signal-detail { padding-left: 0; }
+@media (min-width: 768px) { .signal-detail { padding-left: 216px; } }
 @media (max-width: 767px) {
   .signal-row { grid-template-columns: 1fr auto; grid-template-areas: "name status" "bar bar" "points points"; }
   .signal-row > [data-part="name"] { grid-area: name; }

@@ -52,10 +52,12 @@ describe("araç UI kopyası", () => {
     expect(fill("Tarama tamamlandı, skor {score}", { score: 55 })).toBe("Tarama tamamlandı, skor 55");
   });
 
-  it("içerik: kanıt şeridi 4 öğe, lede tek cümle, yardım satırı var", () => {
+  it("içerik: kanıt şeridi 4 öğe, lede soruyla açılan en fazla iki cümle, yardım satırı var", () => {
     const t = TOOLS[0]!;
     expect(t.proof).toHaveLength(4);
-    expect((t.lede.tr.match(/[.!?](\s|$)/g) ?? []).length).toBe(1);
+    expect(t.lede.tr).toMatch(/^[^.!?]+\?\s/);
+    expect(t.lede.en).toMatch(/^[^.!?]+\?\s/);
+    expect((t.lede.tr.match(/[.!?](\s|$)/g) ?? []).length).toBeLessThanOrEqual(2);
     expect(t.inputHelp.tr).toContain("yalnız");
   });
 });

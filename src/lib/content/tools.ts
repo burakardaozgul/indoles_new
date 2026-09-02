@@ -48,7 +48,7 @@ export type ToolContent = {
   name: Localized<string>;
   /** Başlık üstü etiket — iddia (`.eyebrow` primitive). */
   eyebrow: Localized<string>;
-  /** Hero girişi — TEK cümle. */
+  /** Hero girişi — soru kancasıyla açılır, en fazla iki cümle (spec §3). */
   lede: Localized<string>;
   /** Bant başına tek cümle — skor kartında sayının yanında. İçerik katmanı konuşur, motor değil. */
   bands: Record<GeoBand, Localized<string>>;
@@ -93,8 +93,8 @@ export const TOOLS: ToolContent[] = [
       en: "The first Turkish GEO audit tool",
     },
     lede: {
-      tr: "GEO denetimi, cevap motorlarının sitenizi okuyup okuyamadığını beş sinyalde ölçer ve her sinyalde ne düzelteceğinizi söyler.",
-      en: "The GEO audit measures, across five signals, whether answer engines can read your site, and tells you what to fix in each one.",
+      tr: "Cevap motorları sitenizi okuyabiliyor mu? GEO denetimi beş sinyalde ölçer ve her sinyalde ne düzelteceğinizi söyler.",
+      en: "Can answer engines read your site? The GEO audit measures five signals and tells you what to fix in each one.",
     },
     bands: {
       zayif: {

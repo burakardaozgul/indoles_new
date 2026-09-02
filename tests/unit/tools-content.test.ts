@@ -134,3 +134,64 @@ describe("TOOLS arama yüzeyi", () => {
     }
   });
 });
+
+describe("TOOLS sinyal bütünlüğü", () => {
+  it("her aracın sinyal ağırlıkları 100 puana toplanır", () => {
+    // Sinyal kartları skorun dağılımını ilan eder; toplam 100 değilse sayfa
+    // motorun puanlamadığı bir dağılım anlatıyor demektir.
+    for (const t of TOOLS) {
+      const total = t.signals.reduce((sum, s) => sum + s.weight, 0);
+      expect(total, t.slug.tr).toBe(100);
+    }
+  });
+
+  it("her sinyal iki dilde başlık ve açıklama taşır", () => {
+    for (const t of TOOLS) {
+      for (const s of t.signals) {
+        for (const loc of LOCALES) {
+          expect(s.title[loc]?.trim(), `${t.slug.tr}/${s.id}/${loc}`).toBeTruthy();
+          expect(
+            s.description[loc]?.trim(),
+            `${t.slug.tr}/${s.id}/${loc}`,
+          ).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("araç içinde sinyal kimliği tekrar etmez", () => {
+    for (const t of TOOLS) {
+      const ids = t.signals.map((s) => s.id);
+      expect(new Set(ids).size, t.slug.tr).toBe(ids.length);
+    }
+  });
+});
+
+describe("Diagnoo kaydı", () => {
+  const diagnoo = TOOLS.find((t) => t.slug.tr === "diagnoo");
+
+  it("TOOLS içinde yer alır ve iki dilde aynı slug'ı taşır", () => {
+    expect(diagnoo, "diagnoo kaydı yok").toBeDefined();
+    expect(diagnoo!.slug.en).toBe("diagnoo");
+  });
+
+  it("dört skor boyutunu 25/25/30/20 ağırlığıyla tanıtır", () => {
+    // Ağırlıklar `computeHealthScore` ile birebir (semantik 25, UX 12,5+12,5,
+    // hız 30, ölçüm 20) — sayfadaki tanıtım motordan sapamaz.
+    const byId = new Map(diagnoo!.signals.map((s) => [s.id, s.weight]));
+    expect([...byId.keys()].sort()).toEqual([
+      "semantic",
+      "speed-funnel",
+      "tracking",
+      "ux",
+    ]);
+    expect(byId.get("semantic")).toBe(25);
+    expect(byId.get("ux")).toBe(25);
+    expect(byId.get("speed-funnel")).toBe(30);
+    expect(byId.get("tracking")).toBe(20);
+  });
+
+  it("tam 3 adım anlatır", () => {
+    expect(diagnoo!.steps.length).toBe(3);
+  });
+});

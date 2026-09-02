@@ -112,6 +112,18 @@ describe("sitemap", () => {
     for (const u of found) expect(live.has(u)).toBe(true);
   });
 
+  it("Diagnoo araç sayfasının iki dildeki URL'ini içerir", () => {
+    expect(urls).toContain(`${SITE_URL}/tr/araclar/diagnoo`);
+    expect(urls).toContain(`${SITE_URL}/en/tools/diagnoo`);
+  });
+
+  it("Diagnoo rapor sayfası sitemap'e girmez", () => {
+    // Rapor tek bir teşhise bağlı, kişiye özel ve `noindex` — kanonik bir
+    // arama yüzeyi değil (GEO paylaşım sonucuyla aynı gerekçe).
+    expect(urls.some((u) => u.includes("/araclar/diagnoo/rapor"))).toBe(false);
+    expect(urls.some((u) => u.includes("/tools/diagnoo/report"))).toBe(false);
+  });
+
   it("x-default her zaman TR'yi gösterir", () => {
     for (const e of entries) {
       expect(e.alternates?.languages?.["x-default"], e.url).toBe(

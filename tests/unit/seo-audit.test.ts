@@ -615,6 +615,8 @@ describe("profileFor — URL kalıbından sayfa tipi", () => {
     ["/en/tools", "index"],
     ["/tr/araclar/geo-gorunurluk-denetleyicisi", "tool"],
     ["/en/tools/geo-visibility-checker", "tool"],
+    ["/tr/araclar/diagnoo", "tool"],
+    ["/en/tools/diagnoo", "tool"],
     ["/tr/vakalar", "index"],
     ["/tr/vakalar/ornek", "case"],
     ["/en/case-studies/example", "case"],

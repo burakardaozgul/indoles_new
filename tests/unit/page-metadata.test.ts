@@ -79,6 +79,22 @@ describe("marketing sayfalarının metadata'sı", () => {
     expect(new Set(trPaths).size).toBe(trPaths.length);
   });
 
+  it("Diagnoo araç sayfası taranan sayfalar arasındadır", () => {
+    const target = path.join(MARKETING_ROOT, "araclar", "diagnoo", "page.tsx");
+    expect(PAGES).toContain(target);
+  });
+
+  it("Diagnoo rapor sayfası dizine girmez", () => {
+    // Rapor tek bir teşhise bağlı ve kişiye özel; `follow` otoritenin araç
+    // sayfasına akmasını sürdürür (GEO paylaşım sonucuyla aynı kalıp).
+    const src = readFileSync(
+      path.join(MARKETING_ROOT, "araclar", "diagnoo", "rapor", "[id]", "page.tsx"),
+      "utf8",
+    );
+    expect(src).toMatch(/robots:\s*\{\s*index:\s*false/);
+    expect(src).toMatch(/follow:\s*true/);
+  });
+
   it("gizlilik sayfası dizine girmez", () => {
     const src = readFileSync(
       path.join(MARKETING_ROOT, "gizlilik-kvkk", "page.tsx"),

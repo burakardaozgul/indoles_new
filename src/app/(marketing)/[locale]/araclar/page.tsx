@@ -14,20 +14,21 @@ import type { Locale } from "@/lib/content/types";
 const PATHS = { tr: "/tr/araclar", en: "/en/tools" };
 
 /**
- * Araç sayısı `TOOLS.length`ten okunmaz — sabit metin tek araçta doğru, ikinci
- * araçta bayatlar. Açıklama araç niyetini hedefler (GEO denetimi), 140-160
- * bandında kalır.
+ * Araç sayısı ne elle yazılır ne `TOOLS.length`ten okunur: açıklama araçları
+ * ADIYLA sayar. Sayısal iddia ("iki araç") üçüncü araçta sessizce bayatlardı;
+ * ad ise aracın kendi arama niyetini de taşır (GEO denetimi, e-ticaret
+ * teşhisi). Uzunluk 140-160 bandında kalır.
  */
 const META = {
   tr: {
-    title: "Araçlar — GEO ve görünürlük denetimi",
+    title: "Araçlar — GEO denetimi ve e-ticaret teşhisi",
     description:
-      "İnteraktif denetim araçları. GEO Görünürlük Denetleyicisi, sitenizin cevap motorlarında okunup okunmadığını beş sinyalde ölçer ve 100 puan üzerinden puanlar.",
+      "Ücretsiz denetim araçları. GEO Görünürlük Denetleyicisi sitenizi cevap motorları için beş sinyalde ölçer; Diagnoo e-ticaret mağazanızı dört boyutta puanlar.",
   },
   en: {
-    title: "Tools — GEO and visibility audits",
+    title: "Tools — GEO audits and e-commerce diagnostics",
     description:
-      "Interactive audit tools. The GEO Visibility Checker measures whether answer engines can read your site across five signals and scores it out of 100 points.",
+      "Free audit tools. The GEO Visibility Checker measures your site for answer engines across five signals; Diagnoo scores an online store across four dimensions.",
   },
 } as const;
 

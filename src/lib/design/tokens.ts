@@ -249,10 +249,17 @@ export const containers = {
   tool: '760px',
 } as const;
 
-/** Kontrol yükseklikleri — araç giriş çubuğu (docs/04 §12.10) */
+/**
+ * Kontrol yükseklikleri — araç giriş çubuğu (docs/04 §12.10).
+ *
+ * Değerler çubuğun DIŞ yüksekliğidir; içindeki gönder düğmesi 1 px kenarlık
+ * ve 8 px dolgudan arta kalan yüksekliği alır. Mobil 60 px'te bu 42 px
+ * kalıyordu — 44 px'lik dokunma hedefi eşiğinin altı (2026-09-02 ölçüm).
+ * 64 px'te düğme 46 px'e çıkar.
+ */
 export const controls = {
   scanBar: '72px',
-  scanBarMobile: '60px',
+  scanBarMobile: '64px',
 } as const;
 
 export const zIndex = {

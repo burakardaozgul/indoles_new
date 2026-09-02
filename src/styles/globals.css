@@ -112,7 +112,7 @@
 
   /* --- Kontrol boyutları (araç yüzeyi) ---------------------------------- */
   --size-scanbar: 72px;
-  --size-scanbar-mobile: 60px;
+  --size-scanbar-mobile: 64px;
 
   /* --- Radius (v2: belirgin küçük) -------------------------------------- */
   --radius-sm: 2px;

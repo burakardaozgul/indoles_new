@@ -128,7 +128,10 @@ export function ScoreCard({
         </div>
       </div>
 
-      <div className="mt-8">
+      {/* `tool-band-scale`: ölçek SVG'si viewBox'la küçüldüğü için etiketleri
+          dar ekranda büyüten kural v2.css'te — bileşenin kendisi OG kartıyla
+          ortak olduğu için oraya dokunulmaz. */}
+      <div className="tool-band-scale mt-8">
         <BandScale
           score={result.totalScore}
           labels={labels}

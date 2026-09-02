@@ -126,8 +126,11 @@ export function GeoTool({
   }
 
   if (phase === "result" && scan) {
+    // `scroll-mt-36` (144 px) sabit chrome'un altını temizler: v2 nav dört
+    // viewport'ta da 120 px'te biter, 28 (112 px) kartın üst köşesini
+    // navigasyonun arkasında bırakıyordu (2026-09-02 ölçüm).
     return (
-      <div ref={cardRef} className="scroll-mt-28">
+      <div ref={cardRef} className="scroll-mt-36">
         <ToolHero tool={tool} locale={locale} variant="hidden" />
         <ScoreCard
           result={scan}
@@ -148,8 +151,12 @@ export function GeoTool({
       <ToolHero tool={tool} locale={locale} variant={busy ? "compact" : "full"} />
       <div className="mt-10">
         <ScanBar locale={locale} value={url} onChange={setUrl} onSubmit={onSubmit} busy={busy} error={error} />
+        {/* ink-600, ink-500 değil: bu iki satır blobun sıcak gövdesinin tam
+            üstünde duruyor. Ölçümde ink-500 krem üstünde 4.34, blob üstünde
+            2.89'a iniyordu (2026-09-02, docs/04 §12.10 tablosu); ink-600 en
+            kötü pikselde bile AA eşiğinin üstünde kalır. */}
         {!busy ? (
-          <p className="typography-caption text-ink-500 mt-3">{tool.inputHelp[locale]}</p>
+          <p className="typography-caption text-ink-600 mt-3">{tool.inputHelp[locale]}</p>
         ) : (
           <ScanStage
             signals={tool.signals}
@@ -160,7 +167,7 @@ export function GeoTool({
         )}
       </div>
       {!busy ? (
-        <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 mono text-ink-500 uppercase tracking-widest typography-label" aria-label={locale === "tr" ? "Kanıt" : "Proof"}>
+        <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 mono text-ink-600 uppercase tracking-widest typography-label" aria-label={locale === "tr" ? "Kanıt" : "Proof"}>
           {tool.proof.map((p) => (
             <li key={p.tr}>{p[locale]}</li>
           ))}

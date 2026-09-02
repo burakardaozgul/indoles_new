@@ -63,7 +63,13 @@ export function BandScale({
               rx={TRACK_H / 2}
               fill={band === active ? BAND_COLORS[band].strong : BAND_COLORS[band].soft}
             />
+            {/* `data-active`: web yüzeyinde pasif etiketlerin dolgusunu
+                ink-600'e çeken CSS kuralının tutamağı (v2.css
+                `.tool-band-scale`). ink-500 kart zemininde 4.46'da kalıyor,
+                AA eşiği 4.5 (2026-09-02 ölçümü). OG şablonunda o kural yok:
+                orada öznitelik yalnız işaretsiz durur. */}
             <text
+              data-active={band === active ? "true" : undefined}
               x={x + w / 2}
               y={VIEW_H - 8}
               textAnchor="middle"

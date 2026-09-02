@@ -204,31 +204,41 @@ export const BLOB_TOOL_HERO = {
   /** Merkezî: `.tool-hero` tek sütunlu ve ortalanmış, blob da öyle. */
   x: 0,
   /**
-   * Çekirdek giriş çubuğunun arkasında ("camın altındaki küre"); başlık ve
-   * lede yumuşak üst kenarın üstünde. 0.85 ölçümle doğrulanır (Görev 13,
-   * docs/04 §12.10 protokolü).
+   * "Camın altındaki küre": çekirdek giriş çubuğunun arkasında, başlık ve
+   * lede kürenin yumuşak üst kenarının ÜSTÜNDE, temiz kremde.
+   *
+   * Ekran y'si `vh * (1 - y) / 2`, yarıçap `scale * vh / 2` — ikisi de
+   * viewport'a oranlı. İlk deneme (y -0.28 / ölçek 0.78) çekirdeği çubuğun
+   * tam arkasına koyuyordu ama yarıçap 0.39·vh olduğu için üst kenar h1'in
+   * de üstüne çıkıyor, küre koca bir disk gibi tüm kompozisyonu kaplıyordu
+   * (2026-09-02 görsel tur, 6 viewport). Çekirdek bir tık aşağı indirilip
+   * gövde küçültüldü: çubuk artık kürenin üst üçte birinde durur, h1 ve
+   * lede kremde kalır.
    */
-  y: -0.28,
+  y: -0.55,
   /**
-   * Anasayfa hero'su 0.65 ile başlayıp 1.1'e büyür. 0.78 o aralığın içinde
-   * ama tepesinde değil: "anasayfadaki gibi büyük", "anasayfanın kopyası"
-   * değil.
+   * Anasayfa hero'su 0.65 ile başlayıp 1.1'e büyür; iç sayfa 0.4'te durur.
+   * 0.52 ikisinin arasında: iç sayfadan belirgin biçimde büyük, anasayfanın
+   * kopyası değil. 1280x800'de silüet 416 px — 760 px'lik giriş çubuğunun
+   * arkasında bir inci gibi durur, onu örtmez.
    */
-  scale: 0.78,
+  scale: 0.52,
   noiseAmp: 0.1,
   /**
-   * 0.26 (iç sayfa) belirgin değil, 1.0 (anasayfa) metnin altında gürültü.
-   * 0.55'te krem üstündeki en koyu bölge bile açık kalıyor: 4 viewport'ta
-   * ölçülen en düşük kontrast teal-700 eyebrow'da 6.5:1, gövde 10.2:1
-   * (AA sınırı 4.5). Ölçüm yöntemi docs/04 §12.10'da.
+   * 0.26 (iç sayfa) belirgin değil; 0.85'te silüet krem üstünde sert
+   * kenarlı bir disk oluyordu. 0.58'de kenar yumuşak kalır ve metnin
+   * arkasındaki en koyu piksel bile açık: ölçülen kontrastlar docs/04
+   * §12.10 tablosunda (2026-09-02, 4 viewport).
    */
-  opacity: 0.85,
+  opacity: 0.58,
   /**
-   * Dar ekranda okuma kolonu = ekranın tamamı; gövde küçülür ve solar.
-   * Ölçek ayrıca `BLOB.mobileScaleFactor` (0.72) ile çarpılır: 0.62 → 0.45,
-   * anasayfa mobil hero'sunun (0.65 → 0.47) hemen altında.
+   * Dar ekranda okuma kolonu = ekranın tamamı; gövde biraz daha soluk.
+   * Ölçek ayrıca `BLOB.mobileScaleFactor` (0.72) ile çarpılır: 0.56 → 0.40.
+   * Opaklık 0.52'de kanıt şeridi kürenin serin alt bölgesine denk gelip
+   * kontrastı 4.51'e — AA eşiğinin 0.01 üstüne — düşürüyordu; 0.46'da
+   * ölçülen en düşük oran 4.75 (2026-09-02, docs/04 §12.10).
    */
-  mobile: { x: 0, y: -0.05, scale: 0.62, opacity: 0.55 },
+  mobile: { x: 0, y: -0.5, scale: 0.56, opacity: 0.46 },
   /**
    * Hero durumundan `BLOB_PAGE` durumuna geçişin süreceği scroll payı
    * (viewport yüksekliğine oran). Bir ekran boyu: kullanıcı ilk bölüme

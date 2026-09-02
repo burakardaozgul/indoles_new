@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 /**
- * GEO Görünürlük Denetleyicisi — uçtan uca akış (Görev 16).
+ * GEO Görünürlük Denetleyicisi — uçtan uca akış (Görev 13a, araç UI v2).
  *
  * Desen `contact-form.spec.ts` ile birebir: görünmez Turnstile widget'ı
  * `window.turnstile` stub'ıyla anında token üretir, backend rotaları
@@ -18,10 +18,11 @@ import { test, expect } from "@playwright/test";
  * `getCloudflareContext()` bu modda senkron olarak fırlatır (doğrulandı:
  * 2026-09-01, yerel `next dev`'e karşı elle `curl` — hem
  * `POST /api/tools/geo-scan` hem `GET /sonuc/[id]` 500 verdi, ayrıntı
- * task-16-report.md). Mock, `GeoScanForm`/`GeoReportForm`in İSTEMCİ
- * mantığını (state makinesi, rıza kapısı, paylaşım URL'i) gerçek ağ
- * bağımlılığından ayrıştırıp test eder — sunucu tarafı zaten ayrı
- * `route.test.ts` dosyalarında (vitest, D1/Turnstile mock'lu) kapsanıyor.
+ * task-16-report.md). Mock, `GeoTool` adasının (`ScanBar`/`ScanStage`/
+ * `ScoreCard`/`ReportGate`) İSTEMCİ mantığını (durum makinesi, rıza kapısı,
+ * paylaşım URL'i) gerçek ağ bağımlılığından ayrıştırıp test eder — sunucu
+ * tarafı zaten ayrı `route.test.ts` dosyalarında (vitest, D1/Turnstile
+ * mock'lu) kapsanıyor.
  */
 
 const TOOL_PATH = "/tr/araclar/geo-gorunurluk-denetleyicisi";
@@ -36,6 +37,7 @@ const SCAN_CHECKS = [
     status: "partial",
     summary: { tr: "AI botları çoğunlukla erişebiliyor.", en: "AI bots can mostly access." },
     findings: [] as Array<{ tr: string; en: string }>,
+    findingsCount: 1,
   },
   {
     id: "llms-txt",
@@ -44,6 +46,7 @@ const SCAN_CHECKS = [
     status: "partial",
     summary: { tr: "llms.txt kısmen dolu.", en: "llms.txt is partially filled." },
     findings: [],
+    findingsCount: 1,
   },
   {
     id: "json-ld",
@@ -52,6 +55,7 @@ const SCAN_CHECKS = [
     status: "pass",
     summary: { tr: "Yapısal veri eksiksiz.", en: "Structured data is complete." },
     findings: [],
+    findingsCount: 1,
   },
   {
     id: "lang-signals",
@@ -60,6 +64,7 @@ const SCAN_CHECKS = [
     status: "pass",
     summary: { tr: "Dil sinyalleri net.", en: "Language signals are clear." },
     findings: [],
+    findingsCount: 1,
   },
   {
     id: "question-h2",
@@ -68,6 +73,7 @@ const SCAN_CHECKS = [
     status: "partial",
     summary: { tr: "Soru başlıkları kısmen var.", en: "Question headings partially present." },
     findings: [],
+    findingsCount: 1,
   },
 ];
 
@@ -128,83 +134,108 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-test("tarama → 5 rozetli skor ekranı, paylaşım URL'i günceller ve panoya kopyalar", async ({
+test("tarama → sahne → skor kartı: URL güncellenir, kart görünür alana kayar, bağlantı kopyalanır", async ({
   page,
   context,
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto(TOOL_PATH);
-
-  await page.getByLabel("Site adresi").fill("https://www.indoles.com.tr/tr");
+  await page.getByLabel("Site adresi").fill("indoles.com.tr");
+  await page.waitForTimeout(2100); // süre tuzağı: çubuk 2 sn'ye kadar bekler
   await page.getByRole("button", { name: "Denetle" }).click();
 
-  // Skor ekranı AYNI sayfada basılır (Görev 11 tasarım kararı) — sayfa
-  // geçişi yok, `router.push` değil `history.replaceState`.
-  await expect(page.getByText(`${TOTAL_SCORE}`)).toBeVisible();
+  // Tarama sahnesi satırları göründü (yanıt mock'lu olsa da satırlar
+  // sırayla "okunuyor"a girip çözülerek geçer).
+  await expect(page.locator(".tool-stage-row").first()).toBeVisible();
+
+  const score = page.locator("[data-part='score']");
+  await expect(score).toHaveText(`${TOTAL_SCORE}`, { timeout: 10_000 });
   await expect(page.getByText("İyi", { exact: true })).toBeVisible();
-
-  // 5 kalem rozeti — `tools.ts` TR başlıkları. Sayfada başka bir statik
-  // "Ölçülen 5 sinyal" tanıtım bölümü de AYNI başlıkları taşıyor
-  // (`signals-heading`) — locator formun kendi bölümüyle (`scan-heading`)
-  // sınırlanır, aksi halde strict-mode iki eşleşmeyle çakışır.
-  const scanSection = page.locator('section[aria-labelledby="scan-heading"]');
-  for (const title of [
-    "AI erişimi",
-    "llms.txt",
-    "Yapısal veri",
-    "Dil sinyalleri",
-    "Soru başlıkları",
-  ]) {
-    await expect(scanSection.getByRole("heading", { name: title })).toBeVisible();
-  }
-
-  // URL çubuğu paylaşım linkine güncellendi (tam sayfa geçişi olmadan).
+  await expect(page.locator("section[aria-labelledby='score-heading']")).toBeInViewport();
   await expect(page).toHaveURL(new RegExp(`${SHARE_PATH}$`));
 
-  // Paylaşım düğmesi doğru linki panoya kopyalar.
-  await page.getByRole("button", { name: "Sonucu paylaş" }).click();
-  await expect(page.getByRole("button", { name: "Bağlantı kopyalandı" })).toBeVisible();
+  // Sinyal başlıkları `.signal-row` içindeki `h3`'lerdir (SignalRows) —
+  // aynı 5 başlık sayfada AYRICA "Ölçülen 5 sinyal" statik bölümünde de
+  // `h3` olarak durur; kapsamsız `getByRole` strict-mode'da iki eşleşmeyle
+  // çakışırdı.
+  for (const title of ["AI erişimi", "llms.txt", "Yapısal veri", "Dil sinyalleri", "Soru başlıkları"]) {
+    await expect(
+      page.locator(".signal-row").getByRole("heading", { name: title, level: 3 }),
+    ).toBeVisible();
+  }
+
+  await page.getByRole("button", { name: "Bağlantıyı kopyala" }).click();
+  await expect(page.getByRole("button", { name: "Kopyalandı" })).toBeVisible();
   const clipboardText = await page.evaluate(() => navigator.clipboard.readText());
-  expect(clipboardText).toBe(`${page.url().split(SHARE_PATH)[0]}${SHARE_PATH}`);
+  expect(clipboardText.endsWith(SHARE_PATH)).toBe(true);
 });
 
-test("rapor formu rızasız gönderim reddeder, rızalı gönderim raporu açar", async ({ page }) => {
+test("kilit kartı: rızasız gönderim uyarır, rızalı gönderim düzeltme listesini açar — kalanlar önce", async ({ page }) => {
   await page.goto(TOOL_PATH);
   await page.getByLabel("Site adresi").fill("https://www.indoles.com.tr/tr");
+  await page.waitForTimeout(2100);
   await page.getByRole("button", { name: "Denetle" }).click();
-  await expect(page.getByText(`${TOTAL_SCORE}`)).toBeVisible();
+  await expect(page.locator("[data-part='score']")).toHaveText(`${TOTAL_SCORE}`, { timeout: 10_000 });
 
+  await expect(page.getByText("Kilitli")).toBeVisible();
   const reportSubmit = page.getByRole("button", { name: "Raporu gönder" });
-  // `exact: true` — sayfanın altındaki bülten formu "E-posta adresiniz"
-  // etiketiyle aynı önekle çakışır (strict-mode).
   await page.getByLabel("E-posta adresi", { exact: true }).fill("burak@indoles.com.tr");
 
-  // KVKK rızası işaretlenmeden gönderim düğmesi devre dışı — rota
-  // (`geoReportSchema`, `kvkkConsent: z.literal(true)`) zaten zorunlu
-  // kılıyor, istemci burada rızasız isteği HİÇ ATMAZ (network call yok).
-  await expect(reportSubmit).toBeDisabled();
+  // Kilit/kilit-açık bölgesi TEK `<section aria-label="Düzeltme listesi">`
+  // (implicit `region`) — hem hata satırını hem sonraki `<ol>`u sayfanın
+  // geri kalanından (özellikle Next.js'in her sayfada duran görünmez
+  // `role="alert"` rota anons div'i, `__next-route-announcer__`) ayırmak
+  // için kapsamlanır.
+  const gate = page.getByRole("region", { name: "Düzeltme listesi" });
 
   let reportRequests = 0;
-  page.on("request", (req) => {
-    if (req.url().includes("/api/tools/geo-report")) reportRequests += 1;
-  });
-
-  // Rıza verilince gönderim açılır.
-  await page
-    .getByLabel(/KVKK kapsamında verilerimin işlenmesini kabul ediyorum/)
-    .check();
-  await expect(reportSubmit).toBeEnabled();
+  page.on("request", (req) => { if (req.url().includes("/api/tools/geo-report")) reportRequests += 1; });
   await reportSubmit.click();
+  await expect(gate.getByRole("alert")).toContainText("KVKK onayını işaretleyin");
+  expect(reportRequests).toBe(0);
 
-  // Kilit açıldı: ayrıntılı bulgular AYNI sayfada render edilir — "rapor
-  // gönderildi" durumu (e-postaya kopya + ekranda anında açılım).
-  await expect(page.getByRole("heading", { name: "Ayrıntılı bulgular" })).toBeVisible();
-  await expect(
-    page.getByText("Raporun bir kopyası e-postanıza gönderildi."),
-  ).toBeVisible();
-  await expect(page.getByText("ai-access için öncelikli aksiyon.")).toBeVisible();
+  await page.getByLabel(/KVKK kapsamında verilerimin işlenmesini kabul ediyorum/).check();
+  await reportSubmit.click();
+  await expect(page.getByRole("heading", { name: "Düzeltme listesi" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Düzeltme listesi" })).toBeFocused();
+  // Aynı metin artık İKİ düğümde: `gate` içindeki görünür lede VE kilit
+  // açılınca duyurulan kalıcı `sr-only` canlı bölge (bölümün DIŞINDA, spec
+  // §4) — `page.getByText` kapsamsız kalırsa strict-mode ihlaline düşer;
+  // `gate` içine kapsamlamak görünür olanı tek başına hedefler.
+  await expect(gate.getByText("Raporun kopyası e-postanızda.")).toBeVisible();
 
+  // İlk madde en çok puan kaybettiren kalem: question-h2 (15/25 → 10 kayıp).
+  // `getByRole("list").filter({ hasText: "01" })` kırılgan (padStart metni
+  // her satırda tekrarlanır, DOM sırasına güvenmez) — bunun yerine kilit
+  // açık bölgesinin TEK `<ol>`ı (geçen sinyaller `<ul>`de, `<ol>`de değil)
+  // doğrudan hedeflenir.
+  const first = gate.locator("ol > li").first();
+  await expect(first).toContainText("Soru başlıkları");
+  await expect(page.getByText("question-h2 için öncelikli aksiyon.")).toBeVisible();
   expect(reportRequests).toBe(1);
+});
+
+test("engellenen site: target-blocked mesajı, kullanıcıyı suçlamaz", async ({ page }) => {
+  await page.route("**/api/tools/geo-scan", (route) =>
+    route.fulfill({ status: 400, contentType: "application/json", body: JSON.stringify({ error: "target-blocked" }) }),
+  );
+  await page.goto(TOOL_PATH);
+  await page.getByLabel("Site adresi").fill("hepsiburada.com");
+  await page.waitForTimeout(2100);
+  await page.getByRole("button", { name: "Denetle" }).click();
+  // Next.js'in her sayfada duran görünmez rota anons div'i de `role="alert"`
+  // taşır (`__next-route-announcer__`) — giriş çubuğu formuna (`name="scan-bar"`)
+  // kapsamlanır.
+  await expect(page.locator('form[name="scan-bar"]').getByRole("alert")).toContainText(
+    "otomatik istekleri engelliyor",
+  );
+  await expect(page.getByLabel("Site adresi")).toBeEnabled();
+});
+
+test("araç rotasında persona popup'ı otomatik açılmaz", async ({ page }) => {
+  await page.goto(TOOL_PATH);
+  await page.waitForTimeout(6000);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
 });
 
 /**

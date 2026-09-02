@@ -3,7 +3,7 @@
  *
  * Sonraki TÜM GEO görevleri bu tip koleksiyonu üzerine inşa edilir; her yeni
  * görev bu tanımları tüketir. Kontratın sabitliği, çeşitli araçların
- * interop'unu möglich kılar: ai-access, llms-txt, json-ld motorları aynı
+ * interop'unu mümkün kılar: ai-access, llms-txt, json-ld motorları aynı
  * tarama girdisini okur, aynı çıktı şemasına yazar. Spec §2.
  */
 
@@ -20,6 +20,13 @@ export type GeoCheckResult = {
   status: GeoCheckStatus;
   summary: Localized<string>;
   findings: Array<Localized<string>>;
+  /**
+   * `findings.length` — public yüzeyde (`stripFindings` sonrası) metin
+   * silinir ama SAYI kalır: kilit kartı "n bulgu" önizlemesi için. İsteğe
+   * bağlı: D1'deki eski kayıtlar alanı taşımaz; `stripFindings` o durumda
+   * `findings.length`ten türetir.
+   */
+  findingsCount?: number | undefined;
 };
 
 export type GeoScanInput = {
@@ -38,14 +45,28 @@ export type GeoScanResult = {
   scannedAt: string;
 };
 
+/** Bant sırası — ölçek ve OG kartı bu sırayla çizer. */
+export const BAND_ORDER: readonly GeoBand[] = ["zayif", "gelismeye-acik", "iyi", "oncu"];
+
+/**
+ * Bant alt eşikleri (dahil). `zayif` 0'dan başlar. `bandFor`, ölçek
+ * (`BandScale`) ve OG şablonu TEK kaynaktan okur — eşik burada değişirse
+ * hepsi birlikte değişir.
+ */
+export const BAND_THRESHOLDS = {
+  "gelismeye-acik": 40,
+  iyi: 70,
+  oncu: 90,
+} as const;
+
 /**
  * Toplam skoru skor bandına dönüştür.
  * 0-39 → zayif · 40-69 → gelismeye-acik · 70-89 → iyi · 90+ → oncu
  */
 export function bandFor(total: number): GeoBand {
-  if (total < 40) return "zayif";
-  if (total < 70) return "gelismeye-acik";
-  if (total < 90) return "iyi";
+  if (total < BAND_THRESHOLDS["gelismeye-acik"]) return "zayif";
+  if (total < BAND_THRESHOLDS.iyi) return "gelismeye-acik";
+  if (total < BAND_THRESHOLDS.oncu) return "iyi";
   return "oncu";
 }
 

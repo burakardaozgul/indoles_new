@@ -32,7 +32,6 @@ const COPY = {
   tr: {
     urlLabel: "Mağazanızın adresi",
     urlPlaceholder: "https://magazaniz.com.tr",
-    urlHint: "Ana sayfanın adresi yeterli; kategori, ürün ve ödeme sayfalarını araç kendisi bulur.",
     submit: "Taramayı başlat",
     submitting: "Başlatılıyor…",
     turnstileLoading: "Güvenlik doğrulaması yükleniyor…",
@@ -49,8 +48,6 @@ const COPY = {
   en: {
     urlLabel: "Your store's address",
     urlPlaceholder: "https://yourstore.com",
-    urlHint:
-      "The home page address is enough; the tool finds the category, product and checkout pages itself.",
     submit: "Start the scan",
     submitting: "Starting…",
     turnstileLoading: "Loading the security check…",
@@ -79,9 +76,17 @@ const ERROR_MAP: Record<string, ErrorKind> = {
 
 export function DiagnooForm({
   locale,
+  inputHelp,
   onStarted,
 }: {
   locale: "tr" | "en";
+  /**
+   * Giriş alanının yardım satırı — `tools.ts`teki `inputHelp` kaydından gelir
+   * (GEO'nun `geo-tool.tsx`te izlediği desenin aynısı). Kapsam ve sınır
+   * cümlesi bileşene kopyalanmaz: araç sayfasının anlattığıyla aynı kaynaktan
+   * okunur, ikisi ayrışamaz.
+   */
+  inputHelp: string;
   /** 202 yanıtındaki teşhis kimliği; yoklamayı çağıran başlatır. */
   onStarted: (id: string) => void;
 }) {
@@ -186,7 +191,7 @@ export function DiagnooForm({
           </Button>
         </div>
         <p id={hintId} className="typography-caption text-ink-500 mt-2">
-          {c.urlHint}
+          {inputHelp}
         </p>
       </div>
 

@@ -1,5 +1,10 @@
-import { describe, it, expect } from "vitest";
-import { validateTargetUrl, fetchScanTargets, SCANNER_USER_AGENT } from "@/lib/tools/geo/safe-fetch";
+import { describe, it, expect, vi } from "vitest";
+import {
+  validateTargetUrl,
+  fetchScanTargets,
+  SCANNER_USER_AGENT,
+  TargetBlockedError,
+} from "@/lib/tools/geo/safe-fetch";
 
 describe("validateTargetUrl", () => {
   it.each([
@@ -53,6 +58,18 @@ describe("validateTargetUrl", () => {
     "http://a.b.internal./",
   ])("trailing-dot FQDN bypass'ı reddedilir: %s", (u) => expect(validateTargetUrl(u).ok).toBe(false));
 
+  // I1 (final review, deferred Görev 7 notu): `/\.$/` yalnız TEK bir sonek
+  // noktası kırpıyordu — `http://localhost../` gibi ÇOK-nokta biçimleri
+  // `localhost.` olarak normalize olup dört predicate'in hiçbirine uymadan
+  // sızıyordu. `/\.+$/` ile bu sınıfın tamamı kapanır.
+  it.each([
+    "http://localhost../",
+    "http://localhost.../",
+    "http://svc.local../",
+    "http://a.b.internal../",
+    "http://indoles.com.tr../api/contact",
+  ])("çok-nokta trailing FQDN bypass'ı reddedilir: %s", (u) => expect(validateTargetUrl(u).ok).toBe(false));
+
   it("çift öncü slash ile /api/ bypass edilemez", () => {
     expect(validateTargetUrl("https://www.indoles.com.tr//api/contact").ok).toBe(false);
   });
@@ -102,6 +119,23 @@ describe("fetchScanTargets", () => {
     await expect(fetchScanTargets(new URL("https://x.com/a"), fake)).rejects.toThrow(
       "target-unreachable"
     );
+  });
+
+  it.each([401, 403, 429])("sayfa %s dönerse TargetBlockedError fırlatılır (bot koruması, erişilemez DEĞİL)", async (status) => {
+    const fetcher = vi.fn(async (u: URL) =>
+      u.pathname === "/" ? new Response("engel", { status, headers: { "content-type": "text/html" } })
+        : new Response("", { status: 404 }),
+    ) as unknown as typeof fetch;
+    await expect(fetchScanTargets(new URL("https://ornek.com/"), fetcher)).rejects.toBeInstanceOf(TargetBlockedError);
+  });
+
+  it("robots.txt 403 dönerse tarama DÜŞMEZ (yalnız sayfa engeli sert hata)", async () => {
+    const fetcher = vi.fn(async (u: URL) =>
+      u.pathname === "/robots.txt" ? new Response("", { status: 403 })
+        : new Response("<html lang='tr'></html>", { status: 200, headers: { "content-type": "text/html" } }),
+    ) as unknown as typeof fetch;
+    const t = await fetchScanTargets(new URL("https://ornek.com/"), fetcher);
+    expect(t.robotsTxt).toBeNull();
   });
 
   it("sayfa content-type text/html değilse target-unreachable fırlatılır", async () => {

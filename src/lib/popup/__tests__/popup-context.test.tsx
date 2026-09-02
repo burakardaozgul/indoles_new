@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import { PopupProvider, usePopup } from "../popup-context";
+import { PopupProvider, usePopup, isAutoPopupSuppressed } from "../popup-context";
 import type { BookingCtaSource } from "@/lib/analytics/events";
 
 vi.mock("next-intl", () => ({
@@ -169,5 +169,16 @@ describe("otomatik popup tetikleyicisi — /iletisim ve /en/contact bastırması
     });
 
     expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+});
+
+describe("isAutoPopupSuppressed — araç rotaları (spec §7)", () => {
+  it("iletişim ve araç rotalarında otomatik tetik yok, diğerlerinde var", () => {
+    expect(isAutoPopupSuppressed("/tr/iletisim")).toBe(true);
+    expect(isAutoPopupSuppressed("/tr/araclar")).toBe(true);
+    expect(isAutoPopupSuppressed("/tr/araclar/geo-gorunurluk-denetleyicisi")).toBe(true);
+    expect(isAutoPopupSuppressed("/en/tools/geo-visibility-checker/result/abc")).toBe(true);
+    expect(isAutoPopupSuppressed("/tr/hizmetler")).toBe(false);
+    expect(isAutoPopupSuppressed("/tr")).toBe(false);
   });
 });

@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { DiagnooSnapshot } from "../diagnoo-snapshot";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
+import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { sampleReport } from "@/lib/tools/diagnoo/__tests__/fixtures";
 
 /**
@@ -17,7 +18,8 @@ import { sampleReport } from "@/lib/tools/diagnoo/__tests__/fixtures";
  *
  * `PopupCTAButton` context (`usePopup`) ister — kilitli ekranda render
  * edilmiyor ama kilit açılınca gelen `DiagnooReport` içinden çağrılabiliyor;
- * `geo-report-form.test.tsx` deseniyle basit bir stub'a mock'lanıyor.
+ * GEO'nun `report-gate.test.tsx` desenindeki gibi basit bir stub'a
+ * mock'lanıyor.
  */
 const { trackMock } = vi.hoisted(() => ({ trackMock: vi.fn() }));
 vi.mock("@/lib/analytics/ga", () => ({ track: trackMock }));
@@ -56,7 +58,7 @@ describe("DiagnooSnapshot", () => {
   });
 
   it("sağlık skorunu ve en yüksek etkili üç boşluğun başlığını basar", () => {
-    render(<DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />);
+    render(<DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />);
 
     expect(screen.getByText("54")).toBeInTheDocument();
     expect(screen.getByText("LCP'yi 2,5 sn altına indir")).toBeInTheDocument();
@@ -66,7 +68,7 @@ describe("DiagnooSnapshot", () => {
 
   it("kilitli kartlarda aylık etki tutarı hiçbir biçimde render edilmez", () => {
     const { container } = render(
-      <DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />,
+      <DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />,
     );
     const text = container.textContent ?? "";
 
@@ -80,7 +82,7 @@ describe("DiagnooSnapshot", () => {
 
   it("fırsatı aralık olarak basar — düşük ve yüksek uç", () => {
     const { container } = render(
-      <DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />,
+      <DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />,
     );
     const text = container.textContent ?? "";
 
@@ -89,7 +91,7 @@ describe("DiagnooSnapshot", () => {
   });
 
   it("mount'ta tool_scan_completed olayını sağlık kovasıyla bir kez atar", () => {
-    render(<DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />);
+    render(<DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />);
 
     expect(trackMock).toHaveBeenCalledTimes(1);
     expect(trackMock).toHaveBeenCalledWith({
@@ -104,7 +106,7 @@ describe("DiagnooSnapshot", () => {
       vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({ report: REPORT }) }),
     );
     const { container } = render(
-      <DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />,
+      <DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />,
     );
 
     const live = container.querySelector('[aria-live="polite"]');
@@ -125,7 +127,7 @@ describe("DiagnooSnapshot", () => {
       "fetch",
       vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({ report: REPORT }) }),
     );
-    render(<DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />);
+    render(<DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />);
 
     await unlock();
 
@@ -140,7 +142,7 @@ describe("DiagnooSnapshot", () => {
   });
 
   it("kilit açma formunu altında render eder", () => {
-    render(<DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />);
+    render(<DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />);
 
     expect(screen.getByLabelText("İş e-postanız")).toBeInTheDocument();
     expect(screen.getByLabelText("Şirket adı")).toBeInTheDocument();

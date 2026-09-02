@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { DiagnooTool } from "../diagnoo-tool";
-import { getToolBySlug } from "@/lib/content/tools";
-import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
+import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
 import { sampleReport } from "@/lib/tools/diagnoo/__tests__/fixtures";
 
@@ -23,7 +22,7 @@ vi.mock("@/components/marketing/PopupCTAButton", () => ({
   ),
 }));
 
-const TOOL = getToolBySlug(DIAGNOO_SLUG, "tr")!;
+const TOOL = DIAGNOO_TOOL;
 const ID = "11111111-1111-4111-8111-111111111111";
 const REPORT = sampleReport();
 

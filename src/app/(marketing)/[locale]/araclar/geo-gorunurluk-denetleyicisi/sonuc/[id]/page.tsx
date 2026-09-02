@@ -3,11 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
-import { GeoResult } from "@/components/tools/geo-result";
-import { getToolBySlug } from "@/lib/content/tools";
+import { GeoTool } from "@/components/tools/geo-tool";
+import { TOOL_UI, fill } from "@/components/tools/copy";
+import { OG_GEO_ALT, ogImagePath, shareTitle } from "@/lib/tools/geo/share-meta";
+import { GEO_TOOL } from "@/lib/content/tools";
 import { getScan } from "@/lib/tools/geo/repository";
 import { stripFindings } from "@/lib/tools/geo/findings";
+import { localeHref } from "@/lib/i18n/locale-href";
 import { buildMetadata } from "@/lib/seo/metadata";
 import type { Locale } from "@/lib/content/types";
 import type { GeoScanResult } from "@/lib/tools/geo/types";
@@ -29,15 +31,13 @@ import type { GeoScanResult } from "@/lib/tools/geo/types";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const TOOL_SLUG = "geo-gorunurluk-denetleyicisi";
-
 /**
  * Kararlı yol çiftleri — `sonuc ↔ result` çevirisi `routing.ts` ile birebir.
  *
- * TR taraf `${TOOL_SLUG}` ile İNTERPOLE EDİLMEZ (bilinçli): tam segment
+ * TR taraf araç slug'ı bir sabitten İNTERPOLE EDİLMEZ (bilinçli): tam segment
  * zincirini elle yazar. `page-metadata.test.ts` her sayfa kaynağını
  * regex'le tarayıp `tr: "/tr/..."` değerinin benzersiz olduğunu doğruluyor;
- * regex `$` karakterinde durduğu için `${TOOL_SLUG}` kullanılsaydı yakalanan
+ * regex `$` karakterinde durduğu için interpolasyon kullanılsaydı yakalanan
  * alt dize üst araç sayfasının (`../page.tsx`) kendi kısaltılmış
  * `/tr/araclar/` değeriyle çakışırdı (ikisi de aynı önekte kesilir).
  */
@@ -77,23 +77,13 @@ async function loadScan(id: string): Promise<GeoScanResult | null> {
   return { id, ...record, checks: stripFindings(record.checks) };
 }
 
+/**
+ * Sayfa chrome'u — araca özgü metin `TOOL_UI`de (`share.banner`,
+ * `share.scanOwn`); bu yalnız breadcrumb'ın iki sabit etiketi.
+ */
 const COPY = {
-  tr: {
-    tools: "Araçlar",
-    resultCrumb: "Sonuç",
-    eyebrow: "Paylaşılan sonuç",
-    title: "Tarama sonucu",
-    lede: "Bu, girilen adres için ölçülen GEO hazırlık skorudur. Kendi siteniz için yeni bir tarama başlatabilirsiniz.",
-    ctaLede: "Kendi sitenizi tarayın:",
-  },
-  en: {
-    tools: "Tools",
-    resultCrumb: "Result",
-    eyebrow: "Shared result",
-    title: "Scan result",
-    lede: "This is the measured GEO readiness score for the entered address. You can start a new scan for your own site.",
-    ctaLede: "Scan your own site:",
-  },
+  tr: { tools: "Araçlar", resultCrumb: "Sonuç" },
+  en: { tools: "Tools", resultCrumb: "Result" },
 } as const;
 
 export async function generateMetadata({
@@ -103,15 +93,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, id } = await params;
   const loc = locale as Locale;
-  const tool = getToolBySlug(TOOL_SLUG, "tr");
+  const tool = GEO_TOOL;
   const result = await loadScan(id);
-  if (!tool || !result) return {};
+  if (!result) return {};
 
   const base = buildMetadata({
-    title: `${tool.name[loc]} — ${result.totalScore}/100`,
+    title: shareTitle(result.totalScore, result.url, loc),
     description: tool.seo.description[loc],
     paths: resultPaths(id),
     locale: loc,
+    image: {
+      url: ogImagePath(result.totalScore, loc),
+      alt: fill(OG_GEO_ALT[loc], { score: result.totalScore }),
+    },
   });
   return {
     ...base,
@@ -131,44 +125,50 @@ export default async function GeoScanResultPage({
   const loc = locale as Locale;
   const c = COPY[loc];
 
-  const tool = getToolBySlug(TOOL_SLUG, "tr");
-  if (!tool) notFound();
+  const tool = GEO_TOOL;
 
   const result = await loadScan(id);
   if (!result) notFound();
 
+  const ui = TOOL_UI[loc];
+
   return (
-    <>
-      <V2PageHeader
-        crumbs={[
-          { label: "INDOLES", href: "/" },
-          { label: c.tools, href: "/araclar" },
-          { label: tool.name[loc], href: "/araclar/geo-gorunurluk-denetleyicisi" },
-          { label: c.resultCrumb },
-        ]}
-        eyebrow={c.eyebrow}
-        title={c.title}
-        lede={c.lede}
-      />
-
-      <section aria-label={c.title} className="ds-container pb-16">
-        <GeoResult result={result} signals={tool.signals} locale={loc} />
-
-        <div className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-12 flex flex-col items-start gap-4">
-          <p className="typography-body-md text-ink-700">{c.ctaLede}</p>
-          <Link href={TOOL_PATH[loc]} className="btn btn-primary">
-            {tool.name[loc]}
-            <svg className="arrow" viewBox="0 0 14 14" aria-hidden="true">
-              <path
-                d="M3 11 L11 3 M5 3 H11 V9"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                fill="none"
-              />
-            </svg>
-          </Link>
+    <section aria-label={ui.share.banner} className="tool-hero">
+      <div className="ds-container">
+        <div className="mx-auto max-w-tool">
+          <nav aria-label="Breadcrumb" className="v2-crumbs">
+            <ol>
+              <li>
+                <Link href={`/${loc}`}>INDOLES</Link>
+                <span aria-hidden="true">/</span>
+              </li>
+              <li>
+                <Link href={localeHref("/araclar", loc)}>{c.tools}</Link>
+                <span aria-hidden="true">/</span>
+              </li>
+              <li>
+                <Link href={TOOL_PATH[loc]}>{tool.name[loc]}</Link>
+                <span aria-hidden="true">/</span>
+              </li>
+              <li>
+                <span aria-current="page">{c.resultCrumb}</span>
+              </li>
+            </ol>
+          </nav>
+          <div className="v2-surface-3 rounded-xl px-4 py-3 mb-8 flex flex-wrap items-center justify-between gap-3">
+            <span className="eyebrow-bare mono text-ink-500 uppercase tracking-widest">
+              {ui.share.banner}
+            </span>
+            <Link href={TOOL_PATH[loc]} className="btn btn-ghost">
+              {ui.share.scanOwn}
+              <svg className="arrow" viewBox="0 0 14 14" aria-hidden="true">
+                <path d="M3 11 L11 3 M5 3 H11 V9" stroke="currentColor" strokeWidth="1.4" fill="none" />
+              </svg>
+            </Link>
+          </div>
+          <GeoTool locale={loc} tool={tool} mode="share" initialResult={result} />
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

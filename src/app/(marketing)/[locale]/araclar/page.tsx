@@ -113,21 +113,32 @@ export default async function ToolsIndex({
       />
 
       <section aria-label={h.tools} className="ds-container py-16">
-        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Tek araç yayındayken kart tam genişlikte durur (öne çıkan kart);
+            ikinci araç yayına girdiğinde liste iki sütuna açılır. Sayım
+            FİLTRELİ liste üzerinden — yayınlanmamış bir araç ne kartı ne
+            sütun kararını etkiler. */}
+        <ul className={tools.length === 1 ? "grid grid-cols-1" : "grid grid-cols-1 md:grid-cols-2 gap-6"}>
           {tools.map((t) => (
             <li key={t.slug.tr}>
               <Link
                 href={localeHref(`/araclar/${t.slug[loc]}`, loc)}
-                className="group block v2-surface border border-surface-2 rounded-2xl p-8 h-full"
+                className="group block v2-surface border border-surface-2 rounded-2xl p-8 md:p-12 h-full"
               >
                 <span className="eyebrow">{t.eyebrow[loc]}</span>
                 <h2 className="typography-h2 text-ink-900 mt-4">{t.name[loc]}</h2>
-                <p className="typography-body-md text-ink-700 mt-3 max-w-prose-editorial">
+                <p className="typography-body-lg text-ink-700 mt-3 max-w-prose-editorial">
                   {t.lede[loc]}
                 </p>
-                <span className="arrow text-ink-900 mt-6 inline-flex items-center gap-2 typography-body-md">
+                <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 typography-label mono text-ink-500 uppercase tracking-widest">
+                  {t.proof.map((p) => (
+                    <li key={p.tr}>{p[loc]}</li>
+                  ))}
+                </ul>
+                <span className="btn btn-primary mt-8">
                   {h.open}
-                  <span aria-hidden="true">→</span>
+                  <svg className="arrow" viewBox="0 0 14 14" aria-hidden="true">
+                    <path d="M3 11 L11 3 M5 3 H11 V9" stroke="currentColor" strokeWidth="1.4" fill="none" />
+                  </svg>
                 </span>
               </Link>
             </li>

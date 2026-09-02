@@ -100,13 +100,13 @@ export function checkJsonLd(pageHtml: string): GeoCheckResult {
 
   if (blocks.length === 0) {
     const summary: Localized<string> = {
-      tr: "Sayfada application/ld+json bloğu bulunamadı; üretken arama sistemleri için yapısal veri yok.",
-      en: "No application/ld+json block was found on the page; there is no structured data for generative search systems.",
+      tr: "Sayfada JSON-LD bloğu yok; cevap motorları için yapısal veri bulunmuyor.",
+      en: "The page has no JSON-LD block, so answer engines find no structured data.",
     };
     const findings: Array<Localized<string>> = [
       {
-        tr: "JSON-LD şeması yok: Organization, Article gibi tanınan @type değerleri makine tarafından okunamıyor.",
-        en: "No JSON-LD schema exists: recognised @type values such as Organization and Article cannot be read by machines.",
+        tr: "JSON-LD şeması yok; Organization ve Article gibi tanınan türler makine tarafından okunamıyor.",
+        en: "No JSON-LD schema exists; recognised types such as Organization and Article cannot be read by machines.",
       },
     ];
     return {
@@ -140,29 +140,29 @@ export function checkJsonLd(pageHtml: string): GeoCheckResult {
   const summary: Localized<string> =
     validBlocks.length > 0
       ? {
-          tr: `Sayfada ${validBlocks.length} geçerli JSON-LD bloğu bulundu${
+          tr: `Sayfada ${validBlocks.length} geçerli JSON-LD bloğu var${
             typeList ? `; tanınan tipler: ${typeList}` : ""
           }${hasFaq ? "; FAQPage şeması mevcut" : ""}.`,
-          en: `${validBlocks.length} valid JSON-LD block(s) found on the page${
+          en: `The page has ${validBlocks.length} valid JSON-LD block(s)${
             typeList ? `; recognised types: ${typeList}` : ""
           }${hasFaq ? "; FAQPage schema present" : ""}.`,
         }
       : {
-          tr: "Sayfadaki JSON-LD blokları çözümlenemedi; geçerli yapısal veri bulunamadı.",
-          en: "The JSON-LD blocks on the page could not be parsed; no valid structured data was found.",
+          tr: "Sayfadaki JSON-LD blokları çözümlenemedi; geçerli yapısal veri yok.",
+          en: "The JSON-LD blocks on the page could not be parsed; no valid structured data exists.",
         };
 
   const findings: Array<Localized<string>> = [];
   if (brokenCount > 0) {
     findings.push({
-      tr: `Bozuk JSON-LD bloğu bulundu: ${brokenCount} blok çözümlenemedi (geçersiz JSON söz dizimi).`,
-      en: `Broken JSON-LD block found: ${brokenCount} block(s) could not be parsed (invalid JSON syntax).`,
+      tr: `${brokenCount} JSON-LD bloğu geçersiz söz dizimi yüzünden çözümlenemiyor; bloğu bir JSON doğrulayıcıdan geçirin.`,
+      en: `${brokenCount} JSON-LD block(s) fail to parse because of invalid syntax; run the block through a JSON validator.`,
     });
   }
   if (validBlocks.length > 0 && recognizedTypes.size === 0 && !hasFaq) {
     findings.push({
-      tr: "Doküman: bulunan bloklarda tanınan @type kümesinden hiçbir tür yok.",
-      en: "Document: none of the blocks contain a type from the recognised @type set.",
+      tr: "Bloklarda tanınan bir @type yok; Organization, WebPage veya Article gibi bir tür ekleyin.",
+      en: "The blocks carry no recognised @type; add a type such as Organization, WebPage or Article.",
     });
   }
 

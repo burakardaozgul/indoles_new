@@ -119,6 +119,7 @@ export async function countLeadsSince(db: D1Database, ipHash: string, sinceIso: 
  * KVKK: ham IP asla saklanmaz. Gövde artık Diagnoo ile PAYLAŞILAN tek
  * yerde yaşıyor (`src/lib/tools/shared/ip-hash.ts`) — burada yalnız
  * yeniden export edilir, GEO rotaları/testleri değişmeden çalışmaya
- * devam eder.
+ * devam eder. Main'in ayraç sertleştirmesi (`ip + ":" + salt`) o paylaşılan
+ * modüle taşındı; iki araç aynı hash'i üretir.
  */
 export { hashClientIp } from "../shared/ip-hash";

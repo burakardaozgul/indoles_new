@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { DiagnooTool } from "@/components/tools/diagnoo-tool";
-import { getToolBySlug } from "@/lib/content/tools";
+import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { ARTICLES } from "@/lib/content/articles";
 import { SERVICES } from "@/lib/content/services";
-import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
 import { localeHref } from "@/lib/i18n/locale-href";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
@@ -41,6 +39,7 @@ const PATHS = {
 const COPY = {
   tr: {
     tools: "Araçlar",
+    proofLabel: "Kanıt",
     formTitle: "Mağazanızı tarayın",
     stepsEyebrow: "Nasıl çalışır",
     stepsTitle: "Üç adım, iki ile dört dakika.",
@@ -56,6 +55,7 @@ const COPY = {
   },
   en: {
     tools: "Tools",
+    proofLabel: "Proof",
     formTitle: "Scan your store",
     stepsEyebrow: "How it works",
     stepsTitle: "Three steps, two to four minutes.",
@@ -78,8 +78,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const loc = locale as Locale;
-  const tool = getToolBySlug(DIAGNOO_SLUG, "tr");
-  if (!tool) return {};
+  const tool = DIAGNOO_TOOL;
   const base = buildMetadata({
     title: tool.seo.title[loc],
     description: tool.seo.description[loc],
@@ -106,8 +105,7 @@ export default async function DiagnooPage({
   const loc = locale as Locale;
   const c = COPY[loc];
 
-  const tool = getToolBySlug(DIAGNOO_SLUG, "tr");
-  if (!tool) notFound();
+  const tool = DIAGNOO_TOOL;
 
   // Üçgen çift yönlü link (ADR-030 deseni): araç → hizmet → yazı. Diagnoo
   // e-ticaret teşhisi olduğu için hizmet ayağı e-ticaret danışmanlığı,
@@ -173,6 +171,16 @@ export default async function DiagnooPage({
               {tool.name[loc]}
             </h1>
             <p className="typography-body-lg text-ink-700 mt-5">{tool.lede[loc]}</p>
+            {/* Kanıt şeridi — GEO hero'sundaki (`geo-tool.tsx`) desenin aynısı:
+                dört kısa öğe, hepsi motorun gerçek davranışı. */}
+            <ul
+              className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-ink-600 typography-label"
+              aria-label={c.proofLabel}
+            >
+              {tool.proof.map((item) => (
+                <li key={item.tr}>{item[loc]}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

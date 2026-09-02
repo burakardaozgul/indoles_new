@@ -23,12 +23,18 @@
  * olup olmadığını coğrafi/kurumsal DNS bağlamı olmadan güvenle ayırt etmek
  * mümkün değildir (ör. `[::ffff:127.0.0.1]` gibi IPv6-eşlemeli biçimler).
  *
- * Host karşılaştırmaları öncesi `hostname`'in sonundaki TEK bir nokta
- * kırpılır (`indoles.com.tr.` gibi FQDN gösterimleri). WHATWG URL
- * ayrıştırıcısı bu noktayı domain host'larda korur (`new
- * URL("http://localhost./").hostname === "localhost."`); kırpılmazsa
- * `indoles.com.tr.` hem kendi API döngü korumasını hem de
- * localhost/*.local/*.internal reddini atlatabilirdi (fix round 1, critical).
+ * Host karşılaştırmaları öncesi `hostname`'in sonundaki BİR VEYA DAHA FAZLA
+ * nokta kırpılır (`indoles.com.tr.` gibi FQDN gösterimleri, `localhost..`
+ * gibi çok-nokta biçimleri dahil). WHATWG URL ayrıştırıcısı bu noktaları
+ * domain host'larda korur ve TEKİL değil ÇOĞUL da olabilir (`new
+ * URL("http://localhost../").hostname === "localhost.."`); yalnız tek bir
+ * nokta kırpan bir kural (`/\.$/`) `localhost..`'yi `localhost.`'e indirger
+ * ve dört predicate'in (IP-literal, local/internal, own-API, own-host)
+ * hiçbirine uymadan sızardı (final review C-borç, spec Görev 7'nin deferred
+ * notu: "final review'da uygula"). Sonek TÜM noktaları kırpan `/\.+$/` ile
+ * bu sınıfın tamamı kapatılır — `indoles.com.tr.` hem kendi API döngü
+ * korumasını hem de localhost/*.local/*.internal reddini atlatabilirdi (fix
+ * round 1, critical).
  */
 
 import { Localized } from "@/lib/content/types";
@@ -111,8 +117,8 @@ export function validateTargetUrl(raw: string): ValidateTargetUrlResult {
     return { ok: false, reason: REASON_PROTOCOL };
   }
 
-  // Tek trailing dot kırpılır — bkz. modül başı doküman notu (fix round 1).
-  const hostname = url.hostname.toLowerCase().replace(/\.$/, "");
+  // TÜM trailing nokta(lar) kırpılır — bkz. modül başı doküman notu.
+  const hostname = url.hostname.toLowerCase().replace(/\.+$/, "");
 
   if (isIpLiteralHost(hostname)) {
     return { ok: false, reason: REASON_IP_LITERAL };
@@ -251,6 +257,21 @@ async function readBodyOrNull(res: Response | null, maxBytes: number): Promise<s
 }
 
 /**
+ * Bot koruması (WAF/CDN) sayfayı 401/403/429 ile kapatıyor — site ERİŞİLEBİLİR,
+ * bizi (ve büyük ihtimalle GPTBot/ClaudeBot'u) engelliyor. "Adrese
+ * ulaşılamadı" demek kullanıcıyı suçlar; rota ayrı kod döner. Yalnız hedef
+ * SAYFA için: robots/llms'te aynı durum "yok say"dır.
+ */
+const BLOCKED_STATUSES = new Set([401, 403, 429]);
+
+export class TargetBlockedError extends Error {
+  constructor() {
+    super("target-blocked");
+    this.name = "TargetBlockedError";
+  }
+}
+
+/**
  * Hedef sayfayı ve `origin/robots.txt` + `origin/llms.txt`'i paralel çeker.
  * Sayfa erişilemezse (200 dışı durum, `text/html` olmayan içerik türü,
  * reddedilen/aşırı uzun yönlendirme zinciri veya gövde-fazı hatası)
@@ -272,6 +293,10 @@ export async function fetchScanTargets(
     fetchWithValidatedRedirects(new URL("/robots.txt", origin), fetcher, headers),
     fetchWithValidatedRedirects(new URL("/llms.txt", origin), fetcher, headers),
   ]);
+
+  if (pageRes && BLOCKED_STATUSES.has(pageRes.status)) {
+    throw new TargetBlockedError();
+  }
 
   if (!pageRes || pageRes.status !== 200 || !isHtmlContentType(pageRes)) {
     throw new Error("target-unreachable");

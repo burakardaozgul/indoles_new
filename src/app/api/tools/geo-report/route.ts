@@ -2,10 +2,17 @@
  * `POST /api/tools/geo-report` — GEO görünürlük denetleyicisi detaylı rapor
  * akışı. Spec §3 "Detaylı rapor", Görev 12.
  *
- * Akış (KESİN sıra): şema (`geoReportSchema` — `kvkkConsent: z.literal(true)`)
- * → Turnstile → `TOOL_IP_SALT` fail-closed (KVKK) → IP hash → lead limiti
- * (IP/saat 3, `countLeadsSince`) → `getScan` (yoksa 404) → `insertLead` →
- * satışa lead bildirimi + kullanıcıya rapor maili → 200 `{ ok: true }`.
+ * Akış (final review C1 sonrası, KESİN sıra): şema (`geoReportSchema` —
+ * `kvkkConsent: z.literal(true)`) → bal küpü/süre tuzağı (`spamSignal`, HER
+ * ZAMAN çalışır) → Turnstile (yalnız `turnstileEnabled()` iken) →
+ * `TOOL_IP_SALT` fail-closed (KVKK) → IP hash → lead limiti (IP/saat 3,
+ * `countLeadsSince`) → `getScan` (yoksa 404) → `insertLead` → satışa lead
+ * bildirimi + kullanıcıya rapor maili → 200 `{ ok: true }`.
+ *
+ * Turnstile burada geo-scan route'uyla (`src/app/api/tools/geo-scan/route.ts`)
+ * BİREBİR aynı desende — ADR-028 bayrağı kapalıyken (launch konfigürasyonu)
+ * token hiç istenmez, YERİNE `spamSignal` çalışır (aynı gerekçe için
+ * geo-scan route'unun başlık yorumuna bkz).
  *
  * KVKK RIZA KAPISI (iki savunma): (1) `geoReportSchema` rızayı `z.literal(true)`
  * ile ZORUNLU kılar — `false`/eksik rıza `safeParse`te 400 olur ve akış
@@ -25,6 +32,7 @@ import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { geoReportSchema } from "@/lib/schemas/tools";
 import { verifyTurnstile } from "@/lib/security/turnstile";
+import { spamSignal, turnstileEnabled } from "@/lib/security/anti-spam";
 import {
   getScan,
   insertLead,
@@ -103,9 +111,22 @@ export async function POST(req: Request): Promise<Response> {
 
   const ip = req.headers.get("cf-connecting-ip") ?? "unknown";
 
-  const turnstileOk = await verifyTurnstile(data.turnstileToken, ip);
-  if (!turnstileOk) {
-    return errorResponse("turnstile-failed", 400);
+  // Bal küpü + süre tuzağı — HER ZAMAN çalışır (Turnstile açık/kapalı fark
+  // etmez), contact/geo-scan route'larının izlediği AYNI desen. Sahte başarı
+  // bilinçli: 4xx dönmek bota neyin yakalandığını öğretir.
+  const spam = spamSignal(data);
+  if (spam) {
+    console.warn(`[api/tools/geo-report] spam_suspect signal=${spam}`);
+    return NextResponse.json({ ok: true });
+  }
+
+  if (turnstileEnabled()) {
+    const turnstileOk = data.turnstileToken
+      ? await verifyTurnstile(data.turnstileToken, ip)
+      : false;
+    if (!turnstileOk) {
+      return errorResponse("turnstile-failed", 400);
+    }
   }
 
   // KVKK fail-closed: tuz eksik/boşsa tuzsuz SHA-256(IP) rainbow-table ile
@@ -213,9 +234,9 @@ export async function POST(req: Request): Promise<Response> {
     console.error("[api/tools/geo-report] report_failed:", err);
   }
 
-  // `tool_report_requested` dönüşüm olayı istemcide (GeoReportForm) atılır.
+  // `tool_report_requested` dönüşüm olayı istemcide (ReportGate) atılır.
   // Görev 12b: rapor akışı KVKK rızalıdır (üstteki `insertLead`) — bu yüzden
-  // 200 yanıtı `checks`i (findings dahil) TAŞIR; `GeoReportForm` kilidi
+  // 200 yanıtı `checks`i (findings dahil) TAŞIR; `ReportGate` kilidi
   // açınca bu gövdeden render eder, başlangıç prop'undan DEĞİL.
   return NextResponse.json({ ok: true, checks: scan.checks });
 }

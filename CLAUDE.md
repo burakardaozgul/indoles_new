@@ -171,7 +171,8 @@ indoles-web/
 │   ├── components/analytics/          # track-view (görüntüleme olayı adası)
 │   ├── components/marketing/          # Ana site bölümleri + entry-popup + paylaşılanlar
 │   │                                  # (v1 chrome — layout/ — ADR-017 sonrası silindi)
-│   ├── components/tools/              # GEO araç formları (geo-scan-form · geo-report-form) — ADR-030
+│   ├── components/tools/              # GEO araç adası (geo-tool · scan-bar · scan-stage · score-card ·
+│   │                                  #   band-scale · signal-rows · report-gate · findings-list · copy) — ADR-030/031
 │   ├── components/v2/                 # webgl/ · cursor/ · hero/ · sections/
 │   ├── lib/v2/                        # anim-config · use-lenis · use-mouse · içerik
 │   ├── lib/tools/geo/                 # GEO motoru — saf kural fonksiyonları, Worker-native — ADR-030

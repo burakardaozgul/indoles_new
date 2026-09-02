@@ -7,12 +7,11 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { DiagnooReport } from "@/components/tools/diagnoo-report";
 import { DiagnooSnapshot } from "@/components/tools/diagnoo-snapshot";
-import { getToolBySlug } from "@/lib/content/tools";
+import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { getDiagnostic, findLeadByToken } from "@/lib/tools/diagnoo/repository";
 import { unlockCookieName } from "@/lib/tools/diagnoo/unlock-cookie";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
 import { diagnooFailureMessage } from "@/lib/tools/diagnoo/fail-copy";
-import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
 import { buildMetadata } from "@/lib/seo/metadata";
 import type { Locale } from "@/lib/content/types";
 import type { DiagnosticRow } from "@/lib/tools/diagnoo/repository";
@@ -120,7 +119,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, id } = await params;
   const loc = locale as Locale;
-  const tool = getToolBySlug(DIAGNOO_SLUG, "tr");
+  const tool = DIAGNOO_TOOL;
   const loaded = await loadDiagnostic(id);
   if (!tool || !loaded) return {};
 
@@ -148,8 +147,7 @@ export default async function DiagnooReportPage({
   const loc = locale as Locale;
   const c = COPY[loc];
 
-  const tool = getToolBySlug(DIAGNOO_SLUG, "tr");
-  if (!tool) notFound();
+  const tool = DIAGNOO_TOOL;
 
   const loaded = await loadDiagnostic(id);
   if (!loaded) notFound();
@@ -180,6 +178,7 @@ export default async function DiagnooReportPage({
           ) : (
             <DiagnooSnapshot
               snapshot={toSnapshot(report)}
+              bands={tool.bands}
               diagnosticId={row.id}
               locale={loc}
             />

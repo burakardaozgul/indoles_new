@@ -9,6 +9,7 @@ import { useDiagnooStatus } from "@/components/tools/use-diagnoo-status";
 import { getPathname } from "@/lib/i18n/navigation";
 import { diagnooFailureMessage } from "@/lib/tools/diagnoo/fail-copy";
 import type { ToolContent } from "@/lib/content/tools";
+import type { HealthScoreBucket } from "@/lib/analytics/events";
 
 /**
  * Diagnoo giriş yüzeyinin durum makinesi:
@@ -108,7 +109,8 @@ export function DiagnooTool({
   tool,
 }: {
   locale: "tr" | "en";
-  tool: ToolContent;
+  /** Diagnoo kaydı — bant cümlesi anlık görünüme aktarıldığı için kova tipi korunur. */
+  tool: ToolContent<HealthScoreBucket>;
 }) {
   const c = COPY[locale];
   const [diagnosticId, setDiagnosticId] = useState<string | null>(null);
@@ -175,7 +177,9 @@ export function DiagnooTool({
         {tool.name[locale]} — {phaseLabel}
       </h2>
 
-      {phase === "idle" ? <DiagnooForm locale={locale} onStarted={onStarted} /> : null}
+      {phase === "idle" ? (
+        <DiagnooForm locale={locale} inputHelp={tool.inputHelp[locale]} onStarted={onStarted} />
+      ) : null}
 
       {phase === "failed" ? (
         <div>
@@ -215,6 +219,7 @@ export function DiagnooTool({
       {phase === "snapshot" && status.snapshot ? (
         <DiagnooSnapshot
           snapshot={status.snapshot}
+          bands={tool.bands}
           diagnosticId={diagnosticId!}
           locale={locale}
         />

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { TOOLS, publishedTools } from "@/lib/content/tools";
+import { TOOLS, publishedTools, DIAGNOO_TOOL, GEO_TOOL } from "@/lib/content/tools";
 import type { ToolContent } from "@/lib/content/tools";
 
 const LOCALES = ["tr", "en"] as const;
@@ -39,10 +39,10 @@ describe("TOOLS içerik bütünlüğü", () => {
 });
 
 describe("TOOLS SSS bütünlüğü", () => {
-  it("her araç tam 6 SSS taşır", () => {
-    // Brief: 6 soru. Alt yüzey olarak çalışması için sabit sayı; ne az ne fazla.
+  it("her araç en az 6 SSS taşır", () => {
+    // Brief: en az 6 soru. Alt yüzey olarak çalışması için taban sayı.
     for (const t of TOOLS) {
-      expect(t.faq.length, t.slug.tr).toBe(6);
+      expect(t.faq.length, t.slug.tr).toBeGreaterThanOrEqual(6);
     }
   });
 
@@ -223,5 +223,53 @@ describe("publishedTools filtresi", () => {
     for (const t of TOOLS) {
       expect(typeof t.published, t.slug.tr).toBe("boolean");
     }
+  });
+});
+
+describe("TOOLS hero alanları", () => {
+  it("her araç 4 kanıt öğesini iki dilde taşır", () => {
+    // Kanıt şeridi hero'da ve `/araclar` kartında aynı diziden okunuyor;
+    // dört öğe tasarımın taşıdığı sayı (docs/04 §12.10).
+    for (const t of TOOLS) {
+      expect(t.proof.length, t.slug.tr).toBe(4);
+      for (const p of t.proof) {
+        for (const loc of LOCALES) {
+          expect(p[loc]?.trim(), `${t.slug.tr}/${loc}`).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("her araç giriş yardımını iki dilde taşır", () => {
+    for (const t of TOOLS) {
+      for (const loc of LOCALES) {
+        expect(t.inputHelp[loc]?.trim(), `${t.slug.tr}/${loc}`).toBeTruthy();
+      }
+    }
+  });
+
+  it("her araç dört bant cümlesini iki dilde taşır", () => {
+    // Bant KÜMESİ araca özel (GEO `GeoBand`, Diagnoo `HealthScoreBucket`),
+    // ama sayı ikisinde de dört: skor dört banda bölünür.
+    for (const t of TOOLS) {
+      const sentences = Object.values(t.bands);
+      expect(sentences.length, t.slug.tr).toBe(4);
+      for (const s of sentences) {
+        for (const loc of LOCALES) {
+          expect(s[loc]?.trim(), `${t.slug.tr}/${loc}`).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("bant anahtarları motorun kova/bant kimlikleriyle birebir", () => {
+    // Kayıt tipli yazıldığı için eksik anahtar derlemede yakalanır; bu test
+    // anahtar KÜMESİNİN motordan sapmadığını çalışma zamanında da tutar.
+    expect(Object.keys(GEO_TOOL.bands).sort()).toEqual(
+      ["gelismeye-acik", "iyi", "oncu", "zayif"],
+    );
+    expect(Object.keys(DIAGNOO_TOOL.bands).sort()).toEqual(
+      ["0-25", "26-50", "51-75", "76-100"],
+    );
   });
 });

@@ -49,6 +49,7 @@ pnpm dev                      # http://localhost:3000 → /tr
 | `pnpm lint` | ESLint |
 | `pnpm format` | Prettier |
 | `pnpm seo:audit` | 124 URL × 20 kural SEO/GEO denetimi (çalışan sunucuya karşı) |
+| `pnpm og:geo` | GEO paylaşım kartlarını üretir (şablon değişince) |
 
 ### Cloudflare (ADR-024)
 

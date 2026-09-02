@@ -10,4 +10,8 @@ describe("hashClientIp", () => {
   it("tuz değişince hash değişir", async () => {
     expect(await hashClientIp("1.2.3.4", "a")).not.toBe(await hashClientIp("1.2.3.4", "b"));
   });
+  it("ayraç sınır belirsizliğini kapatır", async () => {
+    // Ayraçsız birleştirmede bu iki çift aynı dizgeye ("1.2.3.45") daralırdı.
+    expect(await hashClientIp("1.2.3.4", "5")).not.toBe(await hashClientIp("1.2.3.45", ""));
+  });
 });

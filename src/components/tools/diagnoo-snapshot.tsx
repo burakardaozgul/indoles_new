@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics/ga";
 import { healthScoreBucket } from "@/lib/analytics/events";
+import type { HealthScoreBucket } from "@/lib/analytics/events";
 import {
   BenchmarkRows,
   DiagnooReport as DiagnooReportView,
@@ -10,6 +11,7 @@ import {
 } from "@/components/tools/diagnoo-report";
 import { DiagnooUnlockForm } from "@/components/tools/diagnoo-unlock-form";
 import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
+import type { Localized } from "@/lib/content/types";
 import type {
   DiagnooReport,
   RoadmapItem,
@@ -130,10 +132,18 @@ function ScoreGauge({ score, label }: { score: number; label: string }) {
 
 export function DiagnooSnapshot({
   snapshot,
+  bands,
   diagnosticId,
   locale,
 }: {
   snapshot: SnapshotView;
+  /**
+   * Kova başına tek cümle — `tools.ts`teki `bands` kaydı. Skorun yanında
+   * duran bu cümle içerik katmanının işidir, motorun değil (GEO'nun
+   * `score-card.tsx`i aynı deseni izler): sayı ne anlama geliyor sorusunu
+   * kayıt cevaplar, kova sınırı `healthScoreBucket()` ile ortaktır.
+   */
+  bands: Record<HealthScoreBucket, Localized<string>>;
   diagnosticId: string;
   locale: "tr" | "en";
 }) {
@@ -207,6 +217,9 @@ export function DiagnooSnapshot({
                 </span>
               </p>
             </div>
+            <p className="typography-body-lg text-ink-700 mt-4">
+              {bands[healthScoreBucket(snapshot.healthScore)][locale]}
+            </p>
           </div>
 
           {snapshot.benchmarks.length > 0 ? (

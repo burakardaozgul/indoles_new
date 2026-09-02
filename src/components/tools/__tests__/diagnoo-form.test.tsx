@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { DiagnooForm } from "../diagnoo-form";
+import { DIAGNOO_TOOL } from "@/lib/content/tools";
 
 /**
  * Teşhis başlatma formunun Görev 17.1 sözleşmesi.
@@ -39,7 +40,7 @@ describe("DiagnooForm", () => {
   });
 
   it("bal küpü alanı DOM'da ama görsel/klavye erişiminden çıkarılmış render edilir", () => {
-    render(<DiagnooForm locale="tr" onStarted={vi.fn()} />);
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
 
     const honeypot = screen.getByRole("textbox", { name: "Web sitesi (boş bırak)", hidden: true });
     expect(honeypot).toHaveAttribute("name", "website");
@@ -54,7 +55,7 @@ describe("DiagnooForm", () => {
   });
 
   it("gönderimde gövdeye website ('') ve sayısal elapsedMs eklenir", async () => {
-    render(<DiagnooForm locale="tr" onStarted={vi.fn()} />);
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
 
     fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
       target: { value: "https://magaza.example.com" },
@@ -71,7 +72,7 @@ describe("DiagnooForm", () => {
   });
 
   it("bal küpü doldurulursa (bot) gövdeye AYNEN gider — istemci bunu gizlemez", async () => {
-    render(<DiagnooForm locale="tr" onStarted={vi.fn()} />);
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
 
     fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
       target: { value: "https://magaza.example.com" },
@@ -88,7 +89,7 @@ describe("DiagnooForm", () => {
   });
 
   it("Turnstile bayrağı kapalıyken gövdede turnstileToken alanı HİÇ yok", async () => {
-    render(<DiagnooForm locale="tr" onStarted={vi.fn()} />);
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
 
     fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
       target: { value: "https://magaza.example.com" },
@@ -102,14 +103,14 @@ describe("DiagnooForm", () => {
   });
 
   it("Turnstile bayrağı kapalıyken 'hazırlanıyor' gibi bir ipucu GÖSTERİLMEZ", () => {
-    render(<DiagnooForm locale="tr" onStarted={vi.fn()} />);
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
     expect(screen.queryByText("Güvenlik doğrulaması yükleniyor…")).toBeNull();
     expect(screen.queryByText("Güvenlik doğrulaması yüklenemedi. Sayfayı yenileyip yeniden deneyin.")).toBeNull();
   });
 
   it("başarılı 202 yanıtında onStarted teşhis kimliğiyle çağrılır", async () => {
     const onStarted = vi.fn();
-    render(<DiagnooForm locale="tr" onStarted={onStarted} />);
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={onStarted} />);
 
     fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
       target: { value: "https://magaza.example.com" },
@@ -127,7 +128,7 @@ describe("DiagnooForm", () => {
 
   it("sahte başarı (spam trap 200, id yok) → genel hata mesajı gösterir", async () => {
     fetchMock.mockResolvedValue({ ok: true, status: 200, json: async () => ({ ok: true }) });
-    render(<DiagnooForm locale="tr" onStarted={vi.fn()} />);
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
 
     fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
       target: { value: "https://magaza.example.com" },

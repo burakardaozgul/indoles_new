@@ -47,4 +47,12 @@ describe("BandScale", () => {
     expect(container.querySelector('[data-part="marker"]')).toBeNull();
     expect(container.querySelectorAll("rect[data-band]")[1]?.getAttribute("fill")).toBe(BAND_COLORS["gelismeye-acik"].soft);
   });
+
+  it("Türkçe küçük harfe çevirme: 'İyi' noktalı-i bozulmadan 'iyi' olur", () => {
+    const trLabels = { ...labels, iyi: "İyi" };
+    const { container } = render(<BandScale score={75} labels={trLabels} ariaLabel="x" />);
+    const text = container.querySelector('text[data-active="true"]')?.textContent ?? "";
+    expect(text).not.toContain("̇"); // birleşen nokta (combining dot above)
+    expect(text).toContain("iyi");
+  });
 });

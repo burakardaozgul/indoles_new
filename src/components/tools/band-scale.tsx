@@ -78,7 +78,11 @@ export function BandScale({
               letterSpacing={1.5}
               fill={band === active ? neutral.ink[900] : neutral.ink[500]}
             >
-              {labels[band].toLowerCase()}
+              {/* `toLocaleLowerCase("tr")`: sade `toLowerCase()` "İyi"yi
+                  "i̇yi"ye (nokta korunan i + birleşen nokta) çeviriyordu.
+                  EN etiketlerinde büyük "I" yok, "tr" kilidi ikisi için de
+                  güvenli (bkz. layout.tsx:95, aynı İ/I hatası site genelinde). */}
+              {labels[band].toLocaleLowerCase("tr")}
             </text>
           </g>
         );

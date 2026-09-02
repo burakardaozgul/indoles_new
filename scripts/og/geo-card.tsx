@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BandScale } from "@/components/tools/band-scale";
+import { BAND_COLORS, BandScale } from "@/components/tools/band-scale";
 import { BAND_LABELS } from "@/components/tools/copy";
 import { TOOLS } from "@/lib/content/tools";
 import { neutral, teal } from "@/lib/design/tokens";
@@ -40,7 +40,7 @@ export function GeoCard({ score, locale }: { score: number; locale: Locale }) {
         <div style={{ fontSize: 260, fontWeight: 600, lineHeight: 0.85, letterSpacing: -12 }}>{score}</div>
         <div style={{ paddingBottom: 18 }}>
           <div style={{ fontSize: 44, color: neutral.ink[500] }}>/100</div>
-          <div style={{ marginTop: 16, display: "inline-block", padding: "10px 22px", borderRadius: 999, border: `2px solid ${teal[700]}`, fontFamily: MONO, fontSize: 24, letterSpacing: 4, textTransform: "uppercase" }}>
+          <div style={{ marginTop: 16, display: "inline-block", padding: "10px 22px", borderRadius: 999, border: `2px solid ${BAND_COLORS[band].strong}`, fontFamily: MONO, fontSize: 24, letterSpacing: 4, textTransform: "uppercase", color: BAND_COLORS[band].strong }}>
             {BAND_LABELS[band][locale]}
           </div>
         </div>

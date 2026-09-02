@@ -57,11 +57,22 @@ describe("GeoTool", () => {
   });
 
   it("başarılı tarama: sahne → skor kartı, URL güncellenir, olaylar atılır, sayfa karta kayar", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ id: RESULT.id, result: RESULT }) }));
-    render(<GeoTool locale="tr" tool={TOOL} mode="tool" />);
+    // `fetch` bilinçli olarak beklemede bırakılır: `phase` "scanning"de
+    // asılı kalır, canlı bölgenin `stage.live` okuduğu an gözlemlenebilir
+    // olur (spec §4 — aksi halde reduced-motion'da geçiş tek mikro-görevde
+    // biter ve "Tarama sürüyor" hiç yakalanamaz).
+    let resolveFetch!: (value: { ok: true; json: () => Promise<unknown> }) => void;
+    const fetchPromise = new Promise<{ ok: true; json: () => Promise<unknown> }>((resolve) => {
+      resolveFetch = resolve;
+    });
+    vi.stubGlobal("fetch", vi.fn().mockReturnValue(fetchPromise));
+    const { container } = render(<GeoTool locale="tr" tool={TOOL} mode="tool" />);
+    const liveStatus = () => container.querySelector('p[role="status"].sr-only');
     // MIN_FILL_MS beklemesini atlamak için: gerçek zamanlayıcı ile 2 sn beklemek yerine
     // ScanBar'ın mountedAt'ı geçmişe alınamaz; bu yüzden waitFor uzun zaman aşımıyla bekler.
     await submit();
+    await waitFor(() => expect(liveStatus()).toHaveTextContent("Tarama sürüyor"), { timeout: 4000 });
+    resolveFetch({ ok: true, json: async () => ({ id: RESULT.id, result: RESULT }) });
     await waitFor(() => expect(screen.getByText("72", { selector: "[data-part='score']" })).toBeInTheDocument(), { timeout: 4000 });
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(replaceState).toHaveBeenCalledWith(null, "", "/tr/araclar/geo-gorunurluk-denetleyicisi/sonuc/scan-abc");
@@ -69,6 +80,8 @@ describe("GeoTool", () => {
     expect(trackMock).toHaveBeenCalledWith({ name: "tool_scan_completed", properties: { slug: "geo-gorunurluk-denetleyicisi", band: "iyi", locale: "tr" } });
     expect(Element.prototype.scrollIntoView).toHaveBeenCalled();
     expect(screen.getByText("Düzeltme listesi")).toBeInTheDocument();
+    expect(liveStatus()).toHaveTextContent("Tarama tamamlandı, skor 72");
+    expect(document.activeElement).toBe(container.querySelector(".scroll-mt-36"));
   });
 
   it("target-blocked → engellenen site mesajı, giriş durumunda kalır", async () => {

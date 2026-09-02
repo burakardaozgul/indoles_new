@@ -1760,7 +1760,7 @@
 .signal-bar-fill {
   height: 100%; border-radius: inherit;
   width: var(--fill, 0%);
-  transition: width var(--tool-count-ms, 800ms) var(--ease-out);
+  transition: width var(--tool-count-ms) var(--ease-out);
 }
 @media (prefers-reduced-motion: reduce) { .signal-bar-fill { transition: none; } }
 @starting-style { .signal-bar-fill { width: 0; } }

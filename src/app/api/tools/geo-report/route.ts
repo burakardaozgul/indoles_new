@@ -234,9 +234,9 @@ export async function POST(req: Request): Promise<Response> {
     console.error("[api/tools/geo-report] report_failed:", err);
   }
 
-  // `tool_report_requested` dönüşüm olayı istemcide (GeoReportForm) atılır.
+  // `tool_report_requested` dönüşüm olayı istemcide (ReportGate) atılır.
   // Görev 12b: rapor akışı KVKK rızalıdır (üstteki `insertLead`) — bu yüzden
-  // 200 yanıtı `checks`i (findings dahil) TAŞIR; `GeoReportForm` kilidi
+  // 200 yanıtı `checks`i (findings dahil) TAŞIR; `ReportGate` kilidi
   // açınca bu gövdeden render eder, başlangıç prop'undan DEĞİL.
   return NextResponse.json({ ok: true, checks: scan.checks });
 }

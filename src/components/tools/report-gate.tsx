@@ -59,6 +59,7 @@ export function ReportGate({
 }) {
   const c = TOOL_UI[locale];
   const uid = React.useId();
+  const headingId = `${uid}-fix-list-heading`;
   const [email, setEmail] = React.useState("");
   const [consent, setConsent] = React.useState(false);
   const [state, setState] = React.useState<"idle" | "submitting" | "error" | "unlocked">("idle");
@@ -141,6 +142,14 @@ export function ReportGate({
     return () => clearTimeout(id);
   }, [turnstileStatus]);
 
+  // Kilit açılınca odak düzeltme listesi başlığına taşınır (spec §4) — kart
+  // görsel olarak yeniden akıyor, klavye/ekran okuyucu kullanıcısı formda
+  // asılı kalmasın.
+  React.useEffect(() => {
+    if (state !== "unlocked") return;
+    document.getElementById(headingId)?.focus();
+  }, [state, headingId]);
+
   function clearTurnstileToken(): void {
     if (!TURNSTILE_ENABLED) return;
     setTurnstileToken("");
@@ -193,16 +202,26 @@ export function ReportGate({
     }
   }
 
+  // Kalıcı canlı bölge (spec §4): kilit açıldığında `gate.unlockedLede`
+  // duyurulur; kilitliyken boş — odak taşıması zaten metnin görünür halini
+  // (`FindingsList`teki `<p>`) ekrana getirir, anons burada yalnız ekran
+  // okuyucu içindir.
+  const statusText = state === "unlocked" ? c.gate.unlockedLede : "";
+
   if (state === "unlocked") {
     return (
-      <section aria-label={c.gate.title} className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-8">
-        <FindingsList
-          checks={unlocked}
-          signals={signals}
-          locale={locale}
-          ctaSlot={<PopupCTAButton source="tool-geo-report" className="btn btn-primary">{c.gate.ctaButton}</PopupCTAButton>}
-        />
-      </section>
+      <>
+        <p role="status" aria-live="polite" className="sr-only">{statusText}</p>
+        <section aria-label={c.gate.title} className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-8">
+          <FindingsList
+            checks={unlocked}
+            signals={signals}
+            locale={locale}
+            headingId={headingId}
+            ctaSlot={<PopupCTAButton source="tool-geo-report" className="btn btn-primary">{c.gate.ctaButton}</PopupCTAButton>}
+          />
+        </section>
+      </>
     );
   }
 
@@ -220,78 +239,81 @@ export function ReportGate({
   }
 
   return (
-    <section aria-label={c.gate.title} className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-8 grid gap-8 md:grid-cols-2 text-left">
-      <div>
-        <div className="flex items-center justify-between gap-3">
-          <h3 className="typography-h3 text-ink-900">{c.gate.title}</h3>
-          <span className="typography-label inline-flex items-center gap-1.5 rounded-full border border-ink-200 px-2.5 py-1 uppercase tracking-widest text-ink-500">
-            <svg viewBox="0 0 12 12" className="h-3 w-3" aria-hidden="true"><rect x="2" y="5" width="8" height="6" rx="1" fill="currentColor" /><path d="M4 5V3.5a2 2 0 0 1 4 0V5" stroke="currentColor" strokeWidth="1.2" fill="none" /></svg>
-            {c.gate.locked}
-          </span>
-        </div>
-        <ul className="mt-6 flex flex-col gap-4">
-          {todo.map((check) => {
-            const n = check.findingsCount ?? check.findings.length;
-            if (n === 0) return null;
-            return (
-              <li key={check.id}>
-                <div className="flex items-baseline justify-between gap-3">
-                  <span className="typography-body-md text-ink-900">{signals.find((s) => s.id === check.id)?.title[locale] ?? check.id}</span>
-                  <span className="mono text-ink-500">{fill(c.gate.findingsCount, { n })}</span>
-                </div>
-                <div className="gate-skeleton mt-2" style={{ width: `${Math.min(100, 55 + n * 15)}%` }} />
+    <>
+      <p role="status" aria-live="polite" className="sr-only">{statusText}</p>
+      <section aria-label={c.gate.title} className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-8 grid gap-8 md:grid-cols-2 text-left">
+        <div>
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="typography-h3 text-ink-900">{c.gate.title}</h3>
+            <span className="typography-label inline-flex items-center gap-1.5 rounded-full border border-ink-200 px-2.5 py-1 uppercase tracking-widest text-ink-500">
+              <svg viewBox="0 0 12 12" className="h-3 w-3" aria-hidden="true"><rect x="2" y="5" width="8" height="6" rx="1" fill="currentColor" /><path d="M4 5V3.5a2 2 0 0 1 4 0V5" stroke="currentColor" strokeWidth="1.2" fill="none" /></svg>
+              {c.gate.locked}
+            </span>
+          </div>
+          <ul className="mt-6 flex flex-col gap-4">
+            {todo.map((check) => {
+              const n = check.findingsCount ?? check.findings.length;
+              if (n === 0) return null;
+              return (
+                <li key={check.id}>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <span className="typography-body-md text-ink-900">{signals.find((s) => s.id === check.id)?.title[locale] ?? check.id}</span>
+                    <span className="mono text-ink-500">{fill(c.gate.findingsCount, { n })}</span>
+                  </div>
+                  <div className="gate-skeleton mt-2" style={{ width: `${Math.min(100, 55 + n * 15)}%` }} />
+                </li>
+              );
+            })}
+            {passedCount > 0 ? (
+              <li>
+                <span className="typography-body-sm text-ink-500">{fill(c.gate.passedNotes, { n: passedCount })}</span>
+                <div className="gate-skeleton mt-2" style={{ width: "40%" }} />
               </li>
-            );
-          })}
-          {passedCount > 0 ? (
-            <li>
-              <span className="typography-body-sm text-ink-500">{fill(c.gate.passedNotes, { n: passedCount })}</span>
-              <div className="gate-skeleton mt-2" style={{ width: "40%" }} />
-            </li>
-          ) : null}
-        </ul>
-      </div>
+            ) : null}
+          </ul>
+        </div>
 
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <div>
-          <h3 className="typography-h3 text-ink-900">{c.gate.formTitle}</h3>
-          <p className="typography-body-md text-ink-700 mt-2">{c.gate.formLede}</p>
-        </div>
-        <div>
-          <label htmlFor={emailId} className="typography-label text-ink-700">{c.gate.emailLabel}</label>
-          <Input
-            id={emailId}
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            required
-            placeholder={c.gate.emailPlaceholder}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-invalid={state === "error" ? true : undefined}
-            className="mt-2"
-          />
-        </div>
-        <label htmlFor={kvkkId} className="flex items-start gap-3 typography-body-sm text-ink-700 cursor-pointer py-2">
-          <input id={kvkkId} type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-required className="h-5 w-5 mt-0.5 shrink-0 accent-teal-700 cursor-pointer" />
-          <span>
-            {c.gate.kvkkPrefix}{" "}
-            <a href={c.gate.kvkkHref} onClick={(e) => e.stopPropagation()} className="underline decoration-teal-300 hover:decoration-teal-500">{c.gate.kvkkLink}</a>
-          </span>
-        </label>
-        <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
-          <label>
-            Web sitesi (boş bırak)
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+        <form onSubmit={onSubmit} className="space-y-4" noValidate>
+          <div>
+            <h3 className="typography-h3 text-ink-900">{c.gate.formTitle}</h3>
+            <p className="typography-body-md text-ink-700 mt-2">{c.gate.formLede}</p>
+          </div>
+          <div>
+            <label htmlFor={emailId} className="typography-label text-ink-700">{c.gate.emailLabel}</label>
+            <Input
+              id={emailId}
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              required
+              placeholder={c.gate.emailPlaceholder}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-invalid={state === "error" ? true : undefined}
+              className="mt-2"
+            />
+          </div>
+          <label htmlFor={kvkkId} className="flex items-start gap-3 typography-body-sm text-ink-700 cursor-pointer py-2">
+            <input id={kvkkId} type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-required className="h-5 w-5 mt-0.5 shrink-0 accent-teal-700 cursor-pointer" />
+            <span>
+              {c.gate.kvkkPrefix}{" "}
+              <a href={c.gate.kvkkHref} onClick={(e) => e.stopPropagation()} className="underline decoration-teal-300 hover:decoration-teal-500">{c.gate.kvkkLink}</a>
+            </span>
           </label>
-        </div>
-        {TURNSTILE_ENABLED ? <div ref={turnstileRef} className="cf-turnstile" /> : null}
-        <button type="submit" className="btn btn-primary" aria-busy={submitting ? "true" : undefined} disabled={submitting || tokenBlocking || email.trim().length === 0}>
-          {submitting ? c.gate.submitting : c.gate.submit}
-        </button>
-        <div role="status" aria-live="polite">{hint ? <p className="typography-caption text-ink-500">{hint}</p> : null}</div>
-        {message ? <p role="alert" className="typography-body-sm text-danger-700">{message}</p> : null}
-      </form>
-    </section>
+          <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+            <label>
+              Web sitesi (boş bırak)
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+            </label>
+          </div>
+          {TURNSTILE_ENABLED ? <div ref={turnstileRef} className="cf-turnstile" /> : null}
+          <button type="submit" className="btn btn-primary" aria-busy={submitting ? "true" : undefined} disabled={submitting || tokenBlocking || email.trim().length === 0}>
+            {submitting ? c.gate.submitting : c.gate.submit}
+          </button>
+          <div role="status" aria-live="polite">{hint ? <p className="typography-caption text-ink-500">{hint}</p> : null}</div>
+          {message ? <p role="alert" className="typography-body-sm text-danger-700">{message}</p> : null}
+        </form>
+      </section>
+    </>
   );
 }

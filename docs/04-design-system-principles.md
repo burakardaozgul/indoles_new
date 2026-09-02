@@ -184,7 +184,7 @@ Logo renginden (`teal-700` = **#2C5566**) türetilmiş 11 basamak. Tailwind'de h
 |---|---|---|
 | ink-800 / bg | ~19:1 | AAA |
 | ink-600 / bg | ~7.4:1 | AAA |
-| ink-500 / bg | ~4.8:1 | AA |
+| ink-500 / bg | 4.34:1 (ölçüm 2026-09-02, §12.10) | Yalnız büyük metin (AA large) — gövde caption'ı için ayrı karar bekliyor |
 | teal-700 / bg | ~8.2:1 | AAA |
 | white / teal-900 | ~11:1 | AAA |
 | gold-400 / teal-950 | ~7.6:1 | AAA |

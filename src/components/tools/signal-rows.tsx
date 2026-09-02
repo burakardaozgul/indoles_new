@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { STATUS_LABELS, TOOL_UI } from "@/components/tools/copy";
+import { TOOL_SCORE } from "@/lib/v2/anim-config";
 import type { ToolSignal } from "@/lib/content/tools";
 import type { Locale } from "@/lib/content/types";
 import type { GeoCheckResult, GeoCheckStatus } from "@/lib/tools/geo/types";
@@ -45,7 +46,10 @@ export function SignalRows({
     .filter((ch): ch is GeoCheckResult => Boolean(ch));
 
   return (
-    <ul className="mt-8 flex flex-col">
+    // `--tool-count-ms`: `.signal-bar-fill`in genişlik geçişi süresi
+    // (v2.css) buradan iner — token tek kaynağı `anim-config.ts`, ham ms
+    // component'e gömülmez (docs/04 değişiklik sırası).
+    <ul className="mt-8 flex flex-col" style={{ "--tool-count-ms": `${TOOL_SCORE.countMs}ms` } as CSSProperties}>
       {ordered.map((check) => {
         const signal = signals.find((s) => s.id === check.id);
         return (

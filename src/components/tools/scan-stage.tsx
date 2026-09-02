@@ -108,7 +108,8 @@ export function ScanStage({
 
   return (
     <div className="mt-6">
-      <p role="status" aria-live="polite" className="sr-only">{c.stage.live}</p>
+      {/* Canlı bölge anonsu artık `GeoTool`de kalıcı tek düğümde (spec §4) —
+          burada tekrar edilmez, ikinci bir `role="status"` anonsu çakışırdı. */}
       <ol className="tool-stage" aria-hidden="true">
         {signals.map((signal, i) => {
           const state: RowState = i < resolved ? "done" : i < entered ? "reading" : "waiting";

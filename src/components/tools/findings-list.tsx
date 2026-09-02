@@ -26,11 +26,14 @@ export function FindingsList({
   signals,
   locale,
   ctaSlot,
+  headingId,
 }: {
   checks: GeoCheckResult[];
   signals: ToolSignal[];
   locale: Locale;
   ctaSlot?: React.ReactNode;
+  /** Kilit açılınca `ReportGate`in odağı taşıdığı hedef (spec §4). */
+  headingId?: string;
 }) {
   const c = TOOL_UI[locale];
   const { todo, passed } = orderForFixList(checks, signals);
@@ -39,7 +42,7 @@ export function FindingsList({
   return (
     <div className="text-left">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h3 className="typography-h3 text-ink-900">{c.gate.title}</h3>
+        <h3 id={headingId} tabIndex={-1} className="typography-h3 text-ink-900">{c.gate.title}</h3>
         <p className="typography-body-sm text-success-700">{c.gate.unlockedLede}</p>
       </div>
 

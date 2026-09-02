@@ -197,7 +197,12 @@ test("kilit kartı: rızasız gönderim uyarır, rızalı gönderim düzeltme li
   await page.getByLabel(/KVKK kapsamında verilerimin işlenmesini kabul ediyorum/).check();
   await reportSubmit.click();
   await expect(page.getByRole("heading", { name: "Düzeltme listesi" })).toBeVisible();
-  await expect(page.getByText("Raporun kopyası e-postanızda.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Düzeltme listesi" })).toBeFocused();
+  // Aynı metin artık İKİ düğümde: `gate` içindeki görünür lede VE kilit
+  // açılınca duyurulan kalıcı `sr-only` canlı bölge (bölümün DIŞINDA, spec
+  // §4) — `page.getByText` kapsamsız kalırsa strict-mode ihlaline düşer;
+  // `gate` içine kapsamlamak görünür olanı tek başına hedefler.
+  await expect(gate.getByText("Raporun kopyası e-postanızda.")).toBeVisible();
 
   // İlk madde en çok puan kaybettiren kalem: question-h2 (15/25 → 10 kayıp).
   // `getByRole("list").filter({ hasText: "01" })` kırılgan (padStart metni

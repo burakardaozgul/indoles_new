@@ -110,7 +110,11 @@ export function ScoreCard({
         </div>
       </div>
 
-      <h2 id="score-heading" className="sr-only">{c.result.caption}</h2>
+      {/* `c.result.eyebrow` ("Sonuç"), `c.result.caption` DEĞİL: aksi halde
+          bölüm başlığı ve alttaki görünür `<p>` aynı metni iki kez duyururdu
+          (M8, final review). Bölümün tek h2'si bu — görünür caption metnin
+          gerçek kaynağı kalır. */}
+      <h2 id="score-heading" className="sr-only">{c.result.eyebrow}</h2>
 
       <div className="mt-8 grid gap-6 md:grid-cols-[auto_1fr] md:items-end">
         <div className="flex items-baseline gap-2">

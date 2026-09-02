@@ -7,7 +7,7 @@ import { ScanStage } from "@/components/tools/scan-stage";
 import { ScoreCard } from "@/components/tools/score-card";
 import { SignalRows } from "@/components/tools/signal-rows";
 import { ToolHero } from "@/components/tools/tool-hero";
-import { SCAN_ERROR_MAP, type ScanErrorKind } from "@/components/tools/copy";
+import { SCAN_ERROR_MAP, TOOL_UI, fill, type ScanErrorKind } from "@/components/tools/copy";
 import { track } from "@/lib/analytics/ga";
 import { getPathname } from "@/lib/i18n/navigation";
 import { absoluteUrl } from "@/lib/seo/site";
@@ -48,6 +48,7 @@ export function GeoTool({
   initialResult?: GeoScanResult;
   mode: "tool" | "share";
 }) {
+  const c = TOOL_UI[locale];
   const reduced = usePrefersReducedMotion();
   const [phase, setPhase] = React.useState<Phase>(initialResult ? "result" : "idle");
   const [url, setUrl] = React.useState("");
@@ -112,6 +113,10 @@ export function GeoTool({
     if (phase !== "result" || !shouldScrollRef.current) return;
     shouldScrollRef.current = false;
     cardRef.current?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    // Odak karta taşınır (spec §4): ekran okuyucu kullanıcısı için de scroll
+    // ile aynı anda "buradasın" sinyali — `preventScroll` ikinci bir kaydırma
+    // tetiklemez, üstteki `scrollIntoView` zaten konumu ayarladı.
+    cardRef.current?.focus({ preventScroll: true });
   }, [phase, reduced]);
 
   function onNewScan(): void {
@@ -125,54 +130,63 @@ export function GeoTool({
     window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
   }
 
-  if (phase === "result" && scan) {
-    // `scroll-mt-36` (144 px) sabit chrome'un altını temizler: v2 nav dört
-    // viewport'ta da 120 px'te biter, 28 (112 px) kartın üst köşesini
-    // navigasyonun arkasında bırakıyordu (2026-09-02 ölçüm).
-    return (
-      <div ref={cardRef} className="scroll-mt-36">
-        <ToolHero tool={tool} locale={locale} variant="hidden" />
-        <ScoreCard
-          result={scan}
-          tool={tool}
-          locale={locale}
-          shareUrl={absoluteUrl(resultPathname(scan.id, locale))}
-          {...(mode === "tool" ? { onNewScan } : { newScanHref: toolPathname(locale) })}
-        />
-        <SignalRows checks={scan.checks} signals={tool.signals} locale={locale} />
-        <ReportGate scanId={scan.id} band={scan.band} locale={locale} checks={scan.checks} signals={tool.signals} />
-      </div>
-    );
-  }
-
   const busy = phase === "scanning" || phase === "resolving";
+  // Kalıcı canlı bölge (spec §4): tek `<p>`, üç fazda da monte kalır — ekran
+  // okuyucu metin DEĞİŞİMİNİ duyurur; `ScanStage`in kendi durum düğümü
+  // (kaldırıldı) ve bu düğüm arasında geçiş sırasında anons kaybolmaz.
+  const statusText =
+    phase === "result" && scan ? fill(c.stage.completed, { score: scan.totalScore }) : busy ? c.stage.live : "";
+
   return (
-    <div>
-      <ToolHero tool={tool} locale={locale} variant={busy ? "compact" : "full"} />
-      <div className="mt-10">
-        <ScanBar locale={locale} value={url} onChange={setUrl} onSubmit={onSubmit} busy={busy} error={error} />
-        {/* ink-600, ink-500 değil: bu iki satır blobun sıcak gövdesinin tam
-            üstünde duruyor. Ölçümde ink-500 krem üstünde 4.34, blob üstünde
-            2.89'a iniyordu (2026-09-02, docs/04 §12.10 tablosu); ink-600 en
-            kötü pikselde bile AA eşiğinin üstünde kalır. */}
-        {!busy ? (
-          <p className="typography-caption text-ink-600 mt-3">{tool.inputHelp[locale]}</p>
-        ) : (
-          <ScanStage
-            signals={tool.signals}
+    <>
+      <p role="status" aria-live="polite" className="sr-only">{statusText}</p>
+      {phase === "result" && scan ? (
+        // `scroll-mt-36` (144 px) sabit chrome'un altını temizler: v2 nav dört
+        // viewport'ta da 120 px'te biter, 28 (112 px) kartın üst köşesini
+        // navigasyonun arkasında bırakıyordu (2026-09-02 ölçüm). `outline-none`:
+        // odak programatik (`.focus()`), fokus halkası kullanıcı niyetini
+        // yansıtmaz — kart zaten `scrollIntoView` ile görünür durumda.
+        <div ref={cardRef} tabIndex={-1} className="scroll-mt-36 outline-none">
+          <ToolHero tool={tool} locale={locale} variant="hidden" />
+          <ScoreCard
+            result={scan}
+            tool={tool}
             locale={locale}
-            checks={phase === "resolving" && pending ? pending.checks : null}
-            onResolved={onResolved}
+            shareUrl={absoluteUrl(resultPathname(scan.id, locale))}
+            {...(mode === "tool" ? { onNewScan } : { newScanHref: toolPathname(locale) })}
           />
-        )}
-      </div>
-      {!busy ? (
-        <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 mono text-ink-600 uppercase tracking-widest typography-label" aria-label={locale === "tr" ? "Kanıt" : "Proof"}>
-          {tool.proof.map((p) => (
-            <li key={p.tr}>{p[locale]}</li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
+          <SignalRows checks={scan.checks} signals={tool.signals} locale={locale} />
+          <ReportGate scanId={scan.id} band={scan.band} locale={locale} checks={scan.checks} signals={tool.signals} />
+        </div>
+      ) : (
+        <div>
+          <ToolHero tool={tool} locale={locale} variant={busy ? "compact" : "full"} />
+          <div className="mt-10">
+            <ScanBar locale={locale} value={url} onChange={setUrl} onSubmit={onSubmit} busy={busy} error={error} />
+            {/* ink-600, ink-500 değil: bu iki satır blobun sıcak gövdesinin tam
+                üstünde duruyor. Ölçümde ink-500 krem üstünde 4.34, blob üstünde
+                2.89'a iniyordu (2026-09-02, docs/04 §12.10 tablosu); ink-600 en
+                kötü pikselde bile AA eşiğinin üstünde kalır. */}
+            {!busy ? (
+              <p className="typography-caption text-ink-600 mt-3">{tool.inputHelp[locale]}</p>
+            ) : (
+              <ScanStage
+                signals={tool.signals}
+                locale={locale}
+                checks={phase === "resolving" && pending ? pending.checks : null}
+                onResolved={onResolved}
+              />
+            )}
+          </div>
+          {!busy ? (
+            <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-ink-600 typography-label" aria-label={c.proofLabel}>
+              {tool.proof.map((p) => (
+                <li key={p.tr}>{p[locale]}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+      )}
+    </>
   );
 }

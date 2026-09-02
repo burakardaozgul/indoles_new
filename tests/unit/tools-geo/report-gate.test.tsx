@@ -64,12 +64,18 @@ describe("ReportGate", () => {
 
   it("rızalı gönderim: yanıttaki checks ile düzeltme listesi açılır, olay atılır", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ ok: true, checks: FULL }) }));
-    renderGate();
+    const { container } = renderGate();
     fireEvent.change(screen.getByLabelText("E-posta adresi"), { target: { value: "a@b.co" } });
     fireEvent.click(screen.getByLabelText(/KVKK kapsamında/));
     fireEvent.click(screen.getByRole("button", { name: "Raporu gönder" }));
     await waitFor(() => expect(screen.getByText("question-h2 bulgu 2")).toBeInTheDocument());
-    expect(screen.getByText("Raporun kopyası e-postanızda.")).toBeInTheDocument();
+    // Görünür lede `FindingsList`te (`.text-success-700`); aynı metin ayrıca
+    // kalıcı `sr-only` canlı bölgede de duyurulur — iki ayrı düğüm bilinçli
+    // (spec §4, M8'in aksine burada tekrar İSTENİYOR).
+    expect(screen.getByText("Raporun kopyası e-postanızda.", { selector: "p.text-success-700" })).toBeInTheDocument();
+    const liveStatus = container.querySelector('p[role="status"].sr-only');
+    expect(liveStatus).toHaveTextContent("Raporun kopyası e-postanızda.");
+    expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Düzeltme listesi" }));
     expect(trackMock).toHaveBeenCalledWith({ name: "tool_report_requested", properties: { slug: "geo-gorunurluk-denetleyicisi", band: "zayif", locale: "tr" } });
     const body = JSON.parse((fetch as unknown as { mock: { calls: [unknown, { body: string }][] } }).mock.calls[0]![1].body);
     expect(body).toMatchObject({ scanId: "scan-1", email: "a@b.co", kvkkConsent: true, locale: "tr", website: "" });

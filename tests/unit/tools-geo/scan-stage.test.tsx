@@ -29,7 +29,6 @@ describe("ScanStage", () => {
     expect(rows()).toEqual(["reading", "reading", "reading", "waiting", "waiting"]);
     act(() => { vi.advanceTimersByTime(TOOL_SCAN.enterStaggerMs * 10); });
     expect(rows().every((s) => s === "reading")).toBe(true);
-    expect(screen.getByRole("status")).toHaveTextContent("Tarama sürüyor");
   });
 
   it("checks gelince satırlar resolveStaggerMs arayla çözülür, morphMs sonra onResolved", () => {

@@ -56,11 +56,12 @@ export type ToolUiCopy = {
   emptyUrl: string;
   turnstileLoading: string;
   turnstileUnavailable: string;
-  stage: { reading: string; waiting: string; done: string; live: string; completed: string };
+  stage: { reading: string; waiting: string; live: string; completed: string };
   result: {
     eyebrow: string; scannedAddress: string; caption: string; outOf: string;
     newScan: string; copyLink: string; copied: string; scaleAria: string;
   };
+  proofLabel: string;
   signals: { points: string; details: string };
   gate: {
     title: string; locked: string; findingsCount: string; passedNotes: string;
@@ -86,7 +87,6 @@ export const TOOL_UI: Record<Locale, ToolUiCopy> = {
     stage: {
       reading: "okunuyor…",
       waiting: "bekliyor",
-      done: "tamam",
       live: "Tarama sürüyor",
       completed: "Tarama tamamlandı, skor {score}",
     },
@@ -100,6 +100,7 @@ export const TOOL_UI: Record<Locale, ToolUiCopy> = {
       copied: "Kopyalandı",
       scaleAria: "Skor ölçeği: {score} / 100, {band} bandında",
     },
+    proofLabel: "Kanıt",
     signals: { points: "puan", details: "Ayrıntı" },
     gate: {
       title: "Düzeltme listesi",
@@ -152,7 +153,6 @@ export const TOOL_UI: Record<Locale, ToolUiCopy> = {
     stage: {
       reading: "reading…",
       waiting: "waiting",
-      done: "done",
       live: "Scan in progress",
       completed: "Scan complete, score {score}",
     },
@@ -166,6 +166,7 @@ export const TOOL_UI: Record<Locale, ToolUiCopy> = {
       copied: "Copied",
       scaleAria: "Score scale: {score} out of 100, in the {band} band",
     },
+    proofLabel: "Proof",
     signals: { points: "points", details: "Details" },
     gate: {
       title: "Fix list",

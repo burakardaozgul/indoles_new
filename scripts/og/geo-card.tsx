@@ -20,7 +20,12 @@ function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ width: W, height: H, background: neutral.bg, color: neutral.ink[900], fontFamily: DISPLAY, padding: 64, boxSizing: "border-box", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative" }}>
       {children}
-      <div style={{ position: "absolute", left: 64, bottom: 56, fontFamily: MONO, fontSize: 20, letterSpacing: 4, textTransform: "uppercase", color: neutral.ink[500] }}>
+      {/* `textTransform: uppercase` BİLİNÇLİ olarak YOK: `lang="tr"` altında
+          CSS büyük harfe çevirme "indoles.com.tr"yi "İNDOLES.COM.TR"ye
+          çeviriyordu — alan adı/marka locale büyük harfine girmez. Metin
+          burada zaten olması gereken biçimde yazılı (marka büyük, alan adı
+          küçük harf, site altbilgisiyle birebir). */}
+      <div style={{ position: "absolute", left: 64, bottom: 56, fontFamily: MONO, fontSize: 20, letterSpacing: 4, color: neutral.ink[500] }}>
         INDOLES · indoles.com.tr
       </div>
     </div>

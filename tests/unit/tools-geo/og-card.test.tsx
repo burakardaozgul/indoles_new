@@ -14,6 +14,15 @@ describe("OG kart şablonu", () => {
     expect(html).toContain("width:1200px");
   });
 
+  it("altbilgi alan adı locale büyük harfine girmez: 'INDOLES · indoles.com.tr' aynen basılır", () => {
+    // `lang="tr"` (generate-og-geo.ts) altında CSS text-transform:uppercase
+    // "indoles.com.tr"yi "İNDOLES.COM.TR"ye çeviriyordu — altbilgi
+    // kasıtlı olarak transform TAŞIMAZ, metin zaten doğru biçimde yazılı.
+    const html = renderToStaticMarkup(<GeoCard score={55} locale="tr" />);
+    expect(html).toContain("INDOLES · indoles.com.tr");
+    expect(html).not.toContain("İNDOLES");
+  });
+
   it("araç kartı: ad, lede, kanıt şeridi; işaretçi yok", () => {
     const html = renderToStaticMarkup(<ToolCard locale="en" />);
     expect(html).toContain("GEO Visibility Checker");

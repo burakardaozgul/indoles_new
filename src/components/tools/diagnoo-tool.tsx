@@ -67,7 +67,6 @@ const COPY = {
     liveRunning: "Tarama başlatıldı.",
     liveSnapshot: "Tarama tamamlandı. Anlık görünüm hazır.",
     liveUnlocked: "Tarama tamamlandı. Rapor açık.",
-    liveFailed: "Tarama tamamlanamadı.",
   },
   en: {
     failedScrape:
@@ -84,7 +83,6 @@ const COPY = {
     liveRunning: "The scan has started.",
     liveSnapshot: "The scan is complete. The snapshot is ready.",
     liveUnlocked: "The scan is complete. The report is open.",
-    liveFailed: "The scan could not finish.",
   },
 } as const;
 
@@ -97,13 +95,21 @@ const PHASE_LABEL: Record<Phase, Record<"tr" | "en", string>> = {
   failed: { tr: COPY.tr.phaseFailed, en: COPY.en.phaseFailed },
 };
 
-/** Aşama → canlı bölgede okunacak cümle. */
+/**
+ * Aşama → canlı bölgede okunacak cümle.
+ *
+ * `failed` BİLEREK boş: o yolda görünen hata paragrafı `role="alert"` taşıyor
+ * ve `role="alert"` zaten bir canlı bölgedir (`aria-live="assertive"`
+ * eşdeğeri). İkisini birden yayınlamak hatayı ekran okuyucuya iki kez
+ * okuturdu. Odak taşıma bu aşamada da çalışır — duyuruyu alert yapar,
+ * yönlendirmeyi odak.
+ */
 const PHASE_LIVE: Record<Phase, Record<"tr" | "en", string>> = {
   idle: { tr: COPY.tr.liveIdle, en: COPY.en.liveIdle },
   running: { tr: COPY.tr.liveRunning, en: COPY.en.liveRunning },
   snapshot: { tr: COPY.tr.liveSnapshot, en: COPY.en.liveSnapshot },
   unlocked: { tr: COPY.tr.liveUnlocked, en: COPY.en.liveUnlocked },
-  failed: { tr: COPY.tr.liveFailed, en: COPY.en.liveFailed },
+  failed: { tr: "", en: "" },
 };
 
 /** Dürüst hata metni: sebep neyse o söylenir, genel bir cümleye sarılmaz. */

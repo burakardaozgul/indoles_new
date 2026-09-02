@@ -74,7 +74,7 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
 
     const live = container.querySelector('[aria-live="polite"]');
     expect(live).not.toBeNull();
-    expect(live).toHaveTextContent("");
+    expect(live?.textContent).toBe("");
   });
 
   it("tarama tamamlanınca canlı bölge durumu duyurur (SC 4.1.3)", async () => {
@@ -99,7 +99,10 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
       expect(screen.getByRole("heading", { name: /anlık görünüm/ })).toBeInTheDocument();
     });
     const heading = screen.getByRole("heading", { name: /anlık görünüm/ });
-    expect(document.activeElement).toBe(heading);
+    // Odak, ekranın göründüğü render'dan SONRAKİ efektte taşınır.
+    await waitFor(() => {
+      expect(document.activeElement).toBe(heading);
+    });
     expect(document.activeElement).not.toBe(document.body);
   });
 
@@ -121,7 +124,7 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
     });
   });
 
-  it("başarısız taramada hem canlı bölge hem role=alert konuşur", async () => {
+  it("başarısız taramada YALNIZ role=alert konuşur, canlı bölge sessiz kalır", async () => {
     mockFlow(statusBody({ status: "failed", failReason: "scrape_failed", snapshot: null }));
     const { container } = render(<DiagnooTool locale="tr" tool={TOOL} />);
     const live = container.querySelector('[aria-live="polite"]');
@@ -131,13 +134,21 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent("Bu adres taranamadı.");
     });
-    // Duyuru bir state güncellemesi: görünür içerikten bir render sonra düşer.
+
+    // `role="alert"` zaten bir canlı bölge; kalıcı bölge de konuşsaydı ekran
+    // okuyucu hatayı iki kez okurdu. `waitFor`: duyuru bir state güncellemesi,
+    // görünür içerikten bir render sonra düşer — bir önceki aşamanın
+    // ("Tarama başlatıldı.") temizlenmesini beklemek zorundayız.
     await waitFor(() => {
-      expect(live).toHaveTextContent("Tarama tamamlanamadı.");
+      expect(live?.textContent).toBe("");
     });
-    expect(document.activeElement).toBe(
-      screen.getByRole("heading", { name: `${TOOL.name.tr} — tarama tamamlanamadı` }),
-    );
+
+    // Odak taşıma bu aşamada da sürüyor — duyuruyu alert, yönlendirmeyi odak yapar.
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        screen.getByRole("heading", { name: `${TOOL.name.tr} — tarama tamamlanamadı` }),
+      );
+    });
   });
 
   it("kilit zaten açıksa doğrudan raporu basar ve rapor aşamasını duyurur", async () => {

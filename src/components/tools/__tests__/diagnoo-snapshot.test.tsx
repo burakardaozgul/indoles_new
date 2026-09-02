@@ -110,7 +110,7 @@ describe("DiagnooSnapshot", () => {
     const live = container.querySelector('[aria-live="polite"]');
     // Canlı bölge içeriğinden ÖNCE DOM'da — sonradan eklenirse kaçırılır.
     expect(live).not.toBeNull();
-    expect(live).toHaveTextContent("");
+    expect(live?.textContent).toBe("");
 
     await unlock();
     // Duyuru bir state güncellemesi — odak taşıma gibi anlık değil, render bekler.
@@ -129,9 +129,12 @@ describe("DiagnooSnapshot", () => {
 
     await unlock();
 
-    // Gönder düğmesi DOM'dan kalktı; odak <body>ye düşmemeli.
+    // Gönder düğmesi DOM'dan kalktı; odak <body>ye düşmemeli. `waitFor`:
+    // odak, raporun göründüğü render'dan SONRAKİ efektte taşınır.
     const heading = screen.getByRole("heading", { name: "Tam rapor" });
-    expect(document.activeElement).toBe(heading);
+    await waitFor(() => {
+      expect(document.activeElement).toBe(heading);
+    });
     expect(document.activeElement).not.toBe(document.body);
     vi.unstubAllGlobals();
   });

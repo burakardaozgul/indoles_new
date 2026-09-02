@@ -56,6 +56,13 @@ export function GeoTool({
   const [scan, setScan] = React.useState<GeoScanResult | null>(initialResult ?? null);
   const cardRef = React.useRef<HTMLDivElement>(null);
   const shouldScrollRef = React.useRef(false);
+  // Ruling R8: `pending`in en güncel değeri bir ref'te de tutulur —
+  // `onResolved` bu ref'i OKUR, `setState` güncelleyicisinin İÇİNDE yan etki
+  // çalıştırmaz. `reactStrictMode: true` (next.config.ts) dev'de her
+  // güncelleyiciyi iki kez çağırır; yan etki (track/replaceState) güncelleyici
+  // içindeyse iki kez tetiklenirdi. `pendingRef` her `setPending` çağrısıyla
+  // birlikte, AYNI ANDA güncellenir.
+  const pendingRef = React.useRef<GeoScanResult | null>(null);
 
   async function onSubmit(sub: ScanSubmission): Promise<void> {
     setError(null);
@@ -74,7 +81,9 @@ export function GeoTool({
           setPhase("idle");
           return;
         }
-        setPending({ ...body.result, id: body.id });
+        const next = { ...body.result, id: body.id };
+        pendingRef.current = next;
+        setPending(next);
         setPhase("resolving");
         return;
       }
@@ -88,15 +97,15 @@ export function GeoTool({
   }
 
   const onResolved = React.useCallback(() => {
-    setPending((p) => {
-      if (!p) return p;
-      setScan(p);
-      track({ name: "tool_scan_completed", properties: { slug: SLUG, band: p.band, locale } });
-      window.history.replaceState(null, "", resultPathname(p.id, locale));
-      shouldScrollRef.current = true;
-      setPhase("result");
-      return null;
-    });
+    const p = pendingRef.current;
+    if (!p) return;
+    setScan(p);
+    track({ name: "tool_scan_completed", properties: { slug: SLUG, band: p.band, locale } });
+    window.history.replaceState(null, "", resultPathname(p.id, locale));
+    shouldScrollRef.current = true;
+    setPhase("result");
+    pendingRef.current = null;
+    setPending(null);
   }, [locale]);
 
   React.useEffect(() => {
@@ -107,6 +116,7 @@ export function GeoTool({
 
   function onNewScan(): void {
     setScan(null);
+    pendingRef.current = null;
     setPending(null);
     setUrl("");
     setError(null);

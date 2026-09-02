@@ -1,4 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { StrictMode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GeoTool } from "@/components/tools/geo-tool";
 import { TOOLS } from "@/lib/content/tools";
@@ -43,6 +44,7 @@ describe("GeoTool", () => {
     trackMock.mockReset();
     replaceState = vi.spyOn(window.history, "replaceState").mockImplementation(() => undefined);
     Element.prototype.scrollIntoView = vi.fn();
+    window.scrollTo = vi.fn();
   });
   afterEach(() => { vi.unstubAllGlobals(); replaceState.mockRestore(); });
 
@@ -92,5 +94,22 @@ describe("GeoTool", () => {
     fireEvent.click(screen.getByRole("button", { name: "Yeni tarama" }));
     expect(screen.getByLabelText("Site adresi")).toHaveValue("");
     expect(replaceState).toHaveBeenLastCalledWith(null, "", "/tr/araclar/geo-gorunurluk-denetleyicisi");
+  });
+
+  it("Ruling R8 — StrictMode'da onResolved yan etkileri tam olarak bir kez tetiklenir", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ id: RESULT.id, result: RESULT }) }));
+    render(
+      <StrictMode>
+        <GeoTool locale="tr" tool={TOOL} mode="tool" />
+      </StrictMode>,
+    );
+    await submit();
+    await waitFor(() => expect(screen.getByText("72", { selector: "[data-part='score']" })).toBeInTheDocument(), { timeout: 4000 });
+    const completedCalls = trackMock.mock.calls.filter(([e]) => e.name === "tool_scan_completed");
+    expect(completedCalls).toHaveLength(1);
+    const sharePathCalls = replaceState.mock.calls.filter(
+      ([, , url]) => url === "/tr/araclar/geo-gorunurluk-denetleyicisi/sonuc/scan-abc",
+    );
+    expect(sharePathCalls).toHaveLength(1);
   });
 });

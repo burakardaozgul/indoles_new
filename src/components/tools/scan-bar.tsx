@@ -203,11 +203,11 @@ export function ScanBar({
 
   const inputId = `${uid}-url`;
   const isBusy = busy || waiting;
-  // Etiket YALNIZ dış `busy` (gerçek ağ isteği) ile değişir — süre
-  // tuzağının görünmez beklemesi (`waiting`) düğmenin adını "Taranıyor…"ya
-  // çevirmez, yalnız `aria-busy` ile ekran okuyucuya işaretlenir; hızlı bir
-  // insan yanlışlıkla "bir şey bozuldu" hissine kapılmasın.
-  const submitLabel = busy ? c.submitting : c.submit;
+  // Spec §3: "kalan süreyi 'Taranıyor…' içinde bekler, sonra yollar" — süre
+  // tuzağının görünmez beklemesi de düğmeyi gerçek ağ isteğiyle aynı şekilde
+  // "Taranıyor…" gösterir; `aria-busy`/`disabled` de aynı birleşik durumu
+  // (`isBusy`) izler (Ruling R5).
+  const submitLabel = isBusy ? c.submitting : c.submit;
   const tokenBlocking = TURNSTILE_ENABLED && !turnstileToken;
   const message = localError ? c.emptyUrl : error ? c.errors[error] : null;
   let hint: string | null = null;

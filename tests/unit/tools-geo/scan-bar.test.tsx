@@ -37,7 +37,7 @@ describe("ScanBar", () => {
     act(() => { vi.advanceTimersByTime(500); });
     fireEvent.submit(screen.getByRole("form"));
     expect(onSubmit).not.toHaveBeenCalled();
-    expect(screen.getByRole("button", { name: "Denetle" })).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByRole("button", { name: "Taranıyor…" })).toHaveAttribute("aria-busy", "true");
     act(() => { vi.advanceTimersByTime(MIN_FILL_MS); });
     expect(onSubmit).toHaveBeenCalledTimes(1);
     const sub = onSubmit.mock.calls[0]![0] as { url: string; website: string; elapsedMs: number };

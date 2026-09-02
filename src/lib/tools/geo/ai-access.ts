@@ -155,13 +155,13 @@ function isAllowed(group: Group | undefined, urlPath: string): boolean {
 export function checkAiAccess(robotsTxt: string | null, urlPath: string): GeoCheckResult {
   if (robotsTxt === null) {
     const summary: Localized<string> = {
-      tr: "robots.txt bulunamadı; bu, tüm AI botlarına varsayılan olarak açık erişim anlamına gelir.",
-      en: "No robots.txt was found; this defaults to open access for all AI bots.",
+      tr: "robots.txt yok; bu, bütün AI botlarına açık erişim demektir.",
+      en: "There is no robots.txt, which means every AI bot may read this page.",
     };
     const findings: Array<Localized<string>> = [
       {
-        tr: "Erişim izinli ama beyansız: robots.txt yok, botlara yönelik niyet belgelenmemiş.",
-        en: "Access is allowed but undeclared: no robots.txt exists to state that intent.",
+        tr: "Erişim açık ama beyansız: botlara yönelik niyetinizi bir robots.txt ile belgelemeniz güven verir.",
+        en: "Access is open but undeclared; stating your intent toward crawlers in a robots.txt builds trust.",
       },
     ];
     return {
@@ -185,15 +185,15 @@ export function checkAiAccess(robotsTxt: string | null, urlPath: string): GeoChe
     // "${allowedCount}'i" gibi ek-bitişik bir kalıp 0-10 aralığının çoğunda
     // yanlış ünlü uyumu üretir (ör. 9 için doğrusu "9'u", "9'i" değil).
     // Rakama ek eklemeyen, değişmez bir kalıp kullanılır.
-    tr: `${AI_CRAWLERS.length} bilinen AI botundan ${allowedCount} tanesi bu sayfaya erişebiliyor${blockedSuffixTr}.`,
-    en: `${allowedCount} of ${AI_CRAWLERS.length} known AI bots can access this page${blockedSuffixEn}.`,
+    tr: `${AI_CRAWLERS.length} bilinen AI botundan ${allowedCount} tanesi bu sayfayı okuyabiliyor${blockedSuffixTr}.`,
+    en: `${allowedCount} of ${AI_CRAWLERS.length} known AI bots can read this page${blockedSuffixEn}.`,
   };
 
   const findings: Array<Localized<string>> = [];
   if (blocked.length > 0) {
     findings.push({
-      tr: `Engelli botlar: ${blocked.join(", ")}.`,
-      en: `Blocked bots: ${blocked.join(", ")}.`,
+      tr: `${blocked.join(", ")} engelli; bu motorlar sayfanızı alıntı için kullanamaz.`,
+      en: `${blocked.join(", ")} blocked; these engines cannot use your page for citations.`,
     });
   }
 

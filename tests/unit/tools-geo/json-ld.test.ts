@@ -16,6 +16,6 @@ describe("checkJsonLd", () => {
   it("bozuk blok → partial + bulgu", () => {
     const r = checkJsonLd(fx("page-broken-ld.html"));
     expect(r.status).toBe("partial");
-    expect(r.findings.some((f) => f.tr.includes("çözümlenemedi") || f.tr.includes("bozuk"))).toBe(true);
+    expect(r.findings.some((f) => f.tr.includes("çözümlenemiyor") || f.tr.includes("geçersiz söz dizimi"))).toBe(true);
   });
 });

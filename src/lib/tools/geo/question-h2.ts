@@ -54,8 +54,8 @@ export function checkQuestionH2(pageHtml: string): GeoCheckResult {
   if (h2Texts.length === 0) {
     ratioScore = 0;
     findings.push({
-      tr: "Doküman: sayfada hiç H2 başlığı yok; soru odaklı yapı ölçülemedi.",
-      en: "Document: the page has no H2 headings; question-oriented structure could not be measured.",
+      tr: "Sayfada hiç H2 başlığı yok; soru odaklı yapı ölçülemedi.",
+      en: "The page has no H2 headings, so question-oriented structure could not be measured.",
     });
   } else {
     const questionCount = h2Texts.filter((text) => text.includes("?")).length;
@@ -66,8 +66,8 @@ export function checkQuestionH2(pageHtml: string): GeoCheckResult {
         : Math.round((RATIO_MAX_SCORE * ratio) / RATIO_THRESHOLD);
     if (ratioScore < RATIO_MAX_SCORE) {
       findings.push({
-        tr: "Doküman: H2 başlıklarının yarısından azı soru biçiminde; soru oranı düşük.",
-        en: "Document: fewer than half of the H2 headings are phrased as questions; the question ratio is low.",
+        tr: "H2 başlıklarının yarısından azı soru biçiminde; motorlar soru başlığını doğrudan alıntılar.",
+        en: "Fewer than half of the H2 headings are questions; engines quote question headings directly.",
       });
     }
   }
@@ -81,16 +81,31 @@ export function checkQuestionH2(pageHtml: string): GeoCheckResult {
 
   if (!visibleQaPresent) {
     findings.push({
-      tr: "Doküman: görünür bir soru-cevap yapısı yok — FAQPage şeması, detay/accordion öğesi veya en az 3 soru başlığı bulunamadı.",
-      en: "Document: no visible question-and-answer structure exists — no FAQPage schema, details/accordion element, or at least 3 question headings were found.",
+      tr: "Görünür bir soru-cevap yapısı yok; FAQPage şeması, details ögesi veya en az üç soru başlığı ekleyin.",
+      en: "There is no visible question-and-answer structure; add a FAQPage schema, a details element or at least three question headings.",
     });
   }
 
   const score = ratioScore + visibleQaScore;
 
+  // Özet tek cümle ve puan parçası taşımaz (spec §8); dört durumdan biri
+  // ratioScore/visibleQaPresent kombinasyonuna göre seçilir.
+  const ratioOk = ratioScore === RATIO_MAX_SCORE;
   const summary: Localized<string> = {
-    tr: `Soru biçimli başlıklar ve görünür soru-cevap yapısı, üretken arama sistemlerinin doğrudan alıntılanabilir cevap üretmesini destekler: soru oranı puanı ${ratioScore}/${RATIO_MAX_SCORE}, görünür soru-cevap puanı ${visibleQaScore}/${VISIBLE_QA_SCORE}.`,
-    en: `Question-phrased headings and a visible question-and-answer structure help generative search systems produce directly quotable answers: question-ratio score ${ratioScore}/${RATIO_MAX_SCORE}, visible Q&A score ${visibleQaScore}/${VISIBLE_QA_SCORE}.`,
+    tr: ratioOk && visibleQaPresent
+      ? "Başlıkların çoğu soru biçiminde ve görünür bir soru-cevap bloğu var."
+      : ratioOk
+        ? "Başlıkların çoğu soru biçiminde ama görünür bir soru-cevap bloğu yok."
+        : visibleQaPresent
+          ? "Görünür bir soru-cevap bloğu var ama başlıkların çoğu soru biçiminde değil."
+          : "Başlıkların çoğu soru biçiminde değil ve görünür bir soru-cevap bloğu yok.",
+    en: ratioOk && visibleQaPresent
+      ? "Most headings are questions and a visible question-and-answer block exists."
+      : ratioOk
+        ? "Most headings are questions but there is no visible question-and-answer block."
+        : visibleQaPresent
+          ? "A visible question-and-answer block exists but most headings are not questions."
+          : "Most headings are not questions and there is no visible question-and-answer block.",
   };
 
   return {

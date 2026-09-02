@@ -44,13 +44,13 @@ function hasMarkdownLinkLine(text: string): boolean {
 export function checkLlmsTxt(llmsTxt: string | null): GeoCheckResult {
   if (llmsTxt === null || llmsTxt.trim() === "") {
     const summary: Localized<string> = {
-      tr: "llms.txt bulunamadı; üretken arama sistemleri kuralları tanımlanmamış.",
-      en: "No llms.txt was found; generative search systems rules are not defined.",
+      tr: "llms.txt bulunamadı; cevap motorlarına hangi içeriğin öncelikli olduğunu söyleyen dosya yok.",
+      en: "No llms.txt was found; nothing tells answer engines which content matters most.",
     };
     const findings: Array<Localized<string>> = [
       {
-        tr: "llms.txt yok: üretken arama sistemlerine yönelik niyet belgelenmemiş.",
-        en: "No llms.txt exists to state your intent toward generative search systems.",
+        tr: "Site kökünde llms.txt yok; öncelikli sayfaları ve özetleri işaret eden kısa bir markdown dosyası ekleyin.",
+        en: "There is no llms.txt at the site root; add a short markdown file that points to your key pages and summaries.",
       },
     ];
     return {
@@ -69,12 +69,12 @@ export function checkLlmsTxt(llmsTxt: string | null): GeoCheckResult {
   if (hasMarkdownLink) {
     const summary: Localized<string> = {
       tr: "llms.txt bulundu ve biçimli markdown bağlantılar içeriyor.",
-      en: "llms.txt was found and contains properly formatted markdown links.",
+      en: "llms.txt was found and contains well-formed markdown links.",
     };
     const findings: Array<Localized<string>> = [
       {
-        tr: "Doküman: üretken arama sistemlerine erişim izinleri tanımlanmış.",
-        en: "Document: access permissions for generative search systems are defined.",
+        tr: "Cevap motorlarına yönelik niyet belgelenmiş; dosyayı yeni içerikle güncel tutun.",
+        en: "Your intent toward answer engines is documented; keep the file current as content changes.",
       },
     ];
     return {
@@ -89,13 +89,13 @@ export function checkLlmsTxt(llmsTxt: string | null): GeoCheckResult {
 
   // Biçimsiz: metin var ama markdown bağlantı yok
   const summary: Localized<string> = {
-    tr: "llms.txt bulundu ama markdown bağlantı satırları eksik.",
-    en: "llms.txt was found but lacks properly formatted markdown link lines.",
+    tr: "llms.txt bulundu ama markdown bağlantı satırı içermiyor.",
+    en: "llms.txt was found but contains no markdown link lines.",
   };
   const findings: Array<Localized<string>> = [
     {
-      tr: "Doküman: metin var ama üretken arama sistemi referansı biçimsiz.",
-      en: "Document: text exists but generative search systems references lack proper formatting.",
+      tr: 'Dosyada metin var ama bağlantı biçimi eksik; her sayfayı "- [Başlık](URL): özet" satırıyla listeleyin.',
+      en: 'The file has text but no link format; list each page as "- [Title](URL): summary".',
     },
   ];
   return {

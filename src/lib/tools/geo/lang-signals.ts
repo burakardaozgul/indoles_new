@@ -108,8 +108,8 @@ export function checkLangSignals(pageHtml: string, url: string): GeoCheckResult 
     const raw = langScore + canonicalScore;
     score = Math.round((raw * MAX_SCORE) / RAW_MAX_WITHOUT_HREFLANG);
     findings.push({
-      tr: "Tek dilli site — hreflang beklenmedi.",
-      en: "Single-language site — hreflang was not expected.",
+      tr: "Tek dilli site; hreflang beklenmedi ve puan 10 üzerinden ölçülüp 15'e ölçeklendi.",
+      en: "Single-language site; hreflang was not expected and the score was measured out of 10 and scaled to 15.",
     });
   } else {
     const hreflangScore = hreflangComplete ? HREFLANG_SCORE : 0;
@@ -118,32 +118,32 @@ export function checkLangSignals(pageHtml: string, url: string): GeoCheckResult 
 
   if (!langOk) {
     findings.push({
-      tr: "Doküman: html etiketinde lang özniteliği eksik.",
-      en: "Document: the html tag is missing a lang attribute.",
+      tr: "html etiketinde lang özniteliği yok; motorlar sayfanın dilini tahmin etmek zorunda kalıyor.",
+      en: "The html tag has no lang attribute, so engines must guess the page language.",
     });
   }
   if (!canonicalOk) {
     findings.push({
-      tr: "Doküman: canonical bağlantısı yok veya verilen URL ile eşleşmiyor.",
-      en: "Document: the canonical link is missing or does not match the given URL.",
+      tr: "Canonical bağlantı yok veya girilen adresle eşleşmiyor; motor hangi sürümün asıl olduğunu bilemiyor.",
+      en: "The canonical link is missing or does not match the entered address, so engines cannot tell which version is primary.",
     });
   }
   if (hreflangTags.length > 0 && !hreflangComplete) {
     findings.push({
-      tr: "Doküman: hreflang seti eksik — en az 2 dil ve x-default gerekir.",
-      en: "Document: the hreflang set is incomplete — at least 2 languages and x-default are required.",
+      tr: "hreflang seti eksik; en az iki dil ve x-default gerekir.",
+      en: "The hreflang set is incomplete; at least two languages and x-default are required.",
     });
   }
 
   const hreflangStateTr = hreflangTags.length === 0 ? "yok" : hreflangComplete ? "tam" : "eksik";
   const hreflangStateEn = hreflangTags.length === 0 ? "absent" : hreflangComplete ? "complete" : "incomplete";
   const summary: Localized<string> = {
-    tr: `Dil sinyalleri, üretken arama sistemlerinin doğru dil/sürüm sayfasını seçmesini destekler: html lang ${
-      langOk ? "var" : "yok"
-    }, canonical ${canonicalOk ? "eşleşiyor" : "eşleşmiyor"}, hreflang ${hreflangStateTr}.`,
-    en: `Language signals help generative search systems select the correct language/version page: html lang ${
-      langOk ? "present" : "missing"
-    }, canonical ${canonicalOk ? "matches" : "does not match"}, hreflang ${hreflangStateEn}.`,
+    tr: `html lang ${langOk ? "var" : "yok"}, canonical ${
+      canonicalOk ? "eşleşiyor" : "eşleşmiyor"
+    }, hreflang ${hreflangStateTr}.`,
+    en: `html lang ${langOk ? "present" : "missing"}, canonical ${
+      canonicalOk ? "matches" : "does not match"
+    }, hreflang ${hreflangStateEn}.`,
   };
 
   return {

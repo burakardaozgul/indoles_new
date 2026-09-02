@@ -28,7 +28,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { geoScanSchema } from "@/lib/schemas/tools";
 import { verifyTurnstile } from "@/lib/security/turnstile";
 import { spamSignal, turnstileEnabled } from "@/lib/security/anti-spam";
-import { validateTargetUrl, fetchScanTargets } from "@/lib/tools/geo/safe-fetch";
+import { validateTargetUrl, fetchScanTargets, TargetBlockedError } from "@/lib/tools/geo/safe-fetch";
 import { runGeoScan } from "@/lib/tools/geo/engine";
 import { insertScan, countScansSince, hashClientIp } from "@/lib/tools/geo/repository";
 import { stripFindings } from "@/lib/tools/geo/findings";
@@ -46,6 +46,9 @@ type GeoScanErrorCode =
   | "invalid-url"
   | "rate-limited"
   | "target-unreachable"
+  // Hedef bot korumasıyla kapalı — 400, kullanıcı hatası değil ama yeniden
+  // deneme anlamsız (WAF/CDN ısrarla engellemeye devam eder).
+  | "target-blocked"
   | "turnstile-failed"
   // 5. kod — brief'in kapalı dört-kod sözlüğünü bilinçli genişletir.
   // Sunucu-tarafı yapılandırma/altyapı hatalarını (bkz. aşağıdaki iki
@@ -201,6 +204,11 @@ export async function POST(req: Request): Promise<Response> {
       SCAN_TIME_BUDGET_MS,
     );
   } catch (err) {
+    if (err instanceof TargetBlockedError) {
+      // Bir engelleme olağandışı bir olay değil — kullanıcının denetlediği
+      // site bunu beklendiği gibi yapıyor, `reportError`e gerek yok.
+      return errorResponse("target-blocked", 400);
+    }
     reportError(err, { route: "tools/geo-scan", step: "fetch" });
     return errorResponse("target-unreachable", 502);
   }

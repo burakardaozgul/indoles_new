@@ -257,6 +257,21 @@ async function readBodyOrNull(res: Response | null, maxBytes: number): Promise<s
 }
 
 /**
+ * Bot koruması (WAF/CDN) sayfayı 401/403/429 ile kapatıyor — site ERİŞİLEBİLİR,
+ * bizi (ve büyük ihtimalle GPTBot/ClaudeBot'u) engelliyor. "Adrese
+ * ulaşılamadı" demek kullanıcıyı suçlar; rota ayrı kod döner. Yalnız hedef
+ * SAYFA için: robots/llms'te aynı durum "yok say"dır.
+ */
+const BLOCKED_STATUSES = new Set([401, 403, 429]);
+
+export class TargetBlockedError extends Error {
+  constructor() {
+    super("target-blocked");
+    this.name = "TargetBlockedError";
+  }
+}
+
+/**
  * Hedef sayfayı ve `origin/robots.txt` + `origin/llms.txt`'i paralel çeker.
  * Sayfa erişilemezse (200 dışı durum, `text/html` olmayan içerik türü,
  * reddedilen/aşırı uzun yönlendirme zinciri veya gövde-fazı hatası)
@@ -278,6 +293,10 @@ export async function fetchScanTargets(
     fetchWithValidatedRedirects(new URL("/robots.txt", origin), fetcher, headers),
     fetchWithValidatedRedirects(new URL("/llms.txt", origin), fetcher, headers),
   ]);
+
+  if (pageRes && BLOCKED_STATUSES.has(pageRes.status)) {
+    throw new TargetBlockedError();
+  }
 
   if (!pageRes || pageRes.status !== 200 || !isHtmlContentType(pageRes)) {
     throw new Error("target-unreachable");

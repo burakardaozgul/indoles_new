@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { verifyTurnstile } from "@/lib/security/turnstile";
-import { fetchScanTargets } from "@/lib/tools/geo/safe-fetch";
+import { fetchScanTargets, TargetBlockedError } from "@/lib/tools/geo/safe-fetch";
 import { runGeoScan } from "@/lib/tools/geo/engine";
 import { insertScan, countScansSince, hashClientIp } from "@/lib/tools/geo/repository";
 import { reportError } from "@/lib/observability/report";
@@ -256,6 +256,13 @@ describe("POST /api/tools/geo-scan", () => {
     expect(res.status).toBe(502);
     expect(await res.json()).toEqual({ error: "target-unreachable" });
     expect(insertScan).not.toHaveBeenCalled();
+  });
+
+  it("hedef bot korumasıyla engelliyse → 400 target-blocked (kullanıcıyı suçlamaz)", async () => {
+    vi.mocked(fetchScanTargets).mockRejectedValueOnce(new TargetBlockedError());
+    const res = await POST(req({ ...validBody, url: "https://www.hepsiburada.com" }));
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ error: "target-blocked" });
   });
 
   it("genel istek zaman bütçesi (~20sn) aşılırsa → 502 target-unreachable (per-hop redirect birikmesi G7 gözlemi)", async () => {

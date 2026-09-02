@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { track } from "@/lib/analytics/ga";
@@ -26,6 +26,11 @@ import type { DiagnooReport, KnownMetrics } from "@/lib/tools/diagnoo/schema";
  * DÖNÜŞÜM ORANI BİRİMİ: ziyaretçi yüzde girer (%1,5), şema 0-1 oranı ister
  * (`z.number().gt(0).lt(1)`). Çevrim burada yapılır; alan etiketi birimi
  * açıkça yazar.
+ *
+ * TURNSTILE ADR-028 DESENİNE TAŞINDI (Görev 17.1): `DiagnooForm` ile AYNI
+ * gerekçe — bayrak kapalıyken widget hiç render edilmez, YERİNE görünmez
+ * bal küpü + süre tuzağı gönderilir (`ContactForm`/`GeoReportForm` ile
+ * BİREBİR aynı desen).
  */
 
 const COPY = {
@@ -150,6 +155,10 @@ export function DiagnooUnlockForm({
   const [state, setState] = useState<"idle" | "submitting" | "error">("idle");
   const [errorKind, setErrorKind] = useState<ErrorKind>("generic");
   const [consentMissing, setConsentMissing] = useState(false);
+  /** Bal küpü + süre tuzağı (ADR-028, Görev 17.1) — `ContactForm`/
+   * `DiagnooForm` ile BİREBİR aynı desen. */
+  const [website, setWebsite] = useState("");
+  const mountedAtRef = useRef<number>(Date.now());
 
   const {
     token: turnstileToken,
@@ -201,7 +210,9 @@ export function DiagnooUnlockForm({
           ...(trimmedName ? { fullName: trimmedName } : {}),
           ...(knownMetrics ? { knownMetrics } : {}),
           kvkkConsent: true,
-          turnstileToken: TURNSTILE_ENABLED ? turnstileToken : "",
+          website,
+          elapsedMs: Date.now() - mountedAtRef.current,
+          ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
         }),
       });
 
@@ -434,6 +445,22 @@ export function DiagnooUnlockForm({
           </a>
         </span>
       </label>
+
+      {/* Bal küpü: görsel olarak gizli, klavye/okuyucu erişiminden çıkarılmış
+          — `ContactForm`/`DiagnooForm`'daki desenin birebir aynısı. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+        <label>
+          Web sitesi (boş bırak)
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </label>
+      </div>
 
       {TURNSTILE_ENABLED ? <div ref={turnstileRef} className="cf-turnstile" /> : null}
 

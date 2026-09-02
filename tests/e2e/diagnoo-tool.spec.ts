@@ -113,17 +113,22 @@ test.describe("Diagnoo araç sayfası — form, SSS, JSON-LD", () => {
 
 test.describe("Diagnoo form gönderimi — Turnstile yerelde yapılandırılmamış", () => {
   test("gönderim dürüst bir hata gösterir, sayfa çökmez", async ({ page }) => {
-    // `NEXT_PUBLIC_TURNSTILE_SITE_KEY` yerelde YOK → `TURNSTILE_ENABLED` build
-    // anında `false`e gömülür (`use-turnstile.ts`) → widget hiç render
-    // edilmez, form `turnstileToken: ""` yollar. `diagnooStartSchema`
-    // (`turnstileToken: z.string().min(1)`) bunu `getCloudflareContext()`e
-    // ULAŞMADAN reddeder — rota `{ error: "invalid" }` / 400 döner (GEO'nun
-    // `geoScanSchema`sıyla BİREBİR aynı boşluk: boş token şema hatasına
-    // düşüyor, `turnstile-failed`e değil). `DiagnooForm` bunu `errors.invalid`
-    // ("Geçerli bir site adresi girin.") cümlesine çevirir — teknik olarak
-    // yanıltıcı bir metin ama YENİ bir davranış değil, GEO'da da aynı;
-    // task 16'nın kapsamı bunu düzeltmek değil, dürüst/çökmesiz olduğunu
-    // doğrulamak. 500 YOK, framework hata sayfası YOK, mesaj TR kopyası.
+    // Görev 17.1 SONRASI davranış (`diagnooStartSchema.turnstileToken`
+    // artık `.optional()`, ADR-028 deseni): `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
+    // yerelde YOK → `TURNSTILE_ENABLED` build anında `false`e gömülür
+    // (`use-turnstile.ts`) → widget hiç render edilmez, form
+    // `turnstileToken` alanını HİÇ göndermez, YERİNE bal küpü (`website`) +
+    // süre tuzağı (`elapsedMs`) gönderir. Rota bu ikisini `spamSignal` ile
+    // HER ZAMAN kontrol eder — insan gibi (`website` boş, `elapsedMs` ≥
+    // 2000ms) davranan bir gönderim tuzağı GEÇER, `turnstileEnabled()`
+    // kapalı olduğu için Turnstile hiç sorgulanmaz. Bu noktada rota
+    // `TOOL_IP_SALT`'ı okur — yerelde `.dev.vars` YOK (bkz. `geo-tool.spec.
+    // ts`teki aynı belgelenmiş boşluk) — fail-closed `500 misconfigured`
+    // döner, `getCloudflareContext()`e HİÇ ulaşılmaz. `DiagnooForm` bunu
+    // `errors.unavailable` ("Araç şu an yanıt veremiyor, birazdan tekrar
+    // deneyin.") cümlesine çevirir — dürüst, kullanıcının URL'ini suçlamayan
+    // bir mesaj. 500 istemciye HTML hata sayfası olarak DEĞİL, JSON gövdeli
+    // olarak düşer; framework'ün genel hata sayfası hiç görünmez.
     const responses: number[] = [];
     page.on("response", (res) => {
       if (res.url().includes("/api/tools/diagnoo-start")) responses.push(res.status());
@@ -139,6 +144,12 @@ test.describe("Diagnoo form gönderimi — Turnstile yerelde yapılandırılmam�
     // için uzatıldı.
     await page.goto(TR_PATH, { timeout: COLD_COMPILE_TIMEOUT_MS });
     await page.getByLabel("Mağazanızın adresi").fill("https://www.indoles.com.tr");
+    // Süre tuzağının (`MIN_FILL_MS`, anti-spam.ts) YANLIŞLIKLA tetiklenmesini
+    // önlemek için: form mount olduktan (`mountedAtRef`) sonra 2 saniyeden
+    // fazla beklenir — otomatikleştirilmiş `fill()+click()` insan eşiğinin
+    // (2000ms) çok altında kalır ve bu test aslında farklı bir yolu
+    // (bal küpü sahte başarısı) kanıtlamış olurdu.
+    await page.waitForTimeout(2100);
     await page.getByRole("button", { name: "Taramayı başlat" }).click();
 
     // `getByRole("alert")` tek başına Next.js'in kendi route-announcer
@@ -147,12 +158,12 @@ test.describe("Diagnoo form gönderimi — Turnstile yerelde yapılandırılmam�
     // daraltılır.
     const formAlert = page.locator('form p[role="alert"]');
     await expect(formAlert).toBeVisible();
-    await expect(formAlert).toHaveText("Geçerli bir site adresi girin.");
+    await expect(formAlert).toHaveText("Araç şu an yanıt veremiyor, birazdan tekrar deneyin.");
 
     // Form ekranında kalındı (idle) — running/snapshot'a geçilmedi.
     await expect(page.getByLabel("Mağazanızın adresi")).toBeVisible();
 
-    expect(responses).toEqual([400]);
+    expect(responses).toEqual([500]);
   });
 });
 

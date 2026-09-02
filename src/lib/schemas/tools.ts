@@ -57,13 +57,28 @@ export type GeoReportPayload = z.infer<typeof geoReportSchema>;
  * `url`: GEO'daki gibi yalnız "URL gibi görünüyor mu" — SSRF/erişilebilirlik
  * kontrolü burada yapılmaz, teşhis pipeline'ının kendi tarama katmanına aittir.
  *
- * `turnstileToken`: GEO'daki gibi KOŞULSUZ zorunlu — bu araç da Turnstile'sız
- * hiç render edilmez.
+ * `turnstileToken`: Görev 17 (task-17) düzeltmesi — contact/GEO'nun izlediği
+ * AYNI koşullu desen (ADR-028, ADR-031). İlk halinde bu alan `min(1)` ile
+ * KOŞULSUZ zorunluydu ("araç Turnstile'sız hiç render edilmez" varsayımıyla)
+ * — ama ADR-028 bayrağı (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`) launch
+ * konfigürasyonunda KAPALI. Bayrak kapalıyken istemci hiç token
+ * göndermiyordu ve `safeParse` her geçerli URL'i reddediyordu. Alan artık
+ * contact/GEO'daki gibi `.optional()`; doğrulama rotada `turnstileEnabled()`
+ * bayrağına göre KOŞULLU çalışır.
+ *
+ * `website`/`elapsedMs`: bal küpü + süre tuzağı — Turnstile bayrağı
+ * KAPALIYKEN devreye giren ikincil savunma (`spamSignal()`, anti-spam.ts).
+ * Alan adları contact/GEO şemalarıyla BİREBİR aynı — `spamSignal` bu adları
+ * bekler.
  */
 export const diagnooStartSchema = z.object({
   url: z.string().url().max(2048),
   locale: z.enum(["tr", "en"]),
-  turnstileToken: z.string().min(1),
+  turnstileToken: z.string().optional(),
+  /** Bal küpü — insanlar görmez, botlar doldurur. */
+  website: z.string().optional(),
+  /** Formun yüklenmesinden gönderime geçen süre (ms). Yokluğu bot işaretidir. */
+  elapsedMs: z.number().int().nonnegative().optional(),
 });
 
 export type DiagnooStartPayload = z.infer<typeof diagnooStartSchema>;
@@ -82,7 +97,12 @@ export type DiagnooStartPayload = z.infer<typeof diagnooStartSchema>;
  * `knownMetrics`: opsiyonel — ziyaretçi gerçek metrik girerse finansal projeksiyon
  * `recomputeWithKnownMetrics` ile yeniden hesaplanır (Görev 10).
  *
- * `turnstileToken`: GEO'daki gibi KOŞULSUZ zorunlu.
+ * `turnstileToken`: `diagnooStartSchema`'daki gibi Görev 17 ile `.optional()`e
+ * çevrildi — ADR-028 bayrağı bu rotayı da kapsar artık (aynı gerekçe, yukarıdaki
+ * şemanın başlık yorumuna bkz).
+ *
+ * `website`/`elapsedMs`: bal küpü + süre tuzağı — `diagnooStartSchema` ile
+ * AYNI alan adları, AYNI amaç.
  */
 export const diagnooUnlockSchema = z.object({
   diagnosticId: z.string().uuid(),
@@ -91,7 +111,9 @@ export const diagnooUnlockSchema = z.object({
   fullName: z.string().max(120).optional(),
   knownMetrics: KnownMetricsSchema.optional(),
   kvkkConsent: z.literal(true),
-  turnstileToken: z.string().min(1),
+  turnstileToken: z.string().optional(),
+  website: z.string().optional(),
+  elapsedMs: z.number().int().nonnegative().optional(),
 });
 
 export type DiagnooUnlockPayload = z.infer<typeof diagnooUnlockSchema>;

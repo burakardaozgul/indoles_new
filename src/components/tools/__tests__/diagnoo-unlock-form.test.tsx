@@ -155,6 +155,53 @@ describe("DiagnooUnlockForm", () => {
     });
   });
 
+  // ---- Görev 17.1: bal küpü + süre tuzağı (ADR-028) ----
+
+  it("bal küpü alanı DOM'da ama erişilebilirlik ağacından çıkarılmış render edilir", () => {
+    render(<DiagnooUnlockForm diagnosticId={ID} locale="tr" onUnlocked={vi.fn()} />);
+
+    const honeypot = screen.getByRole("textbox", {
+      name: "Web sitesi (boş bırak)",
+      hidden: true,
+    });
+    expect(honeypot).toHaveAttribute("name", "website");
+    expect(honeypot).toHaveAttribute("tabIndex", "-1");
+    expect(honeypot).toHaveAttribute("autoComplete", "off");
+    expect(honeypot.closest('[aria-hidden="true"]')).not.toBeNull();
+    expect(
+      screen.queryByRole("textbox", { name: "Web sitesi (boş bırak)" }),
+    ).toBeNull();
+  });
+
+  it("gönderimde gövdeye website ('') ve sayısal elapsedMs eklenir", async () => {
+    render(<DiagnooUnlockForm diagnosticId={ID} locale="tr" onUnlocked={vi.fn()} />);
+
+    fillRequired();
+    fireEvent.click(screen.getByRole("checkbox"));
+    submit();
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalled();
+    });
+    const body = lastBody(fetchMock);
+    expect(body.website).toBe("");
+    expect(typeof body.elapsedMs).toBe("number");
+    expect(body.elapsedMs as number).toBeGreaterThanOrEqual(0);
+  });
+
+  it("Turnstile bayrağı kapalıyken gövdede turnstileToken alanı HİÇ yok", async () => {
+    render(<DiagnooUnlockForm diagnosticId={ID} locale="tr" onUnlocked={vi.fn()} />);
+
+    fillRequired();
+    fireEvent.click(screen.getByRole("checkbox"));
+    submit();
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalled();
+    });
+    expect(lastBody(fetchMock)).not.toHaveProperty("turnstileToken");
+  });
+
   it("rota hata kodunu kullanıcı mesajına çözer", async () => {
     fetchMock.mockResolvedValue({
       ok: false,

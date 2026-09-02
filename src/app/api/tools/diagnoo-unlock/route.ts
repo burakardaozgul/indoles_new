@@ -2,15 +2,23 @@
  * `POST /api/tools/diagnoo-unlock` — Diagnoo GAP analizi kilit açma (unlock)
  * uç noktası. Spec §10 "Kilit açma akışı", Görev 12.
  *
- * Akış (KESİN sıra): json → `diagnooUnlockSchema.safeParse`
+ * Akış (Görev 17 sonrası, KESİN sıra): json → `diagnooUnlockSchema.safeParse`
  * (`kvkkConsent: z.literal(true)` — GEO'daki `geoReportSchema` ile AYNI KVKK
- * kapı mantığı, bkz. o şemanın yorumu) → ip → Turnstile (koşulsuz) →
+ * kapı mantığı, bkz. o şemanın yorumu) → bal küpü/süre tuzağı (`spamSignal`,
+ * HER ZAMAN çalışır) → ip → Turnstile (yalnız `turnstileEnabled()` iken) →
  * `TOOL_IP_SALT` fail-closed → `hashClientIp` → IP/saat limiti (429) →
  * `getDiagnostic` (yok → 404; tamamlanmamış/rapor yok → 409 not-ready) →
  * `hasLeadForEmail` (yalnız bildirim kararı için) → `createLead` (HER çağrı
  * kendi satırını yazar) → `knownMetrics` verilmişse `recomputeWithKnownMetrics`
  * + `saveLeadRecompute` (o satıra) → daha önce bildirilmemişse satış lead
  * bildirimi → kilit çerezi → 200 `{ report }`.
+ *
+ * TURNSTILE ADR-028 DESENİNE TAŞINDI (Görev 17.1): launch konfigürasyonunda
+ * `NEXT_PUBLIC_TURNSTILE_SITE_KEY` boş — bu rota da GEO/contact gibi
+ * Turnstile'ı yalnız `turnstileEnabled()` bayrağı açıkken zorunlu kılar;
+ * bayrak kapalıyken YERİNE bal küpü + süre tuzağı çalışır. Sahte başarı
+ * `diagnoo-start`/GEO ile BİREBİR aynı: 200 `{ ok: true }`, lead HİÇ yazılmaz,
+ * kilit çerezi HİÇ verilmez.
  *
  * KİLİT ZİYARETÇİYE BAĞLIDIR, TEŞHİSE DEĞİL (C1). Teşhis satırı aynı URL için
  * 24 saat boyunca yeniden kullanılıyor; kilit teşhis bazlı kalsaydı A'nın
@@ -39,6 +47,7 @@ import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { diagnooUnlockSchema } from "@/lib/schemas/tools";
 import { verifyTurnstile } from "@/lib/security/turnstile";
+import { spamSignal, turnstileEnabled } from "@/lib/security/anti-spam";
 import { hashClientIp } from "@/lib/tools/shared/ip-hash";
 import {
   getDiagnostic,
@@ -101,11 +110,25 @@ export async function POST(req: Request): Promise<Response> {
   }
   const data = parsed.data;
 
+  // Bal küpü + süre tuzağı — HER ZAMAN çalışır, `diagnoo-start`/contact/GEO
+  // ile AYNI desen. Sahte başarı bilinçli: 4xx bota neyin yakalandığını
+  // öğretir; 200 dönüp lead'i hiç yazmamak hem botu yanıltır hem satış
+  // kutusunu/D1'i korur.
+  const spam = spamSignal(data);
+  if (spam) {
+    console.warn(`[api/tools/diagnoo-unlock] spam_suspect signal=${spam}`);
+    return NextResponse.json({ ok: true });
+  }
+
   const ip = req.headers.get("cf-connecting-ip") ?? "0.0.0.0";
 
-  const turnstileOk = await verifyTurnstile(data.turnstileToken, ip);
-  if (!turnstileOk) {
-    return errorResponse("turnstile-failed", 403);
+  if (turnstileEnabled()) {
+    const turnstileOk = data.turnstileToken
+      ? await verifyTurnstile(data.turnstileToken, ip)
+      : false;
+    if (!turnstileOk) {
+      return errorResponse("turnstile-failed", 403);
+    }
   }
 
   // KVKK fail-closed: GEO/diagnoo-start ile AYNI duruş.

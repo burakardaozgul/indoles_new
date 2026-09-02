@@ -2,22 +2,34 @@
  * `POST /api/tools/diagnoo-start` — Diagnoo GAP analizi başlatma uç noktası.
  * Spec §9 "Teşhis başlatma akışı", Görev 12.
  *
- * Akış (GEO rotalarının (`geo-scan/route.ts`, `geo-report/route.ts`) izlediği
- * KESİN sıra): json → `diagnooStartSchema.safeParse` → ip (`cf-connecting-ip`,
- * yoksa `"0.0.0.0"`) → `verifyTurnstile` (koşulsuz — bu araç da Turnstile'sız
- * hiç render edilmez) → `TOOL_IP_SALT` fail-closed (KVKK) → `hashClientIp` →
- * IP/gün limiti → global/gün limiti → URL normalize → `findFreshCompleted`
- * (24 saat içinde tamamlanmış aynı URL varsa yeniden koşturmaz, maliyet
- * koruması) → yoksa yeni teşhis oluştur + Workflow'u tetikle → 202.
+ * Akış (Görev 17 sonrası, GEO rotalarının (`geo-scan/route.ts`,
+ * `geo-report/route.ts`) izlediği KESİN sıra): json → `diagnooStartSchema.
+ * safeParse` → bal küpü/süre tuzağı (`spamSignal`, HER ZAMAN çalışır) → ip
+ * (`cf-connecting-ip`, yoksa `"0.0.0.0"`) → Turnstile (yalnız
+ * `turnstileEnabled()` iken) → `TOOL_IP_SALT` fail-closed (KVKK) →
+ * `hashClientIp` → IP/gün limiti → global/gün limiti → URL normalize →
+ * `findFreshCompleted` (24 saat içinde tamamlanmış aynı URL varsa yeniden
+ * koşturmaz, maliyet koruması) → yoksa yeni teşhis oluştur + Workflow'u
+ * tetikle → 202.
+ *
+ * TURNSTILE ADR-028 DESENİNE TAŞINDI (Görev 17.1, task-17-brief §17.1): launch
+ * konfigürasyonunda `NEXT_PUBLIC_TURNSTILE_SITE_KEY` boş — bu rota da GEO/
+ * contact gibi Turnstile'ı yalnız `turnstileEnabled()` bayrağı açıkken
+ * zorunlu kılar; bayrak kapalıyken YERİNE bal küpü + süre tuzağı
+ * (`spamSignal`) çalışır. Sahte başarı GEO'nun 6330fcc'de seçtiği davranışın
+ * BİREBİR aynısı: 4xx dönmek bota neyin yakalandığını öğretir, 200 `{ ok:
+ * true }` dönüp teşhisi hiç başlatmamak hem botu yanıltır hem D1/Workflow
+ * maliyetini korur.
  *
  * GEO'dan FARK: Turnstile başarısızlığı burada 403 döner (GEO'da 400) — spec
  * §9'un kapalı sözlüğü bunu böyle tanımlar; iki araç arasında bilinçli bir
- * kod farkı, hizalama hatası değil.
+ * kod farkı, hizalama hatası değil. Bu fark bayrak açıkken de korunur.
  */
 import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { diagnooStartSchema } from "@/lib/schemas/tools";
 import { verifyTurnstile } from "@/lib/security/turnstile";
+import { spamSignal, turnstileEnabled } from "@/lib/security/anti-spam";
 import { hashClientIp } from "@/lib/tools/shared/ip-hash";
 import {
   createDiagnostic,
@@ -70,11 +82,25 @@ export async function POST(req: Request): Promise<Response> {
   }
   const data = parsed.data;
 
+  // Bal küpü + süre tuzağı — HER ZAMAN çalışır (Turnstile açık/kapalı fark
+  // etmez), contact/GEO route'larının izlediği AYNI desen. Sahte başarı
+  // bilinçli: 4xx dönmek bota neyin yakalandığını öğretir; 200 dönüp teşhisi
+  // hiç başlatmamak hem botu yanıltır hem D1/Workflow maliyetini korur.
+  const spam = spamSignal(data);
+  if (spam) {
+    console.warn(`[api/tools/diagnoo-start] spam_suspect signal=${spam}`);
+    return NextResponse.json({ ok: true });
+  }
+
   const ip = req.headers.get("cf-connecting-ip") ?? "0.0.0.0";
 
-  const turnstileOk = await verifyTurnstile(data.turnstileToken, ip);
-  if (!turnstileOk) {
-    return errorResponse("turnstile-failed", 403);
+  if (turnstileEnabled()) {
+    const turnstileOk = data.turnstileToken
+      ? await verifyTurnstile(data.turnstileToken, ip)
+      : false;
+    if (!turnstileOk) {
+      return errorResponse("turnstile-failed", 403);
+    }
   }
 
   // KVKK fail-closed: GEO rotalarıyla AYNI duruş — tuz eksik/boşsa tuzsuz

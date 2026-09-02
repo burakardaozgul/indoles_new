@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { track } from "@/lib/analytics/ga";
@@ -17,6 +17,15 @@ import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
  *
  * `tool_used` yanıt BEKLENMEDEN atılır (GEO ile aynı gerekçe): huninin giriş
  * adımı, tamamlanma oranının paydası.
+ *
+ * TURNSTILE ADR-028 DESENİNE TAŞINDI (Görev 17.1): Turnstile artık ADR-028
+ * bayrağına (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_ENABLED`) göre
+ * KOŞULLU — bayrak kapalıyken (launch konfigürasyonu) widget hiç render
+ * edilmez, YERİNE `GeoScanForm`/`ContactForm` ile BİREBİR aynı görünmez bal
+ * küpü (`website`) + süre tuzağı (`elapsedMs`) gönderilir; rota tarafında
+ * `spamSignal` bunları değerlendirir. Bayrak kapalıyken "Turnstile
+ * hazırlanıyor" gibi bir ipucu GÖSTERİLMEZ — `useTurnstileToken` zaten
+ * `enabled: false` iken `error`i hep `null` döndürür (use-turnstile.ts).
  */
 
 const COPY = {
@@ -82,6 +91,10 @@ export function DiagnooForm({
   const [url, setUrl] = useState("");
   const [state, setState] = useState<"idle" | "submitting" | "error">("idle");
   const [errorKind, setErrorKind] = useState<ErrorKind>("generic");
+  /** Bal küpü + süre tuzağı (ADR-028, Görev 17.1). mountedAt: form ekrana
+   * geldiği an — `ContactForm`/`GeoScanForm` ile BİREBİR aynı desen. */
+  const [website, setWebsite] = useState("");
+  const mountedAtRef = useRef<number>(Date.now());
 
   const {
     token: turnstileToken,
@@ -103,7 +116,9 @@ export function DiagnooForm({
         body: JSON.stringify({
           url: url.trim(),
           locale,
-          turnstileToken: TURNSTILE_ENABLED ? turnstileToken : "",
+          website,
+          elapsedMs: Date.now() - mountedAtRef.current,
+          ...(TURNSTILE_ENABLED ? { turnstileToken } : {}),
         }),
       });
 
@@ -173,6 +188,24 @@ export function DiagnooForm({
         <p id={hintId} className="typography-caption text-ink-500 mt-2">
           {c.urlHint}
         </p>
+      </div>
+
+      {/* Bal küpü: görsel olarak gizli, klavye/okuyucu erişiminden çıkarılmış
+          — `ContactForm`/`GeoScanForm`'daki desenin birebir aynısı (metin
+          bilerek lokalize edilmez, hiçbir kullanıcıya hiç görünmez). İnsan
+          dolduramaz; dolduran bot rota tarafında sahte başarıya düşer. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden">
+        <label>
+          Web sitesi (boş bırak)
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+        </label>
       </div>
 
       {TURNSTILE_ENABLED ? <div ref={turnstileRef} className="cf-turnstile" /> : null}

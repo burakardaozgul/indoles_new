@@ -23,6 +23,12 @@ const base = { url: "https://a.com", locale: "tr" as const, clientIpHash: "h" };
 beforeEach(() => {
   db = freshDiagnooDb();
   workflowCreate.mockReset();
+  // Görev 17.1: yeni testler `verifyTurnstile`/`sendMailWithRetry` çağrı
+  // SAYISINI doğruluyor (`not.toHaveBeenCalled()`, `toHaveBeenCalledTimes`) —
+  // `mockClear()` yalnız çağrı geçmişini siler, `verifyTurnstile`in modül
+  // seviyesindeki `mockResolvedValue(true)` varsayılanı KORUNUR.
+  vi.mocked(verifyTurnstile).mockClear();
+  vi.mocked(sendMailWithRetry).mockClear();
   vi.stubEnv("TOOL_IP_SALT", "test-salt");
   vi.mocked(getCloudflareContext).mockReturnValue({
     env: { BOOKINGS_DB: db, DIAGNOO_WORKFLOW: { create: workflowCreate } },
@@ -38,7 +44,13 @@ const post = (url: string, body: unknown, ip = "1.2.3.4") => new Request(`http:/
 const get = (url: string, cookie?: string) => new Request(`http://localhost${url}`, {
   headers: cookie ? { cookie } : {},
 });
-const startBody = (url: string) => ({ url, locale: "tr", turnstileToken: "tok" });
+// İnsan davranışı (Görev 17.1): bal küpü boş, doldurma süresi eşiğin
+// (2000ms, anti-spam.ts) üstünde — contact/GEO route testlerinin AYNI
+// deseni. Turnstile bayrağı VARSAYILAN KAPALI (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`
+// stub'lanmadıkça) — `turnstileToken` bu durumda rota tarafından hiç okunmaz.
+const startBody = (url: string) => ({
+  url, locale: "tr", turnstileToken: "tok", website: "", elapsedMs: 5000,
+});
 
 /**
  * Unlock yanıtındaki kilit çerezi. Kilit ziyaretçiye bağlı: token yalnız
@@ -71,11 +83,77 @@ describe("POST /api/tools/diagnoo-start", () => {
     const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://s4.com")));
     expect(res.status).toBe(429);
   });
-  it("Turnstile başarısızsa 403", async () => {
+  // ---- Görev 17.1: Turnstile artık ADR-028'e göre KOŞULLU ----
+
+  it("bayrak KAPALIYKEN (varsayılan, env stub yok) Turnstile hiç sorgulanmaz — mutlu yol yine 202", async () => {
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
+    expect(res.status).toBe(202);
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+  });
+
+  it("bayrak AÇIKKEN Turnstile başarısızsa 403", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
     vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
     const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
     expect(res.status).toBe(403);
   });
+
+  it("bayrak AÇIKKEN token boşsa (istemci hiç göndermemiş) → 403, verifyTurnstile'a HİÇ gidilmez", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const { turnstileToken, ...withoutToken } = startBody("https://a.com");
+    void turnstileToken;
+    const res = await startPOST(post("/api/tools/diagnoo-start", withoutToken));
+    expect(res.status).toBe(403);
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+  });
+
+  it("bayrak AÇIKKEN Turnstile geçerse mevcut akış devam eder → 202", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
+    expect(res.status).toBe(202);
+    expect(verifyTurnstile).toHaveBeenCalledTimes(1);
+  });
+
+  // ---- Görev 17.1: bal küpü + süre tuzağı (contact/GEO route'un deseni) ----
+
+  it("bal küpü doluysa → sahte başarı (200 ok:true), teşhis HİÇ başlatılmaz", async () => {
+    const res = await startPOST(
+      post("/api/tools/diagnoo-start", { ...startBody("https://a.com"), website: "https://spam.example" }),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(workflowCreate).not.toHaveBeenCalled();
+  });
+
+  it("süre eşiğin (2 sn) altındaysa → sahte başarı, teşhis başlatılmaz", async () => {
+    const res = await startPOST(
+      post("/api/tools/diagnoo-start", { ...startBody("https://a.com"), elapsedMs: 400 }),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(workflowCreate).not.toHaveBeenCalled();
+  });
+
+  it("süre bilgisi hiç yoksa (doğrudan API botu) → sahte başarı, teşhis başlatılmaz", async () => {
+    const { elapsedMs, ...withoutElapsed } = startBody("https://a.com");
+    void elapsedMs;
+    const res = await startPOST(post("/api/tools/diagnoo-start", withoutElapsed));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(workflowCreate).not.toHaveBeenCalled();
+  });
+
+  it("bal küpü/süre tuzağı bayrak AÇIKKEN de çalışır (HER ZAMAN kontrol edilir)", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const res = await startPOST(
+      post("/api/tools/diagnoo-start", { ...startBody("https://a.com"), website: "https://spam.example" }),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+    expect(workflowCreate).not.toHaveBeenCalled();
+  });
+
   it("TOOL_IP_SALT yoksa 500 misconfigured (fail-closed)", async () => {
     vi.stubEnv("TOOL_IP_SALT", "");
     const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
@@ -113,7 +191,8 @@ describe("GET /api/tools/diagnoo-status/[id]", () => {
 
 describe("POST /api/tools/diagnoo-unlock", () => {
   const unlockBody = (over: Record<string, unknown> = {}) => ({
-    diagnosticId: ID, email: "cmo@firma.com", company: "Firma", kvkkConsent: true, turnstileToken: "tok", ...over,
+    diagnosticId: ID, email: "cmo@firma.com", company: "Firma", kvkkConsent: true, turnstileToken: "tok",
+    website: "", elapsedMs: 5000, ...over,
   });
   beforeEach(async () => {
     await createDiagnostic(db, { id: ID, ...base });
@@ -124,6 +203,58 @@ describe("POST /api/tools/diagnoo-unlock", () => {
     expect(res.status).toBe(200);
     expect(((await res.json()) as { report: { healthScore: number } }).report.healthScore).toBe(54);
     expect(sendMailWithRetry).toHaveBeenCalledTimes(1);
+  });
+
+  // ---- Görev 17.1: Turnstile artık ADR-028'e göre KOŞULLU ----
+
+  it("bayrak KAPALIYKEN (varsayılan) Turnstile hiç sorgulanmaz — mutlu yol yine 200", async () => {
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
+    expect(res.status).toBe(200);
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+  });
+
+  it("bayrak AÇIKKEN Turnstile başarısızsa 403", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    vi.mocked(verifyTurnstile).mockResolvedValueOnce(false);
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
+    expect(res.status).toBe(403);
+  });
+
+  it("bayrak AÇIKKEN token boşsa → 403, verifyTurnstile'a HİÇ gidilmez", async () => {
+    vi.stubEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY", "0xTESTKEY");
+    const { turnstileToken, ...withoutToken } = unlockBody();
+    void turnstileToken;
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", withoutToken));
+    expect(res.status).toBe(403);
+    expect(verifyTurnstile).not.toHaveBeenCalled();
+  });
+
+  // ---- Görev 17.1: bal küpü + süre tuzağı ----
+
+  it("bal küpü doluysa → sahte başarı (200 ok:true), lead HİÇ yazılmaz", async () => {
+    const res = await unlockPOST(
+      post("/api/tools/diagnoo-unlock", unlockBody({ website: "https://spam.example" })),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
+    expect(res.headers.get("set-cookie")).toBeNull();
+  });
+
+  it("süre eşiğin (2 sn) altındaysa → sahte başarı, lead yazılmaz", async () => {
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody({ elapsedMs: 400 })));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
+  });
+
+  it("süre bilgisi hiç yoksa → sahte başarı, lead yazılmaz", async () => {
+    const { elapsedMs, ...withoutElapsed } = unlockBody();
+    void elapsedMs;
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", withoutElapsed));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
   });
   it("kilit çerezi HttpOnly/Secure/SameSite=Lax ve 30 gün ömürlü set edilir", async () => {
     const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
@@ -205,7 +336,8 @@ describe("POST /api/tools/diagnoo-unlock", () => {
  */
 describe("Diagnoo kilit izolasyonu (aynı teşhis, iki ziyaretçi)", () => {
   const unlockBody = (over: Record<string, unknown> = {}) => ({
-    diagnosticId: ID, email: "a@firma.com", company: "A Firma", kvkkConsent: true, turnstileToken: "tok", ...over,
+    diagnosticId: ID, email: "a@firma.com", company: "A Firma", kvkkConsent: true, turnstileToken: "tok",
+    website: "", elapsedMs: 5000, ...over,
   });
   beforeEach(async () => {
     await createDiagnostic(db, { id: ID, ...base });
@@ -285,7 +417,8 @@ describe("Diagnoo kilit izolasyonu (aynı teşhis, iki ziyaretçi)", () => {
  */
 describe("Diagnoo aynı e-posta, iki ziyaretçi", () => {
   const unlockBody = (over: Record<string, unknown> = {}) => ({
-    diagnosticId: ID, email: "a@firma.com", company: "A Firma", kvkkConsent: true, turnstileToken: "tok", ...over,
+    diagnosticId: ID, email: "a@firma.com", company: "A Firma", kvkkConsent: true, turnstileToken: "tok",
+    website: "", elapsedMs: 5000, ...over,
   });
   beforeEach(async () => {
     await createDiagnostic(db, { id: ID, ...base });

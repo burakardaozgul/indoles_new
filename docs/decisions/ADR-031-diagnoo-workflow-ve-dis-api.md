@@ -160,6 +160,9 @@ boşaltırdı. LLM analizi (Gemini) burada bir "best practice" tercihi değil,
   — `indoles-bookings` veritabanı, `BOOKINGS_DB` binding'i, ayrı DB yok.
 - Sırlar: `GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY` — yerelde
   `.dev.vars` (bkz. `.dev.vars.example`), üretimde `wrangler secret put`.
+- Turnstile: Diagnoo yüzeyi (`diagnoo-start`, `diagnoo-unlock`, iki form)
+  ADR-028'in koşullu spam desenini izler — `turnstileEnabled()` kapalıyken
+  bal küpü + süre tuzağı devreye girer (task-17, 2026-09).
 
 ## Referanslar
 

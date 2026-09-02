@@ -67,6 +67,22 @@ describe("kök layout", () => {
     // Render tek bir kapıdan geçmeli, `GA_ID` doğrudan koşul olmamalı.
     expect(layoutCode).toContain("{GA_ENABLED ?");
   });
+
+  /**
+   * Görev 17.4 — E2E'de her sayfa yüklemesinde `Uncaught TurnstileError`
+   * gözlendi: script `?render=explicit` OLMADAN yükleniyor, sayfadaki
+   * `.cf-turnstile` konteynerlerini (data-sitekey'siz, çünkü tüm tüketiciler
+   * `turnstile.render()` ile İMPERATİF render ediyor — bkz. `use-turnstile.
+   * ts`, `ContactForm.tsx`) otomatik (implicit) render etmeye çalışıyor ve
+   * hata veriyor. Tüm tüketiciler explicit render kullandığı için düzeltme
+   * script'in kendisine `?render=explicit` eklemek — hiçbir tüketici
+   * kodunun değişmesi gerekmiyor (task-17-report.md'de gerekçelendirildi).
+   */
+  it("Turnstile script'i ?render=explicit taşır (implicit auto-render kapalı)", () => {
+    expect(layoutSource).toContain(
+      "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit",
+    );
+  });
 });
 
 describe("metadata dosya rotaları", () => {

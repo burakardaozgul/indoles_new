@@ -120,10 +120,19 @@ export default async function RootLayout({
       <body>
         <script dangerouslySetInnerHTML={{ __html: PERSONA_BOOTSTRAP }} />
         {children}
-        {/* Turnstile bayrakla devre dışıyken script hiç yüklenmez (ADR-028). */}
+        {/* Turnstile bayrakla devre dışıyken script hiç yüklenmez (ADR-028).
+            `?render=explicit`: TÜM tüketiciler (`use-turnstile.ts` — GEO/
+            Diagnoo formları, `ContactForm.tsx`) widget'ı `turnstile.render()`
+            ile İMPERATİF çağırıyor; bu parametre olmadan script yüklenir
+            yüklenmez sayfadaki `.cf-turnstile` konteynerlerini (henüz
+            `data-sitekey` taşımıyorlar — sitekey yalnız `.render()` çağrısına
+            parametre olarak gider) otomatik render etmeye çalışıp
+            `Uncaught TurnstileError` fırlatıyordu (Görev 17.4, E2E'de
+            gözlendi). `render=explicit` bu otomatik taramayı kapatır; hiçbir
+            tüketici kodu değişmez. */}
         {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? (
           <Script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
             strategy="afterInteractive"
           />
         ) : null}

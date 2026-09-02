@@ -57,6 +57,8 @@ const COPY = {
       "Bu teşhis bulunamadı. Yeni bir tarama başlatabilirsiniz.",
     failedGeneric:
       "Tarama tamamlanamadı. Adresi kontrol edip yeniden başlatın.",
+    failedNetwork:
+      "Tarama durumuna ulaşılamıyor. Bağlantınızı kontrol edip sayfayı yenileyin; tarama sunucuda sürüyor olabilir.",
     retry: "Yeni tarama başlat",
     phaseIdle: "yeni tarama",
     phaseRunning: "tarama sürüyor",
@@ -73,6 +75,8 @@ const COPY = {
       "This address could not be fetched. The site may not be responding or may be closed to scanning; check the address and try again.",
     failedNotFound: "This diagnostic was not found. You can start a new scan.",
     failedGeneric: "The scan could not finish. Check the address and start it again.",
+    failedNetwork:
+      "The scan status cannot be reached. Check your connection and refresh the page; the scan may still be running on the server.",
     retry: "Start a new scan",
     phaseIdle: "new scan",
     phaseRunning: "scan running",
@@ -117,6 +121,10 @@ function failureMessage(reason: string | null, locale: "tr" | "en"): string {
   const c = COPY[locale];
   if (reason === "scrape_failed") return c.failedScrape;
   if (reason === "not_found") return c.failedNotFound;
+  // `useDiagnooStatus` üç ardışık ağ hatasında yoklamayı bırakıp bu sebebi
+  // yazıyor: tarama başarısız OLMADI, durumunu okuyamıyoruz — "adresi kontrol
+  // edin" demek yanlış yere yönlendirirdi.
+  if (reason === "network_error") return c.failedNetwork;
   return c.failedGeneric;
 }
 

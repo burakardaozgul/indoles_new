@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { EVENT_NAMES, EVENT_PARAM_MAX, truncateParam, AnalyticsEvent, healthScoreBucket } from "../events";
+import { EVENT_NAMES, EVENT_PARAM_MAX, truncateParam, healthScoreBucket } from "../events";
+import type { AnalyticsEvent } from "../events";
 
 describe("EVENT_NAMES — GA4 kısıtları (docs/12 §2)", () => {
   it("her ad snake_case'dir", () => {

@@ -682,9 +682,11 @@ export function DiagnooReport({
         ) : null}
 
         <ul className="mt-8 flex flex-col gap-6">
-          {priorityGaps.map((item) => (
+          {/* Anahtar sıra numarasıyla birleşiyor: modelden aynı başlıkla iki
+              madde dönebilir ve React'te yinelenen anahtar satırları karıştırır. */}
+          {priorityGaps.map((item, index) => (
             <li
-              key={item.title}
+              key={`${index}-${item.title}`}
               className="v2-surface border border-surface-2 rounded-xl p-6"
             >
               <div className="flex flex-wrap items-center gap-3">
@@ -867,9 +869,9 @@ export function DiagnooReport({
         </p>
 
         <div className="mt-8 border-t border-surface-2">
-          {sorted.map((item) => (
+          {sorted.map((item, index) => (
             <details
-              key={item.title}
+              key={`${index}-${item.title}`}
               className="group border-b border-surface-2 py-5"
               onToggle={(e) => {
                 // Yalnız açılış sayılır (FaqAccordion ile aynı gerekçe):

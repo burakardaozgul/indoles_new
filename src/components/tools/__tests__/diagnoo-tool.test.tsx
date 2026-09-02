@@ -151,6 +151,22 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
     });
   });
 
+  it("ağ hatasında taramayı değil bağlantıyı suçlar", async () => {
+    // `useDiagnooStatus` üç ardışık ağ hatasından sonra `network_error` yazıyor:
+    // tarama başarısız olmadı, durumunu okuyamıyoruz. Genel "adresi kontrol
+    // edin" cümlesi ziyaretçiyi yanlış yere yönlendiriyordu.
+    mockFlow(statusBody({ status: "failed", failReason: "network_error", snapshot: null }));
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Tarama durumuna ulaşılamıyor.",
+      );
+    });
+  });
+
   it("kilit zaten açıksa doğrudan raporu basar ve rapor aşamasını duyurur", async () => {
     mockFlow(statusBody({ report: REPORT, leadCaptured: true }));
     const { container } = render(<DiagnooTool locale="tr" tool={TOOL} />);

@@ -10,7 +10,7 @@ Bu belge iki bağımsız GA4 arayüz işlemini anlatır: (1) `tool_report_reques
 
 ## Arka plan — neden `slug` filtresi şart
 
-GEO Görünürlük Denetleyicisi ve Diagnoo **aynı beş olay adını** paylaşıyor (`tool_used`, `tool_scan_completed`, `tool_report_requested`, `tool_roadmap_item_expanded`, `tool_service_cta_clicked`) — ikisi de `/araclar` ailesinin bir parçası ve taksonomi kasıtlı olarak tek bir "araç" şemasında tutuluyor (`docs/12-analytics-measurement.md` §2.0, iki tasarım kararı). Her olayın `slug` adlı bir boyutu var: GEO için `geo-gorunurluk-denetleyicisi`, Diagnoo için `diagnoo`.
+GEO Görünürlük Denetleyicisi ve Diagnoo **aynı olay taksonomisini** paylaşıyor (`tool_used`, `tool_scan_completed`, `tool_report_requested`, `tool_roadmap_item_expanded`, `tool_service_cta_clicked`; GEO ilk üçünü yayar, son ikisi Diagnoo raporuna özgü) — ikisi de `/araclar` ailesinin bir parçası ve taksonomi kasıtlı olarak tek bir "araç" şemasında tutuluyor (`docs/12-analytics-measurement.md` §2.0, iki tasarım kararı). Her olayın `slug` adlı bir boyutu var: GEO için `geo-gorunurluk-denetleyicisi`, Diagnoo için `diagnoo`.
 
 Sonuç: **`slug` filtresi olmadan** kurduğun her önemli etkinlik veya huni adımı iki aracı birden sayar. Aşağıdaki her adımda filtre satırı bu yüzden var — atlanmaz.
 

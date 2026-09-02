@@ -43,6 +43,13 @@ describe("runGeoScan", () => {
     expect(r).not.toHaveProperty("scannedAt");
   });
 
+  it("her check findingsCount taşır ve findings.length ile eşittir", () => {
+    const r = runGeoScan({ url: "https://x.com/a", pageHtml: fx("page-qa.html"), robotsTxt: null, llmsTxt: null });
+    for (const c of r.checks) {
+      expect(c.findingsCount).toBe(c.findings.length);
+    }
+  });
+
   it("CPU bütçesi: 500 KB fixture < 50 ms", () => {
     // Sabit bir tekrar çarpanı (ör. `.repeat(200)`) fixture boyutuna bağımlı
     // ve fixture küçükse (veya büyüyorsa) 500 KB garantisi vermez — burada

@@ -54,4 +54,16 @@ describe("stripFindings", () => {
   it("boş dizi verilirse boş dizi döner", () => {
     expect(stripFindings([])).toEqual([]);
   });
+
+  it("findings boşalır ama findingsCount SAYIYI korur (kilit önizlemesi)", () => {
+    const result = stripFindings(checks);
+    expect(result[0]?.findings).toEqual([]);
+    expect(result[0]?.findingsCount).toBe(1);
+    expect(result[1]?.findingsCount).toBe(0);
+  });
+
+  it("kayıt zaten findingsCount taşıyorsa (D1 eski kayıt: taşımaz) findings.length'ten türetir", () => {
+    const legacy: GeoCheckResult[] = [{ ...checks[0]!, findingsCount: undefined }];
+    expect(stripFindings(legacy)[0]?.findingsCount).toBe(1);
+  });
 });

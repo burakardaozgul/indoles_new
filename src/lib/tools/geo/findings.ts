@@ -16,5 +16,9 @@
 import type { GeoCheckResult } from "@/lib/tools/geo/types";
 
 export function stripFindings(checks: GeoCheckResult[]): GeoCheckResult[] {
-  return checks.map((check) => ({ ...check, findings: [] }));
+  return checks.map((check) => ({
+    ...check,
+    findings: [],
+    findingsCount: check.findingsCount ?? check.findings.length,
+  }));
 }

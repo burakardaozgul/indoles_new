@@ -15,13 +15,17 @@ import { bandFor, GeoScanInput, GeoScanResult } from "@/lib/tools/geo/types";
 export function runGeoScan(input: GeoScanInput): Omit<GeoScanResult, "id" | "scannedAt"> {
   const urlPath = new URL(input.url).pathname;
 
-  const checks = [
+  const rawChecks = [
     checkAiAccess(input.robotsTxt, urlPath),
     checkLlmsTxt(input.llmsTxt),
     checkJsonLd(input.pageHtml),
     checkLangSignals(input.pageHtml, input.url),
     checkQuestionH2(input.pageHtml),
   ];
+
+  // Public yüzey findings metnini siler (stripFindings) ama sayı kalır —
+  // motor sayıyı burada, kaynağında doldurur.
+  const checks = rawChecks.map((check) => ({ ...check, findingsCount: check.findings.length }));
 
   const totalScore = checks.reduce((sum, check) => sum + check.score, 0);
 

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getPathname } from "@/lib/i18n/navigation";
+import { TURNSTILE_ENABLED, useTurnstileToken } from "@/components/tools/use-turnstile";
 import { track } from "@/lib/analytics/ga";
 import { GeoResult } from "@/components/tools/geo-result";
 import type { ToolSignal } from "@/lib/content/tools";
@@ -30,34 +31,11 @@ import type { GeoScanResult } from "@/lib/tools/geo/types";
  * durumunda sunucuda `getScan` ile aynı sonucu üretir.
  */
 
-const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
-const TURNSTILE_POLL_MS = 300;
-const TURNSTILE_POLL_LIMIT = 60;
-const TURNSTILE_TOKEN_TIMEOUT_MS = 25_000;
-
 /** Kararlı TR slug — içerik kaydının kimliği (`tools.ts`, `page.tsx` ile aynı). */
 const SLUG = "geo-gorunurluk-denetleyicisi";
 
 /** Paylaşım linkine giden statik iç yol (`routing.ts` — `sonuc ↔ result`). */
 const RESULT_PATHNAME = "/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]";
-
-type TurnstileApi = {
-  render: (
-    el: Element,
-    opts: {
-      sitekey: string | undefined;
-      callback: (token: string) => void;
-      "expired-callback": () => void;
-      "error-callback": () => void;
-    },
-  ) => string | undefined;
-  reset?: (widgetId?: string) => void;
-};
-
-function turnstileApi(): TurnstileApi | undefined {
-  if (typeof window === "undefined") return undefined;
-  return (window as unknown as { turnstile?: TurnstileApi }).turnstile;
-}
 
 export type GeoScanFormLabels = {
   urlLabel: string;
@@ -111,92 +89,14 @@ export function GeoScanForm({
   const [errorKind, setErrorKind] = useState<ScanErrorKind>("generic");
   const [scan, setScan] = useState<{ id: string; result: GeoScanResult } | null>(null);
   const [copied, setCopied] = useState(false);
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const [turnstileStatus, setTurnstileStatus] = useState<
-    "pending" | "ready" | "unavailable"
-  >(TURNSTILE_ENABLED ? "pending" : "ready");
-
-  const turnstileRef = useRef<HTMLDivElement>(null);
-  const widgetIdRef = useRef<string | undefined>(undefined);
-  const renderedRef = useRef(false);
-
-  useEffect(() => {
-    if (!TURNSTILE_ENABLED) return;
-    let attempts = 0;
-    let timer: ReturnType<typeof setInterval> | undefined;
-
-    const stop = (): void => {
-      if (timer !== undefined) {
-        clearInterval(timer);
-        timer = undefined;
-      }
-    };
-
-    const tryRender = (): boolean => {
-      if (renderedRef.current) return true;
-      const api = turnstileApi();
-      const el = turnstileRef.current;
-      if (!api || !el) return false;
-      renderedRef.current = true;
-      widgetIdRef.current = api.render(el, {
-        sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-        callback: (token: string) => {
-          setTurnstileToken(token);
-          setTurnstileStatus("ready");
-        },
-        "expired-callback": () => {
-          setTurnstileToken("");
-          setTurnstileStatus("pending");
-          try {
-            turnstileApi()?.reset?.(widgetIdRef.current);
-          } catch {
-            /* widget kaldırılmış olabilir */
-          }
-        },
-        "error-callback": () => {
-          setTurnstileToken("");
-          setTurnstileStatus("unavailable");
-        },
-      });
-      return true;
-    };
-
-    if (!tryRender()) {
-      timer = setInterval(() => {
-        attempts += 1;
-        if (tryRender()) {
-          stop();
-          return;
-        }
-        if (attempts >= TURNSTILE_POLL_LIMIT) {
-          stop();
-          setTurnstileStatus("unavailable");
-        }
-      }, TURNSTILE_POLL_MS);
-    }
-
-    return stop;
-  }, []);
-
-  // Bekçi: token `pending`de takılırsa ziyaretçiyi süresiz bekletme.
-  useEffect(() => {
-    if (turnstileStatus !== "pending") return;
-    const id = setTimeout(() => {
-      setTurnstileStatus((cur) => (cur === "pending" ? "unavailable" : cur));
-    }, TURNSTILE_TOKEN_TIMEOUT_MS);
-    return () => clearTimeout(id);
-  }, [turnstileStatus]);
-
-  function clearTurnstileToken(): void {
-    if (!TURNSTILE_ENABLED) return;
-    setTurnstileToken("");
-    setTurnstileStatus("pending");
-    try {
-      turnstileApi()?.reset?.(widgetIdRef.current);
-    } catch {
-      /* reset yoksa yeni token beklenir */
-    }
-  }
+  // Turnstile yaşam döngüsü paylaşılan hook'ta (`use-turnstile.ts`) — mantık
+  // değişmedi, yalnız tek kaynağa taşındı (Görev 15).
+  const {
+    token: turnstileToken,
+    containerRef: turnstileRef,
+    reset: clearTurnstileToken,
+    error: turnstileError,
+  } = useTurnstileToken({ enabled: TURNSTILE_ENABLED });
 
   /** Paylaşım linkinin iç yolu — locale'e göre çevrilmiş tam segment zinciri. */
   function resultPathname(id: string): string {
@@ -289,10 +189,8 @@ export function GeoScanForm({
   const tokenBlocking = TURNSTILE_ENABLED && !turnstileToken;
 
   let hint: string | null = null;
-  if (!submitting && TURNSTILE_ENABLED) {
-    if (turnstileStatus === "unavailable") hint = labels.turnstileUnavailable;
-    else if (!turnstileToken) hint = labels.turnstileLoading;
-  }
+  if (!submitting && turnstileError === "unavailable") hint = labels.turnstileUnavailable;
+  else if (!submitting && turnstileError === "loading") hint = labels.turnstileLoading;
 
   return (
     <form onSubmit={onSubmit} className="space-y-4" noValidate>

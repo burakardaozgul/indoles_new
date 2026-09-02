@@ -36,6 +36,11 @@ import { TOOLS } from "@/lib/content/tools";
  * `src/lib/tools/geo/*` GEO motorunun İngilizce yüzeyini (kullanıcıya görünen
  * `summary`/`findings`/hata metinleri) taramıyordu — regresyon koruması
  * yoktu. İkisi de aşağıda eklendi (bkz. `geoEngineEnCorpus()`).
+ *
+ * KAPSAM GENİŞLEMESİ 2 (Görev 13a, araç UI v2): `TOOLS` korpusu skor kartı
+ * bant cümlelerini (`bands`), hero kanıt şeridini (`proof`) ve giriş
+ * çubuğunun altındaki yardım satırını (`inputHelp`) taramıyordu — bu üç alan
+ * Görev 10-11'de yeni EN yüzeye çıktı, regresyon koruması yoktu.
  */
 
 function enCorpus(): string {
@@ -68,8 +73,10 @@ function enCorpus(): string {
       ...(a.faq ?? []).flatMap((f) => [f.question.en, f.answer.en]),
     ]),
     ...TOOLS.flatMap((t) => [
-      t.name.en, t.eyebrow.en, t.lede.en, t.footnote.en,
+      t.name.en, t.eyebrow.en, t.lede.en, t.footnote.en, t.inputHelp.en,
       t.seo.title.en, t.seo.description.en,
+      ...Object.values(t.bands).map((b) => b.en),
+      ...t.proof.map((p) => p.en),
       ...t.steps.flatMap((s) => [s.title.en, s.description.en]),
       ...t.signals.flatMap((s) => [s.title.en, s.description.en]),
       ...t.faq.flatMap((f) => [f.question.en, f.answer.en]),

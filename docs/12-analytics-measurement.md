@@ -62,9 +62,9 @@ duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
 | `booking_cta_clicked` | `popup-context.tsx` → `openPopup` | `source`, `pillar?` |
 | `contact_form_submitted` | `ContactForm.tsx` | — |
 | 8 popup olayı | `entry-popup/EntryPopup.tsx` | `popup_shown`, `popup_stage1_selected`, `popup_stage2_submitted`, `popup_stage3_viewed`, `popup_booking_submitted`, `popup_contact_submitted`, `popup_kvkk_consent_given`, `popup_dismissed` |
-| `tool_used` | `components/tools/geo-scan-form.tsx` | `slug`, `locale` — tarama başlatıldı (yanıt beklenmeden) |
-| `tool_scan_completed` | `components/tools/geo-scan-form.tsx` | `slug`, `band`, `locale` — tarama skorla tamamlandı |
-| `tool_report_requested` | `components/tools/geo-report-form.tsx` | `slug`, `band`, `locale` — detaylı rapor isteği (e-posta + KVKK rızası) başarıyla gönderildi |
+| `tool_used` | `components/tools/geo-tool.tsx` | `slug`, `locale` — tarama başlatıldı (yanıt beklenmeden) |
+| `tool_scan_completed` | `components/tools/geo-tool.tsx` | `slug`, `band`, `locale` — tarama skorla tamamlandı |
+| `tool_report_requested` | `components/tools/report-gate.tsx` | `slug`, `band`, `locale` — detaylı rapor isteği (e-posta + KVKK rızası) başarıyla gönderildi |
 
 **İki tasarım kararı:**
 

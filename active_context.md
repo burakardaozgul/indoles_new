@@ -1,3 +1,31 @@
+## Durum: GEO aracı UI v2 tamamlandı, kapılar geçti — 2026-09-02
+
+`feat/geo-gorunurluk-denetleyicisi` dalında araç sayfası yeniden tasarlandı (spec: `.superpowers/sdd/2026-09-02-geo-araci-yeniden-tasarim/`, ADR-030/031 kapsamında):
+
+- **Araç UI v2:** `/tr/araclar/geo-gorunurluk-denetleyicisi` artık tek sayfa, üç durum (`idle → scanning/resolving → result`) — sayfa geçişi yok, `history.replaceState` ile paylaşım linkine geçilir. Ada: `GeoTool` (durum makinesi) → `ScanBar` (giriş çubuğu, bal küpü + süre tuzağı + Turnstile) → `ScanStage` (sahte veri üretmeyen tarama sahnesi) → `ScoreCard` (sayaçlı skor + dört bantlı `BandScale`) + `SignalRows` (5 sinyal, çubuk uzunluğu ağırlık) + `ReportGate` (kilitli düzeltme listesi → e-posta + KVKK rızasıyla `FindingsList` açılır).
+- **OG skor kartları (ADR-031):** derleme zamanında üretilen 204 statik PNG (`public/og/geo/{tr,en}/<score>.png`) — dinamik OG üretimi yok, runtime bağımlılığı eklenmedi.
+- **Popup araç rotalarında bastırıldı** — `/araclar` altında persona giriş popup'ı otomatik açılmaz (e2e ile doğrulandı).
+- **`target-blocked` hatası** kullanıcıyı suçlamayan bir GEO bulgusu olarak çerçevelenir ("bu koruma büyük ihtimalle GPTBot ve ClaudeBot'u da engelliyor").
+- **Blob kontrast ölçümü** `docs/04` §12.10 protokolüyle dört viewport'ta tekrar ölçüldü (en düşük 4.75:1, eşik 4.5:1) — bir önceki committe (`e773b35`) yapıldı, bu görev yalnız doküman senkronunu tamamladı.
+
+**Görev 13a (bu görev) kapsamı:** e2e spec'i yeni akışa yeniden yazıldı (`tests/e2e/geo-tool.spec.ts`, 4 senaryo + 1 bilinçli `test.skip`), `no-horizontal-overflow.spec.ts`'e iki araç rotası eklendi, `docs/12`/`CLAUDE.md`/strateji dosyası (**v1.12**) senkronlandı, `en-spelling.test.ts` korpusu `bands`/`proof`/`inputHelp` EN alanlarını da tarayacak şekilde genişletildi.
+
+**Kapılar (2026-09-02, hepsi geçti):**
+
+| Kapı | Sonuç |
+|---|---|
+| `pnpm typecheck` | Temiz, 0 hata |
+| `pnpm lint` | 0 hata (ilgisiz dosyalarda önceden var olan uyarılar hariç) |
+| `pnpm test` | 118 dosya / 1189 test geçti, 1 atlandı |
+| `pnpm build` | Başarılı, 162 statik sayfa |
+| `pnpm seo:audit` | 144 sayfa, **0 FAIL** (126 PASS / 18 WARN — hepsi önceden var olan word-count uyarısı) |
+| `pnpm cf:build` | Başarılı (OpenNext bundle) |
+| `wrangler deploy --dry-run` | exit 0 · **Total Upload gzip 2.718,85 KiB (~2,66 MB)** — 3 MB sınırının altında |
+
+**Deploy bekliyor** — yalnız Burak'ın sinyaliyle (`pnpm cf:deploy` bu görevde ÇALIŞTIRILMADI, dry-run'la sınırlı kaldı).
+
+---
+
 ## Durum: Faz 2 yapısal içerik işleri tamamlandı — 2026-08-28 öğleden sonra
 
 Dalga 1'in (aşağıda) üstüne, Burak'ın onayıyla Faz 2 uygulandı (LinkedIn URL'leri hariç; strateji **v1.9** changelog satırı):

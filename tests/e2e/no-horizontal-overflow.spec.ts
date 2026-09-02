@@ -24,6 +24,8 @@ const ROUTES = [
   "/tr/yazilar",
   "/tr/danismanlar",
   "/tr/iletisim",
+  "/tr/araclar",
+  "/tr/araclar/geo-gorunurluk-denetleyicisi",
   "/en",
   "/en/services",
 ];

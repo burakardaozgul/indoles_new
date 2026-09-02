@@ -2,7 +2,7 @@ import { SITE_URL } from "@/lib/seo/site";
 import { SERVICES } from "@/lib/content/services";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
-import { TOOLS } from "@/lib/content/tools";
+import { publishedTools } from "@/lib/content/tools";
 import type { Locale, Pillar } from "@/lib/content/types";
 
 /**
@@ -59,10 +59,12 @@ function caseLines(locale: Locale): string {
  * desenle aynı — `TOOLS`ten türer, slug değişirse llms.txt sessizce eskimez.
  * Sonuç sayfaları (`/araclar/.../sonuc/[id]`) burada YOK: noindex, ajanın
  * keşfetmesi beklenen kanonik bir yüzey değil (sitemap'te de yoklar).
+ * Yayınlanmamış araçlar da yok — `published` kapısı sitemap ile llms.txt'i
+ * aynı kümede tutar.
  */
 function toolLines(locale: Locale): string {
   const root = locale === "tr" ? "araclar" : "tools";
-  return TOOLS.map(
+  return publishedTools().map(
     (t) =>
       `- [${t.name[locale]}](${SITE_URL}/${locale}/${root}/${t.slug[locale]}): ${t.seo.description[locale]}`,
   ).join("\n");

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { TOOLS } from "@/lib/content/tools";
+import { TOOLS, publishedTools } from "@/lib/content/tools";
+import type { ToolContent } from "@/lib/content/tools";
 
 const LOCALES = ["tr", "en"] as const;
 
@@ -193,5 +194,34 @@ describe("Diagnoo kaydı", () => {
 
   it("tam 3 adım anlatır", () => {
     expect(diagnoo!.steps.length).toBe(3);
+  });
+
+  it("lansman kapısı kapalı: published false", () => {
+    // Araç, sırlar ve uzak migration hazır olana kadar arama yüzeylerine
+    // (sitemap, llms.txt, /araclar listesi) girmez — yalnız doğrudan URL ile
+    // erişilir. Bayrak `true` olduğunda bu test bilinçli olarak güncellenir.
+    expect(diagnoo!.published).toBe(false);
+  });
+});
+
+describe("publishedTools filtresi", () => {
+  it("yalnız published araçları döner", () => {
+    const geo = TOOLS.find((t) => t.slug.tr === "geo-gorunurluk-denetleyicisi");
+    expect(geo!.published).toBe(true);
+    const slugs = publishedTools().map((t) => t.slug.tr);
+    expect(slugs).toContain("geo-gorunurluk-denetleyicisi");
+    expect(slugs).not.toContain("diagnoo");
+  });
+
+  it("bayrak true olduğunda araç listeye girer", () => {
+    // Lansman senaryosu: Diagnoo yayına alındığında filtre onu geçirmeli.
+    const launched: ToolContent[] = TOOLS.map((t) => ({ ...t, published: true }));
+    expect(publishedTools(launched).map((t) => t.slug.tr)).toContain("diagnoo");
+  });
+
+  it("her araç bayrağını açıkça taşır", () => {
+    for (const t of TOOLS) {
+      expect(typeof t.published, t.slug.tr).toBe("boolean");
+    }
   });
 });

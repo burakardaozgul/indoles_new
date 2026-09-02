@@ -3,7 +3,7 @@ import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactCallout } from "@/components/marketing/contact-callout";
-import { TOOLS } from "@/lib/content/tools";
+import { publishedTools } from "@/lib/content/tools";
 import { localeHref } from "@/lib/i18n/locale-href";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
@@ -14,21 +14,22 @@ import type { Locale } from "@/lib/content/types";
 const PATHS = { tr: "/tr/araclar", en: "/en/tools" };
 
 /**
- * Araç sayısı ne elle yazılır ne `TOOLS.length`ten okunur: açıklama araçları
- * ADIYLA sayar. Sayısal iddia ("iki araç") üçüncü araçta sessizce bayatlardı;
- * ad ise aracın kendi arama niyetini de taşır (GEO denetimi, e-ticaret
- * teşhisi). Uzunluk 140-160 bandında kalır.
+ * Açıklama araç SAYMAZ ve yayınlanmamış bir aracı adıyla anmaz. İki gerekçe:
+ * sayısal iddia ("iki araç") üçüncü araçta sessizce bayatlar; `published`
+ * kapısı kapalı bir aracın adı ise arama sonucunda erişilemeyen bir vaat
+ * olurdu. Yayında olan aracın adı kalır — kendi arama niyetini taşıyor.
+ * Uzunluk 140-160 bandında.
  */
 const META = {
   tr: {
-    title: "Araçlar — GEO denetimi ve e-ticaret teşhisi",
+    title: "Araçlar — ücretsiz GEO denetim aracı",
     description:
-      "Ücretsiz denetim araçları. GEO Görünürlük Denetleyicisi sitenizi cevap motorları için beş sinyalde ölçer; Diagnoo e-ticaret mağazanızı dört boyutta puanlar.",
+      "Ücretsiz denetim araçları. GEO Görünürlük Denetleyicisi sitenizi cevap motorları için beş sinyalde ölçer; her araç 100 puanlık skor ve düzeltme listesi verir.",
   },
   en: {
-    title: "Tools — GEO audits and e-commerce diagnostics",
+    title: "Tools — free GEO audit tool",
     description:
-      "Free audit tools. The GEO Visibility Checker measures your site for answer engines across five signals; Diagnoo scores an online store across four dimensions.",
+      "Free audit tools. The GEO Visibility Checker measures your site for answer engines across five signals; every tool returns a score out of 100 and a fix list.",
   },
 } as const;
 
@@ -73,6 +74,9 @@ export default async function ToolsIndex({
   setRequestLocale(locale);
   const loc = locale as Locale;
   const h = HEADER[loc];
+  // Lansman kapısı: yayınlanmamış araç ne listede ne ItemList'te görünür.
+  // Sayfası URL'den erişilebilir kalır, ama buradan linklenmez.
+  const tools = publishedTools();
 
   return (
     <>
@@ -89,8 +93,8 @@ export default async function ToolsIndex({
           {
             "@type": "ItemList",
             name: META[loc].title,
-            numberOfItems: TOOLS.length,
-            itemListElement: TOOLS.map((t, i) => ({
+            numberOfItems: tools.length,
+            itemListElement: tools.map((t, i) => ({
               "@type": "ListItem",
               position: i + 1,
               name: t.name[loc],
@@ -110,7 +114,7 @@ export default async function ToolsIndex({
 
       <section aria-label={h.tools} className="ds-container py-16">
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {TOOLS.map((t) => (
+          {tools.map((t) => (
             <li key={t.slug.tr}>
               <Link
                 href={localeHref(`/araclar/${t.slug[loc]}`, loc)}

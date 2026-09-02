@@ -5,6 +5,7 @@ import { PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
 import { CONSULTANTS, BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
 import { ARTICLES } from "@/lib/content/articles";
+import { publishedTools } from "@/lib/content/tools";
 import { SITE_URL } from "@/lib/seo/site";
 
 const entries = sitemap();
@@ -112,9 +113,19 @@ describe("sitemap", () => {
     for (const u of found) expect(live.has(u)).toBe(true);
   });
 
-  it("Diagnoo araç sayfasının iki dildeki URL'ini içerir", () => {
-    expect(urls).toContain(`${SITE_URL}/tr/araclar/diagnoo`);
-    expect(urls).toContain(`${SITE_URL}/en/tools/diagnoo`);
+  it("yayınlanmamış araç sitemap'e girmez", () => {
+    // Lansman kapısı: Diagnoo `published: false` olduğu sürece sitemap'te
+    // yoktur. Sırlar ve uzak migration hazır olmadan aracı arama motoruna
+    // ilan etmek, çalışmayan bir sayfayı indekslemek olurdu (I6).
+    expect(urls).not.toContain(`${SITE_URL}/tr/araclar/diagnoo`);
+    expect(urls).not.toContain(`${SITE_URL}/en/tools/diagnoo`);
+  });
+
+  it("yayındaki her aracın iki dildeki URL'i sitemap'te", () => {
+    for (const tool of publishedTools()) {
+      expect(urls).toContain(`${SITE_URL}/tr/araclar/${tool.slug.tr}`);
+      expect(urls).toContain(`${SITE_URL}/en/tools/${tool.slug.en}`);
+    }
   });
 
   it("Diagnoo rapor sayfası sitemap'e girmez", () => {

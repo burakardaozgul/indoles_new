@@ -73,6 +73,16 @@ export type ToolContent = {
    * doğrular (içerik dürüstlüğü, docs/04 §10).
    */
   footnote: Localized<string>;
+  /**
+   * LANSMAN KAPISI. `false` iken araç yalnız doğrudan URL ile erişilebilir:
+   * sitemap'e, `/araclar` listesine ve llms.txt'e girmez, sayfası `noindex`
+   * döner. Bir aracın çalışması dış sırlara ve uzak migration'a bağlıysa,
+   * kod merge edildiği anda arama motoruna ilan edilmesi çalışmayan bir
+   * sayfayı indeksletirdi. Bayrak, kod hazırlığı ile yayın kararını ayırır;
+   * `true` yapmak ayrı ve bilinçli bir adımdır (runbook "Deploy öncesi Burak
+   * adımları", ADR-031).
+   */
+  published: boolean;
 };
 
 export const TOOLS: ToolContent[] = [
@@ -239,6 +249,7 @@ export const TOOLS: ToolContent[] = [
       tr: "Eylül 2026 itibarıyla Türkçe pazarda benzer kapsamda kamuya açık bir GEO denetim aracı tespit etmedik.",
       en: "As of September 2026, we found no comparable, publicly available GEO audit tool for the Turkish-language market.",
     },
+    published: true,
   },
   {
     slug: {
@@ -394,8 +405,21 @@ export const TOOLS: ToolContent[] = [
       tr: "Eylül 2026 sürümü: tarama yedi sayfayla sınırlıdır, hız değerleri Google PageSpeed Insights'ın mobil ölçümünden gelir ve parasal sonuçlar aralık olarak verilir.",
       en: "September 2026 release: the scan covers seven pages, speed figures come from Google PageSpeed Insights on mobile, and money figures are given as ranges.",
     },
+    // Üç dış sır (`GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`) ve
+    // uzak D1 migration'ı (0004 + 0005) hazır olmadan araç gerçek veri
+    // üretemez; o ana kadar arama yüzeylerine girmez.
+    published: false,
   },
 ];
+
+/**
+ * Arama ve keşif yüzeylerinin (sitemap, `/araclar` listesi, llms.txt) tek
+ * kaynağı. Liste parametresi yalnız test içindir: lansman senaryosunu gerçek
+ * kaydı değiştirmeden doğrulayabilmek gerekiyor.
+ */
+export function publishedTools(tools: ToolContent[] = TOOLS): ToolContent[] {
+  return tools.filter((t) => t.published);
+}
 
 const BY_SLUG_TR = new Map(TOOLS.map((t) => [t.slug.tr, t]));
 

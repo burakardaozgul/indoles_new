@@ -63,6 +63,12 @@ Insights) bağlanılır, üç yeni sır eklenir. Kalıcılık aynı D1 veritaban
   `migrations/0004_diagnoo.sql` ile AYNI `indoles-bookings` D1'ine
   (`BOOKINGS_DB` binding'i) eklenir — ADR-030'un GEO tablolarıyla aynı
   desen, ikinci bir veritabanı/bağlantı açılmaz.
+- **Lansman kapısı `published` bayrağıdır.** Araç üç sırra ve uzak
+  migration'a bağlı olduğu için kodun merge edilmesi yayına alınması demek
+  değildir: `src/lib/content/tools.ts` içindeki `published: false`, aracı
+  sitemap'ten, `/araclar` listesinden ve `llms.txt`'ten dışarıda tutar ve
+  sayfasını `noindex` yapar; bayrağı `true` çevirmek ayrı ve bilinçli bir
+  adımdır (runbook "Deploy öncesi Burak adımları" §6).
 
 ## Reddedilen seçenekler
 

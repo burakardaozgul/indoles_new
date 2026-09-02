@@ -84,6 +84,16 @@ describe("marketing sayfalarının metadata'sı", () => {
     expect(PAGES).toContain(target);
   });
 
+  it("Diagnoo araç sayfası yayınlanmadığı sürece dizine girmez", () => {
+    // Sayfa URL'den erişilebilir kalır (iç doğrulama, paylaşılan bağlantı)
+    // ama `published: false` iken arama motoruna ilan edilmez (I6).
+    const src = readFileSync(
+      path.join(MARKETING_ROOT, "araclar", "diagnoo", "page.tsx"),
+      "utf8",
+    );
+    expect(src).toMatch(/robots:\s*\{\s*index:\s*false,\s*follow:\s*false\s*\}/);
+  });
+
   it("Diagnoo rapor sayfası dizine girmez", () => {
     // Rapor tek bir teşhise bağlı ve kişiye özel; `follow` otoritenin araç
     // sayfasına akmasını sürdürür (GEO paylaşım sonucuyla aynı kalıp).

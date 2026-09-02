@@ -80,12 +80,20 @@ export async function generateMetadata({
   const loc = locale as Locale;
   const tool = getToolBySlug(DIAGNOO_SLUG, "tr");
   if (!tool) return {};
-  return buildMetadata({
+  const base = buildMetadata({
     title: tool.seo.title[loc],
     description: tool.seo.description[loc],
     paths: PATHS,
     locale: loc,
   });
+  // Lansman kapısı (`published`, `tools.ts`): araç sırlar ve uzak migration
+  // hazır olmadan gerçek veri üretemez. Sayfa iç doğrulama ve paylaşılan
+  // bağlantı için erişilebilir kalır, ama arama motoruna ilan edilmez —
+  // `follow: false` da bilinçli: sayfa henüz bir otorite kaynağı değil,
+  // linklerini taratmanın karşılığı yok. Bayrak `true` olduğunda bu blok
+  // düşer ve sayfa sitemap'le birlikte dizine girer.
+  if (tool.published) return base;
+  return { ...base, robots: { index: false, follow: false } };
 }
 
 export default async function DiagnooPage({

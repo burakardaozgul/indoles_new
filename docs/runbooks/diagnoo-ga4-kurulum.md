@@ -121,8 +121,13 @@ GA4 kurulumu koda bağımlı değil ama Diagnoo'nun gerçek veri üretmesi üç 
    pnpm wrangler d1 migrations apply indoles-bookings --remote
    ```
 
-   `migrations/0004_diagnoo.sql` (`diagnoo_diagnostics`, `diagnoo_leads` tabloları) bu ana kadar yalnız yerelde uygulandı.
+   İki migration da bu ana kadar yalnız yerelde uygulandı: `migrations/0004_diagnoo.sql` (`diagnoo_diagnostics`, `diagnoo_leads` tabloları) ve `migrations/0005_diagnoo_lead_scope.sql` (kilit token'ı, lead bazlı yeniden hesap, `(diagnostic_id, email)` benzersizliği). 0005 uygulanmadan unlock rotası `unlock_token` kolonunu bulamaz ve kilit açma 500 döner.
 
 3. **Anahtarları gerçek bir siteyle bir kez uçtan uca doğrula** — Gemini (semantik/vision analiz) ve Firecrawl (yedi sayfa taraması) akışının canlıda gerçekten çalıştığını görmeden sayfa hiçbir yerden linklenmemeli. Bilinen gerçek bir e-ticaret adresiyle (kendi mağazanız veya bir müşteri, izinle) `/tr/araclar/diagnoo`'da tam bir tarama + kilit açma denenir; rapor sayfasında dört boyutun da (mesaj, arayüz, hız, ölçüm) gerçek verilerle dolduğu kontrol edilir.
 4. **Bu runbook'taki Adım 1-3'ü GA4 arayüzünde uygula** (özel boyut → önemli etkinlik → huni araştırması).
 5. Yukarıdaki dördü tamamlanmadan **Diagnoo ana navigasyona veya başka bir sayfaya link verilmez** — sayfa şu an yalnız doğrudan URL ile erişilebilir durumda kalmalı (Faz 2 planı, ana navigasyon girişini ayrıca ele alacak).
+6. **Lansman kapısını aç:** Adım 1-3 doğrulandıktan sonra `src/lib/content/tools.ts` içindeki Diagnoo kaydında `published: false` → `published: true` yapılır ve deploy edilir.
+
+   Bayrak `false` olduğu sürece araç sitemap'e, `/araclar` listesine ve `llms.txt`'e girmez; sayfası `noindex, nofollow` döner ve yalnız doğrudan URL ile açılır. Bu, kodun merge edilmesiyle aracın yayına alınmasını ayıran tek anahtardır — sırlar veya uzak migration eksikken bayrağı açmak, çalışmayan bir sayfayı Google'a ilan etmek olur.
+
+   Bayrağı çevirdikten sonra iki test bilinçli olarak güncellenir: `tests/unit/tools-content.test.ts` ("lansman kapısı kapalı") ve `tests/unit/sitemap.test.ts` ("yayınlanmamış araç sitemap'e girmez"). Deploy sonrası `pnpm seo:audit` Diagnoo sayfasını da tarayacaktır.

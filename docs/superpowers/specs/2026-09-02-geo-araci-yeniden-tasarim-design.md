@@ -292,8 +292,10 @@ gerekir. Çözüm: **derleme zamanında statik üretim**, yeni bağımlılık yo
 - `scripts/generate-og-geo.ts`: Playwright (mevcut devDependency) ile
   `scripts/og/geo-card.tsx` şablonunu `renderToStaticMarkup` ile HTML'e çevirip 1200×630
   basar. Şablon `BandScale` bileşeninin kendisini kullanır (tek geometri kaynağı; oranlar
-  `BAND_THRESHOLDS`'tan); fontlar `public/`'a konan woff dosyalarından yüklenir,
-  `next/font` çıktısına bağımlı değildir.
+  `BAND_THRESHOLDS`'tan); `BandScale` bu yüzden Tailwind sınıfı değil, geometrisi ve
+  renkleri (`tokens.ts`) satır içi verilen bir SVG'dir — sayfada ve şablonda birebir aynı
+  çizilir. Fontlar şablona Google Fonts bağlantısıyla gelir (script yalnız geliştirme
+  makinesinde çalışır; `next/font` çıktısına bağımlı değildir).
 - Çıktı: `public/og/geo/{tr,en}/{0..100}.png` (202 dosya, hedef ≤ 40 KB/dosya) +
   `public/og/geo/{tr,en}/tool.png` (araç sayfasının kendi kartı; bugün genel site kartı).
   Dosyalar repoya girer; şablon değişmedikçe script çalıştırılmaz. Statik varlıklar

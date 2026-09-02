@@ -1,0 +1,19 @@
+# Yerel geliştirme sırları — bu dosya `.dev.vars` olarak kopyalanır ve
+# değerler doldurulur. `.dev.vars` .gitignore'da; BU dosya (`.example`)
+# repoya COMMIT EDİLİR, gerçek değerler asla.
+#
+# Üretimde bu sırlar `wrangler secret put <AD>` ile girilir (bkz. README.md
+# "Cloudflare" bölümü) — `.dev.vars` yalnız `pnpm dev` / `pnpm cf:preview`
+# için yereldir.
+
+# GEO araç deposu KVKK hash tuzu (ADR-030). Boşsa/eksikse GEO uçları
+# fail-closed olur (500 {error:"misconfigured"}).
+TOOL_IP_SALT=
+
+# Diagnoo dış API sırları (ADR-031).
+# Semantik/vizyon/funnel analiz ajanları (Gemini).
+GEMINI_API_KEY=
+# Site keşfi ve sayfa scrape (Firecrawl).
+FIRECRAWL_API_KEY=
+# Core Web Vitals ölçümü (PageSpeed Insights).
+PSI_API_KEY=

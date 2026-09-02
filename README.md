@@ -61,7 +61,7 @@ pnpm dev                      # http://localhost:3000 → /tr
 
 Aşama değişkeni bilerek script'e gömülü: `NEXT_PUBLIC_APP_STAGE` production değilse `robots.txt` tüm siteyi kapatır ve GA4 yüklenmez (denetim LG-02). Deploy sonrası ilk kontrol `curl <adres>/robots.txt` olmalı.
 
-Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `SENTRY_DSN`, `TOOL_IP_SALT`. Kanonik host `www.indoles.com.tr`; custom domain bağlama `wrangler.jsonc` içinde yorumda bekliyor ve **cutover'da** açılır.
+Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`, `SENTRY_DSN`, `TOOL_IP_SALT`, `GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`. Kanonik host `www.indoles.com.tr`; custom domain bağlama `wrangler.jsonc` içinde yorumda bekliyor ve **cutover'da** açılır.
 
 > **`TOOL_IP_SALT` (ADR-030):** GEO araç deposu (`src/lib/tools/geo/repository.ts`,
 > `hashClientIp`) istemci IP'sini KVKK gereği ham saklamıyor, SHA-256(ip + gizli
@@ -71,6 +71,14 @@ Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEN
 > saklamakla eşdeğerdir. Yerelde `.dev.vars`'a `TOOL_IP_SALT=<rastgele-uzun-dize>`
 > eklenir; üretimde `wrangler secret put TOOL_IP_SALT` ile girilir (adım-adım:
 > `docs/runbooks/cutover-www-indoles.md` "GEO araç sırrı" bölümü).
+
+> **Diagnoo sırları (ADR-031):** `GEMINI_API_KEY` semantik/vizyon/funnel analiz
+> ajanlarını (`src/lib/tools/diagnoo/services/gemini.ts`) çalıştırır,
+> `FIRECRAWL_API_KEY` site keşfi ve scrape'i (`services/firecrawl.ts`),
+> `PSI_API_KEY` Core Web Vitals ölçümünü (`services/psi.ts`) besler. Üçü de
+> INDOLES dışı üçüncü taraf servisler — yerelde `.dev.vars`'a düz metin olarak
+> eklenir (bkz. `.dev.vars.example`), üretimde `wrangler secret put <AD>` ile
+> girilir; repoya asla yazılmaz.
 
 ---
 

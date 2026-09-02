@@ -11,17 +11,57 @@ import type { DiagnooEnv } from "../services/firecrawl";
  */
 const MAX_SCREENSHOT_BYTES = 1_500_000;
 
+/**
+ * SINIR AKIŞTA UYGULANIR. `await res.arrayBuffer()` sonrası ölçmek, tam olarak
+ * sınırlamak istediğimiz işi (gövdenin tamamını belleğe almak) zaten yaptırmış
+ * olurdu; `content-length` ise yalan söyleyebilir veya hiç gelmeyebilir, o
+ * yüzden yalnız ucuz bir ön eleme. Gerçek koruma sayaç: her parçadan sonra
+ * toplam kontrol edilir, sınır aşıldığı anda istek `abort` edilir ve okuma
+ * durur — kalan baytlar hiç indirilmez.
+ */
 async function toBase64(url: string): Promise<string | null> {
+  const controller = new AbortController();
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: controller.signal });
     if (!res.ok) return null;
-    // Sunucu boyutu ilan ediyorsa gövde hiç okunmadan elenir.
+
     const declared = Number(res.headers.get("content-length"));
-    if (Number.isFinite(declared) && declared > MAX_SCREENSHOT_BYTES) return null;
+    if (Number.isFinite(declared) && declared > MAX_SCREENSHOT_BYTES) {
+      controller.abort();
+      return null;
+    }
+
+    const body = res.body;
+    if (!body) return null;
+
+    const reader = body.getReader();
+    const chunks: Uint8Array[] = [];
+    let total = 0;
+    try {
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (!value) continue;
+        total += value.byteLength;
+        if (total > MAX_SCREENSHOT_BYTES) {
+          controller.abort();
+          return null;
+        }
+        chunks.push(value);
+      }
+    } finally {
+      // Akış hatalıysa (abort) kilidi bırakmak da hata verebilir; görselin
+      // atlanması zaten kabul edilmiş sonuç, dıştaki catch onu yakalar.
+      reader.releaseLock();
+    }
+
+    const bytes = new Uint8Array(total);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
     // Native latin1 decode + btoa: karakter döngüsü ücretsiz plan adım CPU bütçesini (~10 ms) aşar.
-    const bytes = new Uint8Array(await res.arrayBuffer());
-    // İlan edilen boyut yoksa ya da yalan söylüyorsa gerçek gövde ölçülür.
-    if (bytes.byteLength > MAX_SCREENSHOT_BYTES) return null;
     return btoa(new TextDecoder("latin1").decode(bytes));
   } catch { return null; }
 }

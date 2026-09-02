@@ -69,6 +69,36 @@ describe("analyzeVision", () => {
     vi.unstubAllGlobals();
   });
 
+  it("sınırı aşan akış okunmayı durdurur ve istek iptal edilir", async () => {
+    // Sınırın AKIŞTA uygulandığının kanıtı: gövde sonsuza kadar 1 MB'lık
+    // parça üretiyor. Ölçüm `arrayBuffer()` sonrasında yapılsaydı bu test
+    // ya sonsuza kadar koşar ya belleği doldururdu.
+    let pulls = 0;
+    const stream = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        pulls += 1;
+        controller.enqueue(new Uint8Array(1_000_000));
+      },
+    });
+    let signal: AbortSignal | undefined;
+    vi.stubGlobal("fetch", vi.fn((_url: string, init?: { signal?: AbortSignal }) => {
+      signal = init?.signal;
+      return Promise.resolve({ ok: true, headers: new Headers(), body: stream });
+    }));
+    vi.mocked(geminiJson).mockResolvedValue({
+      cognitiveLoadScore: 0.5, ctaVisibilityScore: 0.5,
+      mobileIssues: [], desktopIssues: [], aboveFoldAssessment: "metin bazlı",
+    } as never);
+
+    await analyzeVision(env, [mkPage({ screenshotUrl: "https://cdn/sonsuz.png" })], "tr");
+
+    expect(vi.mocked(geminiJson).mock.calls[0]![1].imagesBase64).toEqual([]);
+    // 1,5 MB sınırı ikinci parçada aşılır; okuma orada durur.
+    expect(pulls).toBeLessThanOrEqual(3);
+    expect(signal?.aborted).toBe(true);
+    vi.unstubAllGlobals();
+  });
+
   it("sınırın altındaki görsel geçer", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(
       new Response(new Uint8Array(1000), { headers: { "content-length": "1000" } }),

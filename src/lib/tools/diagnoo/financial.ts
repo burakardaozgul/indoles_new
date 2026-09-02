@@ -39,7 +39,14 @@ export type FinancialInput = {
   speedMeasured: boolean;
   messageCohesionScore: number;
   known: KnownMetrics;
-  benchmarkDefaults: { monthlyTraffic: number; aov: number; conversionRate: number };
+  /**
+   * Ziyaretçi rakam vermediğinde kullanılan sektör medyanları ve künyeleri.
+   * `source` metodolojiye not olarak taşınır — hangi sayıyla çarpıldığı
+   * raporda görünmeyen bir hesap doğrulanamaz.
+   */
+  benchmarkDefaults: {
+    monthlyTraffic: number; aov: number; conversionRate: number; source: string;
+  };
 };
 
 function range(expected: number, width: number): RangeValue {
@@ -90,6 +97,27 @@ export function computeFinancialProjection(input: FinancialInput): FinancialProj
     adWaste = range(wasteExpected, width);
     methodology.push(C.WASTE_ATTRIBUTION_FACTOR);
   }
+  // Kullanılan varsayılanlar: girilmeyen her girdi için değer + kaynak dipnota
+  // girer. Ziyaretçi trafiği kendi girdiyse o satır hiç yazılmaz.
+  if (inputSources.monthlyTraffic === "estimated") {
+    methodology.push({
+      constant: "DEFAULT_MONTHLY_TRAFFIC", value: def.monthlyTraffic, source: def.source,
+      note: "Aylık ziyaretçi girilmedi; kıyas setinin medyanı kullanıldı",
+    });
+  }
+  if (inputSources.aov === "estimated") {
+    methodology.push({
+      constant: "DEFAULT_AOV", value: def.aov, source: def.source,
+      note: "Ortalama sepet tutarı girilmedi; kıyas setinin medyanı kullanıldı (TL)",
+    });
+  }
+  if (inputSources.conversionRate === "estimated") {
+    methodology.push({
+      constant: "DEFAULT_CONVERSION_RATE", value: def.conversionRate, source: def.source,
+      note: "Dönüşüm oranı girilmedi; kıyas setinin medyanı kullanıldı",
+    });
+  }
+
   // Aralık genişliği sabitleri: karışık girdilerde her iki sabit, saf hallerde birer tane.
   if (estimatedRatio > 0) methodology.push(C.RANGE_WIDTH_ESTIMATED);
   if (estimatedRatio < 1) methodology.push(C.RANGE_WIDTH_MEASURED);

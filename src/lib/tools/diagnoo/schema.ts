@@ -96,6 +96,9 @@ export const BenchmarkComparisonSchema = z.object({
   metric: z.string(), label: z.string(), value: z.number(), median: z.number(),
   top10: z.number(), unit: z.enum(["ms", "ratio", "count"]),
   betterIs: z.enum(["lower", "higher"]),
+  // Künye satırın kendisinde: rapor kıyas rakamını kaynağı ve tarihiyle
+  // birlikte basar, okuyucu doğrulayabilir (benchmarks.ts başlık notu).
+  source: z.string().min(1), asOf: z.string().min(1),
 });
 export type BenchmarkComparison = z.infer<typeof BenchmarkComparisonSchema>;
 

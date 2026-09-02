@@ -19,6 +19,21 @@ describe("benchmarks", () => {
     expect(lcp.betterIs).toBe("lower");
     expect(lcp.top10).toBeLessThan(lcp.median);
   });
+  it("her kıyas satırı kaynağını ve tarihini taşır", () => {
+    // Kıyas rakamı kaynaksız basılırsa okuyucu doğrulayamaz; künye satırın
+    // kendisinde yaşamalı, yalnız kod yorumunda değil.
+    const rows = compareBenchmarks({ avgLcpMs: 4000, cls: 0.2, conversionRate: 0.02 });
+    expect(rows).toHaveLength(3);
+    for (const r of rows) {
+      expect(r.source.length, r.metric).toBeGreaterThan(10);
+      expect(r.asOf, r.metric).toBe(BENCHMARKS_VERSION);
+    }
+  });
+
+  it("varsayılanlar da kaynak künyesi taşır ve versiyonu içerir", () => {
+    expect(BENCHMARK_DEFAULTS.source).toContain(BENCHMARKS_VERSION);
+  });
+
   it("LCP ve CLS null ise o satırlar hiç üretilmez", () => {
     // PSI ölçümü dönmediğinde "Siz 0 ms" satırı basmak, ölçülmemiş bir değeri
     // sektör medyanının yanına ölçülmüş gibi koymak olurdu.

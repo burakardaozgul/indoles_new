@@ -3,7 +3,11 @@ import { computeFinancialProjection, METHODOLOGY_CONSTANTS } from "../financial"
 
 const base = {
   avgLcpMs: 4500, messageCohesionScore: 0.6, speedMeasured: true,
-  known: {}, benchmarkDefaults: { monthlyTraffic: 100000, aov: 800, conversionRate: 0.018 },
+  known: {},
+  benchmarkDefaults: {
+    monthlyTraffic: 100000, aov: 800, conversionRate: 0.018,
+    source: "INDOLES kürasyonlu kıyas seti (2026-09)",
+  },
 };
 
 describe("computeFinancialProjection", () => {
@@ -73,6 +77,35 @@ describe("computeFinancialProjection", () => {
     expect(constants).toContain("SPEED_LOSS_PER_SECOND");
     expect(constants).toContain("WASTE_ATTRIBUTION_FACTOR");
     expect(p.methodology.every((m) => m.source.length > 5)).toBe(true);
+  });
+
+  it("tüm girdiler tahminiyken üç varsayılan da metodolojiye künyesiyle girer", () => {
+    // Hesabın üç girdisi sektör medyanından geliyorsa, o medyanların değeri ve
+    // kaynağı raporda görünmeli — yoksa okuyucu neyle çarpıldığını bilemez.
+    const p = computeFinancialProjection(base);
+    const byConstant = new Map(p.methodology.map((m) => [m.constant, m]));
+    expect(byConstant.get("DEFAULT_MONTHLY_TRAFFIC")?.value).toBe(100000);
+    expect(byConstant.get("DEFAULT_AOV")?.value).toBe(800);
+    expect(byConstant.get("DEFAULT_CONVERSION_RATE")?.value).toBe(0.018);
+    expect(byConstant.get("DEFAULT_AOV")?.source).toContain("2026-09");
+  });
+
+  it("tüm girdiler ölçülüyken varsayılan notu yazılmaz", () => {
+    const p = computeFinancialProjection({
+      ...base, known: { monthlyTraffic: 200000, aov: 950, conversionRate: 0.021 },
+    });
+    const constants = p.methodology.map((m) => m.constant);
+    expect(constants).not.toContain("DEFAULT_MONTHLY_TRAFFIC");
+    expect(constants).not.toContain("DEFAULT_AOV");
+    expect(constants).not.toContain("DEFAULT_CONVERSION_RATE");
+  });
+
+  it("yalnız girilmeyen girdi için varsayılan notu yazılır", () => {
+    const p = computeFinancialProjection({ ...base, known: { monthlyTraffic: 200000 } });
+    const constants = p.methodology.map((m) => m.constant);
+    expect(constants).not.toContain("DEFAULT_MONTHLY_TRAFFIC");
+    expect(constants).toContain("DEFAULT_AOV");
+    expect(constants).toContain("DEFAULT_CONVERSION_RATE");
   });
 
   it("karışık girdilerde her iki genişlik sabiti ve uygulanan genişlik dipnota girer", () => {

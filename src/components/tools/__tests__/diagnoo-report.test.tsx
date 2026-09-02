@@ -129,6 +129,14 @@ describe("DiagnooReport", () => {
     ).toBeInTheDocument();
   });
 
+  it("kıyas satırının altında kaynağını ve tarihini yazar", () => {
+    const { container } = render(<DiagnooReport report={REPORT} locale="tr" />);
+    const text = container.textContent ?? "";
+    const benchmark = REPORT.benchmarks[0]!;
+    expect(text).toContain(benchmark.source);
+    expect(text).toContain(benchmark.asOf);
+  });
+
   it("metodoloji notunu katsayı, değer ve kaynağıyla listeler", () => {
     render(<DiagnooReport report={REPORT} locale="tr" />);
     expect(screen.getByText("SPEED_LOSS_PER_SECOND")).toBeInTheDocument();

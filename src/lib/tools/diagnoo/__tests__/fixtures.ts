@@ -35,7 +35,9 @@ export function sampleReport(): DiagnooReport {
         category: "funnel", priority: "medium", impactMonthly: { low: 4000, expected: 6000, high: 8000 },
         effortDays: 3, dataReference: "Checkout friction: zorunlu üyelik" },
     ],
-    benchmarks: [{ metric: "lcp_ms", label: "LCP (anasayfa)", value: 4200, median: 3200, top10: 1800, unit: "ms", betterIs: "lower" }],
+    benchmarks: [{ metric: "lcp_ms", label: "LCP (anasayfa)", value: 4200, median: 3200, top10: 1800,
+      unit: "ms", betterIs: "lower",
+      source: "Chrome UX Report mobil LCP dağılımı — INDOLES kürasyonlu kıyas seti", asOf: "2026-09" }],
     createdAt: "2026-09-01T09:00:00Z",
   };
 }

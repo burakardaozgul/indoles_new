@@ -346,6 +346,12 @@ export function BenchmarkRows({
           </li>
         ))}
       </ul>
+      {/* Künye satırın altında: kıyas rakamı kaynağı ve tarihiyle basılır,
+          okuyucu neyle karşılaştırıldığını doğrulayabilir. */}
+      <p className="typography-caption text-ink-500 mt-2">
+        <span className="mono uppercase tracking-widest">{c.sourceColumn}</span>{" "}
+        {benchmark.source} · {benchmark.asOf}
+      </p>
     </div>
   );
 }

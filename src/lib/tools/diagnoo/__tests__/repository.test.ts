@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import {
   createDiagnostic, findFreshCompleted, setProgress, saveReport, getDiagnostic,
   createLead, hasLead, countDiagnosticsSince, markFailed, sqliteTimestamp,
-  findLeadByToken, saveLeadRecompute, setLeadUnlockToken, countLeadsSince,
+  findLeadByToken, saveLeadRecompute, hasLeadForEmail, countLeadsSince,
 } from "../repository";
 import { sampleReport } from "./fixtures";
 import { freshDiagnooDb } from "./d1-helper";
@@ -44,14 +44,44 @@ describe("diagnoo repository", () => {
     expect(await findFreshCompleted(db, "https://baska.com", 24)).toBeNull();
   });
 
-  it("lead: aynı e-posta ikinci kez duplicate döner, hasLead true olur", async () => {
+  it("lead: aynı e-posta ikinci kez de kendi satırını ve token'ını alır", async () => {
+    // E-posta artık kimlik değil: iki ayrı kilit açma iki ayrı satır demek.
+    // Token yeniden yazılsaydı ilk ziyaretçinin çerezi düşerdi (0006).
     await createDiagnostic(db, { id: "d1", ...base });
     const input = { id: "l1", diagnosticId: "d1", email: "cmo@firma.com", company: "Firma",
       fullName: null, knownMetrics: null, clientIpHash: "h1", unlockToken: "t1" };
-    expect(await createLead(db, input)).toEqual({ ok: true });
-    expect(await createLead(db, { ...input, id: "l2", unlockToken: "t2" }))
-      .toEqual({ ok: false, reason: "duplicate" });
+    await createLead(db, input);
+    await createLead(db, { ...input, id: "l2", unlockToken: "t2" });
+
     expect(await hasLead(db, "d1")).toBe(true);
+    // İki token da AYRI AYRI geçerli — ilki düşmedi.
+    expect((await findLeadByToken(db, "d1", "t1"))?.id).toBe("l1");
+    expect((await findLeadByToken(db, "d1", "t2"))?.id).toBe("l2");
+  });
+
+  it("aynı e-posta için iki satır yan yana durur", async () => {
+    await createDiagnostic(db, { id: "d1", ...base });
+    const input = { id: "l1", diagnosticId: "d1", email: "cmo@firma.com", company: "Firma",
+      fullName: null, knownMetrics: null, clientIpHash: "h1", unlockToken: "t1" };
+    await createLead(db, input);
+    await createLead(db, { ...input, id: "l2", unlockToken: "t2" });
+    const rows = await db.prepare(
+      "SELECT id FROM diagnoo_leads WHERE diagnostic_id = ? AND email = ?",
+    ).bind("d1", "cmo@firma.com").all();
+    expect(rows.results).toHaveLength(2);
+  });
+
+  it("hasLeadForEmail: e-postayı normalize ederek arar", async () => {
+    // Satış bildiriminin tek kapısı bu: aynı adrese ikinci mail atılmamalı,
+    // ama büyük harfli/boşluklu yazım aynı adresi farklı göstermemeli.
+    await createDiagnostic(db, { id: "d1", ...base });
+    expect(await hasLeadForEmail(db, "d1", "cmo@firma.com")).toBe(false);
+    await createLead(db, { id: "l1", diagnosticId: "d1", email: "  CMO@Firma.com ",
+      company: "Firma", fullName: null, knownMetrics: null, clientIpHash: "h1", unlockToken: "t1" });
+    expect(await hasLeadForEmail(db, "d1", "cmo@firma.com")).toBe(true);
+    expect(await hasLeadForEmail(db, "d1", "CMO@FIRMA.COM")).toBe(true);
+    expect(await hasLeadForEmail(db, "d1", "baska@firma.com")).toBe(false);
+    expect(await hasLeadForEmail(db, "d2", "cmo@firma.com")).toBe(false);
   });
 
   it("lead: farklı e-posta aynı teşhiste kendi satırını ve token'ını alır", async () => {
@@ -60,9 +90,8 @@ describe("diagnoo repository", () => {
     await createDiagnostic(db, { id: "d1", ...base });
     const input = { id: "l1", diagnosticId: "d1", email: "a@firma.com", company: "A",
       fullName: null, knownMetrics: null, clientIpHash: "h1", unlockToken: "token-a" };
-    expect(await createLead(db, input)).toEqual({ ok: true });
-    expect(await createLead(db, { ...input, id: "l2", email: "b@firma.com", unlockToken: "token-b" }))
-      .toEqual({ ok: true });
+    await createLead(db, input);
+    await createLead(db, { ...input, id: "l2", email: "b@firma.com", unlockToken: "token-b" });
 
     const a = await findLeadByToken(db, "d1", "token-a");
     const b = await findLeadByToken(db, "d1", "token-b");
@@ -96,18 +125,17 @@ describe("diagnoo repository", () => {
     expect((await getDiagnostic(db, "d1"))?.report?.healthScore).toBe(54);
   });
 
-  it("setLeadUnlockToken: mevcut lead'e yeni token yazar ve kayıtlı raporu döner", async () => {
+  it("ikinci lead'in recompute'u ilkininkini değiştirmez", async () => {
     await createDiagnostic(db, { id: "d1", ...base });
-    await createLead(db, { id: "l1", diagnosticId: "d1", email: "a@firma.com", company: "A",
-      fullName: null, knownMetrics: null, clientIpHash: "h1", unlockToken: "token-a" });
+    const input = { id: "l1", diagnosticId: "d1", email: "a@firma.com", company: "A Firma",
+      fullName: null, knownMetrics: null, clientIpHash: "h1", unlockToken: "token-a" };
+    await createLead(db, input);
     await saveLeadRecompute(db, "l1", { ...sampleReport(), healthScore: 77 });
+    await createLead(db, { ...input, id: "l2", unlockToken: "token-b" });
+    await saveLeadRecompute(db, "l2", { ...sampleReport(), healthScore: 12 });
 
-    const updated = await setLeadUnlockToken(db, "d1", "A@Firma.com", "token-yeni");
-    expect(updated?.id).toBe("l1");
-    expect(updated?.recomputedReport?.healthScore).toBe(77);
-    expect(await findLeadByToken(db, "d1", "token-yeni")).not.toBeNull();
-    expect(await findLeadByToken(db, "d1", "token-a")).toBeNull();
-    expect(await setLeadUnlockToken(db, "d1", "yok@firma.com", "t")).toBeNull();
+    expect((await findLeadByToken(db, "d1", "token-a"))?.recomputedReport?.healthScore).toBe(77);
+    expect((await findLeadByToken(db, "d1", "token-b"))?.recomputedReport?.healthScore).toBe(12);
   });
 
   it("countLeadsSince: IP bazlı saatlik sayım", async () => {

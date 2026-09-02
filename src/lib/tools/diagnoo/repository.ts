@@ -74,32 +74,45 @@ export async function getDiagnostic(db: D1Database, id: string): Promise<Diagnos
   return row ? toRow(row as Raw) : null;
 }
 
+/**
+ * HER kilit açma kendi satırını ve kendi token'ını alır (0006). E-posta bir
+ * kimlik DEĞİL: aynı adresle gelen ikinci ziyaretçinin ilkinin token'ını
+ * yeniden yazması, hem A'nın çerezini düşürür hem A'nın kendi rakamlarıyla
+ * hesaplanmış raporunu B'ye açardı. Tekrar eden e-posta yalnızca satış
+ * bildirimini bastırır (`hasLeadForEmail`), kilidi devretmez.
+ */
 export async function createLead(
   db: D1Database,
   input: { id: string; diagnosticId: string; email: string; company: string; fullName: string | null;
     knownMetrics: KnownMetrics | null; clientIpHash: string; unlockToken: string },
-): Promise<{ ok: true } | { ok: false; reason: "duplicate" }> {
-  try {
-    await db.prepare(
-      `INSERT INTO diagnoo_leads (id, diagnostic_id, email, company, full_name, kvkk_consent, known_metrics_json, client_ip_hash, unlock_token)
-       VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)`,
-    ).bind(
-      input.id, input.diagnosticId, normalizeEmail(input.email), input.company,
-      input.fullName, input.knownMetrics ? JSON.stringify(input.knownMetrics) : null,
-      input.clientIpHash, input.unlockToken,
-    ).run();
-    return { ok: true };
-  } catch (err) {
-    // 0005 sonrası benzersizlik (diagnostic_id, email) çifti: aynı e-posta
-    // ikinci kez gelirse duplicate, başka bir ziyaretçi kendi satırını alır.
-    if (String(err).includes("UNIQUE")) return { ok: false, reason: "duplicate" };
-    throw err;
-  }
+): Promise<void> {
+  await db.prepare(
+    `INSERT INTO diagnoo_leads (id, diagnostic_id, email, company, full_name, kvkk_consent, known_metrics_json, client_ip_hash, unlock_token)
+     VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)`,
+  ).bind(
+    input.id, input.diagnosticId, normalizeEmail(input.email), input.company,
+    input.fullName, input.knownMetrics ? JSON.stringify(input.knownMetrics) : null,
+    input.clientIpHash, input.unlockToken,
+  ).run();
 }
 
-/** E-posta kimliği tek biçimde saklanır — benzersizlik kısıtı ancak böyle tutar. */
+/** E-posta tek biçimde saklanır — arama da aynı biçimde yapılmak zorunda. */
 function normalizeEmail(email: string): string {
   return email.trim().toLowerCase();
+}
+
+/**
+ * Bu teşhis için bu adrese daha önce bir lead yazıldı mı. TEK kullanımı satış
+ * bildirimini tekrarlamamak; kilit kararı buradan ÇIKMAZ (kilit `unlock_token`
+ * ile ziyaretçiye bağlı, bkz. `findLeadByToken`).
+ */
+export async function hasLeadForEmail(
+  db: D1Database, diagnosticId: string, email: string,
+): Promise<boolean> {
+  const row = await db.prepare(
+    "SELECT id FROM diagnoo_leads WHERE diagnostic_id = ? AND email = ? LIMIT 1",
+  ).bind(diagnosticId, normalizeEmail(email)).first();
+  return row != null;
 }
 
 /** Lead satırının kilit görünümü: kim olduğu ve varsa kendine özel raporu. */
@@ -146,22 +159,6 @@ export async function saveLeadRecompute(
 ): Promise<void> {
   await db.prepare("UPDATE diagnoo_leads SET recomputed_report_json = ? WHERE id = ?")
     .bind(JSON.stringify(report), leadId).run();
-}
-
-/**
- * Aynı e-postayla ikinci kez gelen ziyaretçi için yeni bir kilit token'ı yazar.
- * Mevcut token sunucuda okunup geri verilebilirdi ama gerek yok: token tek
- * kullanımlık bir kilit değil, ziyaretçiyi tanıyan bir anahtar — yenisini
- * yazmak eski çerezi geçersiz kılar ve akış idempotent kalır.
- */
-export async function setLeadUnlockToken(
-  db: D1Database, diagnosticId: string, email: string, token: string,
-): Promise<LeadUnlock | null> {
-  const normalized = normalizeEmail(email);
-  await db.prepare(
-    "UPDATE diagnoo_leads SET unlock_token = ? WHERE diagnostic_id = ? AND email = ?",
-  ).bind(token, diagnosticId, normalized).run();
-  return findLeadByToken(db, diagnosticId, token);
 }
 
 export async function hasLead(db: D1Database, diagnosticId: string): Promise<boolean> {

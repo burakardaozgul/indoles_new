@@ -152,14 +152,15 @@ describe("POST /api/tools/diagnoo-unlock", () => {
     const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
     expect(res.status).toBe(200);
   });
-  it("ikinci unlock idempotent (200, tek lead, ikinci mail yok)", async () => {
+  it("ikinci unlock 200 döner, ikinci satış maili gitmez", async () => {
     await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
     vi.mocked(sendMailWithRetry).mockClear();
     const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody()));
     expect(res.status).toBe(200);
-    // Aynı e-posta = aynı kişi: satış kutusuna ikinci bir bildirim düşmez.
+    // E-posta tekrarı YALNIZ bildirimi bastırır: satış kutusuna aynı kişi
+    // için ikinci bir lead düşmez.
     expect(sendMailWithRetry).not.toHaveBeenCalled();
-    // Yeni token yazıldı: aynı ziyaretçi ikinci sekmede de raporunu görür.
+    // Ama kilit gerçekten açılır — bu koşunun kendi token'ı vardır.
     const cookie = unlockCookie(res);
     const status = await statusGET(get(`/api/tools/diagnoo-status/${ID}`, cookie), { params: Promise.resolve({ id: ID }) });
     expect(((await status.json()) as { leadCaptured: boolean }).leadCaptured).toBe(true);
@@ -269,5 +270,90 @@ describe("Diagnoo kilit izolasyonu (aynı teşhis, iki ziyaretçi)", () => {
     const body = (await status.json()) as { report: unknown; leadCaptured: boolean };
     expect(body.report).toBeNull();
     expect(body.leadCaptured).toBe(false);
+  });
+});
+
+
+/**
+ * Aynı e-postayla gelen İKİNCİ ziyaretçi, ilkinin kilidini ne ele geçirir ne
+ * düşürür (0006).
+ *
+ * Teşhis kimliği paylaşılabilir bir değer ve 24 saatlik yeniden kullanım yolu
+ * onu zaten başkasına veriyor. E-posta bir kimlik sayılsaydı, A'nın iş
+ * adresini bilen biri "A olarak" unlock edip A'nın kendi rakamlarıyla
+ * hesaplanmış raporunu okuyabilir, üstelik A'nın çerezini düşürebilirdi.
+ */
+describe("Diagnoo aynı e-posta, iki ziyaretçi", () => {
+  const unlockBody = (over: Record<string, unknown> = {}) => ({
+    diagnosticId: ID, email: "a@firma.com", company: "A Firma", kvkkConsent: true, turnstileToken: "tok", ...over,
+  });
+  beforeEach(async () => {
+    await createDiagnostic(db, { id: ID, ...base });
+    await saveReport(db, ID, sampleReport());
+  });
+
+  it("A'nın token'ı geçerli kalır, B kendi token'ını alır, ikinci mail gitmez", async () => {
+    // Mail casusu dosya genelinde paylaşılıyor; sayım bu testin kendi
+    // çağrılarını ölçmeli.
+    vi.mocked(sendMailWithRetry).mockClear();
+    const aRes = await unlockPOST(post("/api/tools/diagnoo-unlock",
+      unlockBody({ knownMetrics: { monthlyTraffic: 500000, aov: 2500 } }), "1.2.3.4"));
+    const aCookie = unlockCookie(aRes);
+    expect(sendMailWithRetry).toHaveBeenCalledTimes(1);
+    vi.mocked(sendMailWithRetry).mockClear();
+
+    // B, A'nın e-postasını biliyor ve başka bir IP'den geliyor.
+    const bRes = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody(), "5.6.7.8"));
+    expect(bRes.status).toBe(200);
+    const bCookie = unlockCookie(bRes);
+    expect(bCookie).not.toBe(aCookie);
+    // Aynı adrese ikinci bildirim yok.
+    expect(sendMailWithRetry).not.toHaveBeenCalled();
+
+    // A'nın kilidi DÜŞMEDİ ve hâlâ kendi rakamlarını görüyor.
+    const aStatus = await statusGET(get(`/api/tools/diagnoo-status/${ID}`, aCookie), { params: Promise.resolve({ id: ID }) });
+    const aBody = (await aStatus.json()) as {
+      leadCaptured: boolean;
+      report: { financial: { inputs: { monthlyTraffic: number; aov: number } } };
+    };
+    expect(aBody.leadCaptured).toBe(true);
+    expect(aBody.report.financial.inputs.monthlyTraffic).toBe(500000);
+    expect(aBody.report.financial.inputs.aov).toBe(2500);
+
+    // B, A'nın e-postasını bilse bile A'nın rakamlarını GÖREMEZ.
+    const bStatus = await statusGET(get(`/api/tools/diagnoo-status/${ID}`, bCookie), { params: Promise.resolve({ id: ID }) });
+    const bBody = (await bStatus.json()) as {
+      leadCaptured: boolean;
+      report: { financial: { inputs: { monthlyTraffic: number; aov: number }; inputSources: Record<string, string> } };
+    };
+    expect(bBody.leadCaptured).toBe(true);
+    expect(bBody.report.financial.inputs.monthlyTraffic).toBe(120000);
+    expect(bBody.report.financial.inputs.aov).toBe(850);
+    expect(bBody.report.financial.inputSources.monthlyTraffic).toBe("estimated");
+  });
+
+  it("B kendi metriklerini verirse kendi hesabını görür, A etkilenmez", async () => {
+    const aRes = await unlockPOST(post("/api/tools/diagnoo-unlock",
+      unlockBody({ knownMetrics: { monthlyTraffic: 500000 } }), "1.2.3.4"));
+    const aCookie = unlockCookie(aRes);
+    const bRes = await unlockPOST(post("/api/tools/diagnoo-unlock",
+      unlockBody({ knownMetrics: { monthlyTraffic: 90000 } }), "5.6.7.8"));
+    const bCookie = unlockCookie(bRes);
+
+    const read = async (cookie: string) => {
+      const res = await statusGET(get(`/api/tools/diagnoo-status/${ID}`, cookie), { params: Promise.resolve({ id: ID }) });
+      return (await res.json()) as { report: { financial: { inputs: { monthlyTraffic: number } } } };
+    };
+    expect((await read(aCookie)).report.financial.inputs.monthlyTraffic).toBe(500000);
+    expect((await read(bCookie)).report.financial.inputs.monthlyTraffic).toBe(90000);
+  });
+
+  it("aynı teşhis + aynı e-posta için iki lead satırı yazılır", async () => {
+    await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody(), "1.2.3.4"));
+    await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody(), "5.6.7.8"));
+    const rows = await db.prepare(
+      "SELECT id FROM diagnoo_leads WHERE diagnostic_id = ? AND email = ?",
+    ).bind(ID, "a@firma.com").all();
+    expect(rows.results).toHaveLength(2);
   });
 });

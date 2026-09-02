@@ -25,5 +25,8 @@ export function freshDiagnooDb(): D1Database {
   // 0005 kilidi ziyaretçiye bağlar (unlock_token, lead bazlı recompute) —
   // rota testleri kilit izolasyonunu ancak bu şemayla doğrulayabilir.
   raw.exec(readFileSync("migrations/0005_diagnoo_lead_scope.sql", "utf8"));
+  // 0006 her unlock'a kendi lead satırını verir: e-posta benzersizliği kalkar,
+  // token yeniden yazılmaz (kilit düşürme ve rapor sızıntısı kapanır).
+  raw.exec(readFileSync("migrations/0006_diagnoo_lead_per_unlock.sql", "utf8"));
   return d1(raw);
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FindingsList } from "@/components/tools/findings-list";
+import { FindingsList, orderForFixList } from "@/components/tools/findings-list";
 import { REPORT_ERROR_MAP, TOOL_UI, fill, type ReportErrorKind } from "@/components/tools/copy";
 import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { Input } from "@/components/ui/input";
@@ -205,8 +205,8 @@ export function ReportGate({
     );
   }
 
-  const todo = checks.filter((ch) => ch.status !== "pass").sort((a, b) => (b.max - b.score) - (a.max - a.score));
-  const passedCount = checks.length - todo.length;
+  const { todo, passed } = orderForFixList(checks, signals);
+  const passedCount = passed.length;
   const emailId = `${uid}-email`;
   const kvkkId = `${uid}-kvkk`;
   const submitting = state === "submitting";

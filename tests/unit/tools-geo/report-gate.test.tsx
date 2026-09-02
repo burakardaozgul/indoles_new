@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, within, fireEvent, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ReportGate } from "@/components/tools/report-gate";
 import { TOOLS } from "@/lib/content/tools";
@@ -36,6 +36,20 @@ describe("ReportGate", () => {
     expect(screen.getByText("1 bulgu")).toBeInTheDocument();
     expect(screen.getByText("Geçen 1 sinyalin notları")).toBeInTheDocument();
     expect(screen.getByText("Kilitli")).toBeInTheDocument();
+
+    // Ruling R7: önizleme orderForFixList'in tie-break'ini kullanır — eşit
+    // kaybedilen puanda sıra `signals` dizisininkine göre belirlenir, girdi
+    // dizisinin sırasına değil (girdi burada bilinçli olarak TERS verildi).
+    const TIE: GeoCheckResult[] = [
+      { id: "lang-signals", score: 5, max: 15, status: "partial", summary: { tr: "d", en: "d" }, findings: [], findingsCount: 1 },
+      { id: "llms-txt", score: 5, max: 15, status: "partial", summary: { tr: "b", en: "b" }, findings: [], findingsCount: 1 },
+    ];
+    const { container } = render(<ReportGate scanId="scan-2" band="zayif" locale="tr" checks={TIE} signals={SIGNALS} />);
+    const rows = within(container).getAllByRole("listitem").map((li) => li.textContent ?? "");
+    const llmsIndex = rows.findIndex((t) => t.includes("llms.txt"));
+    const langIndex = rows.findIndex((t) => t.includes("Dil sinyalleri"));
+    expect(llmsIndex).toBeGreaterThanOrEqual(0);
+    expect(llmsIndex).toBeLessThan(langIndex);
   });
 
   it("rızasız gönderim istek atmaz, uyarı basar", () => {

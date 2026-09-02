@@ -20,13 +20,20 @@ const ROWS: Record<string, BenchmarkRow> = {
   conversion_rate: { label: "Dönüşüm oranı", median: 0.018, top10: 0.032, unit: "ratio", betterIs: "higher" },
 };
 
+/**
+ * Ölçülemeyen metrik satır ÜRETMEZ. PSI dönmediğinde "Siz 0 ms" basmak,
+ * ölçülmemiş bir değeri sektör medyanının yanına ölçülmüş gibi koymaktı.
+ */
 export function compareBenchmarks(input: {
-  avgLcpMs: number; cls: number; conversionRate: number | null;
+  avgLcpMs: number | null; cls: number | null; conversionRate: number | null;
 }): BenchmarkComparison[] {
-  const out: BenchmarkComparison[] = [
-    { metric: "lcp_ms", value: input.avgLcpMs, ...ROWS.lcp_ms! },
-    { metric: "cls", value: input.cls, ...ROWS.cls! },
-  ];
+  const out: BenchmarkComparison[] = [];
+  if (input.avgLcpMs != null) {
+    out.push({ metric: "lcp_ms", value: input.avgLcpMs, ...ROWS.lcp_ms! });
+  }
+  if (input.cls != null) {
+    out.push({ metric: "cls", value: input.cls, ...ROWS.cls! });
+  }
   if (input.conversionRate != null) {
     out.push({ metric: "conversion_rate", value: input.conversionRate, ...ROWS.conversion_rate! });
   }

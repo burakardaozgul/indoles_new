@@ -176,3 +176,60 @@ describe("DiagnooReport", () => {
     );
   });
 });
+
+/**
+ * I2 — PSI ölçümü dönmediğinde rapor "0 ms" ve "₺0" basmaz.
+ *
+ * `avgLcpMs: 0` üç yerde yalan söylüyordu: hız satırı 100/100, kıyas "Siz
+ * 0 ms", gecikme girdisi "0 sn — Ölçüldü". Ölçülmemiş bir değer, ölçülmüş bir
+ * sıfır gibi görünmemeli.
+ */
+function reportWithoutSpeed(): DiagnooReportData {
+  const base = sampleReport();
+  const zero = { low: 0, expected: 0, high: 0 };
+  return {
+    ...base,
+    funnel: { ...base.funnel, pageSpeeds: [], avgLcpMs: 0 },
+    benchmarks: [],
+    roadmap: base.roadmap.map((r) => ({ ...r, impactMonthly: null })),
+    financial: {
+      ...base.financial,
+      inputs: { ...base.financial.inputs, avgDelaySeconds: 0 },
+      dataQuality: { speed: "missing" },
+      lostRevenueSpeed: zero,
+      totalRecoverable: zero,
+    },
+  };
+}
+
+describe("DiagnooReport — PSI verisi yokken", () => {
+  it("hız satırında 0 ms yerine ölçüm alınamadığını yazar", () => {
+    const { container } = render(<DiagnooReport report={reportWithoutSpeed()} locale="tr" />);
+    const text = container.textContent ?? "";
+    expect(text).toContain("PageSpeed Insights bu adres için mobil ölçüm döndürmedi");
+    expect(text).toContain("Veri yetersiz");
+    // `\b` sınırı fixture'daki "4200 ms" dayanağını yakalamaz — aranan,
+    // ölçülmemiş değerin "0 ms" diye basılması.
+    expect(text).not.toMatch(/\b0 ms/);
+    expect(text).not.toContain("Ortalama LCP");
+  });
+
+  it("gecikme girdisini 'Ölçülemedi' rozetiyle işaretler", () => {
+    const { container } = render(<DiagnooReport report={reportWithoutSpeed()} locale="tr" />);
+    expect(container.textContent ?? "").toContain("Ölçülemedi");
+  });
+
+  it("hiçbir yerde ₺0 basmaz", () => {
+    const { container } = render(<DiagnooReport report={reportWithoutSpeed()} locale="tr" />);
+    expect(container.textContent ?? "").not.toContain("₺0");
+  });
+
+  it("EN'de de ölçüm alınamadığını söyler", () => {
+    const { container } = render(<DiagnooReport report={reportWithoutSpeed()} locale="en" />);
+    const text = container.textContent ?? "";
+    expect(text).toContain("PageSpeed Insights returned no mobile measurement");
+    expect(text).toContain("Not enough data");
+    expect(text).not.toMatch(/\b0 ms/);
+    expect(text).not.toContain("Average LCP is");
+  });
+});

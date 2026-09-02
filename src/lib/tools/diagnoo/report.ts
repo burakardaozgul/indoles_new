@@ -28,7 +28,16 @@ export function computeHealthScore(input: {
   return Math.round(score);
 }
 
+/** Bilinmeyen etki `null` ile gösterilir — "₺0 – ₺0" ölçülmüş bir sıfır gibi okunur. */
+function withoutImpacts(roadmap: RoadmapItem[]): RoadmapItem[] {
+  return roadmap.map((r) => (r.impactMonthly === null ? r : { ...r, impactMonthly: null }));
+}
+
 export function scaleRoadmapImpacts(roadmap: RoadmapItem[], total: RangeValue): RoadmapItem[] {
+  // Kurtarılabilir toplam sıfırsa (ör. PSI verisi yok, reklam bütçesi de
+  // girilmedi) her maddeyi 0 katsayısıyla çarpmak tüm yol haritasını
+  // "₺0 – ₺0" yapardı — dürüst karşılık "veri yetersiz".
+  if (total.expected === 0) return withoutImpacts(roadmap);
   const sum = roadmap.reduce((s, r) => s + (r.impactMonthly?.expected ?? 0), 0);
   if (sum <= total.expected || sum === 0) return roadmap;
   const factor = total.expected / sum;
@@ -70,21 +79,25 @@ export async function assembleReport(
   input: { id: string; url: string; locale: "tr" | "en";
     semantic: SemanticResult; vision: VisionResult; funnel: FunnelResult; known: KnownMetrics },
 ): Promise<DiagnooReport> {
+  // Tek bir PSI çağrısı bile dönmediyse hız verisi YOKTUR; `avgLcpMs` 0'ı
+  // ölçüm sayan her hesap (kayıp, kıyas, skor) yalan söylerdi.
+  const speedMeasured = input.funnel.pageSpeeds.length > 0;
   const financialInput: FinancialInput = {
     avgLcpMs: input.funnel.avgLcpMs,
+    speedMeasured,
     messageCohesionScore: input.semantic.messageCohesionScore,
     known: input.known, benchmarkDefaults: BENCHMARK_DEFAULTS,
   };
   const financial = computeFinancialProjection(financialInput);
   const roadmap = await buildRoadmap(env, { ...input, financial });
-  const cls = input.funnel.pageSpeeds[0]?.cls ?? 0;
+  const cls = input.funnel.pageSpeeds[0]?.cls ?? null;
   return {
     id: input.id, url: input.url, locale: input.locale,
     healthScore: computeHealthScore(input),
     semantic: input.semantic, vision: input.vision, funnel: input.funnel,
     financial, roadmap,
     benchmarks: compareBenchmarks({
-      avgLcpMs: input.funnel.avgLcpMs, cls,
+      avgLcpMs: speedMeasured ? input.funnel.avgLcpMs : null, cls,
       conversionRate: input.known.conversionRate ?? null,
     }),
     createdAt: new Date().toISOString(),
@@ -92,26 +105,32 @@ export async function assembleReport(
 }
 
 export function recomputeWithKnownMetrics(report: DiagnooReport, known: KnownMetrics): DiagnooReport {
+  const speedMeasured = report.funnel.pageSpeeds.length > 0;
   const financial = computeFinancialProjection({
     avgLcpMs: report.funnel.avgLcpMs,
+    speedMeasured,
     messageCohesionScore: report.semantic.messageCohesionScore,
     known, benchmarkDefaults: BENCHMARK_DEFAULTS,
   });
   const oldTotal = report.financial.totalRecoverable.expected;
   const factor = oldTotal > 0 ? financial.totalRecoverable.expected / oldTotal : 1;
-  const roadmap = report.roadmap.map((r) => r.impactMonthly === null ? r : {
-    ...r,
-    impactMonthly: {
-      low: Math.round(r.impactMonthly.low * factor),
-      expected: Math.round(r.impactMonthly.expected * factor),
-      high: Math.round(r.impactMonthly.high * factor),
-    },
-  });
-  const cls = report.funnel.pageSpeeds[0]?.cls ?? 0;
+  // `scaleRoadmapImpacts` ile AYNI kural: toplam sıfıra düştüyse etkiler
+  // "₺0 – ₺0" değil "veri yetersiz" olur.
+  const roadmap = financial.totalRecoverable.expected === 0
+    ? withoutImpacts(report.roadmap)
+    : report.roadmap.map((r) => r.impactMonthly === null ? r : {
+      ...r,
+      impactMonthly: {
+        low: Math.round(r.impactMonthly.low * factor),
+        expected: Math.round(r.impactMonthly.expected * factor),
+        high: Math.round(r.impactMonthly.high * factor),
+      },
+    });
+  const cls = report.funnel.pageSpeeds[0]?.cls ?? null;
   return {
     ...report, financial, roadmap,
     benchmarks: compareBenchmarks({
-      avgLcpMs: report.funnel.avgLcpMs, cls,
+      avgLcpMs: speedMeasured ? report.funnel.avgLcpMs : null, cls,
       conversionRate: known.conversionRate ?? null,
     }),
   };

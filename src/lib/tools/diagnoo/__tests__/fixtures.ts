@@ -19,6 +19,7 @@ export function sampleReport(): DiagnooReport {
       totalRecoverable: { low: 74000, expected: 114000, high: 154000 },
       methodology: [{ constant: "SPEED_LOSS_PER_SECOND", value: 0.044,
         source: "Portent (2019), sayfa hızı-dönüşüm analizi", note: "İlk 5 saniyede saniye başına ~%4,4 dönüşüm kaybı" }],
+      dataQuality: { speed: "measured" },
     },
     roadmap: [
       { title: "LCP'yi 2,5 sn altına indir", description: "Görsel optimizasyonu ve önbellekleme",

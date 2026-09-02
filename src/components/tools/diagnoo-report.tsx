@@ -44,6 +44,8 @@ const COPY = {
     dataQualityAll: "Finansal hesabın dört girdisi de sizin verinizden geldi.",
     dataQualityMixed: (measured: number, estimated: number) =>
       `Finansal hesabın ${measured} girdisi sizin verinizden, ${estimated} girdisi sektör medyanından geldi.`,
+    speedMissingSummary:
+      "PageSpeed Insights bu adres için mobil ölçüm döndürmedi. Hız kaynaklı gelir kaybı hesaba girmedi; projeksiyonu bu kalem eksik okuyun.",
 
     scoreHeading: "Skor karnesi",
     scoreLede:
@@ -52,6 +54,9 @@ const COPY = {
     benchmarkMedian: "Sektör medyanı",
     benchmarkTop: "En iyi %10",
     benchmarkOther: "Diğer kıyas ölçümleri",
+    speedMissingLabel: "Veri yetersiz",
+    speedMissingBasis:
+      "PageSpeed Insights bu adres için mobil ölçüm döndürmedi; hız boyutu puanlanmadı.",
 
     gapsHeading: "Kritik boşluklar",
     gapsLede:
@@ -72,6 +77,7 @@ const COPY = {
     sourceLabel: "Kaynak",
     measured: "Ölçüldü",
     estimated: "Tahmin",
+    unmeasured: "Ölçülemedi",
     inputTraffic: "Aylık ziyaretçi",
     inputAov: "Ortalama sepet tutarı",
     inputCr: "Dönüşüm oranı",
@@ -83,6 +89,7 @@ const COPY = {
     lostSpeed: "Hız kaynaklı gelir kaybı",
     adWaste: "Reklam bütçesi israfı",
     adWasteNone: "Reklam bütçesi girilmedi; bu kalem hesaplanmadı.",
+    lostSpeedMissing: "PageSpeed ölçümü alınamadı; bu kalem hesaplanmadı.",
     totalRecoverable: "Toplam geri kazanılabilir",
     methodology: "Metodoloji",
     methodologyLede:
@@ -112,6 +119,8 @@ const COPY = {
     dataQualityAll: "All four financial inputs come from your own data.",
     dataQualityMixed: (measured: number, estimated: number) =>
       `${measured} of the financial inputs come from your own data, ${estimated} from sector medians.`,
+    speedMissingSummary:
+      "PageSpeed Insights returned no mobile measurement for this address. Revenue lost to speed stays out of the calculation; read the projection as missing that line.",
 
     scoreHeading: "Score card",
     scoreLede:
@@ -120,6 +129,9 @@ const COPY = {
     benchmarkMedian: "Sector median",
     benchmarkTop: "Top 10%",
     benchmarkOther: "Other benchmark measurements",
+    speedMissingLabel: "Not enough data",
+    speedMissingBasis:
+      "PageSpeed Insights returned no mobile measurement for this address, so the speed dimension is unscored.",
 
     gapsHeading: "Critical gaps",
     gapsLede:
@@ -140,6 +152,7 @@ const COPY = {
     sourceLabel: "Source",
     measured: "Measured",
     estimated: "Estimated",
+    unmeasured: "Not measured",
     inputTraffic: "Monthly visitors",
     inputAov: "Average order value",
     inputCr: "Conversion rate",
@@ -151,6 +164,7 @@ const COPY = {
     lostSpeed: "Revenue lost to speed",
     adWaste: "Ad budget waste",
     adWasteNone: "No ad budget was entered, so this line was not calculated.",
+    lostSpeedMissing: "No PageSpeed measurement arrived, so this line was not calculated.",
     totalRecoverable: "Total recoverable",
     methodology: "Methodology",
     methodologyLede: "The constants used in the calculation, their values and their sources.",
@@ -401,6 +415,21 @@ export function DiagnooReport({
     (r) => r.priority === "critical" || r.priority === "high",
   );
 
+  /**
+   * PSI hiçbir sayfa için değer döndürmediyse `avgLcpMs` 0'dır ve bu 0 bir
+   * ÖLÇÜM DEĞİLDİR. Rapor bu durumda hız satırını puanlamaz, kıyas basmaz ve
+   * TL kalemini hesaplanmamış gösterir — "0 ms" ile "₺0" ölçülmüş bir sıfır
+   * gibi okunurdu (içerik dürüstlüğü, docs/04 §10).
+   */
+  const speedMissing = report.financial.dataQuality.speed === "missing";
+
+  /**
+   * Toplam kalemi YALNIZ hız ölçümü eksikken "veri yetersiz" olur. Ölçüm var
+   * ve toplam gerçekten sıfırsa (LCP eşiğin altında, reklam bütçesi yok) o
+   * sıfır ölçülmüş bir sonuçtur ve aralık olarak basılmaya devam eder.
+   */
+  const totalUnknown = speedMissing && report.financial.totalRecoverable.high === 0;
+
   // Veri kalitesi: dört finansal girdinin kaçı gerçekten ölçüldü.
   const sources = Object.values(report.financial.inputSources);
   const measuredCount = sources.filter((s) => s === "measured").length;
@@ -438,11 +467,10 @@ export function DiagnooReport({
     {
       id: "speed",
       label: locale === "tr" ? "Hız ve satın alma akışı" : "Speed and purchase flow",
-      pct: toPct(
-        report.funnel.avgLcpMs <= 0 ? 1 : LCP_TARGET_MS / report.funnel.avgLcpMs,
-      ),
-      basis:
-        locale === "tr"
+      pct: speedMissing ? null : toPct(LCP_TARGET_MS / report.funnel.avgLcpMs),
+      basis: speedMissing
+        ? c.speedMissingBasis
+        : locale === "tr"
           ? `Ortalama LCP ${formatCount(report.funnel.avgLcpMs, locale)} ms; ${formatCount(LCP_TARGET_MS, locale)} ms eşiğine göre normalize edildi.`
           : `Average LCP is ${formatCount(report.funnel.avgLcpMs, locale)} ms, normalised against the ${formatCount(LCP_TARGET_MS, locale)} ms threshold.`,
     },
@@ -494,8 +522,10 @@ export function DiagnooReport({
     },
     {
       label: c.inputDelay,
-      value: `${new Intl.NumberFormat(locale === "tr" ? "tr-TR" : "en-GB", { maximumFractionDigits: 1 }).format(fin.inputs.avgDelaySeconds)} ${c.seconds}`,
-      source: "measured" as const,
+      value: speedMissing
+        ? c.speedMissingLabel
+        : `${new Intl.NumberFormat(locale === "tr" ? "tr-TR" : "en-GB", { maximumFractionDigits: 1 }).format(fin.inputs.avgDelaySeconds)} ${c.seconds}`,
+      source: speedMissing ? ("unmeasured" as const) : ("measured" as const),
     },
     {
       label: c.inputCohesion,
@@ -527,8 +557,14 @@ export function DiagnooReport({
           </div>
           <div className="v2-surface border border-surface-2 rounded-xl p-6">
             <dt className="typography-caption text-ink-500">{c.recoverable}</dt>
-            <dd className="typography-h3 mono tabular text-ink-900 mt-2">
-              {formatRange(fin.totalRecoverable, locale)}
+            <dd
+              className={
+                totalUnknown
+                  ? "typography-body-md text-ink-500 mt-2"
+                  : "typography-h3 mono tabular text-ink-900 mt-2"
+              }
+            >
+              {totalUnknown ? c.impactUnknown : formatRange(fin.totalRecoverable, locale)}
             </dd>
           </div>
           <div className="v2-surface border border-surface-2 rounded-xl p-6">
@@ -542,6 +578,11 @@ export function DiagnooReport({
         <p className="typography-caption text-ink-500 mt-6 max-w-prose-editorial">
           {dataQuality}
         </p>
+        {speedMissing ? (
+          <p className="typography-caption text-ink-500 mt-2 max-w-prose-editorial">
+            {c.speedMissingSummary}
+          </p>
+        ) : null}
       </section>
 
       {/* 2 — Skor karnesi */}
@@ -562,11 +603,19 @@ export function DiagnooReport({
               <li key={row.id}>
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="typography-h3 text-ink-900">{row.label}</h3>
-                  <span className="mono tabular typography-body-md text-ink-900 shrink-0">
-                    {row.pct}
+                  {/* Ölçüm yoksa puan da çubuk da basılmaz — nötr bir metin
+                      "0" gibi bir sayıdan dürüsttür. */}
+                  <span
+                    className={
+                      row.pct === null
+                        ? "typography-caption text-ink-500 shrink-0"
+                        : "mono tabular typography-body-md text-ink-900 shrink-0"
+                    }
+                  >
+                    {row.pct === null ? c.speedMissingLabel : row.pct}
                   </span>
                 </div>
-                <ScoreBar pct={row.pct} />
+                {row.pct === null ? null : <ScoreBar pct={row.pct} />}
                 <p className="typography-caption text-ink-500 mt-2">{row.basis}</p>
                 {matched.map((b) => (
                   <BenchmarkRows key={b.metric} benchmark={b} locale={locale} />
@@ -690,7 +739,11 @@ export function DiagnooReport({
                           : "border-ink-200 text-ink-600"
                       }
                     >
-                      {row.source === "measured" ? c.measured : c.estimated}
+                      {row.source === "measured"
+                        ? c.measured
+                        : row.source === "unmeasured"
+                          ? c.unmeasured
+                          : c.estimated}
                     </Chip>
                   </td>
                 </tr>
@@ -702,8 +755,14 @@ export function DiagnooReport({
         <dl className="mt-8 flex flex-col gap-5">
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-surface-2 pb-4">
             <dt className="typography-body-md text-ink-700">{c.lostSpeed}</dt>
-            <dd className="mono tabular typography-body-md text-ink-900">
-              {formatRange(fin.lostRevenueSpeed, locale)}
+            <dd
+              className={
+                speedMissing
+                  ? "typography-caption text-ink-500"
+                  : "mono tabular typography-body-md text-ink-900"
+              }
+            >
+              {speedMissing ? c.lostSpeedMissing : formatRange(fin.lostRevenueSpeed, locale)}
             </dd>
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-surface-2 pb-4">
@@ -720,8 +779,14 @@ export function DiagnooReport({
           </div>
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
             <dt className="typography-h3 text-ink-900">{c.totalRecoverable}</dt>
-            <dd className="mono tabular typography-h3 text-ink-900">
-              {formatRange(fin.totalRecoverable, locale)}
+            <dd
+              className={
+                totalUnknown
+                  ? "typography-caption text-ink-500"
+                  : "mono tabular typography-h3 text-ink-900"
+              }
+            >
+              {totalUnknown ? c.impactUnknown : formatRange(fin.totalRecoverable, locale)}
             </dd>
           </div>
         </dl>

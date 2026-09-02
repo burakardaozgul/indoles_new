@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { computeFinancialProjection, METHODOLOGY_CONSTANTS } from "../financial";
 
 const base = {
-  avgLcpMs: 4500, messageCohesionScore: 0.6,
+  avgLcpMs: 4500, messageCohesionScore: 0.6, speedMeasured: true,
   known: {}, benchmarkDefaults: { monthlyTraffic: 100000, aov: 800, conversionRate: 0.018 },
 };
 
@@ -34,6 +34,29 @@ describe("computeFinancialProjection", () => {
     const delay = (4500 - METHODOLOGY_CONSTANTS.LCP_THRESHOLD_MS.value) / 1000;
     const exp = 100000 * 800 * 0.018 * METHODOLOGY_CONSTANTS.SPEED_LOSS_PER_SECOND.value * delay;
     expect(p.lostRevenueSpeed.expected).toBeCloseTo(exp, 0);
+  });
+
+  it("PSI ölçümü yokken hız kaybı hesaplanmaz, dataQuality 'missing' olur", () => {
+    // Tek bir PSI çağrısı bile dönmediğinde `avgLcpMs` 0 gelir. 0'ı "çok hızlı
+    // site" gibi okumak dürüst değil: gecikme de kayıp da hesaplanmaz.
+    const p = computeFinancialProjection({ ...base, avgLcpMs: 0, speedMeasured: false });
+    expect(p.lostRevenueSpeed).toEqual({ low: 0, expected: 0, high: 0 });
+    expect(p.inputs.avgDelaySeconds).toBe(0);
+    expect(p.dataQuality.speed).toBe("missing");
+    expect(p.totalRecoverable.expected).toBe(0);
+  });
+
+  it("ölçüm varken dataQuality 'measured' kalır", () => {
+    expect(computeFinancialProjection(base).dataQuality.speed).toBe("measured");
+  });
+
+  it("PSI yokken reklam israfı hâlâ hesaplanır", () => {
+    // Hız verisinin yokluğu mesaj uyumsuzluğu kalemini silmemeli.
+    const p = computeFinancialProjection({
+      ...base, avgLcpMs: 0, speedMeasured: false, known: { monthlyAdSpend: 50000 },
+    });
+    expect(p.adWaste?.expected).toBeGreaterThan(0);
+    expect(p.totalRecoverable.expected).toBe(p.adWaste?.expected);
   });
 
   it("adWaste yalnız reklam bütçesi verildiğinde hesaplanır", () => {

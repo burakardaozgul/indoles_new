@@ -19,6 +19,18 @@ describe("benchmarks", () => {
     expect(lcp.betterIs).toBe("lower");
     expect(lcp.top10).toBeLessThan(lcp.median);
   });
+  it("LCP ve CLS null ise o satırlar hiç üretilmez", () => {
+    // PSI ölçümü dönmediğinde "Siz 0 ms" satırı basmak, ölçülmemiş bir değeri
+    // sektör medyanının yanına ölçülmüş gibi koymak olurdu.
+    const rows = compareBenchmarks({ avgLcpMs: null, cls: null, conversionRate: 0.02 });
+    expect(rows.map((r) => r.metric)).toEqual(["conversion_rate"]);
+  });
+
+  it("yalnız CLS null ise LCP satırı kalır", () => {
+    const rows = compareBenchmarks({ avgLcpMs: 4000, cls: null, conversionRate: null });
+    expect(rows.map((r) => r.metric)).toEqual(["lcp_ms"]);
+  });
+
   it("CR verilirse karşılaştırmaya girer (betterIs: higher)", () => {
     const rows = compareBenchmarks({ avgLcpMs: 3000, cls: 0.05, conversionRate: 0.02 });
     const cr = rows.find((r) => r.metric === "conversion_rate")!;

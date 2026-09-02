@@ -32,6 +32,11 @@ export const METHODOLOGY_CONSTANTS = {
 
 export type FinancialInput = {
   avgLcpMs: number;
+  /**
+   * PSI en az bir sayfa için değer döndürdü mü. `false` iken `avgLcpMs` 0'dır
+   * ve bu 0 bir ÖLÇÜM DEĞİL, ölçümün yokluğudur — hız formülü hiç koşmaz.
+   */
+  speedMeasured: boolean;
   messageCohesionScore: number;
   known: KnownMetrics;
   benchmarkDefaults: { monthlyTraffic: number; aov: number; conversionRate: number };
@@ -68,9 +73,14 @@ export function computeFinancialProjection(input: FinancialInput): FinancialProj
     (C.RANGE_WIDTH_ESTIMATED.value - C.RANGE_WIDTH_MEASURED.value) * estimatedRatio;
 
   // Formül A — hız kaynaklı kayıp (yalnız CWV eşiği üzerindeki gecikme).
-  const avgDelaySeconds = Math.max(0, (input.avgLcpMs - C.LCP_THRESHOLD_MS.value) / 1000);
+  // Ölçüm yoksa formül hiç koşmaz: eksik veriden türetilmiş bir kayıp rakamı
+  // uydurma olurdu, sıfır da "kayıp yok" diye okunurdu — rapor bu kalemi
+  // `dataQuality.speed` ile hesaplanmamış gösterir.
+  const avgDelaySeconds = input.speedMeasured
+    ? Math.max(0, (input.avgLcpMs - C.LCP_THRESHOLD_MS.value) / 1000)
+    : 0;
   const lostSpeedExpected = monthlyTraffic * aov * conversionRate * C.SPEED_LOSS_PER_SECOND.value * avgDelaySeconds;
-  const lostRevenueSpeed = range(lostSpeedExpected, width);
+  const lostRevenueSpeed = input.speedMeasured ? range(lostSpeedExpected, width) : { low: 0, expected: 0, high: 0 };
 
   // Formül B — mesaj uyumsuzluğu israfı (yalnız reklam bütçesi biliniyorsa).
   const methodology: MethodologyNote[] = [C.SPEED_LOSS_PER_SECOND, C.LCP_THRESHOLD_MS];
@@ -101,5 +111,6 @@ export function computeFinancialProjection(input: FinancialInput): FinancialProj
     inputs: { monthlyTraffic, aov, conversionRate, avgDelaySeconds,
       monthlyAdSpend, messageCohesionScore: input.messageCohesionScore },
     inputSources, lostRevenueSpeed, adWaste, totalRecoverable, methodology,
+    dataQuality: { speed: input.speedMeasured ? "measured" : "missing" },
   };
 }

@@ -73,6 +73,13 @@ export const FinancialProjectionSchema = z.object({
   }),
   lostRevenueSpeed: RangeValueSchema, adWaste: RangeValueSchema.nullable(),
   totalRecoverable: RangeValueSchema, methodology: z.array(MethodologyNoteSchema),
+  // Hangi girdinin GERÇEKTEN ölçülebildiği. PSI hiçbir sayfa için değer
+  // döndürmediğinde `avgLcpMs` 0 gelir; 0'ı "çok hızlı site" saymak yerine
+  // rapor bu alanı okuyup kalemi hesaplanmamış gösterir. `default` eski
+  // kayıtları bozmaz: 0005 öncesi yazılmış raporlar `measured` sayılır.
+  dataQuality: z.object({
+    speed: z.enum(["measured", "missing"]).default("measured"),
+  }).default({ speed: "measured" }),
 });
 export type FinancialProjection = z.infer<typeof FinancialProjectionSchema>;
 

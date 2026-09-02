@@ -38,10 +38,10 @@ describe("TOOLS içerik bütünlüğü", () => {
 });
 
 describe("TOOLS SSS bütünlüğü", () => {
-  it("her araç tam 6 SSS taşır", () => {
-    // Brief: 6 soru. Alt yüzey olarak çalışması için sabit sayı; ne az ne fazla.
+  it("her araç en az 6 SSS taşır", () => {
+    // Brief: en az 6 soru. Alt yüzey olarak çalışması için taban sayı.
     for (const t of TOOLS) {
-      expect(t.faq.length, t.slug.tr).toBe(6);
+      expect(t.faq.length, t.slug.tr).toBeGreaterThanOrEqual(6);
     }
   });
 

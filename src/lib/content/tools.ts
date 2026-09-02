@@ -1,4 +1,4 @@
-import type { GeoCheckId } from "@/lib/tools/geo/types";
+import type { GeoBand, GeoCheckId } from "@/lib/tools/geo/types";
 import type { Localized } from "./types";
 
 /**
@@ -48,13 +48,19 @@ export type ToolContent = {
   name: Localized<string>;
   /** Başlık üstü etiket — iddia (`.eyebrow` primitive). */
   eyebrow: Localized<string>;
-  /** Hero girişi — iki cümle, orta ton. */
+  /** Hero girişi — TEK cümle. */
   lede: Localized<string>;
+  /** Bant başına tek cümle — skor kartında sayının yanında. İçerik katmanı konuşur, motor değil. */
+  bands: Record<GeoBand, Localized<string>>;
+  /** Kanıt şeridi — hero'da 4 kısa öğe (mono, büyük harf). */
+  proof: Array<Localized<string>>;
+  /** Giriş çubuğunun altındaki yardım satırı — kapsam uyarısı. */
+  inputHelp: Localized<string>;
   /** "Nasıl çalışır" — tam 3 adım. */
   steps: ToolStep[];
   /** Ölçülen 5 sinyalin tanıtımı — motorun kontrol kalemleriyle hizalı. */
   signals: ToolSignal[];
-  /** Sayfada açık metin, JSON-LD'de `FAQPage` — tam 6 soru. */
+  /** Sayfada açık metin, JSON-LD'de `FAQPage` — en az 6 soru. */
   faq: ToolFaq[];
   /**
    * Arama yüzeyi — sayfada görünen `name`den ayrı. `title` ≤50 karakter
@@ -87,8 +93,36 @@ export const TOOLS: ToolContent[] = [
       en: "The first Turkish GEO audit tool",
     },
     lede: {
-      tr: "Sitenizin adresini girin; cevap motorlarının markanızı okuyup okuyamadığını beş sinyalde ölçelim. Denetim yalnızca girdiğiniz URL içindir — farklı bir sayfa için yeniden çalıştırmanız gerekir. Sonuç 100 üzerinden bir puandır ve her sinyalde ne düzeltebileceğinizi gösterir.",
-      en: "Enter your site's address and we measure, across five signals, whether answer engines can read your brand. The audit covers only the URL you enter — run it again for a different page. The result is a score out of 100 that shows what you can fix in every signal.",
+      tr: "GEO denetimi, cevap motorlarının sitenizi okuyup okuyamadığını beş sinyalde ölçer ve her sinyalde ne düzelteceğinizi söyler.",
+      en: "The GEO audit measures, across five signals, whether answer engines can read your site, and tells you what to fix in each one.",
+    },
+    bands: {
+      zayif: {
+        tr: "Cevap motorları sitenizi büyük ölçüde göremiyor.",
+        en: "Answer engines can barely see your site.",
+      },
+      "gelismeye-acik": {
+        tr: "Cevap motorları sitenizi okuyor ama alıntılayacak yapı bulamıyor.",
+        en: "Answer engines read your site but find little structure to quote.",
+      },
+      iyi: {
+        tr: "Temel yapı yerinde; birkaç sinyal sizi öne geçirir.",
+        en: "The foundations are in place; a few signals would put you ahead.",
+      },
+      oncu: {
+        tr: "Cevap motorları için örnek bir yapı.",
+        en: "A model structure for answer engines.",
+      },
+    },
+    proof: [
+      { tr: "5 sinyal", en: "5 signals" },
+      { tr: "100 puan", en: "100 points" },
+      { tr: "Saniyeler içinde", en: "Within seconds" },
+      { tr: "Ücretsiz", en: "Free" },
+    ],
+    inputHelp: {
+      tr: "Denetim yalnız girdiğiniz sayfa içindir; başka bir sayfa için yeniden çalıştırın.",
+      en: "The audit covers only the page you enter; run it again for another page.",
     },
     steps: [
       {
@@ -219,6 +253,16 @@ export const TOOLS: ToolContent[] = [
         answer: {
           tr: "Denetim yalnızca girdiğiniz herkese açık URL'yi getirir; kişisel veri toplamaz. IP adresiniz ham hâliyle saklanmaz, yalnızca kötüye kullanımı sınırlamak için tuzlanmış bir özet olarak tutulur. Tarama sonucu, sonucu tekrar açabilmeniz için kimliğiyle birlikte veritabanımızda durur. KVKK kapsamındaki haklarınız ve saklama süreleri için gizlilik metnimize bakabilirsiniz.",
           en: "The audit only fetches the public URL you enter and collects no personal data. Your IP address is never stored in raw form; we keep only a salted hash of it to limit abuse. The scan result is saved in our database with its identifier so you can reopen it later. For your rights under KVKK and our retention periods, please see our privacy notice.",
+        },
+      },
+      {
+        question: {
+          tr: "Türkiye'nin ilk GEO denetim aracı mı?",
+          en: "Is this the first Turkish GEO audit tool?",
+        },
+        answer: {
+          tr: "Eylül 2026 itibarıyla Türkçe pazarda benzer kapsamda kamuya açık bir GEO denetim aracı tespit etmedik; iddia bu tarihle sınırlıdır ve yeni bir araç çıktığında güncellenir. Araç, INDOLES'in kendi sitesinde uyguladığı GEO pratiğinin ölçülebilir hâlidir: llms txt kontrolü, robots.txt izinleri, yapısal veri ve soru başlıkları aynı kurallarla puanlanır.",
+          en: "As of September 2026 we found no comparable, publicly available GEO audit tool for the Turkish-language market; the claim is tied to that date and will be updated if a new tool appears. The tool is the measurable form of the GEO practice INDOLES applies on its own site: the llms.txt check, robots.txt permissions, structured data and question headings are scored by the same rules.",
         },
       },
     ],

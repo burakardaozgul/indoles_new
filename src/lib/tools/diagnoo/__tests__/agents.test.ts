@@ -43,6 +43,45 @@ describe("analyzeVision", () => {
     expect(vi.mocked(geminiJson).mock.calls[0]![1].imagesBase64?.length).toBe(1);
     vi.unstubAllGlobals();
   });
+  it("content-length 1,5 MB üstündeyse görsel indirilmeden atlanır", async () => {
+    // Sınırsız görsel, adım bütçesini (bellek + CPU) aşabilir; metin yolu
+    // zaten var, atlanan görsel analizi durdurmaz (I5).
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(
+      new Response(new Uint8Array([1, 2, 3]), { headers: { "content-length": "2000000" } }),
+    ));
+    vi.mocked(geminiJson).mockResolvedValue({
+      cognitiveLoadScore: 0.5, ctaVisibilityScore: 0.5,
+      mobileIssues: [], desktopIssues: [], aboveFoldAssessment: "metin bazlı",
+    } as never);
+    await analyzeVision(env, [mkPage({ screenshotUrl: "https://cdn/buyuk.png" })], "tr");
+    expect(vi.mocked(geminiJson).mock.calls[0]![1].imagesBase64).toEqual([]);
+    vi.unstubAllGlobals();
+  });
+
+  it("content-length yoksa gövde boyutu ölçülür ve büyük görsel atlanır", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(new Uint8Array(1_600_000))));
+    vi.mocked(geminiJson).mockResolvedValue({
+      cognitiveLoadScore: 0.5, ctaVisibilityScore: 0.5,
+      mobileIssues: [], desktopIssues: [], aboveFoldAssessment: "metin bazlı",
+    } as never);
+    await analyzeVision(env, [mkPage({ screenshotUrl: "https://cdn/buyuk.png" })], "tr");
+    expect(vi.mocked(geminiJson).mock.calls[0]![1].imagesBase64).toEqual([]);
+    vi.unstubAllGlobals();
+  });
+
+  it("sınırın altındaki görsel geçer", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(
+      new Response(new Uint8Array(1000), { headers: { "content-length": "1000" } }),
+    ));
+    vi.mocked(geminiJson).mockResolvedValue({
+      cognitiveLoadScore: 0.3, ctaVisibilityScore: 0.8,
+      mobileIssues: [], desktopIssues: [], aboveFoldAssessment: "ok",
+    } as never);
+    await analyzeVision(env, [mkPage({ screenshotUrl: "https://cdn/kucuk.png" })], "tr");
+    expect(vi.mocked(geminiJson).mock.calls[0]![1].imagesBase64?.length).toBe(1);
+    vi.unstubAllGlobals();
+  });
+
   it("screenshot yoksa görselsiz devam eder", async () => {
     vi.mocked(geminiJson).mockResolvedValue({
       cognitiveLoadScore: 0.5, ctaVisibilityScore: 0.5,

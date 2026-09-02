@@ -2,12 +2,26 @@ import { VisionResultSchema, type ScrapedPage, type VisionResult } from "../sche
 import { geminiJson } from "../services/gemini";
 import type { DiagnooEnv } from "../services/firecrawl";
 
+/**
+ * Ekran görüntüsü üst sınırı (~1,5 MB). Üçüncü tarafın döndürdüğü görsel
+ * boyutsuz güvenilir değil: sınırsız bir gövdeyi base64'e çevirmek hem adımın
+ * bellek bütçesini hem `btoa` maliyetiyle CPU bütçesini aşabilir. Sınırı aşan
+ * görsel ATLANIR, analiz durmaz — `analyzeVision` görselsiz metin yoluna
+ * zaten düşebiliyor.
+ */
+const MAX_SCREENSHOT_BYTES = 1_500_000;
+
 async function toBase64(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
+    // Sunucu boyutu ilan ediyorsa gövde hiç okunmadan elenir.
+    const declared = Number(res.headers.get("content-length"));
+    if (Number.isFinite(declared) && declared > MAX_SCREENSHOT_BYTES) return null;
     // Native latin1 decode + btoa: karakter döngüsü ücretsiz plan adım CPU bütçesini (~10 ms) aşar.
     const bytes = new Uint8Array(await res.arrayBuffer());
+    // İlan edilen boyut yoksa ya da yalan söylüyorsa gerçek gövde ölçülür.
+    if (bytes.byteLength > MAX_SCREENSHOT_BYTES) return null;
     return btoa(new TextDecoder("latin1").decode(bytes));
   } catch { return null; }
 }

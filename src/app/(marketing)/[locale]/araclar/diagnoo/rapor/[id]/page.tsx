@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { setRequestLocale } from "next-intl/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { DiagnooReport } from "@/components/tools/diagnoo-report";
 import { DiagnooSnapshot } from "@/components/tools/diagnoo-snapshot";
 import { getToolBySlug } from "@/lib/content/tools";
-import { getDiagnostic, hasLead } from "@/lib/tools/diagnoo/repository";
+import { getDiagnostic, findLeadByToken } from "@/lib/tools/diagnoo/repository";
+import { unlockCookieName } from "@/lib/tools/diagnoo/unlock-cookie";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
 import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
 import { buildMetadata } from "@/lib/seo/metadata";
 import type { Locale } from "@/lib/content/types";
 import type { DiagnosticRow } from "@/lib/tools/diagnoo/repository";
+import type { DiagnooReport as DiagnooReportData } from "@/lib/tools/diagnoo/schema";
 
 /**
  * Diagnoo rapor sayfası — `noindex, follow` + sunucuda D1'den okuma.
@@ -62,20 +65,30 @@ const TOOL_PATH: Record<Locale, string> = {
 type DiagnooDbEnv = { BOOKINGS_DB: D1Database };
 
 /**
- * Kayıt + lead durumu. `generateMetadata` ve sayfa bileşeni bunu AYRI AYRI
- * çağırır; GEO sonuç sayfasındaki gerekçe burada da geçerli: sayfa `noindex`
- * ve yalnız bağlantıyla ziyaret ediliyor, tek satırlık indeksli sorgunun
- * ikinci çağrısı ölçülür bir maliyet değil.
+ * Kayıt + bu ZİYARETÇİNİN kilit durumu. `generateMetadata` ve sayfa bileşeni
+ * bunu AYRI AYRI çağırır; GEO sonuç sayfasındaki gerekçe burada da geçerli:
+ * sayfa `noindex` ve yalnız bağlantıyla ziyaret ediliyor, tek satırlık
+ * indeksli sorgunun ikinci çağrısı ölçülür bir maliyet değil.
+ *
+ * Kapı `hasLead` DEĞİL (C1): bu adres paylaşılabilir ve aynı URL'nin teşhisi
+ * 24 saat yeniden kullanılıyor. Bağlantıyı alan herkese kilidi açmak, lead'in
+ * girdiği ticari verileri yabancılara gösterirdi. Kilit yalnız kilidi açan
+ * tarayıcının `HttpOnly` çerezindeki token'la doğrulanır.
  */
 async function loadDiagnostic(
   id: string,
-): Promise<{ row: DiagnosticRow; unlocked: boolean } | null> {
+): Promise<{ row: DiagnosticRow; report: DiagnooReportData | null; unlocked: boolean } | null> {
   const { env } = getCloudflareContext();
   const db = (env as unknown as DiagnooDbEnv).BOOKINGS_DB;
   const row = await getDiagnostic(db, id);
   if (!row) return null;
-  const unlocked = await hasLead(db, id);
-  return { row, unlocked };
+
+  const token = (await cookies()).get(unlockCookieName(id))?.value ?? "";
+  const lead = token ? await findLeadByToken(db, id, token) : null;
+  // Ziyaretçi kendi metriklerini girdiyse kendi hesabını görür; yoksa temel
+  // rapor. Paylaşılan teşhis satırı hiçbir ziyaretçinin verisini taşımaz.
+  const report = lead ? (lead.recomputedReport ?? row.report) : row.report;
+  return { row, report, unlocked: lead !== null };
 }
 
 const COPY = {
@@ -113,7 +126,7 @@ export async function generateMetadata({
   if (!tool || !loaded) return {};
 
   const base = buildMetadata({
-    title: `${tool.name[loc]} — ${loaded.row.report?.healthScore ?? "…"}/100`,
+    title: `${tool.name[loc]} — ${loaded.report?.healthScore ?? "…"}/100`,
     description: tool.seo.description[loc],
     paths: reportPaths(id),
     locale: loc,
@@ -145,7 +158,7 @@ export default async function DiagnooReportPage({
   const { row, unlocked } = loaded;
   // Rapor yalnız tamamlanmış VE şeması doğrulanmış kayıtta vardır
   // (`repository.toRow` bozuk JSON'da `report`u `null` bırakır).
-  const report = row.status === "completed" ? row.report : null;
+  const report = row.status === "completed" ? loaded.report : null;
 
   return (
     <>

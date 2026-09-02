@@ -6,12 +6,23 @@
  * (`kvkkConsent: z.literal(true)` — GEO'daki `geoReportSchema` ile AYNI KVKK
  * kapı mantığı, bkz. o şemanın yorumu) → ip → Turnstile (koşulsuz) →
  * `TOOL_IP_SALT` fail-closed → `hashClientIp` → `getDiagnostic` (yok → 404;
- * tamamlanmamış/rapor yok → 409 not-ready) → `createLead` (aynı teşhis için
- * ikinci çağrı `UNIQUE` ihlaliyle "duplicate" döner — unlock İDEMPOTENT,
- * hata değil, akış aynen devam eder) → `knownMetrics` verilmişse
- * `recomputeWithKnownMetrics` + `saveReport` (gerçek veriyle finansal
- * projeksiyon yeniden hesaplanır ve kalıcılaşır) → satış lead bildirimi →
- * 200 `{ report }`.
+ * tamamlanmamış/rapor yok → 409 not-ready) → `createLead` (aynı teşhis +
+ * aynı e-posta için ikinci çağrı `UNIQUE` ihlaliyle "duplicate" döner —
+ * unlock İDEMPOTENT, hata değil) → yeni lead ise `knownMetrics` verilmişse
+ * `recomputeWithKnownMetrics` + `saveLeadRecompute` + satış lead bildirimi →
+ * kilit çerezi → 200 `{ report }`.
+ *
+ * KİLİT ZİYARETÇİYE BAĞLIDIR, TEŞHİSE DEĞİL (C1). Teşhis satırı aynı URL için
+ * 24 saat boyunca yeniden kullanılıyor; kilit teşhis bazlı kalsaydı A'nın
+ * açtığı rapor B'ye de açılırdı. Bu yüzden: (1) her lead kendi
+ * `unlock_token`ını alır ve token yalnız `HttpOnly` çerezde taşınır,
+ * (2) yeniden hesaplanan rapor PAYLAŞILAN `report_json`a değil lead satırına
+ * yazılır — `saveReport` bu rotada artık hiç çağrılmaz.
+ *
+ * DUPLICATE E-POSTA: mail gönderilmez, recompute yapılmaz; lead satırına
+ * yalnız yeni bir token yazılır ve çerez set edilir (aynı kişi ikinci
+ * tarayıcıdan gelmiş olabilir — kilidini kaybetmemeli). Varsayım açık ve
+ * kabul edilmiş bir karardır: aynı e-posta aynı kişidir.
  *
  * MAIL DAVRANIŞI GEO'DAN BİLİNÇLİ FARKLI (spec §10): GEO'da (`geo-report`)
  * satış bildirimi lead'in kendisidir, düşerse 500. Burada tam rapor zaten
@@ -25,8 +36,14 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { diagnooUnlockSchema } from "@/lib/schemas/tools";
 import { verifyTurnstile } from "@/lib/security/turnstile";
 import { hashClientIp } from "@/lib/tools/shared/ip-hash";
-import { getDiagnostic, createLead, saveReport } from "@/lib/tools/diagnoo/repository";
+import {
+  getDiagnostic,
+  createLead,
+  saveLeadRecompute,
+  setLeadUnlockToken,
+} from "@/lib/tools/diagnoo/repository";
 import { recomputeWithKnownMetrics } from "@/lib/tools/diagnoo/report";
+import { UNLOCK_COOKIE_MAX_AGE, unlockCookieName } from "@/lib/tools/diagnoo/unlock-cookie";
 import { sendMailWithRetry, recipients } from "@/lib/mail/client";
 import { reportError } from "@/lib/observability/report";
 import DiagnooLeadNotification from "../../../../../emails/DiagnooLeadNotification";
@@ -93,18 +110,24 @@ export async function POST(req: Request): Promise<Response> {
     return errorResponse("not-ready", 409);
   }
 
+  // Kilit token'ı: yalnız çerezde taşınır, yanıt gövdesine ve URL'ye girmez.
+  const unlockToken = crypto.randomUUID();
+  const leadId = crypto.randomUUID();
+
+  let created: { ok: true } | { ok: false; reason: "duplicate" };
   try {
     // `createLead` "UNIQUE" ihlalini kendi içinde `{ok:false, reason:"duplicate"}`
     // olarak yakalar (repository.ts) — unlock idempotent olmalı (spec §10),
-    // ikinci çağrı hata sayılmaz, akış aynen devam eder.
-    await createLead(db, {
-      id: crypto.randomUUID(),
+    // ikinci çağrı hata sayılmaz.
+    created = await createLead(db, {
+      id: leadId,
       diagnosticId: data.diagnosticId,
       email: data.email,
       company: data.company,
       fullName: data.fullName ?? null,
       knownMetrics: data.knownMetrics ?? null,
       clientIpHash: ipHash,
+      unlockToken,
     });
   } catch (err) {
     reportError(err, { route: "tools/diagnoo-unlock", step: "create-lead" });
@@ -112,37 +135,65 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   let report = row.report;
-  if (data.knownMetrics) {
-    report = recomputeWithKnownMetrics(report, data.knownMetrics);
+
+  if (created.ok) {
+    if (data.knownMetrics) {
+      report = recomputeWithKnownMetrics(report, data.knownMetrics);
+      try {
+        // Ziyaretçiye özel rapor LEAD satırına yazılır; paylaşılan teşhis
+        // satırına yazmak aynı teşhisi gören herkese bu kişinin trafik,
+        // sepet, dönüşüm ve reklam bütçesi rakamlarını gösterirdi (C1).
+        await saveLeadRecompute(db, leadId, report);
+      } catch (err) {
+        reportError(err, { route: "tools/diagnoo-unlock", step: "save-lead-recompute" });
+        return errorResponse("misconfigured", 500);
+      }
+    }
+
+    // Satış lead bildirimi — spec §10: hata cevabı ENGELLEMEZ. Ziyaretçi kilidi
+    // zaten açılmış raporunu görmeli, satış maili ikincil bir yan etkidir.
+    // Yalnız YENİ lead'de gönderilir: tekrarlanan unlock satış kutusunu
+    // aynı kişiyle doldurmamalı.
     try {
-      await saveReport(db, data.diagnosticId, report);
+      await sendMailWithRetry({
+        to: recipients(process.env.SALES_INBOX_EMAIL, "digital@indoles.com.tr"),
+        subject: `Diagnoo lead — ${data.company} — ${report.healthScore}/100`,
+        react: DiagnooLeadNotification({
+          email: data.email,
+          company: data.company,
+          fullName: data.fullName ?? null,
+          url: report.url,
+          healthScore: report.healthScore,
+          totalRecoverable: report.financial.totalRecoverable,
+          hasRealMetrics: Boolean(data.knownMetrics),
+          reportPath: reportPath(data.diagnosticId),
+        }),
+      });
     } catch (err) {
-      reportError(err, { route: "tools/diagnoo-unlock", step: "save-report" });
+      reportError(err, { route: "tools/diagnoo-unlock", step: "mail" });
+      console.error("[api/tools/diagnoo-unlock] mail_failed:", err);
+    }
+  } else {
+    // Duplicate: satır zaten var, yalnız kilit token'ı tazelenir. Kişinin
+    // daha önce girdiği metriklerle hesaplanmış raporu varsa o döner —
+    // ikinci ziyaret birincisiyle aynı ekranı görmeli.
+    let existing: Awaited<ReturnType<typeof setLeadUnlockToken>>;
+    try {
+      existing = await setLeadUnlockToken(db, data.diagnosticId, data.email, unlockToken);
+    } catch (err) {
+      reportError(err, { route: "tools/diagnoo-unlock", step: "refresh-token" });
       return errorResponse("misconfigured", 500);
     }
+    if (existing?.recomputedReport) report = existing.recomputedReport;
   }
 
-  // Satış lead bildirimi — spec §10: hata cevabı ENGELLEMEZ. Ziyaretçi kilidi
-  // zaten açılmış raporunu görmeli, satış maili ikincil bir yan etkidir.
-  try {
-    await sendMailWithRetry({
-      to: recipients(process.env.SALES_INBOX_EMAIL, "digital@indoles.com.tr"),
-      subject: `Diagnoo lead — ${data.company} — ${report.healthScore}/100`,
-      react: DiagnooLeadNotification({
-        email: data.email,
-        company: data.company,
-        fullName: data.fullName ?? null,
-        url: report.url,
-        healthScore: report.healthScore,
-        totalRecoverable: report.financial.totalRecoverable,
-        hasRealMetrics: Boolean(data.knownMetrics),
-        reportPath: reportPath(data.diagnosticId),
-      }),
-    });
-  } catch (err) {
-    reportError(err, { route: "tools/diagnoo-unlock", step: "mail" });
-    console.error("[api/tools/diagnoo-unlock] mail_failed:", err);
-  }
-
-  return NextResponse.json({ report }, { status: 200 });
+  const res = NextResponse.json({ report }, { status: 200 });
+  res.cookies.set(unlockCookieName(data.diagnosticId), unlockToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: UNLOCK_COOKIE_MAX_AGE,
+  });
+  return res;
 }

@@ -77,27 +77,107 @@ export async function getDiagnostic(db: D1Database, id: string): Promise<Diagnos
 export async function createLead(
   db: D1Database,
   input: { id: string; diagnosticId: string; email: string; company: string; fullName: string | null;
-    knownMetrics: KnownMetrics | null; clientIpHash: string },
+    knownMetrics: KnownMetrics | null; clientIpHash: string; unlockToken: string },
 ): Promise<{ ok: true } | { ok: false; reason: "duplicate" }> {
   try {
     await db.prepare(
-      `INSERT INTO diagnoo_leads (id, diagnostic_id, email, company, full_name, kvkk_consent, known_metrics_json, client_ip_hash)
-       VALUES (?, ?, ?, ?, ?, 1, ?, ?)`,
+      `INSERT INTO diagnoo_leads (id, diagnostic_id, email, company, full_name, kvkk_consent, known_metrics_json, client_ip_hash, unlock_token)
+       VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)`,
     ).bind(
-      input.id, input.diagnosticId, input.email.trim().toLowerCase(), input.company,
-      input.fullName, input.knownMetrics ? JSON.stringify(input.knownMetrics) : null, input.clientIpHash,
+      input.id, input.diagnosticId, normalizeEmail(input.email), input.company,
+      input.fullName, input.knownMetrics ? JSON.stringify(input.knownMetrics) : null,
+      input.clientIpHash, input.unlockToken,
     ).run();
     return { ok: true };
   } catch (err) {
+    // 0005 sonrası benzersizlik (diagnostic_id, email) çifti: aynı e-posta
+    // ikinci kez gelirse duplicate, başka bir ziyaretçi kendi satırını alır.
     if (String(err).includes("UNIQUE")) return { ok: false, reason: "duplicate" };
     throw err;
   }
+}
+
+/** E-posta kimliği tek biçimde saklanır — benzersizlik kısıtı ancak böyle tutar. */
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
+/** Lead satırının kilit görünümü: kim olduğu ve varsa kendine özel raporu. */
+export type LeadUnlock = {
+  id: string;
+  email: string;
+  recomputedReport: DiagnooReport | null;
+};
+
+function toLeadUnlock(r: { id: string; email: string; recomputed_report_json: string | null }): LeadUnlock {
+  let recomputedReport: DiagnooReport | null = null;
+  if (r.recomputed_report_json) {
+    const parsed = DiagnooReportSchema.safeParse(JSON.parse(r.recomputed_report_json));
+    recomputedReport = parsed.success ? parsed.data : null;
+  }
+  return { id: r.id, email: r.email, recomputedReport };
+}
+
+/**
+ * Kilidin TEK doğrulama noktası: ziyaretçinin çerezindeki token bu teşhisin
+ * bir lead satırına aitse kilit açıktır. `hasLead` (teşhis bazlı) kapı olarak
+ * KULLANILMAZ — bir ziyaretçinin açtığı kilit diğerine geçmemeli (C1).
+ * Boş token hiçbir satırla eşleşmemeli: 0005 öncesi satırlarda `unlock_token`
+ * NULL, `= ''` karşılaştırması onları da tutmaz ama erken dönüş daha açık.
+ */
+export async function findLeadByToken(
+  db: D1Database, diagnosticId: string, token: string,
+): Promise<LeadUnlock | null> {
+  if (!token) return null;
+  const row = await db.prepare(
+    `SELECT id, email, recomputed_report_json FROM diagnoo_leads
+     WHERE diagnostic_id = ? AND unlock_token = ? LIMIT 1`,
+  ).bind(diagnosticId, token).first();
+  return row ? toLeadUnlock(row as { id: string; email: string; recomputed_report_json: string | null }) : null;
+}
+
+/**
+ * Ziyaretçinin kendi metrikleriyle yeniden hesaplanan rapor LEAD satırına
+ * yazılır. Paylaşılan `diagnoo_diagnostics.report_json`a yazmak, aynı teşhisi
+ * gören diğer ziyaretçilere bu kişinin ticari verilerini gösterirdi.
+ */
+export async function saveLeadRecompute(
+  db: D1Database, leadId: string, report: DiagnooReport,
+): Promise<void> {
+  await db.prepare("UPDATE diagnoo_leads SET recomputed_report_json = ? WHERE id = ?")
+    .bind(JSON.stringify(report), leadId).run();
+}
+
+/**
+ * Aynı e-postayla ikinci kez gelen ziyaretçi için yeni bir kilit token'ı yazar.
+ * Mevcut token sunucuda okunup geri verilebilirdi ama gerek yok: token tek
+ * kullanımlık bir kilit değil, ziyaretçiyi tanıyan bir anahtar — yenisini
+ * yazmak eski çerezi geçersiz kılar ve akış idempotent kalır.
+ */
+export async function setLeadUnlockToken(
+  db: D1Database, diagnosticId: string, email: string, token: string,
+): Promise<LeadUnlock | null> {
+  const normalized = normalizeEmail(email);
+  await db.prepare(
+    "UPDATE diagnoo_leads SET unlock_token = ? WHERE diagnostic_id = ? AND email = ?",
+  ).bind(token, diagnosticId, normalized).run();
+  return findLeadByToken(db, diagnosticId, token);
 }
 
 export async function hasLead(db: D1Database, diagnosticId: string): Promise<boolean> {
   const row = await db.prepare("SELECT id FROM diagnoo_leads WHERE diagnostic_id = ? LIMIT 1")
     .bind(diagnosticId).first();
   return row != null;
+}
+
+/** Unlock rotasının saatlik IP limiti (GEO `countLeadsSince` paritesi). */
+export async function countLeadsSince(
+  db: D1Database, ipHash: string, sinceIso: string,
+): Promise<number> {
+  const row = (await db.prepare(
+    "SELECT COUNT(*) AS n FROM diagnoo_leads WHERE client_ip_hash = ? AND created_at >= ?",
+  ).bind(ipHash, sinceIso).first()) as { n: number } | null;
+  return row?.n ?? 0;
 }
 
 export async function countDiagnosticsSince(

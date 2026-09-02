@@ -215,7 +215,10 @@ export function DiagnooTool({
         />
       ) : null}
 
-      {/* Kilit zaten açık (aynı tarayıcıdan ikinci ziyaret, `leadCaptured`). */}
+      {/* Kilit zaten açık: durum uç noktası tam raporu YALNIZ bu tarayıcının
+          kilit çerezi lead'e eşleşirse döndürür (`leadCaptured`). Varsayım
+          istemcide değil sunucuda doğrulanıyor — başka bir ziyaretçinin aynı
+          teşhis için açtığı kilit buraya düşmez. */}
       {phase === "unlocked" && status.report ? (
         <DiagnooReport report={status.report} locale={locale} />
       ) : null}

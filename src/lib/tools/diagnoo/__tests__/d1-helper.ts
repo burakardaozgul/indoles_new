@@ -22,5 +22,8 @@ export function freshDiagnooDb(): D1Database {
   const raw = new Database(":memory:");
   raw.exec(readFileSync("migrations/0003_tool_scans.sql", "utf8"));
   raw.exec(readFileSync("migrations/0004_diagnoo.sql", "utf8"));
+  // 0005 kilidi ziyaretçiye bağlar (unlock_token, lead bazlı recompute) —
+  // rota testleri kilit izolasyonunu ancak bu şemayla doğrulayabilir.
+  raw.exec(readFileSync("migrations/0005_diagnoo_lead_scope.sql", "utf8"));
   return d1(raw);
 }

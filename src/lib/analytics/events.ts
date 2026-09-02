@@ -9,6 +9,8 @@ export type Persona = "industrial" | "commerce" | "unknown";
 export type Pillar = "growth" | "transform" | "build";
 export type Budget = "small" | "medium" | "large";
 export type Timeline = "urgent" | "normal" | "flexible";
+export type HealthScoreBucket = "0-25" | "26-50" | "51-75" | "76-100";
+export type ToolBand = GeoBand | HealthScoreBucket;
 
 /**
  * Görüşme CTA'sının basıldığı yüzey.
@@ -30,7 +32,9 @@ export type BookingCtaSource =
   | "package-detail"
   | "consultant-detail"
   // GEO araç raporunun kilidi açıldığında görünen görüşme CTA'sı (Görev 12).
-  | "tool-geo-report";
+  | "tool-geo-report"
+  // Diagnoo araç raporunun kilidi açıldığında görünen görüşme CTA'sı (Görev 13).
+  | "tool-diagnoo-report";
 
 /** SSS bloğunun bulunduğu sayfa tipi. */
 export type FaqSurface =
@@ -49,6 +53,17 @@ export const EVENT_PARAM_MAX = 100;
 
 export function truncateParam(value: string): string {
   return value.length <= EVENT_PARAM_MAX ? value : value.slice(0, EVENT_PARAM_MAX);
+}
+
+/**
+ * Sağlık skorunu dört bandın birine kategorize eder.
+ * Kovaların sınırları: 0–25, 26–50, 51–75, 76–100.
+ */
+export function healthScoreBucket(score: number): HealthScoreBucket {
+  if (score <= 25) return "0-25";
+  if (score <= 50) return "26-50";
+  if (score <= 75) return "51-75";
+  return "76-100";
 }
 
 /**
@@ -71,6 +86,8 @@ export const EVENT_NAMES = [
   "tool_used",
   "tool_scan_completed",
   "tool_report_requested",
+  "tool_roadmap_item_expanded",
+  "tool_service_cta_clicked",
 ] as const;
 
 export type EventName = (typeof EVENT_NAMES)[number];
@@ -151,18 +168,37 @@ export type AnalyticsEvent =
       /**
        * Tarama başarıyla tamamlanıp skor döndüğünde atılır — `band` huninin
        * kalite dağılımını okumayı sağlar (çoğu tarama hangi bantta bitiyor).
+       * `band` ToolBand tipinde olabilir — GEO için GeoBand, Diagnoo için HealthScoreBucket.
        */
       name: "tool_scan_completed";
-      properties: { slug: string; band: GeoBand; locale: "tr" | "en" };
+      properties: { slug: string; band: ToolBand; locale: "tr" | "en" };
     }
   | {
       /**
        * Detaylı rapor isteği (e-posta + KVKK rızası) başarıyla gönderildiğinde
        * atılır — Görev 12'nin rapor formu tüketir. Tip burada tanımlanır
        * (kapalı birleşimin parçası), emisyon Görev 12'de eklenir.
+       * `band` ToolBand tipinde olabilir — GEO için GeoBand, Diagnoo için HealthScoreBucket.
        */
       name: "tool_report_requested";
-      properties: { slug: string; band: GeoBand; locale: "tr" | "en" };
+      properties: { slug: string; band: ToolBand; locale: "tr" | "en" };
+    }
+  | {
+      /**
+       * Yol haritasındaki bir başlık (details öğesi) açıldığında atılır.
+       * Diagnoo raporunda yer alan iyileştirme önerileri başlıklarının
+       * kullanıcı tarafından açılma sıklığını ölçer.
+       */
+      name: "tool_roadmap_item_expanded";
+      properties: { slug: string; category: "speed" | "semantic" | "ux" | "tracking" | "funnel"; locale: "tr" | "en" };
+    }
+  | {
+      /**
+       * Rapor içinde yer alan hizmet önerisine basıldığında atılır.
+       * Hizmet linkinin hangi araçtan hangi hizmet önerisine yol açtığını izler.
+       */
+      name: "tool_service_cta_clicked";
+      properties: { slug: string; target_service: string; locale: "tr" | "en" };
     };
 
 /**

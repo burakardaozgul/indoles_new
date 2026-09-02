@@ -65,6 +65,8 @@ duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
 | `tool_used` | `components/tools/geo-scan-form.tsx` | `slug`, `locale` — tarama başlatıldı (yanıt beklenmeden) |
 | `tool_scan_completed` | `components/tools/geo-scan-form.tsx` | `slug`, `band`, `locale` — tarama skorla tamamlandı |
 | `tool_report_requested` | `components/tools/geo-report-form.tsx` | `slug`, `band`, `locale` — detaylı rapor isteği (e-posta + KVKK rızası) başarıyla gönderildi |
+| `tool_roadmap_item_expanded` | `components/tools/diagnoo-report.tsx` | `slug`, `category`, `locale` — yol haritasındaki bir başlık açıldı |
+| `tool_service_cta_clicked` | `components/tools/diagnoo-report.tsx` | `slug`, `target_service`, `locale` — rapor içi hizmet linki tıklandı |
 
 **İki tasarım kararı:**
 

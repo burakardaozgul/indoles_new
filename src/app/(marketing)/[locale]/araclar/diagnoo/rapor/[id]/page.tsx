@@ -11,6 +11,7 @@ import { getToolBySlug } from "@/lib/content/tools";
 import { getDiagnostic, findLeadByToken } from "@/lib/tools/diagnoo/repository";
 import { unlockCookieName } from "@/lib/tools/diagnoo/unlock-cookie";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
+import { diagnooFailureMessage } from "@/lib/tools/diagnoo/fail-copy";
 import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
 import { buildMetadata } from "@/lib/seo/metadata";
 import type { Locale } from "@/lib/content/types";
@@ -100,7 +101,6 @@ const COPY = {
     lede: "Bu adres için ölçülen mağaza sağlığı. Kendi mağazanız için yeni bir tarama başlatabilirsiniz.",
     ctaLede: "Kendi mağazanızı tarayın:",
     pending: "Tarama sürüyor; sonuç hazır olduğunda sayfayı yenileyin.",
-    failed: "Tarama tamamlanamadı. Adresi kontrol edip yeniden başlatın.",
   },
   en: {
     tools: "Tools",
@@ -110,7 +110,6 @@ const COPY = {
     lede: "The store health measured for this address. You can start a new scan for your own store.",
     ctaLede: "Scan your own store:",
     pending: "The scan is running; refresh the page once the result is ready.",
-    failed: "The scan could not finish. Check the address and start it again.",
   },
 } as const;
 
@@ -185,10 +184,16 @@ export default async function DiagnooReportPage({
               locale={loc}
             />
           )
-        ) : (
-          <p className="typography-body-md text-ink-700">
-            {row.status === "failed" ? c.failed : c.pending}
+        ) : row.status === "failed" ? (
+          // Görev 17.3: SPA (`diagnoo-tool.tsx`) ile AYNI `failReason`
+          // eşlemesi (`fail-copy.ts`, tek kaynak) ve `role="alert"` — bu
+          // sunucu-render satır önceden tek bir genel cümle basıyordu,
+          // `failReason`e hiç bakmıyordu.
+          <p role="alert" className="typography-body-md text-ink-700">
+            {diagnooFailureMessage(row.failReason, loc)}
           </p>
+        ) : (
+          <p className="typography-body-md text-ink-700">{c.pending}</p>
         )}
 
         <div className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-12 flex flex-col items-start gap-4">

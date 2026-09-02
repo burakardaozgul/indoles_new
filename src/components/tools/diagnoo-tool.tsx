@@ -7,6 +7,7 @@ import { DiagnooReport } from "@/components/tools/diagnoo-report";
 import { DiagnooSnapshot } from "@/components/tools/diagnoo-snapshot";
 import { useDiagnooStatus } from "@/components/tools/use-diagnoo-status";
 import { getPathname } from "@/lib/i18n/navigation";
+import { diagnooFailureMessage } from "@/lib/tools/diagnoo/fail-copy";
 import type { ToolContent } from "@/lib/content/tools";
 
 /**
@@ -51,14 +52,6 @@ type Phase = "idle" | "running" | "snapshot" | "unlocked" | "failed";
 
 const COPY = {
   tr: {
-    failedScrape:
-      "Bu adres taranamadı. Site yanıt vermiyor veya taramaya kapalı olabilir; adresi kontrol edip yeniden deneyin.",
-    failedNotFound:
-      "Bu teşhis bulunamadı. Yeni bir tarama başlatabilirsiniz.",
-    failedGeneric:
-      "Tarama tamamlanamadı. Adresi kontrol edip yeniden başlatın.",
-    failedNetwork:
-      "Tarama durumuna ulaşılamıyor. Bağlantınızı kontrol edip sayfayı yenileyin; tarama sunucuda sürüyor olabilir.",
     retry: "Yeni tarama başlat",
     phaseIdle: "yeni tarama",
     phaseRunning: "tarama sürüyor",
@@ -71,12 +64,6 @@ const COPY = {
     liveUnlocked: "Tarama tamamlandı. Rapor açık.",
   },
   en: {
-    failedScrape:
-      "This address could not be fetched. The site may not be responding or may be closed to scanning; check the address and try again.",
-    failedNotFound: "This diagnostic was not found. You can start a new scan.",
-    failedGeneric: "The scan could not finish. Check the address and start it again.",
-    failedNetwork:
-      "The scan status cannot be reached. Check your connection and refresh the page; the scan may still be running on the server.",
     retry: "Start a new scan",
     phaseIdle: "new scan",
     phaseRunning: "scan running",
@@ -115,18 +102,6 @@ const PHASE_LIVE: Record<Phase, Record<"tr" | "en", string>> = {
   unlocked: { tr: COPY.tr.liveUnlocked, en: COPY.en.liveUnlocked },
   failed: { tr: "", en: "" },
 };
-
-/** Dürüst hata metni: sebep neyse o söylenir, genel bir cümleye sarılmaz. */
-function failureMessage(reason: string | null, locale: "tr" | "en"): string {
-  const c = COPY[locale];
-  if (reason === "scrape_failed") return c.failedScrape;
-  if (reason === "not_found") return c.failedNotFound;
-  // `useDiagnooStatus` üç ardışık ağ hatasında yoklamayı bırakıp bu sebebi
-  // yazıyor: tarama başarısız OLMADI, durumunu okuyamıyoruz — "adresi kontrol
-  // edin" demek yanlış yere yönlendirirdi.
-  if (reason === "network_error") return c.failedNetwork;
-  return c.failedGeneric;
-}
 
 export function DiagnooTool({
   locale,
@@ -204,8 +179,14 @@ export function DiagnooTool({
 
       {phase === "failed" ? (
         <div>
+          {/* Görev 17.3: eşleme `fail-copy.ts`te — rapor sayfası (sunucu,
+              D1'den tek anlık görüntü) AYNI kaynaktan okur, kopya tekrarı
+              yok. `network_error` yalnız burada gerçekleşir: `useDiagnooStatus`
+              üç ardışık yoklama hatasında bu sebebi yazar — tarama başarısız
+              OLMADI, durumunu okuyamıyoruz; "adresi kontrol edin" demek
+              yanlış yere yönlendirirdi. */}
           <p role="alert" className="typography-body-md text-ink-700 max-w-prose-editorial">
-            {failureMessage(status.failReason, locale)}
+            {diagnooFailureMessage(status.failReason, locale)}
           </p>
           <button type="button" onClick={onRetry} className="btn btn-primary mt-6">
             {c.retry}

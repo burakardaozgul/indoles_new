@@ -41,4 +41,10 @@ describe("BandScale", () => {
     expect(getByRole("img", { name: "Skor ölçeği" })).toBeInTheDocument();
     expect(getByText(BAND_LABELS.oncu.tr.toLowerCase())).toBeInTheDocument();
   });
+
+  it("score null ise işaretçi çizilmez, hiçbir bölme güçlü renkte değil", () => {
+    const { container } = render(<BandScale score={null} labels={labels} ariaLabel="x" />);
+    expect(container.querySelector('[data-part="marker"]')).toBeNull();
+    expect(container.querySelectorAll("rect[data-band]")[1]?.getAttribute("fill")).toBe(BAND_COLORS["gelismeye-acik"].soft);
+  });
 });

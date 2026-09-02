@@ -10,6 +10,7 @@ import { ARTICLES } from "@/lib/content/articles";
 import { SERVICES } from "@/lib/content/services";
 import { localeHref } from "@/lib/i18n/locale-href";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { toolOgImagePath } from "@/lib/tools/geo/share-meta";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
   breadcrumbLd,
@@ -78,6 +79,7 @@ export async function generateMetadata({
     description: tool.seo.description[loc],
     paths: PATHS,
     locale: loc,
+    image: { url: toolOgImagePath(loc), alt: tool.name[loc] },
   });
 }
 

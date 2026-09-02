@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { GeoTool } from "@/components/tools/geo-tool";
-import { TOOL_UI } from "@/components/tools/copy";
-import { shareTitle } from "@/lib/tools/geo/share-meta";
+import { TOOL_UI, fill } from "@/components/tools/copy";
+import { OG_GEO_ALT, ogImagePath, shareTitle } from "@/lib/tools/geo/share-meta";
 import { getToolBySlug } from "@/lib/content/tools";
 import { getScan } from "@/lib/tools/geo/repository";
 import { stripFindings } from "@/lib/tools/geo/findings";
@@ -104,6 +104,10 @@ export async function generateMetadata({
     description: tool.seo.description[loc],
     paths: resultPaths(id),
     locale: loc,
+    image: {
+      url: ogImagePath(result.totalScore, loc),
+      alt: fill(OG_GEO_ALT[loc], { score: result.totalScore }),
+    },
   });
   return {
     ...base,

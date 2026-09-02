@@ -20,6 +20,7 @@
     "format:check": "prettier --check .",
     "seo:audit": "tsx scripts/seo-audit.ts",
     "seo:indexnow": "tsx scripts/indexnow-ping.ts",
+    "og:geo": "tsx --tsconfig scripts/og/tsconfig.json scripts/generate-og-geo.ts",
     "cf:build": "NEXT_PUBLIC_APP_STAGE=production NEXT_PUBLIC_APP_URL=https://www.indoles.com.tr opennextjs-cloudflare build",
     "cf:preview": "pnpm cf:build && opennextjs-cloudflare preview",
     "cf:deploy": "pnpm cf:build && opennextjs-cloudflare deploy && (pnpm seo:indexnow || echo 'IndexNow ping başarısız — elle: pnpm seo:indexnow')",

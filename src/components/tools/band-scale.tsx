@@ -34,12 +34,13 @@ export function BandScale({
   labels,
   ariaLabel,
 }: {
-  score: number;
+  /** `null` — OG "araç kartı" (`ToolCard`): henüz taranmamış, işaretçi ve aktif bant yok. */
+  score: number | null;
   labels: Record<GeoBand, string>;
   ariaLabel: string;
 }) {
-  const active = bandFor(score);
-  const cx = Math.max(0, Math.min(100, score)) * (VIEW_W / 100);
+  const active = score === null ? null : bandFor(score);
+  const cx = score === null ? 0 : Math.max(0, Math.min(100, score)) * (VIEW_W / 100);
   return (
     <svg
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
@@ -76,15 +77,17 @@ export function BandScale({
           </g>
         );
       })}
-      <circle
-        data-part="marker"
-        cx={cx}
-        cy={TRACK_Y + TRACK_H / 2}
-        r={10}
-        fill={neutral.ink[900]}
-        stroke={neutral.bgPure}
-        strokeWidth={3}
-      />
+      {score !== null ? (
+        <circle
+          data-part="marker"
+          cx={cx}
+          cy={TRACK_Y + TRACK_H / 2}
+          r={10}
+          fill={neutral.ink[900]}
+          stroke={neutral.bgPure}
+          strokeWidth={3}
+        />
+      ) : null}
     </svg>
   );
 }

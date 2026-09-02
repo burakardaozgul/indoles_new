@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { KnownMetricsSchema } from "@/lib/tools/diagnoo/schema";
 
 /**
  * GEO tarama isteği şeması — `POST /api/tools/geo-scan`. Spec §4, Görev 9.
@@ -48,3 +49,49 @@ export const geoReportSchema = z.object({
 });
 
 export type GeoReportPayload = z.infer<typeof geoReportSchema>;
+
+/**
+ * Teşhis başlatma isteği şeması — `POST /api/tools/diagnoo-start`. Spec §9,
+ * Görev 12.
+ *
+ * `url`: GEO'daki gibi yalnız "URL gibi görünüyor mu" — SSRF/erişilebilirlik
+ * kontrolü burada yapılmaz, teşhis pipeline'ının kendi tarama katmanına aittir.
+ *
+ * `turnstileToken`: GEO'daki gibi KOŞULSUZ zorunlu — bu araç da Turnstile'sız
+ * hiç render edilmez.
+ */
+export const diagnooStartSchema = z.object({
+  url: z.string().url().max(2048),
+  locale: z.enum(["tr", "en"]),
+  turnstileToken: z.string().min(1),
+});
+
+export type DiagnooStartPayload = z.infer<typeof diagnooStartSchema>;
+
+/**
+ * Kilit açma (unlock) isteği şeması — `POST /api/tools/diagnoo-unlock`.
+ * Spec §10, Görev 12.
+ *
+ * `diagnosticId`: kilidi açılacak teşhisin kimliği (`crypto.randomUUID`,
+ * diagnoo-start) — `.uuid()` ile biçimi bozuk bir kimlik DB'ye gitmeden 400 olur.
+ *
+ * `kvkkConsent`: `z.literal(true)` — GEO'daki `geoReportSchema` ile AYNI kapı
+ * mantığı: `createLead` veri katmanı rızayı doğrulamaz, rıza burada zorunlu
+ * kılınır; `false`/eksik rıza `safeParse`te düşer, `createLead` HİÇ çağrılmaz.
+ *
+ * `knownMetrics`: opsiyonel — ziyaretçi gerçek metrik girerse finansal projeksiyon
+ * `recomputeWithKnownMetrics` ile yeniden hesaplanır (Görev 10).
+ *
+ * `turnstileToken`: GEO'daki gibi KOŞULSUZ zorunlu.
+ */
+export const diagnooUnlockSchema = z.object({
+  diagnosticId: z.string().uuid(),
+  email: z.string().email(),
+  company: z.string().min(2).max(120),
+  fullName: z.string().max(120).optional(),
+  knownMetrics: KnownMetricsSchema.optional(),
+  kvkkConsent: z.literal(true),
+  turnstileToken: z.string().min(1),
+});
+
+export type DiagnooUnlockPayload = z.infer<typeof diagnooUnlockSchema>;

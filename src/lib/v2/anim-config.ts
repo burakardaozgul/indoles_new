@@ -204,12 +204,11 @@ export const BLOB_TOOL_HERO = {
   /** Merkezî: `.tool-hero` tek sütunlu ve ortalanmış, blob da öyle. */
   x: 0,
   /**
-   * Hafif aşağı (-y = aşağı). Gövdenin en yoğun/en parlak bölgesi h1'in
-   * tepesine değil, lede + giriş kartı hizasına düşsün diye: kart zaten
-   * yarı saydam beyaz (`.v2-surface`), blob'un çekirdeği onun arkasında
-   * buzlu cam gibi okunuyor, başlığın üstüne ise yumuşak üst kenarı geliyor.
+   * Çekirdek giriş çubuğunun arkasında ("camın altındaki küre"); başlık ve
+   * lede yumuşak üst kenarın üstünde. 0.85 ölçümle doğrulanır (Görev 13,
+   * docs/04 §12.10 protokolü).
    */
-  y: -0.12,
+  y: -0.28,
   /**
    * Anasayfa hero'su 0.65 ile başlayıp 1.1'e büyür. 0.78 o aralığın içinde
    * ama tepesinde değil: "anasayfadaki gibi büyük", "anasayfanın kopyası"
@@ -223,19 +222,37 @@ export const BLOB_TOOL_HERO = {
    * ölçülen en düşük kontrast teal-700 eyebrow'da 6.5:1, gövde 10.2:1
    * (AA sınırı 4.5). Ölçüm yöntemi docs/04 §12.10'da.
    */
-  opacity: 0.55,
+  opacity: 0.85,
   /**
    * Dar ekranda okuma kolonu = ekranın tamamı; gövde küçülür ve solar.
    * Ölçek ayrıca `BLOB.mobileScaleFactor` (0.72) ile çarpılır: 0.62 → 0.45,
    * anasayfa mobil hero'sunun (0.65 → 0.47) hemen altında.
    */
-  mobile: { x: 0, y: -0.05, scale: 0.62, opacity: 0.4 },
+  mobile: { x: 0, y: -0.05, scale: 0.62, opacity: 0.55 },
   /**
    * Hero durumundan `BLOB_PAGE` durumuna geçişin süreceği scroll payı
    * (viewport yüksekliğine oran). Bir ekran boyu: kullanıcı ilk bölüme
    * ("Nasıl çalışır") vardığında blob çoktan sessiz eşlikçi olmuştur.
    */
   settleVh: 0.9,
+} as const;
+
+/**
+ * Tarama sahnesi kadansı (spec §4). Satırlar `enterStaggerMs` arayla
+ * "okunuyor"a girer; yanıt gelince `resolveStaggerMs` arayla çözülür; sahne
+ * `morphMs`te skor kartına dönüşür. Yanıt gelmeden hiçbir satır sonuç
+ * göstermez — bu sayılar sahte ilerleme değil, gerçek sonucun ritmidir.
+ * `prefers-reduced-motion`: hepsi 0 sayılır.
+ */
+export const TOOL_SCAN = {
+  enterStaggerMs: 400,
+  resolveStaggerMs: 150,
+  morphMs: 500,
+} as const;
+
+/** Skor sayacı ve sinyal çubuğu dolgusu — aynı sürede biter. */
+export const TOOL_SCORE = {
+  countMs: 800,
 } as const;
 
 /**

@@ -198,6 +198,8 @@ export const shadow = {
   xl: '0 8px 16px rgba(15,28,35,.06), 0 40px 80px -20px rgba(44,85,102,.22), 0 60px 120px -40px rgba(15,28,35,.16)',
   /** İç highlight + hairline + iki ambient katman — kart ve nav için */
   '3d': '0 1px 0 0 rgba(255,255,255,0.8) inset, 0 0 0 1px rgba(44,85,102,0.06), 0 12px 24px -8px rgba(15,28,35,0.12), 0 32px 64px -24px rgba(44,85,102,0.2)',
+  /** Yüzen kontrol (araç giriş çubuğu): kontak + iki ambient katman, kremden ayrılır ama modal gibi kalkmaz */
+  float: '0 1px 2px rgba(15,28,35,.06), 0 12px 32px -8px rgba(15,28,35,.14), 0 24px 56px -16px rgba(44,85,102,.22)',
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -243,6 +245,14 @@ export const containers = {
   popup: '35rem',
   /** Entry popup — booking aşaması, 2 kolon */
   popupWide: '57.5rem',
+  /** Araç sayfası kolonu — ortalı ürün yüzeyi (docs/04 §12.10 araç istisnası) */
+  tool: '760px',
+} as const;
+
+/** Kontrol yükseklikleri — araç giriş çubuğu (docs/04 §12.10) */
+export const controls = {
+  scanBar: '72px',
+  scanBarMobile: '60px',
 } as const;
 
 export const zIndex = {
@@ -271,6 +281,7 @@ export const tokens = {
   duration,
   breakpoints,
   containers,
+  controls,
   zIndex,
 } as const;
 

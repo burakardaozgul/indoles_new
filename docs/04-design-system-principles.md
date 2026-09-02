@@ -249,6 +249,7 @@ Her seviye **en az iki katman** taşır: yakın kontak gölgesi + uzak ambient g
 | `shadow-lg` | Öne çıkan kart, modal |
 | `shadow-xl` | Popup, en üst katman |
 | `shadow-3d` | İç highlight + hairline + iki ambient katman — nav ve hizmet kartı |
+| `shadow-float` | Yüzen kontrol — araç giriş çubuğu; kontak + iki ambient katman, modal kadar kalkmaz |
 
 `shadow-3d` deseni: `inset beyaz highlight` → `0 0 0 1px teal hairline` → `orta mesafe` → `uzak yayılım`. Bu dört katman "basılı kart" hissini üretir; tek katmanlı gölge bunun yerini tutmaz.
 

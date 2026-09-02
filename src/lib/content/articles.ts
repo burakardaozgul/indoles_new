@@ -5942,6 +5942,13 @@ export const ARTICLES: ArticleContent[] = [
           en: "If you'd like to see this structure built, with the numbers attached, [our case pages](/vakalar) are open. Emre's dashboard may not be real; the curve on it very much is.",
         },
       },
+      {
+        type: "p",
+        text: {
+          tr: "Bu beş sinyali kendi sitenizde elle saymak yerine [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) ölçer: robots.txt'teki bot izinlerinden soru biçimli başlık oranına kadar aynı kalemleri tarar ve yüz puanlık bir skorla nereden başlayacağınızı gösterir.",
+          en: "Rather than counting these five signals by hand, the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) scans the same items — from robots.txt bot permissions to the ratio of question-phrased headings — and returns a score out of a hundred that shows where to start.",
+        },
+      },
     ],
     faq: [
       {
@@ -7859,6 +7866,13 @@ export const ARTICLES: ArticleContent[] = [
           en: "At the end of that test you hold a list, and that list is more honest than a content calendar. To restate the thesis: there is no guarantee of appearing in Google AI Overviews, but the probability can be raised systematically — an indexable foundation, paragraphs that survive being cut out, headings written in the customer's sentence, and proof placed inside the text. The whole picture of AI search — ChatGPT, Perplexity and the measurement side — sits in [the canonical GEO guide](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz). This article looked at Google's box alone, because in Turkey that is still the search box your buyer opens most.",
         },
       },
+      {
+        type: "p",
+        text: {
+          tr: "Bu test Google'ın kutusuna bakar. Sayfanızın kendisinin AI botlarına açık olup olmadığını, yapısal veri taşıyıp taşımadığını ve soru biçimli başlık oranını [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) ölçer — beş sinyali saniyeler içinde tarayıp yüz puanlık bir skora çevirir.",
+          en: "That test looks at Google's box. Whether the page itself is open to AI crawlers, carries structured data and uses question-phrased headings is measured by the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) — it scans five signals within seconds and turns them into a score out of a hundred.",
+        },
+      },
     ],
     faq: [
       {
@@ -8357,6 +8371,13 @@ export const ARTICLES: ArticleContent[] = [
         text: {
           tr: "Listeyi çıkardıktan sonra sıradaki iş içeriğin kendisi. [Yapay zeka aramalarında öne çıkma rehberi](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) o kısmı adım adım anlatıyor; kurulmuş hâlinin rakamları da [vaka sayfalarımızda](/vakalar) duruyor.",
           en: "Once the list exists, the next job is the content itself. [Our guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) walks through that part step by step, and the numbers from where it has been built sit on [our case pages](/vakalar).",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu iki dakikalık test yalnız llms.txt'in var olup olmadığını gösterir; [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) aynı dosyayı biçim açısından da okur ve onu AI erişimi, yapısal veri, dil sinyalleri ve soru başlıklarıyla birlikte tek bir skora toplar.",
+          en: "That two-minute test only shows whether llms.txt exists; the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) also reads the file's format and rolls it into one score together with AI access, structured data, language signals and question headings.",
         },
       },
     ],
@@ -10062,6 +10083,256 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "İş geliştirme stüdyosu nedir, reklam ajansı ve yönetim danışmanlığından nerede ayrılır? Kanonik tanım, model karşılaştırması ve iş inşası sahadan iki vakayla.",
         en: "What is a business building studio and how does it differ from an ad agency or a consultancy? A canonical definition, an honest comparison, two field cases.",
+      },
+    },
+  },
+  {
+    // Duyuru yazısı (Görev 15). Aracın kendisi Görev 1-14'te canlıya alındı;
+    // bu yazı yalnızca duyurur — 600-900 kelimelik kısa gövde, docs/03 §6a.1
+    // "rehber ≥1.500 kelime" kuralı iddialı rehber yazılar içindir, duyuru
+    // formatı ondan muaf. Diğer §6a.1 kuralları (soru-H2, SSS bağımsızlığı,
+    // İngiliz imlası) geçerli.
+    slug: {
+      tr: "turkiyenin-ilk-geo-denetim-araci",
+      en: "turkiyes-first-geo-audit-tool",
+    },
+    title: {
+      tr: "Türkiye'nin ilk GEO denetim aracını yayına aldık",
+      en: "We have shipped Turkey's first GEO audit tool",
+    },
+    excerpt: {
+      tr: "GEO iki yıldır konuşuluyor ama ölçülemiyordu. Adresinizi girip beş sinyal üzerinden cevap motorlarının markanızı okuyup okuyamadığını 100 puanlık bir skora toplayan aracı yayına aldık — Eylül 2026 itibarıyla Türkçe tarafta bir benzerini görmedik.",
+      en: "GEO has been discussed for two years but could not be measured. We shipped a tool that enters your address and rolls up, across five signals, whether answer engines can read your brand into a score out of 100 — with no equivalent we could find on the Turkish side.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "GEO iki yıldır konuşuluyor ama ölçülemiyordu. Bir markanın üretken arama sistemlerinde — ChatGPT, Gemini, Perplexity — görünüp görünmediğini anlamanın tek yolu tek tek soru sorup cevapları elle taramaktı; sonuç da o günün, o oturumun fotoğrafıydı. Bugün bu boşluğu kapatan bir araç yayına aldık: [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi). Adresinizi girip beş sinyal üzerinden, cevap motorlarının markanızı okuyup okuyamadığını 100 puanlık tek bir skora topluyor.",
+          en: "GEO has been discussed for two years, yet it could not be measured. The only way to tell whether a brand showed up in generative search systems — ChatGPT, Gemini, Perplexity — was to ask questions one by one and read the answers by hand, and the result was a snapshot of that day, that session. Today we shipped a tool that closes the gap: the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi). You enter your address and, across five signals, it measures whether answer engines can read your brand and rolls it into a single score out of 100.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu ihtiyacı önce kendi sitemizde gördük. Müşterilerine GEO anlatan bir ajans olarak, \"peki bunu nasıl ölçüyorsunuz\" sorusuna her seferinde elle tarama yaparak cevap veriyorduk. Aynı işi tekrarlanabilir, herkese açık bir araca dönüştürmek doğal bir adımdı — hem kendi denetimimizi hızlandırdı hem de aynı soruyu soran herkese bir başlangıç noktası verdi. Aracı, danışmanlıkta kullandığımız aynı beş sinyalli çerçeve üzerine kurduk; yani ölçtüğü şey teoriden değil, sahadaki denetim pratiğimizden geliyor.",
+          en: "We ran into the need on our own site first. As an agency that explains GEO to its clients, we kept answering the question \"and how do you measure that\" by running a manual check every time. Turning the same work into a repeatable, public tool was the natural step — it sped up our own audits and handed a starting point to anyone asking the same question. We built the tool on the same five-signal framework we use in consulting, so what it measures comes from our field audit practice rather than theory.",
+        },
+      },
+      {
+        type: "h2",
+        id: "geo-neden-olculemiyordu",
+        text: {
+          tr: "GEO'yu ölçmek neden bu kadar zordu?",
+          en: "Why was GEO so hard to measure?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GEO'nun zorluğu çıktının değişkenliğinde. Aynı soruyu bir modele iki kez sorduğunuzda iki farklı cevap ve iki farklı kaynak listesi alabilirsiniz; klasik SEO'daki gibi sabit bir sıralama yoktur. Ölçülebilen şey sonuç değil, zemindir: sitenizin o motorlar tarafından okunabilir, ayrıştırılabilir ve alıntılanabilir olup olmadığı. Araç tam bu zemine bakar — cevabın kendisine değil, cevabı mümkün kılan teknik koşullara. Bu yüzden çıktısı bir kehanet değil, bir kontrol listesi; motorun kararını değil, o karara girmenizi sağlayan koşulları raporlar.",
+          en: "The difficulty of GEO lies in the variability of the output. Ask a model the same question twice and you can get two different answers and two different source lists; there is no fixed ranking as in classic SEO. What can be measured is not the outcome but the ground beneath it: whether your site is readable, parseable and quotable by those engines. The tool looks precisely at that ground — not at the answer itself, but at the technical conditions that make the answer possible. That is why its output is a checklist rather than a prophecy; it reports not the engine's decision but the conditions that let you enter it.",
+        },
+      },
+      {
+        type: "h2",
+        id: "hangi-bes-sinyal",
+        text: {
+          tr: "Araç hangi beş sinyali tarıyor?",
+          en: "Which five signals does the tool scan?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beş sinyal, toplam 100 puana bölünüyor. AI erişimi (25 puan) robots.txt'in üretken arama botlarını engelleyip engellemediğini okur; kapalı bir kapı diğer dört sinyali anlamsız kılar. llms.txt (15 puan) sitenin kökünde bir içerik haritası olup olmadığına bakar. Yapısal veri (20 puan) sayfadaki JSON-LD şemasını denetler; modelin \"bunu kim, ne zaman yazdı\" sorusuna cevabı burada durur. Dil sinyalleri (15 puan) html lang etiketini ve hreflang alternatiflerini kontrol eder. Soru başlıkları (25 puan) ise H2'lerinizin kaçının soru biçiminde yazıldığını sayar — üretken arama sistemleri soru-cevap yapısını doğrudan alıntılar. Her sinyal ayrı puanlanır, tek skora ve dört bantlı bir değerlendirmeye dönüşür.",
+          en: "Five signals split a total of 100 points. AI access (25 points) reads whether robots.txt blocks generative search crawlers; a closed door makes the other four signals moot. llms.txt (15 points) checks for a content map at the site root. Structured data (20 points) inspects the JSON-LD schema on the page; this is where a model finds the answer to \"who wrote this, and when\". Language signals (15 points) verify the html lang tag and hreflang alternates. Question headings (25 points) count how many of your H2s are phrased as questions — generative search systems quote question-and-answer structure directly. Each signal is scored separately and rolls up into one score and a four-band rating.",
+        },
+      },
+      {
+        type: "h2",
+        id: "skor-ve-rapor",
+        text: {
+          tr: "Skoru ve raporu nasıl görüyorum?",
+          en: "How do I see the score and the report?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Skoru saniyeler içinde ekranda görüyorsunuz. Her sinyalin arkasındaki bulgular — hangi bot engelli, kaç H2 soru biçiminde, şema hangi tipleri tanımlıyor — ve önerilen düzeltmeler ise e-posta adresinizi bıraktığınızda açılan ayrıntılı raporda. Bu ayrımı bilinçli koyduk: skor herkese açık, aksiyona dönüşen liste bir adım ötede. Rapor bir yapılacaklar listesi gibi okunur; en yüksek etkili değişiklikten başlarsınız.",
+          en: "You see the score on screen within seconds. The findings behind each signal — which crawler is blocked, how many H2s are questions, which types the schema declares — and the suggested fixes open in a detailed report once you leave your email address. We drew that line deliberately: the score is open to everyone, the actionable list sits one step further. The report reads like a to-do list; you start with the highest-impact change.",
+        },
+      },
+      {
+        type: "h2",
+        id: "skor-siralama-garantisi-mi",
+        text: {
+          tr: "Yüksek skor sıralama garantisi mi?",
+          en: "Is a high score a ranking guarantee?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hayır, ve bu ayrımı baştan koymak istiyoruz. Skor bir olasılık göstergesidir, bir sıralama sözü değil. 100 puan almanız bir sonraki gün ChatGPT'nin markanızı anacağını garanti etmez; hiçbir motor kaynak seçimini tek bir dosyaya ya da tek bir etikete bağlamıyor. Aracın ölçtüğü şey, o olasılığı sistematik olarak artıran teknik zemin. İçeriğin kendisi — kanıt, özgün rakam, net cevap — skorun dışında kalır ve asıl işi orası yapar. Skoru bir teşhis olarak okuyun, bir vaat olarak değil.",
+          en: "No, and we want to draw that distinction from the outset. The score is an indicator of probability, not a promise of ranking. Scoring 100 does not guarantee that ChatGPT will name your brand the next day; no engine ties its choice of sources to a single file or a single tag. What the tool measures is the technical ground that raises that probability systematically. The content itself — proof, original figures, a plain answer — sits outside the score and does the real work. Read the score as a diagnosis, not as a pledge.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ilk-iddiasi",
+        text: {
+          tr: "'Türkiye'nin ilki' iddiasını neye dayandırıyoruz?",
+          en: "What backs the 'first in Turkey' claim?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Eylül 2026 itibarıyla, Türkçe arayüzle çalışan ve bir siteyi beş GEO sinyali üzerinden puanlayıp kalem kalem rapor üreten başka bir kamuya açık araç tespit etmedik. İngilizce tarafta birkaç benzeri var; Türkçe içeriği ve robots.txt'teki üretken arama botlarını yerel bağlamıyla okuyan bir denetleyiciye rastlamadık. İddiayı tarih damgasıyla yazıyoruz, çünkü bu tür bir alan hızlı doluyor — bir benzerini gördüğümüz gün bu cümleyi güncelleriz. Ölçtüğümüz şey ilklik değil, faydalı olması.",
+          en: "As of September 2026, we have found no other public tool that works through a Turkish interface and scores a site across five GEO signals with a line-by-line report. A few equivalents exist on the English side; we came across no checker that reads Turkish content and the generative search crawlers in robots.txt in their local context. We write the claim with a date stamp, because a field like this fills up fast — the day we see an equivalent, we will update this sentence. What we measured for is usefulness, not being first.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kimin-isine-yarar",
+        text: {
+          tr: "Bu araç kimin işine yarar?",
+          en: "Who is this tool for?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İhracat yapan, çok dilli bir siteyle çalışan ya da alıcısının markayı ChatGPT'ye sormaya başladığını fark eden herkes. Bir pazarlama yöneticisi için araç, teknik ekibe verilecek somut bir brief üretir; bir kurucu için, rakibinin sitesini de aynı ölçütle tarayıp aradaki farkı on saniyede görme imkânı. Skorun düşük çıkması kötü haber değil, haritanın kendisi — nereden başlanacağını gösterir.",
+          en: "Anyone exporting, running a multilingual site, or noticing that their buyer has started asking ChatGPT about the brand. For a marketing lead the tool produces a concrete brief to hand the technical team; for a founder, the chance to scan a competitor's site by the same measure and see the gap in ten seconds. A low score is not bad news but the map itself — it shows where to start.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tez tek cümle: GEO artık ölçülemeyen bir şey değil. Ölçemediğimiz şeyi yönetemeyiz; bu araç, GEO'yu yönetilebilir bir işe çeviren ilk adım. Bugün yapabileceğiniz test iki dakika sürüyor — [GEO Görünürlük Denetleyicisi'ne](/araclar/geo-gorunurluk-denetleyicisi) sitenizin adresini girin, beş sinyaldeki skorunuzu okuyun ve en düşük puanlı kalemden başlayın. Skorun neden önemli olduğunu ve her sinyalin arkasındaki mantığı [yapay zeka aramalarında öne çıkma rehberinde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) adım adım anlattım.",
+          en: "The thesis in one sentence: GEO is no longer something you cannot measure. We cannot manage what we cannot measure, and this tool is the first step that turns GEO into work you can manage. The test you can run today takes two minutes — enter your site's address into the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi), read your score across the five signals, and start with the lowest-scoring item. Why the score matters, and the logic behind each signal, I walk through step by step in the [guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz).",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "GEO denetim aracı ne yapar?",
+          en: "What does the GEO audit tool do?",
+        },
+        answer: {
+          tr: "GEO Görünürlük Denetleyicisi, girdiğiniz adresi getirir ve cevap motorlarının markanızı okuyup alıntılayabilme derecesini beş sinyal üzerinden puanlar. Sonuç, 100 puanlık tek bir skor ve dört bantlı bir değerlendirmedir; her sinyal ayrı puan taşır. Amaç, üretken arama sistemleri bir cevap üretirken markanızın anılma olasılığını görünür ve artırılabilir kılmaktır.",
+          en: "The GEO Visibility Checker fetches the address you enter and scores, across five signals, how well answer engines can read and cite your brand. The result is a single score out of 100 and a four-band rating, with each signal carrying its own points. The aim is to make the odds of your brand being named by generative search systems visible and improvable.",
+        },
+      },
+      {
+        question: {
+          tr: "Aracı kullanmak ücretli mi?",
+          en: "Is the tool free to use?",
+        },
+        answer: {
+          tr: "Şu an ücretsiz. Skoru ve dört bantlı değerlendirmeyi hiçbir bedel ödemeden ekranda görüyorsunuz; kalem kalem bulguları ve düzeltme önerilerini içeren ayrıntılı rapor için yalnızca bir e-posta adresi bırakmanız yeterli. Araç bir satış kapısı değil, GEO çalışmasına nereden başlanacağını gösteren bir teşhis aracıdır ve herkese açıktır.",
+          en: "For now it is free. You see the score and the four-band rating on screen at no cost; for the detailed report with line-by-line findings and fix suggestions, all you leave is an email address. The tool is not a sales gate but a diagnostic that shows where to start a GEO programme, and it is open to everyone.",
+        },
+      },
+      {
+        question: {
+          tr: "Puanlama beş sinyale nasıl dağılıyor?",
+          en: "How are the points split across the five signals?",
+        },
+        answer: {
+          tr: "Toplam 100 puan beş sinyale ağırlıklı dağılır. AI erişimi ve soru başlıkları en yüksek ağırlığı taşır, çünkü biri motorun sitenize girip giremediğini, diğeri içeriğin doğrudan alıntılanabilir olup olmadığını belirler. Yapısal veri orta ağırlıkta durur; llms.txt ve dil sinyalleri daha düşük ağırlıklıdır ama çok dilli sitelerde farkı açar.",
+          en: "The total of 100 points is spread across five signals by weight. AI access and question headings carry the highest weight, because one decides whether the engine can enter your site at all and the other whether the content is directly quotable. Structured data sits in the middle; llms.txt and language signals weigh less, yet they widen the gap on multilingual sites.",
+        },
+      },
+      {
+        question: {
+          tr: "Rapor için neden e-posta gerekiyor?",
+          en: "Why does the report ask for an email address?",
+        },
+        answer: {
+          tr: "Skor herkese açıktır, ayrıntılı rapor bir adım ötede durur. E-posta adresi istememizin sebebi, kalem kalem bulguları ve düzeltme listesini size ulaştırabilmek ve GEO tarafındaki gelişmeleri isteyen okura iletebilmek. Adres tek bir amaç için kullanılır; skoru görmek için gerekmez, yalnızca ayrıntılı raporu açmak için gerekir.",
+          en: "The score is open to everyone, while the detailed report sits one step further. We ask for an email address so we can deliver the line-by-line findings and the fix list, and share GEO developments with readers who want them. The address serves a single purpose; seeing the score needs none, only opening the detailed report does.",
+        },
+      },
+      {
+        question: {
+          tr: "Araç sitemin hangi sayfasını tarıyor?",
+          en: "Which page of my site does the tool scan?",
+        },
+        answer: {
+          tr: "Araç, girdiğiniz tam adresi tarar — genellikle ana sayfanız veya işaret ettiğiniz belirli bir sayfa. Yanında sitenin kökündeki robots.txt ve llms.txt dosyalarını da getirir, çünkü AI erişimi ve içerik haritası kararları o iki dosyada verilir. Tek bir sayfanın skoru sitenin tamamını temsil etmez; en önemli birkaç sayfayı ayrı ayrı taramak daha doğru bir resim verir.",
+          en: "The tool scans the exact address you enter — usually your home page or a specific page you point it to. Alongside it, the tool fetches robots.txt and llms.txt from the site root, because the AI access and content-map decisions are made in those two files. A single page's score does not represent the whole site; scanning your few most important pages separately gives a truer picture.",
+        },
+      },
+      {
+        question: {
+          tr: "Sonuçlar ne kadar sürede çıkıyor?",
+          en: "How quickly do the results appear?",
+        },
+        answer: {
+          tr: "Tarama saniyeler sürer. Araç sayfanızı, robots.txt'i ve llms.txt'i getirir, beş sinyali işler ve skoru anında ekrana basar; bir rapor için gün beklemezsiniz. Hız, aracın canlı çekim yapmasından gelir — sonuç, o an sitenizin sunduğu HTML üzerinden hesaplanır, dolayısıyla bir değişiklik yaptıktan sonra yeniden tarayıp etkisini hemen görebilirsiniz.",
+          en: "The scan takes seconds. The tool fetches your page, robots.txt and llms.txt, processes the five signals and prints the score on screen at once; you do not wait days for a report. The speed comes from the tool fetching live — the result is computed on the HTML your site serves at that moment, so after a change you can re-scan and see its effect straight away.",
+        },
+      },
+      {
+        question: {
+          tr: "Düşük skor aldıysam ilk adımım ne olmalı?",
+          en: "If my score is low, what is my first step?",
+        },
+        answer: {
+          tr: "Düşük skor, çalışmanın nereden başlayacağını gösteren bir harita. İlk adım, en yüksek ağırlıklı ve en düşük puanlı sinyale bakmak: çoğu sitede bu, robots.txt'te engellenen bir bot ya da hiç soru biçiminde yazılmamış başlıklar oluyor. Rapordaki düzeltme önerilerini bir yapılacaklar listesi gibi okuyun ve en çok puan getirecek değişiklikten başlayın.",
+          en: "A low score is a map that shows where the work should begin. The first step is to look at the signal with the highest weight and the lowest score: on most sites that is a crawler blocked in robots.txt or headings never phrased as questions. Read the fix suggestions in the report as a to-do list and start with the change that earns the most points.",
+        },
+      },
+      {
+        question: {
+          tr: "Araç rakip sitelerde de çalışır mı?",
+          en: "Does the tool work on competitor sites too?",
+        },
+        answer: {
+          tr: "Evet, araç herkese açık her siteyi tarar; kendi sitenizle sınırlı değildir. Rakibinizin adresini girip aynı beş sinyal üzerinden skorunu okuyabilir, aradaki farkı kalem kalem görebilirsiniz. Bu, GEO tarafında nerede önde nerede geride olduğunuzu on saniyede gösteren pratik bir kıyaslama; kıyas noktanızı tahminle değil ölçümle kurarsınız.",
+          en: "Yes, the tool scans any publicly reachable site; it is not limited to your own. Enter a competitor's address and you can read its score across the same five signals and see the gap item by item. That gives you a practical benchmark of where you lead and where you lag on GEO in ten seconds, built on measurement rather than a guess.",
+        },
+      },
+      {
+        question: {
+          tr: "GEO denetimi ile SEO denetimi aynı şey mi?",
+          en: "Are a GEO audit and an SEO audit the same thing?",
+        },
+        answer: {
+          tr: "Hayır, iki denetim farklı sorulara bakar. SEO denetimi sitenin Google sıralamasındaki teknik ve içerik sağlığını ölçer; hız, indekslenebilirlik, backlink, anahtar kelime uyumu. GEO denetimi ise cevap motorlarının içeriği okuyup alıntılayabilme derecesini ölçer; AI erişimi, llms.txt, yapısal veri, dil sinyalleri ve soru başlıkları. İki alan örtüşür ama aynı değildir — iyi bir SEO zemini GEO'yu kolaylaştırır, garanti etmez.",
+          en: "No, the two audits look at different questions. An SEO audit measures a site's technical and content health for Google ranking — speed, indexability, backlinks, keyword fit. A GEO audit measures how well answer engines can read and cite the content — AI access, llms.txt, structured data, language signals and question headings. The two overlap but are not the same; a solid SEO foundation eases GEO without guaranteeing it.",
+        },
+      },
+      {
+        question: {
+          tr: "Skoru ne sıklıkla ölçmeliyim?",
+          en: "How often should I measure the score?",
+        },
+        answer: {
+          tr: "Sabit bir aralık yok, ama GEO'yu tek seferlik bir iş değil bir düzen olarak okumak daha doğru. Sitede yapısal bir değişiklik yaptığınızda — yeni şablon, robots.txt düzenlemesi, içerik mimarisi güncellemesi — yeniden tarayın; ayrıca çeyrekte bir rutin kontrol, motorların ve standartların hızla değiştiği bu alanda skorunuzun sessizce gerilemediğini gösterir.",
+          en: "There is no fixed interval, but it is better to read GEO as a routine rather than a one-off job. Re-scan whenever you make a structural change to the site — a new template, a robots.txt edit, a content-architecture update — and a quarterly routine check, in a field where engines and standards shift fast, shows that your score has not quietly slipped.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "geo",
+    tags: ["geo", "geo-denetim-araci", "uretken-arama", "ai-gorunurluk"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-01",
+    readingMinutes: 5,
+    seo: {
+      title: {
+        tr: "Türkiye'nin ilk GEO denetim aracı yayında",
+        en: "Turkey's first GEO audit tool is live",
+      },
+      description: {
+        tr: "GEO artık ölçülebiliyor. Türkiye'nin ilk GEO denetim aracı sitenizi beş sinyal üzerinden 100 puana topluyor ve her kalemde neyi düzelteceğinizi gösteriyor.",
+        en: "GEO is now measurable. Turkey's first GEO audit tool scores your site across five signals out of 100 and shows what to fix in each one — no ranking promise.",
       },
     },
   },

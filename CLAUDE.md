@@ -136,7 +136,7 @@ Aşağıdaki kalemler projenin kapsamı dışındadır. Gelecekte tekrar gündem
 | Ödeme gateway'i (launch) | Teklifleşme süreci; ADR-009 |
 | AI chatbot (launch) | Agent ROI belirsiz; ADR-007 |
 | Kalıcı DB (launch) | Mail + GA4 yeterli; ADR-010 |
-| İnteraktif teşhis araçları (`/araclar`) | Launch kapsamı dışı; Faz 2 |
+| ~~İnteraktif teşhis araçları (`/araclar`)~~ | **ADR-030 ile açıldı (2026-09):** `/araclar` ailesi canlı — GEO Görünürlük Denetleyicisi, motor Worker-native (Diagnoo modülüne bağımlı değil). Burak onayı 2026-09-01 tasarım onayıyla alındı. |
 | Yazılarda serbest metin arama / ⌘K | Filtre yeterli; ihtiyacı ileride sohbet asistanı karşılayacak (ADR-021) |
 | İkinci marka accent rengi (gold dışında) | Tek accent disiplini; ADR-015 — v2 blob paleti de teal+gold'dan türetilir |
 | WebGL'siz fallback (v2) | Şu an yok; destek oranı sorun olursa ADR ile değerlendirilir |
@@ -163,17 +163,20 @@ indoles-web/
 │   ├── 06 / 07 / 09-*.md              # ARŞİV — uygulanmadı (ADR-010/007/008)
 │   ├── copy/                          # Persona copy taslakları
 │   ├── superpowers/                   # Spec ve plan arşivi
-│   └── decisions/ADR-001…ADR-022      # Karar kayıtları
+│   └── decisions/ADR-001…ADR-030      # Karar kayıtları
 ├── src/
-│   ├── app/(marketing)/[locale]/      # Tüm public sayfalar
+│   ├── app/(marketing)/[locale]/      # Tüm public sayfalar (araclar/ dahil — ADR-030)
 │   ├── app/(v2)/[locale]/v2/          # Yeni tasarım yönü — kendi chrome'u (ADR-016)
-│   ├── app/api/                       # contact · visitor-profile · health
+│   ├── app/api/                       # contact · visitor-profile · health · tools/geo-scan · tools/geo-report
 │   ├── components/analytics/          # track-view (görüntüleme olayı adası)
 │   ├── components/marketing/          # Ana site bölümleri + entry-popup + paylaşılanlar
 │   │                                  # (v1 chrome — layout/ — ADR-017 sonrası silindi)
+│   ├── components/tools/              # GEO araç adası (geo-tool · scan-bar · scan-stage · score-card ·
+│   │                                  #   band-scale · signal-rows · report-gate · findings-list · copy) — ADR-030/031
 │   ├── components/v2/                 # webgl/ · cursor/ · hero/ · sections/
 │   ├── lib/v2/                        # anim-config · use-lenis · use-mouse · içerik
-│   ├── lib/content/                   # pillars · packages · cases · consultants ·
+│   ├── lib/tools/geo/                 # GEO motoru — saf kural fonksiyonları, Worker-native — ADR-030
+│   ├── lib/content/                   # pillars · packages · cases · consultants · tools ·
 │   │                                  # method · industries · company · clients · articles
 │   ├── lib/design/tokens.ts           # Design token'lar
 │   ├── lib/popup/                     # Entry popup domain (persona, problem, cookie)

@@ -5,6 +5,7 @@ import { PILLARS } from "@/lib/content/pillars";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
 import { PACKAGES } from "@/lib/content/packages";
+import { TOOLS } from "@/lib/content/tools";
 import { BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
 import type { CaseStudyContent } from "@/lib/content/types";
 
@@ -34,6 +35,14 @@ const STATIC_ROUTES: Array<{
   },
   {
     path: { tr: "/tr/paketler", en: "/en/packages" },
+    priority: 0.8,
+    changeFrequency: "monthly",
+  },
+  {
+    // Araç indeksi — düşük taahhütlü funnel girişi, paketlerle aynı öncelik.
+    // Sonuç sayfaları (`/araclar/.../sonuc/[id]`) buraya GİRMEZ: kişiye özel
+    // tarama çıktısı, noindex, kanonik bir indekslenebilir yüzey değil.
+    path: { tr: "/tr/araclar", en: "/en/tools" },
     priority: 0.8,
     changeFrequency: "monthly",
   },
@@ -180,6 +189,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
     for (const locale of ["tr", "en"] as const) {
       entries.push(entry(path, locale, 0.7, "monthly"));
+    }
+  }
+
+  // Araç detayları — slug locale başına farklı (`routing.ts`, ADR desenine
+  // uygun). Sonuç sayfaları (`sonuc/[id]`) noindex ve BURAYA GİRMEZ (brief
+  // Görev 13) — kişiye özel tarama çıktısı, tekrar taranabilir kanonik bir
+  // sayfa değil.
+  for (const tool of TOOLS) {
+    const path = {
+      tr: `/tr/araclar/${tool.slug.tr}`,
+      en: `/en/tools/${tool.slug.en}`,
+    };
+    for (const locale of ["tr", "en"] as const) {
+      entries.push(entry(path, locale, 0.8, "monthly"));
     }
   }
 

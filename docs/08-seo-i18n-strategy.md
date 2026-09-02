@@ -22,7 +22,7 @@
 | Robots | `/robots.txt` — production'da allow; preview'da disallow | Preview'larda index edilmesin |
 | llms.txt | Yayınlanacak, curated | AI crawler'lara net içerik haritası |
 | Structured data | JSON-LD: Organization, Service, Article, CaseStudy, BreadcrumbList, FAQPage | Rich results için |
-| Open Graph | Her sayfada custom OG image (dinamik generation) | Sosyal paylaşımda markalı görünüm |
+| Open Graph | Marka kartı statik dosya; GEO araç/paylaşım sayfaları derleme zamanı üretim (§7.2, ADR-031) | Sosyal paylaşımda markalı görünüm, sıfır çalışma zamanı maliyeti |
 
 ---
 
@@ -239,9 +239,14 @@ Hem TR hem EN sürüm (`/tr/llms.txt`, `/en/llms.txt`) yayınlanır; root `/llms
 <meta name="twitter:site" content="@indoles" />
 ```
 
-### 7.2 OG image dinamik generation
+### 7.2 OG görselleri — derleme zamanı üretim (ADR-031)
 
-`src/app/api/og/route.ts` — `@vercel/og` (veya eşdeğeri) ile on-the-fly SVG→PNG. Parametreler: `?type=caseStudy&slug=...&locale=tr`. Tasarım: editorial-minimal, INDOLES monogram, başlık + "INDOLES".
+İstek başına üretim (`@vercel/og` + `fontkit`) Cloudflare Workers paketini 3 MB plan sınırının üstüne taşıyordu (ADR-024); site artık istek anında hiçbir OG görseli üretmiyor.
+
+- **Site geneli** — tek marka kartı, `public/opengraph-image.png` (statik dosya, `src/lib/seo/metadata.ts`'teki `OG_IMAGE`). Sayfa `openGraph.images`'ı elle vermediği sürece bu kart devralınır.
+- **GEO araç ve paylaşım sayfaları** (ADR-031) — `public/og/geo/{tr,en}/{0..100}.png` (skor kartı, `BandScale` marker'lı) + `public/og/geo/{tr,en}/tool.png` (araç kartı, marker'sız). Şablon `scripts/og/geo-card.tsx`; üretici `scripts/generate-og-geo.ts`, Playwright ile geliştirme makinesinde çalışır: `pnpm og:geo`. Çıktı repoya commit edilir — Worker'da üretim yok.
+- **Kural:** `scripts/og/geo-card.tsx` veya `BandScale` değişirse `pnpm og:geo` yeniden çalıştırılıp yeni PNG'ler commit edilmeli; script çalışmadan eski kartlar kalır.
+- Sayfa `generateMetadata`'sı `buildMetadata({ ..., image })` ile ilgili kartı seçer — `ogImagePath(score, locale)` / `toolOgImagePath(locale)` (`src/lib/tools/geo/share-meta.ts`).
 
 ### 7.3 Per-page title + description pattern
 

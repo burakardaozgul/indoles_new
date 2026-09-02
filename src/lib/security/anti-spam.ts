@@ -20,8 +20,10 @@ export function turnstileEnabled(): boolean {
  * Bir insanın sekiz zorunlu alanı doldurup KVKK kutusunu işaretlemesi otomatik
  * doldurmayla bile bu sürenin altına inmiyor; botlar ise ya anında gönderiyor
  * ya sayfayı hiç yüklemeden doğrudan API'ye vuruyor (elapsedMs hiç gelmiyor).
+ * İstemci (`ScanBar`) aynı sabiti okuyup gönderimi bu süreye kadar bekletir —
+ * tuzak bozulmaz, hızlı insan hata görmez.
  */
-const MIN_FILL_MS = 2000;
+export const MIN_FILL_MS = 2000;
 
 /**
  * Bot işareti döndürür; temizse null.

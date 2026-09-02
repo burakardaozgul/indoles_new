@@ -22,8 +22,12 @@ describe("EVENT_NAMES — GA4 kısıtları (docs/12 §2)", () => {
   it("obje_fiil biçimindedir — fiil sonda", () => {
     // docs/12 §2: `{object}_{verb}`. Tersi (`viewed_pillar`) GA4
     // raporlarında alfabetik gruplamayı bozar.
+    // `used`/`completed`/`requested` Görev 11 GEO araç olaylarıyla eklendi
+    // (spec §4/§6, Burak onaylı — 2026-09-01 tasarım onayı).
     for (const name of EVENT_NAMES) {
-      expect(name).toMatch(/_(viewed|clicked|opened|submitted|given|shown|dismissed|selected)$/);
+      expect(name).toMatch(
+        /_(viewed|clicked|opened|submitted|given|shown|dismissed|selected|used|completed|requested)$/,
+      );
     }
   });
 });

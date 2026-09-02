@@ -14,6 +14,17 @@ export const routing = defineRouting({
     "/vakalar/[slug]": { tr: "/vakalar/[slug]", en: "/case-studies/[slug]" },
     "/yazilar": { tr: "/yazilar", en: "/articles" },
     "/yazilar/[slug]": { tr: "/yazilar/[slug]", en: "/articles/[slug]" },
+    // Araçlar ailesi — next-intl dinamik segment DEĞERİNİ çevirmez, bu yüzden
+    // her araç için tam-yol çifti STATİK yazılır (dinamik `[id]` aynen taşınır).
+    "/araclar": { tr: "/araclar", en: "/tools" },
+    "/araclar/geo-gorunurluk-denetleyicisi": {
+      tr: "/araclar/geo-gorunurluk-denetleyicisi",
+      en: "/tools/geo-visibility-checker",
+    },
+    "/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]": {
+      tr: "/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]",
+      en: "/tools/geo-visibility-checker/result/[id]",
+    },
     "/danismanlar": { tr: "/danismanlar", en: "/consultants" },
     "/danismanlar/[slug]": {
       tr: "/danismanlar/[slug]",

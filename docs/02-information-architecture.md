@@ -18,7 +18,6 @@ Nisan sürümünde tanımlı olan aşağıdaki alanlar **yoktur** ve bu doküman
 | AI chatbot widget'ı ve her sayfadaki floating tetikleyicisi | ADR-007 |
 | `/studio` (Sanity embedded editor) | ADR-006 |
 | Ödeme/checkout akışı | ADR-009 |
-| `/araclar` interaktif teşhis araçları | Launch kapsamı dışı — Faz 2 |
 | `/journal/kategori/[slug]` kategori sayfaları | Yazı hacmi kategori taksonomisini haklı çıkarmıyor |
 | `/brief/basit`, `/brief/detayli` ayrı sayfaları | Tek iletişim formuna indirgendi (`/iletisim`) |
 | `/rezervasyon` sayfası | Entry popup içinde çözülüyor (ADR-013) |
@@ -113,11 +112,38 @@ Dil değiştirici ve CTA çekmecenin altında tekrarlanır.
 │   └── /danismanlar/[slug]        Danışman profili
 ├── /yazilar                       Bilgi Kütüphanesi
 │   └── /yazilar/[slug]            Yazı detay
+├── /araclar                       Araçlar indeksi (ADR-030 — kapsam-dışından çıkış)
+│   └── /araclar/[slug]            Araç sayfası (şimdilik tek eleman: GEO Görünürlük Denetleyicisi)
+│       └── /araclar/[slug]/sonuc/[id]  Paylaşım sonucu — `noindex, follow` (bkz. not altta)
 ├── /iletisim                      İletişim formu
 └── /gizlilik-kvkk                 Gizlilik ve KVKK (EN: /privacy)
 ```
 
-Teknik route'lar (dil bağımsız): `/sitemap.xml` · `/robots.txt` · `/llms.txt` · `/api/contact` · `/api/visitor-profile` · `/api/health`
+Teknik route'lar (dil bağımsız): `/sitemap.xml` · `/robots.txt` · `/llms.txt` · `/api/contact` · `/api/visitor-profile` · `/api/health` · `/api/tools/geo-scan` · `/api/tools/geo-report`
+
+### `/araclar` — GEO Görünürlük Denetleyicisi (ADR-030)
+
+CLAUDE.md §6'nın kapsam-dışı tablosundan ADR-030 ile çıktı — motor
+Worker-native (`src/lib/tools/geo/`), Diagnoo'ya bağımlı değil. Detay:
+ADR-030, `docs/superpowers/specs/2026-09-01-geo-gorunurluk-denetleyicisi-design.md`.
+
+| Yüzey | TR | EN |
+|---|---|---|
+| Araçlar indeksi | `/tr/araclar` | `/en/tools` |
+| Araç sayfası | `/tr/araclar/geo-gorunurluk-denetleyicisi` | `/en/tools/geo-visibility-checker` |
+| Paylaşım sonucu | `/tr/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]` | `/en/tools/geo-visibility-checker/result/[id]` |
+
+- Araçlar indeksi ve araç sayfası **SSG + indekslenebilir** (hreflang üçlüsü,
+  self-canonical, `buildMetadata`) — sitemap'te (`src/app/sitemap.ts`) yer
+  alır.
+- **Paylaşım sonuç sayfası `noindex, follow`** ve sunucuda D1'den okunur —
+  ince içerik indekslenmez, ama paylaşım linklerinden gelen otorite araç
+  sayfasına akar (sayfa araca güçlü link verir). Sitemap'e girmez.
+- `findings` (detaylı bulgular) yalnız KVKK rızalı rapor akışında
+  (`POST /api/tools/geo-report`) döner; ne public tarama yanıtında ne de
+  paylaşım sonuç sayfasında görünür (ADR-030 carry-note 3).
+- `/araclar` birincil navigasyonda **değil** — erişim üçgen çift yönlü
+  linklerle (araç ↔ `/hizmetler/ai-danismanlik` ↔ GEO yazıları).
 
 ### Anasayfa — sürekli sahne
 
@@ -142,7 +168,7 @@ modda çalışır — anasayfada koreografili, iç sayfada sessiz eşlikçi (ADR
 | Format | `/tr/*` ve `/en/*` |
 | Varsayılan | `tr` — `/` → `/tr` |
 | Prefix | `always` (`localePrefix: "always"`) |
-| Segment çevirisi | `routing.pathnames` ile: `/hizmetler` ↔ `/services`, `/paketler` ↔ `/packages`, `/vakalar` ↔ `/case-studies`, `/yazilar` ↔ `/articles`, `/danismanlar` ↔ `/consultants`, `/iletisim` ↔ `/contact`, `/hakkimizda` ↔ `/about` |
+| Segment çevirisi | `routing.pathnames` ile: `/hizmetler` ↔ `/services`, `/paketler` ↔ `/packages`, `/vakalar` ↔ `/case-studies`, `/yazilar` ↔ `/articles`, `/danismanlar` ↔ `/consultants`, `/iletisim` ↔ `/contact`, `/hakkimizda` ↔ `/about`, `/araclar` ↔ `/tools`, `sonuc` ↔ `result` (ADR-030) |
 | hreflang | Her sayfada tr + en + x-default üçlüsü |
 
 ### 3b. Karakter kuralları
@@ -246,7 +272,7 @@ Vaka breadcrumb'ında problem-tipi ara kırılımı **uygulanmadı** — 4 vaka 
 
 | Dosya | Üretim | Not |
 |---|---|---|
-| `sitemap.xml` | `src/app/sitemap.ts` | 8 route × 2 dil, hreflang alternates dahil |
+| `sitemap.xml` | `src/app/sitemap.ts` | 8 route × 2 dil + `TOOLS` (`src/lib/content/tools.ts`) araç sayfaları, hreflang alternates dahil. Paylaşım sonuç sayfaları (`.../sonuc/[id]`) sitemap'e GİRMEZ — kişiye özel, `noindex` (ADR-030) |
 | `robots.txt` | `src/app/robots.ts` | Production dışı tüm ortamlarda `disallow: /` |
 | `llms.txt` | `src/app/llms.txt/route.ts` | Statik, pillar ve hizmet listesi |
 

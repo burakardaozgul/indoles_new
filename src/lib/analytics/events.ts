@@ -3,6 +3,8 @@
  * Detay: docs/12-analytics-measurement.md §2.
  */
 
+import type { GeoBand } from "@/lib/tools/geo/types";
+
 export type Persona = "industrial" | "commerce" | "unknown";
 export type Pillar = "growth" | "transform" | "build";
 export type Budget = "small" | "medium" | "large";
@@ -26,10 +28,18 @@ export type BookingCtaSource =
   | "contact-callout"
   | "service-detail"
   | "package-detail"
-  | "consultant-detail";
+  | "consultant-detail"
+  // GEO araç raporunun kilidi açıldığında görünen görüşme CTA'sı (Görev 12).
+  | "tool-geo-report";
 
 /** SSS bloğunun bulunduğu sayfa tipi. */
-export type FaqSurface = "service" | "pillar" | "package" | "case" | "article";
+export type FaqSurface =
+  | "service"
+  | "pillar"
+  | "package"
+  | "case"
+  | "article"
+  | "tool";
 
 /**
  * GA4 metin parametresi üst sınırı. Aşan değer sessizce kırpılır — kırpmayı
@@ -58,6 +68,9 @@ export const EVENT_NAMES = [
   "faq_opened",
   "booking_cta_clicked",
   "brief_submitted",
+  "tool_used",
+  "tool_scan_completed",
+  "tool_report_requested",
 ] as const;
 
 export type EventName = (typeof EVENT_NAMES)[number];
@@ -125,6 +138,31 @@ export type AnalyticsEvent =
         budget?: Budget;
         timeline?: Timeline;
       };
+    }
+  | {
+      /**
+       * Bir GEO araç taraması başlatıldı (form gönderimi, yanıt beklenmeden).
+       * `GeoScanForm.onSubmit`de atılır (Görev 11).
+       */
+      name: "tool_used";
+      properties: { slug: string; locale: "tr" | "en" };
+    }
+  | {
+      /**
+       * Tarama başarıyla tamamlanıp skor döndüğünde atılır — `band` huninin
+       * kalite dağılımını okumayı sağlar (çoğu tarama hangi bantta bitiyor).
+       */
+      name: "tool_scan_completed";
+      properties: { slug: string; band: GeoBand; locale: "tr" | "en" };
+    }
+  | {
+      /**
+       * Detaylı rapor isteği (e-posta + KVKK rızası) başarıyla gönderildiğinde
+       * atılır — Görev 12'nin rapor formu tüketir. Tip burada tanımlanır
+       * (kapalı birleşimin parçası), emisyon Görev 12'de eklenir.
+       */
+      name: "tool_report_requested";
+      properties: { slug: string; band: GeoBand; locale: "tr" | "en" };
     };
 
 /**

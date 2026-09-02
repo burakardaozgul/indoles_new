@@ -20,6 +20,7 @@ export type PageProfile =
   | "case"
   | "article"
   | "package"
+  | "tool"
   | "consultant"
   | "index"
   | "static"
@@ -137,6 +138,34 @@ export const PROFILE_RULES: Record<PageProfile, ProfileRules> = {
     minWords: 250,
     allowNoindex: false,
   },
+  /**
+   * Araç detay sayfası (`/araclar/{slug}`, Görev 13).
+   *
+   * `descMin` 140: diğer profillerin 80'i araç yüzeyi için gevşek — `tools.ts`
+   * içerik sözleşmesi zaten 140-160 bandını dayatıyor (Görev 10 yorum notu),
+   * kural o gerçek sınırı yansıtır. `SoftwareApplication` + `FAQPage` zorunlu:
+   * sayfa bir araç ilan ediyor (softwareApplicationLd) ve altı SSS taşıyor
+   * (faqLd) — ikisi de eksikse yapısal veri sayfanın kendi doğasını
+   * yansıtmıyor demektir. Ton nötr-analitik, persona değil (docs/03 §1) →
+   * `personaVariants: "forbidden"`, hizmet detayıyla aynı gerekçe.
+   */
+  tool: {
+    titleMin: 15,
+    titleMax: 60,
+    descMin: 140,
+    descMax: 160,
+    requiredLdTypes: [
+      "Organization",
+      "BreadcrumbList",
+      "SoftwareApplication",
+      "FAQPage",
+    ],
+    personaVariants: "forbidden",
+    siblingLinks: false,
+    minInternalLinks: 4,
+    minWords: 300,
+    allowNoindex: false,
+  },
   consultant: {
     titleMin: 15,
     titleMax: 60,
@@ -219,6 +248,7 @@ const SECTION_SEGMENTS: ReadonlyArray<{
 }> = [
   { segments: new Set(["hizmetler", "services"]), detail: "service" },
   { segments: new Set(["paketler", "packages"]), detail: "package" },
+  { segments: new Set(["araclar", "tools"]), detail: "tool" },
   { segments: new Set(["vakalar", "case-studies"]), detail: "case" },
   { segments: new Set(["yazilar", "articles"]), detail: "article" },
   { segments: new Set(["danismanlar", "consultants"]), detail: "consultant" },

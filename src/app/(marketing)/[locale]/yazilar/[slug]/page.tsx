@@ -11,6 +11,7 @@ import { CASES } from "@/lib/content/cases";
 import { getConsultantBySlug } from "@/lib/content/consultants";
 import { getTopic } from "@/lib/content/topics";
 import { SERVICES } from "@/lib/content/services";
+import { TOOLS } from "@/lib/content/tools";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
@@ -140,6 +141,19 @@ function resolveInlineHref(href: string, loc: Locale): string {
       return loc === "tr"
         ? `/tr/vakalar/${study.slug.tr}`
         : `/en/case-studies/${study.slug.en}`;
+    }
+  }
+  // Yazıdan araca link (Görev 13, üçgen linkler): araç slug'ı da locale
+  // başına ayrık (`/tr/araclar/geo-gorunurluk-denetleyicisi` ↔
+  // `/en/tools/geo-visibility-checker`, `routing.ts`) — hizmet/yazı/vaka
+  // dallarıyla aynı sorun. İçerikte kanonik TR yol yazılır (üç GEO yazısının
+  // köprü paragrafı), gerçek EN slug burada çözülür.
+  if (parts[0] === "araclar" && parts[1]) {
+    const tool = TOOLS.find((t) => t.slug.tr === parts[1]);
+    if (tool) {
+      return loc === "tr"
+        ? `/tr/araclar/${tool.slug.tr}`
+        : `/en/tools/${tool.slug.en}`;
     }
   }
   return localeHref(href, loc);

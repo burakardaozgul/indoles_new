@@ -324,6 +324,46 @@ export function webPageLd({
   };
 }
 
+/**
+ * SoftwareApplication — interaktif araç sayfası (Görev 10).
+ *
+ * `@type` `SoftwareApplication`: araç tarayıcıda çalışan bir uygulama.
+ * `applicationCategory` uydurma bir tür ("SEOApplication") DEĞİL,
+ * schema.org'un tanıdığı `WebApplication` değeriyle basılır.
+ *
+ * `offers` price `"0"`: araç ücretsiz. Fiyat alanını hiç basmamak "fiyat
+ * bilinmiyor" okunur; sıfır fiyatlı açık bir Offer "ücretsiz" der. Para birimi
+ * TRY — kanonik pazar Türkiye.
+ *
+ * `provider` Organization düğümüne çapalı (`@id`): aracı yayınlayan tüzel kişi
+ * grafikte tekrar yazılmaz.
+ */
+export function softwareApplicationLd({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@type": "SoftwareApplication",
+    name,
+    description,
+    url: absoluteUrl(path),
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "TRY",
+    },
+    provider: { "@id": ORG_ID },
+    inLanguage: [IN_LANGUAGE.tr, IN_LANGUAGE.en],
+  };
+}
+
 export type ServiceLdInput = {
   name: string;
   description: string;

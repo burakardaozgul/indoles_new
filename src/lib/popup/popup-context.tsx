@@ -28,6 +28,24 @@ const CONTACT_PATHNAMES: readonly string[] = (() => {
   });
 })();
 
+/**
+ * Araç rotaları (spec 2026-09-02 §7, Burak kararı): araç kendi lead kapısını
+ * taşır (e-posta + KVKK); URL yazan ziyaretçinin önüne popup çıkmaz. Önek
+ * eşleşmesi: dizin, araç sayfası ve paylaşım sayfası birlikte kapsanır.
+ */
+const TOOL_PATHNAME_PREFIXES: readonly string[] = (() => {
+  const entry = routing.pathnames["/araclar"];
+  return routing.locales.map((locale) => {
+    const segment = typeof entry === "string" ? entry : entry[locale];
+    return `/${locale}${segment}`;
+  });
+})();
+
+export function isAutoPopupSuppressed(pathname: string): boolean {
+  if (CONTACT_PATHNAMES.includes(pathname)) return true;
+  return TOOL_PATHNAME_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
+
 type PopupInitial = {
   stage: PopupStage;
   persona: PersonaSlug | null;
@@ -70,7 +88,7 @@ export function PopupProvider({ children }: { children: React.ReactNode }) {
     // modal açmak sürtünme üretir (denetim bulgusu). Yalnız OTOMATİK tetik
     // bastırılıyor: `openPopup()`un elle çağrıları (nav CTA'sı gibi) bu
     // rotada da olduğu gibi çalışmaya devam eder.
-    if (pathname && CONTACT_PATHNAMES.includes(pathname)) return;
+    if (pathname && isAutoPopupSuppressed(pathname)) return;
 
     if (!shouldShowPopup()) return;
 

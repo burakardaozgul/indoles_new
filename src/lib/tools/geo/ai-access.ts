@@ -1,0 +1,208 @@
+/**
+ * GEO kontrolü — AI erişimi: robots.txt üzerinden bilinen AI botlarının
+ * taranabilirliğini ölçer. Spec §2, Görev 2.
+ *
+ * Çözüm kuralı (basitleştirilmiş-deterministik, tam robots.txt standardı
+ * değil): satır satır ayrıştırılır → ardışık `User-agent` satırları tek grup
+ * oluşturur. Her bot için adı birebir (case-insensitive) geçen grup
+ * kullanılır; yoksa `*` grubuna düşülür. Grup içinde hedef path için en uzun
+ * eşleşen Allow/Disallow kuralı kazanır (uzunluk eşitse Allow); hiçbir kural
+ * eşleşmezse izinli sayılır. `$` (satır sonu) ve `*` (joker) desteklenir.
+ */
+
+import { Localized } from "@/lib/content/types";
+import { GeoCheckResult, statusFor } from "@/lib/tools/geo/types";
+
+export const AI_CRAWLERS = [
+  "GPTBot",
+  "OAI-SearchBot",
+  "ChatGPT-User",
+  "ClaudeBot",
+  "Claude-User",
+  "PerplexityBot",
+  "Perplexity-User",
+  "Google-Extended",
+  "Applebot-Extended",
+  "CCBot",
+] as const;
+
+const MAX_SCORE = 25;
+
+/**
+ * Kural başına joker (`*`) tavanı (final review C2a — ReDoS). `ruleToRegex`
+ * her `*`'ı `.*` ile birleştirir; joker sayısı arttıkça üretilen regex
+ * katastrofik geri-izlemeye (ReDoS) açık hale gelir — ölçüldü (Node 20):
+ * 12 jokerli 26 baytlık tek bir `Disallow` satırı, 60 karakterlik bir path'e
+ * karşı `regex.test()` başına ~110 ms tutuyordu (`isAllowed` bunu crawler
+ * BAŞINA — AI_CRAWLERS.length kez — çalıştırır). Gerçek robots.txt bu kadar
+ * jokere hiç ihtiyaç duymaz; aşan satır DERLENMEZ, sessizce yok sayılır
+ * (grup için o kural hiç yazılmamış gibi davranılır — "kısıt yok" değil).
+ */
+const MAX_WILDCARDS_PER_RULE = 4;
+
+/**
+ * Grup başına kural tavanı (final review C2a). Tavan olmadan 2 MB'lık bir
+ * robots.txt (`MAX_BODY_BYTES`, safe-fetch.ts) tek bir grupta ~130k kural
+ * derlemesine ve `isAllowed` içinde ~1.3M `regex.test()` çağrısına yol
+ * açabiliyordu. Aşan satırlar sessizce yok sayılır.
+ */
+const MAX_RULES_PER_GROUP = 1000;
+
+type RuleType = "allow" | "disallow";
+
+type Rule = {
+  type: RuleType;
+  pattern: string;
+  regex: RegExp;
+};
+
+type Group = {
+  agents: string[];
+  rules: Rule[];
+};
+
+/** Regex özel karakterlerini escape eder (joker `*` zaten ayrıca ele alınır). */
+function escapeRegexLiteral(segment: string): string {
+  return segment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * robots.txt path kalıbını regex'e çevirir: `*` → herhangi bir dizi,
+ * sondaki `$` → satır sonu çıpası, diğer her şey literal.
+ */
+function ruleToRegex(pattern: string): RegExp {
+  const hasEndAnchor = pattern.endsWith("$");
+  const body = hasEndAnchor ? pattern.slice(0, -1) : pattern;
+  const escaped = body.split("*").map(escapeRegexLiteral).join(".*");
+  return new RegExp(`^${escaped}${hasEndAnchor ? "$" : ""}`);
+}
+
+/** robots.txt metnini User-agent gruplarına ayrıştırır. */
+function parseRobots(robotsTxt: string): Group[] {
+  const groups: Group[] = [];
+  let current: Group | null = null;
+  // Geçerli grup için bir Allow/Disallow satırı görüldü mü — değeri boş olsa
+  // bile grup sınırını belirlemek için kullanılır (bkz. aşağıdaki not).
+  let currentHasDirective = false;
+
+  for (const rawLine of robotsTxt.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    const colonIndex = line.indexOf(":");
+    if (colonIndex === -1) continue;
+
+    const field = line.slice(0, colonIndex).trim().toLowerCase();
+    const value = line.slice(colonIndex + 1).trim();
+
+    if (field === "user-agent") {
+      // Ardışık User-agent satırları tek grup oluşturur; bir önceki grup
+      // zaten bir yönerge gördüyse yeni bir grup başlar.
+      if (!current || currentHasDirective) {
+        current = { agents: [], rules: [] };
+        groups.push(current);
+        currentHasDirective = false;
+      }
+      current.agents.push(value);
+    } else if (field === "allow" || field === "disallow") {
+      if (!current) continue; // gruptan önceki başıboş kural yok sayılır
+      currentHasDirective = true;
+      // Değeri boş olan Allow/Disallow satırı ("Disallow:") robots.txt
+      // konvansiyonunda "bu grup için kısıt yok" anlamına gelir — eşleşme
+      // kuralı listesine girmez. Aksi halde boş desen `^` regex'ine dönüşüp
+      // her path'i eşleştirir ve "Disallow:" yanlışlıkla tüm siteyi engeller.
+      if (value === "") continue;
+      // Final review C2a: iki bağımsız ReDoS bariyeri — grup kural tavanı,
+      // sonra kural başına joker tavanı. İkisi de aşılan satırı DERLEMEDEN
+      // yok sayar (regex hiç üretilmez, hiç `.test()` edilmez).
+      if (current.rules.length >= MAX_RULES_PER_GROUP) continue;
+      const wildcardCount = (value.match(/\*/g) ?? []).length;
+      if (wildcardCount > MAX_WILDCARDS_PER_RULE) continue;
+      current.rules.push({ type: field, pattern: value, regex: ruleToRegex(value) });
+    }
+  }
+
+  return groups;
+}
+
+/** Bot adına en uygun grubu bulur: birebir eşleşme, yoksa `*`. */
+function selectGroup(crawler: string, groups: Group[]): Group | undefined {
+  const named = groups.find((g) =>
+    g.agents.some((agent) => agent.toLowerCase() === crawler.toLowerCase())
+  );
+  if (named) return named;
+  return groups.find((g) => g.agents.some((agent) => agent === "*"));
+}
+
+/** Grup kuralları içinde hedef path için en uzun eşleşen kuralı uygular. */
+function isAllowed(group: Group | undefined, urlPath: string): boolean {
+  if (!group) return true;
+
+  let best: Rule | undefined;
+  for (const rule of group.rules) {
+    if (!rule.regex.test(urlPath)) continue;
+    const isLonger = !best || rule.pattern.length > best.pattern.length;
+    const isTieWonByAllow =
+      best && rule.pattern.length === best.pattern.length && rule.type === "allow" && best.type !== "allow";
+    if (isLonger || isTieWonByAllow) {
+      best = rule;
+    }
+  }
+
+  return !best || best.type === "allow";
+}
+
+export function checkAiAccess(robotsTxt: string | null, urlPath: string): GeoCheckResult {
+  if (robotsTxt === null) {
+    const summary: Localized<string> = {
+      tr: "robots.txt yok; bu, bütün AI botlarına açık erişim demektir.",
+      en: "There is no robots.txt, which means every AI bot may read this page.",
+    };
+    const findings: Array<Localized<string>> = [
+      {
+        tr: "Erişim açık ama beyansız: botlara yönelik niyetinizi bir robots.txt ile belgelemeniz güven verir.",
+        en: "Access is open but undeclared; stating your intent toward crawlers in a robots.txt builds trust.",
+      },
+    ];
+    return {
+      id: "ai-access",
+      score: MAX_SCORE,
+      max: MAX_SCORE,
+      status: statusFor(MAX_SCORE, MAX_SCORE),
+      summary,
+      findings,
+    };
+  }
+
+  const groups = parseRobots(robotsTxt);
+  const blocked = AI_CRAWLERS.filter((crawler) => !isAllowed(selectGroup(crawler, groups), urlPath));
+  const allowedCount = AI_CRAWLERS.length - blocked.length;
+  const score = Math.round((MAX_SCORE * allowedCount) / AI_CRAWLERS.length);
+
+  const blockedSuffixTr = blocked.length > 0 ? `; ${blocked.join(", ")} engelli` : "";
+  const blockedSuffixEn = blocked.length > 0 ? `; ${blocked.join(", ")} blocked` : "";
+  const summary: Localized<string> = {
+    // "${allowedCount}'i" gibi ek-bitişik bir kalıp 0-10 aralığının çoğunda
+    // yanlış ünlü uyumu üretir (ör. 9 için doğrusu "9'u", "9'i" değil).
+    // Rakama ek eklemeyen, değişmez bir kalıp kullanılır.
+    tr: `${AI_CRAWLERS.length} bilinen AI botundan ${allowedCount} tanesi bu sayfayı okuyabiliyor${blockedSuffixTr}.`,
+    en: `${allowedCount} of ${AI_CRAWLERS.length} known AI bots can read this page${blockedSuffixEn}.`,
+  };
+
+  const findings: Array<Localized<string>> = [];
+  if (blocked.length > 0) {
+    findings.push({
+      tr: `${blocked.join(", ")} engelli; bu motorlar sayfanızı alıntı için kullanamaz.`,
+      en: `${blocked.join(", ")} blocked; these engines cannot use your page for citations.`,
+    });
+  }
+
+  return {
+    id: "ai-access",
+    score,
+    max: MAX_SCORE,
+    status: statusFor(score, MAX_SCORE),
+    summary,
+    findings,
+  };
+}

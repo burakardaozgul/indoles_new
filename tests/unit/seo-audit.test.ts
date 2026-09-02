@@ -41,6 +41,7 @@ const VALID_LD = JSON.stringify({
     { "@type": "FAQPage", mainEntity: [] },
     { "@type": "Article", headline: "Kanal ekonomisi" },
     { "@type": "Person", name: "Burak Arda Özgül" },
+    { "@type": "SoftwareApplication", name: "GEO Görünürlük Denetleyicisi" },
   ],
 });
 
@@ -63,7 +64,9 @@ type PageOverrides = {
 function page(o: PageOverrides = {}) {
   const d = {
     title: "Performans pazarlama — INDOLES",
-    description: "x".repeat(120),
+    // 145: `tool` profilinin 140-160 bandına da düşer (Görev 13) — tek fixture
+    // tüm profil matrisini denemeli.
+    description: "x".repeat(145),
     canonical: SELF_ABS,
     alternates: [
       ["tr", SELF_ABS],
@@ -608,6 +611,10 @@ describe("profileFor — URL kalıbından sayfa tipi", () => {
     ["/tr/paketler", "index"],
     ["/tr/paketler/buyume-sprinti", "package"],
     ["/en/packages/growth-sprint", "package"],
+    ["/tr/araclar", "index"],
+    ["/en/tools", "index"],
+    ["/tr/araclar/geo-gorunurluk-denetleyicisi", "tool"],
+    ["/en/tools/geo-visibility-checker", "tool"],
     ["/tr/vakalar", "index"],
     ["/tr/vakalar/ornek", "case"],
     ["/en/case-studies/example", "case"],

@@ -13,7 +13,13 @@ import {
   segmentRanges,
   type BlobState,
 } from "./choreography";
-import { BLOB, BLOB_PAGE, SCROLL, BREAKPOINT } from "@/lib/v2/anim-config";
+import {
+  BLOB,
+  BLOB_PAGE,
+  BLOB_TOOL_HERO,
+  SCROLL,
+  BREAKPOINT,
+} from "@/lib/v2/anim-config";
 import { useMouse, usePrefersReducedMotion } from "@/lib/v2/use-mouse";
 import { useDebouncedResize } from "@/lib/v2/use-lenis";
 
@@ -25,16 +31,44 @@ import { useDebouncedResize } from "@/lib/v2/use-lenis";
  * "Topun içinden renkli metin görünüyor" efekti bu sandviçten doğar;
  * refraction veya post-processing yoktur (spec §2).
  *
- * İki mod:
+ * Üç mod:
  *   `variant="home"` — 7 duraklı koreografi, blob anlatının kendisidir.
  *   `variant="page"` — sabit konum, düşük opaklık, scroll'a bağlı hafif kayma.
  *     İç sayfada okumanın arkasında durur; canvas aynı canvas olduğu için
  *     sayfalar arası geçişte süreklilik korunur.
+ *   `variant="tool-hero"` — araç sayfası: ilk ekranda merkezî ve belirgin,
+ *     sonra tek scrub tween'le `page` hâline çekilir (docs/04 §12.10).
  */
+export type BlobVariant = "home" | "page" | "tool-hero";
+
+/** İç sayfanın dinlenme hâli — `page` varyantının tamamı, `tool-hero`'nun sonu. */
+function restingState(isMobile: boolean) {
+  const m = isMobile ? BLOB_PAGE.mobile : null;
+  return {
+    x: m?.x ?? BLOB_PAGE.x,
+    y: BLOB_PAGE.y,
+    scale: m?.scale ?? BLOB_PAGE.scale,
+    noiseAmp: BLOB_PAGE.noiseAmp,
+    opacity: m?.opacity ?? BLOB_PAGE.opacity,
+  };
+}
+
+/** Araç sayfasının ilk ekran hâli — merkezî, büyük, belirgin. */
+function toolHeroState(isMobile: boolean) {
+  const m = isMobile ? BLOB_TOOL_HERO.mobile : null;
+  return {
+    x: m?.x ?? BLOB_TOOL_HERO.x,
+    y: m?.y ?? BLOB_TOOL_HERO.y,
+    scale: m?.scale ?? BLOB_TOOL_HERO.scale,
+    noiseAmp: BLOB_TOOL_HERO.noiseAmp,
+    opacity: m?.opacity ?? BLOB_TOOL_HERO.opacity,
+  };
+}
+
 export function BlobCanvas({
   variant = "home",
 }: {
-  variant?: "home" | "page";
+  variant?: BlobVariant;
 } = {}) {
   const stateRef = React.useRef<BlobState>(createBlobState());
   const mouse = useMouse();
@@ -203,37 +237,61 @@ export function BlobCanvas({
     };
   }, [reduced, variant]);
 
-  // --- İç sayfa modu: sabit konum + scroll'a bağlı hafif dikey kayma
+  // --- İç sayfa modları: sabit konum + scroll'a bağlı hafif dikey kayma.
+  //     `tool-hero` bunun önüne bir "yerleşme" segmenti ekler.
   React.useEffect(() => {
-    if (variant !== "page") return;
+    if (variant === "home") return;
     gsap.registerPlugin(ScrollTrigger);
     const s = stateRef.current;
 
     const ctx = gsap.context(() => {
-      const m = isMobile ? BLOB_PAGE.mobile : null;
-      const base = {
-        x: m?.x ?? BLOB_PAGE.x,
-        y: BLOB_PAGE.y,
-        scale: m?.scale ?? BLOB_PAGE.scale,
-        noiseAmp: BLOB_PAGE.noiseAmp,
-        opacity: m?.opacity ?? BLOB_PAGE.opacity,
-      };
+      const rest = restingState(isMobile);
+      const isTool = variant === "tool-hero";
+      const base = isTool ? toolHeroState(isMobile) : rest;
       Object.assign(s, base);
 
-      // Tek tween, sayfa boyunca scrub. `y` düşer: sayfa aşağı kayarken blob
-      // yukarı doğru süzülüyormuş gibi durur, sabit bir leke gibi durmaz.
-      gsap.fromTo(s, base, {
-        y: base.y - BLOB_PAGE.scrollDrift,
-        ease: "none",
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: document.documentElement,
-          start: 0,
-          end: () => maxScroll(),
-          scrub: reduced ? true : SCROLL.scrub,
-          invalidateOnRefresh: true,
+      // Segmentler koreografiyle aynı sözleşmeye uyar: her tween bir öncekinin
+      // BIRAKTIĞI değerlerden başlar. Scrub'lı ScrollTrigger yalnız progress
+      // değişince render ettiği için sınırda değerler örtüşür, çakışma olmaz.
+      const settle = () => window.innerHeight * BLOB_TOOL_HERO.settleVh;
+
+      if (isTool) {
+        // 1) İlk ekran: merkezî/belirgin hâlden sessiz eşlikçiye çekilme.
+        //    Okuma bölümlerine varıldığında "blob okuma kolonuna girmez"
+        //    kuralı yeniden yürürlükte (docs/04 §12.10).
+        gsap.fromTo(s, base, {
+          ...rest,
+          ease: SCROLL.ease,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: document.documentElement,
+            start: 0,
+            end: settle,
+            scrub: reduced ? true : SCROLL.scrub,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
+
+      // 2) Sayfanın geri kalanı boyunca scrub. `y` düşer: sayfa aşağı kayarken
+      //    blob yukarı doğru süzülüyormuş gibi durur, sabit bir leke gibi
+      //    durmaz.
+      gsap.fromTo(
+        s,
+        { y: rest.y },
+        {
+          y: rest.y - BLOB_PAGE.scrollDrift,
+          ease: "none",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: document.documentElement,
+            start: isTool ? settle : 0,
+            end: () => maxScroll(),
+            scrub: reduced ? true : SCROLL.scrub,
+            invalidateOnRefresh: true,
+          },
         },
-      });
+      );
     });
 
     ScrollTrigger.refresh();
@@ -249,14 +307,13 @@ export function BlobCanvas({
   React.useEffect(() => {
     if (reduced) return;
     const s = stateRef.current;
-    const m = isMobile ? BLOB_PAGE.mobile : null;
-    const target =
-      variant === "page"
-        ? {
-            scale: m?.scale ?? BLOB_PAGE.scale,
-            opacity: m?.opacity ?? BLOB_PAGE.opacity,
-          }
-        : { scale: BLOB_INITIAL.scale, opacity: BLOB_INITIAL.opacity };
+    const entry =
+      variant === "home"
+        ? BLOB_INITIAL
+        : variant === "tool-hero"
+          ? toolHeroState(isMobile)
+          : restingState(isMobile);
+    const target = { scale: entry.scale, opacity: entry.opacity };
 
     const tween = gsap.fromTo(
       s,
@@ -277,6 +334,10 @@ export function BlobCanvas({
       className="pointer-events-none fixed inset-0 z-10"
       aria-hidden="true"
       data-blob-canvas
+      // Aktif varyant DOM'a yazılır: `__blobState` yalnız dev'de var, oysa
+      // varyant seçiminin (route → home/page/tool-hero) production build'de de
+      // doğrulanabilmesi gerekiyor — regresyon riski en yüksek nokta burası.
+      data-blob-variant={variant}
     >
       <Canvas
         gl={{

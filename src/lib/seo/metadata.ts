@@ -10,6 +10,12 @@ export type PageSeoInput = {
   paths: LocalizedPath;
   locale: Locale;
   ogType?: "website" | "article";
+  /**
+   * Sayfaya özgü OG görseli — verilmezse marka kartına (`ogImage(locale)`)
+   * düşülür. Sayfa başına farklı OG görseli DERLEME ZAMANINDA üretilip
+   * `public/`e konur (ADR-031); worker'da üretim yok.
+   */
+  image?: { url: string; alt: string; width?: number; height?: number };
 };
 
 /**
@@ -71,9 +77,14 @@ export function buildMetadata({
   paths,
   locale,
   ogType = "website",
+  image,
 }: PageSeoInput): Metadata {
   const alternates = buildAlternates(paths, locale);
   const canonical = paths[locale];
+
+  const og = image
+    ? { url: image.url, width: image.width ?? OG_IMAGE.width, height: image.height ?? OG_IMAGE.height, alt: image.alt }
+    : ogImage(locale);
 
   return {
     title,
@@ -87,11 +98,11 @@ export function buildMetadata({
       locale: OG_LOCALE[locale],
       alternateLocale: ALT_LOCALE[locale],
       url: canonical,
-      images: [ogImage(locale)],
+      images: [og],
     },
     twitter: {
       card: "summary_large_image",
-      images: [OG_IMAGE.url],
+      images: [og.url],
       site: "@indoles",
       title,
       description,

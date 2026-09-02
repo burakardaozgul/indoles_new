@@ -184,7 +184,7 @@ Logo renginden (`teal-700` = **#2C5566**) türetilmiş 11 basamak. Tailwind'de h
 |---|---|---|
 | ink-800 / bg | ~19:1 | AAA |
 | ink-600 / bg | ~7.4:1 | AAA |
-| ink-500 / bg | ~4.8:1 | AA |
+| ink-500 / bg | 4.34:1 (ölçüm 2026-09-02, §12.10) | Yalnız büyük metin (AA large) — gövde caption'ı için ayrı karar bekliyor |
 | teal-700 / bg | ~8.2:1 | AAA |
 | white / teal-900 | ~11:1 | AAA |
 | gold-400 / teal-950 | ~7.6:1 | AAA |
@@ -249,6 +249,7 @@ Her seviye **en az iki katman** taşır: yakın kontak gölgesi + uzak ambient g
 | `shadow-lg` | Öne çıkan kart, modal |
 | `shadow-xl` | Popup, en üst katman |
 | `shadow-3d` | İç highlight + hairline + iki ambient katman — nav ve hizmet kartı |
+| `shadow-float` | Yüzen kontrol — araç giriş çubuğu; kontak + iki ambient katman, modal kadar kalkmaz |
 
 `shadow-3d` deseni: `inset beyaz highlight` → `0 0 0 1px teal hairline` → `orta mesafe` → `uzak yayılım`. Bu dört katman "basılı kart" hissini üretir; tek katmanlı gölge bunun yerini tutmaz.
 
@@ -348,6 +349,9 @@ Sıra bir argümandır: *ne vaat ediyoruz → kimler güveniyor → neye inanıy
 `V2PageHeader` (breadcrumb + eyebrow + başlık + sağ kolonda lede, dekorsuz) →
 içerik bölümleri (`.ds-container`, zeminsiz) → `ContactCallout`. Arkada blob
 `page` modunda sessizce durur. Ayrıntı §12.10.
+
+Araç sayfaları bu düzenin istisnasıdır: `.tool-hero` (tek merkezî sütun,
+giriş alanı ilk ekranda) + `tool-hero` blob varyantı. Gerekçe §12.10.
 
 > Eski `PageHeader` (`.page-hero` + dalga zemin) ADR-017 ile kullanımdan kalktı.
 
@@ -557,3 +561,97 @@ bütçesini deler. Yarı saydamlık krem zeminin üstünde zaten yeterli.
 ayrı turda önce sayfa başlığının lede'ini, sonra paket sayfasının fiyat
 kolonunu örttüğü görülüp geri çekildi. Yeni bir sayfa düzeni eklendiğinde aynı
 kontrol yapılır — "arkada duruyor" varsayımı yeterli değil.
+
+#### Bilinçli istisna: araç sayfası hero'su (`tool-hero` varyantı)
+
+Araç sayfaları üçüncü bir sayfa tipidir. Hizmet/vaka/yazı sayfası *okunur*;
+araç sayfası *kullanılır* — ilk ekranı bir metin bloğu değil bir giriş alanıdır
+("adresini gir, tara"). Bu sayfalarda blob sessiz eşlikçi olarak kalırsa ilk
+ekran boş bir formdan ibaret kalıyor; sayfanın INDOLES'e ait olduğunu söyleyen
+tek malzeme kayboluyor.
+
+Bu yüzden araç sayfası hero'sunda blob anasayfadaki gibi **merkezî ve
+belirgin** durur. Anasayfanın 7 duraklı koreografisi **kopyalanmaz** — o
+koreografi bir scroll anlatısıdır ve araç sayfasının anlatısı yoktur.
+
+**Kompozisyon kuralı: "camın altındaki küre".** Kürenin çekirdeği giriş
+çubuğunun arkasındadır; başlık ve lede kürenin yumuşak üst kenarının
+ÜSTÜNDE, temiz kremde durur. Küre metnin arkasına değil, aksiyonun arkasına
+yerleşir — ilk ekranda gözün gittiği yer giriş alanıdır.
+
+Geometri viewport'a oranlıdır: ekran y'si `vh * (1 - y) / 2`, yarıçap
+`scale * vh / 2`. Bu yüzden "çekirdek çubuğun arkasında" koşulu ölçekten
+bağımsız sağlanamaz — yarıçap büyüdükçe üst kenar başlığın da üstüne çıkar.
+İlk sürüm (`y: -0.28`, `scale: 0.78`, opaklık 0.85) tam bunu yapıyordu:
+yarıçap 0.39·vh olunca küre altı viewport'ta da koca, sert kenarlı bir diske
+dönüşüp h1'i, lede'i ve altındaki bölümü birlikte kaplıyordu (2026-09-02
+görsel tur). Çekirdek bir tık aşağı indirildi, gövde küçültüldü.
+
+| | Anasayfa | Araç hero'su | Diğer iç sayfalar |
+|---|---|---|---|
+| Konum | Koreografi, 7 durak | Merkezî (`x: 0`), `y: -0.55` (mobil -0.5) | Sağ üst, `x: 0.88` |
+| Ölçek | 0.35 – 1.6 arası gezer | 0.52 sabit (mobil 0.56 × 0.72) | 0.4 sabit |
+| Opaklık | 0.45 – 1.0 | 0.58 (mobil 0.46) | 0.26 |
+| Scroll | Anlatıyı sürer | Hero'dan sonra `page` hâline **çekilir** | Hafif dikey kayma |
+
+**"Okuma kolonuna girmez" kuralı iptal edilmedi, kapsamı daraltıldı.** Kural
+okuma bölümleri için aynen geçerli: `tool-hero` varyantı ilk ekran boyunca
+belirgin durur, sonra tek bir scrub tween'le `BLOB_PAGE` değerlerine yerleşir.
+Kullanıcı "Nasıl çalışır", "Ne ölçüyoruz" ve SSS bölümlerine ulaştığında
+arkasında yine 0.26 opaklıklı sessiz eşlikçi vardır.
+
+*Bilinen sınır:* blob viewport'a çapalı, hero içeriği ise belgeye. Uzun ve dar
+bir viewport'ta (ölçülen: 768x1024 dikey tablet) hero içeriği ekranın üst
+yarısında biterken küre alt yarıda kalır ve scroll 0'da "Nasıl çalışır"
+bölümünün üstüne düşer. Kürenin o bölgesi açık olduğu için okunabilirlik
+ölçümde eşiğin üstünde; sorun estetiktir, kullanıcı ilk kaydırmayla çözer.
+Viewport'a değil belgeye çapalanmış bir konum bu katmanın (tek, sürekli,
+`fixed` canvas) sözleşmesini değiştirir — ayrı bir kararın konusudur.
+
+**Okunabilirlik ölçümle güvenceye alınır, varsayımla değil.** Hero metni
+canvas'ın (z-10) üstündedir (`.tool-hero` z-20) ve anasayfadaki iki katmanlı
+başlık sandviçi burada kullanılmaz. Blob paleti shader'da %50 beyaza lift'lendiği
+için en koyu bölgesi bile krem üstünde açık kalır.
+
+Ölçüm yöntemi: hero metni gizlenip (`visibility: hidden` — kutu yerinde
+kalır, canvas görünür) ekran görüntüsü alınır, her metin dikdörtgeninin
+ARKASINDAKİ en koyu piksel bulunur, kontrast o pikselle hesaplanır. Aşağıdaki
+tablo 375 / 768 / 1280 / 1536 viewport'unda ölçülen değerlerin **en
+düşüğünü** taşır (2026-09-02, üretim derlemesi):
+
+| Metin | En düşük kontrast | Hangi viewport | Eşik |
+|---|---|---|---|
+| `h1` (ink-900) | 20.08:1 | dördü de | 4.5:1 |
+| Lede (ink-700) | 14.59:1 | 1280 | 4.5:1 |
+| Eyebrow (teal-700) | 7.73:1 | dördü de | 4.5:1 |
+| Yardım satırı (ink-600) | 5.26:1 | 1280 | 4.5:1 |
+| Kanıt şeridi (ink-600) | 4.75:1 | 375 | 4.5:1 |
+
+**Blobun üstündeki ikincil metin ink-500 değil ink-600'dür.** Yardım satırı
+ve kanıt şeridi kürenin sıcak gövdesinin tam üstünde durur. ink-500 krem
+tuvalde zaten 4.34:1 veriyor (§5'teki ~4.8 tahmini ölçümle doğrulanmıyor),
+kürenin üstünde 2.89'a iniyordu. ink-600 en kötü pikselde bile eşiğin
+üstünde. Bu, tuvalin ikincil metin rengini genel olarak değiştirmez —
+yalnız blobun üstünde duran metin için geçerli yerel kuraldır.
+
+**Sonuç durumu (skor kartı).** Kart `.v2-surface` yarı saydam beyazdır;
+kürenin bir kısmı arkasından geçer. Aynı yöntemle ölçülen en düşükler:
+
+| Kart içi metin | En düşük kontrast | Eşik |
+|---|---|---|
+| Skor sayısı (ink-900) | 20.62:1 | 4.5:1 |
+| Bant cümlesi (ink-700) | 16.39:1 | 4.5:1 |
+| Aktif bant etiketi (ink-900) | 15.90:1 | 4.5:1 |
+| Pasif bant etiketleri (ink-600) | 6.64:1 | 4.5:1 |
+
+Pasif bant etiketleri de aynı sebeple ink-600'e çekildi: ink-500 kart
+zemininde 4.46:1'de kalıyordu. Kural `.tool-band-scale text:not([data-active])`
+üzerinden CSS'te — `BandScale` bileşeni OG kartıyla ortaktır, oraya dokunulmaz.
+
+Yeni bir araç sayfası eklendiğinde bu ölçüm tekrarlanır. Ölçüme custom cursor
+noktası (`mix-blend-difference`, z-60) dahil EDİLMEZ — o zemin değil imleçtir.
+Aynı gerekçeyle ölçek işaretçisi (`[data-part="marker"]`) de dışarıda kalır:
+etiketin sınırlayıcı kutusuna girer ama harflerin arkasında değildir.
+
+Değerler `src/lib/v2/anim-config.ts` → `BLOB_TOOL_HERO`. Varyant seçimi
+`V2Chrome`'da route listesinden yapılır; sayfa dosyasına gömülmez.

@@ -1683,6 +1683,7 @@
   text-align: center;
 }
 .tool-hero .eyebrow { justify-content: center; }
+.tool-hero .v2-crumbs ol { justify-content: center; }
 
 .scan-bar {
   display: flex;

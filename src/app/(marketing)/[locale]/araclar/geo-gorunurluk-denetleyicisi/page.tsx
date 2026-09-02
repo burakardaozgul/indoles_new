@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
-import { GeoScanForm } from "@/components/tools/geo-scan-form";
+import { GeoTool } from "@/components/tools/geo-tool";
 import { getToolBySlug } from "@/lib/content/tools";
 import { ARTICLES } from "@/lib/content/articles";
 import { SERVICES } from "@/lib/content/services";
@@ -33,7 +33,6 @@ const COPY = {
   tr: {
     toolsRoot: "araclar",
     tools: "Araçlar",
-    formTitle: "Sitenizi tarayın",
     stepsEyebrow: "Nasıl çalışır",
     stepsTitle: "Üç adım, saniyeler içinde skor.",
     signalsEyebrow: "Ne ölçüyoruz",
@@ -50,7 +49,6 @@ const COPY = {
   en: {
     toolsRoot: "tools",
     tools: "Tools",
-    formTitle: "Scan your site",
     stepsEyebrow: "How it works",
     stepsTitle: "Three steps, a score within seconds.",
     signalsEyebrow: "What we measure",
@@ -63,47 +61,6 @@ const COPY = {
     serviceLink: "AI consulting service",
     articlesLabel: "GEO guide articles",
     read: "Read",
-  },
-} as const;
-
-const SCAN_FORM_LABELS = {
-  tr: {
-    urlLabel: "Site adresi",
-    urlPlaceholder: "https://ornek.com.tr",
-    submit: "Denetle",
-    submitting: "Taranıyor…",
-    turnstileLoading: "Güvenlik doğrulaması yükleniyor…",
-    turnstileUnavailable:
-      "Güvenlik doğrulaması yüklenemedi. Sayfayı yenileyip yeniden deneyin.",
-    share: "Sonucu paylaş",
-    shareCopied: "Bağlantı kopyalandı",
-    errors: {
-      invalidUrl: "Geçerli bir site adresi girin (örneğin https://ornek.com.tr).",
-      rateLimited: "Çok fazla tarama yapıldı. Bir süre sonra tekrar deneyin.",
-      unreachable: "Bu adrese ulaşılamadı. Adresi kontrol edip tekrar deneyin.",
-      turnstile: "Güvenlik doğrulaması geçmedi; sayfayı yenileyip tekrar deneyin.",
-      unavailable: "Araç şu an yanıt veremiyor, birazdan tekrar deneyin.",
-      generic: "Tarama şu an tamamlanamadı, birazdan tekrar deneyin.",
-    },
-  },
-  en: {
-    urlLabel: "Site address",
-    urlPlaceholder: "https://example.com",
-    submit: "Audit",
-    submitting: "Scanning…",
-    turnstileLoading: "Loading the security check…",
-    turnstileUnavailable:
-      "The security check did not load. Refresh the page and try again.",
-    share: "Share result",
-    shareCopied: "Link copied",
-    errors: {
-      invalidUrl: "Enter a valid site address (for example https://example.com).",
-      rateLimited: "Too many scans for now. Please try again later.",
-      unreachable: "We could not reach that address. Check it and try again.",
-      turnstile: "The security check did not pass; refresh the page and try again.",
-      unavailable: "The tool cannot respond right now. Try again shortly.",
-      generic: "The scan could not finish right now. Try again shortly.",
-    },
   },
 } as const;
 
@@ -175,12 +132,13 @@ export default async function GeoVisibilityCheckerPage({
         ]}
       />
 
-      {/* Araç hero — klasik V2PageHeader yerine araç-özel hafif giriş: küçük
-          breadcrumb + eyebrow + araç adı (h1) + bilgilendirici intro. Tek
-          merkezî sütun; giriş alanı hemen altındaki bölümde. */}
+      {/* Araç hero + giriş — hero, giriş çubuğu, tarama sahnesi ve skor kartı
+          `GeoTool` durum makinesinde tek adada (Görev 10). Sayfa geçişi yok:
+          `GeoTool` başarıda kendi h1'ini sr-only yapar, URL'i
+          `history.replaceState` ile paylaşım linkine çeker. */}
       <section aria-labelledby="tool-h1" className="tool-hero">
         <div className="ds-container">
-          <div className="mx-auto max-w-prose-editorial">
+          <div className="mx-auto max-w-tool">
             <nav aria-label="Breadcrumb" className="v2-crumbs">
               <ol>
                 <li>
@@ -196,40 +154,14 @@ export default async function GeoVisibilityCheckerPage({
                 </li>
               </ol>
             </nav>
-
-            <span className="eyebrow">{tool.eyebrow[loc]}</span>
-            <h1 id="tool-h1" className="typography-h1 text-ink-900 mt-4">
-              {tool.name[loc]}
-            </h1>
-            <p className="typography-body-lg text-ink-700 mt-5">{tool.lede[loc]}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Giriş alanı — sayfanın birincil aksiyonu, ilk ekranda intro'nun hemen
-          altında. Başlık sr-only: intro'yla giriş arasına görsel bir başlık
-          girmez (Burak yönü) ama başlık düzeni ve `scan-heading` sabit kalır. */}
-      <section aria-labelledby="scan-heading" className="ds-container pt-8 pb-16 md:pb-24">
-        <div className="mx-auto max-w-prose-editorial">
-          <h2 id="scan-heading" className="sr-only">
-            {c.formTitle}
-          </h2>
-          <div className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10">
-            <GeoScanForm
-              locale={loc}
-              labels={SCAN_FORM_LABELS[loc]}
-              signals={tool.signals}
-            />
-            <p className="typography-caption text-ink-500 mt-6">
-              {tool.footnote[loc]}
-            </p>
+            <GeoTool locale={loc} tool={tool} mode="tool" />
           </div>
         </div>
       </section>
 
       {/* Nasıl çalışır — 3 adım, tek sütunda dikey liste. */}
       <section aria-labelledby="steps-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool pt-24 pb-16 border-t border-surface-2">
           <span className="eyebrow">{c.stepsEyebrow}</span>
           <h2 id="steps-heading" className="typography-h2 text-ink-900 mt-4">
             {c.stepsTitle}
@@ -254,7 +186,7 @@ export default async function GeoVisibilityCheckerPage({
 
       {/* Ölçülen 5 sinyal — tek sütunda dikey kart yığını. */}
       <section aria-labelledby="signals-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool py-16 border-t border-surface-2">
           <span className="eyebrow">{c.signalsEyebrow}</span>
           <h2 id="signals-heading" className="typography-h2 text-ink-900 mt-4">
             {c.signalsTitle}
@@ -282,7 +214,7 @@ export default async function GeoVisibilityCheckerPage({
 
       {/* SSS — native <details>. */}
       <section aria-labelledby="faq-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool py-16 border-t border-surface-2">
           <span className="eyebrow">{c.faqEyebrow}</span>
           <h2 id="faq-heading" className="typography-h2 text-ink-900 mt-4">
             {c.faqTitle}
@@ -293,7 +225,7 @@ export default async function GeoVisibilityCheckerPage({
 
       {/* Devamı: hizmet + üç GEO yazısı, tek sütunda dikey. */}
       <section aria-labelledby="related-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool py-16 border-t border-surface-2">
           <span className="eyebrow">{c.relatedEyebrow}</span>
           <h2 id="related-heading" className="typography-h2 text-ink-900 mt-4">
             {c.relatedTitle}

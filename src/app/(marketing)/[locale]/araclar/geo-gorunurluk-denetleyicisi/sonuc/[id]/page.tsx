@@ -4,11 +4,14 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
-import { GeoResult } from "@/components/tools/geo-result";
+import { ReportGate } from "@/components/tools/report-gate";
+import { ScoreCard } from "@/components/tools/score-card";
+import { SignalRows } from "@/components/tools/signal-rows";
 import { getToolBySlug } from "@/lib/content/tools";
 import { getScan } from "@/lib/tools/geo/repository";
 import { stripFindings } from "@/lib/tools/geo/findings";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { absoluteUrl } from "@/lib/seo/site";
 import type { Locale } from "@/lib/content/types";
 import type { GeoScanResult } from "@/lib/tools/geo/types";
 
@@ -151,8 +154,21 @@ export default async function GeoScanResultPage({
         lede={c.lede}
       />
 
+      {/* Görev 10 ara telli: eski `GeoResult` silindiği için burada onun
+          yerini aldığı üç bileşen doğrudan kullanılır (`GeoTool` DEĞİL —
+          `V2PageHeader` kendi h1'ini bastığından `GeoTool`'un durum
+          makinesi + sr-only h1'i çift h1 üretirdi). Sayfanın kendi tam
+          yeniden tasarımı (paylaşım pankartı, `share-meta.ts`) Görev 11'e
+          ait; bu yalnız kırık içe aktarımı gidermek için minimum telli. */}
       <section aria-label={c.title} className="ds-container pb-16">
-        <GeoResult result={result} signals={tool.signals} locale={loc} />
+        <ScoreCard
+          result={result}
+          tool={tool}
+          locale={loc}
+          shareUrl={absoluteUrl(resultPaths(id)[loc])}
+        />
+        <SignalRows checks={result.checks} signals={tool.signals} locale={loc} />
+        <ReportGate scanId={result.id} band={result.band} locale={loc} checks={result.checks} signals={tool.signals} />
 
         <div className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10 mt-12 flex flex-col items-start gap-4">
           <p className="typography-body-md text-ink-700">{c.ctaLede}</p>

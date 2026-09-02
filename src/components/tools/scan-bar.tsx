@@ -26,8 +26,9 @@ export function normalizeUrlInput(raw: string): string {
   return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
 }
 
-// Turnstile sabitleri ve turnstileApi() — geo-scan-form.tsx'ten birebir.
-// O dosya Görev 10'da silinene dek burada bilinçli olarak yinelenir.
+// Turnstile sabitleri ve turnstileApi() — report-gate.tsx'teki eşdeğeriyle
+// birebir. İki dosya arasında bilinçli olarak yinelenir (paylaşılan bir
+// Turnstile modülü bu görev kapsamı dışında).
 const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 const TURNSTILE_POLL_MS = 300;
 const TURNSTILE_POLL_LIMIT = 60;
@@ -165,8 +166,8 @@ export function ScanBar({
   }, []);
 
   // Sunucu bir hata bildirdiğinde (`error` prop'u dolduğunda) kullanılmış
-  // token geçersizleşmiş sayılır — `geo-scan-form.tsx`'teki her başarısız
-  // dal `clearTurnstileToken()` çağırırdı; burada eşdeğeri tek noktadan.
+  // token geçersizleşmiş sayılır — eski `geo-scan-form.tsx`'in her başarısız
+  // dalı `clearTurnstileToken()` çağırırdı; burada eşdeğeri tek noktadan.
   React.useEffect(() => {
     if (error) clearTurnstileToken();
     // eslint-disable-next-line react-hooks/exhaustive-deps

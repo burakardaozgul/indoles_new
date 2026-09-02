@@ -12,8 +12,9 @@ import type { GeoBand, GeoCheckResult } from "@/lib/tools/geo/types";
 
 const SLUG = "geo-gorunurluk-denetleyicisi";
 
-// Turnstile sabitleri ve turnstileApi() — scan-bar.tsx / geo-report-form.tsx'ten
-// birebir. O dosyalar Görev 10'da silinene dek burada bilinçli olarak yinelenir.
+// Turnstile sabitleri ve turnstileApi() — scan-bar.tsx'teki eşdeğeriyle
+// birebir. İki dosya arasında bilinçli olarak yinelenir (paylaşılan bir
+// Turnstile modülü bu görev kapsamı dışında).
 const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 const TURNSTILE_POLL_MS = 300;
 const TURNSTILE_POLL_LIMIT = 60;

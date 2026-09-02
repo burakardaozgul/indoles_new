@@ -12,7 +12,9 @@ const PIXEL_PATTERNS: Record<string, RegExp> = {
 
 const FrictionSchema = z.object({ checkoutFrictionPoints: z.array(z.string()) });
 
-export async function analyzeFunnel(env: DiagnooEnv, pages: ScrapedPage[]): Promise<FunnelResult> {
+export async function analyzeFunnel(
+  env: DiagnooEnv, pages: ScrapedPage[], locale: "tr" | "en",
+): Promise<FunnelResult> {
   // CWV: anasayfa + ürün sayfaları (en fazla 3 PSI çağrısı — kota koruması).
   const speedTargets = pages.filter((p) => p.pageType === "homepage" || p.pageType === "product").slice(0, 3);
   const pageSpeeds: PageSpeed[] = [];
@@ -36,8 +38,11 @@ export async function analyzeFunnel(env: DiagnooEnv, pages: ScrapedPage[]): Prom
   const checkout = pages.find((p) => p.pageType === "checkout");
   let checkoutFrictionPoints: string[] = [];
   if (checkout) {
+    // Bulgular rapora doğrudan basılıyor: dil semantic/vision ajanlarıyla aynı
+    // sözleşmeden gelmeli, yoksa EN raporda Türkçe cümleler görünür.
+    const lang = locale === "tr" ? "Türkçe" : "İngilizce";
     const out = await geminiJson(env, {
-      system: "E-ticaret checkout akışı denetçisisin. YALNIZCA JSON döndür.",
+      system: `E-ticaret checkout akışı denetçisisin. Bulguları ${lang} yaz. YALNIZCA JSON döndür.`,
       user: `Checkout sayfası içeriği:\n${checkout.bodyText.slice(0, 4000)}\n\nŞema: {"checkoutFrictionPoints": ["somut sürtünme noktaları: zorunlu üyelik, gizli kargo ücreti, fazla form alanı vb."]}`,
       schema: FrictionSchema,
     });

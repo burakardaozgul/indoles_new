@@ -29,7 +29,7 @@ export async function runDiagnosticPipeline(
     const vision = await step.do("vision", () => analyzeVision(env, pages, row.locale));
 
     await setProgress(db, diagnosticId, "funnel", 70);
-    const funnel = await step.do("funnel", () => analyzeFunnel(env, pages));
+    const funnel = await step.do("funnel", () => analyzeFunnel(env, pages, row.locale));
 
     await setProgress(db, diagnosticId, "financial", 90);
     const report = await step.do("report", () =>

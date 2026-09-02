@@ -100,16 +100,31 @@ describe("analyzeFunnel", () => {
       mkPage({ rawHtml: '<script src="https://www.googletagmanager.com/gtag/js"></script>' }),
       mkPage({ pageType: "checkout", url: "https://a.com/c", rawHtml: "<html></html>", bodyText: "checkout" }),
     ];
-    const out = await analyzeFunnel(env, pages);
+    const out = await analyzeFunnel(env, pages, "tr");
     expect(out.avgLcpMs).toBe(4000);
     expect(out.pixelCoverage.gtag).toBe(true);
     expect(out.pixelCoverage.meta_pixel).toBe(false);
     expect(out.checkoutFrictionPoints).toContain("Zorunlu üyelik");
     expect(out.missingTrackingEvents).toContain("meta_pixel");
   });
+  it("checkout sürtünme prompt'u rapor diliyle yazılır", async () => {
+    // Diğer iki ajan locale alıyordu, funnel almıyordu: EN raporda checkout
+    // bulguları Türkçe dönüyordu (Görev 9 eksiği).
+    vi.mocked(fetchCwv).mockResolvedValue(null);
+    vi.mocked(geminiJson).mockResolvedValue({ checkoutFrictionPoints: [] } as never);
+    const pages = [mkPage({ pageType: "checkout", url: "https://a.com/c", bodyText: "checkout" })];
+
+    await analyzeFunnel(env, pages, "en");
+    expect(vi.mocked(geminiJson).mock.calls[0]![1].system).toContain("İngilizce");
+
+    vi.mocked(geminiJson).mockClear();
+    await analyzeFunnel(env, pages, "tr");
+    expect(vi.mocked(geminiJson).mock.calls[0]![1].system).toContain("Türkçe");
+  });
+
   it("tüm PSI çağrıları null ise boş pageSpeeds ve avgLcpMs 0", async () => {
     vi.mocked(fetchCwv).mockResolvedValue(null);
-    const out = await analyzeFunnel(env, [mkPage({ rawHtml: "<html></html>" })]);
+    const out = await analyzeFunnel(env, [mkPage({ rawHtml: "<html></html>" })], "tr");
     expect(out.pageSpeeds).toHaveLength(0);
     expect(out.avgLcpMs).toBe(0);
   });

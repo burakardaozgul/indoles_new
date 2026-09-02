@@ -9,7 +9,7 @@ export function sampleReport(): DiagnooReport {
       mobileIssues: ["Sepete ekle butonu fold altında"], desktopIssues: [], aboveFoldAssessment: "Kampanya bandı CTA'yı gölgeliyor" },
     funnel: { pageSpeeds: [{ url: "https://ornek-magaza.com", lcpMs: 4200, cls: 0.18, ttfbMs: 900, inpMs: 250 }],
       avgLcpMs: 4200, checkoutFrictionPoints: ["Zorunlu üyelik"], pixelCoverage: { gtag: true, meta_pixel: false },
-      missingTrackingEvents: ["add_to_cart"] },
+      missingTrackingEvents: ["meta_pixel"] },
     financial: {
       inputs: { monthlyTraffic: 120000, aov: 850, conversionRate: 0.015, avgDelaySeconds: 1.7,
         monthlyAdSpend: null, messageCohesionScore: 0.62 },

@@ -57,6 +57,8 @@ const COPY = {
     speedMissingLabel: "Veri yetersiz",
     speedMissingBasis:
       "PageSpeed Insights bu adres için mobil ölçüm döndürmedi; hız boyutu puanlanmadı.",
+    trackingMissing: "Eksik:",
+    trackingNoneMissing: "Eksik etiket yok.",
 
     gapsHeading: "Kritik boşluklar",
     gapsLede:
@@ -132,6 +134,8 @@ const COPY = {
     speedMissingLabel: "Not enough data",
     speedMissingBasis:
       "PageSpeed Insights returned no mobile measurement for this address, so the speed dimension is unscored.",
+    trackingMissing: "Missing:",
+    trackingNoneMissing: "No missing tags.",
 
     gapsHeading: "Critical gaps",
     gapsLede:
@@ -209,6 +213,17 @@ const PRIORITY_ORDER: Record<RoadmapItem["priority"], number> = {
   high: 1,
   medium: 2,
   low: 3,
+};
+
+/**
+ * Ölçüm etiketi kimliği → okunur ad. Kimlikler `agents/funnel.ts` içindeki
+ * `PIXEL_PATTERNS` anahtarlarıdır; motorun ürettiği kimlik dışında bir ad
+ * uydurulmaz, tanınmayan kimlik ham hâliyle basılır.
+ */
+const TRACKING_LABELS: Record<string, Record<"tr" | "en", string>> = {
+  gtag: { tr: "GA4 / gtag", en: "GA4 / gtag" },
+  meta_pixel: { tr: "Meta Pixel", en: "Meta Pixel" },
+  session_analytics: { tr: "Oturum analitiği", en: "Session analytics" },
 };
 
 /**
@@ -449,6 +464,9 @@ export function DiagnooReport({
 
   // Skor karnesi — dört boyut, hepsi ham ölçümden türer.
   const pixels = Object.values(report.funnel.pixelCoverage);
+  const missingTracking = report.funnel.missingTrackingEvents.map(
+    (id) => TRACKING_LABELS[id]?.[locale] ?? id,
+  );
   const scoreRows = [
     {
       id: "semantic",
@@ -487,9 +505,14 @@ export function DiagnooReport({
         pixels.length === 0 ? 0 : pixels.filter(Boolean).length / pixels.length,
       ),
       basis:
-        locale === "tr"
-          ? `Denetlenen ${pixels.length} pikselin ${pixels.filter(Boolean).length} tanesi kurulu.`
-          : `${pixels.filter(Boolean).length} of the ${pixels.length} inspected pixels are installed.`,
+        (locale === "tr"
+          ? `Denetlenen ${pixels.length} pikselin ${pixels.filter(Boolean).length} tanesi kurulu. `
+          : `${pixels.filter(Boolean).length} of the ${pixels.length} inspected pixels are installed. `) +
+        // Araç sayfasının "eksik olanları ad ad listeler" iddiası burada
+        // karşılanır; boş liste de açıkça söylenir (I4).
+        (missingTracking.length > 0
+          ? `${c.trackingMissing} ${missingTracking.join(", ")}.`
+          : c.trackingNoneMissing),
     },
   ];
 

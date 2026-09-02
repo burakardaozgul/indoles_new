@@ -129,6 +129,31 @@ describe("DiagnooReport", () => {
     ).toBeInTheDocument();
   });
 
+  it("eksik ölçüm etiketlerini skor karnesinde ad ad listeler", () => {
+    // Araç sayfası "eksik olanları raporda ad ad listeler" diyor; rapor
+    // bugüne dek `missingTrackingEvents`i hiç basmıyordu (I4).
+    const { container } = render(<DiagnooReport report={REPORT} locale="tr" />);
+    expect(container.textContent ?? "").toContain("Eksik: Meta Pixel");
+  });
+
+  it("eksik etiket yoksa bunu açıkça söyler", () => {
+    const full: DiagnooReportData = {
+      ...REPORT,
+      funnel: { ...REPORT.funnel, missingTrackingEvents: [] },
+    };
+    const { container } = render(<DiagnooReport report={full} locale="tr" />);
+    expect(container.textContent ?? "").toContain("Eksik etiket yok");
+  });
+
+  it("EN'de eksik etiketleri çevrilmiş adlarıyla listeler", () => {
+    const missing: DiagnooReportData = {
+      ...REPORT,
+      funnel: { ...REPORT.funnel, missingTrackingEvents: ["gtag", "session_analytics"] },
+    };
+    const { container } = render(<DiagnooReport report={missing} locale="en" />);
+    expect(container.textContent ?? "").toContain("Missing: GA4 / gtag, Session analytics");
+  });
+
   it("kıyas satırının altında kaynağını ve tarihini yazar", () => {
     const { container } = render(<DiagnooReport report={REPORT} locale="tr" />);
     const text = container.textContent ?? "";

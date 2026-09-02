@@ -295,8 +295,8 @@ export const TOOLS: ToolContent[] = [
         weight: 25,
         title: { tr: "Arayüz yükü ve eylem çağrısı", en: "Interface load and call to action" },
         description: {
-          tr: "İlk ekranın bilişsel yükünü ve eylem çağrısının görünürlüğünü mobil ile masaüstü ekran görüntüsü üzerinden ayrı ayrı puanlar.",
-          en: "Scores the cognitive load of the first screen and the visibility of the call to action separately from mobile and desktop screenshots.",
+          tr: "İlk ekranın bilişsel yükünü ve eylem çağrısının görünürlüğünü sayfa ekran görüntüleri üzerinden puanlar.",
+          en: "Scores the cognitive load of the first screen and the visibility of the call to action from the page screenshots.",
         },
       },
       {
@@ -304,8 +304,8 @@ export const TOOLS: ToolContent[] = [
         weight: 30,
         title: { tr: "Hız ve satın alma akışı", en: "Speed and purchase flow" },
         description: {
-          tr: "Yedi sayfanın mobil LCP, CLS ve TTFB değerlerini okur; ödeme adımındaki sürtünme noktalarını — zorunlu üyelik, uzun form, geç görünen kargo bedeli — tek tek sayar.",
-          en: "Reads mobile LCP, CLS and TTFB across the seven pages, then counts the friction points at checkout one by one: forced sign-up, long forms, a delivery charge that appears late.",
+          tr: "Anasayfa ve ürün sayfalarından en fazla üçünün mobil LCP, CLS ve TTFB değerlerini PageSpeed Insights ile okur; ödeme adımındaki sürtünme noktalarını — zorunlu üyelik, uzun form, geç görünen kargo bedeli — tek tek sayar.",
+          en: "Reads mobile LCP, CLS and TTFB with PageSpeed Insights on at most three of the home and product pages, then counts the friction points at checkout one by one: forced sign-up, long forms, a delivery charge that appears late.",
         },
       },
       {
@@ -313,8 +313,8 @@ export const TOOLS: ToolContent[] = [
         weight: 20,
         title: { tr: "Ölçüm altyapısı", en: "Tracking setup" },
         description: {
-          tr: "Hangi piksel ve olayın kurulu olduğunu denetler; eksik satın alma, sepete ekleme veya ödeme başlatma olayı raporda ad ad geçer.",
-          en: "Inspects which pixels and events are installed; a missing purchase, add-to-cart or begin-checkout event is named in the report.",
+          tr: "GA4/gtag, Meta Pixel ve oturum analitiği (Hotjar/Clarity) etiketlerinin varlığını kontrol eder; eksik olanları raporda ad ad listeler.",
+          en: "Checks whether the GA4/gtag, Meta Pixel and session analytics (Hotjar/Clarity) tags are present; the report names the missing ones one by one.",
         },
       },
     ],

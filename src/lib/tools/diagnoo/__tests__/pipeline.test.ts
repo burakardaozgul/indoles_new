@@ -23,6 +23,25 @@ import { getDiagnostic, setProgress, saveReport, markFailed } from "../repositor
 import { ScrapeError } from "../services/firecrawl";
 
 const step: StepRunner = { do: (_name, fn) => fn() };
+
+/**
+ * Görev 17.2 — Cloudflare Workflows'un GERÇEK davranışını taklit eder: bir
+ * adımın retry'ları tükenince, adımın İÇİNDE fırlatılan hata Workflows'un
+ * KENDİ sarmalayıcısıyla yeniden fırlatılır ("step failed: " + orijinal
+ * mesaj) — orijinal hata SINIFI (`ScrapeError`) kaybolur. `runDiagnosticPipeline`
+ * `instanceof ScrapeError` kontrolünü adımın DIŞINDA yaparsa bu sarmalamadan
+ * sonra asla tutmaz; kontrol adımın İÇİNDE yapılmalı.
+ */
+const wrappingStep: StepRunner = {
+  do: async (_name, fn) => {
+    try {
+      return await fn();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      throw new Error("step failed: " + message);
+    }
+  },
+};
 const env = { GEMINI_API_KEY: "g", FIRECRAWL_API_KEY: "f", BOOKINGS_DB: {} as D1Database };
 const report = sampleReport();
 
@@ -63,6 +82,22 @@ describe("runDiagnosticPipeline", () => {
   it("diğer hatalar markFailed sonrası rethrow edilir (Workflows retry)", async () => {
     vi.mocked(analyzeSemantic).mockRejectedValue(new Error("gemini down"));
     await expect(runDiagnosticPipeline(env, step, "d1")).rejects.toThrow("gemini down");
+    expect(markFailed).toHaveBeenCalledWith(env.BOOKINGS_DB, "d1", "pipeline_error");
+  });
+
+  it("Görev 17.2 — Workflow adımı retry sonrası hatayı SARMALASA bile scrape_failed doğru sınıflandırılır", async () => {
+    vi.mocked(discoverAndScrapePages).mockRejectedValue(new ScrapeError("https://a.com", 500));
+    await expect(runDiagnosticPipeline(env, wrappingStep, "d1")).resolves.toBeUndefined();
+    expect(markFailed).toHaveBeenCalledWith(env.BOOKINGS_DB, "d1", "scrape_failed");
+    expect(markFailed).not.toHaveBeenCalledWith(env.BOOKINGS_DB, "d1", "pipeline_error");
+    expect(saveReport).not.toHaveBeenCalled();
+  });
+
+  it("Görev 17.2 — sarmalayan adım runner'da ScrapeError DIŞINDAKİ hatalar yine rethrow edilir (retry çalışır)", async () => {
+    vi.mocked(analyzeSemantic).mockRejectedValue(new Error("gemini down"));
+    await expect(runDiagnosticPipeline(env, wrappingStep, "d1")).rejects.toThrow(
+      "step failed: gemini down",
+    );
     expect(markFailed).toHaveBeenCalledWith(env.BOOKINGS_DB, "d1", "pipeline_error");
   });
 

@@ -20,7 +20,29 @@ export async function runDiagnosticPipeline(
 
   try {
     await setProgress(db, diagnosticId, "scraping", 15);
-    const pages = await step.do("scrape", () => discoverAndScrapePages(env, row.url));
+    // Görev 17.2 — `ScrapeError` sınıf kontrolü Workflow adımının (`step.do`)
+    // İÇİNDE yapılır: Cloudflare Workflows retry'ları tükenince orijinal
+    // hatayı KENDİ sarmalayıcısıyla yeniden fırlatır ("step failed: " +
+    // mesaj) — sınıf bilgisi kaybolur, adımın DIŞINDAKİ bir `instanceof
+    // ScrapeError` kontrolü bu noktadan sonra asla tutmaz (E2E'de gözlendi).
+    // `ScrapeError` burada YAKALANIR ve saf bir sonuç nesnesine çevrilir —
+    // fırlatılmadığı için Workflows bu adımı retry'a hiç sokmaz (site zaten
+    // erişilemez durumdaysa retry anlamsız, ADR-031). Diğer hatalar (ağ,
+    // zaman aşımı) fırlatılmaya devam eder ki adım retry mekanizması çalışsın.
+    const scraped = await step.do("scrape", async () => {
+      try {
+        const pages = await discoverAndScrapePages(env, row.url);
+        return { ok: true as const, pages };
+      } catch (err) {
+        if (err instanceof ScrapeError) return { ok: false as const, reason: "scrape_failed" as const };
+        throw err;
+      }
+    });
+    if (!scraped.ok) {
+      await markFailed(db, diagnosticId, "scrape_failed");
+      return;
+    }
+    const pages = scraped.pages;
 
     await setProgress(db, diagnosticId, "semantic", 35);
     const semantic = await step.do("semantic", () => analyzeSemantic(env, pages, row.locale));
@@ -39,11 +61,9 @@ export async function runDiagnosticPipeline(
     await setProgress(db, diagnosticId, "report", 95);
     await saveReport(db, diagnosticId, report);
   } catch (err) {
-    if (err instanceof ScrapeError) {
-      // Dürüst hata: siteye erişilemedi — retry anlamsız (spec §10).
-      await markFailed(db, diagnosticId, "scrape_failed");
-      return;
-    }
+    // `ScrapeError` artık BURAYA hiç ulaşmaz — "scrape" adımının kendi
+    // içinde yakalanıp `scraped.ok === false` olarak ele alınıyor (yukarı
+    // bkz., Görev 17.2). Buraya düşen her şey pipeline_error'dır.
     await markFailed(db, diagnosticId, "pipeline_error");
     throw err; // Workflows adım retry mekanizması devralır.
   }

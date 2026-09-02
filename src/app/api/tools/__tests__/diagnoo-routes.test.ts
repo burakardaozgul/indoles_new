@@ -164,6 +164,28 @@ describe("POST /api/tools/diagnoo-unlock", () => {
     const status = await statusGET(get(`/api/tools/diagnoo-status/${ID}`, cookie), { params: Promise.resolve({ id: ID }) });
     expect(((await status.json()) as { leadCaptured: boolean }).leadCaptured).toBe(true);
   });
+  it("aynı IP saatte 4. unlock'ta 429 rate-limited", async () => {
+    // GEO `LEAD_HOURLY_LIMIT` paritesi: kilit açma da lead yazma yüzeyidir,
+    // sınırsız çağrı satış kutusunu ve D1'i doldurur.
+    for (const email of ["a@firma.com", "b@firma.com", "c@firma.com"]) {
+      const ok = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody({ email })));
+      expect(ok.status).toBe(200);
+    }
+    const res = await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody({ email: "d@firma.com" })));
+    expect(res.status).toBe(429);
+    expect(((await res.json()) as { error: string }).error).toBe("rate-limited");
+  });
+
+  it("limit IP başına — başka IP'den unlock açılmaya devam eder", async () => {
+    for (const email of ["a@firma.com", "b@firma.com", "c@firma.com"]) {
+      await unlockPOST(post("/api/tools/diagnoo-unlock", unlockBody({ email })));
+    }
+    const res = await unlockPOST(
+      post("/api/tools/diagnoo-unlock", unlockBody({ email: "d@firma.com" }), "9.9.9.9"),
+    );
+    expect(res.status).toBe(200);
+  });
+
   it("teşhis tamam değilse 409", async () => {
     const other = "22222222-2222-4222-8222-222222222222";
     await createDiagnostic(db, { id: other, ...base, url: "https://b.com" });

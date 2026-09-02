@@ -5,8 +5,9 @@
  * Akış (KESİN sıra): json → `diagnooUnlockSchema.safeParse`
  * (`kvkkConsent: z.literal(true)` — GEO'daki `geoReportSchema` ile AYNI KVKK
  * kapı mantığı, bkz. o şemanın yorumu) → ip → Turnstile (koşulsuz) →
- * `TOOL_IP_SALT` fail-closed → `hashClientIp` → `getDiagnostic` (yok → 404;
- * tamamlanmamış/rapor yok → 409 not-ready) → `createLead` (aynı teşhis +
+ * `TOOL_IP_SALT` fail-closed → `hashClientIp` → IP/saat limiti (429) →
+ * `getDiagnostic` (yok → 404; tamamlanmamış/rapor yok → 409 not-ready) →
+ * `createLead` (aynı teşhis +
  * aynı e-posta için ikinci çağrı `UNIQUE` ihlaliyle "duplicate" döner —
  * unlock İDEMPOTENT, hata değil) → yeni lead ise `knownMetrics` verilmişse
  * `recomputeWithKnownMetrics` + `saveLeadRecompute` + satış lead bildirimi →
@@ -41,6 +42,8 @@ import {
   createLead,
   saveLeadRecompute,
   setLeadUnlockToken,
+  countLeadsSince,
+  sqliteTimestamp,
 } from "@/lib/tools/diagnoo/repository";
 import { recomputeWithKnownMetrics } from "@/lib/tools/diagnoo/report";
 import { UNLOCK_COOKIE_MAX_AGE, unlockCookieName } from "@/lib/tools/diagnoo/unlock-cookie";
@@ -53,7 +56,21 @@ export const runtime = "nodejs";
 // GEO/booking rotalarındaki AYNI dar env tanımı.
 type DiagnooRouteEnv = { BOOKINGS_DB: D1Database };
 
-type DiagnooUnlockErrorCode = "invalid" | "turnstile-failed" | "misconfigured" | "not-found" | "not-ready";
+type DiagnooUnlockErrorCode =
+  | "invalid"
+  | "turnstile-failed"
+  | "misconfigured"
+  | "rate-limited"
+  | "not-found"
+  | "not-ready";
+
+/**
+ * IP başına saatlik kilit açma sınırı — GEO `geo-report` rotasının
+ * `LEAD_HOURLY_LIMIT` değeriyle AYNI. Kilit açma da bir lead yazma yüzeyidir:
+ * sınırsız çağrı hem satış kutusunu doldurur hem D1'e sınırsız satır yazar.
+ */
+const LEAD_HOURLY_LIMIT = 3;
+const HOUR_MS = 60 * 60 * 1000;
 
 function errorResponse(error: DiagnooUnlockErrorCode, status: number): Response {
   return NextResponse.json({ error }, { status });
@@ -101,6 +118,14 @@ export async function POST(req: Request): Promise<Response> {
 
   const { env } = getCloudflareContext();
   const db = (env as unknown as DiagnooRouteEnv).BOOKINGS_DB;
+
+  // D1'in `datetime('now')` metniyle (UTC, "T" yok) sözlük sırasında doğru
+  // karşılaştırılsın diye `sqliteTimestamp` — bkz. repository.ts başlık notu.
+  const sinceIso = sqliteTimestamp(new Date(Date.now() - HOUR_MS));
+  const leadCount = await countLeadsSince(db, ipHash, sinceIso);
+  if (leadCount >= LEAD_HOURLY_LIMIT) {
+    return errorResponse("rate-limited", 429);
+  }
 
   const row = await getDiagnostic(db, data.diagnosticId);
   if (!row) {

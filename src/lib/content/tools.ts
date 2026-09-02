@@ -365,8 +365,8 @@ export const TOOLS: ToolContent[] = [
           en: "Which data does Diagnoo store?",
         },
         answer: {
-          tr: "Ücretsiz taramada yalnız girdiğiniz mağaza adresi ve IP adresinizin tuzlanmış özeti saklanır; ham IP hiçbir yerde tutulmaz. Tam raporu açtığınızda iş e-posta adresiniz, şirket adınız ve isteğe bağlı verdiğiniz ticari sayılar KVKK rızanızla kaydedilir. Rapor sayfası arama motorlarına kapalıdır, bağlantıyı yalnız siz paylaşırsınız. Saklama süreleri ve haklarınız gizlilik metnimizde yazılıdır.",
-          en: "A free scan stores only the store address you enter and a salted hash of your IP address; the raw IP is never kept. When you unlock the full report, your work e-mail, your company name and any commercial figures you choose to share are recorded under your KVKK consent. The report page stays closed to search engines, and only you share its link. Retention periods and your rights sit in our privacy notice.",
+          tr: "Ücretsiz taramada yalnız girdiğiniz mağaza adresi ve IP adresinizin tuzlanmış özeti saklanır; ham IP hiçbir yerde tutulmaz. Tam raporu açtığınızda iş e-posta adresiniz ve şirket adınız zorunlu, ad soyadınız ile paylaşmayı seçtiğiniz ticari sayılar isteğe bağlı olarak KVKK rızanızla kaydedilir. Rapor sayfası arama motorlarına kapalıdır, bağlantıyı yalnız siz paylaşırsınız. Saklama süreleri ve haklarınız gizlilik metnimizde yazılıdır.",
+          en: "A free scan stores only the store address you enter and a salted hash of your IP address; the raw IP is never kept. When you unlock the full report, your work e-mail and company name are required, while your full name and any commercial figures you choose to share are optional — all recorded under your KVKK consent. The report page stays closed to search engines, and only you share its link. Retention periods and your rights sit in our privacy notice.",
         },
       },
       {

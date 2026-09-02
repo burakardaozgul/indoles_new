@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { DiagnooReport } from "../diagnoo-report";
 import { sampleReport } from "@/lib/tools/diagnoo/__tests__/fixtures";
+import type { DiagnooReport as DiagnooReportData } from "@/lib/tools/diagnoo/schema";
 
 /**
  * Tam raporun sözleşmeleri — Görev 15.
@@ -60,6 +61,44 @@ describe("DiagnooReport", () => {
     for (const pointEstimate of ["₺114.000", "₺90.000", "₺18.000", "₺6.000"]) {
       expect(text).not.toContain(pointEstimate);
     }
+  });
+
+  it("bölüm 3 YALNIZ kritik ve yüksek öncelikli maddeleri gösterir", () => {
+    const { container } = render(<DiagnooReport report={REPORT} locale="tr" />);
+    const gapsSection = Array.from(container.querySelectorAll("section")).find(
+      (s) => s.querySelector("h2")?.textContent === "Kritik boşluklar",
+    );
+    expect(gapsSection).toBeDefined();
+
+    // Fixture: 1 kritik + 2 yüksek + 1 orta → bölümde tam 3 kart.
+    expect(gapsSection!.querySelectorAll("li")).toHaveLength(3);
+    expect(gapsSection!.textContent).not.toContain("Checkout'ta misafir akışı");
+    expect(gapsSection!.textContent).not.toContain("Orta");
+  });
+
+  it("orta öncelikli madde yalnız yol haritasında geçer — bölüm 3'te değil", () => {
+    render(<DiagnooReport report={REPORT} locale="tr" />);
+    // Tek kez: bölüm 5 (yol haritası). Bölüm 3 artık aynı maddeyi basmıyor.
+    expect(screen.getAllByText("Checkout'ta misafir akışı")).toHaveLength(1);
+  });
+
+  it("kritik/yüksek madde yoksa dürüst bir boş durum cümlesi basar", () => {
+    const onlyLow: DiagnooReportData = {
+      ...REPORT,
+      roadmap: REPORT.roadmap
+        .filter((r) => r.priority === "medium")
+        .map((r) => ({ ...r, priority: "medium" as const })),
+    };
+    const { container } = render(<DiagnooReport report={onlyLow} locale="tr" />);
+    const gapsSection = Array.from(container.querySelectorAll("section")).find(
+      (s) => s.querySelector("h2")?.textContent === "Kritik boşluklar",
+    );
+
+    expect(gapsSection!.textContent).toContain(
+      "Bu taramada kritik veya yüksek öncelikli boşluk bulunmadı",
+    );
+    // Boş durumda TÜM maddelere düşülmez.
+    expect(gapsSection!.querySelectorAll("li")).toHaveLength(0);
   });
 
   it("etki verisi olmayan maddeyi 'veri yetersiz' olarak işaretler", () => {

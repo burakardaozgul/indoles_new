@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DiagnooForm } from "@/components/tools/diagnoo-form";
 import { DiagnooProgress } from "@/components/tools/diagnoo-progress";
 import { DiagnooReport } from "@/components/tools/diagnoo-report";
@@ -27,10 +27,27 @@ import type { ToolContent } from "@/lib/content/tools";
  *
  * `reused: true` ayrı bir yol değil: o kayıt zaten `completed`, ilk yoklama
  * anlık görünümü hemen döndürür.
+ *
+ * GEÇİŞLERİN ERİŞİLEBİLİRLİĞİ (WCAG 2.2 AA, SC 4.1.3 + 2.4.3). Ekran her
+ * geçişte tamamen değişiyor ve eski ekranın odaklanmış öğesi DOM'dan
+ * kalkıyor. İki mekanizma bunu karşılar:
+ *
+ * 1. KALICI canlı bölge: her geçişte metni değişen tek bir `aria-live`
+ *    düğümü. Kalıcı olması şart — canlı bölge içeriğiyle AYNI anda DOM'a
+ *    girerse ekran okuyucular değişimi çoğu kez kaçırır.
+ * 2. Odak taşıma: yeni ekranın başlığı `tabIndex={-1}` taşır ve geçişten
+ *    sonra odaklanır. Aksi hâlde odak `<body>`ye düşer ve bir sonraki Tab
+ *    ziyaretçiyi sayfanın en başına atar.
+ *
+ * Başlık `sr-only`: sayfanın görsel başlık düzeni kasıtlı (araç kutusunun
+ * üstünde görünür başlık yok, `page.tsx`) — buraya görünür bir başlık koymak
+ * o kararı bozardı. Ekran okuyucu yine de nerede olduğunu duyar.
  */
 
 /** Rapor adresinin iç yolu — `routing.ts`'te `rapor ↔ report` çevirili. */
 const REPORT_PATHNAME = "/araclar/diagnoo/rapor/[id]";
+
+type Phase = "idle" | "running" | "snapshot" | "unlocked" | "failed";
 
 const COPY = {
   tr: {
@@ -41,6 +58,16 @@ const COPY = {
     failedGeneric:
       "Tarama tamamlanamadı. Adresi kontrol edip yeniden başlatın.",
     retry: "Yeni tarama başlat",
+    phaseIdle: "yeni tarama",
+    phaseRunning: "tarama sürüyor",
+    phaseSnapshot: "anlık görünüm",
+    phaseUnlocked: "rapor",
+    phaseFailed: "tarama tamamlanamadı",
+    liveIdle: "Yeni tarama için adres alanı hazır.",
+    liveRunning: "Tarama başlatıldı.",
+    liveSnapshot: "Tarama tamamlandı. Anlık görünüm hazır.",
+    liveUnlocked: "Tarama tamamlandı. Rapor açık.",
+    liveFailed: "Tarama tamamlanamadı.",
   },
   en: {
     failedScrape:
@@ -48,8 +75,36 @@ const COPY = {
     failedNotFound: "This diagnostic was not found. You can start a new scan.",
     failedGeneric: "The scan could not finish. Check the address and start it again.",
     retry: "Start a new scan",
+    phaseIdle: "new scan",
+    phaseRunning: "scan running",
+    phaseSnapshot: "snapshot",
+    phaseUnlocked: "report",
+    phaseFailed: "scan could not finish",
+    liveIdle: "The address field is ready for a new scan.",
+    liveRunning: "The scan has started.",
+    liveSnapshot: "The scan is complete. The snapshot is ready.",
+    liveUnlocked: "The scan is complete. The report is open.",
+    liveFailed: "The scan could not finish.",
   },
 } as const;
+
+/** Aşama → `sr-only` başlık eki. Araç adıyla birleşir. */
+const PHASE_LABEL: Record<Phase, Record<"tr" | "en", string>> = {
+  idle: { tr: COPY.tr.phaseIdle, en: COPY.en.phaseIdle },
+  running: { tr: COPY.tr.phaseRunning, en: COPY.en.phaseRunning },
+  snapshot: { tr: COPY.tr.phaseSnapshot, en: COPY.en.phaseSnapshot },
+  unlocked: { tr: COPY.tr.phaseUnlocked, en: COPY.en.phaseUnlocked },
+  failed: { tr: COPY.tr.phaseFailed, en: COPY.en.phaseFailed },
+};
+
+/** Aşama → canlı bölgede okunacak cümle. */
+const PHASE_LIVE: Record<Phase, Record<"tr" | "en", string>> = {
+  idle: { tr: COPY.tr.liveIdle, en: COPY.en.liveIdle },
+  running: { tr: COPY.tr.liveRunning, en: COPY.en.liveRunning },
+  snapshot: { tr: COPY.tr.liveSnapshot, en: COPY.en.liveSnapshot },
+  unlocked: { tr: COPY.tr.liveUnlocked, en: COPY.en.liveUnlocked },
+  failed: { tr: COPY.tr.liveFailed, en: COPY.en.liveFailed },
+};
 
 /** Dürüst hata metni: sebep neyse o söylenir, genel bir cümleye sarılmaz. */
 function failureMessage(reason: string | null, locale: "tr" | "en"): string {
@@ -66,8 +121,39 @@ export function DiagnooTool({
   locale: "tr" | "en";
   tool: ToolContent;
 }) {
+  const c = COPY[locale];
   const [diagnosticId, setDiagnosticId] = useState<string | null>(null);
+  const [announcement, setAnnouncement] = useState("");
   const status = useDiagnooStatus(diagnosticId);
+
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const previousPhase = useRef<Phase>("idle");
+
+  // Ekran seçimi tek yerden türer: aşağıdaki üç dal da bu değeri okur, yani
+  // "hangi ekran görünüyor" ile "hangi geçiş duyuruldu" ayrışamaz.
+  let phase: Phase = "idle";
+  if (diagnosticId !== null) {
+    if (status.status === "failed") phase = "failed";
+    else if (status.status === "completed") {
+      // Tamamlandı ama ne rapor ne anlık görünüm var: kayıt bozuk, dürüst
+      // davranıp hata ekranına düşülür.
+      phase = status.report ? "unlocked" : status.snapshot ? "snapshot" : "failed";
+    } else phase = "running";
+  }
+
+  // İkisi de düz metin: aynı aşama + aynı dil her render'da AYNI dizeyi verir,
+  // dolayısıyla efektin bağımlılık listesi eksiksiz olabilir (disable yok).
+  const phaseLabel = PHASE_LABEL[phase][locale];
+  const liveText = PHASE_LIVE[phase][locale];
+
+  useEffect(() => {
+    // İlk render bir GEÇİŞ değil: sayfa yeni açıldı, ne duyurulacak bir şey
+    // var ne de odağı ziyaretçiden almak doğru olur (SC 3.2.5).
+    if (previousPhase.current === phase) return;
+    previousPhase.current = phase;
+    setAnnouncement(liveText);
+    headingRef.current?.focus();
+  }, [phase, liveText]);
 
   function onStarted(id: string): void {
     setDiagnosticId(id);
@@ -89,25 +175,33 @@ export function DiagnooTool({
 
   return (
     <div>
-      {diagnosticId === null ? <DiagnooForm locale={locale} onStarted={onStarted} /> : null}
+      {/* Kalıcı canlı bölge — yalnız metni değişir, düğümün kendisi hep DOM'da. */}
+      <div aria-live="polite" className="sr-only">
+        {announcement}
+      </div>
 
-      {diagnosticId !== null && status.status === "failed" ? (
+      {/* Geçiş sonrası odağın indiği başlık. Araç adı burada geçer: ziyaretçi
+          odak taşındığında hangi araçta ve hangi aşamada olduğunu duyar. */}
+      <h2 ref={headingRef} tabIndex={-1} className="sr-only">
+        {tool.name[locale]} — {phaseLabel}
+      </h2>
+
+      {phase === "idle" ? <DiagnooForm locale={locale} onStarted={onStarted} /> : null}
+
+      {phase === "failed" ? (
         <div>
           <p role="alert" className="typography-body-md text-ink-700 max-w-prose-editorial">
             {failureMessage(status.failReason, locale)}
           </p>
           <button type="button" onClick={onRetry} className="btn btn-primary mt-6">
-            {COPY[locale].retry}
+            {c.retry}
           </button>
         </div>
       ) : null}
 
       {/* `status === null` de ilerleme ekranıdır: ilk yoklama yanıtı henüz
           gelmedi, ama tarama başlatıldı — form'a geri dönmek yanlış olurdu. */}
-      {diagnosticId !== null &&
-      (status.status === null ||
-        status.status === "queued" ||
-        status.status === "running") ? (
+      {phase === "running" ? (
         <DiagnooProgress
           currentStep={status.currentStep}
           progressPct={status.progressPct}
@@ -115,21 +209,17 @@ export function DiagnooTool({
         />
       ) : null}
 
-      {diagnosticId !== null && status.status === "completed" ? (
-        status.report ? (
-          // Kilit zaten açık (aynı tarayıcıdan ikinci ziyaret, `leadCaptured`).
-          <DiagnooReport report={status.report} locale={locale} />
-        ) : status.snapshot ? (
-          <DiagnooSnapshot
-            snapshot={status.snapshot}
-            diagnosticId={diagnosticId}
-            locale={locale}
-          />
-        ) : (
-          <p role="alert" className="typography-body-md text-ink-700">
-            {failureMessage(null, locale)}
-          </p>
-        )
+      {/* Kilit zaten açık (aynı tarayıcıdan ikinci ziyaret, `leadCaptured`). */}
+      {phase === "unlocked" && status.report ? (
+        <DiagnooReport report={status.report} locale={locale} />
+      ) : null}
+
+      {phase === "snapshot" && status.snapshot ? (
+        <DiagnooSnapshot
+          snapshot={status.snapshot}
+          diagnosticId={diagnosticId!}
+          locale={locale}
+        />
       ) : null}
     </div>
   );

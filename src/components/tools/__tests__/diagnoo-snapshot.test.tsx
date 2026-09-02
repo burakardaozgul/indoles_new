@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { DiagnooSnapshot } from "../diagnoo-snapshot";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
 import { sampleReport } from "@/lib/tools/diagnoo/__tests__/fixtures";
@@ -30,6 +30,21 @@ vi.mock("@/components/marketing/PopupCTAButton", () => ({
 const ID = "11111111-1111-4111-8111-111111111111";
 const REPORT = sampleReport();
 const SNAPSHOT = toSnapshot(REPORT);
+
+/** Kilidi açar: zorunlu alanlar + KVKK + gönderim. */
+async function unlock(): Promise<void> {
+  fireEvent.change(screen.getByLabelText("İş e-postanız"), {
+    target: { value: "ziyaretci@ornek.com.tr" },
+  });
+  fireEvent.change(screen.getByLabelText("Şirket adı"), {
+    target: { value: "Örnek Mağaza" },
+  });
+  fireEvent.click(screen.getByRole("checkbox"));
+  fireEvent.click(screen.getByRole("button", { name: "Raporu açın" }));
+  await waitFor(() => {
+    expect(screen.getByRole("heading", { name: "Yönetici özeti" })).toBeInTheDocument();
+  });
+}
 
 describe("DiagnooSnapshot", () => {
   beforeEach(() => {
@@ -81,6 +96,44 @@ describe("DiagnooSnapshot", () => {
       name: "tool_scan_completed",
       properties: { slug: "diagnoo", band: "51-75", locale: "tr" },
     });
+  });
+
+  it("kilit açılınca geçişi canlı bölgeden duyurur (WCAG SC 4.1.3)", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({ report: REPORT }) }),
+    );
+    const { container } = render(
+      <DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />,
+    );
+
+    const live = container.querySelector('[aria-live="polite"]');
+    // Canlı bölge içeriğinden ÖNCE DOM'da — sonradan eklenirse kaçırılır.
+    expect(live).not.toBeNull();
+    expect(live).toHaveTextContent("");
+
+    await unlock();
+    // Duyuru bir state güncellemesi — odak taşıma gibi anlık değil, render bekler.
+    await waitFor(() => {
+      expect(live).toHaveTextContent("Rapor açıldı.");
+    });
+    vi.unstubAllGlobals();
+  });
+
+  it("kilit açılınca odağı rapor başlığına taşır (WCAG SC 2.4.3)", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({ report: REPORT }) }),
+    );
+    render(<DiagnooSnapshot snapshot={SNAPSHOT} diagnosticId={ID} locale="tr" />);
+
+    await unlock();
+
+    // Gönder düğmesi DOM'dan kalktı; odak <body>ye düşmemeli.
+    const heading = screen.getByRole("heading", { name: "Tam rapor" });
+    expect(document.activeElement).toBe(heading);
+    expect(document.activeElement).not.toBe(document.body);
+    vi.unstubAllGlobals();
   });
 
   it("kilit açma formunu altında render eder", () => {

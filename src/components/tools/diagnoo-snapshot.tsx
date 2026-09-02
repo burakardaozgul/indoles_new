@@ -10,7 +10,11 @@ import {
 } from "@/components/tools/diagnoo-report";
 import { DiagnooUnlockForm } from "@/components/tools/diagnoo-unlock-form";
 import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
-import type { DiagnooReport, RoadmapItem, SnapshotView } from "@/lib/tools/diagnoo/schema";
+import type {
+  DiagnooReport,
+  RoadmapItem,
+  SnapshotView,
+} from "@/lib/tools/diagnoo/schema";
 
 /**
  * Ücretsiz anlık görünüm — skor, kıyas, üç KİLİTLİ boşluk, fırsat aralığı ve
@@ -43,6 +47,8 @@ const COPY = {
     opportunityHeading: "Aylık geri kazanılabilir gelir",
     opportunityNote:
       "Aralık, taramanın ölçümleri ile sektör medyanlarından türetildi. Kendi rakamlarınızı girerseniz daralır.",
+    reportHeading: "Tam rapor",
+    liveUnlocked: "Rapor açıldı.",
   },
   en: {
     heading: "Health score",
@@ -56,10 +62,15 @@ const COPY = {
     opportunityHeading: "Recoverable revenue per month",
     opportunityNote:
       "The range derives from the measurements of the scan and sector medians. Entering your own figures narrows it.",
+    reportHeading: "Full report",
+    liveUnlocked: "The report is open.",
   },
 } as const;
 
-const CATEGORY_LABELS: Record<RoadmapItem["category"], Record<"tr" | "en", string>> = {
+const CATEGORY_LABELS: Record<
+  RoadmapItem["category"],
+  Record<"tr" | "en", string>
+> = {
   speed: { tr: "Hız", en: "Speed" },
   semantic: { tr: "Mesaj", en: "Messaging" },
   ux: { tr: "Arayüz", en: "Interface" },
@@ -67,7 +78,10 @@ const CATEGORY_LABELS: Record<RoadmapItem["category"], Record<"tr" | "en", strin
   funnel: { tr: "Satın alma akışı", en: "Purchase flow" },
 };
 
-const PRIORITY_LABELS: Record<RoadmapItem["priority"], Record<"tr" | "en", string>> = {
+const PRIORITY_LABELS: Record<
+  RoadmapItem["priority"],
+  Record<"tr" | "en", string>
+> = {
   critical: { tr: "Kritik", en: "Critical" },
   high: { tr: "Yüksek", en: "High" },
   medium: { tr: "Orta", en: "Medium" },
@@ -89,7 +103,12 @@ function ScoreGauge({ score, label }: { score: number; label: string }) {
   const path = "M 10 64 A 54 54 0 0 1 118 64";
 
   return (
-    <svg viewBox="0 0 128 72" role="img" aria-label={label} className="w-40 shrink-0">
+    <svg
+      viewBox="0 0 128 72"
+      role="img"
+      aria-label={label}
+      className="w-40 shrink-0"
+    >
       <path
         d={path}
         fill="none"
@@ -120,7 +139,9 @@ export function DiagnooSnapshot({
 }) {
   const c = COPY[locale];
   const [report, setReport] = useState<DiagnooReport | null>(null);
+  const [announcement, setAnnouncement] = useState("");
   const trackedRef = useRef(false);
+  const reportHeadingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     // Bir kez: React 18+ geliştirme modunda efektler iki kez koşar, olay
@@ -137,89 +158,135 @@ export function DiagnooSnapshot({
     });
   }, [snapshot.healthScore, locale]);
 
-  // Kilit açıldı: aynı yerde tam rapora dönülür, ikinci sayfa yüklemesi yok.
-  if (report) {
-    return <DiagnooReportView report={report} locale={locale} />;
-  }
+  // GEÇİŞİN ERİŞİLEBİLİRLİĞİ (WCAG 2.2 AA, SC 4.1.3 + 2.4.3): kilit açılınca
+  // form — ziyaretçinin AZ ÖNCE bastığı gönder düğmesi dahil — DOM'dan
+  // kalkıyor ve odak `<body>`ye düşüyordu. Bu geçişin sahibi bu bileşendir:
+  // hem araç sayfasındaki akışta hem doğrudan ziyaret edilen rapor
+  // sayfasında (`rapor/[id]/page.tsx`) kilit BURADA açılır, dolayısıyla
+  // duyuru ve odak da burada yaşamak zorunda.
+  useEffect(() => {
+    if (!report) return;
+    setAnnouncement(c.liveUnlocked);
+    reportHeadingRef.current?.focus();
+  }, [report, c.liveUnlocked]);
 
   return (
-    <div className="flex flex-col gap-12" data-diagnostic-id={diagnosticId}>
-      <div>
-        <h2 className="typography-h2 text-ink-900">{c.heading}</h2>
-        <div className="mt-6 flex flex-wrap items-center gap-6">
-          <ScoreGauge score={snapshot.healthScore} label={c.gaugeLabel(snapshot.healthScore)} />
-          <p className="mono tabular text-ink-900">
-            <span className="typography-display-lg">{snapshot.healthScore}</span>{" "}
-            <span className="typography-caption text-ink-500">{c.caption}</span>
-          </p>
-        </div>
+    <div
+      className={report ? undefined : "flex flex-col gap-12"}
+      data-diagnostic-id={diagnosticId}
+    >
+      {/* Kalıcı canlı bölge: içeriğiyle aynı anda DOM'a giren bir canlı bölge
+          ekran okuyucular tarafından çoğu kez kaçırılır. */}
+      <div aria-live="polite" className="sr-only">
+        {announcement}
       </div>
 
-      {snapshot.benchmarks.length > 0 ? (
-        <div>
-          <h3 className="typography-h3 text-ink-900">{c.benchmarkHeading}</h3>
-          {snapshot.benchmarks.map((benchmark) => (
-            <BenchmarkRows
-              key={benchmark.metric}
-              benchmark={benchmark}
-              locale={locale}
-            />
-          ))}
-        </div>
-      ) : null}
-
-      <div>
-        <h3 className="typography-h3 text-ink-900">{c.gapsHeading}</h3>
-        <p className="typography-body-md text-ink-700 mt-2 max-w-prose-editorial">
-          {c.gapsLede}
-        </p>
-
-        <ul className="mt-6 flex flex-col gap-5">
-          {snapshot.topGaps.map((gap) => (
-            <li
-              key={gap.title}
-              className="v2-surface border border-surface-2 rounded-xl p-6"
-            >
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="typography-label inline-flex items-center rounded-full border border-ink-200 px-3 py-1 uppercase tracking-widest text-ink-600">
-                  {CATEGORY_LABELS[gap.category][locale]}
-                </span>
-                <span className="typography-label inline-flex items-center rounded-full border border-ink-200 px-3 py-1 uppercase tracking-widest text-ink-600">
-                  {PRIORITY_LABELS[gap.priority][locale]}
-                </span>
-              </div>
-              <h4 className="typography-h3 text-ink-900 mt-4">{gap.title}</h4>
-              <p className="typography-body-md text-ink-700 mt-2">{gap.teaser}</p>
-              {/* Maskeli yer tutucu — gerçek rakam BURADA YOK, uydurulmuş bir
-                  rakam da basılmaz. Maske süs değil, kilidin kendisi. */}
-              <p className="typography-caption text-ink-500 mt-4">
-                <span className="mono tabular text-ink-300" aria-hidden="true">
-                  ₺ ——— – ₺ ———
+      {report ? (
+        <>
+          {/* Odağın indiği başlık — görsel düzen değişmesin diye `sr-only`. */}
+          <h2 ref={reportHeadingRef} tabIndex={-1} className="sr-only">
+            {c.reportHeading}
+          </h2>
+          <DiagnooReportView report={report} locale={locale} />
+        </>
+      ) : (
+        <>
+          <div>
+            <h2 className="typography-h2 text-ink-900">{c.heading}</h2>
+            <div className="mt-6 flex flex-wrap items-center gap-6">
+              <ScoreGauge
+                score={snapshot.healthScore}
+                label={c.gaugeLabel(snapshot.healthScore)}
+              />
+              <p className="mono tabular text-ink-900">
+                <span className="typography-display-lg">
+                  {snapshot.healthScore}
                 </span>{" "}
-                {c.lockedImpact}
+                <span className="typography-caption text-ink-500">
+                  {c.caption}
+                </span>
               </p>
-            </li>
-          ))}
-        </ul>
-      </div>
+            </div>
+          </div>
 
-      <div className="v2-surface border border-surface-2 rounded-xl p-6">
-        <h3 className="typography-h3 text-ink-900">{c.opportunityHeading}</h3>
-        <p className="typography-display-lg mono tabular text-ink-900 mt-3">
-          {formatRange(snapshot.opportunityRange, locale)}
-        </p>
-        <p className="typography-caption text-ink-500 mt-3 max-w-prose-editorial">
-          {c.opportunityNote}
-        </p>
-      </div>
+          {snapshot.benchmarks.length > 0 ? (
+            <div>
+              <h3 className="typography-h3 text-ink-900">
+                {c.benchmarkHeading}
+              </h3>
+              {snapshot.benchmarks.map((benchmark) => (
+                <BenchmarkRows
+                  key={benchmark.metric}
+                  benchmark={benchmark}
+                  locale={locale}
+                />
+              ))}
+            </div>
+          ) : null}
 
-      <div className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10">
-        <DiagnooUnlockForm
-          diagnosticId={diagnosticId}
-          locale={locale}
-          onUnlocked={setReport}
-        />
-      </div>
+          <div>
+            <h3 className="typography-h3 text-ink-900">{c.gapsHeading}</h3>
+            <p className="typography-body-md text-ink-700 max-w-prose-editorial mt-2">
+              {c.gapsLede}
+            </p>
+
+            <ul className="mt-6 flex flex-col gap-5">
+              {snapshot.topGaps.map((gap) => (
+                <li
+                  key={gap.title}
+                  className="v2-surface border-surface-2 rounded-xl border p-6"
+                >
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="typography-label border-ink-200 text-ink-600 inline-flex items-center rounded-full border px-3 py-1 tracking-widest uppercase">
+                      {CATEGORY_LABELS[gap.category][locale]}
+                    </span>
+                    <span className="typography-label border-ink-200 text-ink-600 inline-flex items-center rounded-full border px-3 py-1 tracking-widest uppercase">
+                      {PRIORITY_LABELS[gap.priority][locale]}
+                    </span>
+                  </div>
+                  <h4 className="typography-h3 text-ink-900 mt-4">
+                    {gap.title}
+                  </h4>
+                  <p className="typography-body-md text-ink-700 mt-2">
+                    {gap.teaser}
+                  </p>
+                  {/* Maskeli yer tutucu — gerçek rakam BURADA YOK, uydurulmuş bir
+                  rakam da basılmaz. Maske süs değil, kilidin kendisi. */}
+                  <p className="typography-caption text-ink-500 mt-4">
+                    <span
+                      className="mono tabular text-ink-300"
+                      aria-hidden="true"
+                    >
+                      ₺ ——— – ₺ ———
+                    </span>{" "}
+                    {c.lockedImpact}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="v2-surface border-surface-2 rounded-xl border p-6">
+            <h3 className="typography-h3 text-ink-900">
+              {c.opportunityHeading}
+            </h3>
+            <p className="typography-display-lg mono tabular text-ink-900 mt-3">
+              {formatRange(snapshot.opportunityRange, locale)}
+            </p>
+            <p className="typography-caption text-ink-500 max-w-prose-editorial mt-3">
+              {c.opportunityNote}
+            </p>
+          </div>
+
+          <div className="v2-surface border-surface-2 rounded-2xl border p-6 md:p-10">
+            <DiagnooUnlockForm
+              diagnosticId={diagnosticId}
+              locale={locale}
+              onUnlocked={setReport}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

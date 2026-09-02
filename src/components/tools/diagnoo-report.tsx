@@ -55,7 +55,9 @@ const COPY = {
 
     gapsHeading: "Kritik boşluklar",
     gapsLede:
-      "Öncelik sırasına dizilmiş maddeler. Her kartın son satırı, maddeyi doğuran ölçümü gösterir.",
+      "Kritik ve yüksek öncelikli maddeler. Her kartın son satırı, maddeyi doğuran ölçümü gösterir. Maddelerin tamamı yol haritası bölümünde.",
+    gapsEmpty:
+      "Bu taramada kritik veya yüksek öncelikli boşluk bulunmadı; tüm öneriler yol haritasında.",
     impactLabel: "Aylık etki",
     impactUnknown: "Veri yetersiz",
     effortLabel: "Tahmini emek",
@@ -121,7 +123,9 @@ const COPY = {
 
     gapsHeading: "Critical gaps",
     gapsLede:
-      "Items ordered by priority. The last line of each card names the measurement behind it.",
+      "The critical and high priority items. The last line of each card names the measurement behind it. Every item appears in the roadmap section.",
+    gapsEmpty:
+      "This scan found no critical or high priority gaps; every recommendation sits in the roadmap.",
     impactLabel: "Monthly impact",
     impactUnknown: "Not enough data",
     effortLabel: "Estimated effort",
@@ -389,6 +393,13 @@ export function DiagnooReport({
     (a, b) => PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority],
   );
   const criticalCount = sorted.filter((r) => r.priority === "critical").length;
+  // Bölüm 3 "Kritik boşluklar" adını taşıyor, dolayısıyla YALNIZ kritik ve
+  // yüksek öncelikli maddeleri gösterir. Tüm liste bölüm 5'te (yol haritası);
+  // ikisinin aynı diziyi basması hem her maddeyi iki kez gösteriyor hem
+  // "Düşük" rozetli bir maddeyi kritik başlığın altına koyuyordu.
+  const priorityGaps = sorted.filter(
+    (r) => r.priority === "critical" || r.priority === "high",
+  );
 
   // Veri kalitesi: dört finansal girdinin kaçı gerçekten ölçüldü.
   const sources = Object.values(report.financial.inputSources);
@@ -584,8 +595,16 @@ export function DiagnooReport({
           {c.gapsLede}
         </p>
 
+        {priorityGaps.length === 0 ? (
+          // Dürüst boş durum: liste boşsa TÜM maddelere düşülmez, öyle bir
+          // düşüş başlığı yeniden yanlış kılardı.
+          <p className="typography-body-md text-ink-700 mt-6 max-w-prose-editorial">
+            {c.gapsEmpty}
+          </p>
+        ) : null}
+
         <ul className="mt-8 flex flex-col gap-6">
-          {sorted.map((item) => (
+          {priorityGaps.map((item) => (
             <li
               key={item.title}
               className="v2-surface border border-surface-2 rounded-xl p-6"

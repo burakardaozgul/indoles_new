@@ -8,8 +8,8 @@ import type { Localized } from "./types";
  *
  * `/araclar` ailesinin tek metin kaynağı. Desen `articles.ts` / `topics.ts` ile
  * aynı: tipli kayıt + dizi, çeviri pariteleri typecheck ve `tools-content.test`
- * ile korunuyor. Şimdilik tek eleman (GEO Görünürlük Denetleyicisi); yapı yeni
- * araçlara hazır.
+ * ile korunuyor. İki eleman (GEO Görünürlük Denetleyicisi, Diagnoo — ikisi de
+ * 2026-09-03 itibarıyla `published: true`); yapı yeni araçlara hazır.
  *
  * Ton `docs/03-brand-voice-tone.md` §1'e göre ORTA — araç yüzeyi persona-aware
  * DEĞİL, teşhis dili nötr-analitik. Copy `indoles-brand-voice` skill'iyle
@@ -636,10 +636,17 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
       },
     },
   ],
-  // Üç dış sır (`GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`) ve
-  // uzak D1 migration'ları (0004–0007) hazır olmadan araç gerçek veri
-  // üretemez; o ana kadar arama yüzeylerine girmez.
-  published: false,
+  // LANSMAN — 2026-09-03, Burak kararı: "gizli olmasın, indeksimizi alalım,
+  // kullanıma sonra açarız zaten şu an trafik yok". Üç dış sır
+  // (`GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`) ve uzak D1
+  // migration'larının (0004–0007) `--remote` koşusu HÂLÂ eksik — bilinçli
+  // olarak beklenmedi, çünkü trafik henüz sıfırken indeksleme saatini
+  // işletmenin maliyeti yok. Sırlar gelene kadar araç dürüst
+  // `scrape_failed` hatasıyla cevap verir (production'da doğrulandı, Faz 1);
+  // "yakında" veya bakım ekranı YOKTUR — hata durumu kendi başına doğru bir
+  // cevaptır. Sırlar ve migration tamamlandığında runbook'taki kalan adımlar
+  // izlenir (`docs/runbooks/diagnoo-ga4-kurulum.md`).
+  published: true,
 };
 
 /**

@@ -113,12 +113,13 @@ describe("sitemap", () => {
     for (const u of found) expect(live.has(u)).toBe(true);
   });
 
-  it("yayınlanmamış araç sitemap'e girmez", () => {
-    // Lansman kapısı: Diagnoo `published: false` olduğu sürece sitemap'te
-    // yoktur. Sırlar ve uzak migration hazır olmadan aracı arama motoruna
-    // ilan etmek, çalışmayan bir sayfayı indekslemek olurdu (I6).
-    expect(urls).not.toContain(`${SITE_URL}/tr/araclar/diagnoo`);
-    expect(urls).not.toContain(`${SITE_URL}/en/tools/diagnoo`);
+  it("Diagnoo lansmandan sonra sitemap'te", () => {
+    // Lansman kapısı 2026-09-03'te açıldı (`DIAGNOO_TOOL.published: true`,
+    // Faz 2 Görev 10): sırlar ve uzak migration henüz gelmedi ama Burak'ın
+    // kararıyla indeksleme saati şimdi işlemeye başlıyor (I6 artık geçerli
+    // değil — bkz. `tools.ts` güncel gerekçe).
+    expect(urls).toContain(`${SITE_URL}/tr/araclar/diagnoo`);
+    expect(urls).toContain(`${SITE_URL}/en/tools/diagnoo`);
   });
 
   it("yayındaki her aracın iki dildeki URL'i sitemap'te", () => {

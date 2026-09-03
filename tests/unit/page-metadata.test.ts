@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
+import { DIAGNOO_TOOL } from "@/lib/content/tools";
 
 /**
  * Sayfa başına metadata regresyon koruması.
@@ -84,14 +85,23 @@ describe("marketing sayfalarının metadata'sı", () => {
     expect(PAGES).toContain(target);
   });
 
-  it("Diagnoo araç sayfası yayınlanmadığı sürece dizine girmez", () => {
-    // Sayfa URL'den erişilebilir kalır (iç doğrulama, paylaşılan bağlantı)
-    // ama `published: false` iken arama motoruna ilan edilmez (I6).
+  it("Diagnoo araç sayfası lansmandan sonra artık noindex döndürmez", () => {
+    // 2026-09-03: `DIAGNOO_TOOL.published: true` (Faz 2 Görev 10). Sayfanın
+    // `generateMetadata`'sı bayrağa göre dallanır — `published` iken
+    // `robots: { index:false, follow:false }` bloğu hiç dönmez, sayfa
+    // `buildMetadata`'nın varsayılan `index:true, follow:true` metadata'sını
+    // kullanır. Dallanmanın kendisi (`if (tool.published) return base;`)
+    // koddan kaldırılmadı — sırlar/migration gelene kadar bayrak `false`ya
+    // dönerse aynı kapı yeniden devreye girer.
     const src = readFileSync(
       path.join(MARKETING_ROOT, "araclar", "diagnoo", "page.tsx"),
       "utf8",
     );
+    expect(src).toMatch(/if\s*\(\s*tool\.published\s*\)\s*return\s*base;/);
     expect(src).toMatch(/robots:\s*\{\s*index:\s*false,\s*follow:\s*false\s*\}/);
+    // Bayrağın kendisi de burada doğrulanır: mekanizma (dallanma) koddan
+    // kaldırılmadı, ama bugün gerçekten `true` olduğu için dal hiç işlemez.
+    expect(DIAGNOO_TOOL.published).toBe(true);
   });
 
   it("Diagnoo rapor sayfası dizine girmez", () => {

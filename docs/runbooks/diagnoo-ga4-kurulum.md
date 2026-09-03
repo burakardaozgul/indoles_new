@@ -2,7 +2,7 @@
 
 > **Kime:** Burak · **Süre:** API yolu ~5 dakika (script) · UI yolu ~10 dakika · **Sıklık:** bir kez (yetki bozulursa tekrar)
 > **Karar dayanağı:** `docs/superpowers/sdd/2026-09-01-diagnoo-faz1/task-16-brief.md` §8 · `docs/superpowers/sdd/2026-09-03-diagnoo-faz2/task-9-brief.md` · `docs/12-analytics-measurement.md` §2
-> **Önkoşul:** Diagnoo canlıya alınmış ve en az birkaç gerçek tarama/rapor akışı GA4'e olay yazmış olmalı — GA4 hiç veri görmediği bir olayı önemli etkinlik olarak işaretlemeyi ya da huniye eklemeyi reddedebilir veya boş gösterir.
+> **Önkoşul:** Diagnoo canlıya alınmış ve en az birkaç gerçek tarama/rapor akışı GA4'e olay yazmış olmalı — GA4 hiç veri görmediği bir olayı önemli etkinlik olarak işaretlemeyi ya da huniye eklemeyi reddedebilir veya boş gösterir. **Durum (2026-09-03):** ilk yarısı doğru — `published: true` (Faz 2 Görev 10), araç sitemap/`/araclar`/llms.txt'te. İkinci yarısı henüz değil: üç sır ve uzak migration gelmeden hiçbir tarama gerçek veri üretmiyor (`scrape_failed`), yani GA4'e yazacak gerçek bir `tool_scan_completed`/`tool_report_requested` akışı yok. Bu runbook'un Adım 1-5'i, aşağıdaki "Deploy öncesi Burak adımları" 1-3 tamamlanıp gerçek tarama akmaya başlayana kadar anlamlı bir sonuç üretmez.
 
 Bu belge tek bir sonucu iki yoldan anlatır: (1) `tool_report_requested` olayını Diagnoo'ya özgü filtreyle bir **önemli etkinlik** (key event / conversion) işaretlemek, (2) dört adımlı Diagnoo huninin bir **huni araştırması** (funnel exploration) olarak kurmak.
 
@@ -188,7 +188,9 @@ Bu yüzden **1→2 geçiş oranı, gerçek "taramayı bitirenler" oranından dü
 
 ## Deploy öncesi Burak adımları
 
-GA4 kurulumu koda bağımlı değil ama Diagnoo'nun gerçek veri üretmesi üç sırra ve bir uzak migration'a bağlı — bunlar bu görevin (Görev 16) kapsamı dışında bırakıldı çünkü üretim komutu çalıştırmak ajan işi değil. Deploy öncesi sırayla:
+> **Güncelleme (2026-09-03, Faz 2 Görev 10):** Burak'ın kararıyla sıra değişti — "gizli olmasın, indeksimizi alalım, kullanıma sonra açarız zaten şu an trafik yok." Aşağıdaki **6. adım (lansman kapısını aç) TAMAMLANDI**: `DIAGNOO_TOOL.published: true`, deploy'u bekliyor. Sırlar ve migration BEKLENMEDEN yapıldı — bilinçli tersine çevirme: trafik sıfırken indeksleme saatini şimdi işletmenin maliyeti yok, kullanım sırlar gelince açılır. **1-3. adımlar hâlâ açık** — onlar tamamlanana kadar canlı araç dürüst `scrape_failed` hatasıyla cevap verir (production'da doğrulandı, Faz 1); "yakında" ekranı yok, hata durumunun kendisi doğru bir cevaptır.
+
+GA4 kurulumu koda bağımlı değil ama Diagnoo'nun gerçek veri üretmesi üç sırra ve bir uzak migration'a bağlı — bunlar bu görevin (Görev 16) kapsamı dışında bırakıldı çünkü üretim komutu çalıştırmak ajan işi değil. Kalan sıra:
 
 1. **Üç Diagnoo sırrını gir** (`TOOL_IP_SALT` GEO'dan zaten mevcut, tekrar girilmez):
 
@@ -208,11 +210,13 @@ GA4 kurulumu koda bağımlı değil ama Diagnoo'nun gerçek veri üretmesi üç 
 
    Dört migration da bu ana kadar yalnız yerelde uygulandı: `migrations/0004_diagnoo.sql` (`diagnoo_diagnostics`, `diagnoo_leads` tabloları), `migrations/0005_diagnoo_lead_scope.sql` (kilit token'ı, lead bazlı yeniden hesap), `migrations/0006_diagnoo_lead_per_unlock.sql` (her kilit açmaya kendi lead satırı — e-posta benzersizliği kalkar) ve `migrations/0007_diagnoo_leads_ip_index.sql` (`diagnoo_leads` için IP bazlı hız sınırı indeksi). 0005 uygulanmadan unlock rotası `unlock_token` kolonunu bulamaz ve kilit açma 500 döner; 0006 uygulanmadan aynı e-postayla gelen ikinci ziyaretçi `UNIQUE` ihlaline düşer ve yine 500 alır; 0007 uygulanmadan IP başına saatlik unlock limiti (`countLeadsSince`) her denetimde tabloyu tam taratır — hata vermez ama D1 sorgu bütçesini gereksiz yakar. Dördü sırayla, tek komutla uygulanır.
 
-3. **Anahtarları gerçek bir siteyle bir kez uçtan uca doğrula** — Gemini (semantik/vision analiz) ve Firecrawl (yedi sayfa taraması) akışının canlıda gerçekten çalıştığını görmeden sayfa hiçbir yerden linklenmemeli. Bilinen gerçek bir e-ticaret adresiyle (kendi mağazanız veya bir müşteri, izinle) `/tr/araclar/diagnoo`'da tam bir tarama + kilit açma denenir; rapor sayfasında dört boyutun da (mesaj, arayüz, hız, ölçüm) gerçek verilerle dolduğu kontrol edilir.
-4. **Bu runbook'taki API yolunu uygula** (Adım 1-5 — Adım 4 huni araştırması her koşulda elle kalır) **veya API yolu çalışmazsa "API yolu çalışmazsa" bölümünü + Adım 4'ü uygula.**
-5. Yukarıdaki dördü tamamlanmadan **Diagnoo ana navigasyona veya başka bir sayfaya link verilmez** — sayfa şu an yalnız doğrudan URL ile erişilebilir durumda kalmalı (Faz 2 planı, ana navigasyon girişini ayrıca ele alacak).
-6. **Lansman kapısını aç:** GA4 kurulumu (Adım 1-5) doğrulandıktan sonra `src/lib/content/tools.ts` içindeki Diagnoo kaydında `published: false` → `published: true` yapılır ve deploy edilir.
+3. **Anahtarları gerçek bir siteyle bir kez uçtan uca doğrula** — Gemini (semantik/vision analiz) ve Firecrawl (yedi sayfa taraması) akışının canlıda gerçekten çalıştığını görmeden gerçek veri üretimi güvenilir sayılmaz. Bilinen gerçek bir e-ticaret adresiyle (kendi mağazanız veya bir müşteri, izinle) `/tr/araclar/diagnoo`'da tam bir tarama + kilit açma denenir; rapor sayfasında dört boyutun da (mesaj, arayüz, hız, ölçüm) gerçek verilerle dolduğu kontrol edilir.
+4. **Bu runbook'taki API yolunu uygula** (Adım 1-5 — Adım 4 huni araştırması her koşulda elle kalır) **veya API yolu çalışmazsa "API yolu çalışmazsa" bölümünü + Adım 4'ü uygula.** 1-3 tamamlanmadan bu adımın bir anlamı yok — kurulacak önemli etkinlik ve huni, hiç gerçekleşmemiş bir olayı ölçer.
 
-   Bayrak `false` olduğu sürece araç sitemap'e, `/araclar` listesine ve `llms.txt`'e girmez; sayfası `noindex, nofollow` döner ve yalnız doğrudan URL ile açılır. Bu, kodun merge edilmesiyle aracın yayına alınmasını ayıran tek anahtardır — sırlar veya uzak migration eksikken bayrağı açmak, çalışmayan bir sayfayı Google'a ilan etmek olur.
+---
 
-   Bayrağı çevirdikten sonra iki test bilinçli olarak güncellenir: `tests/unit/tools-content.test.ts` ("lansman kapısı kapalı") ve `tests/unit/sitemap.test.ts` ("yayınlanmamış araç sitemap'e girmez"). Deploy sonrası `pnpm seo:audit` Diagnoo sayfasını da tarayacaktır.
+**Yukarıdaki 1-3 (üç sır + uzak migration + gerçek anahtarla tek koşu) TAMAMLANANA KADAR:** `/tr/araclar/diagnoo` ve `/en/tools/diagnoo` arama sonucunda görünür ve tıklanabilir, ama her tarama dürüst bir `scrape_failed` hatasıyla biter (Firecrawl/Gemini/PSI anahtarları eksik) — sahte veri veya "yakında" ekranı YOK, hata durumunun kendisi doğru bir cevaptır (bkz. `DIAGNOO_TOOL` üstündeki yorum, `src/lib/content/tools.ts`). Bu üçü bittiğinde sıradaki adım GA4 kurulumudur (üstteki Adım 1-5).
+
+~~5. Yukarıdaki dördü tamamlanmadan Diagnoo ana navigasyona veya başka bir sayfaya link verilmez.~~ Ana navigasyon girişi ayrı bir Burak kararı olarak Faz 2'nin kendi görevinde ele alınıyor — bu runbook'un kapsamı değil.
+
+~~6. Lansman kapısını aç.~~ **TAMAMLANDI — 2026-09-03 (Faz 2 Görev 10).** `src/lib/content/tools.ts` içindeki `DIAGNOO_TOOL.published`, GA4 kurulumunu ve yukarıdaki 1-3'ü BEKLEMEDEN `false` → `true` yapıldı: Burak'ın kararı, trafik sıfırken indeksleme saatini şimdi işletmek, kullanımı sırlar gelince açmak ("gizli olmasın, indeksimizi alalım, kullanıma sonra açarız zaten şu an trafik yok"). Araç artık sitemap'te, `/araclar` listesinde ve `llms.txt`'te; sayfası `noindex, nofollow` döndürmüyor. `tests/unit/tools-content.test.ts`, `tests/unit/sitemap.test.ts` ve `tests/unit/page-metadata.test.ts` bu yeni durumu doğrulayacak şekilde güncellendi; kapı mekanizmasının kendisi (yayınlanmamış bir aracın gerçekten dışlandığı) enjekte edilmiş sahte kayıtlarla hâlâ test ediliyor.

@@ -26,9 +26,31 @@ describe("ArticleToolBridges", () => {
     { ...DIAGNOO_TOOL, published: true },
   ];
 
-  it("Diagnoo yayınlanmamışken (gerçek veri) hiçbir şey basmaz", () => {
+  it("Diagnoo yayınlandığından beri (gerçek veri) köprü paragrafını basar", () => {
+    // 2026-09-03 lansmanından önce bu test boş DOM bekliyordu (`published:
+    // false`). Bayrak artık `true`, `tools` prop'u hiç verilmeden (gerçek
+    // varsayılan) render bile köprüyü basar.
+    render(<ArticleToolBridges articleSlugTr={articleSlugTr} locale="tr" />);
+    expect(screen.getByRole("link", { name: "Diagnoo" })).toHaveAttribute(
+      "href",
+      "/tr/araclar/diagnoo",
+    );
+  });
+
+  it("kapı mekanizması: enjekte edilmiş yayınlanmamış bir araç köprü basmaz", () => {
+    // Dışlama yönü artık gerçek Diagnoo bayrağıyla gösterilemiyor — `tools`
+    // prop'una enjekte edilmiş bir sahte `published: false` kaydı, bileşenin
+    // hâlâ `bridgesForArticle`in filtresine bağlı olduğunu kanıtlar.
+    const unpublished: ToolContent[] = [
+      GEO_TOOL,
+      { ...DIAGNOO_TOOL, published: false },
+    ];
     const { container } = render(
-      <ArticleToolBridges articleSlugTr={articleSlugTr} locale="tr" />,
+      <ArticleToolBridges
+        articleSlugTr={articleSlugTr}
+        locale="tr"
+        tools={unpublished}
+      />,
     );
     expect(container).toBeEmptyDOMElement();
     expect(screen.queryByRole("link", { name: /diagnoo/i })).not.toBeInTheDocument();

@@ -205,25 +205,44 @@ describe("Diagnoo kaydı", () => {
     expect(diagnoo!.steps.length).toBe(3);
   });
 
-  it("lansman kapısı kapalı: published false", () => {
-    // Araç, sırlar ve uzak migration hazır olana kadar arama yüzeylerine
-    // (sitemap, llms.txt, /araclar listesi) girmez — yalnız doğrudan URL ile
-    // erişilir. Bayrak `true` olduğunda bu test bilinçli olarak güncellenir.
-    expect(diagnoo!.published).toBe(false);
+  it("lansman kapısı açık: published true (2026-09-03)", () => {
+    // Burak'ın kararıyla lansman sırlar ve uzak migration gelmeden yapıldı
+    // (Faz 2 Görev 10 brief'i): indeksleme saati şimdi işler, kullanım
+    // sırlar geldiğinde açılır. Araç bu ana kadar dürüst `scrape_failed`
+    // hatasıyla cevap verir — bkz. `DIAGNOO_TOOL` üstündeki güncel yorum.
+    expect(diagnoo!.published).toBe(true);
   });
 });
 
 describe("publishedTools filtresi", () => {
-  it("yalnız published araçları döner", () => {
+  it("her iki gerçek araç da yayında — ikisi de listeye girer", () => {
+    // 2026-09-03 lansmanından sonra: GEO (2026-09-01'den beri) ve Diagnoo
+    // (Faz 2 Görev 10) ikisi de `published: true`.
     const geo = TOOLS.find((t) => t.slug.tr === "geo-gorunurluk-denetleyicisi");
     expect(geo!.published).toBe(true);
+    expect(DIAGNOO_TOOL.published).toBe(true);
     const slugs = publishedTools().map((t) => t.slug.tr);
     expect(slugs).toContain("geo-gorunurluk-denetleyicisi");
-    expect(slugs).not.toContain("diagnoo");
+    expect(slugs).toContain("diagnoo");
+  });
+
+  it("kapı mekanizması: enjekte edilmiş yayınlanmamış bir araç listeye girmez", () => {
+    // Gerçek bayrak artık ikisinde de `true`, bu yüzden filtrenin dışlama
+    // yönü gerçek veriyle test edilemez — enjekte edilmiş bir sahte kayıt
+    // (Diagnoo şablonundan türetilip `published: false`'a çevrilmiş) filtre
+    // mantığının hâlâ çalıştığını kanıtlar.
+    const unpublished: ToolContent[] = [
+      ...TOOLS,
+      { ...DIAGNOO_TOOL, slug: { tr: "hayali-arac", en: "fake-tool" }, published: false },
+    ];
+    const slugs = publishedTools(unpublished).map((t) => t.slug.tr);
+    expect(slugs).not.toContain("hayali-arac");
+    expect(slugs).toContain("diagnoo");
   });
 
   it("bayrak true olduğunda araç listeye girer", () => {
-    // Lansman senaryosu: Diagnoo yayına alındığında filtre onu geçirmeli.
+    // Lansman senaryosu (bugün gerçek bayrakla da doğru, fixture'la da):
+    // filtre `published: true` olan her kaydı geçirir.
     const launched: ToolContent[] = TOOLS.map((t) => ({ ...t, published: true }));
     expect(publishedTools(launched).map((t) => t.slug.tr)).toContain("diagnoo");
   });
@@ -300,10 +319,23 @@ describe("relatedServices", () => {
     }
   });
 
-  it("toolsForService yalnız yayınlanmış araçları döndürür", () => {
+  it("toolsForService yayınlanmış araçları döndürür", () => {
     expect(toolsForService("ai-danismanlik").map((t) => t.slug.tr)).toEqual([GEO_TOOL.slug.tr]);
-    expect(DIAGNOO_TOOL.published).toBe(false);
-    expect(toolsForService("cro")).toEqual([]);
+    // 2026-09-03 lansmanından sonra Diagnoo yayında; `cro` callout'u artık
+    // aracı gösterir (üçgenin hizmet→araç ayağı canlı).
+    expect(DIAGNOO_TOOL.published).toBe(true);
+    expect(toolsForService("cro").map((t) => t.slug.tr)).toEqual([DIAGNOO_TOOL.slug.tr]);
+  });
+
+  it("toolsForService kendi tools parametresi almaz — kapı mekanizması publishedTools()te doğrulanır", () => {
+    // `toolsForService` gerçek `TOOLS`ı sabit okur (`publishedTools()`,
+    // parametresiz) — Diagnoo'nun bugün yayında olması bu fonksiyonun
+    // dışlama yolunu test edilemez kılmaz: `toolsForService` doğrudan
+    // `publishedTools().filter(...)` üzerine kurulu, ikinci bir filtre
+    // eklemiyor. Dışlama mekanizmasının kendisi ("publishedTools filtresi"
+    // bloğundaki enjekte edilmiş sahte kayıt testi) bu yüzden buraya da
+    // transitif olarak geçerlidir.
+    expect(toolsForService.length).toBe(1);
   });
 });
 
@@ -362,8 +394,24 @@ describe("bridges", () => {
 });
 
 describe("bridgesForArticle", () => {
-  it("Diagnoo yayınlanmamışken boş döner", () => {
-    expect(bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr)).toEqual([]);
+  it("Diagnoo yayınlandığından beri gerçek TOOLS'ta köprü döner", () => {
+    // 2026-09-03 lansmanından önce bu test `[]` bekliyordu (`published:
+    // false`). Bayrak artık `true`, varsayılan `tools = TOOLS` parametresiyle
+    // (enjeksiyon yok) köprü gerçekten basılır — altı GEO makalesi ve
+    // yedinci GAP analizi yazısı artık Diagnoo'ya bağlanıyor.
+    expect(
+      bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr),
+    ).toHaveLength(1);
+  });
+
+  it("kapı mekanizması: enjekte edilmiş yayınlanmamış bir araç köprü basmaz", () => {
+    // Dışlama yönü artık gerçek Diagnoo bayrağıyla gösterilemiyor — enjekte
+    // edilmiş bir sahte kayıt (`published: false`) `bridgesForArticle`in
+    // hâlâ `publishedTools()` üzerinden filtrelediğini kanıtlar.
+    const unpublished: ToolContent = { ...DIAGNOO_TOOL, published: false };
+    expect(
+      bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr, [unpublished]),
+    ).toEqual([]);
   });
 
   it("yayınlanmış araç için köprü döner (published bayrağı ile)", () => {

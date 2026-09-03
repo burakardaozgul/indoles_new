@@ -54,7 +54,8 @@ export type V2NavHref =
   | "/paketler"
   | "/vakalar"
   | "/yazilar"
-  | "/iletisim";
+  | "/iletisim"
+  | "/araclar";
 
 export type V2NavLink = { href: V2NavHref; label: string };
 
@@ -72,11 +73,14 @@ export function V2Nav({
   locale,
   links,
   ctaLabel,
+  toolsLabel,
   menuLabel,
 }: {
   locale: "tr" | "en";
   links: V2NavLink[];
   ctaLabel: string;
+  /** Araç girişinin etiketi — sıradan nav linki değil, ikincil vurgu (docs/04 §12.11). */
+  toolsLabel: string;
   menuLabel: string;
 }) {
   const [scrolled, setScrolled] = React.useState(false);
@@ -191,6 +195,18 @@ export function V2Nav({
             <span aria-hidden="true">{other.toUpperCase()}</span>
           </a>
 
+          {/* Araç girişi sıradan bir nav maddesi değil: dil değiştirici ile CTA
+              arasında, çerçeveli ikincil vurgu olarak durur. `data-nav-item`
+              ALMAZ — giriş animasyonunu kapsayıcı aksiyon grubundan miras alır,
+              böylece ölçüm kümesi ve grid şablonu değişmez (docs/04 §12.11). */}
+          <Link
+            href="/araclar"
+            className="v2-nav-tools"
+            aria-current={isActive("/araclar") ? "page" : undefined}
+          >
+            {toolsLabel}
+          </Link>
+
           <button type="button" onClick={() => openPopup("nav")} className="v2-nav-cta">
             {ctaLabel}
             <svg viewBox="0 0 14 14" width="12" height="12" aria-hidden="true">
@@ -228,20 +244,31 @@ export function V2Nav({
         inert={!open}
         aria-hidden={!open}
       >
-        <ul>
-          {links.map((l) => (
-            <li key={l.href}>
-              <Link
-                href={l.href}
-                className="v2-nav-drawer-link"
-                aria-current={isActive(l.href) ? "page" : undefined}
-                onClick={() => setOpen(false)}
-              >
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="v2-nav-drawer-main">
+          {/* Çekmecede de aynı ayrışma: listenin üstünde, tam genişlikte. */}
+          <Link
+            href="/araclar"
+            className="v2-nav-tools is-drawer"
+            aria-current={isActive("/araclar") ? "page" : undefined}
+            onClick={() => setOpen(false)}
+          >
+            {toolsLabel}
+          </Link>
+          <ul>
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className="v2-nav-drawer-link"
+                  aria-current={isActive(l.href) ? "page" : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div className="v2-nav-drawer-foot">
           <a href={alternateHref ?? safeFallbackHref(pathname, other)} className="v2-nav-locale" hrefLang={other}>
             <span aria-hidden="true" className="is-current">

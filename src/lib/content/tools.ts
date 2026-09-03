@@ -637,7 +637,7 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
     },
   ],
   // Üç dış sır (`GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`) ve
-  // uzak D1 migration'ı (0004 + 0005) hazır olmadan araç gerçek veri
+  // uzak D1 migration'ları (0004–0007) hazır olmadan araç gerçek veri
   // üretemez; o ana kadar arama yüzeylerine girmez.
   published: false,
 };

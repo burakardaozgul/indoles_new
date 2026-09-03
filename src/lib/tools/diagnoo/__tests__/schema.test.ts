@@ -16,7 +16,7 @@ describe("DiagnooReportSchema", () => {
 });
 
 describe("BenchmarkComparisonSchema geriye dönük uyum", () => {
-  it("source/asOf eksik eski (0007 öncesi) satırı varsayılanlarla ayrıştırır", () => {
+  it("source/asOf eksik eski satırı varsayılanlarla ayrıştırır", () => {
     // Künye alanları sonradan eklendi; eski report_json satırlarında yok.
     // `benchmarks.ts` gerçek kaynak/tarihi HER ZAMAN yazar — bu yalnız
     // geriye dönük okunabilirlik, yeni satırlar hiç bu varsayılana düşmez.

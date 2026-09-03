@@ -31,8 +31,10 @@ import { useEffect, useRef, useState } from "react";
  * Turnstile yolu aynen döner.
  *
  * Bu bayrak TÜM formları kapsar — araç rotaları (`DiagnooForm`,
- * `DiagnooUnlockForm`, `ReportGate`, `ScanBar`) da AYNI `TURNSTILE_ENABLED`
- * sabitini okur, ayrı bir "koşulsuz zorunlu" istisnası yok. Bayrak kapalıyken
+ * `DiagnooUnlockForm`, `ReportGate`, `ScanBar`) da AYNI bayrağı hesaplar
+ * (`report-gate.tsx`, `scan-bar.tsx` kendi `TURNSTILE_ENABLED` sabitini
+ * ayrıca tanımlar — sembol paylaşılmaz, yalnız değer aynıdır), ayrı bir
+ * "koşulsuz zorunlu" istisnası yok. Bayrak kapalıyken
  * savunma bal küpü + süre tuzağına düşer (`lib/security/anti-spam.ts`,
  * ADR-028 "Yerine geçen savunma").
  */

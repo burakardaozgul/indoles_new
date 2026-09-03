@@ -190,7 +190,12 @@ export function DiagnooForm({
             {submitting ? c.submitting : c.submit}
           </Button>
         </div>
-        <p id={hintId} className="typography-caption text-ink-500 mt-2">
+        {/* `ink-600`, `ink-500` değil (Faz 2 Görev 3): form artık hero
+            akışında, yani blobun sıcak gövdesinin üstünde duruyor. Ölçümde
+            `ink-500` krem üstünde 4.34, blob üstünde 2.89'a iniyordu
+            (2026-09-02, docs/04 §12.10) — GEO'nun `inputHelp` satırı da aynı
+            gerekçeyle `ink-600`. */}
+        <p id={hintId} className="typography-caption text-ink-600 mt-2">
           {inputHelp}
         </p>
       </div>

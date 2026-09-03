@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import { DiagnooTool } from "../diagnoo-tool";
 import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
@@ -179,5 +179,56 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
     await waitFor(() => {
       expect(live).toHaveTextContent("Tarama tamamlandı. Rapor açık.");
     });
+  });
+});
+
+/**
+ * Landing paritesi (Faz 2 Görev 3) — araç adası artık kendi hero'sunu basıyor.
+ *
+ * GEO ile aynı kabuk: `ToolHero` boşta `full` (eyebrow + h1 + lede), tarama
+ * başlar başlamaz `compact` (yalnız eyebrow + h1). Kanıt şeridi de GEO'daki
+ * gibi yalnız boştaki ekranda durur — tarama sürerken ilerlemeyle yarışmaz.
+ */
+describe("DiagnooTool — GEO v2 hero paritesi", () => {
+  beforeEach(() => {
+    trackMock.mockReset();
+    vi.spyOn(window.history, "replaceState").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it("boş ekranda ToolHero'yu tam varyantta ve dört kanıt öğesini basar", () => {
+    mockFlow(statusBody());
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: TOOL.name.tr }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(TOOL.eyebrow.tr)).toBeInTheDocument();
+    expect(screen.getByText(TOOL.lede.tr)).toBeInTheDocument();
+
+    const proof = screen.getByRole("list", { name: "Kanıt" });
+    expect(within(proof).getAllByRole("listitem")).toHaveLength(4);
+    expect(within(proof).getByText(TOOL.proof[0]!.tr)).toBeInTheDocument();
+  });
+
+  it("tarama başlayınca hero compact'e düşer: lede ve kanıt şeridi kalkar", async () => {
+    mockFlow(statusBody());
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.queryByRole("list", { name: "Kanıt" })).toBeNull();
+    });
+    expect(screen.queryByText(TOOL.lede.tr)).toBeNull();
+    // Başlık düzeni bozulmaz: h1 her fazda DOM'da ve tek.
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    expect(
+      screen.getByRole("heading", { level: 1, name: TOOL.name.tr }),
+    ).toBeInTheDocument();
   });
 });

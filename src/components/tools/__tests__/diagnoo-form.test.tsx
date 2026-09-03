@@ -141,4 +141,44 @@ describe("DiagnooForm", () => {
       );
     });
   });
+
+  // ---- Faz 2 madde 3: aria-invalid yalnız "invalid" kodunda ----
+
+  it("sunucu 'invalid' dönerse adres alanı aria-invalid olur, hata metnine aria-describedby ile bağlanır", async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 400,
+      json: async () => ({ error: "invalid" }),
+    });
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
+
+    fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
+      target: { value: "bozuk-adres" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Taramayı başlat" }));
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("Geçerli bir site adresi girin.");
+
+    const url = screen.getByLabelText("Mağazanızın adresi");
+    expect(url).toHaveAttribute("aria-invalid", "true");
+    expect(url.getAttribute("aria-describedby")).toContain(alert.id);
+  });
+
+  it("'invalid' DIŞINDAKİ bir hata kodunda adres alanı aria-invalid OLMAZ", async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 429,
+      json: async () => ({ error: "rate-limited" }),
+    });
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
+
+    fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
+      target: { value: "https://magaza.example.com" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Taramayı başlat" }));
+
+    await screen.findByRole("alert");
+    expect(screen.getByLabelText("Mağazanızın adresi")).not.toHaveAttribute("aria-invalid");
+  });
 });

@@ -6,6 +6,7 @@ import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { track } from "@/lib/analytics/ga";
 import { localeHref } from "@/lib/i18n/locale-href";
 import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
+import { CATEGORY_LABELS, Chip, PRIORITY_LABELS } from "@/components/tools/tool-labels";
 import type {
   BenchmarkComparison,
   DiagnooReport as DiagnooReportData,
@@ -186,20 +187,8 @@ const COPY = {
   },
 } as const;
 
-const CATEGORY_LABELS: Record<RoadmapItem["category"], Record<"tr" | "en", string>> = {
-  speed: { tr: "Hız", en: "Speed" },
-  semantic: { tr: "Mesaj", en: "Messaging" },
-  ux: { tr: "Arayüz", en: "Interface" },
-  tracking: { tr: "Ölçüm", en: "Tracking" },
-  funnel: { tr: "Satın alma akışı", en: "Purchase flow" },
-};
-
-const PRIORITY_LABELS: Record<RoadmapItem["priority"], Record<"tr" | "en", string>> = {
-  critical: { tr: "Kritik", en: "Critical" },
-  high: { tr: "Yüksek", en: "High" },
-  medium: { tr: "Orta", en: "Medium" },
-  low: { tr: "Düşük", en: "Low" },
-};
+// `CATEGORY_LABELS`/`PRIORITY_LABELS`/`Chip` artık `tool-labels.tsx`te tek
+// kaynak — `diagnoo-snapshot.tsx` AYNI üçlüyü okur (Faz 2 cila, madde 1).
 
 const PRIORITY_TONE: Record<RoadmapItem["priority"], string> = {
   critical: "border-danger-500 text-danger-700",
@@ -257,6 +246,21 @@ export function moneyFormatter(locale: "tr" | "en"): Intl.NumberFormat {
     currency: "TRY",
     maximumFractionDigits: 0,
   });
+}
+
+/**
+ * Kilit maskesinin para birimi sembolü — locale'e göre türetilir.
+ *
+ * Önceden `diagnoo-snapshot.tsx`teki maskeli yer tutucu `₺` karakterini SABİT
+ * basıyordu; EN ziyaretçi için de TL sembolü görünüyordu. `Intl.NumberFormat`
+ * zaten `moneyFormatter`de kullanılan gerçek locale/para birimi çiftinden
+ * sembolü `formatToParts` ile okuyoruz — TR'de "₺", EN'de ICU verisi TRY'yi
+ * tanınmış bir sembole çözmediği için "TRY" döner; ikisi de doğru, uydurma
+ * değil.
+ */
+export function currencySymbol(locale: "tr" | "en"): string {
+  const parts = moneyFormatter(locale).formatToParts(0);
+  return parts.find((part) => part.type === "currency")?.value ?? "TRY";
 }
 
 /**
@@ -368,17 +372,6 @@ export function BenchmarkRows({
         {benchmark.source} · {benchmark.asOf}
       </p>
     </div>
-  );
-}
-
-/** Kategori/öncelik rozeti — tek biçim, iki kullanım. */
-function Chip({ children, tone }: { children: React.ReactNode; tone?: string }) {
-  return (
-    <span
-      className={`typography-label inline-flex items-center rounded-full border px-3 py-1 uppercase tracking-widest ${tone ?? "border-ink-200 text-ink-600"}`}
-    >
-      {children}
-    </span>
   );
 }
 

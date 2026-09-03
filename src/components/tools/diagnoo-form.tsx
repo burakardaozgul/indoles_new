@@ -154,8 +154,13 @@ export function DiagnooForm({
 
   const urlId = `${uid}-url`;
   const hintId = `${uid}-url-hint`;
+  const errorId = `${uid}-url-error`;
   const submitting = state === "submitting";
   const tokenBlocking = TURNSTILE_ENABLED && !turnstileToken;
+  // Tek alanlı form — ama `aria-invalid` yine de yalnız "invalid" kodunda
+  // basılır. Diğer hata türleri (rate limit, turnstile, sunucu arızası)
+  // alan HATASI değil; ziyaretçinin doğru yazdığı adresi hatalı gösterirdi.
+  const urlInvalid = state === "error" && errorKind === "invalid";
 
   let hint: string | null = null;
   if (!submitting && turnstileError === "unavailable") hint = c.turnstileUnavailable;
@@ -177,8 +182,8 @@ export function DiagnooForm({
             placeholder={c.urlPlaceholder}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            aria-invalid={state === "error" ? true : undefined}
-            aria-describedby={hintId}
+            aria-invalid={urlInvalid ? true : undefined}
+            aria-describedby={urlInvalid ? `${hintId} ${errorId}` : hintId}
             className="flex-1"
           />
           <Button
@@ -225,7 +230,7 @@ export function DiagnooForm({
       </div>
 
       {state === "error" ? (
-        <p role="alert" className="typography-caption text-danger-700">
+        <p id={errorId} role="alert" className="typography-caption text-danger-700">
           {c.errors[errorKind]}
         </p>
       ) : null}

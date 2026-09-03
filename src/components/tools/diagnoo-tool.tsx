@@ -181,12 +181,18 @@ export function DiagnooTool({
         {announcement}
       </div>
 
-      {/* Robots meta senkronu (Faz 2 madde 5): sayfa geçişi yok, URL çubuğu
-          `history.replaceState` ile rapor adresine döner ama DOM'daki meta
-          etiketi sunucunun ilk render'ında kaldığı yerde durur — rapor
-          sayfasının `noindex, follow`u burada da uygulanır. `phase` idle/
-          running'e dönünce (yeni tarama) unmount olur, eski değer geri gelir. */}
-      {phase === "snapshot" || phase === "unlocked" || phase === "failed" ? (
+      {/* Robots meta senkronu (Faz 2 madde 5, final review F6 düzeltmesi):
+          `onStarted` URL'i rapor yoluna `running` fazının BAŞINDA yazıyor
+          (aşağıdaki `history.replaceState` çağrısı) — tarama süren 2-4
+          dakika boyunca adres çubuğu rapor URL'ini gösterirken DOM'daki
+          meta etiketi de aynı anda güncellenmezse landing'in (indekslenebilir)
+          direktifi kalır, bu bileşenin kapatmak için var olduğu delik yeniden
+          açılır. Bu yüzden koşul `running`i de kapsar. `phase` idle'a
+          dönünce (yeni tarama) unmount olur, eski değer geri gelir. */}
+      {phase === "running" ||
+      phase === "snapshot" ||
+      phase === "unlocked" ||
+      phase === "failed" ? (
         <RobotsMeta content="noindex, follow" />
       ) : null}
 

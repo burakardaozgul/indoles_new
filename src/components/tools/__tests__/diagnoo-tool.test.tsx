@@ -236,6 +236,38 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
       );
     });
   });
+
+  it("running fazında (tarama sürerken) da robots noindex,follow olur (F6 final review)", async () => {
+    // Kusur: `onStarted` URL'i `running` fazının BAŞINDA rapor yoluna
+    // yazıyordu ama meta koşulu `running`i kapsamıyordu — tarama süren
+    // 2-4 dakika boyunca adres çubuğu rapor URL'i gösterirken DOM'daki
+    // robots direktifi landing'inki (indekslenebilir) kalıyordu.
+    document.head.querySelectorAll('meta[name="robots"]').forEach((el) => el.remove());
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, status: 202, json: async () => ({ id: ID, reused: false }) })
+      .mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: async () => statusBody({ status: "running", currentStep: "vision", progressPct: 40, snapshot: null }),
+      });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+    expect(document.querySelector('meta[name="robots"]')).toBeNull();
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: `${TOOL.name.tr} — tarama sürüyor` })).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "noindex, follow",
+      );
+    });
+  });
 });
 
 /**

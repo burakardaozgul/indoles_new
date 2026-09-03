@@ -44,6 +44,8 @@ pnpm ga4:setup --auth-url
 pnpm ga4:setup --exchange <code>
 ```
 
+> **Not (F9 final review):** `<code>` komut satırı argümanı olarak verildiği için kabuk geçmişine ve `ps` çıktısına düşer; işlem bittikten sonra `history -d <satır-no>` ile silinebilir — kod zaten tek kullanımlıktır, bir daha aynı `code` ile değişim yapılamaz.
+
 Script yalnız refresh token'ı ekrana basar (client secret veya access token asla basılmaz). Basılan satırı `.env.local`'e ekle:
 
 ```

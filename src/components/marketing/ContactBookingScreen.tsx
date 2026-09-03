@@ -229,11 +229,7 @@ export function ContactBookingScreen({ locale }: { locale: "tr" | "en" }) {
         loading={isSubmitting}
         turnstileSlot={
           TURNSTILE_ENABLED ? (
-            <div
-              ref={turnstileRef}
-              className="cf-turnstile mt-3"
-              data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-            />
+            <div ref={turnstileRef} className="cf-turnstile mt-3" />
           ) : null
         }
       />

@@ -431,11 +431,7 @@ export function EntryPopup({
                   loading={isSubmitting}
                   turnstileSlot={
                     TURNSTILE_ENABLED ? (
-                      <div
-                        ref={turnstileRef}
-                        className="cf-turnstile mt-3"
-                        data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                      />
+                      <div ref={turnstileRef} className="cf-turnstile mt-3" />
                     ) : null
                   }
                 />
@@ -448,11 +444,7 @@ export function EntryPopup({
                 />
               )}
               {stage === "contact" && TURNSTILE_ENABLED && (
-                <div
-                  ref={turnstileRef}
-                  className="cf-turnstile mt-3"
-                  data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                />
+                <div ref={turnstileRef} className="cf-turnstile mt-3" />
               )}
               {(stage === "success-booking" || stage === "success-contact") && (
                 <SuccessState

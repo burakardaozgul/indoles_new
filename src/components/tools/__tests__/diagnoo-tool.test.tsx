@@ -180,6 +180,62 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
       expect(live).toHaveTextContent("Tarama tamamlandı. Rapor açık.");
     });
   });
+
+  // ---- Faz 2 madde 5: robots meta senkronu ----
+
+  it("boşta robots meta etiketi YOK; snapshot/rapor/failed fazında noindex,follow olur", async () => {
+    document.head.querySelectorAll('meta[name="robots"]').forEach((el) => el.remove());
+    mockFlow(statusBody());
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    expect(document.querySelector('meta[name="robots"]')).toBeNull();
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: /anlık görünüm/ })).toBeInTheDocument();
+    });
+    // `RobotsMeta`nın DOM güncellemesi kendi (pasif) efektinde olur, başlığın
+    // göründüğü commit'le AYNI anda değil — ayrı bir `waitFor` yarış
+    // durumunu engeller.
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "noindex, follow",
+      );
+    });
+  });
+
+  it("başarısız taramada da robots noindex,follow olur; yeni taramaya dönünce eski değere döner", async () => {
+    const existing = document.createElement("meta");
+    existing.name = "robots";
+    existing.content = "index, follow";
+    document.head.appendChild(existing);
+
+    mockFlow(statusBody({ status: "failed", failReason: "scrape_failed", snapshot: null }));
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "noindex, follow",
+      );
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Yeni tarama başlat" }));
+
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "index, follow",
+      );
+    });
+  });
 });
 
 /**

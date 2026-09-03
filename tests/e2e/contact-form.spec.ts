@@ -32,24 +32,34 @@ test.beforeEach(async ({ page }) => {
 test("contact form submit — happy path", async ({ page }) => {
   await page.goto("/tr/iletisim");
 
+  // `/tr/iletisim` also renders the footer newsletter signup, which has its
+  // own `input[name="email"]` (`id="v2-newsletter-email"`) — an unscoped
+  // locator resolves to two elements and Playwright's strict mode throws
+  // (confirmed live: "strict mode violation ... resolved to 2 elements").
+  // The `<form>` here carries no accessible name/data-testid to key off of,
+  // so scope on a field unique to this specific business form (`subject` —
+  // budget/timeline/subject only exist on the contact form, never on the
+  // newsletter or booking-widget forms).
+  const form = page.locator("form").filter({ has: page.locator('input[name="subject"]') });
+
   // Fields use react-hook-form register(name) which sets the name attribute
-  await page.locator('input[name="firstName"]').fill("Burak");
-  await page.locator('input[name="lastName"]').fill("Özgül");
-  await page.locator('input[name="email"]').fill("test@indoles.com.tr");
-  await page.locator('input[name="phone"]').fill("+905551112233");
-  await page.locator('input[name="company"]').fill("INDOLES");
-  await page.locator('input[name="subject"]').fill("Proje");
-  await page
+  await form.locator('input[name="firstName"]').fill("Burak");
+  await form.locator('input[name="lastName"]').fill("Özgül");
+  await form.locator('input[name="email"]').fill("test@indoles.com.tr");
+  await form.locator('input[name="phone"]').fill("+905551112233");
+  await form.locator('input[name="company"]').fill("INDOLES");
+  await form.locator('input[name="subject"]').fill("Proje");
+  await form
     .locator('textarea[name="message"]')
     .fill("Uzun bir mesaj, 20 karakterden fazla elbette yazıyoruz.");
 
-  await page.locator('select[name="budgetRange"]').selectOption("100k-250k");
-  await page.locator('select[name="timeline"]').selectOption("1-3-months");
+  await form.locator('select[name="budgetRange"]').selectOption("100k-250k");
+  await form.locator('select[name="timeline"]').selectOption("1-3-months");
 
   // KVKK consent checkbox
-  await page.locator('input[name="kvkkConsent"]').check();
+  await form.locator('input[name="kvkkConsent"]').check();
 
-  await page.getByRole("button", { name: /gönder/i }).click();
+  await form.getByRole("button", { name: /gönder/i }).click();
 
   // Success state renders the confirmation heading
   await expect(

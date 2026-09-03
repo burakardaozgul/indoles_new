@@ -33,8 +33,12 @@ bad()  { printf '  \033[31m✗\033[0m %s\n' "$1"; fail=$((fail+1)); }
 DOH=()
 [[ "${CF_SMOKE_DOH:-}" == "1" ]] && DOH=(--doh-url https://1.1.1.1/dns-query)
 
-fetch() { curl -sS -m 20 "${DOH[@]}" "$@"; }
-code()  { curl -sS -m 20 "${DOH[@]}" -o /dev/null -w '%{http_code}' "$1"; }
+# `"${DOH[@]}"` bash 3.2'de (macOS varsayılanı) `set -u` altında DOH boş bir
+# dizi olduğunda "unbound variable" ile patlar — 4.4'te düzeltilen bir davranış
+# farkı. `${DOH[@]+"${DOH[@]}"}` klasik bash 3.2 uyumlu kalıp: dizi boşsa hiç
+# genişlemez, doluysa elemanları olduğu gibi (tek tek alıntılanmış) taşır.
+fetch() { curl -sS -m 20 ${DOH[@]+"${DOH[@]}"} "$@"; }
+code()  { curl -sS -m 20 ${DOH[@]+"${DOH[@]}"} -o /dev/null -w '%{http_code}' "$1"; }
 
 echo "Duman testi: $BASE"
 echo

@@ -70,6 +70,19 @@ describe("EntryPopup", () => {
     const matches = screen.getAllByText(/stage1\.title/);
     expect(matches.length).toBeGreaterThan(0);
   });
+
+  it("Faz 2 madde 7 — cf-turnstile konteyneri ölü data-sitekey taşımaz", () => {
+    // Tüm tüketiciler `turnstile.render()`ı sitekey'i AÇIKÇA parametre olarak
+    // geçirerek çağırıyor (use-turnstile.ts) — implicit auto-render'ın
+    // okuduğu `data-sitekey` DOM attr'ı hiçbir zaman kullanılmıyordu.
+    // `Dialog.Portal` içeriği `document.body`ye taşır — `render()`in kendi
+    // `container`ı DEĞİL, tüm `document.body` sorgulanır (diğer testlerin
+    // `screen.*` kullanmasıyla aynı gerekçe).
+    render(<EntryPopup open onClose={() => {}} initialStage="contact" />);
+    const turnstileEl = document.body.querySelector(".cf-turnstile");
+    expect(turnstileEl).not.toBeNull();
+    expect(turnstileEl).not.toHaveAttribute("data-sitekey");
+  });
 });
 
 describe("handleSubmitForm — brief_submitted", () => {

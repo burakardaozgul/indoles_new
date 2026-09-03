@@ -16,9 +16,14 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     background_color: colors.bg,
     theme_color: colors.bg,
+    // Next'in dosya-tabanlı ikon konvansiyonu (`src/app/icon.png`,
+    // `apple-icon.png`) uzantıyı SERVİS EDİLEN yolda da korur — derlenmiş
+    // çıktı `.next/server/app/icon.png` (uzantısız `/icon` DEĞİL). Uzantısız
+    // yol daha önce burada yazılıydı; tarayıcı `/icon`e 404 alıyordu, manifest
+    // ikon eşlemesi hiç çalışmıyordu.
     icons: [
-      { src: "/icon", sizes: "32x32", type: "image/png" },
-      { src: "/apple-icon", sizes: "180x180", type: "image/png" },
+      { src: "/icon.png", sizes: "32x32", type: "image/png" },
+      { src: "/apple-icon.png", sizes: "180x180", type: "image/png" },
     ],
   };
 }

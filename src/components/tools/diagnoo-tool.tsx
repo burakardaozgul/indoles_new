@@ -5,6 +5,7 @@ import { DiagnooForm } from "@/components/tools/diagnoo-form";
 import { DiagnooProgress } from "@/components/tools/diagnoo-progress";
 import { DiagnooReport } from "@/components/tools/diagnoo-report";
 import { DiagnooSnapshot } from "@/components/tools/diagnoo-snapshot";
+import { RobotsMeta } from "@/components/tools/robots-meta";
 import { ToolHero } from "@/components/tools/tool-hero";
 import { TOOL_UI } from "@/components/tools/copy";
 import { useDiagnooStatus } from "@/components/tools/use-diagnoo-status";
@@ -179,6 +180,15 @@ export function DiagnooTool({
       <div aria-live="polite" className="sr-only">
         {announcement}
       </div>
+
+      {/* Robots meta senkronu (Faz 2 madde 5): sayfa geçişi yok, URL çubuğu
+          `history.replaceState` ile rapor adresine döner ama DOM'daki meta
+          etiketi sunucunun ilk render'ında kaldığı yerde durur — rapor
+          sayfasının `noindex, follow`u burada da uygulanır. `phase` idle/
+          running'e dönünce (yeni tarama) unmount olur, eski değer geri gelir. */}
+      {phase === "snapshot" || phase === "unlocked" || phase === "failed" ? (
+        <RobotsMeta content="noindex, follow" />
+      ) : null}
 
       <ToolHero tool={tool} locale={locale} variant={phase === "idle" ? "full" : "compact"} />
 

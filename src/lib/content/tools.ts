@@ -369,8 +369,8 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
     en: "Seven pages, four dimensions, one score",
   },
   lede: {
-    tr: "Diagnoo, mağazanızın adresini girmenizle çalışan bir e-ticaret site analizi aracıdır: yedi kritik sayfayı tarar ve dört boyutta puanlar — mesaj tutarlılığı, arayüz yükü, hız ile satın alma akışı, ölçüm altyapısı. Ücretsiz anlık görünüm 100 üzerinden sağlık skorunu ve en yüksek etkili üç boşluğu verir; iş e-postanızla tam rapor, TL aralıkları ve yöntem ekiyle açılır.",
-    en: "Diagnoo is an e-commerce site-analysis tool: enter your store's address and it scans seven critical pages, then scores four dimensions — message consistency, interface load, speed with the purchase flow, and the tracking setup. The free snapshot gives a health score out of 100 and the three gaps with the highest impact; a work e-mail opens the full report with lira ranges and a methodology appendix.",
+    tr: "Mağazanız satmaya hazır mı? Diagnoo'nun ücretsiz e-ticaret site analizi yedi kritik sayfayı tarar, 100 üzerinden puanlar ve kayıp cironuzu TL aralığı olarak yazar.",
+    en: "Is your store ready to sell? Diagnoo's free e-commerce site analysis scans seven critical pages, scores them out of 100 and puts your lost revenue in a lira range.",
   },
   // Kova sınırları `healthScoreBucket()` ile birebir; her cümle skorun hangi
   // boyutta kaybedildiğini söyler, genel bir değerlendirme vermez.
@@ -477,7 +477,7 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
         en: "What does Diagnoo measure?",
       },
       answer: {
-        tr: "Diagnoo bir e-ticaret mağazasının satış hazırlığını dört boyutta ölçer: metinlerin aynı vaadi söyleyip söylemediği, arayüzün ilk ekranda ne kadar yük bindirdiği, sayfaların mobil hızı ile satın alma akışındaki sürtünme, bir de ölçüm altyapısının eksikleri. Dört boyut 100 puanlık tek bir sağlık skorunda birleşir; skorun altında hangi boşluğun kaç puan götürdüğü ayrı ayrı yazar. Diagnoo'nun ürettiği skor, satın alma akışına odaklanan bir cro analizi olarak da okunabilir.",
+        tr: "Diagnoo bir e-ticaret mağazasının satış hazırlığını dört boyutta ölçer: metinlerin aynı vaadi söyleyip söylemediği, arayüzün ilk ekranda ne kadar yük bindirdiği, sayfaların mobil hızı ile satın alma akışındaki sürtünme, bir de ölçüm altyapısının eksikleri. Dört boyut 100 puanlık tek bir sağlık skorunda birleşir; skorun altında hangi boşluğun kaç puan götürdüğü ayrı ayrı yazar. Diagnoo'nun ürettiği skor, satın alma akışına odaklanan bir CRO analizi olarak da okunabilir.",
         en: "Diagnoo measures how ready an online store is to sell, across four dimensions: whether the copy states one consistent promise, how much load the first screen puts on a visitor, how fast the pages run on mobile together with the friction in the purchase flow, and what the tracking setup misses. The four dimensions merge into a single health score out of 100, and each gap shows how many points it costs. The score Diagnoo produces also works as a CRO analysis centred on the purchase flow.",
       },
     },
@@ -497,8 +497,8 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
         en: "How does the report separate measured and estimated figures?",
       },
       answer: {
-        tr: "Rapordaki her girdi ölçüldü ya da tahmin edildi rozetiyle işaretlenir. Hız, ekran ve metin verileri doğrudan ölçülür. Trafik, sepet ortalaması, dönüşüm oranı ve reklam bütçesi sizde varsa forma girilir ve ölçülen sayı olarak işlenir; girmezseniz sektör kıyaslarından tahmin edilir. Parasal sonuçlar tek bir rakam değil, alt-beklenen-üst aralığı olarak yazılır; yöntem eki her sabiti kaynağıyla listeler. Bu yaklaşım, eksik veriyle de çalışabilen gerçekçi bir dönüşüm oranı analizi sunar.",
-        en: "Every input in the report carries a measured or an estimated badge. Speed, screen and copy data come from direct measurement. Traffic, average order value, conversion rate and ad spend are yours to supply in the form and then count as measured; leave them blank and sector benchmarks fill the gap as estimates. Money figures appear as a low-expected-high range rather than a single number, and the methodology appendix lists every constant with its source. This approach still delivers a realistic conversion rate analysis when some data is missing.",
+        tr: "Rapordaki her girdi ölçüldü ya da tahmin edildi rozetiyle işaretlenir. Hız, ekran ve metin verileri doğrudan ölçülür. Trafik, sepet ortalaması, dönüşüm oranı ve reklam bütçesi sizde varsa forma girilir ve ölçülen sayı olarak işlenir; girmezseniz sektör kıyaslarından tahmin edilir. Parasal sonuçlar tek bir rakam değil, alt-beklenen-üst aralığı olarak yazılır; yöntem eki her sabiti kaynağıyla listeler. Ölçülen ve tahmin edilen girdilerin ayrımı, eksik veriyle de çalışan gerçekçi bir dönüşüm oranı analizi üretir.",
+        en: "Every input in the report carries a measured or an estimated badge. Speed, screen and copy data come from direct measurement. Traffic, average order value, conversion rate and ad spend are yours to supply in the form and then count as measured; leave them blank and sector benchmarks fill the gap as estimates. Money figures appear as a low-expected-high range rather than a single number, and the methodology appendix lists every constant with its source. Separating measured inputs from estimated ones keeps the conversion rate analysis realistic even when parts of the data are missing.",
       },
     },
     {

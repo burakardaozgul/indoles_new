@@ -42,6 +42,11 @@ const COPY = {
       turnstile: "Güvenlik doğrulaması geçmedi; sayfayı yenileyip tekrar deneyin.",
       rateLimited: "Günlük tarama sınırına ulaşıldı. Yarın tekrar deneyin.",
       unavailable: "Araç şu an yanıt veremiyor, birazdan tekrar deneyin.",
+      // Lansman düzeltme dalgası madde A: motor anahtarları (Gemini/
+      // Firecrawl) üretimde henüz tanımlı değil — Burak'ın kararı "kullanıma
+      // sonra açarız". Suç ziyaretçinin sitesine atılmaz, tarih vaat edilmez.
+      notConfigured:
+        "Diagnoo'nun tarama motoru henüz kullanıma açılmadı. Aracı yakında devreye alıyoruz.",
       generic: "Tarama başlatılamadı, birazdan tekrar deneyin.",
     },
   },
@@ -58,6 +63,8 @@ const COPY = {
       turnstile: "The security check did not pass; refresh the page and try again.",
       rateLimited: "The daily scan limit has been reached. Try again tomorrow.",
       unavailable: "The tool cannot respond right now. Try again shortly.",
+      notConfigured:
+        "Diagnoo's scanning engine is not switched on yet. We will bring the tool online shortly.",
       generic: "The scan could not be started. Try again shortly.",
     },
   },
@@ -66,12 +73,15 @@ const COPY = {
 type ErrorKind = keyof (typeof COPY)["tr"]["errors"];
 
 // `misconfigured` araç tarafı config eksikliğidir, kullanıcının hatası değil —
-// nötr "yanıt veremiyor" cümlesine düşer.
+// nötr "yanıt veremiyor" cümlesine düşer. `not-configured` (Lansman düzeltme
+// dalgası madde A) AYRI bir durum: araç arızalı değil, kullanıma HENÜZ
+// açılmadı — kendi dürüst cümlesine düşer, "unavailable"a karıştırılmaz.
 const ERROR_MAP: Record<string, ErrorKind> = {
   invalid: "invalid",
   "turnstile-failed": "turnstile",
   "rate-limited": "rateLimited",
   misconfigured: "unavailable",
+  "not-configured": "notConfigured",
 };
 
 export function DiagnooForm({

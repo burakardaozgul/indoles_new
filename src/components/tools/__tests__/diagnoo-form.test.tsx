@@ -165,6 +165,48 @@ describe("DiagnooForm", () => {
     expect(url.getAttribute("aria-describedby")).toContain(alert.id);
   });
 
+  // ---- Lansman düzeltme dalgası madde A: motor anahtarları yokken dürüst "henüz açılmadı" yolu ----
+
+  it("sunucu 'not-configured' dönerse dürüst 'henüz açılmadı' metni role=alert içinde görünür", async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 503,
+      json: async () => ({ error: "not-configured" }),
+    });
+    render(<DiagnooForm locale="tr" inputHelp={DIAGNOO_TOOL.inputHelp.tr} onStarted={vi.fn()} />);
+
+    fireEvent.change(screen.getByLabelText("Mağazanızın adresi"), {
+      target: { value: "https://magaza.example.com" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Taramayı başlat" }));
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(
+      "Diagnoo'nun tarama motoru henüz kullanıma açılmadı. Aracı yakında devreye alıyoruz.",
+    );
+    // Ziyaretçinin girdiği adres HATALI değil — alan hatası değil, araç durumu.
+    expect(screen.getByLabelText("Mağazanızın adresi")).not.toHaveAttribute("aria-invalid");
+  });
+
+  it("EN locale'de 'not-configured' dürüst metni İngilizce görünür", async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 503,
+      json: async () => ({ error: "not-configured" }),
+    });
+    render(<DiagnooForm locale="en" inputHelp={DIAGNOO_TOOL.inputHelp.en} onStarted={vi.fn()} />);
+
+    fireEvent.change(screen.getByLabelText("Your store's address"), {
+      target: { value: "https://store.example.com" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Start the scan" }));
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(
+      "Diagnoo's scanning engine is not switched on yet. We will bring the tool online shortly.",
+    );
+  });
+
   it("'invalid' DIŞINDAKİ bir hata kodunda adres alanı aria-invalid OLMAZ", async () => {
     fetchMock.mockResolvedValue({
       ok: false,

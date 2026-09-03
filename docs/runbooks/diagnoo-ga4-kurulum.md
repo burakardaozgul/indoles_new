@@ -189,6 +189,8 @@ Bu yüzden **1→2 geçiş oranı, gerçek "taramayı bitirenler" oranından dü
 ## Deploy öncesi Burak adımları
 
 > **Güncelleme (2026-09-03, Faz 2 Görev 10):** Burak'ın kararıyla sıra değişti — "gizli olmasın, indeksimizi alalım, kullanıma sonra açarız zaten şu an trafik yok." Aşağıdaki **6. adım (lansman kapısını aç) TAMAMLANDI**: `DIAGNOO_TOOL.published: true`, deploy'u bekliyor. Sırlar ve migration BEKLENMEDEN yapıldı — bilinçli tersine çevirme: trafik sıfırken indeksleme saatini şimdi işletmenin maliyeti yok, kullanım sırlar gelince açılır. **1-3. adımlar hâlâ açık** — onlar tamamlanana kadar canlı araç dürüst `scrape_failed` hatasıyla cevap verir (production'da doğrulandı, Faz 1); "yakında" ekranı yok, hata durumunun kendisi doğru bir cevaptır.
+>
+> **Güncelleme (2026-09-03, lansman düzeltme dalgası madde A):** yukarıdaki `scrape_failed` davranışı DEĞİŞTİ — `POST /api/tools/diagnoo-start` artık motor anahtarlarının (`GEMINI_API_KEY`/`FIRECRAWL_API_KEY`) varlığını taramayı hiç başlatmadan kontrol eder; 1-3. adımlar tamamlanana kadar araç bunun yerine dürüst bir "henüz kullanıma açılmadı" mesajı gösterir ve sırlar girildiği an ek bir işlem gerekmeden normal akışa döner.
 
 GA4 kurulumu koda bağımlı değil ama Diagnoo'nun gerçek veri üretmesi üç sırra ve bir uzak migration'a bağlı — bunlar bu görevin (Görev 16) kapsamı dışında bırakıldı çünkü üretim komutu çalıştırmak ajan işi değil. Kalan sıra:
 

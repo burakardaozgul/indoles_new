@@ -2,15 +2,17 @@
  * `POST /api/tools/diagnoo-start` — Diagnoo GAP analizi başlatma uç noktası.
  * Spec §9 "Teşhis başlatma akışı", Görev 12.
  *
- * Akış (Görev 17 sonrası, GEO rotalarının (`geo-scan/route.ts`,
- * `geo-report/route.ts`) izlediği KESİN sıra): json → `diagnooStartSchema.
- * safeParse` → bal küpü/süre tuzağı (`spamSignal`, HER ZAMAN çalışır) → ip
- * (`cf-connecting-ip`, yoksa `"0.0.0.0"`) → Turnstile (yalnız
- * `turnstileEnabled()` iken) → `TOOL_IP_SALT` fail-closed (KVKK) →
- * `hashClientIp` → IP/gün limiti → global/gün limiti → URL normalize →
- * `findFreshCompleted` (24 saat içinde tamamlanmış aynı URL varsa yeniden
- * koşturmaz, maliyet koruması) → yoksa yeni teşhis oluştur + Workflow'u
- * tetikle → 202.
+ * Akış (Faz 2 lansman düzeltme dalgası sonrası, GEO rotalarının
+ * (`geo-scan/route.ts`, `geo-report/route.ts`) izlediği sıranın ÜZERİNE
+ * madde A eklenmiş hâli): json → `diagnooStartSchema.safeParse` → bal küpü/
+ * süre tuzağı (`spamSignal`, HER ZAMAN çalışır) → ip (`cf-connecting-ip`,
+ * yoksa `"0.0.0.0"`) → Turnstile (yalnız `turnstileEnabled()` iken) → motor
+ * anahtarları kontrolü (`GEMINI_API_KEY`/`FIRECRAWL_API_KEY`, "kullanıma
+ * henüz açılmadı" fail-closed — GEO'da karşılığı yok, yalnız Diagnoo'ya
+ * özgü) → `TOOL_IP_SALT` fail-closed (KVKK) → `hashClientIp` → IP/gün limiti
+ * → global/gün limiti → URL normalize → `findFreshCompleted` (24 saat
+ * içinde tamamlanmış aynı URL varsa yeniden koşturmaz, maliyet koruması) →
+ * yoksa yeni teşhis oluştur + Workflow'u tetikle → 202.
  *
  * TURNSTILE ADR-028 DESENİNE TAŞINDI (Görev 17.1, task-17-brief §17.1): launch
  * konfigürasyonunda `NEXT_PUBLIC_TURNSTILE_SITE_KEY` boş — bu rota da GEO/
@@ -50,7 +52,12 @@ type DiagnooRouteEnv = {
   DIAGNOO_WORKFLOW: { create(opts: { params: { diagnosticId: string } }): Promise<unknown> };
 };
 
-type DiagnooStartErrorCode = "invalid" | "turnstile-failed" | "misconfigured" | "rate-limited";
+type DiagnooStartErrorCode =
+  | "invalid"
+  | "turnstile-failed"
+  | "misconfigured"
+  | "not-configured"
+  | "rate-limited";
 
 function errorResponse(error: DiagnooStartErrorCode, status: number): Response {
   return NextResponse.json({ error }, { status });
@@ -101,6 +108,28 @@ export async function POST(req: Request): Promise<Response> {
     if (!turnstileOk) {
       return errorResponse("turnstile-failed", 403);
     }
+  }
+
+  // Lansman düzeltme dalgası madde A (Task 10 review Important): Burak'ın
+  // kararı "kullanıma sonra açarız" — motor anahtarları üretimde henüz
+  // tanımlı değilken her gerçek tarama Firecrawl'dan hata alıp
+  // `scrape_failed`e düşüyor, D1 satırı + Workflow koşusu + günlük IP
+  // kotasından bir hak zaten harcanmış oluyordu. Anahtar yoksa taramayı hiç
+  // BAŞLATMADAN durum söylenir: hız limiti sayımından ve
+  // `createDiagnostic`/Workflow'dan ÖNCE, salt/hash'e bile gitmeden kontrol
+  // edilir. `PSI_API_KEY` bilerek DAHIL DEĞİL: PSI zaten null dönebiliyor,
+  // hız verisi "veri yetersiz" yoluna düşer — araç onsuz da anlamlı çalışır.
+  //
+  // Kaynak `process.env` (TOOL_IP_SALT ile AYNI desen, aşağıya bkz.):
+  // `@opennextjs/cloudflare`nin `populateProcessEnv`i (dist/cli/templates/
+  // init.js) prod'da Workers `env`indeki HER string alanı (`vars` +
+  // `wrangler secret put` sırları) `process.env`e KOPYALAR; Workflow'un
+  // kendisi de (`custom-worker.ts` `DiagnooDiagnosticWorkflow`) bu anahtarları
+  // `this.env` üzerinden AYNI platform env'inden okur (`pipeline.ts`
+  // `PipelineEnv`). Yani iki okuma yolu asla ayrışmaz — `process.env`in
+  // "evet var" demesi Workflow'un da göreceği anlamına gelir.
+  if (!process.env.GEMINI_API_KEY || !process.env.FIRECRAWL_API_KEY) {
+    return errorResponse("not-configured", 503);
   }
 
   // KVKK fail-closed: GEO rotalarıyla AYNI duruş — tuz eksik/boşsa tuzsuz

@@ -30,6 +30,12 @@ beforeEach(() => {
   vi.mocked(verifyTurnstile).mockClear();
   vi.mocked(sendMailWithRetry).mockClear();
   vi.stubEnv("TOOL_IP_SALT", "test-salt");
+  // Lansman düzeltme dalgası madde A: motor anahtarları burada VARSAYILAN
+  // DOLU — aksi halde bu dosyadaki tüm mutlu-yol testleri (workflow başlatma,
+  // 24 saat tazelik, hız limiti vb.) yeni "not-configured" 503'üne düşerdi.
+  // Anahtarsız durum kendi testinde `vi.stubEnv(..., "")` ile ayrıca ezilir.
+  vi.stubEnv("GEMINI_API_KEY", "test-gemini-key");
+  vi.stubEnv("FIRECRAWL_API_KEY", "test-firecrawl-key");
   vi.mocked(getCloudflareContext).mockReturnValue({
     env: { BOOKINGS_DB: db, DIAGNOO_WORKFLOW: { create: workflowCreate } },
   } as never);
@@ -152,6 +158,41 @@ describe("POST /api/tools/diagnoo-start", () => {
     expect(await res.json()).toEqual({ ok: true });
     expect(verifyTurnstile).not.toHaveBeenCalled();
     expect(workflowCreate).not.toHaveBeenCalled();
+  });
+
+  // ---- Lansman düzeltme dalgası madde A: motor anahtarları yokken dürüst "henüz açılmadı" yolu ----
+
+  it("GEMINI_API_KEY yoksa 503 not-configured; D1'e satır yazılmaz, workflow başlamaz", async () => {
+    vi.stubEnv("GEMINI_API_KEY", "");
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
+    expect(res.status).toBe(503);
+    expect(((await res.json()) as { error: string }).error).toBe("not-configured");
+    expect(workflowCreate).not.toHaveBeenCalled();
+    const rows = await db.prepare("SELECT COUNT(*) AS n FROM diagnoo_diagnostics").first<{ n: number }>();
+    expect(rows?.n).toBe(0);
+  });
+
+  it("FIRECRAWL_API_KEY yoksa 503 not-configured; D1'e satır yazılmaz, workflow başlamaz", async () => {
+    vi.stubEnv("FIRECRAWL_API_KEY", "");
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
+    expect(res.status).toBe(503);
+    expect(((await res.json()) as { error: string }).error).toBe("not-configured");
+    expect(workflowCreate).not.toHaveBeenCalled();
+  });
+
+  it("motor anahtarları yokken hız limiti sayacı TÜKETİLMEZ (IP limitinin üstünde çağrılsa da hep 503)", async () => {
+    vi.stubEnv("GEMINI_API_KEY", "");
+    // IP_DAILY_LIMIT (3) + 1: sayaç gerçekten tüketilseydi 4. çağrı 429 alırdı.
+    for (let i = 0; i < 4; i++) {
+      const res = await startPOST(post("/api/tools/diagnoo-start", startBody(`https://s${i}.com`)));
+      expect(res.status).toBe(503);
+    }
+  });
+
+  it("motor anahtarları VARKEN mevcut 202 akışı bozulmaz (regresyon)", async () => {
+    const res = await startPOST(post("/api/tools/diagnoo-start", startBody("https://a.com")));
+    expect(res.status).toBe(202);
+    expect(workflowCreate).toHaveBeenCalledTimes(1);
   });
 
   it("TOOL_IP_SALT yoksa 500 misconfigured (fail-closed)", async () => {

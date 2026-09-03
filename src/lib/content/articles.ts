@@ -10336,6 +10336,455 @@ export const ARTICLES: ArticleContent[] = [
       },
     },
   },
+  {
+    slug: {
+      tr: "e-ticaret-gap-analizi-cro-denetimi",
+      en: "ecommerce-gap-analysis-cro-audit",
+    },
+    title: {
+      tr: "İdeal sitenizden ne kadar uzaktasınız? Adım adım e-ticaret GAP analizi",
+      en: "How far are you from your ideal site? A step-by-step e-commerce GAP analysis",
+    },
+    excerpt: {
+      tr: "Mağazanız kötü değil; olabileceği en iyi hâlinden ölçülebilir bir uzaklıkta. GAP analizi o uzaklığı sayfa sayfa ve boyut boyut ölçer, sonra kapatma sırasını verir.",
+      en: "Your store is not bad; it sits a measurable distance from the best version of itself. A GAP analysis measures that distance page by page, dimension by dimension, then sets the order in which you close it.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Selin'in mağazası kötü değildi. Sayfalar açılıyordu, ürün fotoğrafları düzgündü, kampanyalar zamanında yayına giriyordu. Yine de aylık ciro on dört aydır aynı bandın içinde gidip geliyordu. Ajansa sorduğunda \"daha çok trafik lazım\" cevabını, geliştiriciye sorduğunda \"site zaten hızlı\" cevabını aldı. İkisi de kendi penceresinden haklıydı ve ikisi de aynı soruyu cevapsız bıraktı.",
+          en: "Selin's store was not bad. Pages loaded, the product photography was tidy, campaigns went live on schedule. Even so, monthly revenue had drifted inside the same band for fourteen months. When she asked the agency, the answer was \"we need more traffic\"; when she asked the developer, the answer was \"the site is already fast\". Both were right from their own window, and both left the same question unanswered.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Eksik olan üçüncü soru şuydu: bu mağaza, olabileceği en iyi hâlinden ne kadar uzakta? Cevap ne trafik raporunda ne de hız testinde duruyor. İkisinin arasında, ziyaretçinin ilk ekrandan ödeme adımına kadar yürüdüğü hatta duruyor. GAP analizi tam olarak o hattı ölçer. Selin'i bu yazı için kurguladım; sorduğu iki soruyu kurgulamadım.",
+          en: "The missing third question was this: how far is this store from the best version of itself? The answer sits neither in a traffic report nor in a speed test. It sits between the two, along the line a visitor walks from the first screen to the checkout step. A GAP analysis measures precisely that line. I invented Selin for this article; I did not invent the two questions she asked.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GAP analizi mağazanızı bir rakiple değil, kendi ideal hâliyle kıyaslar: aynı ürünü satan, aynı bütçeyle çalışan ama her adımı doğru kurulmuş bir sitenin sizde ne kadar fazlasını sattığını sayısallaştırır. Aşağıda bu denetimin nasıl yürüdüğünü adım adım yazdım — hangi yedi sayfaya bakılır, dört boyut nasıl puanlanır, hız kaybı hangi formülle TL aralığına çevrilir, öncelik nasıl sıralanır ve doksan günlük kapatma planı nasıl kurulur. Kavramın tanımına ihtiyacınız varsa [CRO nedir yazısı](/yazilar/cro-nedir) başlangıç noktası; işin bir danışmanlık kalemi olarak nasıl yürüdüğü [dönüşüm optimizasyonu hizmetimizde](/hizmetler/cro) duruyor.",
+          en: "A GAP analysis compares your store not with a competitor but with its own ideal version: it puts a number on how much more a site selling the same products, on the same budget, but built correctly at every step would sell. Below I have written out how that audit runs, step by step — which seven pages get inspected, how the four dimensions are scored, which formula turns speed loss into a lira range, how priorities are ordered and how a 90-day closing plan is built. If you need the definition of the term first, [what CRO is](/yazilar/cro-nedir) is the starting point; how the work runs as a consulting engagement sits on our [conversion optimisation service page](/hizmetler/cro).",
+        },
+      },
+      {
+        type: "h2",
+        id: "gap-analizi-nedir",
+        text: {
+          tr: "GAP analizi nedir, CRO denetiminden farkı ne?",
+          en: "What is a GAP analysis, and how does it differ from a CRO audit?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GAP analizi, mevcut durum ile ideal durum arasındaki farkı ölçülebilir kalemlere bölen bir yöntemdir. E-ticarette ideal durum soyut bir kavram değil: aynı sektörde satan, benzer ziyaretçi hacmine sahip ve dört temel boyutta hatasız kurulmuş bir mağaza. Denetim sizin mağazanızı o referansa göre puanlar ve farkı hem puan hem para olarak yazar.",
+          en: "A GAP analysis is a method that breaks the difference between the current state and the ideal state into measurable items. In e-commerce the ideal state is not an abstraction: it is a store selling in the same sector, carrying a comparable volume of visitors, and built without fault across four core dimensions. The audit scores your store against that reference and writes the difference both as points and as money.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO denetiminden farkı kapsamda ve sırada. Klasik bir CRO denetimi tek bir hipotez havuzu üretir: neyi test edeceğiz, hangi sayfada, hangi metrikte. GAP analizi bir adım önce durur ve test edilecek bir şey kalmadan önce hangi temellerin eksik olduğunu söyler. Ölçüm doğru kurulmamışsa test geçersizdir; sayfa mobilde beş saniyede açılıyorsa buton rengi tartışması anlamsızdır. GAP analizi bu sıralamayı verir, testin kendisini değil.",
+          en: "The difference from a CRO audit lies in scope and in order. A classic CRO audit produces one pool of hypotheses: what we will test, on which page, against which metric. A GAP analysis stops one step earlier and names which foundations are missing before anything is left to test. If measurement is set up wrongly, the test is invalid; if a page takes five seconds to open on mobile, an argument about button colour means nothing. A GAP analysis supplies that ordering rather than the test itself.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci fark çıktıda görünür. CRO denetimi bir test listesi bırakır; GAP analizi bir uzaklık haritası bırakır — hangi boyutta kaç puan geride olduğunuz, o puanın aylık kaç liraya karşılık geldiği ve kapatma sırası. Test listesi bu haritanın üçüncü adımıdır, birincisi değil. Sıra tersine çevrildiğinde ekip aylarca doğru yöntemle yanlış sorunu çözer.",
+          en: "The second difference shows up in the output. A CRO audit leaves a test backlog; a GAP analysis leaves a distance map — how many points behind you are in each dimension, what those points are worth per month, and the order in which to close them. The test backlog is the third step of that map, not the first. Reverse the order and a team spends months solving the wrong problem with the right method.",
+        },
+      },
+      {
+        type: "h2",
+        id: "hangi-yedi-sayfa",
+        text: {
+          tr: "Hangi yedi sayfa incelenir ve neden bu yedisi?",
+          en: "Which seven pages get inspected, and why those seven?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Denetim 7 sayfayla sınırlıdır: bir ana sayfa, iki kategori sayfası, üç ürün sayfası ve bir ödeme adımı. Sayı keyfi değil; ziyaretçinin gerçekten yürüdüğü hattın en kısa temsili bu. Beş yüz ürünlü bir mağazada beş yüz sayfayı taramak daha çok veri üretir ama daha iyi karar üretmez, çünkü hata örüntüleri şablon düzeyindedir: kategori şablonu bozuksa iki sayfa da aynı hatayı gösterir, iki yüz sayfa da.",
+          en: "The audit is capped at 7 pages: one home page, two category pages, three product pages and one checkout step. The number is not arbitrary; it is the shortest honest representation of the line a visitor actually walks. On a store with five hundred products, scanning five hundred pages produces more data but not better decisions, because error patterns live at template level: if the category template is broken, two pages show the same fault, and so would two hundred.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Ana sayfa (1 sayfa): değer vaadinin kurulduğu yer. Ziyaretçinin ilk saniyelerde \"burada ne satılıyor, bana neden uygun\" sorusuna cevap alıp almadığı burada belli olur.",
+            en: "Home page (1 page): where the value promise is set. This is where you see whether a visitor gets an answer, in the first seconds, to \"what is sold here and why does it suit me\".",
+          },
+          {
+            tr: "Kategori sayfaları (2 sayfa): filtreleme, sıralama ve ürün listeleme mantığı. En kalabalık iki kategori alınır, çünkü trafiğin ağırlığı oradan geçer.",
+            en: "Category pages (2 pages): the filtering, sorting and listing logic. The two busiest categories are taken, because the weight of the traffic passes through them.",
+          },
+          {
+            tr: "Ürün sayfaları (3 sayfa): satın alma kararının verildiği ekran. Tek sayfa istisnayı gösterir, üç sayfa örüntüyü — şablon tutarlılığını görmek için üçü gerekir.",
+            en: "Product pages (3 pages): the screen where the purchase decision is made. One page shows the exception, three show the pattern — you need three to read template consistency.",
+          },
+          {
+            tr: "Ödeme adımı (1 sayfa): terk oranının en yüksek olduğu nokta. Zorunlu üyelik, uzun form ve geç görünen kargo bedeli burada tek tek sayılır.",
+            en: "Checkout step (1 page): the point with the highest abandonment. Forced sign-up, a long form and a delivery charge that appears late are counted here one by one.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sabit kapsamın ikinci faydası tekrarlanabilirlik. Aynı yedi kalem üç ay sonra yeniden tarandığında puan farkı doğrudan okunur. Kapsamı her koşuda değiştiren bir denetim, kendi ölçtüğü şeyi karşılaştırılamaz kılar — ve karşılaştırılamayan bir ölçüm, ilerlemeyi kanıtlayamaz.",
+          en: "The second benefit of a fixed scope is repeatability. Scan the same seven items three months later and the difference in score reads directly. An audit that changes its scope on every run makes what it measures incomparable — and a measurement you cannot compare cannot prove progress.",
+        },
+      },
+      {
+        type: "h2",
+        id: "semantik-tutarlilik",
+        text: {
+          tr: "Semantik tutarlılık nasıl ölçülür?",
+          en: "How do you measure semantic consistency?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Semantik tutarlılık, ana sayfa, kategori ve ürün metinlerinin aynı değer vaadini söyleyip söylemediğidir. Ölçüm üç kalemde yapılır: başlıkların birbiriyle çelişip çelişmediği, ziyaretçinin arama kutusuna yazdığı kelimelerin sayfa metninde karşılığı olup olmadığı ve reklam metnindeki vaadin iniş sayfasında karşılanıp karşılanmadığı. Bu boyut yüz puanlık skorun 25 puanını taşır.",
+          en: "Semantic consistency is whether the home, category and product copy state the same value promise. It is measured across three items: whether the headings contradict each other, whether the words a visitor types into search have a counterpart in the page copy, and whether the promise made in the ad text is met on the landing page. This dimension carries 25 of the 100 points.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Çelişki genelde masum başlar. Ana sayfada \"el yapımı, sınırlı üretim\" yazan bir mağazanın kategori sayfasında \"her bütçeye uygun\" başlığı durur; ürün sayfasında ise ne el yapımı olma ne de fiyat konumlandırması geçer. Üç sayfa üç ayrı vaat söylediğinde ziyaretçi hiçbirini hatırlamaz ve karar, fiyat karşılaştırmasına iner.",
+          en: "The contradiction usually starts innocently. A store whose home page says \"handmade, limited production\" runs a category heading that reads \"something for every budget\", while the product page mentions neither the craft nor the price position. When three pages state three separate promises, the visitor remembers none of them and the decision collapses into a price comparison.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu kalemin parasal karşılığı reklam bütçesinde görünür. Mesaj uyumsuzluğunun israfa dönüşen payı, aylık reklam harcaması ile tutarlılık puanının eksiği çarpılarak bulunur ve muhafazakâr bir atıf katsayısıyla — yarısıyla — sınırlanır. İsrafın tamamını uyumsuzluğa yazmak abartı olur; yarısı, reklamın getirdiği ziyaretçinin sayfada aradığını bulamamasının makul payıdır. [Performans pazarlama tarafında](/hizmetler/performans-pazarlama) bu kalem, tıklama başı maliyeti hiç düşürmeden ciroyu artıran birkaç kalemden biridir.",
+          en: "The money value of this item shows up in the ad budget. The share of message mismatch that turns into waste is found by multiplying monthly ad spend by the shortfall in the consistency score, then capping it with a conservative attribution factor — one half. Writing the whole of the waste down to mismatch would be an overstatement; a half is the reasonable share for visitors who arrived through an advert and did not find what they came for. On the [performance marketing side](/hizmetler/performans-pazarlama), this is one of the few items that lifts revenue without lowering cost per click at all.",
+        },
+      },
+      {
+        type: "h2",
+        id: "bilissel-yuk",
+        text: {
+          tr: "UI/UX ve bilişsel yük neden dönüşümü düşürür?",
+          en: "Why do UI/UX and cognitive load pull conversion down?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bilişsel yük, ziyaretçinin bir sonraki adımı bulmak için harcadığı zihinsel çabadır. Ölçüm sayfanın ilk ekran görüntüsü üzerinden yapılır: kaç ayrı eylem çağrısı var, hangisi baskın, ana eylem kaydırmadan görünüyor mu, onunla rekabet eden görsel öğe sayısı kaç. Bu boyut da 25 puan taşır — semantik tutarlılıkla eşit ağırlıkta, çünkü doğru mesajı yanlış düzende söylemek de mesajı kaybettirir.",
+          en: "Cognitive load is the mental effort a visitor spends finding the next step. It is measured from the first screenshot of the page: how many separate calls to action there are, which one dominates, whether the primary action is visible without scrolling, and how many visual elements compete with it. This dimension also carries 25 points — equal in weight to semantic consistency, because saying the right message in the wrong layout loses the message just as surely.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yükü artıran şey genelde eksiklik değil, fazlalıktır. Bir ürün sayfasında \"sepete ekle\", \"favorilere ekle\", \"karşılaştır\", \"beden rehberi\" ve \"kupon kodu\" düğmeleri aynı görsel ağırlıkla dururken ziyaretçi hangisinin ana eylem olduğunu çözemez. Karar maliyeti arttıkça terk oranı da artar; eklenen her düğme, ana düğmenin görünürlüğünden bir miktar götürür.",
+          en: "What raises the load is usually excess rather than absence. When \"add to basket\", \"add to favourites\", \"compare\", \"size guide\" and \"apply a voucher\" all sit at the same visual weight on a product page, the visitor cannot work out which one is the primary action. As the cost of deciding rises, so does abandonment; every button added takes a share of the visibility of the main one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçümü öznel olmaktan çıkaran şey ekran görüntüsünün kendisidir. \"Sayfa karışık\" bir yorumdur ve tartışılır; \"ilk ekranda beş eylem çağrısı var, ana eylem üçüncü sırada ve kaydırma çizgisinin altında kalıyor\" bir bulgudur ve düzeltilir. Aradaki fark, denetimin toplantıda savunulabilir olup olmamasını belirler.",
+          en: "What lifts the measurement out of the subjective is the screenshot itself. \"The page is cluttered\" is an opinion and gets argued about; \"there are five calls to action on the first screen, the primary one ranks third and falls below the fold\" is a finding and gets fixed. That difference decides whether the audit survives the meeting it is presented in.",
+        },
+      },
+      {
+        type: "h2",
+        id: "hiz-kaybi-para",
+        text: {
+          tr: "Sayfa hızı kaybı paraya nasıl çevrilir?",
+          en: "How do you turn page-speed loss into money?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hız kaybını paraya çevirmenin dürüst yolu, yalnız eşik üstü gecikmeyi hesaba katmaktır. Google'ın Core Web Vitals eşiğine göre 2,5 saniyenin altındaki LCP değeri \"iyi\" kabul edilir; dolayısıyla kayıp yalnız bu eşiğin üzerindeki saniyeler için hesaplanır. Eşiğin altındaki bir sayfayı daha da hızlandırmak fayda üretebilir, ama o faydayı kayıp diye yazmak rakamı şişirir ve raporu savunulamaz kılar.",
+          en: "The honest way to turn speed loss into money is to count only the delay above the threshold. By Google's Core Web Vitals thresholds, an LCP under 2.5 seconds counts as \"good\", so the loss is calculated only for the seconds above that line. Speeding up a page that already sits below the threshold may well pay off, but writing that gain down as a loss inflates the figure and leaves the report indefensible.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Formül dört girdi alır: aylık ziyaretçi sayısı, ortalama sepet tutarı, mevcut dönüşüm oranı ve eşik üstü ortalama gecikme. Gecikmenin her saniyesi için dönüşüm oranında yaklaşık %4,4'lük bir düşüş varsayılır; bu sabit, Portent'in 2019 tarihli sayfa hızı ve dönüşüm analizinden alınan muhafazakâr alt sınırdır ve rapor eki her koşuda kaynağıyla birlikte basılır. Ölçüm ana sayfa ve ürün sayfalarından en fazla üçünde, mobil LCP, CLS ve TTFB değerleriyle yapılır.",
+          en: "The formula takes four inputs: monthly visitors, average order value, the current conversion rate and the average delay above the threshold. Each second of that delay is assumed to cost roughly 4.4% of the conversion rate; the constant is the conservative lower bound taken from Portent's 2019 analysis of page speed and conversion, and the methodology appendix prints it with its source on every run. The measurement is taken on at most three of the home and product pages, using mobile LCP, CLS and TTFB.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Eşik üstü gecikmeyi bulun: ölçülen mobil LCP değerinden 2,5 saniyeyi çıkarın; sonuç negatifse kayıp sıfırdır ve formül hiç koşmaz.",
+            en: "Find the delay above the threshold: subtract 2.5 seconds from the measured mobile LCP; if the result is negative the loss is zero and the formula never runs.",
+          },
+          {
+            tr: "Aylık dönüşen ziyaretçi sayısını hesaplayın: aylık ziyaretçi sayısı ile mevcut dönüşüm oranını çarpın.",
+            en: "Work out the monthly converting visitors: multiply monthly visitors by the current conversion rate.",
+          },
+          {
+            tr: "Kaybı çarpın: dönüşen ziyaretçi sayısı × ortalama sepet tutarı × 0,044 × eşik üstü saniye. Sonuç, aylık beklenen kayıptır.",
+            en: "Multiply out the loss: converting visitors × average order value × 0.044 × seconds above the threshold. The result is the expected monthly loss.",
+          },
+          {
+            tr: "Aralığa çevirin: ölçülen girdi oranına göre sonucun etrafına ±%12 ile ±%35 arasında bir band uygulayın.",
+            en: "Turn it into a range: apply a band of between ±12% and ±35% around the result, according to the share of inputs that were measured.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sonuç tek bir rakam olarak değil, alt-beklenen-üst aralığı olarak yazılır. Aralığın genişliği girdilerin kalitesine bağlıdır: trafiği, sepet tutarını ve dönüşüm oranını siz verdiyseniz belirsizlik ±%12'ye iner; üçü de sektör medyanından tahmin ediliyorsa ±%35'e açılır. Her girdi raporda ölçüldü ya da tahmin edildi rozetiyle işaretlenir. Tek rakam vermek daha ikna edici görünür, aralık vermek daha dürüsttür — ve bütçe kararı, aralığın alt ucuna bakılarak alınırsa güvenli tarafta kalır.",
+          en: "The result is written as a low-expected-high range rather than a single figure. The width of the range depends on the quality of the inputs: supply the traffic, the basket value and the conversion rate yourself and the uncertainty falls to ±12%; leave all three to sector medians and it opens to ±35%. Every input is marked in the report with a measured or an estimated badge. A single number looks more persuasive, a range is more honest — and a budget decision taken against the lower end of the range stays on the safe side.",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcum-altyapisi",
+        text: {
+          tr: "Ölçüm altyapısı eksikleri neyi maliyete dönüştürür?",
+          en: "Which costs do gaps in the tracking setup create?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçüm altyapısı 20 puan taşır ve dört boyutun en düşük ağırlıklısıdır — ama eksik olduğunda diğer üçünü de okunamaz kılar. Denetim üç kalemi kontrol eder: GA4/gtag etiketinin kurulu ve dönüşüm olaylarının tanımlı olup olmadığı, Meta Pixel'in sayfalarda gerçekten çalışıp çalışmadığı ve bir oturum analitiği aracının — Hotjar ya da Clarity gibi — bulunup bulunmadığı.",
+          en: "The tracking setup carries 20 points and is the lightest of the four dimensions — yet when it is missing it makes the other three unreadable. The audit checks three items: whether the GA4/gtag tag is installed and the conversion events are defined, whether the Meta Pixel actually fires on the pages, and whether a session analytics tool — Hotjar or Clarity, say — is present at all.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Eksik ölçümün maliyeti doğrudan bir kayıp kalemi değil, karar kalitesindeki düşüştür. Dönüşüm olayı yanlış tanımlanmışsa reklam platformu yanlış kitleyi hedefler ve bütçe her gün biraz daha yanlış yere akar. Oturum kaydı yoksa ödeme adımındaki terkin sebebini tahmin etmekten başka yol kalmaz. GA4 kurulu ama e-ticaret olayları eksikse ciro raporu ile platform raporu birbirini tutmaz, tartışma veriden çıkar ve kanaate döner.",
+          en: "The cost of missing measurement is not a loss line but a fall in the quality of decisions. If the conversion event is defined wrongly, the ad platform targets the wrong audience and the budget drifts a little further off course every day. Without session recording, guessing becomes the only route to the reason behind checkout abandonment. If GA4 is installed but the e-commerce events are missing, the revenue report and the platform report disagree, and the discussion leaves the data behind for opinion.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sıra bu yüzden önemli: ölçüm önce onarılır, sonra test edilir. [Gerçek bir e-ticaret ajansının neyi değiştirdiğini anlatan yazıda](/yazilar/gercek-e-ticaret-ajansinin-etkisi) aynı sıra vurgulanıyor — piksel ve dönüşüm izleme kampanyadan önce kurulur. [E-ticaret danışmanlığında](/hizmetler/e-ticaret) bu ilk iki haftanın işidir; sonraya bırakılan her ölçüm onarımı, geriye dönük olarak kaybedilmiş veri demektir ve o veri hiçbir zaman geri gelmez.",
+          en: "That is why the order matters: measurement is repaired first and tested afterwards. The same sequence is stressed in [what a real e-commerce agency changes](/yazilar/gercek-e-ticaret-ajansinin-etkisi) — pixels and conversion tracking go in before any campaign. In [e-commerce consultancy](/hizmetler/e-ticaret) this is the work of the first two weeks; every measurement repair postponed means data lost in retrospect, and that data never comes back.",
+        },
+      },
+      {
+        type: "h2",
+        id: "etki-efor",
+        text: {
+          tr: "Öncelik nasıl verilir: etki mi, efor mu?",
+          en: "How do you set priorities: impact or effort?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sıralama tek bir orandan çıkar: beklenen aylık etki bölü uygulama eforu. Etki, o kalemin kapatılmasıyla geri kazanılması beklenen aylık TL aralığıdır; efor, kalemi hayata geçirmek için gereken iş günü sayısıdır. İkisini yan yana yazmadan yapılan her sıralama, en yüksek sesli paydaşın önceliğine göre kurulur.",
+          en: "The ordering comes out of a single ratio: expected monthly impact divided by implementation effort. Impact is the monthly lira range you expect to recover by closing the item; effort is the number of working days it takes to put the change live. Any ordering made without writing the two side by side ends up following the priority of the loudest stakeholder in the room.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pratikte liste dört kovaya düşer. Yüksek etki ve düşük efor taşıyan kalemler ilk iki haftada biter: eksik bir GA4 dönüşüm olayını tanımlamak yarım gün, ödeme adımındaki zorunlu üyelik şartını kaldırmak birkaç gün sürer. Yüksek etki ve yüksek efor taşıyanlar planlanır ve bütçelenir; ürün sayfası şablonunu yeniden kurmak haftalar alır. Düşük etkili ve düşük eforlu kalemler boşluk doldurur. Düşük etkili ve yüksek eforlu kalemler listeden çıkarılır — ve çıkarılan kalemi gerekçesiyle yazılı tutmak, altı ay sonra aynı fikrin toplantıya geri gelmesini engeller.",
+          en: "In practice the list falls into four buckets. High-impact, low-effort items are done inside the first fortnight: defining a missing GA4 conversion event takes half a day, removing the forced sign-up at checkout takes a few days. High-impact, high-effort items are planned and budgeted; rebuilding a product page template takes weeks. Low-impact, low-effort items fill the gaps. Low-impact, high-effort items come off the list — and keeping the removed item on record with its reasoning stops the same idea from returning to the meeting six months later.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Etki rakamı yazılırken iki kural işler. Birincisi, kalem bazında yazılan etkilerin toplamı, hesaplanan toplam geri kazanılabilir tutarı aşamaz; aşıyorsa kalemler oransal olarak küçültülür, çünkü aynı lirayı iki kaleme birden yazmak raporu şişirir. İkincisi, her kalem hangi bulgudan türediğini künyesinde taşır: \"ürün sayfası mobil LCP 4,1 saniye\" gibi somut bir ölçüme bağlanmayan etki rakamı tahmindir, ve tahmin bir öncelik sıralamasını taşıyamaz.",
+          en: "Two rules apply when the impact figure is written. First, the sum of the item-level impacts cannot exceed the total recoverable amount that was calculated; if it does, the items are scaled down proportionally, because writing the same lira against two items inflates the report. Second, every item carries the finding it came from: an impact figure not tied to a concrete measurement such as \"product page mobile LCP 4.1 seconds\" is a guess, and a guess cannot carry a priority order.",
+        },
+      },
+      {
+        type: "h2",
+        id: "doksan-gunluk-plan",
+        text: {
+          tr: "90 günlük kapatma planı nasıl kurulur?",
+          en: "How do you build a 90-day closing plan?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Doksan gün üç otuz günlük bloğa bölünür ve her bloğun tek bir sorumluluğu olur. Süre keyfi değil: bir e-ticaret sitesinde anlamlı bir dönüşüm farkını okuyabilmek için en az bir tam satın alma döngüsü ve bir kampanya dönemi geçmesi gerekir. Daha kısa bir pencerede görülen fark, iyileşme değil mevsimsellik olabilir.",
+          en: "Ninety days split into three blocks of thirty, and each block carries a single responsibility. The span is not arbitrary: reading a meaningful difference in conversion on an e-commerce site takes at least one full purchase cycle and one campaign period. A difference seen inside a shorter window may be seasonality rather than improvement.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Gün 1-30, ölçüm ve hızlı kazanımlar: GA4 dönüşüm olayları yeniden tanımlanır, Meta Pixel doğrulanır, oturum analitiği kurulur. Aynı ay içinde ödeme adımındaki en görünür sürtünme kalemi kaldırılır. Bloğun sonunda elinizde güvenilir bir taban ölçüm bulunur.",
+            en: "Days 1-30, measurement and quick wins: GA4 conversion events are redefined, the Meta Pixel is verified, session analytics is installed. Within the same month the most visible friction item at checkout is removed. By the end of the block you hold a baseline measurement you can trust.",
+          },
+          {
+            tr: "Gün 31-60, hız ve satın alma akışı: eşik üstü LCP taşıyan sayfalarda görsel boyutları, üçüncü taraf betikleri ve sunucu yanıt süresi ele alınır. Ödeme formu alan alan sadeleştirilir, kargo bedeli sepet adımında görünür hâle getirilir.",
+            en: "Days 31-60, speed and the purchase flow: on pages carrying an LCP above the threshold, image weights, third-party scripts and server response time are dealt with. The checkout form is trimmed field by field, and the delivery charge is made visible at the basket step.",
+          },
+          {
+            tr: "Gün 61-90, mesaj ve arayüz: ana sayfa, kategori ve ürün metinleri tek bir vaat etrafında hizalanır; ilk ekrandaki eylem çağrısı sayısı azaltılır ve kalan ana eylem baskın hâle getirilir. İlk A/B testleri de bu blokta başlar, çünkü artık ölçüm doğru ve altyapı bir testi taşıyabilecek durumdadır.",
+            en: "Days 61-90, message and interface: home, category and product copy are aligned around a single promise; the number of calls to action on the first screen is reduced and the remaining primary action is made dominant. The first A/B tests also start in this block, because measurement is now correct and the infrastructure can carry a test.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Planın işleyip işlemediği doksanıncı günde tek bir tabloyla okunur. Aynı yedi sayfa yeniden taranır, dört boyutun puanları ilk koşuyla yan yana konur ve kapanan farkın parasal karşılığı ilk raporun aralığıyla karşılaştırılır. Puan artmış ama ciro kıpırdamamışsa hipotez yanlıştı; bunu açıkça söylemek de denetimin işidir.",
+          en: "Whether the plan worked reads off a single table on day ninety. The same seven pages are scanned again, the scores of the four dimensions are set beside the first run, and the money value of the closed gap is compared with the range in the first report. If the score rose but revenue did not move, the hypothesis was wrong; saying so plainly is part of the audit's job.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "En sık yapılan hata sırayı tersine çevirmek. Arayüzü baştan tasarlayıp ölçümü sonraya bırakan bir ekip, üç ay sonra neyin işe yaradığını söyleyemez: elinde bir öncesi ve bir sonrası kalır, ikisinin arasında ne olduğu kalmaz. Doksan günlük planın birinci bloğunun ölçüme ayrılması bu yüzden pazarlık konusu değildir.",
+          en: "The most common mistake is reversing the order. A team that redesigns the interface first and leaves measurement for later cannot say three months on what actually worked: it holds a before and an after, with nothing in between. That is why giving the first block of a 90-day plan to measurement is not up for negotiation.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tez tek cümle: mağazanızın asıl sorunu trafik değil, ideal hâline olan ölçülmemiş uzaklıktır. Bugün yapabileceğiniz somut test şu — ana sayfanızı, en kalabalık iki kategorinizi, üç ürün sayfanızı ve ödeme adımınızı mobil bir cihazda sırayla açın, her ekranda tek bir soruyu sorun (\"bir sonraki adım ne\") ve cevabın kaç saniyede geldiğini not edin. Yedi sayfanın dördünde cevap gecikiyorsa, GAP analizini bir denetim olarak kurmanın vakti gelmiştir. [GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) veri akışı onarılıp huni yeniden kurulduktan sonra üç ayda satış 12 katına, ürün sayfası iyileştirmelerinin ardından oturum süresi 3 katına çıktı; sıra doğru kurulduğunda kapanan fark bu büyüklükte olabiliyor.",
+          en: "The thesis in one sentence: your store's real problem is not traffic but the unmeasured distance to its ideal version. The concrete test you can run today — open your home page, your two busiest categories, three product pages and your checkout step on a mobile device in that order, ask one question on each screen (\"what is the next step\") and note how many seconds the answer takes. If the answer is late on four of the seven pages, it is time to set the GAP analysis up as an audit. In [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis), once the data flow was repaired and the funnel rebuilt, sales rose 12× in three months and session duration tripled after the product page improvements; when the order is right, the gap that closes can be that large.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "GAP analizi hangi büyüklükteki mağazalar için anlamlı?",
+          en: "What size of store does a GAP analysis suit?",
+        },
+        answer: {
+          tr: "Aylık birkaç bin ziyaretçiden itibaren kullanılabilir sonuç verir. Alt sınır trafikle değil karar kalitesiyle ilgili: dört boyutun üçü — mesaj tutarlılığı, arayüz yükü, ölçüm altyapısı — hacimden bağımsız olarak değerlendirilebilir; yalnız hız kaybının parasal karşılığı düşük trafikte küçük bir rakama iner. Çok küçük mağazalarda denetimin değeri para hesabında değil sıralamada durur: neyi önce kuracağınızı söyler.",
+          en: "From a few thousand monthly visitors onward the analysis returns something usable. The floor has less to do with traffic than with decision quality: three of the four dimensions — message consistency, interface load, tracking setup — can be judged regardless of volume, and only the money value of speed loss shrinks on a small site. For very small stores the worth of the audit sits in the ordering rather than in the money figure: it tells you what to build first.",
+        },
+      },
+      {
+        question: {
+          tr: "Denetim ne kadar sürer ve sizden ne ister?",
+          en: "How long does the audit take, and what does it ask of you?",
+        },
+        answer: {
+          tr: "Teknik tarama tarafı dakikalar sürer: yedi sayfanın içeriği, ekran görüntüleri ve mobil hız değerleri aynı koşuda toplanır. Yorumlama ve yol haritası bir ile iki iş günü alır. Sizden istenen tek zorunlu şey mağazanızın açık adresi. Aylık ziyaretçi sayısını, ortalama sepet tutarını, dönüşüm oranını ve reklam bütçesini paylaşırsanız parasal aralıklar ölçülen girdiyle daralır; paylaşmazsanız sektör medyanlarından tahmin edilir.",
+          en: "The scanning side takes minutes: the content of seven pages, the screenshots and the mobile speed figures arrive in one run. Interpretation and the roadmap take one to two working days. The only thing strictly required from you is the store's public address. Share your monthly visitors, average order value, conversion rate and ad spend and the money ranges narrow around measured input; withhold them and sector medians fill the gap as estimates.",
+        },
+      },
+      {
+        question: {
+          tr: "Neden tek bir rakam yerine TL aralığı veriliyor?",
+          en: "Why is the answer a lira range rather than a single figure?",
+        },
+        answer: {
+          tr: "Tek rakam, sahip olunmayan bir kesinlik iddia eder. Kayıp hesabı dört girdiye dayanır ve bunların bir kısmı çoğu mağazada tahminidir; tahmini girdiyle üretilen tek bir sayı karar alan kişiyi yanıltır. Aralık ise belirsizliği görünür kılar: tüm girdiler ölçülmüşse band ±%12'ye kadar daralır, tamamı tahminiyse ±%35'e açılır. Kararı aralığın alt ucuna göre alırsanız güvenli tarafta kalırsınız.",
+          en: "A single figure claims a precision nobody holds. The loss calculation rests on four inputs, and in most stores several of them are estimates; one number produced from estimated input misleads whoever acts on it. A range makes the uncertainty visible instead: with every input measured the band narrows to about ±12%, with all of them estimated it opens to ±35%. Decide against the lower end of the range and you stay on the safe side.",
+        },
+      },
+      {
+        question: {
+          tr: "Ölçülen ve tahmini girdi ayrımı raporu nasıl değiştirir?",
+          en: "How does the measured-versus-estimated split change the report?",
+        },
+        answer: {
+          tr: "Rozet, her satırın ağırlığını belirler. Ölçülen girdiyle kurulan bir kalem doğrudan aksiyona dönebilir; tahmini girdiyle kurulan bir kalem önce doğrulanır, sonra bütçelenir. Hız, ekran ve metin verileri her koşuda ölçülür. Ticari sayılar — trafik, sepet ortalaması, dönüşüm oranı, reklam bütçesi — yalnız siz verdiğinizde ölçülen sayılır. Ayrımı görünür tutmak, hangi cümleye ne kadar güvenileceğini okurun kararına bırakır.",
+          en: "The badge sets the weight of each line. An item built on measured input can go straight into action; an item built on an estimate is verified first and budgeted second. Speed, screen and copy data are measured on every run. The commercial figures — traffic, average basket, conversion rate, ad spend — count as measured only when you supply them. Keeping the split visible leaves it to the reader to judge how far to trust each sentence.",
+        },
+      },
+      {
+        question: {
+          tr: "Rakip sitelerle kıyaslama GAP analizinin parçası mı?",
+          en: "Is competitor comparison part of a GAP analysis?",
+        },
+        answer: {
+          tr: "Kıyas noktası rakip değil, ideal sitedir. Rakip kıyası cazip görünür ama iki tuzak taşır: rakibinizin de aynı hataları yapıyor olma ihtimali yüksektir ve onun ticari sayılarını bilmediğiniz için farkı paraya çeviremezsiniz. Sektör medyanları yine hesaba girer, ama referans olarak değil, sizin vermediğiniz girdilerin yerine geçmek üzere. İdeal siteye uzaklık, rakibe uzaklıktan daha kararlı bir hedeftir.",
+          en: "The reference point is the ideal site rather than a competitor. Competitor comparison looks tempting, yet it carries two traps: your competitor is quite likely making the same mistakes, and because you do not know their commercial figures you cannot turn the difference into money. Sector medians still enter the calculation, though as a stand-in for inputs you did not supply rather than as a benchmark. Distance from the ideal is a steadier target than distance from a rival.",
+        },
+      },
+      {
+        question: {
+          tr: "Denetim sonrası değişiklikleri kendi ekibimiz uygulayabilir mi?",
+          en: "Can our own team implement the changes after the audit?",
+        },
+        answer: {
+          tr: "Evet, yol haritası tam olarak bu amaçla yazılır. Her kalem hangi sayfada durduğunu, hangi bulgudan türediğini ve kaç iş günü tuttuğunu taşır; bir geliştirici ya da ajans bu listeyi doğrudan iş emrine çevirebilir. Dışarıdan desteğe en çok ihtiyaç duyulan yer genelde ölçüm onarımı oluyor, çünkü yanlış tanımlanmış bir dönüşüm olayını fark etmek onu düzeltmekten daha zordur.",
+          en: "Yes, and the roadmap is written for exactly that. Every item carries the page it belongs to, the finding it came from and the number of working days it costs, so a developer or an agency can turn the list straight into work orders. The place where outside help is usually needed is measurement repair, because spotting a badly defined conversion event is harder than fixing one.",
+        },
+      },
+      {
+        question: {
+          tr: "GAP analizini ne sıklıkla tekrarlamak gerekir?",
+          en: "How often should a GAP analysis be repeated?",
+        },
+        answer: {
+          tr: "Çeyrekte bir koşu çoğu mağaza için yeterli. Ara koşu iki durumda anlamlı: şablon düzeyinde bir değişiklik yaptığınızda — yeni tema, yeni ödeme akışı, yeni kategori mimarisi — ve doksan günlük planın kapanışında. Daha sık tekrar gürültüyü sinyal sanmaya yol açar; puanlar arasındaki küçük dalgalanmalar genelde ölçüm değişkenliğidir, gerçek bir gerileme değil.",
+          en: "A quarterly run suits most stores. An interim run makes sense in two cases: after a template-level change — a new theme, a new checkout flow, a new category architecture — and at the close of a 90-day plan. Repeating more often invites you to read noise as signal; small swings between scores are usually measurement variance rather than a real slide.",
+        },
+      },
+      {
+        question: {
+          tr: "Dört boyutun ağırlıkları neden eşit değil?",
+          en: "Why are the four dimensions not weighted equally?",
+        },
+        answer: {
+          tr: "Ağırlıklar, kalemin dönüşüm üzerindeki doğrudan etkisine göre dağıtıldı. Hız ve satın alma akışı 30 puanla en yüksek payı taşır, çünkü ödeme adımındaki tek bir sürtünme kalemi kararını vermiş bir ziyaretçiyi bile kaybettirir. Mesaj tutarlılığı ve arayüz yükü 25'er puan alır; ikisi de karar oluşurken etkilidir. Ölçüm altyapısı 20 puanla en düşük payı taşır, çünkü kendisi satmaz — ama eksikliği diğer üçünü okunamaz kılar.",
+          en: "The weights follow how directly each item moves conversion. Speed and the purchase flow take the largest share at 30 points, because a single friction item at checkout loses even a visitor who has already decided. Message consistency and interface load take 25 points each; both act while the decision is still forming. The tracking setup takes the smallest share at 20 points, because it sells nothing itself — yet its absence makes the other three unreadable.",
+        },
+      },
+      {
+        question: {
+          tr: "Hız ölçümü neden masaüstünde değil mobilde yapılıyor?",
+          en: "Why is speed measured on mobile rather than on desktop?",
+        },
+        answer: {
+          tr: "Mobil değerler daha kötü çıkar, dolayısıyla daha dürüsttür. Aynı sayfanın masaüstü ölçümü neredeyse her zaman daha iyi görünür; iyimser tarafı ölçmek kaybı gizler ve düzeltme ihtiyacını erteletir. Ödeme adımına kadar yürüyen hattın en kırılgan hâli de mobilde ortaya çıkar: küçük ekranda uzun form, geç görünen kargo bedeli ve yavaş yüklenen görsel aynı anda etki eder.",
+          en: "Mobile figures come out worse, which makes them more honest. The desktop measurement of the same page looks better almost every time; measuring the optimistic side hides the loss and postpones the fix. The most fragile version of the walk to checkout also shows up on mobile: on a small screen a long form, a late delivery charge and a slow-loading image all act at once.",
+        },
+      },
+      {
+        question: {
+          tr: "A/B testi GAP analizinin yerine geçer mi?",
+          en: "Does A/B testing replace a GAP analysis?",
+        },
+        answer: {
+          tr: "Hayır, ikisi farklı sorulara bakar ve sırayla çalışır. GAP analizi neyin eksik olduğunu söyler; A/B testi bir düzeltmenin gerçekten işe yarayıp yaramadığını kanıtlar. Test ancak ölçüm doğru kurulmuşsa ve sayfada test edilecek gerçek bir hipotez kalmışsa anlamlıdır. Temeli eksik bir sitede yürütülen test, çoğu zaman iki hatalı sürümden hangisinin daha az hatalı olduğunu ölçer.",
+          en: "No, the two answer different questions and run in sequence. A GAP analysis tells you what is missing; an A/B test proves whether a fix actually works. A test only means something once measurement is set up correctly and a real hypothesis is left on the page. Run on a site with broken foundations, a test usually measures which of two flawed versions is the less flawed.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "cro",
+    tags: ["cro", "gap-analizi", "e-ticaret-denetimi", "donusum-orani"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-03",
+    readingMinutes: 12,
+    seo: {
+      title: {
+        tr: "E-ticaret GAP analizi: adım adım CRO denetimi",
+        en: "E-commerce GAP analysis: step-by-step CRO audit",
+      },
+      description: {
+        tr: "GAP analizi mağazanızın ideal hâlinden uzaklığını ölçer: 7 kritik sayfada dört boyut, etki ve efor sıralaması, 90 günlük kapatma planı adım adım.",
+        en: "A GAP analysis measures how far your store sits from its ideal version: four dimensions across 7 pages, impact-effort ordering and a 90-day closing plan.",
+      },
+    },
+  },
 ];
 
 export function getArticleBySlug(

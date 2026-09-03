@@ -343,17 +343,18 @@ describe("bridges", () => {
     expect(GEO_TOOL.bridges).toEqual([]);
   });
 
-  it("Diagnoo cro/performans-pazarlama/e-ticaret konulu 7 yazıdan 6'sına bağlanır", () => {
-    // Yedincisi (B2B lead toplama rehberi) bilinçli olarak dışarıda
-    // bırakıldı — konusu Diagnoo'nun taradığı mağaza sayfalarıyla
-    // (ana + kategori + ürün + ödeme) örtüşmüyor; gerekçe DIAGNOO_TOOL
-    // içindeki yorumda.
+  it("Diagnoo cro/performans-pazarlama/e-ticaret konulu 8 yazıdan 7'sine bağlanır", () => {
+    // Kapsam dışı kalan tek yazı B2B lead toplama rehberi — konusu
+    // Diagnoo'nun taradığı mağaza sayfalarıyla (ana + kategori + ürün +
+    // ödeme) örtüşmüyor; gerekçe DIAGNOO_TOOL içindeki yorumda. Sekizinci
+    // hedef yazı GAP analizi rehberidir (Faz 2 Görev 6): gövdesinde araç
+    // linki taşımaz, köprüsü buradan gelir.
     const targetTopics = new Set(["cro", "performans-pazarlama", "e-ticaret"]);
     const targetSlugs = ARTICLES.filter((a) => targetTopics.has(a.topic)).map(
       (a) => a.slug.tr,
     );
-    expect(targetSlugs.length).toBe(7);
-    expect(DIAGNOO_TOOL.bridges.length).toBe(6);
+    expect(targetSlugs.length).toBe(8);
+    expect(DIAGNOO_TOOL.bridges.length).toBe(7);
     for (const b of DIAGNOO_TOOL.bridges) {
       expect(targetSlugs, b.articleSlugTr).toContain(b.articleSlugTr);
     }

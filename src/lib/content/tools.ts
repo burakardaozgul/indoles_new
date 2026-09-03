@@ -553,7 +553,7 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
   /**
    * Üçgenin araç→makale ayağı (Faz 2 Görev 2). Hedef küme
    * `ARTICLES.filter(a => ["cro","performans-pazarlama","e-ticaret"].includes(a.topic))`
-   * ile çıkan 7 yazıdan 6'sı — her biri Diagnoo'nun dört boyutundan
+   * ile çıkan 8 yazıdan 7'si — her biri Diagnoo'nun dört boyutundan
    * (mesaj/`semantic`, arayüz/`ux`, hız-huni/`speed-funnel`, ölçüm/`tracking`)
    * yazının kendi somut örneğine en yakın olanına bağlanır. Yedinci yazı,
    * `satis-ekibinizin-vaktini-harcamayin-b2bde-kaliteli-lead-toplama-rehberi`,
@@ -622,6 +622,17 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
       paragraph: {
         tr: "Bu yazının ilk kriteri, bir CRO ajansının teste başlamadan önce ölçümü doğrulayıp doğrulamadığıdır; yanlış kurulmuş bir dönüşüm tanımı üzerine kurulan her test geçersizdir. [Diagnoo](/araclar/diagnoo) bu doğrulamanın bir kısmını ücretsiz yapar: GA4, Meta Pixel ve oturum analitiği etiketlerinin mağazanızda kurulu olup olmadığını kontrol eder.",
         en: "This article's first criterion is whether a CRO agency validates measurement before it runs a single test — any test built on a badly defined conversion event is invalid. [Diagnoo](/araclar/diagnoo) does part of that validation for you at no cost: it checks whether your store has the GA4, Meta Pixel and session-analytics tags installed.",
+      },
+    },
+    {
+      // Dört boyut birden: yazı GAP analizini Diagnoo'nun kendi çerçevesiyle
+      // — yedi sayfa, dört boyut, TL aralığı, doksan günlük plan — anlatıyor
+      // ama gövdesinde araç linki taşımıyor (Faz 2 Görev 6): köprü yayın
+      // kapısı açıldığında yöntemi araçla buluşturur.
+      articleSlugTr: "e-ticaret-gap-analizi-cro-denetimi",
+      paragraph: {
+        tr: "Bu yazıda anlatılan denetimi elle kurmak bir ile iki iş günü tutar; aynı çerçeveyi otomatik koşturmak isterseniz [Diagnoo](/araclar/diagnoo) mağaza adresinizle aynı yedi sayfayı tarar ve dört boyutu aynı ağırlıklarla puanlar. Hesabın kendisi de burada anlatıldığı gibi çalışır: kayıp yalnız 2,5 saniyelik LCP eşiğinin üzerindeki gecikme için yazılır ve sonuç tek rakam değil TL aralığı olarak verilir.",
+        en: "Running the audit described here by hand takes one to two working days; if you would rather run the same framework automatically, [Diagnoo](/araclar/diagnoo) scans the same seven pages from your store address and scores the four dimensions on the same weights. The arithmetic works exactly as set out above: loss is written only for the delay above the 2.5-second LCP threshold, and the result comes back as a lira range rather than a single figure.",
       },
     },
   ],

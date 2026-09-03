@@ -260,6 +260,10 @@ const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
   ["is-gelistirme-studyosu-nedir", "iş inşası"],
   ["yapay-zeka-aramalarinda-nasil-one-cikarsiniz", "yapay zeka optimizasyonu"],
   ["yapay-zeka-aramalarinda-nasil-one-cikarsiniz", "geo optimizasyonu"],
+  // Faz 2 Görev 6 destek rehberi: araç niyeti Diagnoo yüzeyinde kalır
+  // (TARGETS_TOOLS), bilgi niyeti "gap analizi" bu yazıda oturur — aynı
+  // kanibalizasyon kuralı (A-6).
+  ["e-ticaret-gap-analizi-cro-denetimi", "gap analizi"],
 ];
 
 describe("Dalga 1 makale keyword yerleşimi (2026-08-28 partisi)", () => {

@@ -93,6 +93,8 @@ export type ToolContent<B extends string = string, S extends string = string> = 
    * doğrular (içerik dürüstlüğü, docs/04 §10).
    */
   footnote: Localized<string>;
+  /** Aracın doğal bağlandığı hizmetler — TR slug; hizmet sayfası callout'u buradan okur (üçgenin hizmet→araç ayağı). */
+  relatedServices: string[];
   /**
    * LANSMAN KAPISI. `false` iken araç yalnız doğrudan URL ile erişilebilir:
    * sitemap'e, `/araclar` listesine ve llms.txt'e girmez, sayfası `noindex`
@@ -312,6 +314,9 @@ export const GEO_TOOL: ToolContent<GeoBand, GeoCheckId> = {
     tr: "Eylül 2026 itibarıyla Türkçe pazarda benzer kapsamda kamuya açık bir GEO denetim aracı tespit etmedik.",
     en: "As of September 2026, we found no comparable, publicly available GEO audit tool for the Turkish-language market.",
   },
+  // GEO denetimi cevap motoru görünürlüğünü ölçer — AI danışmanlığı
+  // hizmetinin doğal devamı; başka bir hizmetin teşhis kapsamına girmez.
+  relatedServices: ["ai-danismanlik"],
   published: true,
 };
 
@@ -512,6 +517,10 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
     tr: "Eylül 2026 sürümü: tarama yedi sayfayla sınırlıdır, hız değerleri Google PageSpeed Insights'ın mobil ölçümünden gelir ve parasal sonuçlar aralık olarak verilir.",
     en: "September 2026 release: the scan covers seven pages, speed figures come from Google PageSpeed Insights on mobile, and money figures are given as ranges.",
   },
+  // Diagnoo mağaza sağlığını ölçer — CRO, performans pazarlama ve
+  // e-ticaret danışmanlığının teşhis girişi; üçü de motorun taradığı
+  // dört boyutla (mesaj, arayüz, hız, ölçüm) doğrudan örtüşür.
+  relatedServices: ["cro", "performans-pazarlama", "e-ticaret"],
   // Üç dış sır (`GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`) ve
   // uzak D1 migration'ı (0004 + 0005) hazır olmadan araç gerçek veri
   // üretemez; o ana kadar arama yüzeylerine girmez.
@@ -532,6 +541,16 @@ export const TOOLS: ToolContent[] = [GEO_TOOL, DIAGNOO_TOOL];
  */
 export function publishedTools(tools: ToolContent[] = TOOLS): ToolContent[] {
   return tools.filter((t) => t.published);
+}
+
+/**
+ * Üçgenin hizmet→araç ayağı. Hizmet sayfası (`ToolServiceCallout`) bu
+ * fonksiyonla kendi TR slug'ına bağlı araçları okur. `publishedTools()`
+ * üzerinden filtreler — lansman kapısı kapalıyken araç hiçbir hizmet
+ * sayfasında da görünmez (ADR-032 ile aynı bayrak, ikinci bir kontrol yok).
+ */
+export function toolsForService(serviceSlugTr: string): ToolContent[] {
+  return publishedTools().filter((t) => t.relatedServices.includes(serviceSlugTr));
 }
 
 const BY_SLUG_TR = new Map(TOOLS.map((t) => [t.slug.tr, t]));

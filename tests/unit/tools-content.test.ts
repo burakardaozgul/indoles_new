@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { TOOLS, publishedTools, DIAGNOO_TOOL, GEO_TOOL } from "@/lib/content/tools";
+import { TOOLS, publishedTools, DIAGNOO_TOOL, GEO_TOOL, toolsForService } from "@/lib/content/tools";
 import type { ToolContent } from "@/lib/content/tools";
+import { SERVICES } from "@/lib/content/services";
 
 const LOCALES = ["tr", "en"] as const;
 
@@ -271,5 +272,29 @@ describe("TOOLS hero alanları", () => {
     expect(Object.keys(DIAGNOO_TOOL.bands).sort()).toEqual(
       ["0-25", "26-50", "51-75", "76-100"],
     );
+  });
+});
+
+/**
+ * Üçgenin hizmet→araç ayağı (Faz 2 Görev 1).
+ *
+ * Her aracın doğal bağlandığı hizmetleri TR slug'la taşıması gerekir —
+ * hizmet sayfasındaki `ToolServiceCallout` bu listeyi okur. Slug hayali
+ * olamaz: gerçek bir `SERVICES` kaydına karşılık gelmeli, yoksa hizmet
+ * sayfası sessizce hiçbir şey basmaz ve blok kaybolur.
+ */
+describe("relatedServices", () => {
+  it("her araç en az bir hizmete bağlanır ve slug'lar gerçek hizmetlerdir", () => {
+    const serviceSlugs = new Set(SERVICES.map((s) => s.slug.tr));
+    for (const t of TOOLS) {
+      expect(t.relatedServices.length).toBeGreaterThan(0);
+      for (const s of t.relatedServices) expect(serviceSlugs.has(s)).toBe(true);
+    }
+  });
+
+  it("toolsForService yalnız yayınlanmış araçları döndürür", () => {
+    expect(toolsForService("ai-danismanlik").map((t) => t.slug.tr)).toEqual([GEO_TOOL.slug.tr]);
+    expect(DIAGNOO_TOOL.published).toBe(false);
+    expect(toolsForService("cro")).toEqual([]);
   });
 });

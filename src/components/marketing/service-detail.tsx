@@ -18,6 +18,7 @@ import { ScopeColumns } from "@/components/marketing/scope-columns";
 import { ServicePricing } from "@/components/marketing/service-pricing";
 import { ServiceCaseProof } from "@/components/marketing/service-case-proof";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
+import { ToolServiceCallout } from "@/components/tools/tool-service-callout";
 import { PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
@@ -765,6 +766,11 @@ export function ServiceDetail({
           </div>
         </div>
       </section>
+
+      {/* 07b — Araç bloğu: üçgenin hizmet→araç ayağı. Yalnız bu hizmete
+          bağlı yayınlanmış bir araç varsa basar (`ToolServiceCallout`
+          kendi wrapper'ını taşır, yoksa hiçbir şey render etmez). */}
+      <ToolServiceCallout serviceSlugTr={service.slug.tr} locale={locale} />
 
       {/* 08 — CTA */}
       <ContactCallout locale={locale} />

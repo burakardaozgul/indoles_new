@@ -1,7 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { TOOLS, publishedTools, DIAGNOO_TOOL, GEO_TOOL, toolsForService } from "@/lib/content/tools";
+import {
+  TOOLS,
+  publishedTools,
+  DIAGNOO_TOOL,
+  GEO_TOOL,
+  toolsForService,
+  bridgesForArticle,
+} from "@/lib/content/tools";
 import type { ToolContent } from "@/lib/content/tools";
 import { SERVICES } from "@/lib/content/services";
+import { ARTICLES } from "@/lib/content/articles";
 
 const LOCALES = ["tr", "en"] as const;
 
@@ -296,5 +304,86 @@ describe("relatedServices", () => {
     expect(toolsForService("ai-danismanlik").map((t) => t.slug.tr)).toEqual([GEO_TOOL.slug.tr]);
     expect(DIAGNOO_TOOL.published).toBe(false);
     expect(toolsForService("cro")).toEqual([]);
+  });
+});
+
+/**
+ * Üçgenin araç→makale ayağı (Faz 2 Görev 2).
+ *
+ * Köprü paragrafı hayali bir makaleye işaret edemez (slug `ARTICLES`te
+ * gerçekten var olmalı) ve aracın kendi TR yoluna bağlanmalıdır — hayali
+ * bir slug ya da yanlış hedef, makale sayfasında sessizce kırık bir linke
+ * ya da hiç basılmayan bir bloğa dönüşür. GEO'nun köprüleri zaten üç
+ * yazının gövdesinde inline durduğu için (Görev 13) `bridges: []` bekleniyor.
+ */
+describe("bridges", () => {
+  it("bridges gerçek makale slug'larına işaret eder ve paragraf aracın TR yolunu içerir", () => {
+    const slugs = new Set(ARTICLES.map((a) => a.slug.tr));
+    for (const t of TOOLS) {
+      for (const b of t.bridges) {
+        expect(slugs.has(b.articleSlugTr), b.articleSlugTr).toBe(true);
+        expect(b.paragraph.tr).toContain(`](/araclar/${t.slug.tr})`);
+        expect(b.paragraph.en).toContain(`](/araclar/${t.slug.tr})`);
+        expect(
+          b.paragraph.tr.split(/\s+/).length,
+          `${t.slug.tr}/${b.articleSlugTr}`,
+        ).toBeGreaterThanOrEqual(25);
+      }
+    }
+  });
+
+  it("aynı aracın köprüleri farklı makalelere işaret eder — tekrar yok", () => {
+    for (const t of TOOLS) {
+      const slugs = t.bridges.map((b) => b.articleSlugTr);
+      expect(new Set(slugs).size, t.slug.tr).toBe(slugs.length);
+    }
+  });
+
+  it("GEO'nun köprüsü boştur — linkler zaten yazı gövdesinde inline", () => {
+    expect(GEO_TOOL.bridges).toEqual([]);
+  });
+
+  it("Diagnoo cro/performans-pazarlama/e-ticaret konulu 7 yazıdan 6'sına bağlanır", () => {
+    // Yedincisi (B2B lead toplama rehberi) bilinçli olarak dışarıda
+    // bırakıldı — konusu Diagnoo'nun taradığı mağaza sayfalarıyla
+    // (ana + kategori + ürün + ödeme) örtüşmüyor; gerekçe DIAGNOO_TOOL
+    // içindeki yorumda.
+    const targetTopics = new Set(["cro", "performans-pazarlama", "e-ticaret"]);
+    const targetSlugs = ARTICLES.filter((a) => targetTopics.has(a.topic)).map(
+      (a) => a.slug.tr,
+    );
+    expect(targetSlugs.length).toBe(7);
+    expect(DIAGNOO_TOOL.bridges.length).toBe(6);
+    for (const b of DIAGNOO_TOOL.bridges) {
+      expect(targetSlugs, b.articleSlugTr).toContain(b.articleSlugTr);
+    }
+  });
+});
+
+describe("bridgesForArticle", () => {
+  it("Diagnoo yayınlanmamışken boş döner", () => {
+    expect(bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr)).toEqual([]);
+  });
+
+  it("yayınlanmış araç için köprü döner (published bayrağı ile)", () => {
+    const published: ToolContent = { ...DIAGNOO_TOOL, published: true };
+    expect(
+      bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr, [published]),
+    ).toHaveLength(1);
+  });
+
+  it("ilgisiz bir makale slug'ında boş döner", () => {
+    const published: ToolContent = { ...DIAGNOO_TOOL, published: true };
+    expect(bridgesForArticle("olmayan-bir-yazi-slug", [published])).toEqual([]);
+  });
+
+  it("dönen paragraf ilgili aracın kendisidir", () => {
+    const published: ToolContent = { ...DIAGNOO_TOOL, published: true };
+    const [result] = bridgesForArticle(
+      DIAGNOO_TOOL.bridges[0]!.articleSlugTr,
+      [published],
+    );
+    expect(result!.tool.slug.tr).toBe(DIAGNOO_TOOL.slug.tr);
+    expect(result!.paragraph).toEqual(DIAGNOO_TOOL.bridges[0]!.paragraph);
   });
 });

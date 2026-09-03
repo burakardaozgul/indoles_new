@@ -23,6 +23,9 @@
  * taşırsa değişecek tek satır burası.
  */
 
+import { EVENT_NAMES } from "@/lib/analytics/events";
+import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
+
 export type FetchFn = typeof fetch;
 
 /** Admin/Data API çağrılarının ortak bağlamı. Testte sahte `fetch` enjekte edilir. */
@@ -69,6 +72,38 @@ function authHeaders(accessToken: string): HeadersInit {
 
 function jsonHeaders(accessToken: string): HeadersInit {
   return { authorization: `Bearer ${accessToken}`, "content-type": "application/json" };
+}
+
+// ---------------------------------------------------------------------------
+// Sayfalama (F7 final review): üç listeleyici (`listCustomDimensions`,
+// `listKeyEvents`, `listEventCreateRules`) `nextPageToken`'ı yok sayıyordu.
+// GA4'ün varsayılan sayfa boyutu 50 — olay kapsamlı özel boyutlar dolu bir
+// mülkte bu sınırın üstüne çıkabilir; ikinci sayfada kalan bir kaynak hiç
+// görülmez ve idempotent `ensure*` çağrısı yanlışlıkla ikinci bir `create`e
+// düşer. `pageSize=200` + `nextPageToken` boşalana kadar döngü bu üçünün
+// ortak deseni, tek yerde yazılır.
+
+const LIST_PAGE_SIZE = 200;
+
+async function fetchAllPages<T>(
+  ctx: GA4Ctx,
+  baseUrl: string,
+  op: string,
+  extract: (data: unknown) => { items: T[]; nextPageToken: string | undefined },
+): Promise<T[]> {
+  const all: T[] = [];
+  let pageToken: string | undefined;
+  do {
+    const url = new URL(baseUrl);
+    url.searchParams.set("pageSize", String(LIST_PAGE_SIZE));
+    if (pageToken) url.searchParams.set("pageToken", pageToken);
+    const res = await ctx.fetch(url.toString(), { headers: authHeaders(ctx.accessToken) });
+    await assertOk(res, op);
+    const { items, nextPageToken } = extract(await res.json());
+    all.push(...items);
+    pageToken = nextPageToken;
+  } while (pageToken);
+  return all;
 }
 
 // ---------------------------------------------------------------------------
@@ -168,12 +203,15 @@ type CustomDimensionResource = {
 };
 
 async function listCustomDimensions(ctx: GA4Ctx): Promise<CustomDimensionResource[]> {
-  const res = await ctx.fetch(`${ADMIN_BASE}/properties/${ctx.propertyId}/customDimensions`, {
-    headers: authHeaders(ctx.accessToken),
-  });
-  await assertOk(res, "customDimensions.list");
-  const data = (await res.json()) as { customDimensions?: CustomDimensionResource[] };
-  return data.customDimensions ?? [];
+  return fetchAllPages<CustomDimensionResource>(
+    ctx,
+    `${ADMIN_BASE}/properties/${ctx.propertyId}/customDimensions`,
+    "customDimensions.list",
+    (data) => {
+      const body = data as { customDimensions?: CustomDimensionResource[]; nextPageToken?: string };
+      return { items: body.customDimensions ?? [], nextPageToken: body.nextPageToken };
+    },
+  );
 }
 
 /** Yoksa oluşturur, varsa dokunmaz — eşleşme `parameterName` üzerinden. */
@@ -230,12 +268,15 @@ async function listEventCreateRules(
   ctx: GA4Ctx,
   streamId: string,
 ): Promise<EventCreateRuleResource[]> {
-  const res = await ctx.fetch(eventCreateRulesUrl(ctx.propertyId, streamId), {
-    headers: authHeaders(ctx.accessToken),
-  });
-  await assertOk(res, "eventCreateRules.list");
-  const data = (await res.json()) as { eventCreateRules?: EventCreateRuleResource[] };
-  return data.eventCreateRules ?? [];
+  return fetchAllPages<EventCreateRuleResource>(
+    ctx,
+    eventCreateRulesUrl(ctx.propertyId, streamId),
+    "eventCreateRules.list",
+    (data) => {
+      const body = data as { eventCreateRules?: EventCreateRuleResource[]; nextPageToken?: string };
+      return { items: body.eventCreateRules ?? [], nextPageToken: body.nextPageToken };
+    },
+  );
 }
 
 /**
@@ -283,12 +324,15 @@ export type KeyEventInput = {
 type KeyEventResource = { name: string; eventName: string; countingMethod: string };
 
 async function listKeyEvents(ctx: GA4Ctx): Promise<KeyEventResource[]> {
-  const res = await ctx.fetch(`${ADMIN_BASE}/properties/${ctx.propertyId}/keyEvents`, {
-    headers: authHeaders(ctx.accessToken),
-  });
-  await assertOk(res, "keyEvents.list");
-  const data = (await res.json()) as { keyEvents?: KeyEventResource[] };
-  return data.keyEvents ?? [];
+  return fetchAllPages<KeyEventResource>(
+    ctx,
+    `${ADMIN_BASE}/properties/${ctx.propertyId}/keyEvents`,
+    "keyEvents.list",
+    (data) => {
+      const body = data as { keyEvents?: KeyEventResource[]; nextPageToken?: string };
+      return { items: body.keyEvents ?? [], nextPageToken: body.nextPageToken };
+    },
+  );
 }
 
 /** Yoksa oluşturur, varsa dokunmaz — eşleşme `eventName` üzerinden. */
@@ -423,8 +467,12 @@ export async function planSetup(
 // Diagnoo'ya özgü sabit yapılandırma — `ga4-setup.ts` ve testler bunu paylaşır,
 // böylece "hangi boyut/kural kuruluyor" tek yerde tanımlı kalır (runbook'un
 // "API yolu" bölümündeki tablo bu sabitlerin birebir karşılığıdır).
-
-export const DIAGNOO_SLUG = "diagnoo";
+//
+// `DIAGNOO_SLUG` elle KOPYALANMAZ (F8 final review): dosya başındaki import
+// tek kaynak `signals.ts`den gelir, buradan yalnız yeniden dışa aktarılır —
+// aksi halde iki dize sessizce kayabilir ve `ga4:verify` "veri yok" gibi
+// görünen boş bir tabloya düşer.
+export { DIAGNOO_SLUG };
 
 export const DIAGNOO_CUSTOM_DIMENSIONS: CustomDimensionInput[] = [
   { parameterName: "slug", displayName: "Araç slug'ı", scope: "EVENT" },
@@ -447,14 +495,16 @@ export const DIAGNOO_KEY_EVENT: KeyEventInput = {
 // ---------------------------------------------------------------------------
 // Data API — doğrulama (`scripts/ga4-verify.ts`)
 
-/** Görev 11/12/13'te tanımlanan araç olay taksonomisi (`src/lib/analytics/events.ts`). */
-export const TOOL_EVENT_NAMES = [
-  "tool_used",
-  "tool_scan_completed",
-  "tool_report_requested",
-  "tool_roadmap_item_expanded",
-  "tool_service_cta_clicked",
-] as const;
+/**
+ * Görev 11/12/13'te tanımlanan araç olay taksonomisi — `events.ts`teki
+ * `EVENT_NAMES`den TÜRETİLİR (F8 final review), elle kopyalanmaz. `events.ts`
+ * hem araç olaylarını hem araç DIŞI olayları (`persona_axis_clicked` vb.)
+ * tek bir `const` demet olarak tutuyor; burada yalnız `tool_` önekli olanlar
+ * süzülür. Elle kopyalanan liste sessizce kayabilirdi: `events.ts`e yeni bir
+ * `tool_*` olayı eklenip burası unutulursa `ga4:verify` "veri yok" gibi
+ * görünen boş bir tabloya düşerdi.
+ */
+export const TOOL_EVENT_NAMES = [...EVENT_NAMES.filter((name) => name.startsWith("tool_"))] as const;
 
 type DataApiCtx = { propertyId: string; accessToken: string; fetch: FetchFn };
 

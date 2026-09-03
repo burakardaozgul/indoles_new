@@ -3,6 +3,8 @@ import {
   DIAGNOO_CUSTOM_DIMENSIONS,
   DIAGNOO_EVENT_CREATE_RULE_BASE,
   DIAGNOO_KEY_EVENT,
+  DIAGNOO_SLUG,
+  TOOL_EVENT_NAMES,
   buildAuthUrl,
   ensureCustomDimension,
   ensureEventCreateRule,
@@ -16,6 +18,7 @@ import {
   runToolEventsReport,
   type GA4Ctx,
 } from "../ga4-admin";
+import { EVENT_NAMES } from "../events";
 
 const CREDS = { clientId: "cid", clientSecret: "csec", refreshToken: "rtok" };
 
@@ -154,6 +157,41 @@ describe("ensureCustomDimension", () => {
       /429.*Maximum number of custom dimensions reached/,
     );
   });
+
+  it("F7 final review: ikinci sayfadaki kaydı bulur, POST atmaz", async () => {
+    // GA4 varsayılan sayfa boyutu 50 — olay kapsamlı özel boyutlar dolu bir
+    // mülkte 50'de sınırlı olabilir, var olan kaynak ikinci sayfada kalırsa
+    // `nextPageToken` yok sayan bir liste onu hiç görmez ve idempotent koşu
+    // başarısız bir `create`e döner.
+    const f = sequenceFetch([
+      jsonResponse({
+        customDimensions: [
+          { name: "properties/123456/customDimensions/1", parameterName: "band", displayName: "x", scope: "EVENT" },
+        ],
+        nextPageToken: "page-2",
+      }),
+      jsonResponse({
+        customDimensions: [
+          { name: "properties/123456/customDimensions/2", parameterName: "slug", displayName: "y", scope: "EVENT" },
+        ],
+      }),
+    ]);
+    const result = await ensureCustomDimension(baseCtx(f as unknown as typeof fetch), input);
+    expect(result).toEqual({ created: false, name: "properties/123456/customDimensions/2" });
+    expect(f).toHaveBeenCalledTimes(2);
+
+    const [firstUrl] = f.mock.calls[0] as [string];
+    const [secondUrl] = f.mock.calls[1] as [string];
+    expect(firstUrl).toBe(
+      "https://analyticsadmin.googleapis.com/v1beta/properties/123456/customDimensions?pageSize=200",
+    );
+    expect(secondUrl).toBe(
+      "https://analyticsadmin.googleapis.com/v1beta/properties/123456/customDimensions?pageSize=200&pageToken=page-2",
+    );
+    for (const [, init] of f.mock.calls as [string, RequestInit | undefined][]) {
+      expect(init?.method ?? "GET").not.toBe("POST");
+    }
+  });
 });
 
 describe("ensureEventCreateRule", () => {
@@ -187,7 +225,7 @@ describe("ensureEventCreateRule", () => {
 
     const [listUrl] = f.mock.calls[0] as [string];
     expect(listUrl).toBe(
-      "https://analyticsadmin.googleapis.com/v1alpha/properties/123456/dataStreams/999/eventCreateRules",
+      "https://analyticsadmin.googleapis.com/v1alpha/properties/123456/dataStreams/999/eventCreateRules?pageSize=200",
     );
 
     const [createUrl, init] = f.mock.calls[1] as [string, RequestInit];
@@ -202,6 +240,28 @@ describe("ensureEventCreateRule", () => {
       ],
       sourceCopyParameters: true,
     });
+  });
+
+  it("F7 final review: ikinci sayfadaki kuralı bulur, POST atmaz", async () => {
+    const f = sequenceFetch([
+      jsonResponse({
+        eventCreateRules: [
+          { name: "properties/123456/dataStreams/999/eventCreateRules/1", destinationEvent: "geo_report_requested" },
+        ],
+        nextPageToken: "page-2",
+      }),
+      jsonResponse({
+        eventCreateRules: [
+          { name: "properties/123456/dataStreams/999/eventCreateRules/2", destinationEvent: "diagnoo_report_requested" },
+        ],
+      }),
+    ]);
+    const result = await ensureEventCreateRule(baseCtx(f as unknown as typeof fetch), input);
+    expect(result).toEqual({ created: false, name: "properties/123456/dataStreams/999/eventCreateRules/2" });
+    expect(f).toHaveBeenCalledTimes(2);
+    for (const [, init] of f.mock.calls as [string, RequestInit | undefined][]) {
+      expect(init?.method ?? "GET").not.toBe("POST");
+    }
   });
 });
 
@@ -231,6 +291,24 @@ describe("ensureKeyEvent", () => {
       eventName: "diagnoo_report_requested",
       countingMethod: "ONCE_PER_EVENT",
     });
+  });
+
+  it("F7 final review: ikinci sayfadaki önemli etkinliği bulur, POST atmaz", async () => {
+    const f = sequenceFetch([
+      jsonResponse({
+        keyEvents: [{ name: "properties/123456/keyEvents/1", eventName: "geo_report_requested" }],
+        nextPageToken: "page-2",
+      }),
+      jsonResponse({
+        keyEvents: [{ name: "properties/123456/keyEvents/2", eventName: "diagnoo_report_requested" }],
+      }),
+    ]);
+    const result = await ensureKeyEvent(baseCtx(f as unknown as typeof fetch), input);
+    expect(result).toEqual({ created: false, name: "properties/123456/keyEvents/2" });
+    expect(f).toHaveBeenCalledTimes(2);
+    for (const [, init] of f.mock.calls as [string, RequestInit | undefined][]) {
+      expect(init?.method ?? "GET").not.toBe("POST");
+    }
   });
 });
 
@@ -358,5 +436,27 @@ describe("runToolEventsRealtimeReport", () => {
 
     const [url] = f.mock.calls[0] as [string];
     expect(url).toBe("https://analyticsdata.googleapis.com/v1beta/properties/123456:runRealtimeReport");
+  });
+});
+
+describe("TOOL_EVENT_NAMES / DIAGNOO_SLUG — taksonomi tek kaynak (F8 final review)", () => {
+  it("TOOL_EVENT_NAMES tam olarak beş tool_ olayını içerir, hiçbiri events.ts dışından gelmez", () => {
+    // Elle kopyalanmış liste sessizce kayabiliyordu (`events.ts`e yeni bir
+    // `tool_*` olayı eklenip burası unutulursa `ga4:verify` "veri yok" gibi
+    // görünen boş bir tabloya düşerdi). Türetme bu kaymayı derleme zamanına
+    // taşımaz ama en azından testte yakalanır hale getirir.
+    expect(TOOL_EVENT_NAMES).toHaveLength(5);
+    for (const name of TOOL_EVENT_NAMES) {
+      expect(EVENT_NAMES).toContain(name);
+      expect(name.startsWith("tool_")).toBe(true);
+    }
+    // Ters yön: events.ts'teki HER tool_ öneki TOOL_EVENT_NAMES'te de olmalı
+    // — liste dar kalıp yeni bir araç olayını sessizce dışarıda bırakmasın.
+    const toolPrefixed = EVENT_NAMES.filter((n) => n.startsWith("tool_"));
+    expect([...TOOL_EVENT_NAMES].sort()).toEqual([...toolPrefixed].sort());
+  });
+
+  it("DIAGNOO_SLUG signals.ts'teki tek kaynaktan gelir", () => {
+    expect(DIAGNOO_SLUG).toBe("diagnoo");
   });
 });

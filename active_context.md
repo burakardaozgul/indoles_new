@@ -1,3 +1,21 @@
+## Durum: Diagnoo Faz 2 canlıda — araç indekslenebilir, lansman anahtarları bekliyor — 2026-09-03
+
+`feat/diagnoo-faz2` main'e alındı (`8ba5ca2`), push edildi, uzak D1 migration `0007` uygulandı ve dağıtıldı — **Version ID `c84a7482-c487-4400-b09e-2d8c1edfc860`**. Branch ve worktree kaldırıldı; kayıt defteri `.superpowers/sdd/2026-09-03-diagnoo-faz2-arsiv/` altında.
+
+**Faz 2 kapsamı (10 görev + 2 Burak kararı):** araç-hizmet-yazı üçgeni, makale köprüleri, `/araclar` liste paritesi, derleme zamanı OG kartı, keyword kapsamı, e-ticaret GAP/CRO rehberi (TR+EN), lib ve UI cilası, GA4 kurulum/doğrulama script'leri, lansman anahtarı.
+
+**Lansman kararı (Burak, 2026-09-03):** araç gizli değil — `DIAGNOO_TOOL.published: true`, landing `index, follow`, sitemap'te. "Kullanıma sonra açarız" kararının dürüst karşılığı olarak motor anahtarları yokken `/api/tools/diagnoo-start` taramayı hiç başlatmadan `503 {"error":"not-configured"}` döner (D1'e satır yazılmaz, Workflow başlamaz, kota tüketilmez); form bunu suçlayıcı olmayan bir metinle gösterir. Anahtarlar girildiği an ek işlem gerekmeden normal akışa döner.
+
+**Header araç girişi:** `/araclar` için sıradan nav bağlantısı değil, ayrı `.v2-nav-tools` pill'i (gold-100 yüzey + gold-700 hairline; metin 16,45:1, kenarlık 4,36:1). Nav kırılımı 1180 → 1280px'e (kanonik `desktop` token'ı) taşındı ve `tests/e2e/responsive/nav-breakpoint.spec.ts` ile 1279/1281px'te sabitlendi.
+
+**Canlı doğrulama (2026-09-03 akşam):** `cf-smoke` 34/34 geçti · `/tr/araclar`, `/tr/araclar/diagnoo`, `/en/tools/diagnoo`, TR+EN rehber 200 · Diagnoo landing `index, follow` · sitemap 146 URL (8 diagnoo) · nav butonu masaüstü ve drawer'da · `diagnoo-start` üretimde `503 not-configured`, `GET` 405, bilinmeyen id `404` · GEO taraması 200 (regresyon yok).
+
+**Burak'ta kalan adımlar:** (1) `wrangler secret put GEMINI_API_KEY / FIRECRAWL_API_KEY / PSI_API_KEY` → sonra bir gerçek uçtan uca tarama; (2) eski GCP servis hesabı anahtarı `odorgo-e89f3b5caca7` iptali; (3) GA4/GTM/Google Ads/Meta kurulumu ayrı oturumda (`pnpm ga4:setup --auth-url` hazır); (4) Cloudflare zone'daki AI bot engeli launch öncesi gözden geçirilecek (LG-03).
+
+**Ertelenenler:** final review'ın DEFER verdiği 16 madde + strateji tablosu Minor 10 + OG kabuğunda ham hex (Minor 11 — üçüncü araçta ortak `render.ts` ile çözülür). Faz 3: GSC/Meta entegrasyonu.
+
+---
+
 ## Durum: GEO aracı UI v2 tamamlandı, kapılar geçti — 2026-09-02
 
 `feat/geo-gorunurluk-denetleyicisi` dalında araç sayfası yeniden tasarlandı (spec: `.superpowers/sdd/2026-09-02-geo-araci-yeniden-tasarim/`, ADR-030/031 kapsamında):

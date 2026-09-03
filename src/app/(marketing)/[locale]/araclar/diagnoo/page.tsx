@@ -8,6 +8,7 @@ import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { ARTICLES } from "@/lib/content/articles";
 import { SERVICES } from "@/lib/content/services";
 import { localeHref } from "@/lib/i18n/locale-href";
+import { diagnooOgImagePath, OG_DIAGNOO_ALT } from "@/lib/tools/diagnoo/share-meta";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
@@ -84,6 +85,10 @@ export async function generateMetadata({
     description: tool.seo.description[loc],
     paths: PATHS,
     locale: loc,
+    // Araç kartı derleme zamanında üretilir (ADR-031, `pnpm og:diagnoo`).
+    // Alt metin `name`den gelmez: ad iki dilde de "Diagnoo", tek başına
+    // görselin ne gösterdiğini söylemiyor.
+    image: { url: diagnooOgImagePath(loc), alt: OG_DIAGNOO_ALT[loc] },
   });
   // Lansman kapısı (`published`, `tools.ts`): araç sırlar ve uzak migration
   // hazır olmadan gerçek veri üretemez. Sayfa iç doğrulama ve paylaşılan

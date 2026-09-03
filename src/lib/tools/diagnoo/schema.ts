@@ -103,7 +103,7 @@ export const BenchmarkComparisonSchema = z.object({
   // içindir — gerçek kaynak ve tarih `benchmarks.ts`de HER ZAMAN yazılır,
   // bu şema BENCHMARKS_VERSION'ı buraya İTHAL ETMEZ (schema.ts <-> benchmarks.ts
   // döngüsüne girmemek için varsayılan burada sabit bir dize/boş dizedir).
-  source: z.string().default("Kaynak belirtilmedi"), asOf: z.string().default(""),
+  source: z.string().min(1).default("Kaynak belirtilmedi"), asOf: z.string().default(""),
 });
 export type BenchmarkComparison = z.infer<typeof BenchmarkComparisonSchema>;
 

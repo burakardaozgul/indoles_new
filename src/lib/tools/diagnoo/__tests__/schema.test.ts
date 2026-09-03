@@ -31,6 +31,18 @@ describe("BenchmarkComparisonSchema geriye dönük uyum", () => {
       expect(parsed.data.asOf).toBe("");
     }
   });
+
+  it("source açıkça boş dize verilirse reddedilir (F2 final review)", () => {
+    // `.min(1)` düşürülmüştü — spec §5'in zorunlu kıldığı kaynak künyesi
+    // boş basılabiliyordu. `asOf` kasıtlı olarak `.default("")` KALIR, bu
+    // testin konusu yalnız `source`.
+    const withEmptySource = {
+      metric: "lcp_ms", label: "LCP (ms)", value: 4200, median: 3200,
+      top10: 1800, unit: "ms", betterIs: "lower", source: "", asOf: "2026-01-01",
+    };
+    const parsed = BenchmarkComparisonSchema.safeParse(withEmptySource);
+    expect(parsed.success).toBe(false);
+  });
 });
 
 describe("toSnapshot", () => {

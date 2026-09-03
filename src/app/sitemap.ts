@@ -5,7 +5,7 @@ import { PILLARS } from "@/lib/content/pillars";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
 import { PACKAGES } from "@/lib/content/packages";
-import { TOOLS } from "@/lib/content/tools";
+import { publishedTools } from "@/lib/content/tools";
 import { BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
 import type { CaseStudyContent } from "@/lib/content/types";
 
@@ -195,8 +195,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Araç detayları — slug locale başına farklı (`routing.ts`, ADR desenine
   // uygun). Sonuç sayfaları (`sonuc/[id]`) noindex ve BURAYA GİRMEZ (brief
   // Görev 13) — kişiye özel tarama çıktısı, tekrar taranabilir kanonik bir
-  // sayfa değil.
-  for (const tool of TOOLS) {
+  // sayfa değil. Yayınlanmamış araç da girmez (`published` lansman kapısı):
+  // çalışmayan bir sayfayı indekslemek, aracın ilk izlenimini bozar.
+  for (const tool of publishedTools()) {
     const path = {
       tr: `/tr/araclar/${tool.slug.tr}`,
       en: `/en/tools/${tool.slug.en}`,

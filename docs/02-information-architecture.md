@@ -113,32 +113,44 @@ Dil değiştirici ve CTA çekmecenin altında tekrarlanır.
 ├── /yazilar                       Bilgi Kütüphanesi
 │   └── /yazilar/[slug]            Yazı detay
 ├── /araclar                       Araçlar indeksi (ADR-030 — kapsam-dışından çıkış)
-│   └── /araclar/[slug]            Araç sayfası (şimdilik tek eleman: GEO Görünürlük Denetleyicisi)
-│       └── /araclar/[slug]/sonuc/[id]  Paylaşım sonucu — `noindex, follow` (bkz. not altta)
+│   ├── /araclar/geo-gorunurluk-denetleyicisi  GEO Görünürlük Denetleyicisi
+│   │   └── .../sonuc/[id]         Paylaşım sonucu — `noindex, follow` (bkz. not altta)
+│   └── /araclar/diagnoo           Diagnoo — e-ticaret teşhisi
+│       └── .../rapor/[id]         Teşhis raporu — `noindex, follow` (bkz. not altta)
 ├── /iletisim                      İletişim formu
 └── /gizlilik-kvkk                 Gizlilik ve KVKK (EN: /privacy)
 ```
 
-Teknik route'lar (dil bağımsız): `/sitemap.xml` · `/robots.txt` · `/llms.txt` · `/api/contact` · `/api/visitor-profile` · `/api/health` · `/api/tools/geo-scan` · `/api/tools/geo-report`
+Teknik route'lar (dil bağımsız): `/sitemap.xml` · `/robots.txt` · `/llms.txt` · `/api/contact` · `/api/visitor-profile` · `/api/health` · `/api/tools/geo-scan` · `/api/tools/geo-report` · `/api/tools/diagnoo-start` · `/api/tools/diagnoo-status` · `/api/tools/diagnoo-unlock`
 
-### `/araclar` — GEO Görünürlük Denetleyicisi (ADR-030)
+### `/araclar` — GEO Görünürlük Denetleyicisi ve Diagnoo (ADR-030)
 
-CLAUDE.md §6'nın kapsam-dışı tablosundan ADR-030 ile çıktı — motor
-Worker-native (`src/lib/tools/geo/`), Diagnoo'ya bağımlı değil. Detay:
-ADR-030, `docs/superpowers/specs/2026-09-01-geo-gorunurluk-denetleyicisi-design.md`.
+CLAUDE.md §6'nın kapsam-dışı tablosundan ADR-030 ile çıktı. GEO motoru
+Worker-native (`src/lib/tools/geo/`) ve Diagnoo'ya bağımlı değil; Diagnoo
+kendi boru hattını (`src/lib/tools/diagnoo/`) kullanır. Detay: ADR-030,
+`docs/superpowers/specs/2026-09-01-geo-gorunurluk-denetleyicisi-design.md`.
 
 | Yüzey | TR | EN |
 |---|---|---|
 | Araçlar indeksi | `/tr/araclar` | `/en/tools` |
-| Araç sayfası | `/tr/araclar/geo-gorunurluk-denetleyicisi` | `/en/tools/geo-visibility-checker` |
-| Paylaşım sonucu | `/tr/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]` | `/en/tools/geo-visibility-checker/result/[id]` |
+| Araç sayfası (GEO) | `/tr/araclar/geo-gorunurluk-denetleyicisi` | `/en/tools/geo-visibility-checker` |
+| Paylaşım sonucu (GEO) | `/tr/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]` | `/en/tools/geo-visibility-checker/result/[id]` |
+| Araç sayfası (Diagnoo) | `/tr/araclar/diagnoo` | `/en/tools/diagnoo` |
+| Teşhis raporu (Diagnoo) | `/tr/araclar/diagnoo/rapor/[id]` | `/en/tools/diagnoo/report/[id]` |
 
 - Araçlar indeksi ve araç sayfası **SSG + indekslenebilir** (hreflang üçlüsü,
   self-canonical, `buildMetadata`) — sitemap'te (`src/app/sitemap.ts`) yer
   alır.
-- **Paylaşım sonuç sayfası `noindex, follow`** ve sunucuda D1'den okunur —
-  ince içerik indekslenmez, ama paylaşım linklerinden gelen otorite araç
-  sayfasına akar (sayfa araca güçlü link verir). Sitemap'e girmez.
+- **Paylaşım sonuç sayfası ve Diagnoo rapor sayfası `noindex, follow`** ve
+  sunucuda D1'den okunur — ince, kişiye özel içerik indekslenmez, ama
+  bağlantıdan gelen otorite araç sayfasına akar (iki sayfa da araca güçlü
+  link verir). İkisi de sitemap'e girmez.
+- **Diagnoo** bir e-ticaret teşhisidir: yedi kritik sayfayı tarar; semantik
+  (25), UX (25), hız-funnel (30) ve ölçüm (20) boyutlarını 100 puanlık tek
+  skorda birleştirir. Ücretsiz anlık görünüm skoru ve üç boşluğu verir; tam
+  rapor iş e-postası ve şirket adıyla (KVKK rızası) açılır. Sinyal kimlikleri
+  `src/lib/tools/diagnoo/signals.ts`, motor `computeHealthScore`
+  (`src/lib/tools/diagnoo/report.ts`).
 - `findings` (detaylı bulgular) yalnız KVKK rızalı rapor akışında
   (`POST /api/tools/geo-report`) döner; ne public tarama yanıtında ne de
   paylaşım sonuç sayfasında görünür (ADR-030 carry-note 3).
@@ -168,7 +180,7 @@ modda çalışır — anasayfada koreografili, iç sayfada sessiz eşlikçi (ADR
 | Format | `/tr/*` ve `/en/*` |
 | Varsayılan | `tr` — `/` → `/tr` |
 | Prefix | `always` (`localePrefix: "always"`) |
-| Segment çevirisi | `routing.pathnames` ile: `/hizmetler` ↔ `/services`, `/paketler` ↔ `/packages`, `/vakalar` ↔ `/case-studies`, `/yazilar` ↔ `/articles`, `/danismanlar` ↔ `/consultants`, `/iletisim` ↔ `/contact`, `/hakkimizda` ↔ `/about`, `/araclar` ↔ `/tools`, `sonuc` ↔ `result` (ADR-030) |
+| Segment çevirisi | `routing.pathnames` ile: `/hizmetler` ↔ `/services`, `/paketler` ↔ `/packages`, `/vakalar` ↔ `/case-studies`, `/yazilar` ↔ `/articles`, `/danismanlar` ↔ `/consultants`, `/iletisim` ↔ `/contact`, `/hakkimizda` ↔ `/about`, `/araclar` ↔ `/tools`, `sonuc` ↔ `result`, `rapor` ↔ `report` (ADR-030) |
 | hreflang | Her sayfada tr + en + x-default üçlüsü |
 
 ### 3b. Karakter kuralları
@@ -272,7 +284,7 @@ Vaka breadcrumb'ında problem-tipi ara kırılımı **uygulanmadı** — 4 vaka 
 
 | Dosya | Üretim | Not |
 |---|---|---|
-| `sitemap.xml` | `src/app/sitemap.ts` | 8 route × 2 dil + `TOOLS` (`src/lib/content/tools.ts`) araç sayfaları, hreflang alternates dahil. Paylaşım sonuç sayfaları (`.../sonuc/[id]`) sitemap'e GİRMEZ — kişiye özel, `noindex` (ADR-030) |
+| `sitemap.xml` | `src/app/sitemap.ts` | 8 route × 2 dil + `TOOLS` (`src/lib/content/tools.ts`) araç sayfaları, hreflang alternates dahil. Paylaşım sonuç ve rapor sayfaları (`.../sonuc/[id]`, `.../rapor/[id]`) sitemap'e GİRMEZ — kişiye özel, `noindex` (ADR-030) |
 | `robots.txt` | `src/app/robots.ts` | Production dışı tüm ortamlarda `disallow: /` |
 | `llms.txt` | `src/app/llms.txt/route.ts` | Statik, pillar ve hizmet listesi |
 

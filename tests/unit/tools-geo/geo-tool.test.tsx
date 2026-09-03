@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { StrictMode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GeoTool } from "@/components/tools/geo-tool";
-import { TOOLS } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import type { GeoScanResult } from "@/lib/tools/geo/types";
 
 const { trackMock } = vi.hoisted(() => ({ trackMock: vi.fn() }));
@@ -18,7 +18,7 @@ vi.mock("@/components/marketing/PopupCTAButton", () => ({
   PopupCTAButton: ({ children }: { children: React.ReactNode }) => <button type="button">{children}</button>,
 }));
 
-const TOOL = TOOLS[0]!;
+const TOOL = GEO_TOOL;
 const RESULT: GeoScanResult = {
   id: "scan-abc",
   url: "https://ornek.com.tr",

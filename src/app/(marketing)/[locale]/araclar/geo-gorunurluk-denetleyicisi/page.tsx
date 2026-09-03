@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { FaqAccordion } from "@/components/marketing/faq-accordion";
 import { ContactCallout } from "@/components/marketing/contact-callout";
 import { GeoTool } from "@/components/tools/geo-tool";
-import { getToolBySlug } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import { ARTICLES } from "@/lib/content/articles";
 import { SERVICES } from "@/lib/content/services";
 import { localeHref } from "@/lib/i18n/locale-href";
@@ -72,8 +71,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const loc = locale as Locale;
-  const tool = getToolBySlug(SLUG, "tr");
-  if (!tool) return {};
+  const tool = GEO_TOOL;
   return buildMetadata({
     title: tool.seo.title[loc],
     description: tool.seo.description[loc],
@@ -93,8 +91,7 @@ export default async function GeoVisibilityCheckerPage({
   const loc = locale as Locale;
   const c = COPY[loc];
 
-  const tool = getToolBySlug(SLUG, "tr");
-  if (!tool) notFound();
+  const tool = GEO_TOOL;
 
   const aiService = SERVICES.find((s) => s.slug.tr === "ai-danismanlik");
   const geoArticles = ARTICLES.filter((a) => a.topic === "geo").slice(0, 3);

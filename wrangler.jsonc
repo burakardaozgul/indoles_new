@@ -118,4 +118,14 @@
   // `runDailyCronJob`'u (`src/lib/booking/scheduled-cron.ts` üzerinden)
   // çağırıyor — bkz. `main` alanının yorumu.
   "triggers": { "crons": ["0 3 * * *"] },
+
+  // Diagnoo teşhis pipeline'ı (ADR-032): tek Worker, tek wrangler projesi
+  // ilkesiyle ikinci bir script/deploy hedefi AÇILMADI — `class_name`
+  // `custom-worker.ts` içindeki `DiagnooDiagnosticWorkflow` export'unu
+  // gösteriyor (üç DO sınıfıyla aynı dosya, üçünün yanına eklendi). Adım
+  // başına ayrı retry/durability Workflows'un kendi motorundan geliyor;
+  // gerçek adım mantığı `src/lib/tools/diagnoo/pipeline.ts`'te, birim testli.
+  "workflows": [
+    { "name": "diagnoo-diagnostic", "binding": "DIAGNOO_WORKFLOW", "class_name": "DiagnooDiagnosticWorkflow" },
+  ],
 }

@@ -1,7 +1,7 @@
 import { render, screen, within, fireEvent, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ReportGate } from "@/components/tools/report-gate";
-import { TOOLS } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import type { GeoCheckResult } from "@/lib/tools/geo/types";
 
 vi.mock("@/components/marketing/PopupCTAButton", () => ({
@@ -10,7 +10,7 @@ vi.mock("@/components/marketing/PopupCTAButton", () => ({
 const { trackMock } = vi.hoisted(() => ({ trackMock: vi.fn() }));
 vi.mock("@/lib/analytics/ga", () => ({ track: trackMock }));
 
-const SIGNALS = TOOLS[0]!.signals;
+const SIGNALS = GEO_TOOL.signals;
 const STRIPPED: GeoCheckResult[] = [
   { id: "ai-access", score: 25, max: 25, status: "pass", summary: { tr: "a", en: "a" }, findings: [], findingsCount: 0 },
   { id: "json-ld", score: 0, max: 20, status: "fail", summary: { tr: "c", en: "c" }, findings: [], findingsCount: 1 },

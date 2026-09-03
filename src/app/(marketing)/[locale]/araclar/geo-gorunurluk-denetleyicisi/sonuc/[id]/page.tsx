@@ -6,7 +6,7 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { GeoTool } from "@/components/tools/geo-tool";
 import { TOOL_UI, fill } from "@/components/tools/copy";
 import { OG_GEO_ALT, ogImagePath, shareTitle } from "@/lib/tools/geo/share-meta";
-import { getToolBySlug } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import { getScan } from "@/lib/tools/geo/repository";
 import { stripFindings } from "@/lib/tools/geo/findings";
 import { localeHref } from "@/lib/i18n/locale-href";
@@ -31,15 +31,13 @@ import type { GeoScanResult } from "@/lib/tools/geo/types";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const TOOL_SLUG = "geo-gorunurluk-denetleyicisi";
-
 /**
  * Kararlı yol çiftleri — `sonuc ↔ result` çevirisi `routing.ts` ile birebir.
  *
- * TR taraf `${TOOL_SLUG}` ile İNTERPOLE EDİLMEZ (bilinçli): tam segment
+ * TR taraf araç slug'ı bir sabitten İNTERPOLE EDİLMEZ (bilinçli): tam segment
  * zincirini elle yazar. `page-metadata.test.ts` her sayfa kaynağını
  * regex'le tarayıp `tr: "/tr/..."` değerinin benzersiz olduğunu doğruluyor;
- * regex `$` karakterinde durduğu için `${TOOL_SLUG}` kullanılsaydı yakalanan
+ * regex `$` karakterinde durduğu için interpolasyon kullanılsaydı yakalanan
  * alt dize üst araç sayfasının (`../page.tsx`) kendi kısaltılmış
  * `/tr/araclar/` değeriyle çakışırdı (ikisi de aynı önekte kesilir).
  */
@@ -95,9 +93,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, id } = await params;
   const loc = locale as Locale;
-  const tool = getToolBySlug(TOOL_SLUG, "tr");
+  const tool = GEO_TOOL;
   const result = await loadScan(id);
-  if (!tool || !result) return {};
+  if (!result) return {};
 
   const base = buildMetadata({
     title: shareTitle(result.totalScore, result.url, loc),
@@ -127,8 +125,7 @@ export default async function GeoScanResultPage({
   const loc = locale as Locale;
   const c = COPY[loc];
 
-  const tool = getToolBySlug(TOOL_SLUG, "tr");
-  if (!tool) notFound();
+  const tool = GEO_TOOL;
 
   const result = await loadScan(id);
   if (!result) notFound();

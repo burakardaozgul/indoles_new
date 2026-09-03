@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { SignalRows, barWidthPercent, fillPercent } from "@/components/tools/signal-rows";
-import { TOOLS } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import type { GeoCheckResult } from "@/lib/tools/geo/types";
 
-const SIGNALS = TOOLS[0]!.signals;
+const SIGNALS = GEO_TOOL.signals;
 const CHECKS: GeoCheckResult[] = [
   { id: "ai-access", score: 25, max: 25, status: "pass", summary: { tr: "Tüm botlar okuyabiliyor.", en: "All bots can read." }, findings: [] },
   { id: "llms-txt", score: 10, max: 15, status: "partial", summary: { tr: "llms.txt biçimsiz.", en: "llms.txt unformatted." }, findings: [] },

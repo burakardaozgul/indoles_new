@@ -61,7 +61,8 @@ export function ScoreCard({
   newScanHref,
 }: {
   result: GeoScanResult;
-  tool: ToolContent;
+  /** Bant cümlesi `bands[result.band]`ten okunuyor — kayıt GEO'nun bant tipiyle gelir. */
+  tool: ToolContent<GeoBand>;
   locale: Locale;
   shareUrl: string;
   onNewScan?: () => void;

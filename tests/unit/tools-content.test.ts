@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { TOOLS } from "@/lib/content/tools";
+import { TOOLS, publishedTools, DIAGNOO_TOOL, GEO_TOOL } from "@/lib/content/tools";
+import type { ToolContent } from "@/lib/content/tools";
 
 const LOCALES = ["tr", "en"] as const;
 
@@ -132,5 +133,143 @@ describe("TOOLS arama yüzeyi", () => {
         ).toBeLessThanOrEqual(160);
       }
     }
+  });
+});
+
+describe("TOOLS sinyal bütünlüğü", () => {
+  it("her aracın sinyal ağırlıkları 100 puana toplanır", () => {
+    // Sinyal kartları skorun dağılımını ilan eder; toplam 100 değilse sayfa
+    // motorun puanlamadığı bir dağılım anlatıyor demektir.
+    for (const t of TOOLS) {
+      const total = t.signals.reduce((sum, s) => sum + s.weight, 0);
+      expect(total, t.slug.tr).toBe(100);
+    }
+  });
+
+  it("her sinyal iki dilde başlık ve açıklama taşır", () => {
+    for (const t of TOOLS) {
+      for (const s of t.signals) {
+        for (const loc of LOCALES) {
+          expect(s.title[loc]?.trim(), `${t.slug.tr}/${s.id}/${loc}`).toBeTruthy();
+          expect(
+            s.description[loc]?.trim(),
+            `${t.slug.tr}/${s.id}/${loc}`,
+          ).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("araç içinde sinyal kimliği tekrar etmez", () => {
+    for (const t of TOOLS) {
+      const ids = t.signals.map((s) => s.id);
+      expect(new Set(ids).size, t.slug.tr).toBe(ids.length);
+    }
+  });
+});
+
+describe("Diagnoo kaydı", () => {
+  const diagnoo = TOOLS.find((t) => t.slug.tr === "diagnoo");
+
+  it("TOOLS içinde yer alır ve iki dilde aynı slug'ı taşır", () => {
+    expect(diagnoo, "diagnoo kaydı yok").toBeDefined();
+    expect(diagnoo!.slug.en).toBe("diagnoo");
+  });
+
+  it("dört skor boyutunu 25/25/30/20 ağırlığıyla tanıtır", () => {
+    // Ağırlıklar `computeHealthScore` ile birebir (semantik 25, UX 12,5+12,5,
+    // hız 30, ölçüm 20) — sayfadaki tanıtım motordan sapamaz.
+    const byId = new Map(diagnoo!.signals.map((s) => [s.id, s.weight]));
+    expect([...byId.keys()].sort()).toEqual([
+      "semantic",
+      "speed-funnel",
+      "tracking",
+      "ux",
+    ]);
+    expect(byId.get("semantic")).toBe(25);
+    expect(byId.get("ux")).toBe(25);
+    expect(byId.get("speed-funnel")).toBe(30);
+    expect(byId.get("tracking")).toBe(20);
+  });
+
+  it("tam 3 adım anlatır", () => {
+    expect(diagnoo!.steps.length).toBe(3);
+  });
+
+  it("lansman kapısı kapalı: published false", () => {
+    // Araç, sırlar ve uzak migration hazır olana kadar arama yüzeylerine
+    // (sitemap, llms.txt, /araclar listesi) girmez — yalnız doğrudan URL ile
+    // erişilir. Bayrak `true` olduğunda bu test bilinçli olarak güncellenir.
+    expect(diagnoo!.published).toBe(false);
+  });
+});
+
+describe("publishedTools filtresi", () => {
+  it("yalnız published araçları döner", () => {
+    const geo = TOOLS.find((t) => t.slug.tr === "geo-gorunurluk-denetleyicisi");
+    expect(geo!.published).toBe(true);
+    const slugs = publishedTools().map((t) => t.slug.tr);
+    expect(slugs).toContain("geo-gorunurluk-denetleyicisi");
+    expect(slugs).not.toContain("diagnoo");
+  });
+
+  it("bayrak true olduğunda araç listeye girer", () => {
+    // Lansman senaryosu: Diagnoo yayına alındığında filtre onu geçirmeli.
+    const launched: ToolContent[] = TOOLS.map((t) => ({ ...t, published: true }));
+    expect(publishedTools(launched).map((t) => t.slug.tr)).toContain("diagnoo");
+  });
+
+  it("her araç bayrağını açıkça taşır", () => {
+    for (const t of TOOLS) {
+      expect(typeof t.published, t.slug.tr).toBe("boolean");
+    }
+  });
+});
+
+describe("TOOLS hero alanları", () => {
+  it("her araç 4 kanıt öğesini iki dilde taşır", () => {
+    // Kanıt şeridi hero'da ve `/araclar` kartında aynı diziden okunuyor;
+    // dört öğe tasarımın taşıdığı sayı (docs/04 §12.10).
+    for (const t of TOOLS) {
+      expect(t.proof.length, t.slug.tr).toBe(4);
+      for (const p of t.proof) {
+        for (const loc of LOCALES) {
+          expect(p[loc]?.trim(), `${t.slug.tr}/${loc}`).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("her araç giriş yardımını iki dilde taşır", () => {
+    for (const t of TOOLS) {
+      for (const loc of LOCALES) {
+        expect(t.inputHelp[loc]?.trim(), `${t.slug.tr}/${loc}`).toBeTruthy();
+      }
+    }
+  });
+
+  it("her araç dört bant cümlesini iki dilde taşır", () => {
+    // Bant KÜMESİ araca özel (GEO `GeoBand`, Diagnoo `HealthScoreBucket`),
+    // ama sayı ikisinde de dört: skor dört banda bölünür.
+    for (const t of TOOLS) {
+      const sentences = Object.values(t.bands);
+      expect(sentences.length, t.slug.tr).toBe(4);
+      for (const s of sentences) {
+        for (const loc of LOCALES) {
+          expect(s[loc]?.trim(), `${t.slug.tr}/${loc}`).toBeTruthy();
+        }
+      }
+    }
+  });
+
+  it("bant anahtarları motorun kova/bant kimlikleriyle birebir", () => {
+    // Kayıt tipli yazıldığı için eksik anahtar derlemede yakalanır; bu test
+    // anahtar KÜMESİNİN motordan sapmadığını çalışma zamanında da tutar.
+    expect(Object.keys(GEO_TOOL.bands).sort()).toEqual(
+      ["gelismeye-acik", "iyi", "oncu", "zayif"],
+    );
+    expect(Object.keys(DIAGNOO_TOOL.bands).sort()).toEqual(
+      ["0-25", "26-50", "51-75", "76-100"],
+    );
   });
 });

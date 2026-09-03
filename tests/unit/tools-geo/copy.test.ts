@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { BAND_LABELS, REPORT_ERROR_MAP, SCAN_ERROR_MAP, STATUS_LABELS, TOOL_UI, fill } from "@/components/tools/copy";
-import { TOOLS } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import { BAND_ORDER } from "@/lib/tools/geo/types";
 
 function keysDeep(o: unknown, prefix = ""): string[] {
@@ -41,8 +41,8 @@ describe("araç UI kopyası", () => {
     for (const b of BAND_ORDER) {
       expect(BAND_LABELS[b].tr).toBeTruthy();
       expect(BAND_LABELS[b].en).toBeTruthy();
-      expect(TOOLS[0]!.bands[b].tr).toBeTruthy();
-      expect(TOOLS[0]!.bands[b].en).toBeTruthy();
+      expect(GEO_TOOL.bands[b].tr).toBeTruthy();
+      expect(GEO_TOOL.bands[b].en).toBeTruthy();
     }
     expect(Object.keys(STATUS_LABELS)).toEqual(["pass", "partial", "fail"]);
   });
@@ -53,7 +53,7 @@ describe("araç UI kopyası", () => {
   });
 
   it("içerik: kanıt şeridi 4 öğe, lede soruyla açılan en fazla iki cümle, yardım satırı var", () => {
-    const t = TOOLS[0]!;
+    const t = GEO_TOOL;
     expect(t.proof).toHaveLength(4);
     expect(t.lede.tr).toMatch(/^[^.!?]+\?\s/);
     expect(t.lede.en).toMatch(/^[^.!?]+\?\s/);

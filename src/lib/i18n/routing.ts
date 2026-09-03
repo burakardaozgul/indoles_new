@@ -25,6 +25,11 @@ export const routing = defineRouting({
       tr: "/araclar/geo-gorunurluk-denetleyicisi/sonuc/[id]",
       en: "/tools/geo-visibility-checker/result/[id]",
     },
+    "/araclar/diagnoo": { tr: "/araclar/diagnoo", en: "/tools/diagnoo" },
+    "/araclar/diagnoo/rapor/[id]": {
+      tr: "/araclar/diagnoo/rapor/[id]",
+      en: "/tools/diagnoo/report/[id]",
+    },
     "/danismanlar": { tr: "/danismanlar", en: "/consultants" },
     "/danismanlar/[slug]": {
       tr: "/danismanlar/[slug]",

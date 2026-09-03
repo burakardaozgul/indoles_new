@@ -48,6 +48,10 @@
 import { default as handler, DOQueueHandler, DOShardedTagCache, BucketCachePurge } from "./.open-next/worker.js";
 import { runForScheduledEvent } from "./src/lib/booking/scheduled-cron";
 import type { CronEnv } from "./src/lib/booking/cron-job";
+// @ts-ignore "cloudflare:workers" ambient modül — wrangler'ın esbuild derlemesi bunu
+// çözer, tsc bu dosyayı hiç görmüyor (yukarıdaki başlık yorumuna bkz.).
+import { WorkflowEntrypoint, type WorkflowEvent, type WorkflowStep } from "cloudflare:workers";
+import { runDiagnosticPipeline, type PipelineEnv } from "./src/lib/tools/diagnoo/pipeline";
 
 export default {
   // Next.js/OpenNext'in ürettiği fetch işleyicisi OLDUĞU GİBİ devrediliyor —
@@ -74,3 +78,28 @@ export default {
 // binding'leri kırılır ve deploy patlar — gözden kaçması en kolay, en
 // pahalı hata.
 export { DOQueueHandler, DOShardedTagCache, BucketCachePurge };
+
+/**
+ * Diagnoo teşhis pipeline'ının Cloudflare Workflow entrypoint'i (ADR-032).
+ *
+ * NEDEN BURADA: tek Worker, tek wrangler projesi — `wrangler.jsonc`'nin
+ * `workflows` binding'i `class_name` ile BU dosyadaki bir export'u arıyor,
+ * ikinci bir script/deploy hedefi açmıyoruz. Kalıp `scheduled` ile birebir
+ * aynı: entrypoint burada ince bir sarmalayıcı, gerçek mantık `src/`
+ * içinde env-parametreli, birim testli bir fonksiyonda yaşıyor
+ * (`src/lib/tools/diagnoo/pipeline.ts` → `runDiagnosticPipeline`). Bu sınıf
+ * `.open-next/worker.js` ve `cloudflare:workers`'a bağımlı olduğu için
+ * vitest'te doğrudan test edilemez — `pipeline.test.ts` `StepRunner`'ın
+ * yapısal bir sahte'siyle (mock) tüm adım sırasını ve hata yollarını
+ * doğrular.
+ *
+ * `WorkflowEntrypoint<unknown, ...>`: bu depo `@cloudflare/workers-types`'ı
+ * bilerek kurmuyor (bkz. dosya başlığı), o yüzden `Env` jenerik parametresi
+ * gerçek bir binding tipiyle daraltılamıyor — `this.env`'i `pipeline.ts`'in
+ * beklediği `PipelineEnv`'e elle cast ediyoruz.
+ */
+export class DiagnooDiagnosticWorkflow extends WorkflowEntrypoint<unknown, { diagnosticId: string }> {
+  async run(event: WorkflowEvent<{ diagnosticId: string }>, step: WorkflowStep): Promise<void> {
+    await runDiagnosticPipeline(this.env as unknown as PipelineEnv, step, event.payload.diagnosticId);
+  }
+}

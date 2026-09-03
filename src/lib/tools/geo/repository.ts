@@ -116,24 +116,10 @@ export async function countLeadsSince(db: D1Database, ipHash: string, sinceIso: 
 }
 
 /**
- * KVKK: ham IP asla saklanmaz. WebCrypto (`crypto.subtle.digest`) —
- * Cloudflare Workers runtime'ında yerleşik, ek bağımlılık gerektirmez
- * (global constraints: yeni npm bağımlılığı yok). Tuz olmadan hash'ten IP'ye
- * geri dönüş yok; aynı (ip, tuz) çifti her zaman aynı hash'i üretir
- * (deterministik) — hız sayacının aynı istemciyi tanıması bu özelliğe
- * dayanır.
- *
- * `ip` ve `salt` bir ayraçla (`:`) birleştirilir (final review sertleştirmesi):
- * ayraçsız `ip + salt` iki farklı girdinin aynı dizgeye daraldığı bir sınır
- * belirsizliği bırakıyordu (ör. ip `"1.2.3.4"` + salt `"5"` ile ip `"1.2.3.45"`
- * + salt boş bir dizge birleşince aynı bayt dizisini üretirdi). NOT: bu
- * mevcut hash'leri değiştirir — henüz gerçek trafik yok, geri dönüşü olmayan
- * pencere şimdi.
+ * KVKK: ham IP asla saklanmaz. Gövde artık Diagnoo ile PAYLAŞILAN tek
+ * yerde yaşıyor (`src/lib/tools/shared/ip-hash.ts`) — burada yalnız
+ * yeniden export edilir, GEO rotaları/testleri değişmeden çalışmaya
+ * devam eder. Main'in ayraç sertleştirmesi (`ip + ":" + salt`) o paylaşılan
+ * modüle taşındı; iki araç aynı hash'i üretir.
  */
-export async function hashClientIp(ip: string, salt: string): Promise<string> {
-  const bytes = new TextEncoder().encode(ip + ":" + salt);
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
+export { hashClientIp } from "../shared/ip-hash";

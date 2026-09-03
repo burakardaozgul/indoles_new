@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { FindingsList, orderForFixList } from "@/components/tools/findings-list";
-import { TOOLS } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import type { GeoCheckResult } from "@/lib/tools/geo/types";
 
-const SIGNALS = TOOLS[0]!.signals;
+const SIGNALS = GEO_TOOL.signals;
 const CHECKS: GeoCheckResult[] = [
   { id: "ai-access", score: 25, max: 25, status: "pass", summary: { tr: "a", en: "a" }, findings: [{ tr: "AI notu", en: "AI note" }] },
   { id: "llms-txt", score: 10, max: 15, status: "partial", summary: { tr: "b", en: "b" }, findings: [{ tr: "llms bulgusu", en: "llms finding" }] },

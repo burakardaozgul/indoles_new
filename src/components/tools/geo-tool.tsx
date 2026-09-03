@@ -14,7 +14,7 @@ import { absoluteUrl } from "@/lib/seo/site";
 import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
 import type { ToolContent } from "@/lib/content/tools";
 import type { Locale } from "@/lib/content/types";
-import type { GeoScanResult } from "@/lib/tools/geo/types";
+import type { GeoBand, GeoScanResult } from "@/lib/tools/geo/types";
 
 /**
  * Araç adası — durum makinesi (spec §2):
@@ -44,7 +44,8 @@ export function GeoTool({
   mode,
 }: {
   locale: Locale;
-  tool: ToolContent;
+  /** GEO kaydı — skor kartına aktarıldığı için bant tipi burada da korunur. */
+  tool: ToolContent<GeoBand>;
   initialResult?: GeoScanResult;
   mode: "tool" | "share";
 }) {

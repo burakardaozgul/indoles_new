@@ -1,14 +1,14 @@
 import { render, screen, act } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ScanStage } from "@/components/tools/scan-stage";
-import { TOOLS } from "@/lib/content/tools";
+import { GEO_TOOL } from "@/lib/content/tools";
 import { TOOL_SCAN } from "@/lib/v2/anim-config";
 import type { GeoCheckResult } from "@/lib/tools/geo/types";
 
 const { reducedMotion } = vi.hoisted(() => ({ reducedMotion: { value: false } }));
 vi.mock("@/lib/v2/use-mouse", () => ({ usePrefersReducedMotion: () => reducedMotion.value }));
 
-const SIGNALS = TOOLS[0]!.signals;
+const SIGNALS = GEO_TOOL.signals;
 const CHECKS: GeoCheckResult[] = SIGNALS.map((s) => ({
   id: s.id, score: s.weight, max: s.weight, status: "pass",
   summary: { tr: "x", en: "x" }, findings: [],

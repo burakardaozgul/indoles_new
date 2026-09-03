@@ -31,6 +31,7 @@ type BlobVariant = "home" | "page" | "tool-hero";
  */
 const TOOL_HERO_ROUTES = new Set<string>([
   "/araclar/geo-gorunurluk-denetleyicisi",
+  "/araclar/diagnoo",
 ]);
 
 function resolveBlobVariant(pathname: string): BlobVariant {

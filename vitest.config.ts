@@ -29,6 +29,8 @@ export default defineConfig({
       ["src/lib/consent/__tests__/gate.test.ts", "jsdom"],
       ["src/lib/analytics/__tests__/session.test.ts", "jsdom"],
       ["src/lib/analytics/__tests__/ga-bootstrap.test.ts", "jsdom"],
+      // Diagnoo yoklama hook'u — renderHook DOM ister (Görev 15).
+      ["src/components/tools/__tests__/use-diagnoo-status.test.ts", "jsdom"],
     ],
     globals: true,
     include: [

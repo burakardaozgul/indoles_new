@@ -144,6 +144,8 @@ Aylık tur yalnız INDOLES'in kendi geçiş sayısını değil, `Rakip-Analizi-P
 
 **Not:** GEO-editoryal kümenin kendi terimleri ("generative engine optimization", "ai seo") 10 promptun içine bilinçli olarak girmiyor — §2'nin marka adını dışarıda tutan aynı disipliniyle, INDOLES'in kendi hizmet kategorisini (GEO danışmanlığı) de doğrudan sormuyoruz; sorarsak kısıt sorusu cevabı zaten getirir, ölçtüğümüz kendi sorumuz olur. Bu dördüncü eşik GSC organik taramasıyla izlenir (`Keyword-Onceliklendirme-2026-08-27.md` §4, G3 grubu — GEO gösterim/pozisyon verisi), GEO promptluk turla değil.
 
+**Not (Faz 2 Görev 5, 2026-09-03):** Diagnoo ve GEO Görünürlük Denetleyicisi için ayrı bir prompt açılmadı; ikisi de mevcut 10 promptun K3 (e-ticaret danışmanlığı) ve S3 (kanıt/vaka) sorularının "Atıf verilen URL" kolonunda izlenir. Yeni bir seri yalnız §6'daki gerekçeyle ve orada tarif edilen usulle açılır.
+
 ---
 
 **Sürüm:** v1.0 · 2026-08-28 · İlk sürüm — G-10 bulgusunu kapatır.

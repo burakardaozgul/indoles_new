@@ -292,11 +292,22 @@ function toolSurface(t: ToolContent): string {
   );
 }
 
-/** Araç niyeti kelimesi → hedef araç (TR slug). */
+/**
+ * Araç niyeti kelimesi → hedef araç (TR slug).
+ *
+ * Son üç satır Diagnoo içindir (Faz 2 Görev 5, strateji v1.13): araç niyeti
+ * kelimeleri ("e-ticaret site analizi", "cro analizi", "dönüşüm oranı
+ * analizi") Diagnoo'nun kendi yüzeyinde (lede, FAQ) kalır; bilgi niyeti
+ * ("dönüşüm optimizasyonu", "cro ajansı") CRO ve e-ticaret hizmet
+ * sayfalarında kalmaya devam eder — aynı kanibalizasyon kuralı (A-6).
+ */
 const TARGETS_TOOLS: Array<[slug: string, keyword: string]> = [
   ["geo-gorunurluk-denetleyicisi", "geo denetimi"],
   ["geo-gorunurluk-denetleyicisi", "ai görünürlük testi"],
   ["geo-gorunurluk-denetleyicisi", "llms txt kontrolü"],
+  ["diagnoo", "e-ticaret site analizi"],
+  ["diagnoo", "cro analizi"],
+  ["diagnoo", "dönüşüm oranı analizi"],
 ];
 
 describe("Araç keyword yerleşimi (Görev 13, strateji A-6)", () => {

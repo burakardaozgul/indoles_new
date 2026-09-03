@@ -83,7 +83,9 @@ describe("useDiagnooStatus", () => {
 
     await flush();
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(fetchMock).toHaveBeenCalledWith(`/api/tools/diagnoo-status/${ID}`);
+    // İkinci argüman artık her yoklamanın kendi `AbortController` sinyalini
+    // taşıyor (F1 final review düzeltmesi) — burada yalnız URL doğrulanır.
+    expect(fetchMock.mock.calls[0]?.[0]).toBe(`/api/tools/diagnoo-status/${ID}`);
     expect(result.current.status).toBe("running");
     expect(result.current.currentStep).toBe("vision");
     expect(result.current.progressPct).toBe(55);
@@ -131,6 +133,53 @@ describe("useDiagnooStatus", () => {
     // Artık bekçi kapalı — bir sonraki tik yeni isteği atabilir.
     await tick();
     expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("yanıt hiç settle etmezse POLL_TIMEOUT_MS'te abort edilir, sonraki tik yeni istek başlatır", async () => {
+    // F1 (final review): `inFlight` bekçisi zaman aşımsızdı — `fetch` hiç
+    // settle etmezse (askıda bağlantı, donmuş Worker) `inFlight` kalıcı
+    // `true` kalır, hiçbir tik yeni istek atmaz, `failures` hiç artmaz ve
+    // ziyaretçi ilerleme ekranında süresiz kalırdı. Bu mock, `AbortController`
+    // sinyali tetiklenmedikçe hiç settle etmeyen bir `fetch` simüle eder —
+    // gerçek bir donmuş Worker bağlantısının davranışı.
+    const fetchMock = vi.fn().mockImplementation((_url: string, init?: RequestInit) => {
+      return new Promise<Response>((_resolve, reject) => {
+        init?.signal?.addEventListener("abort", () => {
+          reject(new DOMException("Aborted", "AbortError"));
+        });
+      });
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    const { result } = renderHook(() => useDiagnooStatus(ID));
+
+    await flush();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    // POLL_TIMEOUT_MS (6 sn) dolunca istek abort edilir — henüz `failed`e
+    // düşmez, bu üç ardışık "hata"dan yalnız ilki.
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(6000);
+    });
+    expect(result.current.status).toBeNull();
+
+    // Bir sonraki yoklama tiki toplam çağrı sayısını ikiye çıkarır — bekçi
+    // kalıcı `true` KALMADI, abort onu serbest bıraktı.
+    await tick(2);
+    expect(fetchMock.mock.calls.length).toBeGreaterThanOrEqual(2);
+
+    // Üç ardışık askıda-kalma-ve-abort turundan sonra `giveUp("network_error")`
+    // tetiklenir — guard öncesi davranışın (üst üste binen istek en azından
+    // toparlanıyordu) eşdeğeri geri geldi.
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(6000);
+    });
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(6000);
+    });
+
+    expect(result.current.status).toBe("failed");
+    expect(result.current.failReason).toBe("network_error");
   });
 
   it("404 gelince tek denemede durur ve durumu failed'e çeker", async () => {

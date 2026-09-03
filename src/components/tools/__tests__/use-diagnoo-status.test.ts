@@ -98,6 +98,41 @@ describe("useDiagnooStatus", () => {
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
+  it("önceki yoklama sürerken sonraki tik yeni istek atmaz (inFlight bekçisi)", async () => {
+    // Yavaş bir yanıt (kesintili ağ, soğuk Workflow) 2 saniyeden uzun
+    // sürebilir; bekçi olmadan araya giren tik ikinci bir `fetch` başlatır —
+    // aynı satır için çakışan iki okuma, hangi yanıtın önce döneceği
+    // belirsiz bir durum yaratır.
+    let resolveFirst!: (res: Response) => void;
+    const pending = new Promise<Response>((resolve) => {
+      resolveFirst = resolve;
+    });
+    const fetchMock = vi
+      .fn()
+      .mockReturnValueOnce(pending)
+      .mockResolvedValue(jsonResponse(runningBody()));
+    vi.stubGlobal("fetch", fetchMock);
+
+    renderHook(() => useDiagnooStatus(ID));
+
+    await flush();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    // Bir yoklama aralığı daha geçer, ilk istek HÂLÂ yanıtlanmadı.
+    await tick();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    // İlk istek nihayet döner.
+    await act(async () => {
+      resolveFirst(jsonResponse(runningBody()));
+      await vi.advanceTimersByTimeAsync(0);
+    });
+
+    // Artık bekçi kapalı — bir sonraki tik yeni isteği atabilir.
+    await tick();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
   it("404 gelince tek denemede durur ve durumu failed'e çeker", async () => {
     const fetchMock = vi.fn().mockResolvedValue(jsonResponse({ error: "not-found" }, 404));
     vi.stubGlobal("fetch", fetchMock);

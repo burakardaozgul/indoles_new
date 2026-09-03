@@ -33,6 +33,15 @@ function withoutImpacts(roadmap: RoadmapItem[]): RoadmapItem[] {
   return roadmap.map((r) => (r.impactMonthly === null ? r : { ...r, impactMonthly: null }));
 }
 
+/** `RangeValue`in üç ucunu da aynı faktörle çarpıp yuvarlar — tek yuvarlama kuralı. */
+export function scaleImpact(range: RangeValue, factor: number): RangeValue {
+  return {
+    low: Math.round(range.low * factor),
+    expected: Math.round(range.expected * factor),
+    high: Math.round(range.high * factor),
+  };
+}
+
 export function scaleRoadmapImpacts(roadmap: RoadmapItem[], total: RangeValue): RoadmapItem[] {
   // Kurtarılabilir toplam sıfırsa (ör. PSI verisi yok, reklam bütçesi de
   // girilmedi) her maddeyi 0 katsayısıyla çarpmak tüm yol haritasını
@@ -43,11 +52,7 @@ export function scaleRoadmapImpacts(roadmap: RoadmapItem[], total: RangeValue): 
   const factor = total.expected / sum;
   return roadmap.map((r) => r.impactMonthly === null ? r : {
     ...r,
-    impactMonthly: {
-      low: Math.round(r.impactMonthly.low * factor),
-      expected: Math.round(r.impactMonthly.expected * factor),
-      high: Math.round(r.impactMonthly.high * factor),
-    },
+    impactMonthly: scaleImpact(r.impactMonthly, factor),
   });
 }
 
@@ -120,11 +125,7 @@ export function recomputeWithKnownMetrics(report: DiagnooReport, known: KnownMet
     ? withoutImpacts(report.roadmap)
     : report.roadmap.map((r) => r.impactMonthly === null ? r : {
       ...r,
-      impactMonthly: {
-        low: Math.round(r.impactMonthly.low * factor),
-        expected: Math.round(r.impactMonthly.expected * factor),
-        high: Math.round(r.impactMonthly.high * factor),
-      },
+      impactMonthly: scaleImpact(r.impactMonthly, factor),
     });
   const cls = report.funnel.pageSpeeds[0]?.cls ?? null;
   return {

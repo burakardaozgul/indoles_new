@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { DiagnooReportSchema, toSnapshot, RangeValueSchema } from "../schema";
+import { DiagnooReportSchema, toSnapshot, RangeValueSchema, BenchmarkComparisonSchema } from "../schema";
 import { sampleReport } from "./fixtures";
 
 describe("DiagnooReportSchema", () => {
@@ -12,6 +12,24 @@ describe("DiagnooReportSchema", () => {
   });
   it("RangeValue low<=expected<=high zorunlu", () => {
     expect(RangeValueSchema.safeParse({ low: 5, expected: 3, high: 9 }).success).toBe(false);
+  });
+});
+
+describe("BenchmarkComparisonSchema geriye dönük uyum", () => {
+  it("source/asOf eksik eski (0007 öncesi) satırı varsayılanlarla ayrıştırır", () => {
+    // Künye alanları sonradan eklendi; eski report_json satırlarında yok.
+    // `benchmarks.ts` gerçek kaynak/tarihi HER ZAMAN yazar — bu yalnız
+    // geriye dönük okunabilirlik, yeni satırlar hiç bu varsayılana düşmez.
+    const old = {
+      metric: "lcp_ms", label: "LCP (ms)", value: 4200, median: 3200,
+      top10: 1800, unit: "ms", betterIs: "lower",
+    };
+    const parsed = BenchmarkComparisonSchema.safeParse(old);
+    expect(parsed.success).toBe(true);
+    if (parsed.success) {
+      expect(parsed.data.source).toBe("Kaynak belirtilmedi");
+      expect(parsed.data.asOf).toBe("");
+    }
   });
 });
 

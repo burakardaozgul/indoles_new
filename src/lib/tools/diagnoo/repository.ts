@@ -161,12 +161,6 @@ export async function saveLeadRecompute(
     .bind(JSON.stringify(report), leadId).run();
 }
 
-export async function hasLead(db: D1Database, diagnosticId: string): Promise<boolean> {
-  const row = await db.prepare("SELECT id FROM diagnoo_leads WHERE diagnostic_id = ? LIMIT 1")
-    .bind(diagnosticId).first();
-  return row != null;
-}
-
 /** Unlock rotasının saatlik IP limiti (GEO `countLeadsSince` paritesi). */
 export async function countLeadsSince(
   db: D1Database, ipHash: string, sinceIso: string,

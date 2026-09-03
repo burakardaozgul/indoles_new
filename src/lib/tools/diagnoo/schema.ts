@@ -98,7 +98,12 @@ export const BenchmarkComparisonSchema = z.object({
   betterIs: z.enum(["lower", "higher"]),
   // Künye satırın kendisinde: rapor kıyas rakamını kaynağı ve tarihiyle
   // birlikte basar, okuyucu doğrulayabilir (benchmarks.ts başlık notu).
-  source: z.string().min(1), asOf: z.string().min(1),
+  // Bu iki alan `benchmarks.ts`den SONRA eklendi; 0007 öncesi yazılmış
+  // report_json satırlarında yok. `default` geriye dönük okunabilirlik
+  // içindir — gerçek kaynak ve tarih `benchmarks.ts`de HER ZAMAN yazılır,
+  // bu şema BENCHMARKS_VERSION'ı buraya İTHAL ETMEZ (schema.ts <-> benchmarks.ts
+  // döngüsüne girmemek için varsayılan burada sabit bir dize/boş dizedir).
+  source: z.string().default("Kaynak belirtilmedi"), asOf: z.string().default(""),
 });
 export type BenchmarkComparison = z.infer<typeof BenchmarkComparisonSchema>;
 

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import {
   createDiagnostic, findFreshCompleted, setProgress, saveReport, getDiagnostic,
-  createLead, hasLead, countDiagnosticsSince, markFailed, sqliteTimestamp,
+  createLead, countDiagnosticsSince, markFailed, sqliteTimestamp,
   findLeadByToken, saveLeadRecompute, hasLeadForEmail, countLeadsSince,
 } from "../repository";
 import { sampleReport } from "./fixtures";
@@ -53,7 +53,6 @@ describe("diagnoo repository", () => {
     await createLead(db, input);
     await createLead(db, { ...input, id: "l2", unlockToken: "t2" });
 
-    expect(await hasLead(db, "d1")).toBe(true);
     // İki token da AYRI AYRI geçerli — ilki düşmedi.
     expect((await findLeadByToken(db, "d1", "t1"))?.id).toBe("l1");
     expect((await findLeadByToken(db, "d1", "t2"))?.id).toBe("l2");
@@ -170,5 +169,14 @@ describe("diagnoo repository", () => {
 describe("sqliteTimestamp", () => {
   it("ISO string'i D1'in datetime('now') biçimine çevirir", () => {
     expect(sqliteTimestamp(new Date("2026-09-01T20:14:05.123Z"))).toBe("2026-09-01 20:14:05");
+  });
+});
+
+describe("0007 migration: idx_diagnoo_leads_ip", () => {
+  it("client_ip_hash + created_at üzerinde indeks kurar (countLeadsSince tam tablo taraması yapmasın)", async () => {
+    const row = await db.prepare(
+      "SELECT name FROM sqlite_master WHERE type = 'index' AND name = 'idx_diagnoo_leads_ip'",
+    ).first();
+    expect(row).not.toBeNull();
   });
 });

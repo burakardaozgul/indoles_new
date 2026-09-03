@@ -28,5 +28,7 @@ export function freshDiagnooDb(): D1Database {
   // 0006 her unlock'a kendi lead satırını verir: e-posta benzersizliği kalkar,
   // token yeniden yazılmaz (kilit düşürme ve rapor sızıntısı kapanır).
   raw.exec(readFileSync("migrations/0006_diagnoo_lead_per_unlock.sql", "utf8"));
+  // 0007 IP başına saatlik lead limitini (`countLeadsSince`) indeksli sorguya çevirir.
+  raw.exec(readFileSync("migrations/0007_diagnoo_leads_ip_index.sql", "utf8"));
   return d1(raw);
 }

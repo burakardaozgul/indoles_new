@@ -22,6 +22,11 @@ import type { DiagnooReport, SnapshotView } from "@/lib/tools/diagnoo/schema";
  *
  * Durdukta durum `failed`e çekilir ve `failReason` sebebi taşır — çağıran
  * bileşen "sürüyor" göstermeye devam edip ziyaretçiyi bekletmesin.
+ *
+ * `inFlight` BEKÇİSİ: bir yanıt 2 saniyeden uzun sürerse (yavaş ağ, soğuk
+ * Workflow) araya giren tik yeni bir istek ATMAZ. Bekçi olmasaydı üst üste
+ * binen iki `fetch` aynı satırı iki kez okur, hangi yanıtın önce döneceği
+ * belirsizleşir ve daha ESKİ yanıt daha YENİsinin üzerine yazabilirdi.
  */
 
 const POLL_MS = 2000;
@@ -81,6 +86,7 @@ export function useDiagnooStatus(id: string | null): UseDiagnooStatus {
 
     let cancelled = false;
     let failures = 0;
+    let inFlight = false;
     let timer: ReturnType<typeof setInterval> | undefined;
 
     const stop = (): void => {
@@ -97,6 +103,10 @@ export function useDiagnooStatus(id: string | null): UseDiagnooStatus {
     };
 
     const poll = async (): Promise<void> => {
+      // Önceki yoklama hâlâ sürüyorsa bu tik atlanır — üst üste binen iki
+      // istek yerine bir sonraki tik yeni bir deneme başlatır.
+      if (inFlight) return;
+      inFlight = true;
       try {
         const res = await fetch(`/api/tools/diagnoo-status/${id}`);
         if (cancelled) return;
@@ -136,6 +146,8 @@ export function useDiagnooStatus(id: string | null): UseDiagnooStatus {
         if (cancelled) return;
         failures += 1;
         if (failures >= FAILURE_LIMIT) giveUp("network_error");
+      } finally {
+        inFlight = false;
       }
     };
 

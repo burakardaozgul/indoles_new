@@ -655,3 +655,63 @@ etiketin sınırlayıcı kutusuna girer ama harflerin arkasında değildir.
 
 Değerler `src/lib/v2/anim-config.ts` → `BLOB_TOOL_HERO`. Varyant seçimi
 `V2Chrome`'da route listesinden yapılır; sayfa dosyasına gömülmez.
+
+### 12.11 Nav'da ikincil vurgu — araç girişi (`.v2-nav-tools`)
+
+Burak kararı (2026-09-03): `/araclar` header'a girer, ama sıradan bir nav
+maddesi olarak değil. Nav'ın üç ağırlık kademesi bu kararla tamamlandı:
+
+| Kademe | Öğe | Malzeme | İşlev |
+|---|---|---|---|
+| Birincil | `.v2-nav-cta` | Dolu ink pill, beyaz metin | Tek eylem: görüşme |
+| **İkincil vurgu** | **`.v2-nav-tools`** | **Gold-100 yüzey + gold-700 hairline, ink-800 metin** | **Davet: ücretsiz araçlar** |
+| Sıradan | `.v2-nav-link` | Yüzeysiz, 0.75 opaklık, alt çizgi | Bölüm gezinmesi |
+
+**Ayrışma malzemeden gelir, boyuttan değil.** Araç girişi CTA ile aynı
+geometriyi (44px yükseklik, `999px` radius, 8px iç boşluk ritmi) ve aynı
+tipografiyi (Inter 13.5px/500) paylaşır. Fark yalnız yüzeydedir: CTA dolu ve
+koyu, araç girişi açık ve çerçeveli. Böylece ikisi bir *çift* olarak okunur —
+ikincil + birincil — ve araç girişi CTA'yı bastırmaz. Aynı gerekçeyle punto
+büyütülmez, ağırlık artırılmaz: nav'da iki "en önemli" öğe olamaz.
+
+**Dikkati renk kurar, hareket değil.** Nav'daki tek kromatik yüzey budur; şerit,
+logo, linkler ve CTA'nın tamamı ink/krem. Sıcak gold plaka soğuk krem tuvalde
+gözü kendiliğinden çeker. Pulse, glow, shimmer YOK (§12.6 ve §1
+"süsleme değil iletişim"): hover'da yüzey gold-300'e derinleşir ve CTA'nın
+`translateY(-1px)` imzası tekrarlanır, başka hiçbir şey.
+
+**Gold light zeminde burada meşrudur.** §3'ün "light zeminde birincil aksiyon
+siyahtır" kuralı korunuyor — birincil aksiyon hâlâ ink CTA'dır. Gold burada
+*birincil eylemin rengi* değil, *ikincil bir yüzeyin* rengidir; ADR-015'in tek
+accent disiplini içinde kalır, ikinci bir accent doğmaz.
+
+Ölçülen kontrast (token değerleri üzerinden, 2026-09-03):
+
+| Kombinasyon | Oran | Eşik | Durum |
+|---|---|---|---|
+| ink-800 metin / gold-100 yüzey | 16.45:1 | 4.5:1 | AAA |
+| ink-800 metin / gold-300 (hover) | 11.70:1 | 4.5:1 | AAA |
+| gold-700 kenarlık / bg (krem) | 4.36:1 | 3:1 (1.4.11) | Geçer |
+| gold-700 kenarlık / gold-100 (kendi dolgusu) | 3.78:1 | 3:1 (1.4.11) | Geçer |
+
+Kenarlık gold-500 DEĞİL: gold-500 krem üstünde 2.66:1 verir ve 1.4.11'in
+non-text 3:1 eşiğini geçmez — bir kontrolün sınırı olarak kullanılamaz.
+gold-600 (3.18:1) sınırda kaldığı için gold-700 seçildi.
+
+**Reddedilenler:** (1) mono + uppercase etiket — nav'da mono zaten dil
+değiştiricinin dilidir (11px, 0.55 opaklık); araç girişi o kademeye inseydi
+davet değil chrome utility'si gibi okunurdu, ayrıca `text-transform: uppercase`
+TR'de "ÜCRETSİZ"in noktalı İ'sini tarayıcı diline emanet ederdi. (2) Etiketin
+başında renkli nokta — mekanizma anlatmayan süs, ayrıca "canlı/durum"
+göstergesi gibi okunur. (3) Gold dolu pill — CTA ile aynı ağırlığa çıkar ve
+§3'ün light-zemin kuralını gerçekten deler.
+
+**`[data-nav-item]` kümesi değişmez.** Giriş animasyonu logo → linkler →
+aksiyonlar üçlüsünü ölçer; araç girişi `.v2-nav-actions`'ın *içine* girer ve
+grubun animasyonunu miras alır. Yeni bir ölçüm düğümü eklemek stagger sırasını
+ve nav'ın grid şablonunu değiştirirdi.
+
+**Masaüstü satırı 1180 → 1280px'e çekildi.** Beşinci link + logo + dil
+değiştirici + araç girişi + CTA 1180px'de artık sığmıyor. Eşik altında öğe
+gizlenmez, çekmeceye taşınır: çekmecede araç girişi link listesinin ÜSTÜNDE,
+tam genişlikte ve 52px yüksekliğinde durur (dokunma hedefi §9).

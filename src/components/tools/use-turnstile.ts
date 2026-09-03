@@ -21,10 +21,22 @@ import { useEffect, useRef, useState } from "react";
  */
 
 /**
- * Site anahtarı build'de yoksa widget hiç render edilmez (geliştirme ortamı).
- * Üretimde anahtar `wrangler secret` ile girilidir. Araç rotalarında Turnstile
- * KOŞULSUZ zorunludur (ADR-028 bayrağı bu rotaları kapsamaz) — bu bayrak
- * yalnız istemci tarafındaki render kararıdır.
+ * Site anahtarı build'de yoksa (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` boş) widget
+ * hiç render edilmez. Bu yalnız bir geliştirme kısayolu DEĞİL: ADR-028
+ * gereği bayrak LAUNCH'ta bilinçli olarak kapalıdır — Cloudflare'in challenge
+ * host'u (`brunhild.challenges.cloudflare.com`) yalnız IPv6 (AAAA) kaydı
+ * taşıyor, IPv4-only ağlardaki ziyaretçiler (TR ev/ofis hatlarının çoğunluğu)
+ * widget'ı hiç çözemiyor ve form süresiz kilitli kalıyordu. Anahtar geri
+ * girildiğinde (DNS düzelince — ADR-028'deki geri açma tetikleyicisi) tüm
+ * Turnstile yolu aynen döner.
+ *
+ * Bu bayrak TÜM formları kapsar — araç rotaları (`DiagnooForm`,
+ * `DiagnooUnlockForm`, `ReportGate`, `ScanBar`) da AYNI bayrağı hesaplar
+ * (`report-gate.tsx`, `scan-bar.tsx` kendi `TURNSTILE_ENABLED` sabitini
+ * ayrıca tanımlar — sembol paylaşılmaz, yalnız değer aynıdır), ayrı bir
+ * "koşulsuz zorunlu" istisnası yok. Bayrak kapalıyken
+ * savunma bal küpü + süre tuzağına düşer (`lib/security/anti-spam.ts`,
+ * ADR-028 "Yerine geçen savunma").
  */
 export const TURNSTILE_ENABLED = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 

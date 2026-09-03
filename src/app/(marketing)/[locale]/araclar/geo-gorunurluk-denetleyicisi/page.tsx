@@ -254,12 +254,18 @@ export default async function GeoVisibilityCheckerPage({
               <span className="eyebrow-bare mono text-ink-500">
                 {c.articlesLabel}
               </span>
-              <ul className="mt-3 divide-y divide-surface-2">
+              {/* Dikey ritim `<li>`de DEĞİL `<a>`de: dokunma hedefi bağlantının
+                  KENDİSİDİR, `<li>`nin padding'i hedefe sayılmaz (WCAG 2.2 AA
+                  SC 2.5.8) — `diagnoo` araç sayfasındaki AYNI düzeltme
+                  (2026-09-03), `py-3` `<li>`deyken hedef mobilde ~26 px'ti.
+                  `first:pt-0`/`last:pb-0` kırpması bu yüzden düştü, üstteki
+                  boşluk `mt-1`den geliyor. */}
+              <ul className="mt-1 divide-y divide-surface-2">
                 {geoArticles.map((a) => (
-                  <li key={a.slug[loc]} className="py-3 first:pt-0 last:pb-0">
+                  <li key={a.slug[loc]}>
                     <Link
                       href={localeHref(`/yazilar/${a.slug[loc]}`, loc)}
-                      className="group flex items-start justify-between gap-4"
+                      className="group flex items-start justify-between gap-4 py-3"
                     >
                       <span className="typography-body-md text-ink-800 group-hover:text-ink-900">
                         {a.title[loc]}

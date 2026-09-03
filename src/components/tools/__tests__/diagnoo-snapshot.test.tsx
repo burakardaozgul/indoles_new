@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { StrictMode } from "react";
 import { DiagnooSnapshot } from "../diagnoo-snapshot";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
 import { DIAGNOO_TOOL } from "@/lib/content/tools";
@@ -146,5 +147,34 @@ describe("DiagnooSnapshot", () => {
 
     expect(screen.getByLabelText("İş e-postanız")).toBeInTheDocument();
     expect(screen.getByLabelText("Şirket adı")).toBeInTheDocument();
+  });
+
+  it("kilitli kart maskesinde para birimi sembolü locale'e göre değişir (Faz 2 madde 2)", () => {
+    const { container: trContainer } = render(
+      <DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />,
+    );
+    // TR: ₺ — sabit "₺" değil, `Intl.NumberFormat("tr-TR", ...)`den türetilmiş.
+    expect(trContainer.textContent ?? "").toContain("₺ ——— – ₺ ———");
+
+    const { container: enContainer } = render(
+      <DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="en" />,
+    );
+    // EN: ICU verisi TRY'yi tanınmış bir sembole çözmez, "TRY" döner — sabit
+    // "₺" burada YANLIŞ sembol olurdu.
+    const enText = enContainer.textContent ?? "";
+    expect(enText).toContain("TRY ——— – TRY ———");
+    expect(enText).not.toContain("₺");
+  });
+
+  it("Ruling R... — StrictMode'da tool_scan_completed tam olarak bir kez atılır (Faz 2 madde 4)", () => {
+    render(
+      <StrictMode>
+        <DiagnooSnapshot snapshot={SNAPSHOT} bands={DIAGNOO_TOOL.bands} diagnosticId={ID} locale="tr" />
+      </StrictMode>,
+    );
+
+    // React 18+ StrictMode efektleri geliştirme modunda iki kez çalıştırır
+    // (mount → cleanup → mount); `trackedRef` guard'ı bunu tek olaya indirir.
+    expect(trackMock).toHaveBeenCalledTimes(1);
   });
 });

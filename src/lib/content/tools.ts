@@ -8,8 +8,8 @@ import type { Localized } from "./types";
  *
  * `/araclar` ailesinin tek metin kaynağı. Desen `articles.ts` / `topics.ts` ile
  * aynı: tipli kayıt + dizi, çeviri pariteleri typecheck ve `tools-content.test`
- * ile korunuyor. Şimdilik tek eleman (GEO Görünürlük Denetleyicisi); yapı yeni
- * araçlara hazır.
+ * ile korunuyor. İki eleman (GEO Görünürlük Denetleyicisi, Diagnoo — ikisi de
+ * 2026-09-03 itibarıyla `published: true`); yapı yeni araçlara hazır.
  *
  * Ton `docs/03-brand-voice-tone.md` §1'e göre ORTA — araç yüzeyi persona-aware
  * DEĞİL, teşhis dili nötr-analitik. Copy `indoles-brand-voice` skill'iyle
@@ -47,6 +47,22 @@ export type ToolSignal<I extends string = string> = {
 export type ToolFaq = {
   question: Localized<string>;
   answer: Localized<string>;
+};
+
+/**
+ * Üçgenin araç→makale ayağı (Faz 2 Görev 2). `articleSlugTr` `ARTICLES`teki
+ * kararlı TR slug'a bağlıdır — hayali bir slug `tools-content.test.ts`te
+ * DERLEME değil ÇALIŞMA ZAMANI hatası verir (araç kaydı burada jenerik
+ * `ToolContent` tipiyle değil, `articles.ts` gibi ayrı bir tip katmanıyla
+ * yazılmadığı için tip düzeyinde kilitlenemez). `paragraph` markdown-lite
+ * (`BlockRenderer`/`ArticleToolBridges`in paylaştığı `renderInline` ile
+ * aynı sözdizimi) ve aracın kanonik TR yolunu `[Ad](/araclar/<slug>)`
+ * biçiminde içerir — EN paragraf da aynı TR yolu yazar, `resolveInlineHref`
+ * EN slug'a çevirir (yazı/vaka/hizmet köprüleriyle aynı desen).
+ */
+export type ToolBridge = {
+  articleSlugTr: string;
+  paragraph: Localized<string>;
 };
 
 /**
@@ -93,6 +109,17 @@ export type ToolContent<B extends string = string, S extends string = string> = 
    * doğrular (içerik dürüstlüğü, docs/04 §10).
    */
   footnote: Localized<string>;
+  /** Aracın doğal bağlandığı hizmetler — TR slug; hizmet sayfası callout'u buradan okur (üçgenin hizmet→araç ayağı). */
+  relatedServices: string[];
+  /**
+   * Aracın doğal bağlandığı makaleler — üçgenin araç→makale ayağı (Faz 2
+   * Görev 2). Makale sayfası `bridgesForArticle` ile bu diziyi okur; kayıt
+   * `published: false` olduğu sürece hiçbir makalede görünmez (aynı bayrak,
+   * ADR-032). GEO'nun köprüleri zaten üç yazının gövdesinde inline durur
+   * (Görev 13) — o kayıt burada boş dizi taşır, aynı linki iki kez basmamak
+   * için.
+   */
+  bridges: ToolBridge[];
   /**
    * LANSMAN KAPISI. `false` iken araç yalnız doğrudan URL ile erişilebilir:
    * sitemap'e, `/araclar` listesine ve llms.txt'e girmez, sayfası `noindex`
@@ -312,6 +339,13 @@ export const GEO_TOOL: ToolContent<GeoBand, GeoCheckId> = {
     tr: "Eylül 2026 itibarıyla Türkçe pazarda benzer kapsamda kamuya açık bir GEO denetim aracı tespit etmedik.",
     en: "As of September 2026, we found no comparable, publicly available GEO audit tool for the Turkish-language market.",
   },
+  // GEO denetimi cevap motoru görünürlüğünü ölçer — AI danışmanlığı
+  // hizmetinin doğal devamı; başka bir hizmetin teşhis kapsamına girmez.
+  relatedServices: ["ai-danismanlik"],
+  // Köprüler zaten üç GEO yazısının gövdesinde inline duruyor (Görev 13);
+  // burada tekrarlanmaz — aynı linki iki kez basmak okuru yormaktan başka
+  // işe yaramaz.
+  bridges: [],
   published: true,
 };
 
@@ -335,8 +369,8 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
     en: "Seven pages, four dimensions, one score",
   },
   lede: {
-    tr: "Mağazanızın adresini girin; Diagnoo yedi kritik sayfayı tarar ve dört boyutta puanlar: mesaj tutarlılığı, arayüz yükü, hız ile satın alma akışı, ölçüm altyapısı. Ücretsiz anlık görünüm 100 üzerinden sağlık skorunu ve en yüksek etkili üç boşluğu verir; iş e-postanızla tam rapor, TL aralıkları ve yöntem ekiyle açılır.",
-    en: "Enter your store's address and Diagnoo scans seven critical pages, then scores four dimensions: message consistency, interface load, speed with the purchase flow, and the tracking setup. The free snapshot gives a health score out of 100 and the three gaps with the highest impact; a work e-mail opens the full report with lira ranges and a methodology appendix.",
+    tr: "Mağazanız satmaya hazır mı? Diagnoo'nun ücretsiz e-ticaret site analizi yedi kritik sayfayı tarar, 100 üzerinden puanlar ve kayıp cironuzu TL aralığı olarak yazar.",
+    en: "Is your store ready to sell? Diagnoo's free e-commerce site analysis scans seven critical pages, scores them out of 100 and puts your lost revenue in a lira range.",
   },
   // Kova sınırları `healthScoreBucket()` ile birebir; her cümle skorun hangi
   // boyutta kaybedildiğini söyler, genel bir değerlendirme vermez.
@@ -443,8 +477,8 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
         en: "What does Diagnoo measure?",
       },
       answer: {
-        tr: "Diagnoo bir e-ticaret mağazasının satış hazırlığını dört boyutta ölçer: metinlerin aynı vaadi söyleyip söylemediği, arayüzün ilk ekranda ne kadar yük bindirdiği, sayfaların mobil hızı ile satın alma akışındaki sürtünme, bir de ölçüm altyapısının eksikleri. Dört boyut 100 puanlık tek bir sağlık skorunda birleşir; skorun altında hangi boşluğun kaç puan götürdüğü ayrı ayrı yazar.",
-        en: "Diagnoo measures how ready an online store is to sell, across four dimensions: whether the copy states one consistent promise, how much load the first screen puts on a visitor, how fast the pages run on mobile together with the friction in the purchase flow, and what the tracking setup misses. The four dimensions merge into a single health score out of 100, and each gap shows how many points it costs.",
+        tr: "Diagnoo bir e-ticaret mağazasının satış hazırlığını dört boyutta ölçer: metinlerin aynı vaadi söyleyip söylemediği, arayüzün ilk ekranda ne kadar yük bindirdiği, sayfaların mobil hızı ile satın alma akışındaki sürtünme, bir de ölçüm altyapısının eksikleri. Dört boyut 100 puanlık tek bir sağlık skorunda birleşir; skorun altında hangi boşluğun kaç puan götürdüğü ayrı ayrı yazar. Diagnoo'nun ürettiği skor, satın alma akışına odaklanan bir CRO analizi olarak da okunabilir.",
+        en: "Diagnoo measures how ready an online store is to sell, across four dimensions: whether the copy states one consistent promise, how much load the first screen puts on a visitor, how fast the pages run on mobile together with the friction in the purchase flow, and what the tracking setup misses. The four dimensions merge into a single health score out of 100, and each gap shows how many points it costs. The score Diagnoo produces also works as a CRO analysis centred on the purchase flow.",
       },
     },
     {
@@ -463,8 +497,8 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
         en: "How does the report separate measured and estimated figures?",
       },
       answer: {
-        tr: "Rapordaki her girdi ölçüldü ya da tahmin edildi rozetiyle işaretlenir. Hız, ekran ve metin verileri doğrudan ölçülür. Trafik, sepet ortalaması, dönüşüm oranı ve reklam bütçesi sizde varsa forma girilir ve ölçülen sayı olarak işlenir; girmezseniz sektör kıyaslarından tahmin edilir. Parasal sonuçlar tek bir rakam değil, alt-beklenen-üst aralığı olarak yazılır; yöntem eki her sabiti kaynağıyla listeler.",
-        en: "Every input in the report carries a measured or an estimated badge. Speed, screen and copy data come from direct measurement. Traffic, average order value, conversion rate and ad spend are yours to supply in the form and then count as measured; leave them blank and sector benchmarks fill the gap as estimates. Money figures appear as a low-expected-high range rather than a single number, and the methodology appendix lists every constant with its source.",
+        tr: "Rapordaki her girdi ölçüldü ya da tahmin edildi rozetiyle işaretlenir. Hız, ekran ve metin verileri doğrudan ölçülür. Trafik, sepet ortalaması, dönüşüm oranı ve reklam bütçesi sizde varsa forma girilir ve ölçülen sayı olarak işlenir; girmezseniz sektör kıyaslarından tahmin edilir. Parasal sonuçlar tek bir rakam değil, alt-beklenen-üst aralığı olarak yazılır; yöntem eki her sabiti kaynağıyla listeler. Ölçülen ve tahmin edilen girdilerin ayrımı, eksik veriyle de çalışan gerçekçi bir dönüşüm oranı analizi üretir.",
+        en: "Every input in the report carries a measured or an estimated badge. Speed, screen and copy data come from direct measurement. Traffic, average order value, conversion rate and ad spend are yours to supply in the form and then count as measured; leave them blank and sector benchmarks fill the gap as estimates. Money figures appear as a low-expected-high range rather than a single number, and the methodology appendix lists every constant with its source. Separating measured inputs from estimated ones keeps the conversion rate analysis realistic even when parts of the data are missing.",
       },
     },
     {
@@ -512,10 +546,107 @@ export const DIAGNOO_TOOL: ToolContent<HealthScoreBucket, DiagnooSignalId> = {
     tr: "Eylül 2026 sürümü: tarama yedi sayfayla sınırlıdır, hız değerleri Google PageSpeed Insights'ın mobil ölçümünden gelir ve parasal sonuçlar aralık olarak verilir.",
     en: "September 2026 release: the scan covers seven pages, speed figures come from Google PageSpeed Insights on mobile, and money figures are given as ranges.",
   },
-  // Üç dış sır (`GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`) ve
-  // uzak D1 migration'ı (0004 + 0005) hazır olmadan araç gerçek veri
-  // üretemez; o ana kadar arama yüzeylerine girmez.
-  published: false,
+  // Diagnoo mağaza sağlığını ölçer — CRO, performans pazarlama ve
+  // e-ticaret danışmanlığının teşhis girişi; üçü de motorun taradığı
+  // dört boyutla (mesaj, arayüz, hız, ölçüm) doğrudan örtüşür.
+  relatedServices: ["cro", "performans-pazarlama", "e-ticaret"],
+  /**
+   * Üçgenin araç→makale ayağı (Faz 2 Görev 2). Hedef küme
+   * `ARTICLES.filter(a => ["cro","performans-pazarlama","e-ticaret"].includes(a.topic))`
+   * ile çıkan 8 yazıdan 7'si — her biri Diagnoo'nun dört boyutundan
+   * (mesaj/`semantic`, arayüz/`ux`, hız-huni/`speed-funnel`, ölçüm/`tracking`)
+   * yazının kendi somut örneğine en yakın olanına bağlanır. Yedinci yazı,
+   * `satis-ekibinizin-vaktini-harcamayin-b2bde-kaliteli-lead-toplama-rehberi`,
+   * bilinçli olarak dışarıda bırakıldı: konusu B2B teklif/CRM lead
+   * niteliği — Diagnoo'nun taradığı yedi sayfa (ana + kategori + ürün +
+   * ödeme) bir teklif portalında karşılığı yok, yazının savunduğu "formda
+   * bilinçli sürtünme" de Diagnoo'nun ödeme adımında sürtünme olarak
+   * saydığı şeylerin (zorunlu üyelik, uzun form) tam tersi bir mantık.
+   * Zorlama bir bağ kurmak yerine yazı bu listeden çıkarıldı.
+   */
+  bridges: [
+    {
+      // Tracking: yazının FAQ'ı "önce ölçüm, sonra kampanya" sırasını SOYLU
+      // AVM örneğiyle anlatıyor — Diagnoo'nun ölçüm sinyaliyle aynı iddia.
+      articleSlugTr: "gercek-e-ticaret-ajansinin-etkisi",
+      paragraph: {
+        tr: "Bu yazıda anlatılan sıra — önce ölçüm, sonra kampanya — gerçek bir e-ticaret ajansının attığı ilk adımdır; sıra bozulduğunda hangi kanalın sattığını kimse bilemez. Mağazanızın adresini girip [Diagnoo](/araclar/diagnoo) ile ücretsiz taratın: araç GA4, Meta Pixel ve oturum analitiği etiketlerinin kurulu olup olmadığını kontrol eder, eksik olanları tek tek listeler.",
+        en: "The order this article describes — measurement first, campaign second — is the opening move of a real e-commerce agency; get it wrong and nobody can tell which channel is actually selling. Enter your store's address and run a free scan with [Diagnoo](/araclar/diagnoo): it checks whether your GA4, Meta Pixel and session-analytics tags are installed and lists the missing ones one by one.",
+      },
+    },
+    {
+      // Speed-funnel: "Hata 2: Mobil optimizasyonu ihmal etmek" mobil hız ve
+      // küçük ekranda ödeme sürtünmesini anlatıyor — Diagnoo'nun hız-huni
+      // sinyaliyle aynı iki bileşen.
+      articleSlugTr: "7-onemli-performans-pazarlama-hatasi",
+      paragraph: {
+        tr: "Bu yazının ikinci hatası mobil optimizasyonu ihmal etmekti; aynı ihmal genelde ödeme adımına da taşınır. [Diagnoo](/araclar/diagnoo) mağazanızın mobil sayfa hızını PageSpeed Insights ile ölçer ve ödeme akışındaki zorunlu üyelik, uzun form ve geç görünen kargo bedeli gibi sürtünme noktalarını tek tek sayar; ücretsiz tarama hangi noktanın öncelikli olduğunu gösterir.",
+        en: "This article's second mistake was neglecting mobile optimisation, and that same neglect usually carries through to checkout. [Diagnoo](/araclar/diagnoo) reads your store's mobile page speed with PageSpeed Insights and counts the friction points in the purchase flow one by one — forced sign-up, a long form, a delivery charge that appears late — and the free scan shows which one to fix first.",
+      },
+    },
+    {
+      // UX: Kural 2 (görünür CTA) ve Kural 3 (sade düzen) birlikte
+      // Diagnoo'nun "arayüz yükü ve eylem çağrısı" sinyalinin tanımıyla
+      // (ekran görüntüsünden bilişsel yük + CTA görünürlüğü) örtüşüyor.
+      articleSlugTr: "donusum-optimizasyonu-yontemleri",
+      paragraph: {
+        tr: "Bu yazının ikinci ve üçüncü kuralları — görünür bir eylem çağrısı, sade bir düzen — [Diagnoo](/araclar/diagnoo)'nun ölçtüğü bir sinyalle örtüşür: araç, mağaza sayfalarınızın ekran görüntülerinden ilk ekranın bilişsel yükünü ve eylem çağrısının görünürlüğünü puanlar. Mağaza adresinizi girin, ücretsiz sağlık skoru yükün nerede biriktiğini gösterir.",
+        en: "Rules two and three in this article — a visible call to action, an uncluttered layout — line up with one of the signals [Diagnoo](/araclar/diagnoo) measures: it scores the cognitive load of the first screen and the visibility of the call to action from screenshots of your store's pages. Enter your store's address and the free health score shows where that load builds up.",
+      },
+    },
+    {
+      // Tracking: yazının dört maddesi de "ölçüm" ortak paydasına iniyor —
+      // piksel/dönüşüm izleme sırası aynı SOYLU AVM örneğiyle anlatılıyor.
+      articleSlugTr:
+        "sadece-trafik-degil-ciro-isteyenler-icin-2026-performans-pazarlama-trendleri",
+      paragraph: {
+        tr: "Bu yazıdaki dört maddenin ortak paydası ölçümdü: piksel ve dönüşüm izleme kurulmadan açılan bir kampanya, sonucu değil yalnız harcamayı raporlar. [Diagnoo](/araclar/diagnoo) mağazanızın GA4, Meta Pixel ve oturum analitiği etiketlerini ücretsiz kontrol eder — cironun gerçekte nereden geldiğini görmeden önce hangi etiketin eksik olduğunu bilmek gerekir.",
+        en: "The four items in this article all came down to one thing: measurement — a campaign launched before pixel and conversion tracking are in place reports spend, not results. [Diagnoo](/araclar/diagnoo) checks your store's GA4, Meta Pixel and session-analytics tags for free; knowing which tag is missing comes before knowing where your revenue actually comes from.",
+      },
+    },
+    {
+      // Speed-funnel: yazının "sepet terk oranı" bölümü Diagnoo'nun ödeme
+      // sürtünmesi listesiyle (zorunlu üyelik, uzun form, geç görünen
+      // kargo bedeli) neredeyse birebir aynı üç maddeyi sayıyor.
+      articleSlugTr: "cro-nedir",
+      paragraph: {
+        tr: "Bu yazıda sepet terk oranını yükselten beş neden sayılıyor; üçü — zorunlu üyelik, uzun form, geç görünen kargo bedeli — [Diagnoo](/araclar/diagnoo)'nun ödeme akışınızda tek tek saydığı sürtünme noktalarıyla birebir örtüşüyor. Mağazanızın adresini girin, araç bu noktaları ve mobil sayfa hızınızı ücretsiz olarak PageSpeed Insights ile ölçsün.",
+        en: "This article lists five reasons cart abandonment runs high; three of them — forced registration, a long form, a delivery charge that appears late — are exactly the friction points [Diagnoo](/araclar/diagnoo) counts one by one in your checkout flow. Enter your store's address and let the free scan measure those points and your mobile page speed with PageSpeed Insights.",
+      },
+    },
+    {
+      // Tracking: yazının ilk kriteri "ajans teste başlamadan önce ölçümü
+      // doğruluyor mu" — Diagnoo'nun kendisi bu doğrulamanın etiket kısmını
+      // ücretsiz yapıyor.
+      articleSlugTr: "cro-ajansi-nasil-secilir",
+      paragraph: {
+        tr: "Bu yazının ilk kriteri, bir CRO ajansının teste başlamadan önce ölçümü doğrulayıp doğrulamadığıdır; yanlış kurulmuş bir dönüşüm tanımı üzerine kurulan her test geçersizdir. [Diagnoo](/araclar/diagnoo) bu doğrulamanın bir kısmını ücretsiz yapar: GA4, Meta Pixel ve oturum analitiği etiketlerinin mağazanızda kurulu olup olmadığını kontrol eder.",
+        en: "This article's first criterion is whether a CRO agency validates measurement before it runs a single test — any test built on a badly defined conversion event is invalid. [Diagnoo](/araclar/diagnoo) does part of that validation for you at no cost: it checks whether your store has the GA4, Meta Pixel and session-analytics tags installed.",
+      },
+    },
+    {
+      // Dört boyut birden: yazı GAP analizini Diagnoo'nun kendi çerçevesiyle
+      // — yedi sayfa, dört boyut, TL aralığı, doksan günlük plan — anlatıyor
+      // ama gövdesinde araç linki taşımıyor (Faz 2 Görev 6): köprü yayın
+      // kapısı açıldığında yöntemi araçla buluşturur.
+      articleSlugTr: "e-ticaret-gap-analizi-cro-denetimi",
+      paragraph: {
+        tr: "Bu yazıda anlatılan denetimi elle kurmak bir ile iki iş günü tutar; aynı çerçeveyi otomatik koşturmak isterseniz [Diagnoo](/araclar/diagnoo) mağaza adresinizle aynı yedi sayfayı tarar ve dört boyutu aynı ağırlıklarla puanlar. Hesabın kendisi de burada anlatıldığı gibi çalışır: kayıp yalnız 2,5 saniyelik LCP eşiğinin üzerindeki gecikme için yazılır ve sonuç tek rakam değil TL aralığı olarak verilir.",
+        en: "Running the audit described here by hand takes one to two working days; if you would rather run the same framework automatically, [Diagnoo](/araclar/diagnoo) scans the same seven pages from your store address and scores the four dimensions on the same weights. The arithmetic works exactly as set out above: loss is written only for the delay above the 2.5-second LCP threshold, and the result comes back as a lira range rather than a single figure.",
+      },
+    },
+  ],
+  // LANSMAN — 2026-09-03, Burak kararı: "gizli olmasın, indeksimizi alalım,
+  // kullanıma sonra açarız zaten şu an trafik yok". Üç dış sır
+  // (`GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`) ve uzak D1
+  // migration'larının (0004–0007) `--remote` koşusu HÂLÂ eksik — bilinçli
+  // olarak beklenmedi, çünkü trafik henüz sıfırken indeksleme saatini
+  // işletmenin maliyeti yok. Sırlar gelene kadar araç dürüst
+  // `scrape_failed` hatasıyla cevap verir (production'da doğrulandı, Faz 1);
+  // "yakında" veya bakım ekranı YOKTUR — hata durumu kendi başına doğru bir
+  // cevaptır. Sırlar ve migration tamamlandığında runbook'taki kalan adımlar
+  // izlenir (`docs/runbooks/diagnoo-ga4-kurulum.md`).
+  published: true,
 };
 
 /**
@@ -532,6 +663,39 @@ export const TOOLS: ToolContent[] = [GEO_TOOL, DIAGNOO_TOOL];
  */
 export function publishedTools(tools: ToolContent[] = TOOLS): ToolContent[] {
   return tools.filter((t) => t.published);
+}
+
+/**
+ * Üçgenin hizmet→araç ayağı. Hizmet sayfası (`ToolServiceCallout`) bu
+ * fonksiyonla kendi TR slug'ına bağlı araçları okur. `publishedTools()`
+ * üzerinden filtreler — lansman kapısı kapalıyken araç hiçbir hizmet
+ * sayfasında da görünmez (ADR-032 ile aynı bayrak, ikinci bir kontrol yok).
+ */
+export function toolsForService(serviceSlugTr: string): ToolContent[] {
+  return publishedTools().filter((t) => t.relatedServices.includes(serviceSlugTr));
+}
+
+/**
+ * Üçgenin araç→makale ayağı (Faz 2 Görev 2). Makale sayfası
+ * (`ArticleToolBridges`) bu fonksiyonla kendi TR slug'ına bağlı köprüleri
+ * okur. `publishedTools(tools)` üzerinden filtreler — lansman kapısı
+ * kapalıyken (Diagnoo bugün) hiçbir makalede köprü basılmaz, `toolsForService`
+ * ile aynı bayrak ve aynı gerekçe (ADR-032). `tools` parametresi
+ * `publishedTools`inkiyle aynı sebeple yalnız test içindir.
+ */
+export function bridgesForArticle(
+  articleSlugTr: string,
+  tools: ToolContent[] = TOOLS,
+): Array<{ tool: ToolContent; paragraph: Localized<string> }> {
+  const result: Array<{ tool: ToolContent; paragraph: Localized<string> }> = [];
+  for (const tool of publishedTools(tools)) {
+    for (const bridge of tool.bridges) {
+      if (bridge.articleSlugTr === articleSlugTr) {
+        result.push({ tool, paragraph: bridge.paragraph });
+      }
+    }
+  }
+  return result;
 }
 
 const BY_SLUG_TR = new Map(TOOLS.map((t) => [t.slug.tr, t]));

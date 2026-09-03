@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { ReportGate } from "@/components/tools/report-gate";
+import { RobotsMeta } from "@/components/tools/robots-meta";
 import { ScanBar, type ScanSubmission } from "@/components/tools/scan-bar";
 import { ScanStage } from "@/components/tools/scan-stage";
 import { ScoreCard } from "@/components/tools/score-card";
@@ -148,6 +149,13 @@ export function GeoTool({
         // odak programatik (`.focus()`), fokus halkası kullanıcı niyetini
         // yansıtmaz — kart zaten `scrollIntoView` ile görünür durumda.
         <div ref={cardRef} tabIndex={-1} className="scroll-mt-36 outline-none">
+          {/* Robots meta senkronu (Faz 2 madde 5): "tool" modunda sayfa
+              geçişi yok, URL `history.replaceState` ile sonuç adresine döner
+              ama DOM'daki meta etiketi araç sayfasının (indekslenebilir)
+              değerinde kalırdı — `/sonuc/[id]` sayfasının `noindex, follow`u
+              burada da uygulanır. `onNewScan` çağrılınca (madde: "result"
+              fazından çıkış) unmount olur, eski değer geri gelir. */}
+          <RobotsMeta content="noindex, follow" />
           <ToolHero tool={tool} locale={locale} variant="hidden" />
           <ScoreCard
             result={scan}

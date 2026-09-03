@@ -220,4 +220,63 @@ describe("DiagnooUnlockForm", () => {
       );
     });
   });
+
+  // ---- Faz 2 madde 3: aria-invalid yalnız "invalid" kodunda ----
+
+  it("sunucu 'invalid' dönerse e-posta ve şirket alanı aria-invalid olur, hata metnine aria-describedby ile bağlanır", async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 400,
+      json: async () => ({ error: "invalid" }),
+    });
+    render(<DiagnooUnlockForm diagnosticId={ID} locale="tr" onUnlocked={vi.fn()} />);
+
+    fillRequired();
+    fireEvent.click(screen.getByRole("checkbox"));
+    submit();
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent("Girilen bilgileri kontrol edip yeniden deneyin.");
+
+    const email = screen.getByLabelText("İş e-postanız");
+    const company = screen.getByLabelText("Şirket adı");
+    expect(email).toHaveAttribute("aria-invalid", "true");
+    expect(company).toHaveAttribute("aria-invalid", "true");
+    expect(email.getAttribute("aria-describedby")).toBe(alert.id);
+    expect(company.getAttribute("aria-describedby")).toBe(alert.id);
+  });
+
+  it("'invalid' DIŞINDAKİ bir hata kodunda e-posta/şirket alanı aria-invalid OLMAZ", async () => {
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 429,
+      json: async () => ({ error: "rate-limited" }),
+    });
+    render(<DiagnooUnlockForm diagnosticId={ID} locale="tr" onUnlocked={vi.fn()} />);
+
+    fillRequired();
+    fireEvent.click(screen.getByRole("checkbox"));
+    submit();
+
+    await screen.findByRole("alert");
+    const email = screen.getByLabelText("İş e-postanız");
+    const company = screen.getByLabelText("Şirket adı");
+    expect(email).not.toHaveAttribute("aria-invalid");
+    expect(company).not.toHaveAttribute("aria-invalid");
+  });
+
+  it("KVKK onayı eksikse (istemci hatası) e-posta/şirket alanı aria-invalid OLMAZ", () => {
+    render(<DiagnooUnlockForm diagnosticId={ID} locale="tr" onUnlocked={vi.fn()} />);
+
+    fillRequired();
+    submit();
+
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Devam etmek için KVKK onayını işaretleyin.",
+    );
+    const email = screen.getByLabelText("İş e-postanız");
+    const company = screen.getByLabelText("Şirket adı");
+    expect(email).not.toHaveAttribute("aria-invalid");
+    expect(company).not.toHaveAttribute("aria-invalid");
+  });
 });

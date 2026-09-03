@@ -7,16 +7,14 @@ import type { HealthScoreBucket } from "@/lib/analytics/events";
 import {
   BenchmarkRows,
   DiagnooReport as DiagnooReportView,
+  currencySymbol,
   formatRange,
 } from "@/components/tools/diagnoo-report";
 import { DiagnooUnlockForm } from "@/components/tools/diagnoo-unlock-form";
+import { CATEGORY_LABELS, Chip, PRIORITY_LABELS } from "@/components/tools/tool-labels";
 import { DIAGNOO_SLUG } from "@/lib/tools/diagnoo/signals";
 import type { Localized } from "@/lib/content/types";
-import type {
-  DiagnooReport,
-  RoadmapItem,
-  SnapshotView,
-} from "@/lib/tools/diagnoo/schema";
+import type { DiagnooReport, SnapshotView } from "@/lib/tools/diagnoo/schema";
 
 /**
  * Ücretsiz anlık görünüm — skor, kıyas, üç KİLİTLİ boşluk, fırsat aralığı ve
@@ -69,26 +67,8 @@ const COPY = {
   },
 } as const;
 
-const CATEGORY_LABELS: Record<
-  RoadmapItem["category"],
-  Record<"tr" | "en", string>
-> = {
-  speed: { tr: "Hız", en: "Speed" },
-  semantic: { tr: "Mesaj", en: "Messaging" },
-  ux: { tr: "Arayüz", en: "Interface" },
-  tracking: { tr: "Ölçüm", en: "Tracking" },
-  funnel: { tr: "Satın alma akışı", en: "Purchase flow" },
-};
-
-const PRIORITY_LABELS: Record<
-  RoadmapItem["priority"],
-  Record<"tr" | "en", string>
-> = {
-  critical: { tr: "Kritik", en: "Critical" },
-  high: { tr: "Yüksek", en: "High" },
-  medium: { tr: "Orta", en: "Medium" },
-  low: { tr: "Düşük", en: "Low" },
-};
+// `CATEGORY_LABELS`/`PRIORITY_LABELS`/`Chip` artık `tool-labels.tsx`te tek
+// kaynak — `diagnoo-report.tsx` AYNI üçlüyü okur (Faz 2 cila, madde 1).
 
 /**
  * Yarım daire gösterge — tek `<svg>`, grafik kütüphanesi yok.
@@ -250,12 +230,8 @@ export function DiagnooSnapshot({
                   className="v2-surface border-surface-2 rounded-xl border p-6"
                 >
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="typography-label border-ink-200 text-ink-600 inline-flex items-center rounded-full border px-3 py-1 tracking-widest uppercase">
-                      {CATEGORY_LABELS[gap.category][locale]}
-                    </span>
-                    <span className="typography-label border-ink-200 text-ink-600 inline-flex items-center rounded-full border px-3 py-1 tracking-widest uppercase">
-                      {PRIORITY_LABELS[gap.priority][locale]}
-                    </span>
+                    <Chip>{CATEGORY_LABELS[gap.category][locale]}</Chip>
+                    <Chip>{PRIORITY_LABELS[gap.priority][locale]}</Chip>
                   </div>
                   <h4 className="typography-h3 text-ink-900 mt-4">
                     {gap.title}
@@ -264,13 +240,15 @@ export function DiagnooSnapshot({
                     {gap.teaser}
                   </p>
                   {/* Maskeli yer tutucu — gerçek rakam BURADA YOK, uydurulmuş bir
-                  rakam da basılmaz. Maske süs değil, kilidin kendisi. */}
+                  rakam da basılmaz. Maske süs değil, kilidin kendisi. Para
+                  birimi sembolü locale'e göre türetilir: TR'de "₺", EN'de
+                  "TRY" — sabit "₺" EN ziyaretçiye yanlış sembol gösterirdi. */}
                   <p className="typography-caption text-ink-500 mt-4">
                     <span
                       className="mono tabular text-ink-300"
                       aria-hidden="true"
                     >
-                      ₺ ——— – ₺ ———
+                      {currencySymbol(locale)} ——— – {currencySymbol(locale)} ———
                     </span>{" "}
                     {c.lockedImpact}
                   </p>

@@ -8,6 +8,7 @@ import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { ARTICLES } from "@/lib/content/articles";
 import { SERVICES } from "@/lib/content/services";
 import { localeHref } from "@/lib/i18n/locale-href";
+import { diagnooOgImagePath, OG_DIAGNOO_ALT } from "@/lib/tools/diagnoo/share-meta";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
@@ -17,18 +18,22 @@ import {
   softwareApplicationLd,
   webPageLd,
 } from "@/lib/seo/json-ld";
-import type { Locale } from "@/lib/content/types";
+import type { Locale, ServiceContent } from "@/lib/content/types";
 
 /**
  * Diagnoo araç sayfası — `/araclar` ailesinin ikinci elemanı.
  *
- * Yapı GEO Görünürlük Denetleyicisi sayfasıyla birebir (hero + giriş alanı +
- * üç adım + sinyaller + SSS + devamı + JSON-LD grafiği): iki araç aynı
- * kalıpta okunmalı, ikinci araç kendi düzenini icat etmemeli. Metin kaynağı
+ * Kabuk GEO Görünürlük Denetleyicisi sayfasıyla BİREBİR (Faz 2 Görev 3): aynı
+ * 760px kolon (`max-w-tool`), aynı bölüm sırası (hero + üç adım + sinyaller +
+ * SSS + devamı + JSON-LD grafiği), aynı bölüm ritmi. İki araç aynı kalıpta
+ * okunmalı, ikinci araç kendi düzenini icat etmemeli. Metin kaynağı
  * `tools.ts`; burada yalnız bölüm başlıkları yaşar.
  *
- * Giriş yüzeyi `DiagnooTool` yuvasında: Görev 15 form ve ilerleme mantığını
- * o bileşenin içine yazar, bu dosya bir daha düzenlenmez.
+ * Hero'yu ve giriş alanını bu dosya BASMAZ: `DiagnooTool` `ToolHero`yu kendi
+ * aşamasına göre (`full` / `compact`) render eder ve form da o akışın içinde
+ * durur — GEO'da `GeoTool`un `ScanBar` ile yaptığının aynısı. `footnote` de
+ * GEO ile aynı şekilde sayfada BASILMAZ: iddia dipnotu SSS'te yaşıyor, hero
+ * altına ikinci bir kapsam paragrafı girmez.
  */
 const PATHS = {
   tr: "/tr/araclar/diagnoo",
@@ -39,8 +44,6 @@ const PATHS = {
 const COPY = {
   tr: {
     tools: "Araçlar",
-    proofLabel: "Kanıt",
-    formTitle: "Mağazanızı tarayın",
     stepsEyebrow: "Nasıl çalışır",
     stepsTitle: "Üç adım, iki ile dört dakika.",
     signalsEyebrow: "Ne ölçüyoruz",
@@ -50,13 +53,11 @@ const COPY = {
     faqTitle: "Taramadan önce en çok sorulanlar.",
     relatedEyebrow: "Devamı",
     relatedTitle: "Boşlukları kapatmak için.",
-    serviceLink: "E-ticaret danışmanlığı hizmeti",
+    servicesLabel: "Danışmanlık hizmetleri",
     articlesLabel: "Dönüşüm ve e-ticaret yazıları",
   },
   en: {
     tools: "Tools",
-    proofLabel: "Proof",
-    formTitle: "Scan your store",
     stepsEyebrow: "How it works",
     stepsTitle: "Three steps, two to four minutes.",
     signalsEyebrow: "What we measure",
@@ -66,7 +67,7 @@ const COPY = {
     faqTitle: "The questions asked most before a scan.",
     relatedEyebrow: "Next",
     relatedTitle: "To close the gaps.",
-    serviceLink: "E-commerce consultancy service",
+    servicesLabel: "Consultancy services",
     articlesLabel: "Conversion and e-commerce articles",
   },
 } as const;
@@ -84,6 +85,10 @@ export async function generateMetadata({
     description: tool.seo.description[loc],
     paths: PATHS,
     locale: loc,
+    // Araç kartı derleme zamanında üretilir (ADR-031, `pnpm og:diagnoo`).
+    // Alt metin `name`den gelmez: ad iki dilde de "Diagnoo", tek başına
+    // görselin ne gösterdiğini söylemiyor.
+    image: { url: diagnooOgImagePath(loc), alt: OG_DIAGNOO_ALT[loc] },
   });
   // Lansman kapısı (`published`, `tools.ts`): araç sırlar ve uzak migration
   // hazır olmadan gerçek veri üretemez. Sayfa iç doğrulama ve paylaşılan
@@ -107,10 +112,14 @@ export default async function DiagnooPage({
 
   const tool = DIAGNOO_TOOL;
 
-  // Üçgen çift yönlü link (ADR-030 deseni): araç → hizmet → yazı. Diagnoo
-  // e-ticaret teşhisi olduğu için hizmet ayağı e-ticaret danışmanlığı,
-  // yazı ayağı dönüşüm ve e-ticaret kümesi.
-  const ecommerceService = SERVICES.find((s) => s.slug.tr === "e-ticaret");
+  // Üçgen çift yönlü link (ADR-030 deseni): araç → hizmet → yazı. Hizmet
+  // ayağı artık `tools.ts`teki `relatedServices` kaydından okunur (Faz 2
+  // Görev 1) — hizmet sayfasındaki araç bloğu da AYNI diziyi okuyor, iki yön
+  // tek kaynaktan türediği için ayrışamaz. Sıra kaydın sırasıdır;
+  // `SERVICES` dizisinin sırası değil.
+  const relatedServices = tool.relatedServices
+    .map((slug) => SERVICES.find((s) => s.slug.tr === slug))
+    .filter((s): s is ServiceContent => s !== undefined);
   const relatedArticles = ARTICLES.filter(
     (a) => a.topic === "cro" || a.topic === "e-ticaret",
   ).slice(0, 3);
@@ -145,11 +154,13 @@ export default async function DiagnooPage({
         ]}
       />
 
-      {/* Araç hero — GEO sayfasıyla aynı hafif giriş: küçük breadcrumb +
-          eyebrow + araç adı (h1) + bilgilendirici intro. */}
+      {/* Araç hero + giriş — GEO ile aynı kabuk (`geo-gorunurluk-denetleyicisi`):
+          hero, giriş formu, ilerleme ve rapor tek adada (`DiagnooTool`). Sayfa
+          geçişi yok: ada 202 alınca URL'i `history.replaceState` ile rapor
+          adresine çeker. */}
       <section aria-labelledby="tool-h1" className="tool-hero">
         <div className="ds-container">
-          <div className="mx-auto max-w-prose-editorial">
+          <div className="mx-auto max-w-tool">
             <nav aria-label="Breadcrumb" className="v2-crumbs">
               <ol>
                 <li>
@@ -165,46 +176,14 @@ export default async function DiagnooPage({
                 </li>
               </ol>
             </nav>
-
-            <span className="eyebrow">{tool.eyebrow[loc]}</span>
-            <h1 id="tool-h1" className="typography-h1 text-ink-900 mt-4">
-              {tool.name[loc]}
-            </h1>
-            <p className="typography-body-lg text-ink-700 mt-5">{tool.lede[loc]}</p>
-            {/* Kanıt şeridi — GEO hero'sundaki (`geo-tool.tsx`) desenin aynısı:
-                dört kısa öğe, hepsi motorun gerçek davranışı. */}
-            <ul
-              className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-ink-600 typography-label"
-              aria-label={c.proofLabel}
-            >
-              {tool.proof.map((item) => (
-                <li key={item.tr}>{item[loc]}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Giriş alanı — sayfanın birincil aksiyonu, intro'nun hemen altında.
-          Başlık sr-only (GEO kararı): intro ile giriş arasına görsel bir
-          başlık girmez, başlık düzeni korunur. */}
-      <section aria-labelledby="scan-heading" className="ds-container pt-8 pb-16 md:pb-24">
-        <div className="mx-auto max-w-prose-editorial">
-          <h2 id="scan-heading" className="sr-only">
-            {c.formTitle}
-          </h2>
-          <div className="v2-surface border border-surface-2 rounded-2xl p-6 md:p-10">
             <DiagnooTool locale={loc} tool={tool} />
-            <p className="typography-caption text-ink-500 mt-6">
-              {tool.footnote[loc]}
-            </p>
           </div>
         </div>
       </section>
 
       {/* Nasıl çalışır — 3 adım, tek sütunda dikey liste. */}
       <section aria-labelledby="steps-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool pt-24 pb-16 border-t border-surface-2">
           <span className="eyebrow">{c.stepsEyebrow}</span>
           <h2 id="steps-heading" className="typography-h2 text-ink-900 mt-4">
             {c.stepsTitle}
@@ -229,7 +208,7 @@ export default async function DiagnooPage({
 
       {/* Ölçülen dört boyut — ağırlıklar `computeHealthScore` ile birebir. */}
       <section aria-labelledby="signals-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool py-16 border-t border-surface-2">
           <span className="eyebrow">{c.signalsEyebrow}</span>
           <h2 id="signals-heading" className="typography-h2 text-ink-900 mt-4">
             {c.signalsTitle}
@@ -257,7 +236,7 @@ export default async function DiagnooPage({
 
       {/* SSS — native <details>. */}
       <section aria-labelledby="faq-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool py-16 border-t border-surface-2">
           <span className="eyebrow">{c.faqEyebrow}</span>
           <h2 id="faq-heading" className="typography-h2 text-ink-900 mt-4">
             {c.faqTitle}
@@ -266,44 +245,67 @@ export default async function DiagnooPage({
         </div>
       </section>
 
-      {/* Devamı: hizmet + üç yazı, tek sütunda dikey. */}
+      {/* Devamı: üç hizmet + üç yazı, tek sütunda iki kart. */}
       <section aria-labelledby="related-heading" className="ds-container">
-        <div className="mx-auto max-w-prose-editorial py-16 border-t border-surface-2">
+        <div className="mx-auto max-w-tool py-16 border-t border-surface-2">
           <span className="eyebrow">{c.relatedEyebrow}</span>
           <h2 id="related-heading" className="typography-h2 text-ink-900 mt-4">
             {c.relatedTitle}
           </h2>
           <div className="mt-8 flex flex-col gap-6">
-            {ecommerceService ? (
-              <Link
-                href={localeHref(`/hizmetler/${ecommerceService.slug[loc]}`, loc)}
-                className="group block v2-surface border border-surface-2 rounded-xl p-6"
-              >
+            {/* Hizmet ayağı GEO'da tek kart tek hizmettir; Diagnoo üç hizmete
+                bağlanıyor (`relatedServices`), o yüzden aynı kart yazı
+                listesiyle aynı dizilime düşer: bir mono etiket + bölmeli
+                liste. Üç kez tekrarlanan blok-link kartı hem etiketi hem
+                hizmet adını iki kez okuturdu. */}
+            {relatedServices.length > 0 ? (
+              <div className="v2-surface border border-surface-2 rounded-xl p-6">
                 <span className="eyebrow-bare mono text-ink-500">
-                  {c.serviceLink}
+                  {c.servicesLabel}
                 </span>
-                <h3 className="typography-h3 text-ink-900 mt-3">
-                  {ecommerceService.name[loc]}
-                </h3>
-                <span
-                  aria-hidden="true"
-                  className="arrow text-ink-900 mt-4 inline-block"
-                >
-                  →
-                </span>
-              </Link>
+                {/* Dikey ritim `<li>`de DEĞİL `<a>`de: dokunma hedefi bağlantının
+                    KENDİSİDİR, `<li>`nin padding'i hedefe sayılmaz (WCAG 2.2 AA
+                    SC 2.5.8). Hizmet adları tek satır — `py-3` ile satır 49 px'e
+                    çıkar; padding dışarıda kalsaydı hedef 26 px olurdu (2026-09-03
+                    `diagnoo-tool-responsive` ölçümü). `first:pt-0`/`last:pb-0`
+                    kırpması bu yüzden düştü, üstteki boşluk `mt-1`den geliyor. */}
+                <ul className="mt-1 divide-y divide-surface-2">
+                  {relatedServices.map((service) => (
+                    <li key={service.slug.tr}>
+                      <Link
+                        href={localeHref(`/hizmetler/${service.slug[loc]}`, loc)}
+                        className="group flex items-start justify-between gap-4 py-3"
+                      >
+                        <span className="typography-body-md text-ink-800 group-hover:text-ink-900">
+                          {service.name[loc]}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="arrow text-ink-500 shrink-0"
+                        >
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : null}
 
             <div className="v2-surface border border-surface-2 rounded-xl p-6">
               <span className="eyebrow-bare mono text-ink-500">
                 {c.articlesLabel}
               </span>
-              <ul className="mt-3 divide-y divide-surface-2">
+              {/* Padding yukarıdakiyle aynı gerekçeyle bağlantının içinde:
+                  başlıklar bugün mobilde iki satıra sarıp hedefi tesadüfen 44
+                  px'in üstüne çıkarıyor, ama kısa başlıklı bir yazı eklendiği
+                  gün sessizce düşerdi. */}
+              <ul className="mt-1 divide-y divide-surface-2">
                 {relatedArticles.map((a) => (
-                  <li key={a.slug[loc]} className="py-3 first:pt-0 last:pb-0">
+                  <li key={a.slug[loc]}>
                     <Link
                       href={localeHref(`/yazilar/${a.slug[loc]}`, loc)}
-                      className="group flex items-start justify-between gap-4"
+                      className="group flex items-start justify-between gap-4 py-3"
                     >
                       <span className="typography-body-md text-ink-800 group-hover:text-ink-900">
                         {a.title[loc]}

@@ -42,6 +42,11 @@ const COPY = {
       turnstile: "Güvenlik doğrulaması geçmedi; sayfayı yenileyip tekrar deneyin.",
       rateLimited: "Günlük tarama sınırına ulaşıldı. Yarın tekrar deneyin.",
       unavailable: "Araç şu an yanıt veremiyor, birazdan tekrar deneyin.",
+      // Lansman düzeltme dalgası madde A: motor anahtarları (Gemini/
+      // Firecrawl) üretimde henüz tanımlı değil — Burak'ın kararı "kullanıma
+      // sonra açarız". Suç ziyaretçinin sitesine atılmaz, tarih vaat edilmez.
+      notConfigured:
+        "Diagnoo'nun tarama motoru henüz kullanıma açılmadı. Aracı yakında devreye alıyoruz.",
       generic: "Tarama başlatılamadı, birazdan tekrar deneyin.",
     },
   },
@@ -58,6 +63,8 @@ const COPY = {
       turnstile: "The security check did not pass; refresh the page and try again.",
       rateLimited: "The daily scan limit has been reached. Try again tomorrow.",
       unavailable: "The tool cannot respond right now. Try again shortly.",
+      notConfigured:
+        "Diagnoo's scanning engine is not switched on yet. We will bring the tool online shortly.",
       generic: "The scan could not be started. Try again shortly.",
     },
   },
@@ -66,12 +73,15 @@ const COPY = {
 type ErrorKind = keyof (typeof COPY)["tr"]["errors"];
 
 // `misconfigured` araç tarafı config eksikliğidir, kullanıcının hatası değil —
-// nötr "yanıt veremiyor" cümlesine düşer.
+// nötr "yanıt veremiyor" cümlesine düşer. `not-configured` (Lansman düzeltme
+// dalgası madde A) AYRI bir durum: araç arızalı değil, kullanıma HENÜZ
+// açılmadı — kendi dürüst cümlesine düşer, "unavailable"a karıştırılmaz.
 const ERROR_MAP: Record<string, ErrorKind> = {
   invalid: "invalid",
   "turnstile-failed": "turnstile",
   "rate-limited": "rateLimited",
   misconfigured: "unavailable",
+  "not-configured": "notConfigured",
 };
 
 export function DiagnooForm({
@@ -154,8 +164,13 @@ export function DiagnooForm({
 
   const urlId = `${uid}-url`;
   const hintId = `${uid}-url-hint`;
+  const errorId = `${uid}-url-error`;
   const submitting = state === "submitting";
   const tokenBlocking = TURNSTILE_ENABLED && !turnstileToken;
+  // Tek alanlı form — ama `aria-invalid` yine de yalnız "invalid" kodunda
+  // basılır. Diğer hata türleri (rate limit, turnstile, sunucu arızası)
+  // alan HATASI değil; ziyaretçinin doğru yazdığı adresi hatalı gösterirdi.
+  const urlInvalid = state === "error" && errorKind === "invalid";
 
   let hint: string | null = null;
   if (!submitting && turnstileError === "unavailable") hint = c.turnstileUnavailable;
@@ -177,8 +192,8 @@ export function DiagnooForm({
             placeholder={c.urlPlaceholder}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            aria-invalid={state === "error" ? true : undefined}
-            aria-describedby={hintId}
+            aria-invalid={urlInvalid ? true : undefined}
+            aria-describedby={urlInvalid ? `${hintId} ${errorId}` : hintId}
             className="flex-1"
           />
           <Button
@@ -190,7 +205,12 @@ export function DiagnooForm({
             {submitting ? c.submitting : c.submit}
           </Button>
         </div>
-        <p id={hintId} className="typography-caption text-ink-500 mt-2">
+        {/* `ink-600`, `ink-500` değil (Faz 2 Görev 3): form artık hero
+            akışında, yani blobun sıcak gövdesinin üstünde duruyor. Ölçümde
+            `ink-500` krem üstünde 4.34, blob üstünde 2.89'a iniyordu
+            (2026-09-02, docs/04 §12.10) — GEO'nun `inputHelp` satırı da aynı
+            gerekçeyle `ink-600`. */}
+        <p id={hintId} className="typography-caption text-ink-600 mt-2">
           {inputHelp}
         </p>
       </div>
@@ -220,7 +240,7 @@ export function DiagnooForm({
       </div>
 
       {state === "error" ? (
-        <p role="alert" className="typography-caption text-danger-700">
+        <p id={errorId} role="alert" className="typography-caption text-danger-700">
           {c.errors[errorKind]}
         </p>
       ) : null}

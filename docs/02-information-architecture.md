@@ -39,6 +39,14 @@ Nisan sürümünde tanımlı olan aşağıdaki alanlar **yoktur** ve bu doküman
 
 Pillar isimleri (Growth, Transform, Build) navigasyonda ayrı madde değildir; `/hizmetler` altında yaşarlar ve her iki dilde de İngilizce kalır — marka terminolojisidir.
 
+**`/araclar` bu listede değildir — ayrı bir kademedir** (Burak, 2026-09-03:
+"normal nav olmamalı, dikkat çekici bir buton"). Nav'ın sağ aksiyon şeridinde,
+dil değiştirici ile birincil CTA arasında, çerçeveli bir pill olarak durur
+(`.v2-nav-tools`); çekmecede link listesinin üstünde tam genişlikte tekrar
+eder. Etiket `common.nav.tools` — TR "Ücretsiz Araçlar" / EN "Free Tools";
+"ücretsiz" bir vaat değil doğrulanabilir bir olgudur (araçlar giriş, ödeme ve
+kayıt istemez). Görsel gerekçe ve kontrast ölçümleri: `docs/04` §12.11.
+
 **Danışmanlar nav'da değildir** (Burak, 2026-08-19). Kadro `/hakkimizda` ile
 birleştirilecek; birleşene kadar `/danismanlar` sayfası ve footer bağlantısı
 duruyor, yalnız birincil navigasyondan çıktı.
@@ -55,6 +63,7 @@ Link seti iki chrome'da da aynıdır: `(marketing)/[locale]/layout.tsx` ve
 | Öğe | Konum | Davranış |
 |---|---|---|
 | Dil değiştirici | Nav sağ | Bulunulan sayfanın karşı dildeki karşılığına gider |
+| Araç girişi | Nav sağ, dil değiştirici ile CTA arasında | `/araclar`'a gider; sıradan nav linki değil, ikincil vurgu kademesi (`docs/04` §12.11) |
 | Birincil CTA | Nav sağ, sabit | "Görüşme rezerve et" |
 | Siyah bilgi şeridi | Sayfanın en üstü, sabit | Telefon, e-posta, konum, çalışma saati, sosyal |
 
@@ -77,7 +86,7 @@ kaynaktan gelir ve iki dilde aynıdır. Haritada olmayan route'lar (ör. `/v2`)
 | Chrome | Kırılım | Davranış |
 |---|---|---|
 | `(marketing)` `SiteNav` | ≤960px | Hamburger → nav pill'in içinde çekmece; cam katman opaklaşır (`.nav-open`) |
-| v2 `V2Nav` | ≤1180px | Hamburger → tam ekran çekmece; nav opaklaşır, sayfa kaymaz, `Esc` kapatır |
+| v2 `V2Nav` | ≤1280px | Hamburger → tam ekran çekmece; nav opaklaşır, sayfa kaymaz, `Esc` kapatır. Eşik 2026-09-03'te 1180'den çekildi: araç girişi masaüstü satırına eklendi (`docs/04` §12.11) |
 
 v2'de kırılım 1180px'tir çünkü beş link + büyük logo + iki aksiyon bu
 genişlikten sonra sığmıyor. Çekmece kapalıyken DOM'da kalır ama `inert`'tir:
@@ -154,8 +163,10 @@ kendi boru hattını (`src/lib/tools/diagnoo/`) kullanır. Detay: ADR-030,
 - `findings` (detaylı bulgular) yalnız KVKK rızalı rapor akışında
   (`POST /api/tools/geo-report`) döner; ne public tarama yanıtında ne de
   paylaşım sonuç sayfasında görünür (ADR-030 carry-note 3).
-- `/araclar` birincil navigasyonda **değil** — erişim üçgen çift yönlü
-  linklerle (araç ↔ `/hizmetler/ai-danismanlik` ↔ GEO yazıları).
+- `/araclar` birincil nav link setinde **değil**, ama 2026-09-03'ten beri
+  header'da kendi kademesi var: ayrı vurgulu buton (bkz. §1 Navigasyon).
+  İçerik tarafındaki erişim üçgeni değişmedi — araç ↔
+  `/hizmetler/ai-danismanlik` ↔ GEO yazıları çift yönlü linkler.
 
 ### Anasayfa — sürekli sahne
 

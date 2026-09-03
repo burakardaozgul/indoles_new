@@ -422,6 +422,37 @@
 .v2-nav-cta svg { transition: transform 0.3s var(--ease-out); }
 .v2-nav-cta:hover svg { transform: translate(2px, -2px); }
 
+/* Araç girişi — nav'ın ikincil vurgu kademesi (docs/04 §12.11).
+
+   CTA ile aynı geometri ve tipografi, farklı malzeme: CTA dolu ve koyu,
+   bu açık ve çerçeveli. Nav'daki tek kromatik yüzey olduğu için dikkat
+   kendiliğinden buraya düşer — parlama/pulse gerekmez.
+
+   Kenarlık gold-700: gold-500 krem üstünde 2.66:1 verir ve WCAG 1.4.11'in
+   non-text 3:1 eşiğini geçmez, bir kontrolün sınırı olamaz. */
+.v2-nav-tools {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding-inline: 18px;
+  border: 1px solid var(--color-gold-700);
+  border-radius: 999px;
+  background: var(--color-gold-100);
+  color: var(--color-ink-800);
+  font-size: 13.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+.v2-nav-tools:hover,
+.v2-nav-tools[aria-current="page"] {
+  background: var(--color-gold-300);
+}
+.v2-nav-tools:hover { transform: translateY(-1px); }
+
 /* --- Burger + çekmece ----------------------------------------------------- */
 
 .v2-nav-burger {
@@ -468,6 +499,14 @@
   opacity: 1;
   transform: translateY(0);
 }
+/* Çekmecenin üst bloğu: araç girişi + link listesi tek grup olur, böylece
+   panelin `space-between` dağılımı iki çocuk görmeye devam eder (araç girişi
+   üçüncü çocuk olsaydı liste panelin ortasında asılı kalırdı). */
+.v2-nav-drawer-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 .v2-nav-drawer ul {
   list-style: none;
   margin: 0;
@@ -475,6 +514,16 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+/* Çekmecede tam genişlik ve daha yüksek gövde — dokunma hedefi 44px'in
+   üstünde kalsın (375px'te ölçüldü). */
+.v2-nav-tools.is-drawer {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  min-height: 52px;
+  padding-block: 12px;
+  font-size: 15px;
 }
 .v2-nav-drawer-link {
   display: block;
@@ -498,8 +547,9 @@
 
 /* --- Chrome kırılımları --------------------------------------------------- */
 
-@media (max-width: 1180px) {
-  /* Beş link + büyük logo + iki aksiyon bu genişlikten sonra sığmıyor. */
+@media (max-width: 1280px) {
+  /* Beş link + büyük logo + dil değiştirici + araç girişi + CTA bu
+     genişlikten sonra sığmıyor (docs/04 §12.11 — eşik 1180'den çekildi). */
   .v2-nav-links,
   .v2-nav-actions { display: none; }
   .v2-nav-burger { display: block; }
@@ -533,6 +583,7 @@
   .v2-nav-drawer,
   .v2-nav-link::after,
   .v2-nav-cta,
+  .v2-nav-tools,
   .v2-nav-burger span {
     transition: none;
   }

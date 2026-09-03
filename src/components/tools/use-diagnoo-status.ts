@@ -22,10 +22,28 @@ import type { DiagnooReport, SnapshotView } from "@/lib/tools/diagnoo/schema";
  *
  * Durdukta durum `failed`e çekilir ve `failReason` sebebi taşır — çağıran
  * bileşen "sürüyor" göstermeye devam edip ziyaretçiyi bekletmesin.
+ *
+ * `inFlight` BEKÇİSİ: bir yanıt 2 saniyeden uzun sürerse (yavaş ağ, soğuk
+ * Workflow) araya giren tik yeni bir istek ATMAZ. Bekçi olmasaydı üst üste
+ * binen iki `fetch` aynı satırı iki kez okur, hangi yanıtın önce döneceği
+ * belirsizleşir ve daha ESKİ yanıt daha YENİsinin üzerine yazabilirdi.
+ *
+ * Bekçinin kendisi SÜRESİZ değil (final review düzeltmesi): `fetch` hiç
+ * settle etmezse (askıda bağlantı, donmuş Worker) ne `catch` ne `finally`
+ * çalışır, `inFlight` kalıcı `true` kalır ve yoklama sonsuza dek durur —
+ * `failures` hiç artmaz, `giveUp("network_error")` hiç tetiklenmez. Her
+ * yoklama kendi `AbortController`'ı ve son teslim tarihiyle (`POLL_TIMEOUT_MS`)
+ * çalışır: süre dolunca istek abort edilir, bu ağ hatasıyla AYNI yoldan
+ * `failures`i artırır — üç ardışık "askıda kalma" da tıpkı üç ardışık ağ
+ * hatası gibi `giveUp` tetikler.
  */
 
 const POLL_MS = 2000;
 const FAILURE_LIMIT = 3;
+// Bir yoklamanın en fazla ne kadar askıda kalabileceği — `POLL_MS`in üç
+// katı: iki-üç tikin gecikmesine tolerans tanır ama donmuş bir bağlantıyı
+// sonsuza dek beklemez.
+const POLL_TIMEOUT_MS = POLL_MS * 3;
 
 export type DiagnooStatusValue = "queued" | "running" | "completed" | "failed";
 
@@ -81,7 +99,10 @@ export function useDiagnooStatus(id: string | null): UseDiagnooStatus {
 
     let cancelled = false;
     let failures = 0;
+    let inFlight = false;
     let timer: ReturnType<typeof setInterval> | undefined;
+    // Açık kalan tek `AbortController` — unmount'ta askıdaki isteği de kapatır.
+    let activeController: AbortController | undefined;
 
     const stop = (): void => {
       if (timer !== undefined) {
@@ -97,8 +118,15 @@ export function useDiagnooStatus(id: string | null): UseDiagnooStatus {
     };
 
     const poll = async (): Promise<void> => {
+      // Önceki yoklama hâlâ sürüyorsa bu tik atlanır — üst üste binen iki
+      // istek yerine bir sonraki tik yeni bir deneme başlatır.
+      if (inFlight) return;
+      inFlight = true;
+      const controller = new AbortController();
+      activeController = controller;
+      const timeoutTimer = setTimeout(() => controller.abort(), POLL_TIMEOUT_MS);
       try {
-        const res = await fetch(`/api/tools/diagnoo-status/${id}`);
+        const res = await fetch(`/api/tools/diagnoo-status/${id}`, { signal: controller.signal });
         if (cancelled) return;
 
         if (res.status === 404) {
@@ -133,9 +161,16 @@ export function useDiagnooStatus(id: string | null): UseDiagnooStatus {
         });
         if (body.status === "completed" || body.status === "failed") stop();
       } catch {
+        // `AbortError` (zaman aşımı) ağ hatasıyla AYNI yoldan sayılır —
+        // özel olarak yutulmaz: ikisi de ziyaretçi için aynı sonucu taşır,
+        // yoklama okunamadı.
         if (cancelled) return;
         failures += 1;
         if (failures >= FAILURE_LIMIT) giveUp("network_error");
+      } finally {
+        clearTimeout(timeoutTimer);
+        inFlight = false;
+        activeController = undefined;
       }
     };
 
@@ -147,6 +182,7 @@ export function useDiagnooStatus(id: string | null): UseDiagnooStatus {
     return () => {
       cancelled = true;
       stop();
+      activeController?.abort();
     };
   }, [id, attempt]);
 

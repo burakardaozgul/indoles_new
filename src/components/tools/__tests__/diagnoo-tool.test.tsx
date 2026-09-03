@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
 import { DiagnooTool } from "../diagnoo-tool";
 import { DIAGNOO_TOOL } from "@/lib/content/tools";
 import { toSnapshot } from "@/lib/tools/diagnoo/schema";
@@ -179,5 +179,144 @@ describe("DiagnooTool — geçişlerin erişilebilirliği", () => {
     await waitFor(() => {
       expect(live).toHaveTextContent("Tarama tamamlandı. Rapor açık.");
     });
+  });
+
+  // ---- Faz 2 madde 5: robots meta senkronu ----
+
+  it("boşta robots meta etiketi YOK; snapshot/rapor/failed fazında noindex,follow olur", async () => {
+    document.head.querySelectorAll('meta[name="robots"]').forEach((el) => el.remove());
+    mockFlow(statusBody());
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    expect(document.querySelector('meta[name="robots"]')).toBeNull();
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: /anlık görünüm/ })).toBeInTheDocument();
+    });
+    // `RobotsMeta`nın DOM güncellemesi kendi (pasif) efektinde olur, başlığın
+    // göründüğü commit'le AYNI anda değil — ayrı bir `waitFor` yarış
+    // durumunu engeller.
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "noindex, follow",
+      );
+    });
+  });
+
+  it("başarısız taramada da robots noindex,follow olur; yeni taramaya dönünce eski değere döner", async () => {
+    const existing = document.createElement("meta");
+    existing.name = "robots";
+    existing.content = "index, follow";
+    document.head.appendChild(existing);
+
+    mockFlow(statusBody({ status: "failed", failReason: "scrape_failed", snapshot: null }));
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "noindex, follow",
+      );
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Yeni tarama başlat" }));
+
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "index, follow",
+      );
+    });
+  });
+
+  it("running fazında (tarama sürerken) da robots noindex,follow olur (F6 final review)", async () => {
+    // Kusur: `onStarted` URL'i `running` fazının BAŞINDA rapor yoluna
+    // yazıyordu ama meta koşulu `running`i kapsamıyordu — tarama süren
+    // 2-4 dakika boyunca adres çubuğu rapor URL'i gösterirken DOM'daki
+    // robots direktifi landing'inki (indekslenebilir) kalıyordu.
+    document.head.querySelectorAll('meta[name="robots"]').forEach((el) => el.remove());
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, status: 202, json: async () => ({ id: ID, reused: false }) })
+      .mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: async () => statusBody({ status: "running", currentStep: "vision", progressPct: 40, snapshot: null }),
+      });
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+    expect(document.querySelector('meta[name="robots"]')).toBeNull();
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.getByRole("heading", { name: `${TOOL.name.tr} — tarama sürüyor` })).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute(
+        "content",
+        "noindex, follow",
+      );
+    });
+  });
+});
+
+/**
+ * Landing paritesi (Faz 2 Görev 3) — araç adası artık kendi hero'sunu basıyor.
+ *
+ * GEO ile aynı kabuk: `ToolHero` boşta `full` (eyebrow + h1 + lede), tarama
+ * başlar başlamaz `compact` (yalnız eyebrow + h1). Kanıt şeridi de GEO'daki
+ * gibi yalnız boştaki ekranda durur — tarama sürerken ilerlemeyle yarışmaz.
+ */
+describe("DiagnooTool — GEO v2 hero paritesi", () => {
+  beforeEach(() => {
+    trackMock.mockReset();
+    vi.spyOn(window.history, "replaceState").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
+
+  it("boş ekranda ToolHero'yu tam varyantta ve dört kanıt öğesini basar", () => {
+    mockFlow(statusBody());
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: TOOL.name.tr }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(TOOL.eyebrow.tr)).toBeInTheDocument();
+    expect(screen.getByText(TOOL.lede.tr)).toBeInTheDocument();
+
+    const proof = screen.getByRole("list", { name: "Kanıt" });
+    expect(within(proof).getAllByRole("listitem")).toHaveLength(4);
+    expect(within(proof).getByText(TOOL.proof[0]!.tr)).toBeInTheDocument();
+  });
+
+  it("tarama başlayınca hero compact'e düşer: lede ve kanıt şeridi kalkar", async () => {
+    mockFlow(statusBody());
+    render(<DiagnooTool locale="tr" tool={TOOL} />);
+
+    startScan();
+
+    await waitFor(() => {
+      expect(screen.queryByRole("list", { name: "Kanıt" })).toBeNull();
+    });
+    expect(screen.queryByText(TOOL.lede.tr)).toBeNull();
+    // Başlık düzeni bozulmaz: h1 her fazda DOM'da ve tek.
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    expect(
+      screen.getByRole("heading", { level: 1, name: TOOL.name.tr }),
+    ).toBeInTheDocument();
   });
 });

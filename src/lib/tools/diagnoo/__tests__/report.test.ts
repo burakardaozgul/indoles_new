@@ -1,6 +1,17 @@
 import { describe, it, expect } from "vitest";
-import { computeHealthScore, scaleRoadmapImpacts, recomputeWithKnownMetrics } from "../report";
+import { computeHealthScore, scaleImpact, scaleRoadmapImpacts, recomputeWithKnownMetrics } from "../report";
 import { sampleReport } from "./fixtures";
+
+describe("scaleImpact", () => {
+  // `scaleRoadmapImpacts` ve `recomputeWithKnownMetrics` AYNI yuvarlama
+  // kuralını iki yerde tekrarlıyordu; tek yardımcı ikisinin de tek kaynağı.
+  it("low/expected/high'ı faktörle çarpıp en yakın tam sayıya yuvarlar", () => {
+    expect(scaleImpact({ low: 10, expected: 20, high: 30 }, 0.5)).toEqual({ low: 5, expected: 10, high: 15 });
+  });
+  it("faktör 1 ise değerleri değiştirmez", () => {
+    expect(scaleImpact({ low: 7, expected: 11, high: 13 }, 1)).toEqual({ low: 7, expected: 11, high: 13 });
+  });
+});
 
 describe("computeHealthScore", () => {
   const base = sampleReport();

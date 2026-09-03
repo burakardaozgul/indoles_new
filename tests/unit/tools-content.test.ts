@@ -1,6 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { TOOLS, publishedTools, DIAGNOO_TOOL, GEO_TOOL } from "@/lib/content/tools";
+import {
+  TOOLS,
+  publishedTools,
+  DIAGNOO_TOOL,
+  GEO_TOOL,
+  toolsForService,
+  bridgesForArticle,
+} from "@/lib/content/tools";
 import type { ToolContent } from "@/lib/content/tools";
+import { SERVICES } from "@/lib/content/services";
+import { ARTICLES } from "@/lib/content/articles";
 
 const LOCALES = ["tr", "en"] as const;
 
@@ -196,25 +205,44 @@ describe("Diagnoo kaydı", () => {
     expect(diagnoo!.steps.length).toBe(3);
   });
 
-  it("lansman kapısı kapalı: published false", () => {
-    // Araç, sırlar ve uzak migration hazır olana kadar arama yüzeylerine
-    // (sitemap, llms.txt, /araclar listesi) girmez — yalnız doğrudan URL ile
-    // erişilir. Bayrak `true` olduğunda bu test bilinçli olarak güncellenir.
-    expect(diagnoo!.published).toBe(false);
+  it("lansman kapısı açık: published true (2026-09-03)", () => {
+    // Burak'ın kararıyla lansman sırlar ve uzak migration gelmeden yapıldı
+    // (Faz 2 Görev 10 brief'i): indeksleme saati şimdi işler, kullanım
+    // sırlar geldiğinde açılır. Araç bu ana kadar dürüst `scrape_failed`
+    // hatasıyla cevap verir — bkz. `DIAGNOO_TOOL` üstündeki güncel yorum.
+    expect(diagnoo!.published).toBe(true);
   });
 });
 
 describe("publishedTools filtresi", () => {
-  it("yalnız published araçları döner", () => {
+  it("her iki gerçek araç da yayında — ikisi de listeye girer", () => {
+    // 2026-09-03 lansmanından sonra: GEO (2026-09-01'den beri) ve Diagnoo
+    // (Faz 2 Görev 10) ikisi de `published: true`.
     const geo = TOOLS.find((t) => t.slug.tr === "geo-gorunurluk-denetleyicisi");
     expect(geo!.published).toBe(true);
+    expect(DIAGNOO_TOOL.published).toBe(true);
     const slugs = publishedTools().map((t) => t.slug.tr);
     expect(slugs).toContain("geo-gorunurluk-denetleyicisi");
-    expect(slugs).not.toContain("diagnoo");
+    expect(slugs).toContain("diagnoo");
+  });
+
+  it("kapı mekanizması: enjekte edilmiş yayınlanmamış bir araç listeye girmez", () => {
+    // Gerçek bayrak artık ikisinde de `true`, bu yüzden filtrenin dışlama
+    // yönü gerçek veriyle test edilemez — enjekte edilmiş bir sahte kayıt
+    // (Diagnoo şablonundan türetilip `published: false`'a çevrilmiş) filtre
+    // mantığının hâlâ çalıştığını kanıtlar.
+    const unpublished: ToolContent[] = [
+      ...TOOLS,
+      { ...DIAGNOO_TOOL, slug: { tr: "hayali-arac", en: "fake-tool" }, published: false },
+    ];
+    const slugs = publishedTools(unpublished).map((t) => t.slug.tr);
+    expect(slugs).not.toContain("hayali-arac");
+    expect(slugs).toContain("diagnoo");
   });
 
   it("bayrak true olduğunda araç listeye girer", () => {
-    // Lansman senaryosu: Diagnoo yayına alındığında filtre onu geçirmeli.
+    // Lansman senaryosu (bugün gerçek bayrakla da doğru, fixture'la da):
+    // filtre `published: true` olan her kaydı geçirir.
     const launched: ToolContent[] = TOOLS.map((t) => ({ ...t, published: true }));
     expect(publishedTools(launched).map((t) => t.slug.tr)).toContain("diagnoo");
   });
@@ -271,5 +299,140 @@ describe("TOOLS hero alanları", () => {
     expect(Object.keys(DIAGNOO_TOOL.bands).sort()).toEqual(
       ["0-25", "26-50", "51-75", "76-100"],
     );
+  });
+});
+
+/**
+ * Üçgenin hizmet→araç ayağı (Faz 2 Görev 1).
+ *
+ * Her aracın doğal bağlandığı hizmetleri TR slug'la taşıması gerekir —
+ * hizmet sayfasındaki `ToolServiceCallout` bu listeyi okur. Slug hayali
+ * olamaz: gerçek bir `SERVICES` kaydına karşılık gelmeli, yoksa hizmet
+ * sayfası sessizce hiçbir şey basmaz ve blok kaybolur.
+ */
+describe("relatedServices", () => {
+  it("her araç en az bir hizmete bağlanır ve slug'lar gerçek hizmetlerdir", () => {
+    const serviceSlugs = new Set(SERVICES.map((s) => s.slug.tr));
+    for (const t of TOOLS) {
+      expect(t.relatedServices.length).toBeGreaterThan(0);
+      for (const s of t.relatedServices) expect(serviceSlugs.has(s)).toBe(true);
+    }
+  });
+
+  it("toolsForService yayınlanmış araçları döndürür", () => {
+    expect(toolsForService("ai-danismanlik").map((t) => t.slug.tr)).toEqual([GEO_TOOL.slug.tr]);
+    // 2026-09-03 lansmanından sonra Diagnoo yayında; `cro` callout'u artık
+    // aracı gösterir (üçgenin hizmet→araç ayağı canlı).
+    expect(DIAGNOO_TOOL.published).toBe(true);
+    expect(toolsForService("cro").map((t) => t.slug.tr)).toEqual([DIAGNOO_TOOL.slug.tr]);
+  });
+
+  it("toolsForService kendi tools parametresi almaz — kapı mekanizması publishedTools()te doğrulanır", () => {
+    // `toolsForService` gerçek `TOOLS`ı sabit okur (`publishedTools()`,
+    // parametresiz) — Diagnoo'nun bugün yayında olması bu fonksiyonun
+    // dışlama yolunu test edilemez kılmaz: `toolsForService` doğrudan
+    // `publishedTools().filter(...)` üzerine kurulu, ikinci bir filtre
+    // eklemiyor. Dışlama mekanizmasının kendisi ("publishedTools filtresi"
+    // bloğundaki enjekte edilmiş sahte kayıt testi) bu yüzden buraya da
+    // transitif olarak geçerlidir.
+    expect(toolsForService.length).toBe(1);
+  });
+});
+
+/**
+ * Üçgenin araç→makale ayağı (Faz 2 Görev 2).
+ *
+ * Köprü paragrafı hayali bir makaleye işaret edemez (slug `ARTICLES`te
+ * gerçekten var olmalı) ve aracın kendi TR yoluna bağlanmalıdır — hayali
+ * bir slug ya da yanlış hedef, makale sayfasında sessizce kırık bir linke
+ * ya da hiç basılmayan bir bloğa dönüşür. GEO'nun köprüleri zaten üç
+ * yazının gövdesinde inline durduğu için (Görev 13) `bridges: []` bekleniyor.
+ */
+describe("bridges", () => {
+  it("bridges gerçek makale slug'larına işaret eder ve paragraf aracın TR yolunu içerir", () => {
+    const slugs = new Set(ARTICLES.map((a) => a.slug.tr));
+    for (const t of TOOLS) {
+      for (const b of t.bridges) {
+        expect(slugs.has(b.articleSlugTr), b.articleSlugTr).toBe(true);
+        expect(b.paragraph.tr).toContain(`](/araclar/${t.slug.tr})`);
+        expect(b.paragraph.en).toContain(`](/araclar/${t.slug.tr})`);
+        expect(
+          b.paragraph.tr.split(/\s+/).length,
+          `${t.slug.tr}/${b.articleSlugTr}`,
+        ).toBeGreaterThanOrEqual(25);
+      }
+    }
+  });
+
+  it("aynı aracın köprüleri farklı makalelere işaret eder — tekrar yok", () => {
+    for (const t of TOOLS) {
+      const slugs = t.bridges.map((b) => b.articleSlugTr);
+      expect(new Set(slugs).size, t.slug.tr).toBe(slugs.length);
+    }
+  });
+
+  it("GEO'nun köprüsü boştur — linkler zaten yazı gövdesinde inline", () => {
+    expect(GEO_TOOL.bridges).toEqual([]);
+  });
+
+  it("Diagnoo cro/performans-pazarlama/e-ticaret konulu 8 yazıdan 7'sine bağlanır", () => {
+    // Kapsam dışı kalan tek yazı B2B lead toplama rehberi — konusu
+    // Diagnoo'nun taradığı mağaza sayfalarıyla (ana + kategori + ürün +
+    // ödeme) örtüşmüyor; gerekçe DIAGNOO_TOOL içindeki yorumda. Sekizinci
+    // hedef yazı GAP analizi rehberidir (Faz 2 Görev 6): gövdesinde araç
+    // linki taşımaz, köprüsü buradan gelir.
+    const targetTopics = new Set(["cro", "performans-pazarlama", "e-ticaret"]);
+    const targetSlugs = ARTICLES.filter((a) => targetTopics.has(a.topic)).map(
+      (a) => a.slug.tr,
+    );
+    expect(targetSlugs.length).toBe(8);
+    expect(DIAGNOO_TOOL.bridges.length).toBe(7);
+    for (const b of DIAGNOO_TOOL.bridges) {
+      expect(targetSlugs, b.articleSlugTr).toContain(b.articleSlugTr);
+    }
+  });
+});
+
+describe("bridgesForArticle", () => {
+  it("Diagnoo yayınlandığından beri gerçek TOOLS'ta köprü döner", () => {
+    // 2026-09-03 lansmanından önce bu test `[]` bekliyordu (`published:
+    // false`). Bayrak artık `true`, varsayılan `tools = TOOLS` parametresiyle
+    // (enjeksiyon yok) köprü gerçekten basılır — altı GEO makalesi ve
+    // yedinci GAP analizi yazısı artık Diagnoo'ya bağlanıyor.
+    expect(
+      bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr),
+    ).toHaveLength(1);
+  });
+
+  it("kapı mekanizması: enjekte edilmiş yayınlanmamış bir araç köprü basmaz", () => {
+    // Dışlama yönü artık gerçek Diagnoo bayrağıyla gösterilemiyor — enjekte
+    // edilmiş bir sahte kayıt (`published: false`) `bridgesForArticle`in
+    // hâlâ `publishedTools()` üzerinden filtrelediğini kanıtlar.
+    const unpublished: ToolContent = { ...DIAGNOO_TOOL, published: false };
+    expect(
+      bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr, [unpublished]),
+    ).toEqual([]);
+  });
+
+  it("yayınlanmış araç için köprü döner (published bayrağı ile)", () => {
+    const published: ToolContent = { ...DIAGNOO_TOOL, published: true };
+    expect(
+      bridgesForArticle(DIAGNOO_TOOL.bridges[0]!.articleSlugTr, [published]),
+    ).toHaveLength(1);
+  });
+
+  it("ilgisiz bir makale slug'ında boş döner", () => {
+    const published: ToolContent = { ...DIAGNOO_TOOL, published: true };
+    expect(bridgesForArticle("olmayan-bir-yazi-slug", [published])).toEqual([]);
+  });
+
+  it("dönen paragraf ilgili aracın kendisidir", () => {
+    const published: ToolContent = { ...DIAGNOO_TOOL, published: true };
+    const [result] = bridgesForArticle(
+      DIAGNOO_TOOL.bridges[0]!.articleSlugTr,
+      [published],
+    );
+    expect(result!.tool.slug.tr).toBe(DIAGNOO_TOOL.slug.tr);
+    expect(result!.paragraph).toEqual(DIAGNOO_TOOL.bridges[0]!.paragraph);
   });
 });

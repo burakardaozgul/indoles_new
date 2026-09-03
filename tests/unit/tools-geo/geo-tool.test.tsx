@@ -109,6 +109,34 @@ describe("GeoTool", () => {
     expect(replaceState).toHaveBeenLastCalledWith(null, "", "/tr/araclar/geo-gorunurluk-denetleyicisi");
   });
 
+  it("Faz 2 madde 5 — result fazında robots noindex,follow olur, 'Yeni tarama' ile eski değere döner", async () => {
+    const existing = document.createElement("meta");
+    existing.name = "robots";
+    existing.content = "index, follow";
+    document.head.appendChild(existing);
+
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ id: RESULT.id, result: RESULT }) }));
+    render(<GeoTool locale="tr" tool={TOOL} mode="tool" />);
+
+    expect(document.querySelector('meta[name="robots"]')).toHaveAttribute("content", "index, follow");
+
+    await submit();
+    await waitFor(() => expect(screen.getByText("72", { selector: "[data-part='score']" })).toBeInTheDocument(), { timeout: 4000 });
+    // `RobotsMeta`nın DOM güncellemesi kendi (pasif) efektinde olur — skor
+    // metninin göründüğü commit'le AYNI anda değil, hemen ardından flush
+    // edilir; bu yüzden ayrı bir `waitFor` ile beklenir (yarış durumu).
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute("content", "noindex, follow");
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Yeni tarama" }));
+    await waitFor(() => {
+      expect(document.querySelector('meta[name="robots"]')).toHaveAttribute("content", "index, follow");
+    });
+
+    existing.remove();
+  });
+
   it("Ruling R8 — StrictMode'da onResolved yan etkileri tam olarak bir kez tetiklenir", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ id: RESULT.id, result: RESULT }) }));
     render(

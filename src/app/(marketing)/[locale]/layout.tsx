@@ -131,6 +131,10 @@ export default async function MarketingLayout({
 
   // Danışmanlar bilinçli olarak yok: kadro Hakkımızda ile birleştirilecek
   // (Burak, 2026-08-19). `/danismanlar` duruyor, footer'dan erişilebilir.
+  //
+  // `/araclar` da bu listede DEĞİL: sıradan bir nav maddesi değil, ayrı bir
+  // vurgu kademesi olarak `toolsLabel` ile geçer (Burak 2026-09-03,
+  // docs/04 §12.11).
   const links: V2NavLink[] = [
     { href: "/hakkimizda", label: t("nav.about") },
     { href: "/hizmetler", label: t("nav.services") },
@@ -152,6 +156,7 @@ export default async function MarketingLayout({
                   locale={loc}
                   links={links}
                   ctaLabel={t("cta.bookConsultation")}
+                  toolsLabel={t("nav.tools")}
                   menuLabel={loc === "tr" ? "Menü" : "Menu"}
                 />
               </>

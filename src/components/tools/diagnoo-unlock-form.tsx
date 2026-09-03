@@ -262,6 +262,15 @@ export function DiagnooUnlockForm({
 
   const submitting = state === "submitting";
   const tokenBlocking = TURNSTILE_ENABLED && !turnstileToken;
+  const errorId = `${uid}-error`;
+  // Sunucu "invalid" dönerse hangi alanın hatalı olduğunu söylemiyor (tek bir
+  // şema hatası, e-posta biçimi de olabilir, başka bir alan da) — bu yüzden
+  // hem e-posta hem şirket alanı işaretlenir. DİĞER hata türleri (rate limit,
+  // turnstile, sunucu arızası) bir ALAN hatası değil; `aria-invalid` yalnız
+  // "invalid" kodunda basılır, aksi halde ziyaretçi doğru doldurduğu bir
+  // alanı hatalı sanır. `consentMissing` ayrı bir mesajdır (KVKK), bu iki
+  // alanla ilgisizdir.
+  const fieldsInvalid = state === "error" && !consentMissing && errorKind === "invalid";
 
   let hint: string | null = null;
   if (!submitting && turnstileError === "unavailable") hint = c.turnstileUnavailable;
@@ -290,7 +299,8 @@ export function DiagnooUnlockForm({
             placeholder={c.emailPlaceholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            aria-invalid={state === "error" && !consentMissing ? true : undefined}
+            aria-invalid={fieldsInvalid ? true : undefined}
+            aria-describedby={fieldsInvalid ? errorId : undefined}
             className="mt-2"
           />
         </div>
@@ -307,6 +317,8 @@ export function DiagnooUnlockForm({
             placeholder={c.companyPlaceholder}
             value={company}
             onChange={(e) => setCompany(e.target.value)}
+            aria-invalid={fieldsInvalid ? true : undefined}
+            aria-describedby={fieldsInvalid ? errorId : undefined}
             className="mt-2"
           />
         </div>
@@ -484,7 +496,7 @@ export function DiagnooUnlockForm({
       </div>
 
       {state === "error" ? (
-        <p role="alert" className="typography-caption text-danger-700">
+        <p id={errorId} role="alert" className="typography-caption text-danger-700">
           {consentMissing ? c.consentRequired : c.errors[errorKind]}
         </p>
       ) : null}

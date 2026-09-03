@@ -14,22 +14,26 @@ import type { Locale } from "@/lib/content/types";
 const PATHS = { tr: "/tr/araclar", en: "/en/tools" };
 
 /**
- * Açıklama araç SAYMAZ ve yayınlanmamış bir aracı adıyla anmaz. İki gerekçe:
- * sayısal iddia ("iki araç") üçüncü araçta sessizce bayatlar; `published`
- * kapısı kapalı bir aracın adı ise arama sonucunda erişilemeyen bir vaat
- * olurdu. Yayında olan aracın adı kalır — kendi arama niyetini taşıyor.
- * Uzunluk 140-160 bandında.
+ * Açıklama araç SAYMAZ: sayısal iddia ("iki araç") üçüncü bir araç
+ * eklendiğinde sessizce bayatlar — sayı yerine adlar geçer. 2026-09-03
+ * lansmanıyla Diagnoo da yayında (`published: true`, Faz 2 Görev 10),
+ * bu yüzden açıklama artık her iki aracın adını taşır: GEO Görünürlük
+ * Denetleyicisi ve Diagnoo. Bir araç `published: false` olduğu sürece adıyla
+ * anılmaz — arama sonucunda erişilemeyen bir vaat olurdu; üçüncü bir araç
+ * yayına girdiğinde açıklama yine sayı vermeden yalnız adını ekler. Uzunluk
+ * `/araclar`ın girdiği `index` profilinin bandında (80-160 karakter,
+ * `src/lib/seo/audit.ts`).
  */
 const META = {
   tr: {
-    title: "Araçlar — ücretsiz GEO denetim aracı",
+    title: "Araçlar — ücretsiz GEO ve e-ticaret denetimi",
     description:
-      "Ücretsiz denetim araçları. GEO Görünürlük Denetleyicisi sitenizi cevap motorları için beş sinyalde ölçer; her araç 100 puanlık skor ve düzeltme listesi verir.",
+      "Ücretsiz denetim araçları: GEO Görünürlük Denetleyicisi cevap motoru görünürlüğünü, Diagnoo mağaza satış hazırlığını ölçer; ikisi de 100 puanlık skor verir.",
   },
   en: {
-    title: "Tools — free GEO audit tool",
+    title: "Tools — free GEO and e-commerce audits",
     description:
-      "Free audit tools. The GEO Visibility Checker measures your site for answer engines across five signals; every tool returns a score out of 100 and a fix list.",
+      "Free audit tools: the GEO Visibility Checker measures answer-engine visibility, Diagnoo scores your store's readiness to sell; both return a score out of 100.",
   },
 } as const;
 

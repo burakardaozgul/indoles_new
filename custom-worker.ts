@@ -80,7 +80,7 @@ export default {
 export { DOQueueHandler, DOShardedTagCache, BucketCachePurge };
 
 /**
- * Diagnoo teşhis pipeline'ının Cloudflare Workflow entrypoint'i (ADR-031).
+ * Diagnoo teşhis pipeline'ının Cloudflare Workflow entrypoint'i (ADR-032).
  *
  * NEDEN BURADA: tek Worker, tek wrangler projesi — `wrangler.jsonc`'nin
  * `workflows` binding'i `class_name` ile BU dosyadaki bir export'u arıyor,

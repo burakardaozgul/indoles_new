@@ -100,7 +100,7 @@ export type ToolContent<B extends string = string, S extends string = string> = 
    * kod merge edildiği anda arama motoruna ilan edilmesi çalışmayan bir
    * sayfayı indeksletirdi. Bayrak, kod hazırlığı ile yayın kararını ayırır;
    * `true` yapmak ayrı ve bilinçli bir adımdır (runbook "Deploy öncesi Burak
-   * adımları", ADR-031).
+   * adımları", ADR-032).
    */
   published: boolean;
 };

@@ -10,7 +10,7 @@
 # fail-closed olur (500 {error:"misconfigured"}).
 TOOL_IP_SALT=
 
-# Diagnoo dış API sırları (ADR-031).
+# Diagnoo dış API sırları (ADR-032).
 # Semantik/vizyon/funnel analiz ajanları (Gemini).
 GEMINI_API_KEY=
 # Site keşfi ve sayfa scrape (Firecrawl).

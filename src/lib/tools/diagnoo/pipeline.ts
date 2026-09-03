@@ -27,7 +27,7 @@ export async function runDiagnosticPipeline(
     // ScrapeError` kontrolü bu noktadan sonra asla tutmaz (E2E'de gözlendi).
     // `ScrapeError` burada YAKALANIR ve saf bir sonuç nesnesine çevrilir —
     // fırlatılmadığı için Workflows bu adımı retry'a hiç sokmaz (site zaten
-    // erişilemez durumdaysa retry anlamsız, ADR-031). Diğer hatalar (ağ,
+    // erişilemez durumdaysa retry anlamsız, ADR-032). Diğer hatalar (ağ,
     // zaman aşımı) fırlatılmaya devam eder ki adım retry mekanizması çalışsın.
     const scraped = await step.do("scrape", async () => {
       try {

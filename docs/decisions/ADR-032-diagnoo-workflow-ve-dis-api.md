@@ -1,10 +1,10 @@
-# ADR-031 — Diagnoo: Cloudflare Workflow ve dış API kararı
+# ADR-032 — Diagnoo: Cloudflare Workflow ve dış API kararı
 
 - **Statü:** Kabul edildi
 - **Tarih:** 2026-09-01
 - **Karar veren:** Burak Arda Özgül
 - **Bağlam:** `docs/superpowers/specs/2026-09-01-diagnoo-design.md` (tasarım onayı Burak, 2026-09-01)
-- **İlgili:** ADR-030 (`/araclar` kapsam-dışından çıkışı ve Worker-native GEO motoru) · ADR-024 (Cloudflare Workers deploy) · ADR-028 (Turnstile bayrağı)
+- **İlgili:** ADR-030 (`/araclar` kapsam-dışından çıkışı ve Worker-native GEO motoru) · ADR-031 (OG kartları derleme zamanında üretilir) · ADR-024 (Cloudflare Workers deploy) · ADR-028 (Turnstile bayrağı)
 - **Etkilenen dosyalar:** `custom-worker.ts`, `wrangler.jsonc`, `src/lib/tools/diagnoo/*`, `migrations/0004_diagnoo.sql`, `README.md`, `.dev.vars.example`
 
 ---
@@ -168,6 +168,8 @@ boşaltırdı. LLM analizi (Gemini) burada bir "best practice" tercihi değil,
 
 - `docs/superpowers/specs/2026-09-01-diagnoo-design.md`
 - ADR-030 (`/araclar` kapsam-dışından çıkışı ve Worker-native GEO motoru)
+- ADR-031 (OG kartları derleme zamanında üretilir — aynı numarayı GEO'nun
+  UI v2 dalı aldığı için bu ADR entegrasyonda 031'den 032'ye taşındı)
 - ADR-024 (Cloudflare Workers deploy) · ADR-028 (Turnstile bayrağı)
 - `src/lib/tools/diagnoo/pipeline.ts`
 - `migrations/0004_diagnoo.sql`

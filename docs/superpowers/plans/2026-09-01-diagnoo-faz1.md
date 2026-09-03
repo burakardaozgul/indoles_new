@@ -1967,9 +1967,9 @@ export class DiagnooDiagnosticWorkflow extends WorkflowEntrypoint<unknown, { dia
 ],
 ```
 
-- [ ] **Step 5: ADR-031 + sır dokümantasyonu**
+- [ ] **Step 5: ADR-032 + sır dokümantasyonu**
 
-`docs/decisions/ADR-031-diagnoo-workflow-ve-dis-api.md` yaz (ADR-030 biçiminde): Bağlam — ADR-030 Diagnoo'yu "Seçenek B — ertelendi" saymış ve ücretsiz plan / sıfır yeni altyapı disiplinini kural yapmıştı; spec (docs/superpowers/specs/2026-09-01-diagnoo-design.md, Burak onaylı) Workflows + dış API (Gemini, Firecrawl, PageSpeed Insights) kararını veriyor. Karar — Diagnoo mevcut Worker içinde Cloudflare Workflow (ücretsiz plan) olarak koşar; adım başına CPU bütçesi korunur (I/O-bound adımlar, native base64); yeni sırlar `GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`; D1 aynı veritabanı (0004). Reddedilenler — ayrı Python servisi (ikinci platform), paid plan, regex-only motor (LLM analizi gerektiriyor). Sonuçlar — wrangler.jsonc'a ilk `workflows` binding'i; dış API maliyeti IP 3/gün + global 100/gün ile sınırlanır; ADR-030'un "yeniden değerlendirme tetikleyicisi" bu ADR ile tüketildi. `README.md`'deki ADR-030 sır uyarı bloğuna üç yeni sır eklenir; `.dev.vars.example` (yoksa oluştur) üç satır alır.
+`docs/decisions/ADR-032-diagnoo-workflow-ve-dis-api.md` yaz (ADR-030 biçiminde): Bağlam — ADR-030 Diagnoo'yu "Seçenek B — ertelendi" saymış ve ücretsiz plan / sıfır yeni altyapı disiplinini kural yapmıştı; spec (docs/superpowers/specs/2026-09-01-diagnoo-design.md, Burak onaylı) Workflows + dış API (Gemini, Firecrawl, PageSpeed Insights) kararını veriyor. Karar — Diagnoo mevcut Worker içinde Cloudflare Workflow (ücretsiz plan) olarak koşar; adım başına CPU bütçesi korunur (I/O-bound adımlar, native base64); yeni sırlar `GEMINI_API_KEY`, `FIRECRAWL_API_KEY`, `PSI_API_KEY`; D1 aynı veritabanı (0004). Reddedilenler — ayrı Python servisi (ikinci platform), paid plan, regex-only motor (LLM analizi gerektiriyor). Sonuçlar — wrangler.jsonc'a ilk `workflows` binding'i; dış API maliyeti IP 3/gün + global 100/gün ile sınırlanır; ADR-030'un "yeniden değerlendirme tetikleyicisi" bu ADR ile tüketildi. `README.md`'deki ADR-030 sır uyarı bloğuna üç yeni sır eklenir; `.dev.vars.example` (yoksa oluştur) üç satır alır.
 
 - [ ] **Step 6: Build doğrulaması**
 
@@ -1979,8 +1979,8 @@ Expected: ikisi de temiz. (`custom-worker.ts` tsconfig dışı olduğundan typec
 - [ ] **Step 7: Commit**
 
 ```bash
-git add src/lib/tools/diagnoo/pipeline.ts src/lib/tools/diagnoo/__tests__/pipeline.test.ts custom-worker.ts wrangler.jsonc docs/decisions/ADR-031-diagnoo-workflow-ve-dis-api.md README.md .dev.vars.example
-git commit -m "feat(diagnoo): Workflow pipeline + ADR-031 (Workflows ve dış API kararı)"
+git add src/lib/tools/diagnoo/pipeline.ts src/lib/tools/diagnoo/__tests__/pipeline.test.ts custom-worker.ts wrangler.jsonc docs/decisions/ADR-032-diagnoo-workflow-ve-dis-api.md README.md .dev.vars.example
+git commit -m "feat(diagnoo): Workflow pipeline + ADR-032 (Workflows ve dış API kararı)"
 ```
 
 ---

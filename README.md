@@ -73,7 +73,7 @@ Sırlar repoya yazılmaz — `wrangler secret put <AD>` ile tanımlanır: `RESEN
 > eklenir; üretimde `wrangler secret put TOOL_IP_SALT` ile girilir (adım-adım:
 > `docs/runbooks/cutover-www-indoles.md` "GEO araç sırrı" bölümü).
 
-> **Diagnoo sırları (ADR-031):** `GEMINI_API_KEY` semantik/vizyon/funnel analiz
+> **Diagnoo sırları (ADR-032):** `GEMINI_API_KEY` semantik/vizyon/funnel analiz
 > ajanlarını (`src/lib/tools/diagnoo/services/gemini.ts`) çalıştırır,
 > `FIRECRAWL_API_KEY` site keşfi ve scrape'i (`services/firecrawl.ts`),
 > `PSI_API_KEY` Core Web Vitals ölçümünü (`services/psi.ts`) besler. Üçü de

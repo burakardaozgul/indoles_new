@@ -79,7 +79,7 @@ export type GeoReportPayload = z.infer<typeof geoReportSchema>;
  * kontrolü burada yapılmaz, teşhis pipeline'ının kendi tarama katmanına aittir.
  *
  * `turnstileToken`: Görev 17 (task-17) düzeltmesi — contact/GEO'nun izlediği
- * AYNI koşullu desen (ADR-028, ADR-031). İlk halinde bu alan `min(1)` ile
+ * AYNI koşullu desen (ADR-028, ADR-032). İlk halinde bu alan `min(1)` ile
  * KOŞULSUZ zorunluydu ("araç Turnstile'sız hiç render edilmez" varsayımıyla)
  * — ama ADR-028 bayrağı (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`) launch
  * konfigürasyonunda KAPALI. Bayrak kapalıyken istemci hiç token

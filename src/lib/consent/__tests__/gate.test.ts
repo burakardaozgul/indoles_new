@@ -19,19 +19,33 @@ describe("isConsentPending", () => {
 
   it("EEA'da karar verilmişse beklemede değildir", () => {
     document.cookie = `${REGION_COOKIE_NAME}=eea; path=/`;
-    document.cookie = `${CONSENT_COOKIE_NAME}=denied; path=/`;
+    document.cookie = `${CONSENT_COOKIE_NAME}=dd; path=/`;
     expect(isConsentPending()).toBe(false);
   });
 
-  it("EEA dışında hiç beklemez", () => {
+  it("EEA dışında da karar verilmemişse bekler", () => {
+    // ADR-033: pazarlama rızası her bölgede sorulduğu için şerit artık
+    // bölgeye göre gizlenmiyor. Önceden burada `false` bekleniyordu.
     document.cookie = `${REGION_COOKIE_NAME}=other; path=/`;
+    expect(isConsentPending()).toBe(true);
+  });
+
+  it("bölge bilinmiyorsa da bekler", () => {
+    // Coğrafi başlık gelmezse rıza sorulmadan geçilmemeli.
+    expect(isConsentPending()).toBe(true);
+  });
+
+  it("karar verilmişse bölge ne olursa olsun beklemez", () => {
+    document.cookie = `${REGION_COOKIE_NAME}=other; path=/`;
+    document.cookie = `${CONSENT_COOKIE_NAME}=gd; path=/`;
     expect(isConsentPending()).toBe(false);
   });
 });
 
 describe("whenConsentResolved", () => {
-  it("beklemede değilse işi hemen çalıştırır", () => {
-    document.cookie = `${REGION_COOKIE_NAME}=other; path=/`;
+  it("karar zaten verilmişse işi hemen çalıştırır", () => {
+    // Belirleyici artık bölge değil, kararın verilmiş olması.
+    document.cookie = `${CONSENT_COOKIE_NAME}=gd; path=/`;
     const run = vi.fn();
     whenConsentResolved(run);
     expect(run).toHaveBeenCalledTimes(1);
@@ -78,7 +92,7 @@ describe("whenConsentResolved", () => {
   });
 
   it("hemen çalışan durumda da temizlik güvenlidir", () => {
-    document.cookie = `${REGION_COOKIE_NAME}=other; path=/`;
+    document.cookie = `${CONSENT_COOKIE_NAME}=gd; path=/`;
     const cleanup = whenConsentResolved(vi.fn());
     expect(() => cleanup()).not.toThrow();
   });

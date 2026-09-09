@@ -3,7 +3,11 @@ import { getLocale } from "next-intl/server";
 import { Lexend, Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import { SITE_URL } from "@/lib/seo/site";
-import { buildGaBootstrap } from "@/lib/analytics/ga-bootstrap";
+import {
+  buildGaBootstrap,
+  buildGtmSnippet,
+  buildMarketingConsentEvent,
+} from "@/lib/analytics/ga-bootstrap";
 import { buildVerification } from "@/lib/seo/verification";
 import "@/styles/globals.css";
 import "@/styles/sections.css";
@@ -71,18 +75,27 @@ const PERSONA_BOOTSTRAP =
   "v==='buyume-pazarlar'?'commerce':'industrial')}}catch(e){}";
 
 /**
- * GA4 yalnızca production'da ve ölçüm kimliği tanımlıyken yüklenir.
- * Preview/lokal trafiği property'yi kirletmesin diye iki koşul da aranır;
+ * Ölçüm yalnızca production'da ve GTM kimliği tanımlıyken yüklenir.
+ * Preview/lokal trafiği mülkü kirletmesin diye iki koşul da aranır;
  * `NEXT_PUBLIC_*` build-time inline edildiği için koşul modül seviyesinde
  * çözülür ve id yokken hiçbir script etiketi render edilmez.
  *
- * Açılış dizgesi `buildGaBootstrap`ta: Consent Mode v2 varsayılanları
- * `config`ten önce basılmak zorunda ve bu sıra ancak testle korunabilir
- * (`lib/analytics/__tests__/ga-bootstrap.test.ts`).
+ * NEDEN ARTIK `gtag/js` SCRIPT ETİKETİ YOK (ADR-034)
+ * --------------------------------------------------
+ * Burada `<Script src="…/gtag/js?id=G-HC44KJ9ZP4">` duruyordu. O adres bu
+ * ölçüm kimliği için **HTTP 404 + text/html** dönüyor, Chrome da yanıtı ORB
+ * ile blokluyor — yani etiket her ziyaretçide sessizce ölüydü (2026-09-09
+ * canlı doğrulaması; karşılaştırma: aynı adres başka ölçüm kimlikleriyle 200
+ * dönüyor). GA4 aslında `gtm.js`in sağladığı gtag çekirdeği sayesinde
+ * çalışıyordu. ADR-034 bu örtük bağımlılığı açık hâle getirdi: ölçümü GTM
+ * taşır, kimlik konteynerdeki Google etiketinde durur.
+ *
+ * `NEXT_PUBLIC_GA_ID` env'de kalır — `scripts/ga4-*.ts` Admin API çağrıları
+ * ve dokümantasyon onu kullanıyor; sayfa artık okumuyor.
  */
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-const GA_ENABLED =
-  Boolean(GA_ID) && process.env.NEXT_PUBLIC_APP_STAGE === "production";
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const MEASUREMENT_ENABLED =
+  Boolean(GTM_ID) && process.env.NEXT_PUBLIC_APP_STAGE === "production";
 
 export default async function RootLayout({
   children,
@@ -136,16 +149,19 @@ export default async function RootLayout({
             strategy="afterInteractive"
           />
         ) : null}
-        {GA_ENABLED ? (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="ga4-init" strategy="afterInteractive">
-              {buildGaBootstrap(GA_ID!)}
-            </Script>
-          </>
+        {/*
+          Rıza varsayılanları ve GTM yükleyicisi TEK dizgede: GTM yüklenir
+          yüklenmez etiketlerini değerlendirdiği için consent komutlarının
+          ondan önce `dataLayer`da olması gerekiyor. İki ayrı `<Script>` aynı
+          `strategy` ile bile sıra garantisi vermez (bkz. buildGtmSnippet).
+          Rıza olayı ise GTM'den SONRA basılmalı — konteyner yüklenmeden
+          atılan olay, tetikleyici henüz kurulmadığı için kaybolur (bkz.
+          buildMarketingConsentEvent).
+        */}
+        {MEASUREMENT_ENABLED ? (
+          <Script id="measurement-init" strategy="afterInteractive">
+            {buildGaBootstrap() + buildGtmSnippet(GTM_ID!) + buildMarketingConsentEvent()}
+          </Script>
         ) : null}
       </body>
     </html>

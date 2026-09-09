@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { NextResponse } from "next/server";
-import { COUNTRY_HEADER, applyRegionCookie } from "../middleware";
+import { COUNTRY_HEADER, COUNTRY_HEADER_FALLBACK, applyRegionCookie } from "../middleware";
 import { REGION_COOKIE_NAME } from "../cookie";
 
 function run(country: string | null): string | undefined {
@@ -46,5 +46,22 @@ describe("applyRegionCookie", () => {
     const result = applyRegionCookie(new Headers({ [COUNTRY_HEADER]: "TR" }), original);
     expect(result).toBe(original);
     expect(result.headers.get("x-test-marker")).toBe("kept");
+  });
+
+  it("Cloudflare başlığını okur — dağıtım orada (ADR-024)", () => {
+    // Regresyon kilidi: burada `x-vercel-ip-country` yazıyordu ve Vercel'den
+    // çıkıldığı hâlde güncellenmemişti. Başlık hiç gelmediği için herkes
+    // `other` sayılıyor, EEA ziyaretçisine şerit çıkmıyordu.
+    expect(COUNTRY_HEADER).toBe("cf-ipcountry");
+    const res = applyRegionCookie(new Headers({ "cf-ipcountry": "DE" }), NextResponse.next());
+    expect(res.cookies.get(REGION_COOKIE_NAME)?.value).toBe("eea");
+  });
+
+  it("Vercel başlığına yedek olarak düşer", () => {
+    const res = applyRegionCookie(
+      new Headers({ [COUNTRY_HEADER_FALLBACK]: "FR" }),
+      NextResponse.next(),
+    );
+    expect(res.cookies.get(REGION_COOKIE_NAME)?.value).toBe("eea");
   });
 });

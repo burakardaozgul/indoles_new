@@ -2,16 +2,23 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render } from "@testing-library/react";
 import { TrackView } from "../track-view";
 
-const gtag = vi.fn();
+type W = { dataLayer?: Record<string, unknown>[] };
 
 beforeEach(() => {
-  gtag.mockClear();
-  (window as unknown as { gtag?: unknown }).gtag = gtag;
+  (window as unknown as W).dataLayer = [];
 });
 
 afterEach(() => {
-  delete (window as unknown as { gtag?: unknown }).gtag;
+  delete (window as unknown as W).dataLayer;
 });
+
+/**
+ * Olaylar ADR-034'ten beri `dataLayer`a yaziliyor, `gtag`e degil — GA4'u
+ * GTM tasiyor. Kayit bicimi: `{event: ad, ...parametreler}`.
+ */
+function events(name: string): Record<string, unknown>[] {
+  return ((window as unknown as W).dataLayer ?? []).filter((e) => e.event === name);
+}
 
 describe("TrackView", () => {
   it("bağlandığında olayı yazar", () => {
@@ -20,10 +27,9 @@ describe("TrackView", () => {
         event={{ name: "pillar_viewed", properties: { pillar: "growth", locale: "tr" } }}
       />,
     );
-    expect(gtag).toHaveBeenCalledWith("event", "pillar_viewed", {
-      pillar: "growth",
-      locale: "tr",
-    });
+    expect(events("pillar_viewed")).toEqual([
+      { event: "pillar_viewed", pillar: "growth", locale: "tr" },
+    ]);
   });
 
   it("yeniden render'da olayı tekrarlamaz", () => {
@@ -38,7 +44,7 @@ describe("TrackView", () => {
         event={{ name: "pillar_viewed", properties: { pillar: "build", locale: "en" } }}
       />,
     );
-    expect(gtag).toHaveBeenCalledTimes(1);
+    expect(events("pillar_viewed")).toHaveLength(1);
   });
 
   it("hiçbir görünür çıktı üretmez", () => {
@@ -62,16 +68,19 @@ describe("TrackView", () => {
         }}
       />,
     );
-    expect(gtag).toHaveBeenCalledWith("event", "package_viewed", {
-      packageSlug: "ai-pilot",
-      pillar: "transform",
-      price: 480000,
-      currency: "TRY",
-    });
+    expect(events("package_viewed")).toEqual([
+      {
+        event: "package_viewed",
+        packageSlug: "ai-pilot",
+        pillar: "transform",
+        price: 480000,
+        currency: "TRY",
+      },
+    ]);
   });
 
-  it("gtag yüklenmemişken sessizce düşer", () => {
-    delete (window as unknown as { gtag?: unknown }).gtag;
+  it("dataLayer henüz yokken sessizce düşer", () => {
+    delete (window as unknown as W).dataLayer;
     expect(() =>
       render(
         <TrackView

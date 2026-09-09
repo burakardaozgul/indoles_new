@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { PopupProvider, usePopup, isAutoPopupSuppressed } from "../popup-context";
 import type { BookingCtaSource } from "@/lib/analytics/events";
+import { CONSENT_COOKIE_NAME } from "@/lib/consent/cookie";
 
 vi.mock("next-intl", () => ({
   useTranslations: (ns?: string) => {
@@ -45,7 +46,12 @@ function renderWith(source: BookingCtaSource, pillar?: "growth" | "transform" | 
 
 beforeEach(() => {
   gtag.mockClear();
-  (window as unknown as { gtag?: unknown }).gtag = gtag;
+  // Çerez kararı verilmiş kabul edilir. ADR-033'ten sonra giriş popup'ı
+  // karar verilene kadar HER bölgede bekliyor (önceden yalnız EEA'da
+  // beklerdi); karar yazılmazsa buradaki testler popup'ı değil çerez
+  // şeridini ölçmüş olurdu.
+  document.cookie = `${CONSENT_COOKIE_NAME}=gd; path=/`;
+  (window as unknown as { dataLayer?: unknown[] }).dataLayer = [];
   (window as unknown as { turnstile: unknown }).turnstile = {
     render: (_el: Element, opts: { callback: (t: string) => void }) => {
       opts.callback("test-token");
@@ -56,11 +62,20 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  delete (window as unknown as { gtag?: unknown }).gtag;
+  delete (window as unknown as { dataLayer?: unknown[] }).dataLayer;
+  document.cookie = `${CONSENT_COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
 });
 
 function bookingEvents() {
-  return gtag.mock.calls.filter((c) => c[1] === "booking_cta_clicked");
+  return ((window as unknown as { dataLayer?: Record<string, unknown>[] }).dataLayer ?? [])
+    .filter((e) => e.event === "booking_cta_clicked")
+    .map(({ event: _event, ...params }) => {
+      // `gaEvent` her olayda tum parametre adlarini `undefined` olarak
+      // sifirliyor (ADR-034 sizinti kalkani); iddialar yalniz gercekten
+      // gonderilen alanlari gormeli.
+      void _event;
+      return Object.fromEntries(Object.entries(params).filter(([, v]) => v !== undefined));
+    });
 }
 
 describe("openPopup — booking_cta_clicked", () => {
@@ -69,14 +84,14 @@ describe("openPopup — booking_cta_clicked", () => {
     fireEvent.click(screen.getByRole("button", { name: "aç" }));
 
     expect(bookingEvents()).toHaveLength(1);
-    expect(bookingEvents()[0]?.[2]).toEqual({ source: "nav" });
+    expect(bookingEvents()[0]).toEqual({ source: "nav" });
   });
 
   it("verildiğinde pillar kırılımını da taşır", () => {
     renderWith("service-detail", "transform");
     fireEvent.click(screen.getByRole("button", { name: "aç" }));
 
-    expect(bookingEvents()[0]?.[2]).toEqual({
+    expect(bookingEvents()[0]).toEqual({
       source: "service-detail",
       pillar: "transform",
     });
@@ -88,7 +103,7 @@ describe("openPopup — booking_cta_clicked", () => {
     renderWith("contact-callout");
     fireEvent.click(screen.getByRole("button", { name: "aç" }));
 
-    expect(bookingEvents()[0]?.[2]).not.toHaveProperty("pillar");
+    expect(bookingEvents()[0]).not.toHaveProperty("pillar");
   });
 
   it("her tıklamada bir kez yazar", () => {

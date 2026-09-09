@@ -24,6 +24,7 @@
 | Alan | Karar | Gerekçe |
 |---|---|---|
 | Ürün analitiği | **Google Analytics 4** | Tek sağlayıcı; ADR-021 |
+| GA4 taşıyıcısı | **GTM** (`GTM-TFKLN9V`) | Sitedeki `gtag/js` etiketi bu ölçüm kimliği için 404 dönüyordu; GA4 fiilen zaten GTM üzerinden ölçüyordu. ADR-034 |
 | PostHog | **Kullanılmayacak** | İki SDK paralel taşımanın bedeli (istemci bundle + ikinci veri işleyici) karşılığını vermedi; ADR-021 |
 | Microsoft Clarity | **Kullanılmayacak** | Üçüncü bir ölçüm sağlayıcısı eklenmiyor |
 | Session replay | **Yok** | Sağlayıcıyla birlikte kalktı; KVKK yüzeyi daraldı |
@@ -60,7 +61,8 @@ duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
 | `faq_opened` | `faq-accordion.tsx` | `surface`, `question` (≤100 kr.) |
 | `persona_axis_clicked` | `persona-switch.tsx` | `axis` |
 | `booking_cta_clicked` | `popup-context.tsx` → `openPopup` | `source`, `pillar?` |
-| `contact_form_submitted` | `ContactForm.tsx` | — |
+| `contact_form_submitted` | `ContactForm.tsx` | `subject`, `budget_range`, `timeline`, `locale` |
+| `contact_booking_submitted` | `ContactBookingScreen.tsx` | `briefId`, `locale`, `preferred_slot` — `/iletisim` randevusu (ADR-034) |
 | 8 popup olayı | `entry-popup/EntryPopup.tsx` | `popup_shown`, `popup_stage1_selected`, `popup_stage2_submitted`, `popup_stage3_viewed`, `popup_booking_submitted`, `popup_contact_submitted`, `popup_kvkk_consent_given`, `popup_dismissed` |
 | `tool_used` | `components/tools/geo-tool.tsx`, `components/tools/diagnoo-form.tsx` | `slug`, `locale` — tarama başlatıldı (yanıt beklenmeden) |
 | `tool_scan_completed` | `components/tools/geo-tool.tsx`, `components/tools/diagnoo-snapshot.tsx` | `slug`, `band`, `locale` — tarama skorla tamamlandı |
@@ -86,6 +88,16 @@ yazmak olay sayısını şişirirdi.
 **Bilinçli eksik:** `article_viewed`. `page_view` yazının görüntülendiğini
 zaten söylüyor; eklenecek tek boyut ADR-021 konu etiketi olurdu ve içerik
 motoru (strateji §4) başlamadan okunacak veri üretmiyor. Dalga 8'de eklenir.
+
+**GTM'e ait olanlar** (kodda olay tanımlanmaz, ADR-034):
+
+| Olay | Tetikleyici | Boyutlar |
+|---|---|---|
+| `phone_clicked` | `Click - Telefon Baglantisi` (Click URL ⊃ `tel:`) | `source` = `tel-link` |
+| `email_clicked` | `Click - E-posta Baglantisi` (Click URL ⊃ `mailto:`) | `source` = `mailto-link` |
+
+Bu ikisi köprü tetikleyicisinin regex'ine **bilerek eklenmedi** — kendi GA4
+etiketleri var, eklenirlerse çift sayılırlar.
 
 ### 2.1 Sayfa ve navigasyon
 
@@ -169,6 +181,76 @@ Kritik iş event'leri client tarafından tetiklenemez; tRPC procedure içinden `
 | `payment_failed_server` | `paymentId`, `error` | Webhook |
 
 Client-side event'e denk server-side event var — discrepancy alarm (attribution doğrulama).
+
+---
+
+### 2.7 Parametre kaydı — `EVENT_PARAM_NAMES`
+
+`dataLayer`a yazılabilen her parametre adı `src/lib/analytics/events.ts`
+içindeki `EVENT_PARAM_NAMES` listesinde durur. Liste üç yeri birden bağlar:
+
+1. **Sızıntı kalkanı.** `gaEvent` her olayda listedeki tüm adları önce
+   `undefined` yazar. GTM'in Data Layer Variable'ları push'lar arası kalıcı
+   olduğu için bu olmadan her olay öncekinin parametrelerini miras alıyordu
+   (ADR-034; canlı doğrulamada `pillar_viewed` olayı `ep.slug=cro` taşıdı).
+2. **Derleme kilidi.** `EventParams` tipi bu listeye bağlı; kayıtsız bir ad
+   derleme hatası verir. `PopupEventMap` için ayrı bir derleme zamanı iddiası
+   var (`lib/popup/analytics.ts`). Kayıtsız ad iki sessiz hata birden üretir:
+   sızar **ve** GA4'te özel boyutu olmadığı için raporda hiç görünmez —
+   `preferred_slot` tam olarak böyle kaçmıştı.
+3. **GTM sözleşmesi.** Konteynerdeki `GA4 - Olay Koprusu` etiketinin parametre
+   tablosu bu listeyle **birebir aynı** olmalı. Listede olup GTM'de olmayan
+   parametre GA4'e hiç ulaşmaz.
+
+Yeni parametre eklerken sıra: `EVENT_PARAM_NAMES` → GTM'de `dlv - <ad>`
+değişkeni + köprü etiketine satır → GA4'te özel boyut.
+
+### 2.8 Dönüşümler (GA4 anahtar olayları) ve Google Ads
+
+Tek kaynak: `SITE_KEY_EVENTS` (`src/lib/analytics/ga4-admin.ts`). `pnpm ga4:setup`
+listeyi idempotent uygular, Google Ads de bu listeyi GA4'ten içe aktarır — yani
+liste hem GA4 hem Ads tarafını belirliyor.
+
+| Dönüşüm | Yüzey | Sayım |
+|---|---|---|
+| `contact_form_submitted` | `/iletisim` formu | `ONCE_PER_SESSION` |
+| `contact_booking_submitted` | `/iletisim` gömülü randevu | `ONCE_PER_SESSION` |
+| `popup_booking_submitted` | Giriş popup'ı — randevu | `ONCE_PER_SESSION` |
+| `popup_contact_submitted` | Giriş popup'ı — mesaj | `ONCE_PER_SESSION` |
+| `tool_report_requested` | GEO + Diagnoo rapor kilidi | `ONCE_PER_SESSION` |
+| `phone_clicked` | `tel:` tıklaması (GTM) | `ONCE_PER_SESSION` |
+| `email_clicked` | `mailto:` tıklaması (GTM) | `ONCE_PER_SESSION` |
+
+**KURAL: her lead yüzeyi tam olarak bir dönüşüm üretir.** Aynı eylemden iki
+anahtar olay çıkarsa dönüşüm iki kez sayılır ve reklam teklifi bozulur. Bu
+yüzden listede olmayan dördü bilinçli:
+
+- `brief_submitted` — popup ve iletişim randevusu ikisi de yazıyor; yüzeye
+  özgü dönüşümler zaten sayılıyor. Yüzeyler arası **huni adımı** olarak durur.
+- `tool_used` / `tool_scan_completed` — araç **kullanımı** dönüşüm değil, huni
+  adımı. Dönüşüm e-posta bırakıldığı an (Burak kararı, 2026-09-09).
+- `diagnoo_report_requested` — `tool_report_requested`ten türetiliyor
+  (`DIAGNOO_EVENT_CREATE_RULE_BASE`); ikisi de anahtar olsaydı bir Diagnoo
+  raporu iki dönüşüm sayardı. Türetilmiş olay raporlamada durur, dönüşüm olarak
+  sayılmaz.
+- `purchase` — GA4'ün **silinemeyen** varsayılan anahtar olayı (Admin API
+  `"The event cannot be deleted."` döner). Sitede e-ticaret yok, hiç emit
+  edilmiyor, dolayısıyla 0 dönüşüm katkısı var. Görmezden gelin.
+
+`ONCE_PER_SESSION` gerekçesi: aynı ziyaretçinin aynı oturumda formu iki kez
+göndermesi iki lead değil. `tool_report_requested` iki farklı araç için
+istenirse ayrımı `slug` boyutu zaten taşıyor.
+
+**Google Ads.** GA4 mülkü Ads hesabı `3719440582` ile bağlı (2026-09-08).
+Dönüşümler GTM'de etiketle değil, **GA4'ten içe aktarılarak** kurulur (Burak
+kararı, 2026-09-09): Ads arayüzünde *Hedefler → Dönüşümler → Yeni → Google
+Analytics 4* ile yukarıdaki yedi olay seçilir. Böylece dönüşüm tanımı tek yerde
+kalır ve GTM'de `conversionId`/`conversionLabel` taşımak gerekmez. Konteynerde
+`Dönüşüm Bağlayıcı` aktif; dört lead tetikleyicisi (`22`–`25`) ve pazarlama
+rızası tetikleyicisi (`30`) ileride etiket gerekirse hazır bekliyor.
+
+Eski `Ads - Dönüşüm - İletişim Formu` etiketi ADR-034 ile silindi: WordPress
+CF7 tetikleyicisine bağlıydı **ve** yanlış Ads hesabına (`585141919`) yazıyordu.
 
 ---
 
@@ -377,6 +459,19 @@ Her test: minimum 2 hafta çalıştır, minimum 100 conversion/varyant, p-value 
 > atıflar kaldırıldı; yerine uygulanan Consent Mode v2 mimarisi yazıldı.
 
 ### 9.1 Onay mimarisi — bölgesel Consent Mode v2
+
+> **Güncelleme (2026-09-08, ADR-033):** Google Ads ve Meta devreye girdi.
+> Onay artık tek boyutlu değil, iki kategorili: `{ analytics, marketing }`.
+> Üç reklam sinyali (`ad_storage`, `ad_user_data`, `ad_personalization`)
+> tek `marketing` kararına bağlı ve varsayılanları `denied` — artık "hiç
+> kullanılmıyor" olduğu için değil, opt-in olduğu için. Şerit her bölgede
+> gösteriliyor; bölge yalnız neyin sorulduğunu belirliyor (EEA'da analitik
+> de sorulur, diğer bölgelerde yalnız pazarlama). Aşağıdaki bölgesel karar
+> analitik için geçerliliğini koruyor.
+>
+> GTM (`GTM-TFKLN9V`) yalnız Meta Pixel ve Google Ads etiketlerini taşır;
+> GA4 doğrudan `gtag` ile ölçülmeye devam eder (ADR-021 ölçüm için korunur).
+> GA4 özel boyutları GTM'den tanımlanamaz — mülk yetkisi gerektirir.
 
 Karar bölgesel: analitik çerezleri **EEA + Birleşik Krallık** ziyaretçileri
 için opt-in, diğer bölgelerde varsayılan açık (`docs/14` §3). Türkiye birincil

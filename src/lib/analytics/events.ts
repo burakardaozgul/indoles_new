@@ -83,6 +83,7 @@ export const EVENT_NAMES = [
   "faq_opened",
   "booking_cta_clicked",
   "brief_submitted",
+  "contact_booking_submitted",
   "tool_used",
   "tool_scan_completed",
   "tool_report_requested",
@@ -158,6 +159,32 @@ export type AnalyticsEvent =
     }
   | {
       /**
+       * `/iletisim`in gömülü randevu ekranından bir randevu alındı.
+       *
+       * NEDEN `brief_submitted` YETMEDİ
+       * -------------------------------
+       * Bu yüzey yalnız `brief_submitted` yazıyordu ve o olay GA4'te anahtar
+       * olay DEĞİL — popup da aynı olayı yazdığı için anahtar yapılsaydı
+       * popup gönderimleri iki dönüşüm sayardı (`popup_booking_submitted`
+       * zaten anahtar). Sonuç: iletişim sayfasından gelen randevular hiçbir
+       * dönüşüme sayılmıyordu (denetim, 2026-09-09).
+       *
+       * Artık her lead yüzeyinin kendi anahtar olayı var ve hiçbiri
+       * çakışmıyor: popup → `popup_booking_submitted` /
+       * `popup_contact_submitted`, iletişim formu → `contact_form_submitted`,
+       * iletişim randevusu → bu olay, araçlar → `tool_report_requested`.
+       * `brief_submitted` yüzeyler arası huni adımı olarak kalır.
+       */
+      name: "contact_booking_submitted";
+      properties: {
+        briefId: string;
+        locale: "tr" | "en";
+        /** Seçilen slot ("YYYY-MM-DD HH:mm") — popup olaylarıyla aynı biçim. */
+        preferred_slot?: string;
+      };
+    }
+  | {
+      /**
        * Bir GEO araç taraması başlatıldı (form gönderimi, yanıt beklenmeden).
        * `GeoScanForm.onSubmit`de atılır (Görev 11).
        */
@@ -208,3 +235,67 @@ export type AnalyticsEvent =
 type AssertNamesCovered = AnalyticsEvent["name"] extends EventName ? true : never;
 const _namesCovered: AssertNamesCovered = true;
 void _namesCovered;
+
+/**
+ * `dataLayer`a yazılabilen TÜM olay parametrelerinin adları.
+ *
+ * NEDEN BÖYLE BİR LİSTE GEREKLİ
+ * -----------------------------
+ * GTM'in Data Layer Variable'ları **push'lar arası kalıcıdır**: bir kez
+ * `slug` yazıldıysa, sonraki olaylar `slug` göndermese bile `{{dlv - slug}}`
+ * eski değeri döndürmeye devam eder. Sonuç sessiz ve zehirli — canlı
+ * doğrulamada (2026-09-09) yalnız `{event:'pillar_viewed', pillar, locale}`
+ * push edildiği hâlde GA4'e `ep.slug=cro` ve `ep.surface=service` gitti;
+ * ikisi de bir önceki olaydan kalmıştı. Her olay öncekinin parametrelerini
+ * miras alıyordu ve hiçbir rapor bunu görünür kılmıyordu.
+ *
+ * `gaEvent` bu listedeki her adı önce `undefined` yazar, sonra olayın kendi
+ * parametrelerini üstüne bindirir. GTM modelinde `undefined` olan anahtar
+ * için değişken de `undefined` döner ve GA4 etiketi parametreyi hiç
+ * göndermez — yani sızıntı kapanır.
+ *
+ * BURAYA YENİ AD EKLEMEK ZORUNLU: listede olmayan bir parametre sonraki
+ * olaylara sızar. Taksonomi dışı (`gaEvent` ile atılan serbest) olayların
+ * parametreleri de burada durur — popup hunisi ve iletişim formu dahil.
+ * `__tests__/events.test.ts` listeyi taksonomiye karşı doğrular.
+ */
+export const EVENT_PARAM_NAMES = [
+  // Taksonomi (AnalyticsEvent)
+  "axis",
+  "band",
+  "briefId",
+  "budget",
+  "category",
+  "currency",
+  "locale",
+  "packageSlug",
+  "pillar",
+  "price",
+  "problemType",
+  "question",
+  "slug",
+  "source",
+  "surface",
+  "target_service",
+  "timeline",
+  // Serbest olaylar: article_filter (article-library.tsx)
+  "topic",
+  // Serbest olaylar: contact_form_submitted (ContactForm.tsx)
+  "budget_range",
+  "subject",
+  // Popup hunisi (lib/popup/analytics.ts)
+  "at_stage",
+  "from",
+  "lead_id",
+  "persona",
+  // popup_booking_submitted: secilen randevu slotu ("YYYY-MM-DD HH:mm")
+  "preferred_slot",
+  "previous_persona",
+  "problems",
+  "stage",
+  "time_on_stage_ms",
+  "time_to_show_ms",
+  "trigger_source",
+] as const;
+
+export type EventParamName = (typeof EVENT_PARAM_NAMES)[number];

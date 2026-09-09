@@ -174,9 +174,12 @@ export default async function MarketingLayout({
           <ConsentBanner
             regionLabel={tConsent("regionLabel")}
             title={tConsent("title")}
+            titleNotice={tConsent("titleNotice")}
             body={tConsent("body")}
+            bodyNotice={tConsent("bodyNotice")}
             accept={tConsent("accept")}
             reject={tConsent("reject")}
+            close={tConsent("close")}
             policyLabel={tConsent("policyLabel")}
             policyHref={loc === "tr" ? "/tr/gizlilik-kvkk" : "/en/privacy"}
           />

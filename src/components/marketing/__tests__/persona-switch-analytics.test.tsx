@@ -6,16 +6,24 @@ const gtag = vi.fn();
 
 beforeEach(() => {
   gtag.mockClear();
-  (window as unknown as { gtag?: unknown }).gtag = gtag;
+  (window as unknown as { dataLayer?: unknown[] }).dataLayer = [];
 });
 
 afterEach(() => {
-  delete (window as unknown as { gtag?: unknown }).gtag;
+  delete (window as unknown as { dataLayer?: unknown[] }).dataLayer;
   document.documentElement.removeAttribute("data-persona");
 });
 
 function personaEvents() {
-  return gtag.mock.calls.filter((c) => c[1] === "persona_axis_clicked");
+  return ((window as unknown as { dataLayer?: Record<string, unknown>[] }).dataLayer ?? [])
+    .filter((e) => e.event === "persona_axis_clicked")
+    .map(({ event: _event, ...params }) => {
+      // `gaEvent` her olayda tum parametre adlarini `undefined` olarak
+      // sifirliyor (ADR-034 sizinti kalkani); iddialar yalniz gercekten
+      // gonderilen alanlari gormeli.
+      void _event;
+      return Object.fromEntries(Object.entries(params).filter(([, v]) => v !== undefined));
+    });
 }
 
 describe("PersonaSwitch — persona_axis_clicked", () => {
@@ -23,14 +31,14 @@ describe("PersonaSwitch — persona_axis_clicked", () => {
     render(<PersonaSwitch locale="tr" />);
     fireEvent.click(screen.getByRole("button", { name: /Sanayi/ }));
 
-    expect(personaEvents()[0]?.[2]).toEqual({ axis: "industrial" });
+    expect(personaEvents()[0]).toEqual({ axis: "industrial" });
   });
 
   it("ticaret ekseni seçildiğinde olayı yazar", () => {
     render(<PersonaSwitch locale="tr" />);
     fireEvent.click(screen.getByRole("button", { name: /Ticaret/ }));
 
-    expect(personaEvents()[0]?.[2]).toEqual({ axis: "commerce" });
+    expect(personaEvents()[0]).toEqual({ axis: "commerce" });
   });
 
   it("İngilizce arayüzde de aynı ekseni bildirir", () => {
@@ -39,7 +47,7 @@ describe("PersonaSwitch — persona_axis_clicked", () => {
     render(<PersonaSwitch locale="en" />);
     fireEvent.click(screen.getByRole("button", { name: /Commerce/ }));
 
-    expect(personaEvents()[0]?.[2]).toEqual({ axis: "commerce" });
+    expect(personaEvents()[0]).toEqual({ axis: "commerce" });
   });
 
   it("her tıklama ayrı sayılır", () => {
@@ -51,7 +59,7 @@ describe("PersonaSwitch — persona_axis_clicked", () => {
   });
 
   it("gtag yüklenmemişken mercek yine değişir", () => {
-    delete (window as unknown as { gtag?: unknown }).gtag;
+    delete (window as unknown as { dataLayer?: unknown[] }).dataLayer;
     render(<PersonaSwitch locale="tr" />);
     expect(() =>
       fireEvent.click(screen.getByRole("button", { name: /Ticaret/ })),

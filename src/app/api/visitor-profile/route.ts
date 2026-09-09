@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { reportError } from '@/lib/observability/report';
+import { sendMetaLead } from "@/lib/analytics/meta-lead";
 import { visitorProfileSchema } from '@/lib/schemas/visitor-profile';
 import { verifyTurnstile } from '@/lib/security/turnstile';
 import { spamSignal, turnstileEnabled } from '@/lib/security/anti-spam';
@@ -74,8 +75,19 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ error: 'mail_failed' }, { status: 500 });
   }
 
-  // Lead olayları istemcide (`EntryPopup`) GA4'e yazılıyor — ADR-021.
-  // Lead detayı e-posta bildirimiyle taşınıyor; GA4 CRM değil.
+  /*
+   * Meta `Lead` — SUNUCUDAN (ADR-036). Bal küpü yolundan geçmez: buraya
+   * yalnız gerçek bir gönderim ulaşıyor. `void`: ölçüm sinyali ziyaretçinin
+   * yanıtını bekletmemeli, hata da yükseltmiyor (bkz. `meta-lead.ts`).
+   */
+  void sendMetaLead(req, "visitor-profile", {
+    email: data.lead.email,
+    phone: data.lead.phone,
+    firstName: data.lead.firstName,
+    lastName: data.lead.lastName,
+  });
 
+  // GA4 dönüşümü istemcide (`EntryPopup`) yazılıyor — ADR-021.
+  // Lead detayı e-posta bildirimiyle taşınıyor; GA4 CRM değil.
   return NextResponse.json({ ok: true });
 }

@@ -89,6 +89,18 @@ yazmak olay sayısını şişirirdi.
 zaten söylüyor; eklenecek tek boyut ADR-021 konu etiketi olurdu ve içerik
 motoru (strateji §4) başlamadan okunacak veri üretmiyor. Dalga 8'de eklenir.
 
+**Meta'ya hangi olay hangi yoldan gider** (ADR-036):
+
+| Meta olayı | Kaynak olaylar | Yol |
+|---|---|---|
+| `ViewContent` | `service_viewed`, `package_viewed`, `case_study_viewed`, `tool_scan_completed` | Tarayıcı Pixel + sunucu kopyası |
+| `Lead` | `contact_form_submitted`, `contact_booking_submitted`, `popup_booking_submitted`, `popup_contact_submitted`, `tool_report_requested` | **Yalnız sunucu** — form handler'ı (`meta-lead.ts`) |
+
+Meta çağrısının tek kapısı `gaEvent` (ADR-036). Önceden `track()` içindeydi ve
+`gaEvent` ile atılan üç dönüşüm Meta'ya **hiç ulaşmıyordu**. Yeni bir Meta
+dönüşümü eklerken `LEAD_EVENTS` listesi tek başına yetmez — ilgili handler'a
+`sendMetaLead` çağrısı da eklenmeli, yoksa olay yine kaybolur.
+
 **GTM'e ait olanlar** (kodda olay tanımlanmaz, ADR-034):
 
 | Olay | Tetikleyici | Boyutlar |
@@ -513,6 +525,14 @@ fazla değil, **az** ölçüyoruz.
 | `indoles_region` | Functional — onay şeridinin bölge işareti | Oturum | Hayır |
 | `indoles_consent` | Functional — verilen kararın kaydı | 12 ay | Hayır (kararın kendisi) |
 | `_ga`, `_ga_*` | Analitik — GA4 | GA4 varsayılanı | **Evet (EEA/UK)** |
+| `_fbp`, `_fbc` | Pazarlama — Meta Pixel'in kendi çerezleri | 90 gün | **Evet** |
+| `indoles_vid` | Pazarlama — kalıcı ziyaretçi kimliği, Meta'ya `external_id` (ADR-036) | 12 ay | **Evet** |
+| `indoles_fbclid` | Pazarlama — reklam tıklama kimliği, `fbc` bundan kurulur (ADR-036) | 90 gün | **Evet** |
+
+`indoles_vid` ve `indoles_fbclid` **yalnız pazarlama rızası varken** yazılır
+(`loadMetaPixel` → `ensureMarketingIdentifiers`); ikisi de pseudonim
+tanımlayıcı, yani kişisel veri. Gerekçeleri ve neden Meta'nın `_fbc` çerezine
+yazmadığımız `docs/14` §3a'da.
 
 Onay 12 ay sonra yeniden sorulur; EDPB rehberi süresiz onay beklemiyor.
 Ret de kaydedilir — kaydedilmezse "hayır" demek her sayfada tekrar sorulmak

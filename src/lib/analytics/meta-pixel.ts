@@ -27,6 +27,8 @@ type PixelWindow = Window & {
   _fbq?: unknown;
 };
 
+import { ensureMarketingIdentifiers } from "./visitor-id";
+
 const SCRIPT_SRC = "https://connect.facebook.net/en_US/fbevents.js";
 
 type PendingEvent = {
@@ -69,6 +71,12 @@ export function loadMetaPixel(
   },
 ): void {
   if (typeof window === "undefined" || !pixelId) return;
+
+  // Pazarlama tanımlayıcıları (ADR-036). `fbq` guard'ından ÖNCE: bu fonksiyon
+  // her sayfada çağrılıyor ve `fbclid` yakalaması her iniş sayfasında
+  // çalışmalı — Pixel zaten yüklüyse erken dönüp atlamamalı.
+  ensureMarketingIdentifiers();
+
   const w = window as PixelWindow;
   if (typeof w.fbq === "function") return;
 

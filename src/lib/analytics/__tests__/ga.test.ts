@@ -120,26 +120,44 @@ describe("track", () => {
     expect(recs[0]?.axis).toBe("industrial");
   });
 
-  it("donusum olaylarinda Meta Lead gonderir", () => {
-    // Pixel'i once yukle: riza verilmis durumu temsil eder.
-    loadMetaPixel("1378220013915135");
-    track({ name: "contact_form_submitted", properties: {} } as never);
-    const fbq = (window as unknown as { fbq: { queue: unknown[][] } }).fbq;
-    expect(fbq.queue.some((c) => c[0] === "track" && c[1] === "Lead")).toBe(true);
-  });
-
-  it("donusum olmayan olayda Lead gondermez", () => {
+  it("donusum olaylarinda Meta'ya tarayicidan Lead GONDERMEZ", () => {
+    // Regresyon kilidi (ADR-036). Lead artik yalniz SUNUCUDAN gidiyor
+    // (`meta-lead.ts`): kimlik anahtarlari orada var, reklam engelleyici
+    // sunucu cagrisini kesemiyor, ve tek gonderici oldugu icin `event_id`
+    // koordinasyonu — dolayisiyla cift sayim riski — hic olusmuyor.
     loadMetaPixel("1378220013915135");
     const fbq = (window as unknown as { fbq: { queue: unknown[][] } }).fbq;
     const before = fbq.queue.filter((c) => c[1] === "Lead").length;
-    track({ name: "persona_axis_clicked", properties: { axis: "industrial" } });
+    gaEvent("contact_form_submitted", { subject: "x" });
     expect(fbq.queue.filter((c) => c[1] === "Lead").length).toBe(before);
+  });
+
+  it("goruntuleme olaylarinda ViewContent gonderir", () => {
+    loadMetaPixel("1378220013915135");
+    const fbq = (window as unknown as { fbq: { queue: unknown[][] } }).fbq;
+    track({
+      name: "service_viewed",
+      properties: { slug: "cro", pillar: "growth", locale: "tr" },
+    });
+    expect(fbq.queue.some((c) => c[0] === "track" && c[1] === "ViewContent")).toBe(true);
+  });
+
+  it("gaEvent de Meta'yi arar — tek kapi orasi", () => {
+    // ADR-036'nin kok duzeltmesi: Meta cagrisi `track` icindeyken
+    // `gaEvent` ile atilan uc donusum Meta'ya HIC ulasmiyordu. Cagri
+    // `gaEvent`e indi; burada ViewContent uzerinden dogrulaniyor cunku
+    // Lead artik tarayicidan gitmiyor.
+    loadMetaPixel("1378220013915135");
+    const fbq = (window as unknown as { fbq: { queue: unknown[][] } }).fbq;
+    const before = fbq.queue.filter((c) => c[1] === "ViewContent").length;
+    gaEvent("case_study_viewed", { slug: "s", problemType: "p", pillar: "growth" });
+    expect(fbq.queue.filter((c) => c[1] === "ViewContent").length).toBe(before + 1);
   });
 
   it("riza yokken (pixel yuklu degil) sessizce duser", () => {
     delete (window as unknown as { fbq?: unknown }).fbq;
     expect(() =>
-      track({ name: "contact_form_submitted", properties: {} } as never),
+      track({ name: "service_viewed", properties: { slug: "cro", pillar: "growth", locale: "tr" } }),
     ).not.toThrow();
   });
 

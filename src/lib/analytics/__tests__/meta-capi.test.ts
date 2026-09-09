@@ -5,6 +5,7 @@ import {
   normalizePhone,
   buildUserData,
   sendCapiEvent,
+  normalizeName,
 } from "../meta-capi";
 
 describe("normalizeEmail", () => {
@@ -120,5 +121,74 @@ describe("sendCapiEvent", () => {
     await sendCapiEvent(cfg, { eventName: "Lead", eventId: "x1234567" }, fake);
     expect(url).not.toContain("TOKEN");
     expect(sent.access_token).toBe("TOKEN");
+  });
+});
+
+describe("normalizeName — Meta ad/soyad kurali (ADR-036)", () => {
+  it("kucuk harfe cevirir ve kirpar", () => {
+    expect(normalizeName("  Burak  ")).toBe("burak");
+  });
+
+  it("TURKCE HARFLERI KORUR", () => {
+    // ASCII'ye indirgemek ("ozgul") Meta'nin kendi verisiyle uyusmazlik
+    // uretir — Meta da ayni normalizasyonu uyguluyor, harf kaybetmiyor.
+    expect(normalizeName("Özgül")).toBe("özgül");
+    expect(normalizeName("İnci")).toBe("inci".normalize());
+    expect(normalizeName("Şahin")).toBe("şahin");
+  });
+
+  it("noktalama ve bosluklari atar", () => {
+    expect(normalizeName("O'Brien-Smith")).toBe("obriensmith");
+    expect(normalizeName("Ali  Veli")).toBe("aliveli");
+  });
+
+  it("rakamlari atar", () => {
+    expect(normalizeName("Burak2")).toBe("burak");
+  });
+
+  it("yalniz noktalamadan olusan degerde bos dize doner", () => {
+    expect(normalizeName("---")).toBe("");
+  });
+});
+
+describe("buildUserData — eslestirme anahtarlari", () => {
+  it("ad ve soyadi hash'ler", async () => {
+    const out = await buildUserData({ firstName: "Burak", lastName: "Özgül" });
+    expect(out.fn).toEqual([await hashForMeta("burak")]);
+    expect(out.ln).toEqual([await hashForMeta("özgül")]);
+  });
+
+  it("external_id'yi hash'ler", async () => {
+    const out = await buildUserData({ externalId: "v1.abc-123" });
+    expect(out.external_id).toEqual([await hashForMeta("v1.abc-123")]);
+  });
+
+  it("normalizasyondan sonra bosalan adi HIC gondermez", async () => {
+    // Bos dizge Meta'da gecerli bir anahtar sayilip kaliteyi dusurebilir.
+    const out = await buildUserData({ firstName: "---" });
+    expect(out).not.toHaveProperty("fn");
+  });
+
+  it("IP ve User-Agent'i HAM birakir — Meta boyle bekliyor", async () => {
+    const out = await buildUserData({ clientIpAddress: "203.0.113.7", clientUserAgent: "UA" });
+    expect(out.client_ip_address).toBe("203.0.113.7");
+    expect(out.client_user_agent).toBe("UA");
+  });
+
+  it("fbp ve fbc'yi HAM birakir", async () => {
+    const out = await buildUserData({ fbp: "fb.1.9.8", fbc: "fb.1.7.CLICK" });
+    expect(out.fbp).toBe("fb.1.9.8");
+    expect(out.fbc).toBe("fb.1.7.CLICK");
+  });
+
+  it("verilmeyen alani hic koymaz", async () => {
+    expect(await buildUserData({})).toEqual({});
+  });
+
+  it("sehir/posta/dogum tarihi ALANI YOK — site toplamiyor", async () => {
+    // Meta bunlari istiyor ama site hicbirini toplamiyor; IP'den tahmin
+    // uretmek eslestirme kalitesini DUSURUR (ADR-036).
+    const out = await buildUserData({ email: "a@b.com", firstName: "A", externalId: "v1.x" });
+    for (const k of ["ct", "st", "zp", "db"]) expect(out).not.toHaveProperty(k);
   });
 });

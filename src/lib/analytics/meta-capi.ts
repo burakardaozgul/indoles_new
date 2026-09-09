@@ -12,11 +12,19 @@
  *
  * KİŞİSEL VERİ
  * ------------
- * E-posta ve telefon Meta'ya ham gönderilmez; SHA-256 ile hash'lenir ve
- * normalize edilir (Meta'nın eşleştirme kuralı: küçük harf, kırpılmış
- * e-posta; yalnız rakamlardan oluşan telefon). Hash geri döndürülemez ama
- * KVKK açısından yine kişisel veri işlemesidir — bu yüzden yalnız pazarlama
- * rızası varsa çağrılır ve `docs/14`te açıkça belirtilir.
+ * E-posta, telefon, ad ve soyad Meta'ya ham gönderilmez; normalize edilip
+ * SHA-256 ile hash'lenir (Meta'nın eşleştirme kuralı: küçük harf, kırpılmış
+ * e-posta; yalnız rakamlardan oluşan telefon; harf dışı karakteri atılmış
+ * ad/soyad). Hash geri döndürülemez ama KVKK açısından yine kişisel veri
+ * işlemesidir — bu yüzden yalnız pazarlama rızası varsa çağrılır ve
+ * `docs/14`te açıkça belirtilir.
+ *
+ * ŞEHİR, POSTA KODU VE DOĞUM TARİHİ BİLEREK YOK (ADR-036)
+ * -------------------------------------------------------
+ * Meta bunları da istiyor (`ct`, `st`, `zip`, `dob`) ama site hiçbirini
+ * TOPLAMIYOR. IP'den şehir türetmek mümkün ama Meta müşterinin beyan ettiği
+ * şehri bekliyor; tahmin uyuşmazlık üretir ve eşleştirme kalitesini
+ * DÜŞÜRÜR. Form alanı eklemek de B2B lead formunda dönüşüme zarar verir.
  */
 
 const GRAPH_VERSION = "v21.0";
@@ -24,6 +32,16 @@ const GRAPH_VERSION = "v21.0";
 export type MetaUserData = {
   email?: string;
   phone?: string;
+  /** Ad — Meta `fn`. Yalnız lead anında var (form handler'ı). */
+  firstName?: string;
+  /** Soyad — Meta `ln`. */
+  lastName?: string;
+  /**
+   * Kalıcı birinci taraf ziyaretçi kimliği — Meta `external_id` (ADR-036).
+   * Aynı kişinin ayrı oturumlardaki olaylarını bağlar; anonim ViewContent'te
+   * de gönderilebilen tek eşleştirme anahtarı.
+   */
+  externalId?: string;
   /** İstek başlıklarından gelir; Meta eşleştirmeyi bunlarla güçlendirir. */
   clientIpAddress?: string;
   clientUserAgent?: string;
@@ -57,6 +75,18 @@ export function normalizeEmail(email: string): string {
 }
 
 /**
+ * Ad ve soyad için Meta'nın normalizasyon kuralı: küçük harf, kırpılmış,
+ * noktalama ve boşluk atılmış, yalnız harfler.
+ *
+ * Türkçe harfler KORUNUR: `\p{L}` Unicode harf sınıfı, yani "Özgül" → "özgül".
+ * ASCII'ye indirgemek ("ozgul") Meta'nın kendi verisiyle uyuşmazlık üretir —
+ * o da aynı normalizasyonu uyguluyor, harf kaybetmiyor.
+ */
+export function normalizeName(name: string): string {
+  return name.trim().toLowerCase().replace(/[^\p{L}]/gu, "");
+}
+
+/**
  * Telefondan rakam dışı her şey atılır. Başında `00` varsa (uluslararası
  * arama öneki) atılır; `0` ile başlayan yerel numaralara Türkiye ülke kodu
  * eklenir — Meta ülke kodsuz numarayı eşleştiremiyor.
@@ -74,6 +104,18 @@ export async function buildUserData(u: MetaUserData): Promise<Record<string, unk
   const out: Record<string, unknown> = {};
   if (u.email) out.em = [await hashForMeta(normalizeEmail(u.email))];
   if (u.phone) out.ph = [await hashForMeta(normalizePhone(u.phone))];
+  if (u.firstName) {
+    const fn = normalizeName(u.firstName);
+    if (fn) out.fn = [await hashForMeta(fn)];
+  }
+  if (u.lastName) {
+    const ln = normalizeName(u.lastName);
+    if (ln) out.ln = [await hashForMeta(ln)];
+  }
+  // Meta `external_id`i hash'li de kabul ediyor ve hash'lemeyi öneriyor.
+  // Kimliğimiz zaten rastgele bir UUID, yani hash gizlilik eklemiyor — ama
+  // Meta tarafındaki eşleştirme hash'li alanlarla tutarlı çalışıyor.
+  if (u.externalId) out.external_id = [await hashForMeta(u.externalId)];
   // IP ve User-Agent hash'lenmez — Meta bunları ham bekliyor.
   if (u.clientIpAddress) out.client_ip_address = u.clientIpAddress;
   if (u.clientUserAgent) out.client_user_agent = u.clientUserAgent;

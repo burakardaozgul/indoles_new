@@ -1,4 +1,4 @@
-import { readConsentCookie, readRegionCookie } from "./cookie";
+import { readConsentCookie } from "./cookie";
 
 /**
  * Çerez şeridi karar bekliyorken `window`a düşen olay.
@@ -9,9 +9,17 @@ import { readConsentCookie, readRegionCookie } from "./cookie";
  */
 export const CONSENT_RESOLVED_EVENT = "indoles:consent-resolved";
 
-/** Şerit şu anda ekranda mı — yani ziyaretçi henüz karar vermedi mi? */
+/**
+ * Şerit şu anda ekranda mı — yani ziyaretçi henüz karar vermedi mi?
+ *
+ * ADR-033: bölge koşulu kaldırıldı. Önceden şerit yalnız EEA'da çıkıyordu
+ * çünkü sorulan tek şey analitikti ve o Türkiye'de varsayılan açıktı.
+ * Pazarlama çerezleri her yerde açık rıza istiyor (KVKK m.5), dolayısıyla
+ * karar verilmemiş her ziyaretçiye şerit gösterilir. Bölge artık şeridin
+ * görünürlüğünü değil, ne sorduğunu belirliyor.
+ */
 export function isConsentPending(): boolean {
-  return readRegionCookie() === "eea" && readConsentCookie() === null;
+  return readConsentCookie() === null;
 }
 
 /**

@@ -21,43 +21,70 @@ describe("readConsentCookie", () => {
     expect(readConsentCookie()).toBeNull();
   });
 
-  it("granted değerini okur", () => {
-    document.cookie = `${CONSENT_COOKIE_NAME}=granted; path=/`;
-    expect(readConsentCookie()).toBe("granted");
+  it("iki kategoriyi ayrı ayrı okur", () => {
+    document.cookie = `${CONSENT_COOKIE_NAME}=gd; path=/`;
+    expect(readConsentCookie()).toEqual({ analytics: "granted", marketing: "denied" });
   });
 
-  it("denied değerini okur", () => {
+  it("pazarlama açık analitik kapalı kombinasyonunu okur", () => {
+    document.cookie = `${CONSENT_COOKIE_NAME}=dg; path=/`;
+    expect(readConsentCookie()).toEqual({ analytics: "denied", marketing: "granted" });
+  });
+
+  it("ADR-033 öncesi 'granted' çerezini analitik onayı sayar, pazarlamayı reddedilmiş", () => {
+    // Eski şema tek kelimeydi ve yalnız analitiği kapsıyordu. O ziyaretçilere
+    // hiç sorulmamış bir pazarlama rızası atfedilemez.
+    document.cookie = `${CONSENT_COOKIE_NAME}=granted; path=/`;
+    expect(readConsentCookie()).toEqual({ analytics: "granted", marketing: "denied" });
+  });
+
+  it("ADR-033 öncesi 'denied' çerezini iki kategoride de ret sayar", () => {
     document.cookie = `${CONSENT_COOKIE_NAME}=denied; path=/`;
-    expect(readConsentCookie()).toBe("denied");
+    expect(readConsentCookie()).toEqual({ analytics: "denied", marketing: "denied" });
   });
 
   it("tanımadığı değeri null sayar", () => {
-    // Elle kurcalanmış ya da eski şemadan kalmış çerez, onay verilmiş
-    // sayılmamalı — bilinmeyen değer "onay yok" demektir.
+    // Elle kurcalanmış çerez onay verilmiş sayılmamalı.
     document.cookie = `${CONSENT_COOKIE_NAME}=maybe; path=/`;
     expect(readConsentCookie()).toBeNull();
   });
 
+  it("eksik ya da fazla haneli değeri null sayar", () => {
+    document.cookie = `${CONSENT_COOKIE_NAME}=g; path=/`;
+    expect(readConsentCookie()).toBeNull();
+    clearCookies();
+    document.cookie = `${CONSENT_COOKIE_NAME}=ggg; path=/`;
+    expect(readConsentCookie()).toBeNull();
+  });
+
   it("adı benzeyen başka çerezle karışmaz", () => {
-    document.cookie = `not_${CONSENT_COOKIE_NAME}=granted; path=/`;
+    document.cookie = `not_${CONSENT_COOKIE_NAME}=gg; path=/`;
     expect(readConsentCookie()).toBeNull();
   });
 });
 
 describe("writeConsentCookie", () => {
-  it("granted yazar ve geri okunur", () => {
-    writeConsentCookie("granted");
-    expect(readConsentCookie()).toBe("granted");
+  it("yazdığını aynen geri okur", () => {
+    writeConsentCookie({ analytics: "granted", marketing: "granted" });
+    expect(readConsentCookie()).toEqual({ analytics: "granted", marketing: "granted" });
   });
 
-  it("denied yazar ve geri okunur", () => {
-    writeConsentCookie("denied");
-    expect(readConsentCookie()).toBe("denied");
+  it("karışık kararı bozmadan taşır", () => {
+    writeConsentCookie({ analytics: "granted", marketing: "denied" });
+    expect(readConsentCookie()).toEqual({ analytics: "granted", marketing: "denied" });
   });
 
   it("reddi de kalıcı kaydeder — banner her sayfada tekrar sorulmaz", () => {
-    writeConsentCookie("denied");
+    writeConsentCookie({ analytics: "denied", marketing: "denied" });
     expect(readConsentCookie()).not.toBeNull();
+  });
+
+  it("çerez değeri kaçış gerektiren karakter taşımaz", () => {
+    // Biçim bilerek iki harf: JSON ya da virgüllü biçimler ara katmanlarda
+    // kaçış bozulunca onayı sessizce okunamaz hâle getirir.
+    writeConsentCookie({ analytics: "granted", marketing: "denied" });
+    const raw = document.cookie.match(new RegExp(`${CONSENT_COOKIE_NAME}=([^;]*)`))?.[1];
+    expect(raw).toMatch(/^[gd]{2}$/);
   });
 });
 

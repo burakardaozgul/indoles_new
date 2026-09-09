@@ -70,7 +70,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 | Background Jobs | **Yok** | ADR-011 |
 | Email | **Veridyen SMTP** (`worker-mailer`) + React Email | Transactional; From `noreply@`, Reply-To `digital@` — ADR-026 |
 | Spam koruma | Bal küpü + süre tuzağı (`lib/security/anti-spam.ts`) | Turnstile bayrakla devre dışı — challenge host'u IPv4'te çözülmüyor; ADR-028 |
-| Analytics | Google Analytics 4 | Tek ölçüm sağlayıcı (ADR-021; PostHog kaldırıldı) |
+| Analytics | Google Analytics 4 (doğrudan `gtag`) + GTM | GA4 ölçümün tek sağlayıcısı (ADR-021); GTM yalnız Meta Pixel ve Google Ads etiketlerini taşır (ADR-033) |
 | Observability | Cloudflare Workers observability + `lib/observability/report.ts` | Sentry kaldırıldı — init edilmiyordu, ~864 KiB ölü ağırlıktı (ADR-027) |
 | Deploy | **Cloudflare Workers + OpenNext** · kanonik host `www.indoles.com.tr` | ADR-024 (ADR-012/Vercel superseded) |
 | CI/CD | GitHub Actions (test/lint/robots/SEO denetimi) · dağıtım elle `pnpm cf:deploy` | Doğrulama adresi yok — gerekçe `wrangler.jsonc` |

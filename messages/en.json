@@ -510,10 +510,13 @@
   },
   "consent": {
     "regionLabel": "Cookie preference",
-    "title": "We use analytics cookies.",
-    "body": "To see which pages actually help. No advertising trackers, no profiling.",
+    "title": "Your cookie preference.",
+    "titleNotice": "How we use cookies.",
+    "body": "We use measurement cookies to see which pages actually help, and marketing cookies to see how our advertising performs. Both depend on your consent.",
+    "bodyNotice": "We use cookies to improve your experience, measure which pages actually help, and see how our advertising performs. These are on by default; the details and how to turn them off are in our privacy notice.",
     "accept": "Accept",
-    "reject": "Essential only",
+    "reject": "Reject",
+    "close": "Close",
     "policyLabel": "Cookies and privacy"
   },
   "bookingManage": {

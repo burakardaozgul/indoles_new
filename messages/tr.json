@@ -510,10 +510,13 @@
   },
   "consent": {
     "regionLabel": "Çerez tercihi",
-    "title": "Ölçüm çerezi kullanıyoruz.",
-    "body": "Hangi sayfanın işe yaradığını görmek için. Reklam takibi yapmıyoruz, profil çıkarmıyoruz.",
+    "title": "Çerez tercihiniz.",
+    "titleNotice": "Çerez kullanımı.",
+    "body": "Hangi sayfanın işe yaradığını görmek için ölçüm, reklamlarımızın sonucunu izlemek için pazarlama çerezleri kullanıyoruz. İkisi de onayınıza bağlı.",
+    "bodyNotice": "Deneyiminizi iyileştirmek, hangi sayfaların işe yaradığını ölçmek ve reklamlarımızın sonucunu izlemek için çerez kullanıyoruz. Bunlar varsayılan olarak açık; ayrıntılar ve kapatma yolu aydınlatma metnimizde.",
     "accept": "Kabul et",
-    "reject": "Yalnız gerekli olanlar",
+    "reject": "Reddet",
+    "close": "Kapat",
     "policyLabel": "Çerez ve KVKK aydınlatması"
   },
   "bookingManage": {

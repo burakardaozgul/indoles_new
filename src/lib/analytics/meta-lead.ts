@@ -33,8 +33,22 @@ import { FBCLID_COOKIE, VISITOR_ID_COOKIE } from "./visitor-id";
  * üç dönüşüm tam olarak böyle kaybolmuştu (denetim 2026-09-09).
  */
 
-/** Meta'nın `_fbc` biçimi: `fb.<altAlanIndeksi>.<tıklamaZamanı>.<fbclid>`. */
-const FBC_SUBDOMAIN_INDEX = 1;
+/**
+ * Meta'nın `_fbc` biçimi: `fb.<altAlanIndeksi>.<tıklamaZamanı>.<fbclid>`.
+ *
+ * İndeks Meta'nın kendi sayımı: `com` = 0, `facebook.com` = 1,
+ * `www.facebook.com` = 2. Bizim ana makinemiz `www.indoles.com.tr` ve
+ * `com.tr` bir public suffix, yani kayıtlanabilir alan `indoles.com.tr` —
+ * dolayısıyla `www.facebook.com` ile aynı seviye, **2**.
+ *
+ * Bu tahmin değil, ölçüm: canlıda Pixel'in kendi yazdığı çerez
+ * `fb.2.1788955835995.<fbclid>` (2026-09-09 doğrulaması). Yanlış indeks
+ * yazmak yalnız Pixel'in HİÇ yazmadığı durumda etkili olurdu — yani tam da
+ * bu yedek yolun devreye girdiği durumda — ve eşleştirmeyi zayıflatırdı.
+ *
+ * Alan adı değişirse burası da değişir.
+ */
+const FBC_SUBDOMAIN_INDEX = 2;
 
 function cookieValue(cookieHeader: string, name: string): string | undefined {
   const m = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));

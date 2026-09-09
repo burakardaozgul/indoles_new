@@ -22,10 +22,12 @@ describe("resolveFbc — reklam tiklama kimligi", () => {
     expect(resolveFbc("_fbc=fb.1.1700000000000.ABC123")).toBe("fb.1.1700000000000.ABC123");
   });
 
-  it("_fbc yoksa kendi yakaladigimiz fbclid'den kurar", () => {
+  it("_fbc yoksa kendi yakaladigimiz fbclid'den kurar — alt alan indeksi 2", () => {
     // Bu yol iki bosluk kapatiyor: Pixel yuklenmeden once gerceklesen
     // donusumler ve reklam engelleyicinin Pixel'i hic yuklemedigi durumlar.
-    expect(resolveFbc("indoles_fbclid=1700000000000.ABC123")).toBe("fb.1.1700000000000.ABC123");
+    // Indeks 2, cunku canlida Pixel'in kendisi de 2 yaziyor (www.indoles.com.tr,
+    // com.tr public suffix) — olculdu, tahmin edilmedi.
+    expect(resolveFbc("indoles_fbclid=1700000000000.ABC123")).toBe("fb.2.1700000000000.ABC123");
   });
 
   it("_fbc oncelikli — ikisi de varsa Pixel'inki kazanir", () => {
@@ -45,7 +47,7 @@ describe("resolveFbc — reklam tiklama kimligi", () => {
 
   it("URL-encoded fbclid cozulur", () => {
     expect(resolveFbc("indoles_fbclid=" + encodeURIComponent("1700000000000.A_B-C"))).toBe(
-      "fb.1.1700000000000.A_B-C",
+      "fb.2.1700000000000.A_B-C",
     );
   });
 });

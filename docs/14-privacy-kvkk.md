@@ -60,6 +60,48 @@ Kalıcı PostgreSQL DB yok (ADR-010). Kullanıcı hesabı, session, rol bilgisi 
 
 ## 3. Cookie Banner
 
+> **Güncelleme (2026-09-09, ADR-035):** Türkiye ve EEA/UK dışındaki bölgelerde
+> **dört Consent Mode sinyali de varsayılan `granted`**. Şerit kaldırılmadı ama
+> soru sormuyor — bilgilendiriyor: başlık "Çerez kullanımı.", düğmeler
+> "Kabul et" / "Kapat", ikisi de `gg` yazar. "Kapat" varsayılanı geri almaz
+> çünkü geri alınacak bir soru sorulmadı; ayrıntı ve kapatma yolu aydınlatma
+> metnindedir ve şeritten linklidir.
+>
+> **EEA/UK hiç değişmedi** — orada dört sinyal de `denied` varsayılanla başlar,
+> "Reddet" gerçek bir rettir ve iki düğme eşit ağırlıkta gerçek butondur.
+> Sınır tek listeden okunur (`consent/region.ts`), ikisi ayrışamaz.
+>
+> Bu, aşağıdaki ADR-033 notunun pazarlama çerezine ilişkin kararını Türkiye
+> için tersine çevirir. **Bilinçli bir risk kabulüdür**, gerekçesi ve riski
+> sınırlayan üç unsur ADR-035'te. Meta Pixel de bu bölgelerde şeride
+> tıklanmayı beklemeden ilk sayfada yüklenir — beklerse Google sinyalleriyle
+> Meta ayrışır ve dönüşüm sayıları birbirini tutmaz.
+>
+> Açık kalan: Türkiye'de ziyaretçinin çerezleri **şeritten** kapatma yolu yok
+> (yalnız aydınlatma metni üzerinden iletişim). Tercih merkezi eklenirse kapanır.
+
+
+> **Güncelleme (2026-09-08, ADR-033):** Pazarlama çerezleri devreye girdi
+> (Google Ads, Meta Pixel). KVKK m.5 ve GDPR pazarlama çerezinde açık rıza
+> istiyor; bu, analitik için öne sürülebilen meşru menfaat kapsamına
+> girmiyor. Bu nedenle:
+>
+> - Onay kategorilendi: `analytics` ve `marketing` ayrı kararlar. Pazarlama
+>   rızası analitik rızasının arkasına saklanamaz.
+> - Şerit **her bölgede** gösteriliyor. ~~Aşağıdaki bölgesel karar yalnız
+>   analitik için geçerli: EEA/UK'de opt-in, Türkiye'de varsayılan açık.
+>   Türkiye'de "Reddet" analitiği kapatmaz çünkü orada hiç sorulmamıştır;
+>   yalnız pazarlamayı kapatır ve şerit metni bunu açıkça söyler.~~
+>   → **ADR-035 ile değişti:** Türkiye'de pazarlama da varsayılan açık ve
+>   şerit hiçbir şey sormuyor. Bkz. üstteki 2026-09-09 notu.
+> - Çerez biçimi iki harf (`gd` = analitik açık, pazarlama kapalı). ADR-033
+>   öncesi tek kelimelik çerezler analitik kararı sayılır, pazarlama
+>   `denied` kabul edilir — o ziyaretçilere hiç sorulmamış bir pazarlama
+>   rızası atfedilemez.
+> - `middleware.ts` coğrafi başlığı düzeltildi (`cf-ipcountry`). Önceki
+>   `x-vercel-ip-country` ADR-024'ten beri hiç gelmiyordu, dolayısıyla EEA
+>   ziyaretçilerine şerit hiç çıkmamıştı.
+
 > **Durum (2026-08-24): uygulandı.** Teknik mimari `docs/12` §9'da; burada
 > yalnız hukuki karar duruyor.
 
@@ -71,9 +113,9 @@ Kalıcı PostgreSQL DB yok (ADR-010). Kullanıcı hesabı, session, rol bilgisi 
   değil ve Türkiye birincil pazar; ölçüm kaybı organik büyüme kararlarını
   körleştiriyor. Bu bilinçli bir risk kabulüdür ve KVKK tarafında bağlayıcı
   bir karar çıkarsa yeniden değerlendirilir.
-- **Reklam çerezi hiç kullanılmıyor.** `ad_storage`, `ad_user_data` ve
-  `ad_personalization` her bölgede reddedilir; onay da istenmez. Şerit
-  metnindeki "reklam takibi yapmıyoruz" iddiası bu yüzden doğrulanabilir.
+- ~~**Reklam çerezi hiç kullanılmıyor.**~~ → ADR-033 ile geçersiz: Google Ads
+  ve Meta Pixel devrede. ADR-035 ile `ad_*` sinyalleri EEA/UK dışında
+  **varsayılan `granted`**, EEA/UK'de `denied` ve rızaya bağlı.
 - Functional cookie'ler (persona merceği, giriş popup'ı durumu, bölge işareti,
   onay kaydı) zorunlu; önceden onay gerekmez.
 - Onay 12 ay saklanır, sonra yeniden sorulur. **Ret de kaydedilir** — aksi
@@ -82,6 +124,25 @@ Kalıcı PostgreSQL DB yok (ADR-010). Kullanıcı hesabı, session, rol bilgisi 
   rehberi: reddetmek kabul etmek kadar kolay olmalı).
 
 ---
+
+## 3a. Reklam ölçümü ve Meta'ya veri aktarımı (ADR-033)
+
+Pazarlama rızası verildiğinde Meta Pixel yüklenir ve iki yoldan olay bildirilir:
+
+| Yol | Ne gider |
+|---|---|
+| Tarayıcı (Pixel) | Olay adı, sayfa adresi, içerik kimliği (hizmet/paket/vaka slug'ı), Meta'nın kendi çerezleri (`_fbp`, `_fbc`) |
+| Sunucu (Conversions API) | Aynı olay, aynı `event_id` ile; ek olarak ziyaretçinin IP adresi ve tarayıcı kimliği (User-Agent) |
+
+**Neden iki yol:** tarayıcı tarafı tek başına eksik ölçüyor (Safari ITP, reklam engelleyiciler, iOS kısıtları). Meta iki kaydı `event_id` üzerinden birleştirir, olay iki kez sayılmaz.
+
+**Kişisel veri:** İletişim bilgisi (e-posta, telefon) gönderildiğinde **ham hâliyle gönderilmez**; normalize edilip SHA-256 ile hash'lenir ve yalnız hash aktarılır. Hash geri döndürülemez, ancak KVKK açısından yine kişisel veri işlemesidir. Bu nedenle:
+
+- Aktarım **yalnızca pazarlama rızası** verilmişse yapılır. Rıza iki yerde denetlenir: istemcide (Pixel yüklü değilse olay hiç üretilmez) ve sunucuda (`/api/meta/capi` çerezi tekrar okur; rıza yoksa Meta'ya hiçbir şey gitmez).
+- Rıza geri alındığında sonraki olaylar durur. Meta'ya daha önce aktarılmış kayıtların silinmesi için §4'teki prosedür işletilir; talep Meta'ya da iletilir.
+- IP adresi ve User-Agent hash'lenmeden gider — Meta bunları ham bekliyor. Bunlar yalnız eşleştirme için kullanılır, sitede saklanmaz.
+
+Aktarılan veriler Meta Platforms Ireland Ltd. tarafından işlenir; yurt dışına aktarım bu kapsamdadır ve çerez aydınlatma metninde belirtilir.
 
 ## 4. Veri Silme Prosedürü (KVKK/GDPR Talebi)
 

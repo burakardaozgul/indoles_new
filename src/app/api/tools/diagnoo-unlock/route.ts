@@ -61,6 +61,7 @@ import { recomputeWithKnownMetrics } from "@/lib/tools/diagnoo/report";
 import { UNLOCK_COOKIE_MAX_AGE, unlockCookieName } from "@/lib/tools/diagnoo/unlock-cookie";
 import { sendMailWithRetry, recipients } from "@/lib/mail/client";
 import { reportError } from "@/lib/observability/report";
+import { sendMetaLead } from "@/lib/analytics/meta-lead";
 import DiagnooLeadNotification from "../../../../../emails/DiagnooLeadNotification";
 
 export const runtime = "nodejs";
@@ -219,6 +220,16 @@ export async function POST(req: Request): Promise<Response> {
     reportError(err, { route: "tools/diagnoo-unlock", step: "create-lead" });
     return errorResponse("misconfigured", 500);
   }
+
+  /*
+   * Meta `Lead` — SUNUCUDAN (ADR-036). Bal küpü yolundan geçmez: buraya
+   * yalnız gerçek bir gönderim ulaşıyor. `void`: ölçüm sinyali ziyaretçinin
+   * yanıtını bekletmemeli, hata da yükseltmiyor (bkz. `meta-lead.ts`).
+   *
+   * Araç kilidinde telefon ve soyad TOPLANMIYOR — yalnız e-posta (+şirket).
+   * Eksik alan hiç gönderilmez; uydurma değer eşleştirme kalitesini düşürür.
+   */
+  void sendMetaLead(req, "tools/diagnoo-unlock", { email: data.email });
 
   const res = NextResponse.json({ report }, { status: 200 });
   res.cookies.set(unlockCookieName(data.diagnosticId), unlockToken, {

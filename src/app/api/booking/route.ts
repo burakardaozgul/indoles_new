@@ -10,6 +10,7 @@ import { sendMailWithRetry, recipients } from "@/lib/mail/client";
 import { spamSignal, turnstileEnabled } from "@/lib/security/anti-spam";
 import { verifyTurnstile } from "@/lib/security/turnstile";
 import { reportError } from "@/lib/observability/report";
+import { sendMetaLead } from "@/lib/analytics/meta-lead";
 import BookingConfirmation from "../../../../emails/BookingConfirmation";
 import BookingNotification from "../../../../emails/BookingNotification";
 
@@ -184,6 +185,18 @@ export async function POST(req: Request): Promise<Response> {
     // Randevu geçerli kalır, silinmez (spec §4).
     reportError(err, { route: "booking", step: "confirmation" });
   }
+
+  /*
+   * Meta `Lead` — SUNUCUDAN (ADR-036). Bal küpü yolundan geçmez: buraya
+   * yalnız gerçek bir gönderim ulaşıyor. `void`: ölçüm sinyali ziyaretçinin
+   * yanıtını bekletmemeli, hata da yükseltmiyor (bkz. `meta-lead.ts`).
+   */
+  void sendMetaLead(req, "booking", {
+    email: data.lead.email,
+    phone: data.lead.phone,
+    firstName: data.lead.firstName,
+    lastName: data.lead.lastName,
+  });
 
   return NextResponse.json({ ok: true, cancelToken: row.cancelToken, meetUrl, degraded });
 }

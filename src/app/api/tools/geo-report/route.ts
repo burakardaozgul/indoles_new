@@ -41,6 +41,7 @@ import {
 } from "@/lib/tools/geo/repository";
 import { sendMailWithRetry, recipients } from "@/lib/mail/client";
 import { reportError } from "@/lib/observability/report";
+import { sendMetaLead } from "@/lib/analytics/meta-lead";
 import { getToolBySlug } from "@/lib/content/tools";
 import { ARTICLES } from "@/lib/content/articles";
 import { absoluteUrl } from "@/lib/seo/site";
@@ -238,5 +239,15 @@ export async function POST(req: Request): Promise<Response> {
   // Görev 12b: rapor akışı KVKK rızalıdır (üstteki `insertLead`) — bu yüzden
   // 200 yanıtı `checks`i (findings dahil) TAŞIR; `ReportGate` kilidi
   // açınca bu gövdeden render eder, başlangıç prop'undan DEĞİL.
+  /*
+   * Meta `Lead` — SUNUCUDAN (ADR-036). Bal küpü yolundan geçmez: buraya
+   * yalnız gerçek bir gönderim ulaşıyor. `void`: ölçüm sinyali ziyaretçinin
+   * yanıtını bekletmemeli, hata da yükseltmiyor (bkz. `meta-lead.ts`).
+   *
+   * Araç kilidinde telefon ve soyad TOPLANMIYOR — yalnız e-posta (+şirket).
+   * Eksik alan hiç gönderilmez; uydurma değer eşleştirme kalitesini düşürür.
+   */
+  void sendMetaLead(req, "tools/geo-report", { email: data.email });
+
   return NextResponse.json({ ok: true, checks: scan.checks });
 }

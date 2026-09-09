@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { reportError } from "@/lib/observability/report";
 import { metaCapiSchema } from "@/lib/schemas/meta-capi";
 import { sendCapiEvent } from "@/lib/analytics/meta-capi";
+import { requestMatchSignals } from "@/lib/analytics/meta-lead";
 
 // OpenNext edge runtime'ı ayrı bir fonksiyon olarak paketlemek istiyor ve
 // bu projede öyle bir yapı yok (ADR-024); diğer route'lar gibi nodejs.
@@ -55,11 +56,6 @@ export async function POST(req: Request): Promise<Response> {
   }
   const data = parsed.data;
 
-  const cookies = req.headers.get("cookie") ?? "";
-  const ip = req.headers.get("cf-connecting-ip");
-  const ua = req.headers.get("user-agent");
-  const fbp = cookies.match(/(?:^|;\s*)_fbp=([^;]+)/)?.[1];
-  const fbc = cookies.match(/(?:^|;\s*)_fbc=([^;]+)/)?.[1];
   const result = await sendCapiEvent(
     {
       pixelId,
@@ -75,16 +71,19 @@ export async function POST(req: Request): Promise<Response> {
       eventId: data.eventId,
       ...(data.eventSourceUrl ? { eventSourceUrl: data.eventSourceUrl } : {}),
       ...(data.customData ? { customData: data.customData } : {}),
-      // E-posta/telefon BİLEREK yok: şema onları kabul etmiyor (gerekçe
-      // `lib/schemas/meta-capi.ts`). Buradaki alanların hepsi istekten değil,
-      // isteğin KENDİ başlıklarından ve çerezlerinden okunuyor.
-      userData: {
-        // Cloudflare gerçek ziyaretçi IP'sini bu başlıkta veriyor.
-        ...(ip ? { clientIpAddress: ip } : {}),
-        ...(ua ? { clientUserAgent: ua } : {}),
-        ...(fbp ? { fbp } : {}),
-        ...(fbc ? { fbc } : {}),
-      },
+      /*
+       * E-posta/telefon/ad BİLEREK yok: şema onları kabul etmiyor (gerekçe
+       * `lib/schemas/meta-capi.ts`) ve bu uç nokta ViewContent taşıyor —
+       * anonim yüzeyler, kimlik verisi zaten mevcut değil.
+       *
+       * Sinyallerin tamamı isteğin KENDİ başlıklarından ve çerezlerinden
+       * okunuyor, gövdeden değil: IP, User-Agent, `_fbp`, `_fbc` (yoksa
+       * `fbclid`den kurulan) ve `external_id` (kalıcı ziyaretçi kimliği).
+       * `external_id` anonim ViewContent'te gönderilebilen tek eşleştirme
+       * anahtarı — Meta'nın eşleştirme kalitesi tavsiyesinin bu yüzeyde
+       * karşılığı olan tek maddesi (ADR-036).
+       */
+      userData: requestMatchSignals(req),
     },
   );
 

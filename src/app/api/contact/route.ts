@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { reportError } from '@/lib/observability/report';
+import { sendMetaLead } from "@/lib/analytics/meta-lead";
 import { contactSchema } from '@/lib/schemas/contact';
 import { verifyTurnstile } from '@/lib/security/turnstile';
 import { spamSignal, turnstileEnabled } from '@/lib/security/anti-spam';
@@ -68,6 +69,18 @@ export async function POST(req: Request): Promise<Response> {
     console.error('[api/contact] autoreply_failed:', err);
   }
 
-  // Dönüşüm olayı istemcide (`ContactForm`) GA4'e yazılıyor — ADR-021.
+  /*
+   * Meta `Lead` — SUNUCUDAN (ADR-036). Bal küpü yolundan geçmez: buraya
+   * yalnız gerçek bir gönderim ulaşıyor. `void`: ölçüm sinyali ziyaretçinin
+   * yanıtını bekletmemeli, hata da yükseltmiyor (bkz. `meta-lead.ts`).
+   */
+  void sendMetaLead(req, "contact", {
+    email: data.email,
+    phone: data.phone,
+    firstName: data.firstName,
+    lastName: data.lastName,
+  });
+
+  // GA4 dönüşümü istemcide (`ContactForm`) yazılıyor — ADR-021.
   return NextResponse.json({ ok: true });
 }

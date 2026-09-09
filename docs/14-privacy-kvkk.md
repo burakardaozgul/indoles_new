@@ -129,16 +129,28 @@ Kalıcı PostgreSQL DB yok (ADR-010). Kullanıcı hesabı, session, rol bilgisi 
 
 Pazarlama rızası verildiğinde Meta Pixel yüklenir ve iki yoldan olay bildirilir:
 
-| Yol | Ne gider |
-|---|---|
-| Tarayıcı (Pixel) | Olay adı, sayfa adresi, içerik kimliği (hizmet/paket/vaka slug'ı), Meta'nın kendi çerezleri (`_fbp`, `_fbc`) |
-| Sunucu (Conversions API) | Aynı olay, aynı `event_id` ile; ek olarak ziyaretçinin IP adresi ve tarayıcı kimliği (User-Agent) |
+> **Güncelleme (2026-09-09, ADR-036):** Yol ayrımı olay tipine bağlandı ve
+> **kalıcı bir ziyaretçi kimliği** eklendi. Aşağıdaki tablo güncel hâlidir.
 
-**Neden iki yol:** tarayıcı tarafı tek başına eksik ölçüyor (Safari ITP, reklam engelleyiciler, iOS kısıtları). Meta iki kaydı `event_id` üzerinden birleştirir, olay iki kez sayılmaz.
+| Olay | Yol | Ne gider |
+|---|---|---|
+| **Görüntüleme** (`ViewContent`) — hizmet, paket, vaka, tamamlanan tarama | Tarayıcı (Pixel) + sunucu kopyası | Olay adı, sayfa adresi, içerik kimliği (slug), Meta çerezleri (`_fbp`, `_fbc`), IP, User-Agent, **kalıcı ziyaretçi kimliği** |
+| **Dönüşüm** (`Lead`) — form, randevu, araç raporu | **Yalnız sunucu** (Conversions API) | Yukarıdakiler, artı **e-posta, telefon, ad ve soyadın hash'i** |
 
-**Kişisel veri:** İletişim bilgisi (e-posta, telefon) gönderildiğinde **ham hâliyle gönderilmez**; normalize edilip SHA-256 ile hash'lenir ve yalnız hash aktarılır. Hash geri döndürülemez, ancak KVKK açısından yine kişisel veri işlemesidir. Bu nedenle:
+**Görüntüleme olaylarında kimlik bilgisi YOKTUR ve olamaz:** o yüzeyler anonim, sitede kullanıcı girişi yok (ADR-008), veritabanı yok (ADR-010). Ziyaretçi kendini yalnız bir form gönderdiğinde tanıtıyor.
 
-- Aktarım **yalnızca pazarlama rızası** verilmişse yapılır. Rıza iki yerde denetlenir: istemcide (Pixel yüklü değilse olay hiç üretilmez) ve sunucuda (`/api/meta/capi` çerezi tekrar okur; rıza yoksa Meta'ya hiçbir şey gitmez).
+**Dönüşüm neden yalnız sunucudan:** eşleştirme anahtarları (e-posta, telefon, ad, soyad) yalnız form işleyicisinde var ve orada doğrulanmış hâlde. Tarayıcıya taşınması gereksiz bir kişisel veri yolu açardı — nitekim herkese açık `/api/meta/capi` uç noktası bu alanları kabul ediyordu ve 2026-09-09'da kapatıldı: kabul etseydi bir saldırgan üçüncü kişilerin e-postalarını dönüşüm olarak yazdırabilirdi. Uç nokta artık kişisel veri kabul etmiyor; kimlik yalnız sunucunun kendi doğruladığı gönderimden geliyor.
+
+**Kalıcı ziyaretçi kimliği (`indoles_vid`):** rastgele üretilmiş bir kimlik, **12 ay** saklanır, yalnız pazarlama rızası varken yazılır. Meta'ya `external_id` olarak hash'li gider. İşlevi aynı ziyaretçinin farklı oturumlardaki olaylarını birbirine bağlamak. Ad, e-posta gibi doğrudan tanımlayıcı içermez ama **pseudonim bir kimliktir, yani kişisel veridir**; rıza geri alındığında yazılmaz ve §4 prosedürü kapsamındadır.
+
+**Reklam tıklama kimliği (`indoles_fbclid`):** Meta reklamından gelen ziyaretçinin adresindeki `fbclid` değeri, **90 gün** saklanır, yalnız pazarlama rızası varken. Dönüşüm genellikle iniş sayfasında olmadığı için tıklamayı dönüşüme bağlamanın tek yolu. Meta'nın kendi `_fbc` çerezine yazılmaz.
+
+**Toplanmadığı için gönderilmeyenler:** Meta şehir, il, posta kodu ve doğum tarihi de istiyor. Site bunların hiçbirini toplamıyor ve **toplamayacak**: IP'den şehir tahmin etmek yanlış eşleşme üretir, lead formuna doğum tarihi/posta kodu eklemek ise gereksiz veri toplamak olur (veri minimizasyonu). Bkz. ADR-036.
+
+**Kişisel veri:** İletişim bilgisi (e-posta, telefon, ad, soyad) ve ziyaretçi kimliği **ham hâliyle gönderilmez**; normalize edilip SHA-256 ile hash'lenir ve yalnız hash aktarılır. Hash geri döndürülemez, ancak KVKK açısından yine kişisel veri işlemesidir. Bu nedenle:
+
+- Aktarım **yalnızca pazarlama rızası** verilmişse yapılır. Rıza iki yerde denetlenir: istemcide (Pixel yüklü değilse görüntüleme olayı hiç üretilmez) ve sunucuda — hem `/api/meta/capi` hem her form işleyicisi çerezi tekrar okur (`hasMarketingConsent`); rıza yoksa Meta'ya hiçbir şey gitmez ve kişisel veri hiç hash'lenmez.
+- Spam olarak işaretlenen gönderimler (bal küpü / süre tuzağı) Meta'ya **hiç** yazılmaz — o istekler sahte başarı dönüşüne düşer, dönüşüm yolu hiç çalışmaz.
 - Rıza geri alındığında sonraki olaylar durur. Meta'ya daha önce aktarılmış kayıtların silinmesi için §4'teki prosedür işletilir; talep Meta'ya da iletilir.
 - IP adresi ve User-Agent hash'lenmeden gider — Meta bunları ham bekliyor. Bunlar yalnız eşleştirme için kullanılır, sitede saklanmaz.
 

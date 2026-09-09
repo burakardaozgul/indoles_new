@@ -76,16 +76,35 @@ export function gaEvent(name: string, params?: EventParams): void {
   const w = window as GtagWindow;
   w.dataLayer = w.dataLayer || [];
   w.dataLayer.push({ event: name, ...resetParams(), ...(params ?? {}) });
+
+  /*
+   * META — TEK KAPI BURASI (ADR-036)
+   * --------------------------------
+   * Meta çağrısı önce `track()` içindeydi ve yorumu "track her dönüşümün
+   * geçtiği tek kapı" diyordu. Değildi: `gaEvent` de dışa açık ve beş Meta
+   * dönüşümünün ÜÇÜ onu doğrudan kullanıyor (`contact_form_submitted`,
+   * `popup_booking_submitted`, `popup_contact_submitted` — ikincisi ve
+   * üçüncüsü `trackPopupEvent` üzerinden). O üçü `LEAD_EVENTS` listesinde
+   * yazılı, eşleme onları doğru çeviriyor, birim testleri de geçiyordu — ama
+   * kimse onlar için eşlemeyi çağırmıyordu. Meta reklam optimizasyonu gerçek
+   * lead'lerin ~%40'ıyla çalışıyordu (denetim, 2026-09-09).
+   *
+   * Çağrı buraya inince kapı gerçekten tek oldu: `track` de zaten buradan
+   * geçiyor, serbest olaylar da.
+   */
+  const meta = toMetaEvent(name, params as Record<string, unknown> | undefined);
+  // `server` kanallı olaylar (Lead) tarayıcıdan GÖNDERİLMEZ — kimliği olan
+  // kopyayı form handler'ı yollar (`meta-lead.ts`). Gerekçe `MetaChannel`de.
+  if (meta && meta.channel === "browser") {
+    trackMetaStandardEvent(meta.name, meta.params);
+  }
 }
 
-/** Tipli taksonomi olayı (`events.ts`). */
+/**
+ * Tipli taksonomi olayı (`events.ts`).
+ *
+ * Artık yalnız bir tip sarmalayıcısı: Meta dahil tüm yan etkiler `gaEvent`te.
+ */
 export function track<E extends AnalyticsEvent>(event: E): void {
   gaEvent(event.name, event.properties as EventParams);
-
-  // Meta karşılığı olan olaylar Pixel'e de gider (eşleme `meta-events.ts`).
-  // `track` her dönüşümün geçtiği tek kapı olduğu için yeni bir olay
-  // eklendiğinde Pixel çağrısını unutmak mümkün değil. Pixel yüklü
-  // değilse (pazarlama rızası yok) sessizce düşer.
-  const meta = toMetaEvent(event);
-  if (meta) trackMetaStandardEvent(meta.name, meta.params);
 }

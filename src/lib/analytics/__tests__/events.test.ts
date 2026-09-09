@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { EVENT_NAMES, EVENT_PARAM_MAX, truncateParam, healthScoreBucket } from "../events";
+import {
+  EVENT_NAMES,
+  EVENT_PARAM_MAX,
+  EVENT_PARAM_NAMES,
+  truncateParam,
+  healthScoreBucket,
+} from "../events";
 import type { AnalyticsEvent } from "../events";
 
 describe("EVENT_NAMES — GA4 kısıtları (docs/12 §2)", () => {
@@ -70,5 +76,86 @@ describe("diagnoo tools — health score ve yeni olaylar", () => {
   it("tool_scan_completed sağlık kovasını band olarak kabul eder (tip)", () => {
     const ev: AnalyticsEvent = { name: "tool_scan_completed", properties: { slug: "diagnoo", band: "51-75", locale: "tr" } };
     expect(ev.name).toBe("tool_scan_completed");
+  });
+});
+
+describe("EVENT_PARAM_NAMES — sizinti kalkani (ADR-034)", () => {
+  /**
+   * Taksonomideki HER olayin temsili bir ornegi. `AnalyticsEvent` bir tip
+   * oldugu icin calisma zamaninda numaralandirilamiyor; bu dizi o boslugu
+   * kapatir. Yeni bir olay eklenip buraya yazilmazsa `EVENT_NAMES` kapsam
+   * testi (asagida) hata verir.
+   */
+  const samples: AnalyticsEvent[] = [
+    { name: "persona_axis_clicked", properties: { axis: "industrial" } },
+    { name: "pillar_viewed", properties: { pillar: "growth", locale: "tr" } },
+    { name: "service_viewed", properties: { slug: "cro", pillar: "growth", locale: "tr" } },
+    {
+      name: "package_viewed",
+      properties: { packageSlug: "p", pillar: "growth", price: 1, currency: "TRY" },
+    },
+    { name: "case_study_viewed", properties: { slug: "s", problemType: "p", pillar: "growth" } },
+    { name: "faq_opened", properties: { surface: "service", question: "q" } },
+    { name: "booking_cta_clicked", properties: { source: "nav", pillar: "growth" } },
+    {
+      name: "brief_submitted",
+      properties: { briefId: "b", pillar: "growth", budget: "small", timeline: "urgent" },
+    },
+    {
+      name: "contact_booking_submitted",
+      properties: { briefId: "b", locale: "tr", preferred_slot: "2026-09-10 14:00" },
+    },
+    { name: "tool_used", properties: { slug: "geo", locale: "tr" } },
+    { name: "tool_scan_completed", properties: { slug: "geo", band: "0-25", locale: "tr" } },
+    { name: "tool_report_requested", properties: { slug: "geo", band: "0-25", locale: "tr" } },
+    {
+      name: "tool_roadmap_item_expanded",
+      properties: { slug: "diagnoo", category: "speed", locale: "tr" },
+    },
+    {
+      name: "tool_service_cta_clicked",
+      properties: { slug: "diagnoo", target_service: "cro", locale: "tr" },
+    },
+  ];
+
+  it("her taksonomi olayinin her parametresini kapsar", () => {
+    // Listede olmayan bir parametre `gaEvent`in sifirlamasindan kacar ve
+    // SONRAKI olaylara sizar — canli dogrulamada `ep.slug` ve `ep.surface`
+    // tam olarak boyle sizdi (2026-09-09).
+    const missing = new Set<string>();
+    for (const ev of samples) {
+      for (const key of Object.keys(ev.properties)) {
+        if (!(EVENT_PARAM_NAMES as readonly string[]).includes(key)) missing.add(key);
+      }
+    }
+    expect([...missing]).toEqual([]);
+  });
+
+  it("her taksonomi olayindan bir ornek tasir", () => {
+    expect(new Set(samples.map((s) => s.name)).size).toBe(EVENT_NAMES.length);
+  });
+
+  it("serbest olaylarin parametrelerini de tasir", () => {
+    // Taksonomi disi olaylar (`gaEvent` ile atilanlar) ayni dataLayer'i
+    // paylasir, dolayisiyla ayni sizinti riskini tasir.
+    for (const key of [
+      "topic", // article_filter
+      "subject", "budget_range", "timeline", // contact_form_submitted
+      "persona", "problems", "trigger_source", "at_stage", "stage",
+      "from", "lead_id", "previous_persona", "time_on_stage_ms", "time_to_show_ms", // popup
+    ]) {
+      expect(EVENT_PARAM_NAMES as readonly string[]).toContain(key);
+    }
+  });
+
+  it("ad tekrari yoktur", () => {
+    expect(new Set(EVENT_PARAM_NAMES).size).toBe(EVENT_PARAM_NAMES.length);
+  });
+
+  it("her ad GA4 parametre kuralina uyar — snake_case/camelCase, <=40 karakter", () => {
+    for (const n of EVENT_PARAM_NAMES) {
+      expect(n.length).toBeLessThanOrEqual(40);
+      expect(n).toMatch(/^[a-zA-Z][a-zA-Z0-9_]*$/);
+    }
   });
 });

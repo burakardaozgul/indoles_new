@@ -54,18 +54,25 @@ describe("kök layout", () => {
     expect(scriptStart).toBeLessThan(childrenStart);
   });
 
-  it("GA4 hem GA_ID hem production stage koşuluna bağlıdır", () => {
-    expect(layoutSource).toContain("NEXT_PUBLIC_GA_ID");
-    expect(layoutSource).toContain("googletagmanager.com/gtag/js");
+  it("ölçüm hem GTM_ID hem production stage koşuluna bağlıdır", () => {
+    expect(layoutSource).toContain("NEXT_PUBLIC_GTM_ID");
     // Tek koşula düşerse preview trafiği production property'sine karışır.
     const gate = layoutSource.slice(
-      layoutSource.indexOf("const GA_ENABLED"),
+      layoutSource.indexOf("const MEASUREMENT_ENABLED"),
       layoutSource.indexOf("export default"),
     );
-    expect(gate).toContain("Boolean(GA_ID)");
+    expect(gate).toContain("Boolean(GTM_ID)");
     expect(gate).toContain('NEXT_PUBLIC_APP_STAGE === "production"');
-    // Render tek bir kapıdan geçmeli, `GA_ID` doğrudan koşul olmamalı.
-    expect(layoutCode).toContain("{GA_ENABLED ?");
+    // Render tek bir kapıdan geçmeli, kimlik doğrudan koşul olmamalı.
+    expect(layoutCode).toContain("{MEASUREMENT_ENABLED ?");
+  });
+
+  it("gtag/js script etiketi BASILMAZ — o adres 404 dönüyor (ADR-034)", () => {
+    // Regresyon kilidi. `gtag/js?id=G-HC44KJ9ZP4` bu ölçüm kimliği için
+    // HTTP 404 + text/html dönüyor ve Chrome yanıtı ORB ile blokluyor;
+    // etiket her ziyaretçide sessizce ölüydü (canlı doğrulama 2026-09-09).
+    // GA4'ü artık GTM'deki Google etiketi yapılandırıyor.
+    expect(layoutSource).not.toContain("googletagmanager.com/gtag/js");
   });
 
   /**

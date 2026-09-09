@@ -184,10 +184,23 @@ export function ContactBookingScreen({ locale }: { locale: "tr" | "en" }) {
       degraded: Boolean(data.degraded),
     });
 
-    // `brief_submitted` — bkz. `EntryPopup.handleSubmitForm`daki eşdeğer not:
-    // GA4 her olaya `page_location` eklediği için bu ikinci çağrı yüzeyi
-    // otomatik ayrıştırılabilir kılıyor, taksonomiye yeni alan gerekmedi.
-    track({ name: "brief_submitted", properties: { briefId: sessionId() } });
+    const briefId = sessionId();
+
+    // İki olay, iki iş. `brief_submitted` yüzeyler arası huni adımı (popup da
+    // yazar, anahtar olay değil); `contact_booking_submitted` BU yüzeyin
+    // dönüşümü ve GA4'te anahtar olay. Öncesinde yalnız ilki yazılıyordu ve
+    // iletişim sayfasından gelen randevular hiçbir dönüşüme sayılmıyordu
+    // (denetim 2026-09-09, ADR-034).
+    track({ name: "brief_submitted", properties: { briefId } });
+    track({
+      name: "contact_booking_submitted",
+      properties: {
+        briefId,
+        locale,
+        // Popup olaylarıyla aynı biçim, aynı özel boyut.
+        preferred_slot: `${slot.date} ${slot.time}`,
+      },
+    });
 
     setStage("success");
   };

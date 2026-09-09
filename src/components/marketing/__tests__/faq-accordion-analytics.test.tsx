@@ -12,15 +12,23 @@ const ITEMS = [
 
 beforeEach(() => {
   gtag.mockClear();
-  (window as unknown as { gtag?: unknown }).gtag = gtag;
+  (window as unknown as { dataLayer?: unknown[] }).dataLayer = [];
 });
 
 afterEach(() => {
-  delete (window as unknown as { gtag?: unknown }).gtag;
+  delete (window as unknown as { dataLayer?: unknown[] }).dataLayer;
 });
 
 function faqEvents() {
-  return gtag.mock.calls.filter((c) => c[1] === "faq_opened");
+  return ((window as unknown as { dataLayer?: Record<string, unknown>[] }).dataLayer ?? [])
+    .filter((e) => e.event === "faq_opened")
+    .map(({ event: _event, ...params }) => {
+      // `gaEvent` her olayda tum parametre adlarini `undefined` olarak
+      // sifirliyor (ADR-034 sizinti kalkani); iddialar yalniz gercekten
+      // gonderilen alanlari gormeli.
+      void _event;
+      return Object.fromEntries(Object.entries(params).filter(([, v]) => v !== undefined));
+    });
 }
 
 /**
@@ -40,7 +48,7 @@ describe("FaqAccordion — faq_opened", () => {
     toggle("CRO nedir?", true);
 
     expect(faqEvents()).toHaveLength(1);
-    expect(faqEvents()[0]?.[2]).toEqual({
+    expect(faqEvents()[0]).toEqual({
       surface: "service",
       question: "CRO nedir?",
     });
@@ -59,7 +67,7 @@ describe("FaqAccordion — faq_opened", () => {
     render(<FaqAccordion items={ITEMS} surface="case" />);
     toggle("Ne kadar sürer?", true);
 
-    expect(faqEvents()[0]?.[2]).toMatchObject({ surface: "case" });
+    expect(faqEvents()[0]).toMatchObject({ surface: "case" });
   });
 
   it("uzun soruyu GA4 parametre sınırına kırpar", () => {
@@ -67,7 +75,7 @@ describe("FaqAccordion — faq_opened", () => {
     render(<FaqAccordion items={[{ question: long, answer: "x" }]} surface="pillar" />);
     toggle(long, true);
 
-    const question = (faqEvents()[0]?.[2] as { question: string }).question;
+    const question = (faqEvents()[0] as { question: string }).question;
     expect(question).toHaveLength(EVENT_PARAM_MAX);
   });
 
@@ -80,7 +88,7 @@ describe("FaqAccordion — faq_opened", () => {
   });
 
   it("gtag yüklenmemişken açılış çalışmaya devam eder", () => {
-    delete (window as unknown as { gtag?: unknown }).gtag;
+    delete (window as unknown as { dataLayer?: unknown[] }).dataLayer;
     render(<FaqAccordion items={ITEMS} surface="service" />);
     expect(() => toggle("CRO nedir?", true)).not.toThrow();
   });

@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   DIAGNOO_CUSTOM_DIMENSIONS,
   DIAGNOO_EVENT_CREATE_RULE_BASE,
-  DIAGNOO_KEY_EVENT,
+  SITE_KEY_EVENTS,
   DIAGNOO_SLUG,
   TOOL_EVENT_NAMES,
   buildAuthUrl,
@@ -373,15 +373,20 @@ describe("planSetup — dry-run", () => {
       }),
       // eventCreateRules.list: boş
       jsonResponse({ eventCreateRules: [] }),
-      // keyEvents.list: zaten var
-      jsonResponse({ keyEvents: [{ name: "properties/123456/keyEvents/1", eventName: "diagnoo_report_requested" }] }),
+      // keyEvents.list: yalniz ilk iki donusum var, kalani eksik
+      jsonResponse({
+        keyEvents: [
+          { name: "properties/123456/keyEvents/1", eventName: "contact_form_submitted" },
+          { name: "properties/123456/keyEvents/2", eventName: "phone_clicked" },
+        ],
+      }),
     ]);
 
     const ops = await planSetup(baseCtx(f as unknown as typeof fetch), {
       streamId: "999",
       customDimensions: DIAGNOO_CUSTOM_DIMENSIONS,
       eventCreateRule: { ...DIAGNOO_EVENT_CREATE_RULE_BASE, streamId: "999" },
-      keyEvent: DIAGNOO_KEY_EVENT,
+      keyEvents: SITE_KEY_EVENTS,
     });
 
     expect(ops).toEqual([
@@ -390,7 +395,14 @@ describe("planSetup — dry-run", () => {
       { resource: "customDimension", key: "category", action: "create" },
       { resource: "customDimension", key: "target_service", action: "create" },
       { resource: "eventCreateRule", key: "diagnoo_report_requested", action: "create" },
-      { resource: "keyEvent", key: "diagnoo_report_requested", action: "skip" },
+      // SITE_KEY_EVENTS sirasi korunur; var olanlar "skip", eksikler "create".
+      { resource: "keyEvent", key: "contact_form_submitted", action: "skip" },
+      { resource: "keyEvent", key: "contact_booking_submitted", action: "create" },
+      { resource: "keyEvent", key: "popup_booking_submitted", action: "create" },
+      { resource: "keyEvent", key: "popup_contact_submitted", action: "create" },
+      { resource: "keyEvent", key: "tool_report_requested", action: "create" },
+      { resource: "keyEvent", key: "phone_clicked", action: "skip" },
+      { resource: "keyEvent", key: "email_clicked", action: "create" },
     ]);
 
     // Yalnızca GET (list) çağrıları — hiçbir çağrı POST değil.

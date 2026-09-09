@@ -90,15 +90,23 @@ describe("handleSubmitForm — brief_submitted", () => {
 
   beforeEach(() => {
     gtag.mockClear();
-    (window as unknown as { gtag?: unknown }).gtag = gtag;
+    (window as unknown as { dataLayer?: unknown[] }).dataLayer = [];
   });
 
   afterEach(() => {
-    delete (window as unknown as { gtag?: unknown }).gtag;
+    delete (window as unknown as { dataLayer?: unknown[] }).dataLayer;
   });
 
   function briefEvents() {
-    return gtag.mock.calls.filter((c) => c[1] === "brief_submitted");
+    return ((window as unknown as { dataLayer?: Record<string, unknown>[] }).dataLayer ?? [])
+    .filter((e) => e.event === "brief_submitted")
+    .map(({ event: _event, ...params }) => {
+      // `gaEvent` her olayda tum parametre adlarini `undefined` olarak
+      // sifirliyor (ADR-034 sizinti kalkani); iddialar yalniz gercekten
+      // gonderilen alanlari gormeli.
+      void _event;
+      return Object.fromEntries(Object.entries(params).filter(([, v]) => v !== undefined));
+    });
   }
 
   async function fillAndSubmitContactForm() {
@@ -138,7 +146,7 @@ describe("handleSubmitForm — brief_submitted", () => {
     await fillAndSubmitContactForm();
 
     expect(briefEvents()).toHaveLength(1);
-    expect(briefEvents()[0]?.[2]).toEqual({ briefId: expect.any(String) });
+    expect(briefEvents()[0]).toEqual({ briefId: expect.any(String) });
   });
 
   it("SuccessState'e geçtikten sonraki yeniden render'lar olayı tekrar tetiklemez", async () => {

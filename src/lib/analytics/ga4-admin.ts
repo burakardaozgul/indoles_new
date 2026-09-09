@@ -433,7 +433,7 @@ export async function planSetup(
     streamId: string;
     customDimensions: CustomDimensionInput[];
     eventCreateRule: EventCreateRuleInput;
-    keyEvent: KeyEventInput;
+    keyEvents: KeyEventInput[];
   },
 ): Promise<PlannedOperation[]> {
   const ops: PlannedOperation[] = [];
@@ -453,12 +453,10 @@ export async function planSetup(
   });
 
   const existingKeyEvents = await listKeyEvents(ctx);
-  const keyEventExists = existingKeyEvents.some((k) => k.eventName === input.keyEvent.eventName);
-  ops.push({
-    resource: "keyEvent",
-    key: input.keyEvent.eventName,
-    action: keyEventExists ? "skip" : "create",
-  });
+  for (const ke of input.keyEvents) {
+    const exists = existingKeyEvents.some((k) => k.eventName === ke.eventName);
+    ops.push({ resource: "keyEvent", key: ke.eventName, action: exists ? "skip" : "create" });
+  }
 
   return ops;
 }
@@ -475,10 +473,48 @@ export async function planSetup(
 export { DIAGNOO_SLUG };
 
 export const DIAGNOO_CUSTOM_DIMENSIONS: CustomDimensionInput[] = [
-  { parameterName: "slug", displayName: "Araç slug'ı", scope: "EVENT" },
+  // GA4 `display_name` yalnız alfanumerik, alt çizgi ve boşluk kabul eder —
+  // apostrof HTTP 400 ile reddedilir, o yüzden "slug'ı" değil "slug".
+  { parameterName: "slug", displayName: "Araç slug", scope: "EVENT" },
   { parameterName: "band", displayName: "Sonuç bandı", scope: "EVENT" },
   { parameterName: "category", displayName: "Yol haritası kategorisi", scope: "EVENT" },
   { parameterName: "target_service", displayName: "Önerilen hizmet", scope: "EVENT" },
+];
+
+/**
+ * Site geneli özel boyutlar (ADR-033 oturumu).
+ *
+ * `events.ts` bu parametreleri zaten gönderiyor ama GA4'te kayıtlı
+ * olmadıkları sürece raporlarda kırılım olarak görünmezler — veri gelir,
+ * okunamaz. Ve GA4 özel boyutları **geriye dönük doldurmaz**: kaydın geç
+ * kalması kalıcı kırılım kaybıdır.
+ *
+ * `parameterName` değerleri `events.ts`teki alan adlarıyla BİREBİR aynı
+ * olmak zorunda. `ga.ts` ad dönüşümü yapmıyor, `event.properties` doğrudan
+ * gtag'e gidiyor; bu yüzden `packageSlug` camelCase, `target_service`
+ * snake_case kalır — biçimsel tutarlılık uğruna değiştirilirse boyut
+ * sessizce boş kalır.
+ *
+ * DIŞARIDA BIRAKILANLAR
+ * - `question` (faq_opened): serbest metin, yüksek kardinalite. GA4 böyle
+ *   boyutlarda "(other)" satırına düşer ve raporu okunmaz hâle getirir.
+ * - `price` / `currency` (package_viewed): boyut değil ölçü. Para birimi
+ *   ayrıca GA4'ün e-ticaret şemasında rezerve.
+ */
+export const SITE_CUSTOM_DIMENSIONS: CustomDimensionInput[] = [
+  { parameterName: "pillar", displayName: "Pillar", scope: "EVENT" },
+  { parameterName: "locale", displayName: "Dil", scope: "EVENT" },
+  { parameterName: "source", displayName: "CTA kaynagi", scope: "EVENT" },
+  { parameterName: "packageSlug", displayName: "Paket slug", scope: "EVENT" },
+  { parameterName: "problemType", displayName: "Vaka problem tipi", scope: "EVENT" },
+  { parameterName: "surface", displayName: "SSS yuzeyi", scope: "EVENT" },
+  { parameterName: "axis", displayName: "Persona ekseni", scope: "EVENT" },
+];
+
+/** Kurulumun tamamı: araç boyutları + site geneli boyutlar. */
+export const ALL_CUSTOM_DIMENSIONS: CustomDimensionInput[] = [
+  ...DIAGNOO_CUSTOM_DIMENSIONS,
+  ...SITE_CUSTOM_DIMENSIONS,
 ];
 
 export const DIAGNOO_EVENT_CREATE_RULE_BASE: Omit<EventCreateRuleInput, "streamId"> = {
@@ -487,10 +523,37 @@ export const DIAGNOO_EVENT_CREATE_RULE_BASE: Omit<EventCreateRuleInput, "streamI
   conditions: [{ field: "slug", comparisonType: "EQUALS", value: DIAGNOO_SLUG }],
 };
 
-export const DIAGNOO_KEY_EVENT: KeyEventInput = {
-  eventName: "diagnoo_report_requested",
-  countingMethod: "ONCE_PER_EVENT",
-};
+/**
+ * Sitenin dönüşümleri — GA4 anahtar olayları (ADR-034).
+ *
+ * TEK KAYNAK. Google Ads dönüşümleri bu listeyi GA4'ten içe aktararak
+ * kuruluyor (docs/12 §2.8), yani liste hem GA4 hem Ads tarafını belirliyor.
+ *
+ * KURAL: her lead YÜZEYİ tam olarak bir anahtar olay üretir. Aynı eylemden
+ * iki anahtar olay çıkarsa dönüşüm iki kez sayılır ve reklam teklifi bozulur.
+ * Bu yüzden burada olmayan üç şey bilinçli:
+ *   - `brief_submitted` — popup ve iletişim randevusu ikisi de yazıyor;
+ *     yüzeye özgü olaylar zaten sayılıyor. Yüzeyler arası huni adımı.
+ *   - `tool_used` / `tool_scan_completed` — araç KULLANIMI dönüşüm değil,
+ *     huni adımı. Dönüşüm e-posta bırakıldığı an (`tool_report_requested`).
+ *   - `diagnoo_report_requested` — `tool_report_requested`ten türetiliyor
+ *     (bkz. `DIAGNOO_EVENT_CREATE_RULE_BASE`), ikisi de anahtar olsaydı bir
+ *     Diagnoo raporu iki dönüşüm sayardı. Türetilmiş olay raporlamada durur,
+ *     dönüşüm olarak sayılmaz.
+ *
+ * `ONCE_PER_SESSION`: aynı ziyaretçinin aynı oturumda formu iki kez
+ * göndermesi iki lead değil. `tool_report_requested` de öyle — iki farklı
+ * araç için istenirse `slug` boyutu ayrımı zaten taşıyor.
+ */
+export const SITE_KEY_EVENTS: KeyEventInput[] = [
+  { eventName: "contact_form_submitted", countingMethod: "ONCE_PER_SESSION" },
+  { eventName: "contact_booking_submitted", countingMethod: "ONCE_PER_SESSION" },
+  { eventName: "popup_booking_submitted", countingMethod: "ONCE_PER_SESSION" },
+  { eventName: "popup_contact_submitted", countingMethod: "ONCE_PER_SESSION" },
+  { eventName: "tool_report_requested", countingMethod: "ONCE_PER_SESSION" },
+  { eventName: "phone_clicked", countingMethod: "ONCE_PER_SESSION" },
+  { eventName: "email_clicked", countingMethod: "ONCE_PER_SESSION" },
+];
 
 // ---------------------------------------------------------------------------
 // Data API — doğrulama (`scripts/ga4-verify.ts`)

@@ -14,9 +14,9 @@
  * basılıyor (client secret ve access token asla).
  */
 import {
-  DIAGNOO_CUSTOM_DIMENSIONS,
+  ALL_CUSTOM_DIMENSIONS,
   DIAGNOO_EVENT_CREATE_RULE_BASE,
-  DIAGNOO_KEY_EVENT,
+  SITE_KEY_EVENTS,
   buildAuthUrl,
   ensureCustomDimension,
   ensureEventCreateRule,
@@ -133,9 +133,9 @@ async function main(): Promise<void> {
   if (DRY_RUN) {
     const ops = await planSetup(ctx, {
       streamId,
-      customDimensions: DIAGNOO_CUSTOM_DIMENSIONS,
+      customDimensions: ALL_CUSTOM_DIMENSIONS,
       eventCreateRule,
-      keyEvent: DIAGNOO_KEY_EVENT,
+      keyEvents: SITE_KEY_EVENTS,
     });
     console.log(`Plan — property ${GA4_PROPERTY_ID}, stream ${streamId} (hiçbir yazma yapılmadı):\n`);
     printOps(ops);
@@ -146,7 +146,7 @@ async function main(): Promise<void> {
 
   const ops: { resource: string; key: string; action: "create" | "skip" }[] = [];
 
-  for (const dim of DIAGNOO_CUSTOM_DIMENSIONS) {
+  for (const dim of ALL_CUSTOM_DIMENSIONS) {
     const r = await ensureCustomDimension(ctx, dim);
     ops.push({ resource: "customDimension", key: dim.parameterName, action: r.created ? "create" : "skip" });
   }
@@ -158,12 +158,10 @@ async function main(): Promise<void> {
     action: ruleResult.created ? "create" : "skip",
   });
 
-  const keyEventResult = await ensureKeyEvent(ctx, DIAGNOO_KEY_EVENT);
-  ops.push({
-    resource: "keyEvent",
-    key: DIAGNOO_KEY_EVENT.eventName,
-    action: keyEventResult.created ? "create" : "skip",
-  });
+  for (const ke of SITE_KEY_EVENTS) {
+    const r = await ensureKeyEvent(ctx, ke);
+    ops.push({ resource: "keyEvent", key: ke.eventName, action: r.created ? "create" : "skip" });
+  }
 
   console.log("Özet (OLUŞTUR = az önce oluşturuldu, ATLA = zaten vardı):\n");
   printOps(ops);

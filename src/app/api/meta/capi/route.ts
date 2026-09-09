@@ -15,12 +15,17 @@ export const runtime = "nodejs";
  * aynı olay buradan sunucu tarafında bir kez daha bildirilir. Meta iki
  * kaydı `event_id` ile birleştirir — `meta-capi.ts` başlığındaki not.
  *
- * RIZA KAPISI SUNUCUDA DA VAR
- * ---------------------------
+ * RIZA KAPISI SUNUCUDA DA VAR — AMA KİMLİK DOĞRULAMASI DEĞİL
+ * ----------------------------------------------------------
  * İstemci zaten yalnız pazarlama rızası varsa çağırıyor, ama uç nokta
  * herkese açık. Çerez burada tekrar okunur: rıza yoksa olay Meta'ya hiç
  * gitmez ve 204 dönülür — istemciye "gönderilmedi" demenin bir karşılığı
  * yok, ölçüm sinyali sessizce düşmeli.
+ *
+ * Çerezi ziyaretçi kendisi yazabildiği için bu kapı bir RIZA KAYDI, kimlik
+ * doğrulaması değil. Dolayısıyla gövdeden geçen her şey doğrudan Meta veri
+ * kaynağına yazılabilecek şeydir; korumanın tamamı şemanın kapalılığında
+ * durur (`lib/schemas/meta-capi.ts`). Şema kişisel veri hiç kabul etmiyor.
  */
 export async function POST(req: Request): Promise<Response> {
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
@@ -70,9 +75,10 @@ export async function POST(req: Request): Promise<Response> {
       eventId: data.eventId,
       ...(data.eventSourceUrl ? { eventSourceUrl: data.eventSourceUrl } : {}),
       ...(data.customData ? { customData: data.customData } : {}),
+      // E-posta/telefon BİLEREK yok: şema onları kabul etmiyor (gerekçe
+      // `lib/schemas/meta-capi.ts`). Buradaki alanların hepsi istekten değil,
+      // isteğin KENDİ başlıklarından ve çerezlerinden okunuyor.
       userData: {
-        ...(data.email ? { email: data.email } : {}),
-        ...(data.phone ? { phone: data.phone } : {}),
         // Cloudflare gerçek ziyaretçi IP'sini bu başlıkta veriyor.
         ...(ip ? { clientIpAddress: ip } : {}),
         ...(ua ? { clientUserAgent: ua } : {}),

@@ -53,7 +53,7 @@ duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
 
 | Olay | Nereden | Boyutlar |
 |---|---|---|
-| `page_view` | GA4 Enhanced Measurement | Yol, dil (otomatik) |
+| `page_view` | **GTM `GA4 - Sayfa Goruntuleme`** — All Pages + History Change (ADR-037) | Yol, başlık, dil (otomatik) |
 | `service_viewed` | `service-detail.tsx` → `TrackView` | `slug` (TR), `pillar`, `locale` |
 | `pillar_viewed` | `pillar-detail.tsx` → `TrackView` | `pillar`, `locale` |
 | `package_viewed` | `paketler/[slug]` → `TrackView` | `packageSlug`, `pillar`, `price`, `currency` |
@@ -81,9 +81,17 @@ duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
    olay orada yazılır, yani atlanması imkânsız. `source` zorunlu ve kapalı
    birleşim (`BookingCtaSource`) — yeni bir CTA adsız eklenemez, derlenmez.
 
-**Elle yazılmayanlar:** scroll derinliği, outbound tıklama, dosya indirme ve
-site içi arama GA4 Enhanced Measurement tarafından toplanıyor; ikinci kez
-yazmak olay sayısını şişirirdi.
+**Gelişmiş ölçüm ÇALIŞMIYOR (ADR-037).** `scroll`, `click` (outbound),
+`file_download`, `view_search_results` ve `form_start`/`form_submit` hiç
+gelmiyor: hepsi Google etiketinin çekirdeğine bağlı ve
+`gtag/js?id=G-HC44KJ9ZP4` **404 veriyor**, yani çekirdek hiç kurulmuyor.
+Sayfa %100 kaydırılıp ölçüldü, `scroll` üretilmedi (2026-09-10).
+
+`page_view` bu yüzden açık bir GTM olay etiketine alındı. Geri kalanı aynı
+yolla çözülebilir ama her biri kendi GTM tetikleyicisini (Scroll Depth, Just
+Links, Element Visibility) ister — ayrı bir iş olarak duruyor. Gerçek çözüm
+404'ü kapatmak: yeni bir veri akışının ölçüm kimliği `gtag/js`ten servis
+ediliyorsa mevcut akış bozuk demektir.
 
 **Bilinçli eksik:** `article_viewed`. `page_view` yazının görüntülendiğini
 zaten söylüyor; eklenecek tek boyut ADR-021 konu etiketi olurdu ve içerik

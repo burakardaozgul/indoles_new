@@ -24,7 +24,8 @@
 | Alan | Karar | Gerekçe |
 |---|---|---|
 | Ürün analitiği | **Google Analytics 4** | Tek sağlayıcı; ADR-021 |
-| GA4 taşıyıcısı | **GTM** (`GTM-TFKLN9V`) | Sitedeki `gtag/js` etiketi bu ölçüm kimliği için 404 dönüyordu; GA4 fiilen zaten GTM üzerinden ölçüyordu. ADR-034 |
+| GA4 taşıyıcısı | **GTM** (`GTM-TFKLN9V`) | Ölçüm konteynerden akıyor; kod ölçüm kimliğini hiç okumuyor. ADR-034 |
+| GA4 ölçüm kimliği | `G-KWT8HCXJT6` (akış `15753884326`) | İlk akış (`G-HC44KJ9ZP4`) Google tarafında bozuk doğdu — `gtag/js` 404. Aynı mülk içinde yeni akışa taşındı, geçmiş veri korundu. ADR-038 |
 | PostHog | **Kullanılmayacak** | İki SDK paralel taşımanın bedeli (istemci bundle + ikinci veri işleyici) karşılığını vermedi; ADR-021 |
 | Microsoft Clarity | **Kullanılmayacak** | Üçüncü bir ölçüm sağlayıcısı eklenmiyor |
 | Session replay | **Yok** | Sağlayıcıyla birlikte kalktı; KVKK yüzeyi daraldı |
@@ -53,7 +54,7 @@ duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
 
 | Olay | Nereden | Boyutlar |
 |---|---|---|
-| `page_view` | **GTM `GA4 - Sayfa Goruntuleme`** — All Pages + History Change (ADR-037) | Yol, başlık, dil (otomatik) |
+| `page_view` | GTM'deki Google etiketi (ADR-038) | Yol, başlık, dil (otomatik) |
 | `service_viewed` | `service-detail.tsx` → `TrackView` | `slug` (TR), `pillar`, `locale` |
 | `pillar_viewed` | `pillar-detail.tsx` → `TrackView` | `pillar`, `locale` |
 | `package_viewed` | `paketler/[slug]` → `TrackView` | `packageSlug`, `pillar`, `price`, `currency` |
@@ -81,17 +82,16 @@ duruyor. Bugün fiilen GA4'e yazılan olaylar bunlar:
    olay orada yazılır, yani atlanması imkânsız. `source` zorunlu ve kapalı
    birleşim (`BookingCtaSource`) — yeni bir CTA adsız eklenemez, derlenmez.
 
-**Gelişmiş ölçüm ÇALIŞMIYOR (ADR-037).** `scroll`, `click` (outbound),
-`file_download`, `view_search_results` ve `form_start`/`form_submit` hiç
-gelmiyor: hepsi Google etiketinin çekirdeğine bağlı ve
-`gtag/js?id=G-HC44KJ9ZP4` **404 veriyor**, yani çekirdek hiç kurulmuyor.
-Sayfa %100 kaydırılıp ölçüldü, `scroll` üretilmedi (2026-09-10).
+**Gelişmiş ölçüm (ADR-038 ile onarıldı).** `scroll`, outbound `click`,
+`file_download`, `view_search_results`, `form_start`/`form_submit` ve SPA sayfa
+görüntülemeleri GA4 Enhanced Measurement tarafından toplanıyor; ikinci kez
+yazmak olay sayısını şişirirdi.
 
-`page_view` bu yüzden açık bir GTM olay etiketine alındı. Geri kalanı aynı
-yolla çözülebilir ama her biri kendi GTM tetikleyicisini (Scroll Depth, Just
-Links, Element Visibility) ister — ayrı bir iş olarak duruyor. Gerçek çözüm
-404'ü kapatmak: yeni bir veri akışının ölçüm kimliği `gtag/js`ten servis
-ediliyorsa mevcut akış bozuk demektir.
+08–10 Eylül arası bunların hiçbiri gelmedi: ölçüm kimliği `G-HC44KJ9ZP4`
+akışı Google tarafında bozuktu (`gtag/js` 404 → Google etiketinin çekirdeği
+hiç kurulmuyor). Kimlik aynı mülk içindeki yeni akışa taşındı
+(`G-KWT8HCXJT6`) ve `_ee=1` bayrağı geri geldi. O aralıkta gelişmiş ölçüm
+verisi kalıcı olarak eksik. Ayrıntı ADR-038.
 
 **Bilinçli eksik:** `article_viewed`. `page_view` yazının görüntülendiğini
 zaten söylüyor; eklenecek tek boyut ADR-021 konu etiketi olurdu ve içerik

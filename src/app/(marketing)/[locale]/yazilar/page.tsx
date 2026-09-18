@@ -9,6 +9,7 @@ import {
 import { ARTICLES } from "@/lib/content/articles";
 import { TOPICS, getTopic } from "@/lib/content/topics";
 import { localeHref } from "@/lib/i18n/locale-href";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import { getConsultantBySlug } from "@/lib/content/consultants";
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
@@ -24,7 +25,7 @@ function formatDate(iso: string, locale: "tr" | "en") {
   );
 }
 
-const PATHS = { tr: "/tr/yazilar", en: "/en/articles" };
+const PATHS = { tr: segmentRoot("tr", "articles"), en: segmentRoot("en", "articles") };
 
 /**
  * Yazı sayısı `ARTICLES.length`ten okunur: sabit yazılan "16 yazı" on yedinci
@@ -132,9 +133,7 @@ export default async function ArticlesIndex({
               "@type": "ListItem",
               position: i + 1,
               name: a.title[loc],
-              url: absoluteUrl(
-                `/${loc}/${loc === "tr" ? "yazilar" : "articles"}/${a.slug[loc]}`
-              ),
+              url: absoluteUrl(localizedHref(loc, "articles", a.slug[loc])),
             })),
           },
         ]}

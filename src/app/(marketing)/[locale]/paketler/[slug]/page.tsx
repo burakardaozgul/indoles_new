@@ -23,6 +23,7 @@ import {
   webPageLd,
 } from "@/lib/seo/json-ld";
 import type { Metadata } from "next";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 export async function generateStaticParams() {
@@ -37,8 +38,8 @@ export async function generateStaticParams() {
 
 function packagePaths(pkg: NonNullable<ReturnType<typeof getPackageBySlug>>) {
   return {
-    tr: `/tr/paketler/${pkg.slug.tr}`,
-    en: `/en/packages/${pkg.slug.en}`,
+    tr: localizedHref("tr", "packages", pkg.slug.tr),
+    en: localizedHref("en", "packages", pkg.slug.en),
   };
 }
 
@@ -145,7 +146,7 @@ export default async function PackageDetail({
             { name: "INDOLES", path: `/${loc}` },
             {
               name: tCommon("nav.packages"),
-              path: loc === "tr" ? "/tr/paketler" : "/en/packages",
+              path: segmentRoot(loc, "packages"),
             },
             { name: pkg.name[loc], path: paths[loc] },
           ]),

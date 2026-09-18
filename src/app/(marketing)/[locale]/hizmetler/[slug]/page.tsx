@@ -6,6 +6,7 @@ import { getService, SERVICES } from "@/lib/content/services";
 import { PillarDetail } from "@/components/marketing/pillar-detail";
 import { ServiceDetail } from "@/components/marketing/service-detail";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { localizedHref } from "@/lib/i18n/segments";
 import type { Locale, ServiceContent } from "@/lib/content/types";
 
 const LOCALES = ["tr", "en"] as const;
@@ -13,14 +14,17 @@ const LOCALES = ["tr", "en"] as const;
 /** `/hizmetler` TR'de, `/services` EN'de — locale başına ayrı taban. */
 function servicePaths(service: ServiceContent) {
   return {
-    tr: `/tr/hizmetler/${service.slug.tr}`,
-    en: `/en/services/${service.slug.en}`,
+    tr: localizedHref("tr", "services", service.slug.tr),
+    en: localizedHref("en", "services", service.slug.en),
   };
 }
 
 /** Pillar anahtarları lokalize edilmez; yalnız taban segment değişir. */
 function pillarPaths(key: string) {
-  return { tr: `/tr/hizmetler/${key}`, en: `/en/services/${key}` };
+  return {
+    tr: localizedHref("tr", "services", key),
+    en: localizedHref("en", "services", key),
+  };
 }
 
 export function generateStaticParams() {

@@ -3,6 +3,7 @@ import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
 import { ContactForm } from "@/components/marketing/ContactForm";
 import { ContactBookingScreen } from "@/components/marketing/ContactBookingScreen";
 import type { Metadata } from "next";
+import { segmentRoot } from "@/lib/i18n/segments";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import {
@@ -23,7 +24,7 @@ import type { Locale } from "@/lib/content/types";
  * seçim yapabilir.
  */
 
-const PATHS = { tr: "/tr/iletisim", en: "/en/contact" };
+const PATHS = { tr: segmentRoot("tr", "contact"), en: segmentRoot("en", "contact") };
 
 const META = {
   tr: {

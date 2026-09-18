@@ -27,6 +27,7 @@ import {
   organizationLd,
   webPageLd,
 } from "@/lib/seo/json-ld";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 /**
@@ -36,8 +37,8 @@ import type { Locale } from "@/lib/content/types";
  */
 function casePaths(c: CaseStudy) {
   return {
-    tr: `/tr/vakalar/${c.slug.tr}`,
-    en: `/en/case-studies/${c.slug.en}`,
+    tr: localizedHref("tr", "cases", c.slug.tr),
+    en: localizedHref("en", "cases", c.slug.en),
   };
 }
 
@@ -114,14 +115,13 @@ export async function generateMetadata({
  */
 function caseServiceLinks(slugs: string[] | undefined, loc: Locale) {
   if (!slugs) return [];
-  const root = loc === "tr" ? "hizmetler" : "services";
   return slugs.flatMap((slug) => {
     const service = SERVICES.find((s) => s.slug.tr === slug);
     if (!service) return [];
     return [
       {
         name: service.name[loc],
-        href: `/${loc}/${root}/${service.slug[loc]}`,
+        href: localizedHref(loc, "services", service.slug[loc]),
       },
     ];
   });
@@ -276,7 +276,7 @@ export default async function CaseDetail({
             { name: "INDOLES", path: `/${loc}` },
             {
               name: tCommon("nav.caseStudies"),
-              path: tr ? "/tr/vakalar" : "/en/case-studies",
+              path: segmentRoot(loc, "cases"),
             },
             // Son kırıntı yol taşımaz — mevcut sayfa kendine link olmaz
             // (`breadcrumbLd` sözleşmesi, seo-json-ld.test.ts).

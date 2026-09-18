@@ -9,14 +9,17 @@
  * URL'leri geçici bir sitemap'te sunmayı öneriyor; o sitemap bu listeden
  * türetilir ki iki liste birbirinden kopmasın.
  *
- * Bu dosya `next.config.ts` tarafından import edilir: yalnız düz veri,
- * `@/` alias'ı ve başka import yok — config yükleme bağlamında çözülmeli.
+ * Bu dosya `next.config.ts` tarafından import edilir: yalnız düz veri ve
+ * import'suz `segments.ts` (göreli yol) — `@/` alias'ı config yükleme
+ * bağlamında çözülmediği için alias'lı import eklenmemelidir.
  *
  * `indoles_eski/` altındaki bu sayfalar hâlâ link equity taşıyor;
  * yönlendirilmezlerse 12 yeni hizmet sayfası sıfırdan başlar.
  * Eşleşmeyen eski sayfalar bilinçli olarak `/hizmetler`e yönlendirilmiyor —
  * konu dışı yönlendirme Google tarafından soft-404 sayılıyor.
  */
+import { LOCALE_SEGMENTS } from "../i18n/segments";
+
 export type LegacyRedirect = {
   source: string;
   destination: string;
@@ -254,6 +257,51 @@ export const EN_CASE_SLUG_REDIRECTS: LegacyRedirect[] = [
   { source: "/en/case-studies/sim-baski-ihracat-icerigi", destination: "/en/case-studies/sim-printing-export-content", permanent: true },
   { source: "/en/case-studies/meccanotecnica-umbra-teklif-portali", destination: "/en/case-studies/meccanotecnica-umbra-quote-portal", permanent: true },
   { source: "/en/case-studies/odorgo-kategori-yaratma", destination: "/en/case-studies/odorgo-category-creation", permanent: true },
+];
+
+/**
+ * Karışık locale adresleri: `/en` altında TR segment (ADR-039).
+ *
+ * `/en/hizmetler/build`, `/en/danismanlar/mert-kaplan`,
+ * `/en/yazilar/<slug>` — GSC'de gösterim alan bu adresler EN sayfalardaki
+ * hatalı href'lerden doğdu. Href'ler düzeltildi ama adresler indekste ve
+ * dış bağlantılarda yaşamaya devam ediyor.
+ *
+ * next-intl middleware'i bu yolları zaten çeviriyordu; sorun **geçici**
+ * (307) olmasıydı: Google 307'yi imza saymaz, eski adresi indekste tutar ve
+ * canonical sinyali bölünür. Burası aynı çeviriyi **kalıcı** (308) yapar —
+ * config'teki `redirects()` middleware'den önce çalışır.
+ *
+ * Bu liste WordPress kalıntısı değil, yeni sitenin kendi geçmişidir:
+ * eski-URL sitemap'ine GİRMEZ (`legacySitemapPaths` yalnız
+ * `LEGACY_REDIRECTS` okur).
+ *
+ * Slug'lar çevrilmez: `/en/vakalar/<tr-slug>` önce `/en/case-studies/<tr-slug>`
+ * olur, oradan `EN_CASE_SLUG_REDIRECTS` ikinci bir 308 ile EN slug'a taşır.
+ * Eşleşmesi olmayan TR slug 404 kalır — çapraz locale çözüm yok (ADR-018).
+ */
+export const EN_SEGMENT_REDIRECTS: LegacyRedirect[] = [
+  // Araç slug'ları sözlükte değil (`routing.ts` tam-yol çifti yazıyor);
+  // joker kuraldan ÖNCE gelmeli, yoksa `/en/tools/<tr-slug>` 404'üne düşer.
+  {
+    source: `/en/${LOCALE_SEGMENTS.tools.tr}/geo-gorunurluk-denetleyicisi/:path*`,
+    destination: `/en/${LOCALE_SEGMENTS.tools.en}/geo-visibility-checker/:path*`,
+    permanent: true,
+  },
+  {
+    source: `/en/${LOCALE_SEGMENTS.tools.en}/geo-gorunurluk-denetleyicisi/:path*`,
+    destination: `/en/${LOCALE_SEGMENTS.tools.en}/geo-visibility-checker/:path*`,
+    permanent: true,
+  },
+  // Sözlükteki her tür için tek kural. `:path*` sıfır segmenti de eşler,
+  // yani `/en/hizmetler` ve `/en/hizmetler/build` aynı satırdan geçer.
+  // Sözlükteki her çiftin TR ve EN yazımı farklıdır (birim test denetler),
+  // dolayısıyla kendine yönlendiren kural üretilmez.
+  ...Object.values(LOCALE_SEGMENTS).map<LegacyRedirect>((pair) => ({
+    source: `/en/${pair.tr}/:path*`,
+    destination: `/en/${pair.en}/:path*`,
+    permanent: true,
+  })),
 ];
 
 /**

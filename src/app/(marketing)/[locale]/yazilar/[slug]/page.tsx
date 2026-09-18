@@ -8,6 +8,7 @@ import { ContactCallout } from "@/components/marketing/contact-callout";
 import { ArticleCard } from "@/components/marketing/article-card";
 import { ArticleToolBridges } from "@/components/marketing/article-tool-bridges";
 import { renderInline } from "@/components/marketing/inline-markdown";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import { getArticleBySlug, ARTICLES } from "@/lib/content/articles";
 import { getConsultantBySlug } from "@/lib/content/consultants";
 import { getTopic } from "@/lib/content/topics";
@@ -35,8 +36,8 @@ export async function generateStaticParams() {
 
 function articlePaths(a: ArticleContent) {
   return {
-    tr: `/tr/yazilar/${a.slug.tr}`,
-    en: `/en/articles/${a.slug.en}`,
+    tr: localizedHref("tr", "articles", a.slug.tr),
+    en: localizedHref("en", "articles", a.slug.en),
   };
 }
 
@@ -189,9 +190,7 @@ export default async function ArticleDetail({
     ? SERVICES.find((s) => s.slug.tr === getTopic(a.topic).serviceSlug)
     : undefined;
   const serviceHref = bridgeService
-    ? loc === "tr"
-      ? `/tr/hizmetler/${bridgeService.slug.tr}`
-      : `/en/services/${bridgeService.slug.en}`
+    ? localizedHref(loc, "services", bridgeService.slug[loc])
     : undefined;
 
   const tr = loc === "tr";
@@ -203,9 +202,7 @@ export default async function ArticleDetail({
   // bir kutu gürültüdür.
   const showToc = headings.length >= 3;
   const authorPath = author
-    ? tr
-      ? `/tr/danismanlar/${author.slug}`
-      : `/en/consultants/${author.slug}`
+    ? localizedHref(loc, "consultants", author.slug)
     : undefined;
 
   return (
@@ -217,7 +214,7 @@ export default async function ArticleDetail({
             { name: "INDOLES", path: `/${loc}` },
             {
               name: tCommon("nav.articles"),
-              path: tr ? "/tr/yazilar" : "/en/articles",
+              path: segmentRoot(loc, "articles"),
             },
             { name: a.title[loc], path: paths[loc] },
           ]),

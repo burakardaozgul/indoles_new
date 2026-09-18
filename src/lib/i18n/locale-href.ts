@@ -1,11 +1,11 @@
-import { routing } from "./routing";
+import { translateSegment } from "./segments";
 
 /**
  * Dil değiştirici için hedef URL üretir.
  *
- * `routing.pathnames` segment çevirisi yaptığı için (`/hizmetler` ↔ `/services`)
- * dil değiştirmek locale ön ekini değiştirmekten ibaret değildir. Ham
- * `/${locale}` linki kullanıcıyı her seferinde ana sayfaya atıyordu.
+ * Segment çevirisi yapıldığı için (`/hizmetler` ↔ `/services`) dil değiştirmek
+ * locale ön ekini değiştirmekten ibaret değildir. Ham `/${locale}` linki
+ * kullanıcıyı her seferinde ana sayfaya atıyordu.
  *
  * Burada yalnız **ilk segment** çevrilir, kalanı olduğu gibi taşınır.
  *
@@ -15,19 +15,10 @@ import { routing } from "./routing";
  * link'iyle beyan eder — dil değiştirici önce onu okur (`V2Nav`,
  * `useAlternateHref`). Alternate etiketi olmayan sayfalar buraya düşer;
  * haritada olmayan segmentler çevrilmeden geçer.
+ *
+ * Sözlük artık `routing.pathnames`ten türetilmiyor, `segments.ts`ten okunuyor
+ * (ADR-039): `routing.ts` da aynı kaynağın türevi, ikisi birbirinden sapamaz.
  */
-const SEGMENTS: Record<string, { tr: string; en: string }> = (() => {
-  const out: Record<string, { tr: string; en: string }> = {};
-  for (const value of Object.values(routing.pathnames)) {
-    if (typeof value === "string") continue;
-    const tr = value.tr.split("/")[1];
-    const en = value.en.split("/")[1];
-    if (!tr || !en || tr.startsWith("[")) continue;
-    out[tr] = { tr, en };
-    out[en] = { tr, en };
-  }
-  return out;
-})();
 
 /**
  * @param pathname locale ön eki olmayan iç yol — `next-intl`'in
@@ -37,8 +28,7 @@ export function localeHref(pathname: string, target: "tr" | "en"): string {
   const parts = pathname.split("/").filter(Boolean);
   if (parts.length === 0) return `/${target}`;
 
-  const mapped = SEGMENTS[parts[0]!];
-  if (mapped) parts[0] = mapped[target];
+  parts[0] = translateSegment(parts[0]!, target);
 
   return `/${target}/${parts.join("/")}`;
 }

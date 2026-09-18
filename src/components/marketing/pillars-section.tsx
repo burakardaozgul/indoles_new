@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { usePersonaState } from "@/lib/hooks/use-persona";
+import { localizedHref } from "@/lib/i18n/segments";
 
 const KEYS = ["growth", "transform", "build"] as const;
 
@@ -80,7 +81,7 @@ export function PillarsSection({ locale }: { locale: "tr" | "en" }) {
               </ul>
 
               <Link
-                href={`/${locale}/hizmetler/${key}`}
+                href={localizedHref(locale, "services", key)}
                 className="pillar-arrow"
                 aria-label={`${t(`${key}.name`)} — ${locale === "tr" ? "hizmetleri gör" : "view services"}`}
               >

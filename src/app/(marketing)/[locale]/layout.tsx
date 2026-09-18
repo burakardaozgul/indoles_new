@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { segmentRoot } from "@/lib/i18n/segments";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -181,7 +182,7 @@ export default async function MarketingLayout({
             reject={tConsent("reject")}
             close={tConsent("close")}
             policyLabel={tConsent("policyLabel")}
-            policyHref={loc === "tr" ? "/tr/gizlilik-kvkk" : "/en/privacy"}
+            policyHref={segmentRoot(loc, "privacy")}
           />
         </div>
       </PopupProvider>

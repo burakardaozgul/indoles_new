@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { PILLARS } from "@/lib/content/pillars";
 import { SERVICES, SERVICE_ORDER } from "@/lib/content/services";
+import { localizedHref } from "@/lib/i18n/segments";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
 import { PersonaText } from "@/components/marketing/persona-text";
 import { usePrefersReducedMotion } from "@/lib/v2/use-mouse";
@@ -222,7 +223,7 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
                   kalır — WCAG 2.5.3 "Label in Name".
                 */}
                 <Link
-                  href={`/${locale}/${locale === "tr" ? "hizmetler" : "services"}/${s.slug}`}
+                  href={localizedHref(locale, "services", s.slug)}
                   className="v2-svc-link mono"
                   data-cursor="hover"
                   aria-label={`${isTr ? "Keşfet" : "Explore"}: ${s.name}`}

@@ -3,6 +3,7 @@ import { SERVICES } from "@/lib/content/services";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
 import { publishedTools } from "@/lib/content/tools";
+import { localizedHref } from "@/lib/i18n/segments";
 import type { Locale, Pillar } from "@/lib/content/types";
 
 /**
@@ -32,11 +33,10 @@ import type { Locale, Pillar } from "@/lib/content/types";
  * sessizce eskimez.
  */
 function serviceLines(pillar: Pillar, locale: Locale): string {
-  const root = locale === "tr" ? "hizmetler" : "services";
   return SERVICES.filter((s) => s.pillar === pillar)
     .map(
       (s) =>
-        `- [${s.name[locale]}](${SITE_URL}/${locale}/${root}/${s.slug[locale]}): ${s.seo.description[locale]}`,
+        `- [${s.name[locale]}](${SITE_URL}${localizedHref(locale, "services", s.slug[locale])}): ${s.seo.description[locale]}`,
     )
     .join("\n");
 }
@@ -47,10 +47,9 @@ function serviceLines(pillar: Pillar, locale: Locale): string {
  * bulabilmesi için başlık metrik taşır (spec §8.5 ile aynı gerekçe).
  */
 function caseLines(locale: Locale): string {
-  const root = locale === "tr" ? "vakalar" : "case-studies";
   return CASES.map(
     (c) =>
-      `- [${c.clientName[locale]} — ${c.title[locale]}](${SITE_URL}/${locale}/${root}/${c.slug[locale]})`,
+      `- [${c.clientName[locale]} — ${c.title[locale]}](${SITE_URL}${localizedHref(locale, "cases", c.slug[locale])})`,
   ).join("\n");
 }
 
@@ -63,23 +62,21 @@ function caseLines(locale: Locale): string {
  * aynı kümede tutar.
  */
 function toolLines(locale: Locale): string {
-  const root = locale === "tr" ? "araclar" : "tools";
   return publishedTools().map(
     (t) =>
-      `- [${t.name[locale]}](${SITE_URL}/${locale}/${root}/${t.slug[locale]}): ${t.seo.description[locale]}`,
+      `- [${t.name[locale]}](${SITE_URL}${localizedHref(locale, "tools", t.slug[locale])}): ${t.seo.description[locale]}`,
   ).join("\n");
 }
 
 /** Yazı satırları: başlık + URL; güncellenen yazı güncelleme yılını taşır. */
 function articleLines(locale: Locale): string {
-  const root = locale === "tr" ? "yazilar" : "articles";
   return ARTICLES.map((a) => {
     const updated = a.updatedAt
       ? locale === "tr"
         ? ` (${a.updatedAt.slice(0, 4)}'da güncellendi)`
         : ` (updated ${a.updatedAt.slice(0, 4)})`
       : "";
-    return `- [${a.title[locale]}](${SITE_URL}/${locale}/${root}/${a.slug[locale]})${updated}: ${a.excerpt[locale]}`;
+    return `- [${a.title[locale]}](${SITE_URL}${localizedHref(locale, "articles", a.slug[locale])})${updated}: ${a.excerpt[locale]}`;
   }).join("\n");
 }
 

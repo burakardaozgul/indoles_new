@@ -1,4 +1,5 @@
 import type { Locale, Localized } from "@/lib/content/types";
+import { segmentRoot } from "@/lib/i18n/segments";
 import type { GeoBand, GeoCheckStatus } from "@/lib/tools/geo/types";
 
 /**
@@ -115,7 +116,7 @@ export const TOOL_UI: Record<Locale, ToolUiCopy> = {
       submitting: "Gönderiliyor…",
       kvkkPrefix: "KVKK kapsamında verilerimin işlenmesini kabul ediyorum.",
       kvkkLink: "Aydınlatma metni",
-      kvkkHref: "/tr/gizlilik-kvkk",
+      kvkkHref: segmentRoot("tr", "privacy"),
       consentRequired: "Devam etmek için KVKK onayını işaretleyin.",
       unlockedLede: "Raporun kopyası e-postanızda.",
       passedGroup: "Geçen sinyaller ({n})",
@@ -181,7 +182,7 @@ export const TOOL_UI: Record<Locale, ToolUiCopy> = {
       submitting: "Sending…",
       kvkkPrefix: "I consent to processing my data per KVKK.",
       kvkkLink: "Privacy notice",
-      kvkkHref: "/en/privacy",
+      kvkkHref: segmentRoot("en", "privacy"),
       consentRequired: "Tick the KVKK consent to continue.",
       unlockedLede: "A copy of the report is in your inbox.",
       passedGroup: "Passing signals ({n})",

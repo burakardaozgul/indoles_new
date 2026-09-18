@@ -60,6 +60,8 @@
 
 **Segment translation:** URL segment'leri de çevrilir (`/hizmetler` ↔ `/services`, `/paketler` ↔ `/packages`). `next-intl`'in `pathnames` config'i ile yapılır.
 
+> **Tek kaynak (ADR-039):** Segment sözlüğü `src/lib/i18n/segments.ts`tedir; `routing.ts` pathnames tablosu, `locale-href.ts` ve tüm iç link üretimi (`localizedHref` / `segmentRoot`) ondan türer. `/en/<tr-segment>/*` adresleri `EN_SEGMENT_REDIRECTS` ile 308 döner — eskiden next-intl middleware'inin 307'siydi ve Google eski adresi indekste tutuyordu.
+
 **Slug davranışı:** Content slug'ları (case study, paket, yazı) locale başına farklı olabilir (`/tr/paketler/buyume-sprinti` ↔ `/en/packages/growth-sprint`). Her içerik tanımında `slug: { tr: "...", en: "..." }` yapısıyla yönetilir (`src/lib/content/*.ts`).
 
 ---

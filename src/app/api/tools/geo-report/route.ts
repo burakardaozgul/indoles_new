@@ -45,6 +45,7 @@ import { sendMetaLead } from "@/lib/analytics/meta-lead";
 import { getToolBySlug } from "@/lib/content/tools";
 import { ARTICLES } from "@/lib/content/articles";
 import { absoluteUrl } from "@/lib/seo/site";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 import GeoReportEmail from "../../../../../emails/GeoReportEmail";
 
@@ -72,7 +73,7 @@ const HOUR_MS = 60 * 60 * 1000;
 
 /** Rezervasyon sayfasının mutlak adresi — locale'e göre (`routing.ts`). */
 function bookingUrl(locale: Locale): string {
-  return absoluteUrl(locale === "tr" ? "/tr/iletisim" : "/en/contact");
+  return absoluteUrl(segmentRoot(locale, "contact"));
 }
 
 /**
@@ -85,11 +86,7 @@ function guideLinks(locale: Locale): Array<{ label: string; href: string }> {
     .slice(0, 3)
     .map((a) => ({
       label: a.title[locale],
-      href: absoluteUrl(
-        locale === "tr"
-          ? `/tr/yazilar/${a.slug.tr}`
-          : `/en/articles/${a.slug.en}`,
-      ),
+      href: absoluteUrl(localizedHref(locale, "articles", a.slug[locale])),
     }));
 }
 

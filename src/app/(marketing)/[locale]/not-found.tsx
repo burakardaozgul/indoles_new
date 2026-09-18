@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { segmentRoot } from "@/lib/i18n/segments";
 import Link from "next/link";
 import { getLocale } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
@@ -97,22 +98,22 @@ const COPY = {
     heading: "Buradan devam edin",
     links: [
       {
-        href: "/tr/hizmetler",
+        href: segmentRoot("tr", "services"),
         label: "Hizmetler",
         note: "On iki hizmet, üç disiplin altında toplanmış.",
       },
       {
-        href: "/tr/vakalar",
+        href: segmentRoot("tr", "cases"),
         label: "Vakalar",
         note: "Yapılan işler; yöntemi ve ölçülen sonucuyla.",
       },
       {
-        href: "/tr/yazilar",
+        href: segmentRoot("tr", "articles"),
         label: "Bilgi Kütüphanesi",
         note: "Yöntemi tek tek anlatan yazılar.",
       },
       {
-        href: "/tr/iletisim",
+        href: segmentRoot("tr", "contact"),
         label: "İletişim",
         note: "Sorunuzu doğrudan sorun; 24 saat içinde dönüyoruz.",
       },
@@ -126,22 +127,22 @@ const COPY = {
     heading: "Continue from here",
     links: [
       {
-        href: "/en/services",
+        href: segmentRoot("en", "services"),
         label: "Services",
         note: "Twelve services, grouped under three disciplines.",
       },
       {
-        href: "/en/case-studies",
+        href: segmentRoot("en", "cases"),
         label: "Case studies",
         note: "The work, with its method and its measured result.",
       },
       {
-        href: "/en/articles",
+        href: segmentRoot("en", "articles"),
         label: "Knowledge Library",
         note: "Writing that explains the method, one piece at a time.",
       },
       {
-        href: "/en/contact",
+        href: segmentRoot("en", "contact"),
         label: "Contact",
         note: "Ask directly; we answer within 24 hours.",
       },

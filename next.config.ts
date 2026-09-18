@@ -3,6 +3,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 import path from "node:path";
 import {
   EN_CASE_SLUG_REDIRECTS,
+  EN_SEGMENT_REDIRECTS,
   LEGACY_REDIRECTS,
 } from "./src/lib/seo/legacy-redirects";
 
@@ -31,14 +32,22 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(__dirname),
   // Tüm vaka görselleri lokal (`public/work/`, ADR-019); remote pattern yok.
   /**
-   * Eski WordPress sitesinden gelen kalıcı yönlendirmeler.
+   * Kalıcı yönlendirmeler — üç liste, hepsi `src/lib/seo/legacy-redirects.ts`te.
    *
-   * Liste `src/lib/seo/legacy-redirects.ts`te — `/sitemap-eski.xml` aynı
-   * kaynaktan üretilir (indeks denetimi 2026-09-18). Gerekçe ve kurallar
+   * `LEGACY_REDIRECTS` eski WordPress sitesinden gelir; `/sitemap-eski.xml`
+   * aynı kaynaktan üretilir (indeks denetimi 2026-09-18). Gerekçe ve kurallar
    * (soft-404, portfolyo eşlemesi, EN vaka slug'ları) o dosyanın yorumlarında.
+   *
+   * Sıra anlamlıdır: `EN_CASE_SLUG_REDIRECTS` tam eşleşmeli EN vaka
+   * adreslerini taşır, `EN_SEGMENT_REDIRECTS` ise joker segment kurallarıdır
+   * (ADR-039) — spesifik olan önce gelir.
    */
   async redirects() {
-    return [...LEGACY_REDIRECTS, ...EN_CASE_SLUG_REDIRECTS];
+    return [
+      ...LEGACY_REDIRECTS,
+      ...EN_CASE_SLUG_REDIRECTS,
+      ...EN_SEGMENT_REDIRECTS,
+    ];
   },
 
   async headers() {

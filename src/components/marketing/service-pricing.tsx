@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { segmentRoot } from "@/lib/i18n/segments";
 import type { Locale, ServiceContent } from "@/lib/content/types";
 
 type RetainerPlans = NonNullable<ServiceContent["retainerPlans"]>;
@@ -21,14 +22,14 @@ const COPY = {
     monthly: "Aylık",
     recommended: "Önerilen plan",
     cta: "Teklif al",
-    contactPath: "/tr/iletisim",
+    contactPath: segmentRoot("tr", "contact"),
   },
   en: {
     eyebrow: "Monthly management plans",
     monthly: "Monthly",
     recommended: "Recommended plan",
     cta: "Get a quote",
-    contactPath: "/en/contact",
+    contactPath: segmentRoot("en", "contact"),
   },
 } as const;
 

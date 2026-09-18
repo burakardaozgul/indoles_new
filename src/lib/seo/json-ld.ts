@@ -299,12 +299,26 @@ export function faqLd(items: Array<{ question: string; answer: string }>) {
   };
 }
 
+/**
+ * WebPage.
+ *
+ * `dateModified` opsiyoneldir ve yalnız içeriğin gerçekten değiştiği tarih
+ * bilindiğinde basılır (hizmet sayfalarında `ServiceContent.updatedAt`).
+ * Alan `WebPage` üzerinde durur, `Service` üzerinde değil: `dateModified`
+ * schema.org'da `CreativeWork` özelliğidir ve `Service` bir `CreativeWork`
+ * değildir — oraya yazmak şemayı geçersiz kılardı. `Article` şeması da
+ * kullanılmaz; hizmet sayfası makale değildir (denetim 2026-09-18).
+ *
+ * Tarih yoksa alan hiç basılmaz: boş ya da uydurma bir tarih, `lastmod`la
+ * aynı sebepten (denetim T-05) sinyali değil güveni tüketir.
+ */
 export function webPageLd({
   name,
   description,
   path,
   locale,
   type = "WebPage",
+  dateModified,
 }: {
   name: string;
   description: string;
@@ -312,6 +326,8 @@ export function webPageLd({
   locale: Locale;
   /** Alt tip gerektiren sayfalar için — örn. iletişimde "ContactPage". */
   type?: "WebPage" | "ContactPage";
+  /** ISO tarih (YYYY-MM-DD) — içeriğe gerçekten dokunulan gün. */
+  dateModified?: string | undefined;
 }) {
   return {
     "@type": type,
@@ -321,6 +337,7 @@ export function webPageLd({
     description,
     inLanguage: IN_LANGUAGE[locale],
     isPartOf: { "@id": ORG_ID },
+    ...(dateModified ? { dateModified } : {}),
   };
 }
 

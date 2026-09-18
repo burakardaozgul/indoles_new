@@ -28,9 +28,16 @@ export const cro: ServiceContent = {
     },
   },
 
+  /**
+   * "CRO ajansı" ifadesi burada üçüncü taraf tanımı olarak geçer — kendimizi
+   * adlandırmak için değil, o ajanstan beklenmesi gereken tek çıktıyı
+   * adlandırmak için (yerleşim kuralı: `keyword-coverage.test.ts`). Kelime
+   * daha önce yalnız kapanış SSS'inde yaşıyordu; tek yüzey sorguyu
+   * taşımıyordu (Keyword-Onceliklendirme U-3).
+   */
   lede: {
-    tr: "Dönüşüm oranı optimizasyonu, siteye gelen mevcut ziyaretçiden daha fazla satış veya teklif talebi çıkarma işidir. INDOLES yeni trafik satın almaz; halihazırda gelen insanların nerede vazgeçtiğini bulur ve o noktaları tek tek düzeltir.",
-    en: "Conversion rate optimisation is the work of getting more sales or enquiries from the visitors you already have. INDOLES does not buy new traffic; it finds where the people already arriving give up, and fixes those points one by one.",
+    tr: "Dönüşüm oranı optimizasyonu, siteye gelen mevcut ziyaretçiden daha fazla satış veya teklif talebi çıkarma işidir; bir CRO ajansından beklenecek tek şey de ölçülmüş bir artıştır. INDOLES yeni trafik satın almaz; halihazırda gelen insanların nerede vazgeçtiğini bulur ve o noktaları tek tek düzeltir.",
+    en: "Conversion rate optimisation is the work of getting more sales or enquiries from the visitors you already have; a measured lift is the only thing worth expecting from a CRO agency. INDOLES does not buy new traffic; it finds where the people already arriving give up, and fixes those points one by one.",
   },
 
   signals: {
@@ -238,6 +245,15 @@ export const cro: ServiceContent = {
     },
   ],
 
+  /**
+   * SSS sırası anlam sırasıdır ve FAQPage şemasına aynen akar: kısaltmanın
+   * ne olduğu, sonra kimden satın alındığı, sonra uygulama soruları.
+   *
+   * Karşı-konumlandırma sorusu 2026-09-18'de son sıradan ikinciye alındı —
+   * "cro ajansı" sorgusunun hedef sayfası burasıdır ve on ikinci sıradaki bir
+   * cevap ne sayfada ne şemada ilk üçe giriyordu (Rakip-Analizi §4: rakibin
+   * gücü FAQ'ın kendisi değil, sorunun görünür yerde durması).
+   */
   faq: [
     {
       question: {
@@ -247,6 +263,19 @@ export const cro: ServiceContent = {
       answer: {
         tr: "CRO, dönüşüm oranı optimizasyonunun kısaltmasıdır ve siteye gelen ziyaretçilerin daha büyük bölümünün satın alması ya da teklif istemesi için yapılan çalışmayı anlatır. INDOLES bu işte yeni ziyaretçi getirmez; mevcut ziyaretçinin hangi adımda vazgeçtiğini ölçer ve o adımı düzeltir. Trafik aynı kalırken satış artar.",
         en: "CRO stands for conversion rate optimisation and describes the work of getting a larger share of existing visitors to buy or enquire. In this service INDOLES does not bring new visitors; it measures which step people abandon and fixes that step. Traffic stays the same while sales go up.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      question: {
+        tr: "CRO ajansı ile dönüşüm optimizasyonu danışmanlığı arasındaki fark nedir?",
+        en: "What is the difference between a CRO agency and conversion optimisation consulting?",
+      },
+      answer: {
+        tr: "CRO ajansı çoğunlukla test kurar ve rapor teslim eder; dönüşüm optimizasyonu danışmanlığı kaybın nerede olduğunu bulup o noktanın düzeltilmesini üstlenir. INDOLES ikinci yolu izler: önce ölçüm altyapısı onarılır, sonra kayıp noktaları oturum kaydı ve ısı haritasıyla saptanır, her düzeltme A/B testiyle doğrulanır. Fark teslim edilen şeyde görünür — rapor değil, ölçülmüş bir dönüşüm artışı.",
+        en: "A CRO agency typically sets up tests and delivers a report; conversion optimisation consulting takes on finding where the loss happens and fixing that point. INDOLES follows the second path: the measurement setup is repaired first, drop-off points are located through session recordings and heatmaps, and each fix is validated with an A/B test. The difference shows in what gets delivered — a measured conversion lift rather than a report.",
       },
     },
     {
@@ -349,34 +378,35 @@ export const cro: ServiceContent = {
         en: "You keep a working A/B testing setup, validated conversion measurement, a prioritised test backlog and a testing calendar template. The results report records which test delivered and which did not. After the handover session the in-house team runs the loop; the aim is a running routine, not a one-off improvement.",
       },
     },
-    {
-      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
-      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
-      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
-      question: {
-        tr: "CRO ajansı ile dönüşüm optimizasyonu danışmanlığı arasındaki fark nedir?",
-        en: "What is the difference between a CRO agency and conversion optimisation consulting?",
-      },
-      answer: {
-        tr: "CRO ajansı çoğunlukla test kurar ve rapor teslim eder; dönüşüm optimizasyonu danışmanlığı kaybın nerede olduğunu bulup o noktanın düzeltilmesini üstlenir. INDOLES ikinci yolu izler: önce ölçüm altyapısı onarılır, sonra kayıp noktaları oturum kaydı ve ısı haritasıyla saptanır, her düzeltme A/B testiyle doğrulanır. Fark teslim edilen şeyde görünür — rapor değil, ölçülmüş bir dönüşüm artışı.",
-        en: "A CRO agency typically sets up tests and delivers a report; conversion optimisation consulting takes on finding where the loss happens and fixing that point. INDOLES follows the second path: the measurement setup is repaired first, drop-off points are located through session recordings and heatmaps, and each fix is validated with an A/B test. The difference shows in what gets delivered — a measured conversion lift rather than a report.",
-      },
-    },
   ],
 
+  /**
+   * Sayfa 2026-09-18'de gerçekten değişti: SSS sırası, lede ve arama yüzeyi.
+   * `lastmod` ve `WebPage.dateModified` buradan beslenir — tarih sayfaya
+   * dokunulmadan ileri alınmaz (bkz. `types.ts`, denetim T-05).
+   */
+  updatedAt: "2026-09-18",
+
   seo: {
+    /**
+     * Tam sorgu biçimi ("dönüşüm oranı optimizasyonu") başa alındı; kısaltma
+     * arkaya düştü. "CRO ajansı" başlığa GİRMEZ: `ajansı`/`firmaları` ailesi
+     * `name` ve `seo.title` yüzeylerinde yasaklı (strateji v1.4 karar 3,
+     * `keyword-coverage.test.ts`). O kelime lede, açıklama ve SSS'te yaşar.
+     */
     title: {
-      tr: "CRO — dönüşüm oranı optimizasyonu",
-      en: "CRO — conversion rate optimisation",
+      tr: "Dönüşüm oranı optimizasyonu — CRO",
+      en: "Conversion rate optimisation — CRO",
     },
     description: {
-      tr: "Mevcut trafikten daha fazla satış çıkaran dönüşüm oranı optimizasyonu. Sepet terk ve form vazgeçme noktaları ölçülür, A/B testiyle tek tek düzeltilir.",
-      en: "Conversion rate optimisation that gets more sales from existing traffic. Cart and checkout drop-off measured on recordings, then fixed with A/B testing.",
+      tr: "Bir CRO ajansından beklenen tek şey ölçülmüş artıştır. Dönüşüm oranı optimizasyonunda sepet terk ve form vazgeçme noktaları ölçülür, A/B testiyle düzeltilir.",
+      en: "The only thing worth expecting from a CRO agency is a measured lift. Cart and form drop-off is located on recordings, then fixed one by one with A/B testing.",
     },
     entities: {
       tr: [
         "INDOLES",
         "dönüşüm oranı optimizasyonu",
+        "CRO ajansı",
         "A/B test",
         "checkout",
         "Google Analytics",
@@ -384,6 +414,7 @@ export const cro: ServiceContent = {
       en: [
         "INDOLES",
         "conversion rate optimisation",
+        "CRO agency",
         "A/B test",
         "checkout",
         "Google Analytics",

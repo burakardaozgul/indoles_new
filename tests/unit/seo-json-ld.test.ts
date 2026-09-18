@@ -12,6 +12,7 @@ import {
 } from "@/lib/seo/json-ld";
 import { SITE_URL } from "@/lib/seo/site";
 import { COMPANY } from "@/lib/content/company";
+import { SERVICES } from "@/lib/content/services";
 
 describe("organizationLd", () => {
   it("Organization tipinde ve yasal adı taşır", () => {
@@ -323,6 +324,59 @@ describe("webPageLd", () => {
       locale: "en",
     }) as Record<string, unknown>;
     expect(ld.inLanguage).toBe("en-US");
+  });
+
+  it("dateModified verilmezse alan hiç basılmaz", () => {
+    // Boş ya da build anına düşen bir tarih, `lastmod`la aynı sebepten
+    // (denetim T-05) sinyali değil güveni tüketir: alan yoksa yazılmaz.
+    const ld = webPageLd({
+      name: "CRO",
+      description: "x",
+      path: "/tr/hizmetler/cro",
+      locale: "tr",
+    }) as Record<string, unknown>;
+    expect("dateModified" in ld).toBe(false);
+  });
+
+  it("dateModified verilirse WebPage düğümüne yazılır", () => {
+    const ld = webPageLd({
+      name: "CRO",
+      description: "x",
+      path: "/tr/hizmetler/cro",
+      locale: "tr",
+      dateModified: "2026-09-18",
+    }) as Record<string, unknown>;
+    expect(ld.dateModified).toBe("2026-09-18");
+  });
+});
+
+describe("hizmet sayfası tazelik sinyali", () => {
+  it("dokunulan hizmetin updatedAt'i WebPage.dateModified'a akar", () => {
+    // Şemadaki tarihin kaynağı içeriktir: `ServiceContent.updatedAt`
+    // sitemap `lastmod`ıyla aynı alanı okur, ikisi ayrışamaz.
+    const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
+    expect(cro.updatedAt).toBeTruthy();
+    const ld = webPageLd({
+      name: cro.name.tr,
+      description: cro.seo.description.tr,
+      path: "/tr/hizmetler/cro",
+      locale: "tr",
+      dateModified: cro.updatedAt,
+    }) as Record<string, unknown>;
+    expect(ld.dateModified).toBe(cro.updatedAt);
+  });
+
+  it("dateModified taşıyan düğüm Service değil WebPage'dir", () => {
+    // `dateModified` schema.org'da CreativeWork özelliğidir; Service bir
+    // CreativeWork değildir. Alanı oraya taşımak şemayı geçersiz kılar.
+    const ld = serviceLd({
+      name: "CRO",
+      description: "x",
+      serviceType: "Dönüşüm oranı optimizasyonu — CRO",
+      path: "/tr/hizmetler/cro",
+      offers: [],
+    }) as Record<string, unknown>;
+    expect("dateModified" in ld).toBe(false);
   });
 });
 

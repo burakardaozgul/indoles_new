@@ -300,6 +300,9 @@ export function ServiceDetail({
             description: service.seo.description[locale],
             path: paths[locale],
             locale,
+            /* Sayfaya gerçekten dokunulduğu gün; alan boşsa şemaya hiç
+               yazılmaz (sitemap `lastmod` ile aynı kaynak). */
+            dateModified: service.updatedAt,
           }),
           breadcrumbLd([
             { name: "INDOLES", path: `/${locale}` },

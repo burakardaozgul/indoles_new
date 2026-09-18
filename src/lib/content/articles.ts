@@ -9103,8 +9103,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "CRO ajansı seçmek bir tedarikçi seçimi değil, ölçüm ortağı seçimidir. Yanlış seçim yalnızca bütçeyi götürmez, sonraki bir yılın kararlarını da bozar — çünkü hatalı ölçülmüş bir test, yanlış bilgiyi doğru bilgi kılığında geride bırakır. Aşağıda beş değerlendirme kriteri, ilk görüşmede sorulacak sekiz soru ve masadan kalkmanız gereken üç vaat var. İşin kendisi nasıl yürür sorusunun cevabı [dönüşüm optimizasyonu hizmetimizde](/hizmetler/cro), kavramın tanımı ise [CRO nedir yazısında](/yazilar/cro-nedir) duruyor.",
-          en: "Choosing a CRO agency is not choosing a supplier; it is choosing a measurement partner. A wrong choice costs more than the budget — it corrupts the next year of decisions, because a badly measured test leaves false information behind dressed as fact. Below are five evaluation criteria, eight questions for the first meeting and three promises that should end the conversation. How the work itself runs is set out on our [conversion optimisation service page](/hizmetler/cro), and the definition of the term sits in [what CRO is](/yazilar/cro-nedir).",
+          tr: "CRO ajansı seçmek bir tedarikçi seçimi değil, ölçüm ortağı seçimidir. Yanlış seçim yalnızca bütçeyi götürmez, sonraki bir yılın kararlarını da bozar — çünkü hatalı ölçülmüş bir test, yanlış bilgiyi doğru bilgi kılığında geride bırakır. Aşağıda beş değerlendirme kriteri, ilk görüşmede sorulacak sekiz soru ve masadan kalkmanız gereken üç vaat var. İşin kendisi nasıl yürür sorusunun cevabı, yani [CRO ajansı olarak nasıl çalıştığımız](/hizmetler/cro), hizmet sayfasında duruyor; kavramın tanımı ise [CRO nedir yazısında](/yazilar/cro-nedir).",
+          en: "Choosing a CRO agency is not choosing a supplier; it is choosing a measurement partner. A wrong choice costs more than the budget — it corrupts the next year of decisions, because a badly measured test leaves false information behind dressed as fact. Below are five evaluation criteria, eight questions for the first meeting and three promises that should end the conversation. How the work itself runs — [how we work as a CRO agency](/hizmetler/cro) — is set out on the service page, and the definition of the term sits in [what CRO is](/yazilar/cro-nedir).",
         },
       },
       {
@@ -9488,8 +9488,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bu soruları bize de sorun. Yöntemin adım sırası [dönüşüm optimizasyonu hizmet sayfamızda](/hizmetler/cro) açıkça yazılı; cevapları yan yana koyup karşılaştırın.",
-          en: "Ask us the same questions. The sequence of our method is written out on [our conversion optimisation service page](/hizmetler/cro); put the answers side by side and compare them.",
+          tr: "Bu soruları bize de sorun. [CRO ajansı olarak nasıl çalıştığımız](/hizmetler/cro) ve yöntemin adım sırası hizmet sayfasında açıkça yazılı; cevapları yan yana koyup karşılaştırın.",
+          en: "Ask us the same questions. [How we work as a CRO agency](/hizmetler/cro) and the step order of our method are written out on the service page; put the answers side by side and compare them.",
         },
       },
     ],

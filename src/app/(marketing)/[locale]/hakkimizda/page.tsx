@@ -13,10 +13,11 @@ import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 
-const PATHS = { tr: "/tr/hakkimizda", en: "/en/about" };
+const PATHS = { tr: segmentRoot("tr", "about"), en: segmentRoot("en", "about") };
 
 /**
  * TR başlığı kelime hedefi taşımıyor: "iş geliştirme danışmanlığı" ana sayfa
@@ -249,7 +250,7 @@ export default async function AboutPage({
             {CONSULTANTS_ORDERED.map((c) => (
               <Link
                 key={c.slug}
-                href={`/${locale}/danismanlar/${c.slug}`}
+                href={localizedHref(loc, "consultants", c.slug)}
                 className="group border border-surface-2 rounded-2xl p-10 flex flex-col hover:bg-teal-50 hover:border-teal-200 transition-colors"
               >
                 <header className="flex items-center gap-6">

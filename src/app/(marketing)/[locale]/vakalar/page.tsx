@@ -14,10 +14,11 @@ import { JsonLd } from "@/lib/seo/JsonLd";
 import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
 import { localeHref } from "@/lib/i18n/locale-href";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 
-const PATHS = { tr: "/tr/vakalar", en: "/en/case-studies" };
+const PATHS = { tr: segmentRoot("tr", "cases"), en: segmentRoot("en", "cases") };
 
 /**
  * Sayı içerikten türer. "On iş" elle yazılmıştı ve gerçek sayı dokuzdu —
@@ -89,9 +90,7 @@ export default async function CaseIndex({
               "@type": "ListItem",
               position: i + 1,
               name: c.title[loc],
-              url: absoluteUrl(
-                `/${loc}/${loc === "tr" ? "vakalar" : "case-studies"}/${c.slug[loc]}`
-              ),
+              url: absoluteUrl(localizedHref(loc, "cases", c.slug[loc])),
             })),
           },
         ]}

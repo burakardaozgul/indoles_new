@@ -51,6 +51,24 @@ const cases = PAGES.map(
   (file) => [path.relative(MARKETING_ROOT, file), file] as const,
 );
 
+/**
+ * Bir sayfanın kendi yol eşlemesini nasıl yazabileceği (ADR-039):
+ *
+ * - ham literal — `tr: "/tr/araclar/diagnoo"`
+ * - sözlük kökü — `tr: segmentRoot("tr", "services")`
+ * - sözlük + slug — `tr: localizedHref("tr", "cases", c.slug.tr)`
+ *
+ * Yakalanan grup canonical'ın kimliğidir: iki sayfa aynı ifadeyi yazarsa
+ * aynı canonical'ı ilan ediyor demektir.
+ */
+function pathExpr(locale: "tr" | "en"): RegExp {
+  return new RegExp(
+    `${locale}:\\s*(['\`"]/${locale}/[^'\`"$]*` +
+      `|segmentRoot\\(\\s*"${locale}",\\s*"[a-z]+"\\s*\\)` +
+      `|localizedHref\\(\\s*"${locale}",\\s*"[a-z]+"[^)]*\\))`,
+  );
+}
+
 describe("marketing sayfalarının metadata'sı", () => {
   it("ana sayfa dışındaki her sayfa taranır", () => {
     expect(PAGES.length).toBeGreaterThanOrEqual(13);
@@ -65,15 +83,16 @@ describe("marketing sayfalarının metadata'sı", () => {
   it.each(cases)("%s iki dilli path eşlemesi kurar", (_n, file) => {
     const src = readFileSync(file, "utf8");
     // Statik sayfada `PATHS` sabiti, detay sayfasında `*Paths()` yardımcısı;
-    // ikisi de `tr:` / `en:` anahtarlarını `/tr/` ve `/en/` ile yazar.
-    expect(src).toMatch(/tr:\s*['\`"]\/tr\//);
-    expect(src).toMatch(/en:\s*['\`"]\/en\//);
+    // ikisi de `tr:` / `en:` anahtarlarını taşır. Değer ya ham yol literali
+    // ya da segment sözlüğünden türeyen çağrıdır (ADR-039) — sözlüğün tek
+    // kaynağa alınması bu taramayı geçersiz kılmamalı.
+    expect(src).toMatch(pathExpr("tr"));
+    expect(src).toMatch(pathExpr("en"));
   });
 
   it("hiçbir sayfa başka bir sayfanın canonical'ını kullanmaz", () => {
     const trPaths = PAGES.flatMap((file) => {
-      const src = readFileSync(file, "utf8");
-      const match = src.match(/tr:\s*['\`"](\/tr\/[^'\`"$]*)/);
+      const match = readFileSync(file, "utf8").match(pathExpr("tr"));
       return match?.[1] ? [match[1]] : [];
     });
     expect(trPaths).toHaveLength(PAGES.length);

@@ -4,6 +4,7 @@ import { CASES } from "@/lib/content/cases";
 import { SERVICES } from "@/lib/content/services";
 import { TOOLS } from "@/lib/content/tools";
 import { localeHref } from "@/lib/i18n/locale-href";
+import { localizedHref } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 /**
@@ -31,9 +32,7 @@ function resolveInlineHref(href: string, loc: Locale): string {
   if (parts[0] === "hizmetler" && parts[1]) {
     const svc = SERVICES.find((s) => s.slug.tr === parts[1]);
     if (svc) {
-      return loc === "tr"
-        ? `/tr/hizmetler/${svc.slug.tr}`
-        : `/en/services/${svc.slug.en}`;
+      return localizedHref(loc, "services", svc.slug[loc]);
     }
   }
   // Yazıdan yazıya link, hizmetlerle aynı sorunu taşır: slug locale başına
@@ -43,9 +42,7 @@ function resolveInlineHref(href: string, loc: Locale): string {
   if (parts[0] === "yazilar" && parts[1]) {
     const art = ARTICLES.find((a) => a.slug.tr === parts[1]);
     if (art) {
-      return loc === "tr"
-        ? `/tr/yazilar/${art.slug.tr}`
-        : `/en/articles/${art.slug.en}`;
+      return localizedHref(loc, "articles", art.slug[loc]);
     }
   }
   // Yazıdan vakaya link (2026-08-29): vaka slug'ı da locale başına ayrıldı,
@@ -56,9 +53,7 @@ function resolveInlineHref(href: string, loc: Locale): string {
   if (parts[0] === "vakalar" && parts[1]) {
     const study = CASES.find((c) => c.slug.tr === parts[1]);
     if (study) {
-      return loc === "tr"
-        ? `/tr/vakalar/${study.slug.tr}`
-        : `/en/case-studies/${study.slug.en}`;
+      return localizedHref(loc, "cases", study.slug[loc]);
     }
   }
   // Yazıdan araca link (Görev 13, üçgen linkler): araç slug'ı da locale
@@ -70,9 +65,7 @@ function resolveInlineHref(href: string, loc: Locale): string {
   if (parts[0] === "araclar" && parts[1]) {
     const tool = TOOLS.find((t) => t.slug.tr === parts[1]);
     if (tool) {
-      return loc === "tr"
-        ? `/tr/araclar/${tool.slug.tr}`
-        : `/en/tools/${tool.slug.en}`;
+      return localizedHref(loc, "tools", tool.slug[loc]);
     }
   }
   return localeHref(href, loc);

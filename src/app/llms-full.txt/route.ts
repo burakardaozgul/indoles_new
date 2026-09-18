@@ -5,6 +5,7 @@ import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
 import { BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
+import { localizedHref, type SegmentKind } from "@/lib/i18n/segments";
 import type { Locale, Pillar } from "@/lib/content/types";
 
 export const dynamic = "force-static";
@@ -22,28 +23,12 @@ export const dynamic = "force-static";
  * kendisinden üretilir, dolayısıyla içerik değişince sessizce eskimez.
  */
 
-const ROOT: Record<Locale, Record<string, string>> = {
-  tr: {
-    services: "hizmetler",
-    packages: "paketler",
-    cases: "vakalar",
-    articles: "yazilar",
-    consultants: "danismanlar",
-    contact: "iletisim",
-  },
-  en: {
-    services: "services",
-    packages: "packages",
-    cases: "case-studies",
-    articles: "articles",
-    consultants: "consultants",
-    contact: "contact",
-  },
-};
-
-function url(locale: Locale, section: string, slug?: string): string {
-  const base = `${SITE_URL}/${locale}/${ROOT[locale][section]}`;
-  return slug ? `${base}/${slug}` : base;
+/**
+ * Segment sözlüğü `src/lib/i18n/segments.ts`te — burada ikinci bir kopyası
+ * tutulmuyor (ADR-039).
+ */
+function url(locale: Locale, section: SegmentKind, slug?: string): string {
+  return `${SITE_URL}${slug ? localizedHref(locale, section, slug) : localizedHref(locale, section)}`;
 }
 
 /** Madde listesi — boş dizide hiç satır basmaz (boş başlık bırakmamak için). */

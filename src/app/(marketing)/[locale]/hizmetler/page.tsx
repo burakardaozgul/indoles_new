@@ -12,9 +12,10 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
-const PATHS = { tr: "/tr/hizmetler", en: "/en/services" };
+const PATHS = { tr: segmentRoot("tr", "services"), en: segmentRoot("en", "services") };
 
 /**
  * Başlık "Hizmetler" değil: bu sayfa keyword haritasında (docs/strateji/
@@ -67,7 +68,6 @@ export default async function ServicesIndex({
   const tCommon = await getTranslations({ locale, namespace: "common" });
   const tPage = await getTranslations({ locale, namespace: "pages.services" });
 
-  const servicesRoot = loc === "tr" ? "hizmetler" : "services";
 
   return (
     <>
@@ -94,7 +94,7 @@ export default async function ServicesIndex({
               "@type": "ListItem",
               position: i + 1,
               name: s.name[loc],
-              url: absoluteUrl(`/${loc}/${servicesRoot}/${s.slug[loc]}`),
+              url: absoluteUrl(localizedHref(loc, "services", s.slug[loc])),
             })),
           },
         ]}
@@ -148,7 +148,7 @@ export default async function ServicesIndex({
                     />
                   </p>
                   <Link
-                    href={`/${locale}/hizmetler/${p.key}`}
+                    href={localizedHref(loc, "services", p.key)}
                     className="inline-flex items-center gap-2 mt-8 text-brand-700 typography-body-md"
                   >
                     <span className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500">
@@ -182,7 +182,7 @@ export default async function ServicesIndex({
                                 kümenin tepesi yapraklarına bağlanıyor. */}
                             <h3 className="typography-h3 text-ink-900">
                               <Link
-                                href={`/${locale}/${loc === "tr" ? "hizmetler" : "services"}/${s.slug[loc]}`}
+                                href={localizedHref(loc, "services", s.slug[loc])}
                                 className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
                               >
                                 {s.name[loc]}

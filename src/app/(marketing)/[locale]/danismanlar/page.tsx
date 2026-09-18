@@ -9,10 +9,14 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 
-const PATHS = { tr: "/tr/danismanlar", en: "/en/consultants" };
+const PATHS = {
+  tr: segmentRoot("tr", "consultants"),
+  en: segmentRoot("en", "consultants"),
+};
 
 const META = {
   tr: {
@@ -77,9 +81,7 @@ export default async function ConsultantsIndex({
               "@type": "ListItem",
               position: i + 1,
               name: k.name,
-              url: absoluteUrl(
-                `/${loc}/${loc === "tr" ? "danismanlar" : "consultants"}/${k.slug}`
-              ),
+              url: absoluteUrl(localizedHref(loc, "consultants", k.slug)),
             })),
           },
         ]}
@@ -108,7 +110,7 @@ export default async function ConsultantsIndex({
             {CONSULTANTS_ORDERED.map((c) => (
               <Link
                 key={c.slug}
-                href={`/${locale}/danismanlar/${c.slug}`}
+                href={localizedHref(loc, "consultants", c.slug)}
                 className="group flex min-h-[340px] flex-col rounded-xl border border-ink-200 v2-surface p-10 shadow-sm transition-shadow hover:shadow-md md:p-12"
               >
                 <header className="flex items-center gap-6">

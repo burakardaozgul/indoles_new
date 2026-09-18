@@ -17,6 +17,7 @@ import {
   webPageLd,
 } from "@/lib/seo/json-ld";
 import type { Metadata } from "next";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 /**
@@ -46,7 +47,10 @@ function bookableOrNull(slug: string) {
 }
 
 function consultantPaths(slug: string) {
-  return { tr: `/tr/danismanlar/${slug}`, en: `/en/consultants/${slug}` };
+  return {
+    tr: localizedHref("tr", "consultants", slug),
+    en: localizedHref("en", "consultants", slug),
+  };
 }
 
 export async function generateMetadata({
@@ -127,7 +131,7 @@ export default async function ConsultantDetail({
             { name: "INDOLES", path: `/${loc}` },
             {
               name: tCommon("nav.consultants"),
-              path: loc === "tr" ? "/tr/danismanlar" : "/en/consultants",
+              path: segmentRoot(loc, "consultants"),
             },
             { name: c.name },
           ]),
@@ -250,7 +254,7 @@ export default async function ConsultantDetail({
                   {authoredArticles.map((a) => (
                     <li key={a.slug[loc]} className="border-b border-surface-2">
                       <Link
-                        href={`/${locale}/yazilar/${a.slug[loc]}`}
+                        href={localizedHref(loc, "articles", a.slug[loc])}
                         className="group block py-6 hover:bg-surface-1/60 transition-colors -mx-4 px-4 rounded-lg"
                       >
                         <h3 className="typography-h3 text-ink-900 group-hover:text-brand-800">

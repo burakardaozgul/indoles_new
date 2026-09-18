@@ -7,6 +7,7 @@ import { ARTICLES } from "@/lib/content/articles";
 import { PACKAGES } from "@/lib/content/packages";
 import { publishedTools } from "@/lib/content/tools";
 import { BOOKABLE_CONSULTANTS } from "@/lib/content/consultants";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { CaseStudyContent } from "@/lib/content/types";
 
 /**
@@ -29,12 +30,12 @@ const STATIC_ROUTES: Array<{
     changeFrequency: "weekly",
   },
   {
-    path: { tr: "/tr/hizmetler", en: "/en/services" },
+    path: { tr: segmentRoot("tr", "services"), en: segmentRoot("en", "services") },
     priority: 0.9,
     changeFrequency: "weekly",
   },
   {
-    path: { tr: "/tr/paketler", en: "/en/packages" },
+    path: { tr: segmentRoot("tr", "packages"), en: segmentRoot("en", "packages") },
     priority: 0.8,
     changeFrequency: "monthly",
   },
@@ -42,37 +43,37 @@ const STATIC_ROUTES: Array<{
     // Araç indeksi — düşük taahhütlü funnel girişi, paketlerle aynı öncelik.
     // Sonuç sayfaları (`/araclar/.../sonuc/[id]`) buraya GİRMEZ: kişiye özel
     // tarama çıktısı, noindex, kanonik bir indekslenebilir yüzey değil.
-    path: { tr: "/tr/araclar", en: "/en/tools" },
+    path: { tr: segmentRoot("tr", "tools"), en: segmentRoot("en", "tools") },
     priority: 0.8,
     changeFrequency: "monthly",
   },
   {
-    path: { tr: "/tr/vakalar", en: "/en/case-studies" },
+    path: { tr: segmentRoot("tr", "cases"), en: segmentRoot("en", "cases") },
     priority: 0.8,
     changeFrequency: "monthly",
   },
   {
-    path: { tr: "/tr/danismanlar", en: "/en/consultants" },
+    path: { tr: segmentRoot("tr", "consultants"), en: segmentRoot("en", "consultants") },
     priority: 0.7,
     changeFrequency: "monthly",
   },
   {
-    path: { tr: "/tr/yazilar", en: "/en/articles" },
+    path: { tr: segmentRoot("tr", "articles"), en: segmentRoot("en", "articles") },
     priority: 0.7,
     changeFrequency: "weekly",
   },
   {
-    path: { tr: "/tr/iletisim", en: "/en/contact" },
+    path: { tr: segmentRoot("tr", "contact"), en: segmentRoot("en", "contact") },
     priority: 0.5,
     changeFrequency: "yearly",
   },
   {
-    path: { tr: "/tr/hakkimizda", en: "/en/about" },
+    path: { tr: segmentRoot("tr", "about"), en: segmentRoot("en", "about") },
     priority: 0.5,
     changeFrequency: "yearly",
   },
   {
-    path: { tr: "/tr/gizlilik-kvkk", en: "/en/privacy" },
+    path: { tr: segmentRoot("tr", "privacy"), en: segmentRoot("en", "privacy") },
     priority: 0.3,
     changeFrequency: "yearly",
   },
@@ -159,8 +160,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Pillar sayfaları — kümenin tepesi, hizmet detaylarından bir kademe önde.
   for (const pillar of PILLARS) {
     const path = {
-      tr: `/tr/hizmetler/${pillar.key}`,
-      en: `/en/services/${pillar.key}`,
+      tr: localizedHref("tr", "services", pillar.key),
+      en: localizedHref("en", "services", pillar.key),
     };
     for (const locale of ["tr", "en"] as const) {
       entries.push(entry(path, locale, 0.9, "weekly"));
@@ -173,8 +174,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 2026-09-18, `docs/strateji/Indeks-Denetimi-2026-09-18.md`).
   for (const service of SERVICES) {
     const path = {
-      tr: `/tr/hizmetler/${service.slug.tr}`,
-      en: `/en/services/${service.slug.en}`,
+      tr: localizedHref("tr", "services", service.slug.tr),
+      en: localizedHref("en", "services", service.slug.en),
     };
     const lastModified = service.updatedAt
       ? new Date(service.updatedAt)
@@ -190,8 +191,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // yakın. Fiyat ve kapsam yılda birkaç kez güncellenir → monthly.
   for (const pkg of PACKAGES) {
     const path = {
-      tr: `/tr/paketler/${pkg.slug.tr}`,
-      en: `/en/packages/${pkg.slug.en}`,
+      tr: localizedHref("tr", "packages", pkg.slug.tr),
+      en: localizedHref("en", "packages", pkg.slug.en),
     };
     for (const locale of ["tr", "en"] as const) {
       entries.push(entry(path, locale, 0.7, "monthly"));
@@ -205,8 +206,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // çalışmayan bir sayfayı indekslemek, aracın ilk izlenimini bozar.
   for (const tool of publishedTools()) {
     const path = {
-      tr: `/tr/araclar/${tool.slug.tr}`,
-      en: `/en/tools/${tool.slug.en}`,
+      tr: localizedHref("tr", "tools", tool.slug.tr),
+      en: localizedHref("en", "tools", tool.slug.en),
     };
     for (const locale of ["tr", "en"] as const) {
       entries.push(entry(path, locale, 0.8, "monthly"));
@@ -218,8 +219,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // 0.6: E-E-A-T kanıtı olarak indekslenmeli ama ticari niyet taşımıyor.
   for (const c of BOOKABLE_CONSULTANTS) {
     const path = {
-      tr: `/tr/danismanlar/${c.slug}`,
-      en: `/en/consultants/${c.slug}`,
+      tr: localizedHref("tr", "consultants", c.slug),
+      en: localizedHref("en", "consultants", c.slug),
     };
     for (const locale of ["tr", "en"] as const) {
       entries.push(entry(path, locale, 0.6, "yearly"));
@@ -232,8 +233,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // `next.config.ts`'te 301 ile buraya taşınır.
   for (const c of CASES) {
     const path = {
-      tr: `/tr/vakalar/${c.slug.tr}`,
-      en: `/en/case-studies/${c.slug.en}`,
+      tr: localizedHref("tr", "cases", c.slug.tr),
+      en: localizedHref("en", "cases", c.slug.en),
     };
     const lastModified = caseLastModified(c);
     for (const locale of ["tr", "en"] as const) {
@@ -247,8 +248,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // bütçesini gerçekten değişen sayfadan çalıyordu (denetim T-05).
   for (const article of ARTICLES) {
     const path = {
-      tr: `/tr/yazilar/${article.slug.tr}`,
-      en: `/en/articles/${article.slug.en}`,
+      tr: localizedHref("tr", "articles", article.slug.tr),
+      en: localizedHref("en", "articles", article.slug.en),
     };
     const lastModified = new Date(article.updatedAt ?? article.publishedAt);
     for (const locale of ["tr", "en"] as const) {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { segmentRoot } from "@/lib/i18n/segments";
 import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { V2PageHeader } from "@/components/v2/chrome/V2PageHeader";
@@ -11,7 +12,7 @@ import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
 import type { Locale } from "@/lib/content/types";
 
-const PATHS = { tr: "/tr/araclar", en: "/en/tools" };
+const PATHS = { tr: segmentRoot("tr", "tools"), en: segmentRoot("en", "tools") };
 
 /**
  * Açıklama araç SAYMAZ: sayısal iddia ("iki araç") üçüncü bir araç

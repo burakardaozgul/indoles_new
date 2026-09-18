@@ -13,6 +13,7 @@ import { JsonLd } from "@/lib/seo/JsonLd";
 import { TrackView } from "@/components/analytics/track-view";
 import { pillarViewEvent } from "@/lib/analytics/view-events";
 import { localeHref } from "@/lib/i18n/locale-href";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import {
   breadcrumbLd,
   faqLd,
@@ -48,8 +49,8 @@ export async function PillarDetail({
   const relatedPackages = PACKAGES.filter((p) => p.pillar === pillar.key);
   const relatedCase = CASES.find((c) => c.pillar === pillar.key);
 
-  const servicesRoot = `/${loc}/${loc === "tr" ? "hizmetler" : "services"}`;
-  const pillarPath = `${servicesRoot}/${pillar.key}`;
+  const servicesRoot = segmentRoot(loc, "services");
+  const pillarPath = localizedHref(loc, "services", pillar.key);
 
   return (
     <>
@@ -82,7 +83,7 @@ export async function PillarDetail({
               name: p.name[loc],
               priceTRY: p.pricing.TRY,
               durationWeeks: p.durationWeeks,
-              path: `/${loc}/${loc === "tr" ? "paketler" : "packages"}/${p.slug[loc]}`,
+              path: localizedHref(loc, "packages", p.slug[loc]),
             })),
           }),
           faqLd(
@@ -215,7 +216,7 @@ export async function PillarDetail({
                       <div className="md:col-span-4">
                         <h3 className="typography-h2 text-ink-900">
                           <Link
-                            href={`/${loc}/${loc === "tr" ? "hizmetler" : "services"}/${s.slug[loc]}`}
+                            href={localizedHref(loc, "services", s.slug[loc])}
                             className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
                           >
                             {s.name[loc]}
@@ -255,7 +256,7 @@ export async function PillarDetail({
                 </h2>
               </div>
               <Link
-                href={`/${locale}/paketler`}
+                href={segmentRoot(loc, "packages")}
                 className="typography-body-md text-brand-700"
               >
                 <span className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500">
@@ -269,7 +270,7 @@ export async function PillarDetail({
               {relatedPackages.map((pkg) => (
                 <Link
                   key={pkg.slug[loc]}
-                  href={`/${locale}/paketler/${pkg.slug[loc]}`}
+                  href={localizedHref(loc, "packages", pkg.slug[loc])}
                   className="group border border-surface-2 rounded-2xl p-8 md:p-10 flex flex-col min-h-[260px] hover:bg-surface-2/60 transition-colors"
                 >
                   <header className="flex items-center justify-between">

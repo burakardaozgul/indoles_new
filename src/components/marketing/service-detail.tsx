@@ -37,6 +37,7 @@ import type {
   ServiceContent,
 } from "@/lib/content/types";
 import { JsonLd } from "@/lib/seo/JsonLd";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import { TrackView } from "@/components/analytics/track-view";
 import { serviceViewEvent } from "@/lib/analytics/view-events";
 import {
@@ -49,10 +50,6 @@ import {
 
 const COPY = {
   tr: {
-    servicesRoot: "hizmetler",
-    packagesRoot: "paketler",
-    casesRoot: "vakalar",
-    articlesRoot: "yazilar",
     services: "Hizmetler",
     service: "Hizmet",
     diagram: "Şema",
@@ -87,10 +84,6 @@ const COPY = {
     },
   },
   en: {
-    servicesRoot: "services",
-    packagesRoot: "packages",
-    casesRoot: "case-studies",
-    articlesRoot: "articles",
     services: "Services",
     service: "Service",
     diagram: "Diagram",
@@ -258,10 +251,10 @@ export function ServiceDetail({
   const t = COPY[locale];
 
   const pillar = PILLARS.find((p) => p.key === service.pillar)!;
-  const servicesRoot = `/${locale}/${t.servicesRoot}`;
+  const servicesRoot = segmentRoot(locale, "services");
   const paths = {
-    tr: `/tr/hizmetler/${service.slug.tr}`,
-    en: `/en/services/${service.slug.en}`,
+    tr: localizedHref("tr", "services", service.slug.tr),
+    en: localizedHref("en", "services", service.slug.en),
   };
 
   /** Açıkça belirtilmemişse pillar eşlemesine düşülür. */
@@ -320,7 +313,7 @@ export function ServiceDetail({
                 name: p.name[locale],
                 priceTRY: p.pricing.TRY,
                 durationWeeks: p.durationWeeks,
-                path: `/${locale}/${t.packagesRoot}/${p.slug[locale]}`,
+                path: localizedHref(locale, "packages", p.slug[locale]),
               })),
               /* Aylık planların Offer URL'i hizmetin kendisidir — planların
                  ayrı sayfası yok, tablo bu sayfada yaşar. */
@@ -405,7 +398,7 @@ export function ServiceDetail({
                 </PopupCTAButton>
                 {relatedPackages[0] ? (
                   <Link
-                    href={`/${locale}/${t.packagesRoot}/${relatedPackages[0].slug[locale]}`}
+                    href={localizedHref(locale, "packages", relatedPackages[0].slug[locale])}
                     className="inline-flex items-center h-12 px-6 rounded-full border border-surface-3 text-ink-900 hover:bg-surface-1/60 transition-colors typography-body-md"
                   >
                     {t.viewPackage}
@@ -671,7 +664,7 @@ export function ServiceDetail({
                 sourceLabel={t.caseProofSource}
                 clientName={relatedCase.clientName[locale]}
                 caseTitle={relatedCase.title[locale]}
-                href={`/${locale}/${t.casesRoot}/${relatedCase.slug[locale]}`}
+                href={localizedHref(locale, "cases", relatedCase.slug[locale])}
                 metrics={caseProofMetrics.map((m) => ({
                   value: m.value[locale],
                   label: m.label[locale],
@@ -690,7 +683,7 @@ export function ServiceDetail({
                   {relatedPackages.map((p) => (
                     <li key={p.slug.tr} className="border-b border-surface-2 py-5">
                       <Link
-                        href={`/${locale}/${t.packagesRoot}/${p.slug[locale]}`}
+                        href={localizedHref(locale, "packages", p.slug[locale])}
                         className="flex items-baseline justify-between gap-4 group"
                       >
                         <span className="typography-body-lg text-ink-900 underline underline-offset-4 decoration-brand-300 group-hover:decoration-brand-500">
@@ -716,7 +709,7 @@ export function ServiceDetail({
                   {siblings.map((s) => (
                     <li key={s.slug.tr} className="border-b border-surface-2 py-5">
                       <Link
-                        href={`/${locale}/${t.servicesRoot}/${s.slug[locale]}`}
+                        href={localizedHref(locale, "services", s.slug[locale])}
                         className="typography-body-lg text-ink-900 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
                       >
                         {s.name[locale]}
@@ -735,7 +728,7 @@ export function ServiceDetail({
                   {relatedCase.lead[locale]}
                 </p>
                 <Link
-                  href={`/${locale}/${t.casesRoot}/${relatedCase.slug[locale]}`}
+                  href={localizedHref(locale, "cases", relatedCase.slug[locale])}
                   className="inline-flex items-center gap-2 mt-6 text-brand-700 typography-body-md"
                 >
                   <span className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500">
@@ -756,7 +749,7 @@ export function ServiceDetail({
                   {relatedArticles.map((a) => (
                     <li key={a.slug.tr} className="border-b border-surface-2 py-5">
                       <Link
-                        href={`/${locale}/${t.articlesRoot}/${a.slug[locale]}`}
+                        href={localizedHref(locale, "articles", a.slug[locale])}
                         className="typography-body-md text-ink-900 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
                       >
                         {a.title[locale]}

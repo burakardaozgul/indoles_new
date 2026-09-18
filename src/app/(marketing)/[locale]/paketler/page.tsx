@@ -12,6 +12,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/site";
+import { localizedHref, segmentRoot } from "@/lib/i18n/segments";
 import type { Locale } from "@/lib/content/types";
 
 /**
@@ -27,7 +28,7 @@ import type { Locale } from "@/lib/content/types";
  * kademelenir — 2.7 katlık fark okunmadan hissedilsin.
  */
 
-const PATHS = { tr: "/tr/paketler", en: "/en/packages" };
+const PATHS = { tr: segmentRoot("tr", "packages"), en: segmentRoot("en", "packages") };
 
 const META = {
   tr: {
@@ -104,9 +105,7 @@ export default async function PackagesIndex({
               "@type": "ListItem",
               position: i + 1,
               name: p.name[loc],
-              url: absoluteUrl(
-                `/${loc}/${loc === "tr" ? "paketler" : "packages"}/${p.slug[loc]}`
-              ),
+              url: absoluteUrl(localizedHref(loc, "packages", p.slug[loc])),
             })),
           },
         ]}
@@ -172,7 +171,7 @@ export default async function PackagesIndex({
               return (
                 <li key={pkg.slug[loc]} className="border-b border-surface-2">
                   <Link
-                    href={`/${locale}/paketler/${pkg.slug[loc]}`}
+                    href={localizedHref(loc, "packages", pkg.slug[loc])}
                     className="group grid grid-cols-1 md:grid-cols-12 items-start gap-6 md:gap-8 py-12 md:py-14 px-0 md:px-4 mx-0 md:-mx-4 rounded-lg hover:bg-surface-1/60 transition-colors"
                   >
                     {/* Şema — taahhüdün şekli */}
@@ -305,7 +304,7 @@ export default async function PackagesIndex({
                   <tr key={pkg.slug[loc]} className="border-b border-surface-2">
                     <th scope="row" className="py-5 pr-6 font-normal align-top">
                       <Link
-                        href={`/${locale}/paketler/${pkg.slug[loc]}`}
+                        href={localizedHref(loc, "packages", pkg.slug[loc])}
                         className="typography-body-lg text-ink-900 hover:text-brand-800 transition-colors"
                       >
                         {pkg.name[loc]}

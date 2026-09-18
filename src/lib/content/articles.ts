@@ -11392,6 +11392,582 @@ export const ARTICLES: ArticleContent[] = [
       },
     },
   },
+  // 2026-09-18 — CRO kümesi, takvim h.6-1 (Keyword-Onceliklendirme §3). 15 gündür
+  // yayın yoktu; yazı /hizmetler/cro'ya üç farklı çapayla link taşır — o sayfa
+  // 20 gündür indekste değil (Indeks-Denetimi-2026-09-18). Uygulama kataloğu:
+  // 21 taktik × (ne / neden / nasıl ölçülür), 5 aşama; `cro-nedir` (tanım),
+  // `e-ticaret-gap-analizi` (denetim) ve `donusum-optimizasyonu-yontemleri`
+  // (açılış sayfası) ile H2 düzeyinde çakışmaz, onlara link verir. Rakamlar
+  // yalnız vakalardan (GYMWOLVES, SOYLU AVM) ve adı verilen kaynaklardan
+  // (Baymard sepet terki, Google CWV eşiği). Görev: docs/prompts 03 (18 Eyl).
+  {
+    slug: {
+      tr: "donusum-orani-nasil-artirilir-21-taktik",
+      en: "how-to-increase-conversion-rate-21-tactics",
+    },
+    title: {
+      tr: "Dönüşüm oranı nasıl artırılır: kanıtlanmış 21 taktik",
+      en: "How to increase conversion rate: 21 proven tactics",
+    },
+    excerpt: {
+      tr: "Trafiği ikiye katlamak bütçeyi ikiye katlar; dönüşümü ikiye katlamak aynı bütçeyle olur. Ölçümden sepet terkine, ilk ekrandan test kültürüne 21 taktik — her biri ne yapılır, neden işe yarar, nasıl ölçülür üçlüsüyle.",
+      en: "Doubling traffic doubles the budget; doubling conversion happens on the same budget. Twenty-one tactics from measurement to cart abandonment, first screen to testing culture — each with what to do, why it works and how to measure it.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Trafiği ikiye katlamak reklam bütçesini ikiye katlar; dönüşümü ikiye katlamak aynı bütçeyle olur. [GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) satış üç ayda 12 katına çıktı ve bunun kaynağı yeni bir kanal değildi: veri akışı onarıldı, huni yeniden kuruldu, ürün sayfaları iyileştirildi; oturum süresi 3 katına, etkileşim 8 katına çıktı. Aynı bütçe, farklı huni.",
+          en: "Doubling traffic doubles the ad budget; doubling conversion happens on the same budget. In [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis) sales rose 12× in three months, and the source was not a new channel: the data flow was repaired, the funnel rebuilt, the product pages improved; session duration tripled and engagement rose 8×. Same budget, different funnel.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Arama kutusuna e ticaret dönüşüm oranı artırma ya da arttırma yazan herkes aynı şeyi soruyor: mevcut ziyaretçiden daha fazla sipariş nasıl çıkar, satış dönüşüm oranı nasıl yükseltilir. Bu yazı o sorunun uygulama kataloğu. [CRO'nun ne olduğunu](/yazilar/cro-nedir) ve [denetimin nasıl yapıldığını](/yazilar/e-ticaret-gap-analizi-cro-denetimi) ayrı yazılarda anlattık; burada yalnız ne yapılacağı var.",
+          en: "Everyone typing how to increase e-commerce conversion rate into a search box is asking the same thing: how do we get more orders from the visitors we already have, how is the sales conversion rate lifted. This article is the implementation catalogue for that question. We have covered [what CRO is](/yazilar/cro-nedir) and [how the audit is run](/yazilar/e-ticaret-gap-analizi-cro-denetimi) in separate articles; here there is only what to do.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Yirmi bir taktik beş aşamada gruplandı ve her biri üç satırla anlatılıyor: ne yapılır, neden işe yarar, nasıl ölçülür. "Buton rengini değiştirin" düzeyine inmedik; her taktik test edilebilir bir hipotez. Rakam kullandığımız yerde kaynağı yanındadır: kendi vakalarımız ya da adı verilen sektör derlemeleri.',
+          en: 'Twenty-one tactics, grouped into five stages, each told in three lines: what to do, why it works, how to measure it. We did not go down to "change the button colour"; every tactic is a testable hypothesis. Wherever we use a number, its source sits next to it: our own cases or a named industry compilation.',
+        },
+      },
+      {
+        type: "h2",
+        id: "nereden-baslanir",
+        text: {
+          tr: "Dönüşüm oranını artırmaya nereden başlanır?",
+          en: "Where do you start increasing conversion rate?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçümden. Ne kadar iyi bir fikir olursa olsun, hangi adımda kaç ziyaretçinin düştüğünü bilmeden yapılan değişiklik bir tahmindir. İlk üç taktik bu yüzden arayüzle değil veriyle ilgili.",
+          en: "With measurement. However good the idea, a change made without knowing how many visitors drop at which step is a guess. That is why the first three tactics are about data, not the interface.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "1. Huniyi GA4'te olay olay kurun",
+          en: "1. Build the funnel in GA4, event by event",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: ürün görüntüleme, sepete ekleme, ödeme başlangıcı ve satın alma olayları GA4'te tek tek tanımlanır ve huni raporu bu dört adımdan kurulur. Neden işe yarar: dönüşüm oranı tek bir sayı değil, dört geçiş oranının çarpımıdır; en düşük geçiş, en ucuz kazancın yeridir. Nasıl ölçülür: her adım arası geçiş oranı haftalık izlenir; taban ölçüm alınmadan hiçbir taktiğe başlanmaz.",
+          en: "What to do: define product view, add to cart, begin checkout and purchase as separate events in GA4 and build the funnel report from those four steps. Why it works: conversion rate is not one number but the product of four step-to-step rates; the weakest step is where the cheapest gain lives. How to measure: track each step-to-step rate weekly; no tactic starts before a baseline is taken.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "2. Yedi kritik sayfayı ayrı sayfalar olarak izleyin",
+          en: "2. Track the seven critical pages as separate pages",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: ana sayfa, en kalabalık iki kategori, üç ürün sayfası ve ödeme adımı ayrı bir izleme listesine alınır; site geneli ortalaması yerine bu yedisinin çıkış ve ilerleme oranları okunur. Neden işe yarar: sipariş bu yedi sayfadan geçer, site ortalaması ise blog ve hakkımızda sayfalarının gürültüsünü taşır. Nasıl ölçülür: sayfa başına çıkış oranı ve bir sonraki adıma geçiş oranı; [GAP analizi yazısında](/yazilar/e-ticaret-gap-analizi-cro-denetimi) bu yedinin nasıl puanlandığı anlatılıyor.",
+          en: "What to do: put the home page, the two busiest categories, three product pages and the checkout step on a separate watchlist, and read their exit and progression rates instead of the site-wide average. Why it works: orders pass through these seven pages, while the site average carries the noise of blog and about pages. How to measure: exit rate per page and progression rate to the next step; [the GAP analysis article](/yazilar/e-ticaret-gap-analizi-cro-denetimi) explains how the seven are scored.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "3. Oturum kaydı ve ısı haritasını huni sayfalarına açın",
+          en: "3. Turn on session recordings and heatmaps on the funnel pages",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: yalnız huni sayfalarında oturum kaydı ve ısı haritası toplanır; düşüş rakamının arkasındaki davranış izlenir. Neden işe yarar: sayı nerede düştüğünü söyler, kayıt neden düştüğünü gösterir; ikisi birlikte hipotez üretir. Nasıl ölçülür: her hafta düşüşün en yüksek olduğu adımdan bir avuç kayıt izlenir ve tekrar eden davranış (geri tuşu, boş tıklama, form terki) not edilir.",
+          en: "What to do: collect session recordings and heatmaps only on the funnel pages, and watch the behaviour behind the drop-off number. Why it works: the number says where visitors drop, the recording shows why; together they produce hypotheses. How to measure: each week, watch a handful of recordings from the step with the highest drop and note repeating behaviour (back button, dead clicks, form abandonment).",
+        },
+      },
+      {
+        type: "h2",
+        id: "ilk-ekran",
+        text: {
+          tr: "İlk ekranda hangi 4 şey dönüşümü belirler?",
+          en: "Which 4 things on the first screen decide conversion?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ziyaretçi ilk ekranda ne sattığınızı, neden size güveneceğini ve ne yapması gerektiğini anlamalı; sayfa da bunu beklemeden açılmalı. Dört taktik bu dört soruya karşılık geliyor.",
+          en: "On the first screen the visitor must understand what you sell, why to trust you and what to do next — and the page must load before they have to wait for any of it. Four tactics answer those four questions.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "4. Değer önerisini tek cümleye indirin",
+          en: "4. Reduce the value proposition to one sentence",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: ilk ekrandaki başlık, ürünün kim için hangi sorunu çözdüğünü tek cümlede söyler; slogan ve kampanya dili alt satıra iner. Neden işe yarar: ziyaretçi ilk saniyelerde sayfanın kendisi için olup olmadığına karar verir ve karar veremediği sayfadan çıkar. Nasıl ölçülür: ilk ekranda çıkış oranı ve ilk kaydırmaya kadar geçen süre; iki başlık A/B testinde karşılaştırılır.",
+          en: "What to do: the headline on the first screen says in one sentence which problem the product solves and for whom; slogans and campaign copy move down a line. Why it works: in the first seconds the visitor decides whether the page is for them, and leaves a page where they cannot decide. How to measure: exit rate on the first screen and time to first scroll; two headlines are compared in an A/B test.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "5. LCP'yi Google'ın eşiğinin altına çekin",
+          en: "5. Bring LCP under Google's threshold",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: en büyük içerik öğesinin (LCP) yüklenme süresi Google'ın Core Web Vitals eşiği olan 2,5 saniyenin altına indirilir; görsel boyutu, üçüncü taraf betikler ve sunucu yanıt süresi sırayla ele alınır. Neden işe yarar: hız bir arayüz özelliği değil, dönüşümün ön koşuludur; açılmayan sayfada hiçbir taktik çalışmaz. Nasıl ölçülür: PageSpeed Insights'ta mobil LCP ve GA4'te hızlı ve yavaş oturumların dönüşüm oranı farkı.",
+          en: "What to do: bring the load time of the largest content element (LCP) under Google's Core Web Vitals threshold of 2.5 seconds, tackling image size, third-party scripts and server response time in that order. Why it works: speed is not an interface feature but a precondition of conversion; no tactic works on a page that has not loaded. How to measure: mobile LCP in PageSpeed Insights and the conversion gap between fast and slow sessions in GA4.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "6. Güven sinyalini ilk ekrana taşıyın",
+          en: "6. Move the trust signal to the first screen",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Ne yapılır: iade koşulu, güvenli ödeme, gerçek müşteri sayısı ya da bilinen bir müşteri logosu ilk ekranda, başlığın hemen altında görünür; sayfanın dibinde değil. Neden işe yarar: fiyat karşılaştıran ziyaretçinin ilk sorusu "bu site güvenilir mi"dir ve cevap ilk kaydırmadan önce verilmezse karşılaştırma başka sekmede sürer. Nasıl ölçülür: ilk ekrandan kategoriye ya da ürüne geçiş oranı; güven bloğu var/yok testi.',
+          en: 'What to do: the returns policy, secure payment, a real customer count or a recognisable client logo appears on the first screen just under the headline, not at the foot of the page. Why it works: the first question of a price-comparing visitor is "can I trust this site", and if the answer does not arrive before the first scroll the comparison continues in another tab. How to measure: progression rate from the first screen to a category or product; a with/without test of the trust block.',
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "7. Tek bir ana eylem çağrısı bırakın",
+          en: "7. Leave one primary call to action",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Ne yapılır: ilk ekranda tek bir baskın eylem çağrısı kalır; "ürünleri gör", "kampanyalar" ve "bize yazın" aynı ağırlıkta yan yana durmaz. Neden işe yarar: eşit ağırlıklı seçenekler karar maliyetini artırır; tek yön gösterilen ziyaretçi ilerler. Nasıl ölçülür: ana eylem çağrısına tıklama oranı ve ilk ekranın tıklama dağılımı ısı haritasında.',
+          en: 'What to do: one dominant call to action remains on the first screen; "see products", "offers" and "contact us" do not sit side by side with equal weight. Why it works: equally weighted options raise the cost of deciding; a visitor shown one direction moves. How to measure: click-through rate on the primary call to action and the click distribution of the first screen on the heatmap.',
+        },
+      },
+      {
+        type: "h2",
+        id: "urun-ve-kategori-sayfasi",
+        text: {
+          tr: "Ürün ve kategori sayfasında ne değişmeli?",
+          en: "What should change on product and category pages?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sipariş kararı ürün sayfasında verilir; kategori sayfası o karara götüren yoldur. Ürün sayfası dönüşümü çoğu mağazada huninin en kırılgan halkasıdır ve beş taktik ikisini birlikte ele alıyor.",
+          en: "The purchase decision is made on the product page; the category page is the road to it. Product page conversion is the most fragile link of the funnel in most stores, and five tactics treat the two together.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "8. Fotoğrafı kullanım bağlamında gösterin",
+          en: "8. Show the photograph in its context of use",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: beyaz fon görselinin yanına ürünün kullanıldığı ortamı, ölçeğini ve detayını gösteren kareler eklenir; mobilde ilk görsel ürünü tek başına değil kullanımda gösterir. Neden işe yarar: ekranda dokunulamayan ürünün eksik duyusu görselle kapatılır; ölçek ve doku belirsizliği iade ve vazgeçme sebebidir. Nasıl ölçülür: ürün sayfasından sepete ekleme oranı ve görsel galerisiyle etkileşim oranı.",
+          en: "What to do: next to the white-background shot, add frames showing the product in its setting, its scale and its detail; on mobile the first image shows the product in use, not alone. Why it works: the missing sense of a product that cannot be touched on a screen is closed by the image; uncertainty about scale and texture is a reason to return or give up. How to measure: add-to-cart rate from the product page and interaction rate with the image gallery.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "9. Sosyal kanıtı ürünün yanına, kullanıcı içeriğini galeriye koyun",
+          en: "9. Put social proof beside the product and user content in the gallery",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: yorum sayısı ve puan fiyatın hemen yanında, müşteri fotoğrafları galeride, gerçek isimli yorumlar sekmenin içinde değil sayfanın gövdesinde durur. Neden işe yarar: başka müşterinin kanıtı markanın vaadinden daha inandırıcıdır; [UGC ve sosyal kanıt yazısında](/yazilar/ugc-kullanimi-ve-sosyal-kanit) bunun neden böyle olduğu anlatılıyor. Nasıl ölçülür: yorum bloğunu gören ve görmeyen oturumların sepete ekleme oranı; yorum sayısı eşiğine göre kırılım.",
+          en: "What to do: review count and rating sit right next to the price, customer photos in the gallery, and named reviews in the body of the page rather than inside a tab. Why it works: another customer's proof is more convincing than the brand's promise; [the UGC and social proof article](/yazilar/ugc-kullanimi-ve-sosyal-kanit) explains why. How to measure: add-to-cart rate of sessions that saw the review block versus those that did not, broken down by review-count threshold.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "10. Stok ve kargo bilgisini fiyatın altına yazın",
+          en: "10. Write stock and delivery information under the price",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Ne yapılır: stok durumu, kargoya veriliş süresi ve kargo ücreti ürün sayfasında fiyatın altında, sepete gitmeden görünür. Neden işe yarar: "ne zaman gelir" ve "kargo kaç para" soruları cevapsız kaldığında ziyaretçi cevabı sepette arar ve orada sürprizle karşılaşınca terk eder. Nasıl ölçülür: ürün sayfasından sepete ekleme oranı ve sepet sayfasında çıkış oranı; bilgi bloğu var/yok testi.',
+          en: 'What to do: stock status, dispatch time and delivery cost are visible on the product page under the price, before the visitor goes to the cart. Why it works: when "when will it arrive" and "what does delivery cost" go unanswered, the visitor looks for the answer in the cart and abandons when the surprise appears there. How to measure: add-to-cart rate from the product page and exit rate on the cart page; a with/without test of the information block.',
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "11. Fiyatı bir çapaya göre gösterin",
+          en: "11. Show the price against an anchor",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: liste fiyatı, indirimli fiyat ve varsa taksit ya da birim fiyat (adet, kilogram, ay) aynı blokta gösterilir; fiyat tek başına durmaz. Neden işe yarar: fiyat mutlak değil göreli algılanır; kıyas noktası verilmeyen fiyat ziyaretçinin kafasındaki rastgele bir çapayla yarışır. Nasıl ölçülür: fiyat bloğu varyantlarında sepete ekleme oranı ve ortalama sipariş değeri birlikte okunur; biri artarken diğeri düşmemeli.",
+          en: "What to do: list price, discounted price and, where relevant, instalment or unit price (per item, per kilogram, per month) appear in one block; the price never stands alone. Why it works: price is perceived relatively, not absolutely; a price given no comparison point competes with a random anchor in the visitor's head. How to measure: add-to-cart rate and average order value read together across price-block variants; one should not rise while the other falls.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "12. Varyant seçimini görünür ve hatasız yapın",
+          en: "12. Make variant selection visible and error-free",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Ne yapılır: beden, renk ve model seçimi açılır menü yerine görünür düğmelerle yapılır; stokta olmayan varyant gizlenmez, tükendi diye işaretlenir; seçim yapılmadan sepete ekleme denenince hata değil yönlendirme gösterilir. Neden işe yarar: varyant adımı ürün sayfasının en sık takılan noktasıdır; görünmeyen seçenek ve anlaşılmayan hata vazgeçmeye dönüşür. Nasıl ölçülür: varyant seçildikten sonra sepete ekleme oranı ve "varyant seçin" hatasının tetiklenme sayısı.',
+          en: 'What to do: size, colour and model are chosen with visible buttons instead of a dropdown; an out-of-stock variant is marked sold out rather than hidden; trying to add to cart without a selection shows guidance, not an error. Why it works: the variant step is the product page\'s most common snag; an invisible option and an unclear error turn into abandonment. How to measure: add-to-cart rate after a variant is chosen and the number of times the "choose a variant" error fires.',
+        },
+      },
+      {
+        type: "h2",
+        id: "sepet-terk-orani-nasil-dusurulur",
+        text: {
+          tr: "Sepet terk oranı nasıl düşürülür?",
+          en: "How do you reduce cart abandonment?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Baymard Institute'un yıllardır derlediği çalışmalara göre e-ticarette ortalama sepet terk oranı %70 civarında; sepete eklenen her on üründen yedisi satın alınmıyor. Sebeplerin çoğu ürünle değil ödeme akışıyla ilgili ve sepet terk oranı düşürme işi bu yüzden beş taktikle o akışı hedefliyor.",
+          en: "According to the studies Baymard Institute has compiled for years, the average e-commerce cart abandonment rate is around 70% — seven of every ten products added to a cart are not bought. Most of the reasons concern the checkout flow rather than the product, which is why the five tactics for reducing cart abandonment target that flow.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "13. Misafir ödemeyi ilk seçenek yapın",
+          en: "13. Make guest checkout the first option",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: ödeme adımında üye olmadan devam etme ilk ve en belirgin seçenek olur; hesap oluşturma sipariş tamamlandıktan sonra tek tıkla teklif edilir. Neden işe yarar: zorunlu üyelik, ödeme niyetiyle gelen ziyaretçinin önüne bir form koyar ve formun her alanı bir vazgeçme fırsatıdır. Nasıl ölçülür: ödeme başlangıcından ilk adımın tamamlanmasına geçiş oranı; misafir ve üye akışlarının tamamlanma oranı ayrı okunur.",
+          en: "What to do: continuing without an account becomes the first and most prominent option at checkout; account creation is offered with one click after the order is complete. Why it works: a mandatory sign-up puts a form in front of a visitor who arrived intending to pay, and every field of that form is a chance to give up. How to measure: progression rate from checkout start to completion of the first step; completion rates of the guest and member flows read separately.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "14. Kargo ücretini sepette değil, önce gösterin",
+          en: "14. Show the delivery cost before the cart, not in it",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: kargo ücreti ve ücretsiz kargo eşiği ürün sayfasında ve sepet özetinde, ödeme adımından önce görünür; ödeme sayfasında toplam değişmez. Neden işe yarar: ödeme adımında beliren ek maliyet, terkin en sık anılan sebebidir; sürpriz, fiyattan çok güveni bozar. Nasıl ölçülür: sepetten ödeme başlangıcına ve ödeme başlangıcından tamamlamaya geçiş oranları; kargo bilgisinin görünürlüğü değiştiğinde ikisi birlikte izlenir.",
+          en: "What to do: delivery cost and the free-delivery threshold are visible on the product page and in the cart summary, before the checkout step; the total does not change on the payment page. Why it works: an extra cost appearing at checkout is the most frequently cited reason for abandonment; the surprise damages trust more than the price does. How to measure: progression rates from cart to checkout start and from checkout start to completion, watched together when delivery information changes.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "15. Ödeme seçeneklerini müşterinin alıştığı sırayla sunun",
+          en: "15. Offer payment options in the order the customer expects",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: kredi kartı, taksit, havale ve kapıda ödeme gibi seçenekler tek ekranda ve hedef kitlenin en çok kullandığı sırayla listelenir; kart formu tek adımda ve otomatik doldurmaya açık olur. Neden işe yarar: alışık olduğu ödeme yolunu göremeyen müşteri ödemeyi ertelemez, siteyi değiştirir. Nasıl ölçülür: ödeme yöntemi seçiminden onaya geçiş oranı ve yöntem bazında başarısız ödeme oranı.",
+          en: "What to do: options such as card, instalments, bank transfer and cash on delivery are listed on one screen in the order your audience uses most; the card form is a single step and open to autofill. Why it works: a customer who cannot see their usual payment route does not postpone the payment, they change the site. How to measure: progression rate from payment method selection to confirmation and the failed-payment rate per method.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "16. Ödeme adımlarını sayın ve azaltın",
+          en: "16. Count the checkout steps and cut them",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: sepetten onaya kadar her ekran ve her form alanı listelenir; adres tek alanda aranır, fatura adresi teslimat adresinden kopyalanır, telefon ve e-posta bir kez istenir. Neden işe yarar: her ekran ve her alan bir düşüş noktasıdır; alan sayısı azaldıkça tamamlanma artar. Nasıl ölçülür: adım başına terk oranı ve ödeme akışının toplam tamamlanma süresi; alan kaldırıldığında iki metrik de düşmeli.",
+          en: "What to do: list every screen and every form field from cart to confirmation; the address is searched in one field, the billing address copies from the delivery address, phone and email are asked once. Why it works: every screen and every field is a drop-off point; completion rises as the number of fields falls. How to measure: abandonment rate per step and total time to complete checkout; both should fall when a field is removed.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "17. Terk e-postasını bir saat içinde, tek mesajla gönderin",
+          en: "17. Send the abandonment email within an hour, as one message",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: sepeti terk eden tanınan ziyaretçiye bir saat içinde, sepetin içeriğini ve tek tıkla dönüş bağlantısını taşıyan tek bir e-posta gider; indirim ilk mesajda değil, dönmeyenlere ikinci mesajda düşünülür. Neden işe yarar: niyet en sıcak hâlini terkin ilk saatinde korur; hatırlatma karar vermiş müşteriyi geri getirir, indirim ise bekleyen müşteriyi indirim beklemeye alıştırır. Nasıl ölçülür: terk e-postasından dönüş ve satın alma oranı; indirimli ve indirimsiz varyantların kâr marjı birlikte okunur.",
+          en: "What to do: a recognised visitor who abandons the cart receives one email within an hour carrying the cart contents and a one-click return link; a discount is not in the first message but considered in a second to those who did not return. Why it works: intent stays warmest in the first hour after abandonment; a reminder brings back the customer who had already decided, while a discount teaches the hesitant one to wait for discounts. How to measure: return and purchase rate from the abandonment email; profit margin of the discounted and undiscounted variants read together.",
+        },
+      },
+      {
+        type: "h2",
+        id: "dogru-sayfaya-trafik",
+        text: {
+          tr: "Trafiği doğru sayfaya nasıl gönderirsiniz?",
+          en: "How do you send traffic to the right page?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dönüşüm oranını düşüren şey bazen sayfa değil, sayfaya gelen trafiğin yanlışlığıdır. İki taktik reklam ve arama trafiğinin iniş noktasını düzeltiyor.",
+          en: "Sometimes what lowers conversion is not the page but the wrongness of the traffic arriving on it. Two tactics fix where ad and search traffic land.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "18. Reklamın vaadini indiği sayfada birebir karşılayın",
+          en: "18. Match the ad's promise word for word on the landing page",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Ne yapılır: reklamdaki ürün, fiyat ve vaat, indiği sayfanın ilk ekranında aynı kelimelerle görünür; kampanya reklamı ana sayfaya değil kampanyanın kendi sayfasına iner. Neden işe yarar: reklamla sayfa arasındaki her fark ziyaretçi için bir "yanlış yere geldim" sinyalidir; SOYLU AVM\'de ölçüm onarılıp reklam ve sayfa hizalandıktan sonra [ilk altı günde 1,5 milyon dolar gelir](/vakalar/soylu-avm-e-ticaret-buyume) kaydedildi. Nasıl ölçülür: kampanya bazında iniş sayfası çıkış oranı ve dönüşüm oranı; [açılış sayfası yazısındaki](/yazilar/donusum-optimizasyonu-yontemleri) yedi kural denetim listesi olarak kullanılır.',
+          en: 'What to do: the product, price and promise in the ad appear in the same words on the first screen of the page it leads to; a campaign ad lands on the campaign\'s own page, not the home page. Why it works: every difference between ad and page is a "wrong place" signal to the visitor; at SOYLU AVM, once measurement was repaired and ad and page were aligned, [$1.5M in revenue in the first six days](/vakalar/soylu-avm-e-ticaret-buyume) was recorded. How to measure: landing page exit rate and conversion rate per campaign; the seven rules in [the landing page article](/yazilar/donusum-optimizasyonu-yontemleri) serve as the checklist.',
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "19. Arama niyetine göre sayfa türü seçin",
+          en: "19. Choose the page type by search intent",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Ne yapılır: "en iyi", "karşılaştırma", "fiyat" gibi kelimeleri taşıyan aramalar kategori ya da karşılaştırma sayfasına, model adı taşıyan aramalar doğrudan ürün sayfasına, "nasıl" ile başlayanlar rehber içeriğe bağlanır. Neden işe yarar: karşılaştırmak isteyen ziyaretçiye tek ürün, ürünü seçmiş ziyaretçiye kategori göstermek ikisini de kaybettirir. Nasıl ölçülür: Search Console\'da sorgu bazında iniş sayfası ve GA4\'te aynı sayfaların organik dönüşüm oranı; niyet-sayfa eşleşmesi düzeltildiğinde ikisi birlikte okunur.',
+          en: 'What to do: searches carrying words like "best", "comparison" and "price" go to a category or comparison page, searches carrying a model name straight to the product page, and searches starting with "how" to guide content. Why it works: showing one product to a visitor who wants to compare, or a category to a visitor who has already chosen, loses both. How to measure: landing page per query in Search Console and the organic conversion rate of the same pages in GA4, read together once the intent-page match is corrected.',
+        },
+      },
+      {
+        type: "h2",
+        id: "hangi-taktik-once",
+        text: {
+          tr: "Test kültürü: hangi taktik önce?",
+          en: "Testing culture: which tactic comes first?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "On dokuz taktiği aynı anda uygulamak mümkün değil; hangisinin önce geleceğine karar vermek de bir taktiktir. Son ikisi sıralama ve doğrulama üzerine.",
+          en: "Applying nineteen tactics at once is impossible; deciding which comes first is itself a tactic. The last two are about ordering and validation.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "20. Taktikleri etki-efor tablosuyla sıralayın",
+          en: "20. Rank the tactics on an impact-effort grid",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ne yapılır: her taktik için beklenen etki (etkilenen ziyaretçi sayısı × geçiş oranındaki olası fark) ve uygulama eforu (gün) tek tabloya yazılır; yüksek etki, düşük efor kalemleri ilk sprint olur. Neden işe yarar: ekip enerjisi en görünür değil en kazançlı işe gider; huninin en sığ adımındaki küçük iyileşme, en dolu adımdaki büyük iyileşmeden fazla sipariş getirebilir. Nasıl ölçülür: sprint sonunda tahmin edilen etki ile ölçülen etki yan yana yazılır; tahmin hatası bir sonraki sıralamayı düzeltir.",
+          en: "What to do: for every tactic, write the expected impact (visitors affected × the likely change in step rate) and the implementation effort (days) into one table; high-impact, low-effort items form the first sprint. Why it works: team energy goes to the most profitable job, not the most visible one; a small gain at the funnel's weakest step can bring more orders than a large gain at its busiest. How to measure: at the end of the sprint, write estimated impact next to measured impact; the estimation error corrects the next ranking.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "21. A/B testini örneklem yetince okuyun",
+          en: "21. Read the A/B test only when the sample is enough",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Ne yapılır: test başlamadan önce gereken ziyaretçi sayısı hesaplanır, test o sayıya ve en az bir tam satın alma döngüsüne ulaşmadan durdurulmaz; iki değişiklik aynı sayfada aynı anda test edilmez. Neden işe yarar: erken durdurulan test şansı sonuç sanır; [CRO yazısındaki A/B testi bölümü](/yazilar/cro-nedir) örneklemin neden bu kadar önemli olduğunu anlatıyor. Nasıl ölçülür: hedef metrikte varyantlar arası fark ve testin önceden belirlenen örneklem eşiğine ulaşıp ulaşmadığı; ulaşmadıysa sonuç "bilinmiyor" diye kaydedilir.',
+          en: 'What to do: calculate the visitors needed before the test starts, and do not stop it before it reaches that number and at least one full purchase cycle; two changes are never tested on the same page at the same time. Why it works: a test stopped early mistakes chance for a result; [the A/B testing section of the CRO article](/yazilar/cro-nedir) explains why the sample matters so much. How to measure: the difference between variants on the target metric and whether the test reached its predetermined sample threshold; if not, the result is recorded as "unknown".',
+        },
+      },
+      {
+        type: "h2",
+        id: "ekip-mi-ajans-mi",
+        text: {
+          tr: "Bunları kim yapmalı: ekip mi, ajans mı?",
+          en: "Who should do this: your team or an agency?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: 'Arama verisinde giderek daha sık görülen bir soru var: dönüşüm oranlarını artırmak için Türkiye\'deki en iyi CRO uzmanları kimler. Cevabımız isim listesi değil, bir ayrım: ölçüm altyapısı ve haftalık test disiplini kurabilen ekip bu yirmi bir taktiğin çoğunu kendi yapar; kuramayan ekip için doğru soru "hangi ajans" değil, "ajans neyi kanıtlayabiliyor". [CRO ajansı nasıl seçilir yazısı](/yazilar/cro-ajansi-nasil-secilir) o kanıtı istemenin sekiz sorusunu veriyor.',
+          en: 'A question appears more and more often in search data: who are the best CRO specialists in Turkey for increasing conversion rates. Our answer is not a list of names but a distinction: a team that can build measurement infrastructure and a weekly testing discipline does most of these twenty-one tactics itself; for a team that cannot, the right question is not "which agency" but "what can the agency prove". [The article on choosing a CRO agency](/yazilar/cro-ajansi-nasil-secilir) gives the eight questions for asking for that proof.',
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "INDOLES'te [CRO danışmanlığı](/hizmetler/cro) tanıyla başlar: önce yedi kritik sayfa ve huni ölçülür, hipotezler etki-efor tablosuna yazılır, sonra test edilir. [Dönüşüm oranı optimizasyonu hizmetimizin](/hizmetler/cro) sayfası bu adımları ve teslimatlarını anlatıyor; e-ticaret altyapısının kendisi sorunluysa [e-ticaret danışmanlığı](/hizmetler/e-ticaret) o katmanı ele alır. Kendi başınıza başlamak istiyorsanız ilk adım için bütçe gerekmiyor: mağazanızın yedi kritik sayfasını [Diagnoo](/araclar/diagnoo) ile taratın, hangi taktiğin önce geleceğini rapor söyler.",
+          en: "At INDOLES, [CRO consultancy](/hizmetler/cro) begins with a diagnosis: the seven critical pages and the funnel are measured first, hypotheses go into the impact-effort table, then they are tested. The page of [our conversion rate optimisation service](/hizmetler/cro) sets out those steps and their deliverables; if the e-commerce infrastructure itself is the problem, [e-commerce consultancy](/hizmetler/e-ticaret) handles that layer. If you want to start on your own, the first step needs no budget: scan your store's seven critical pages with [Diagnoo](/araclar/diagnoo), and the report tells you which tactic comes first.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[CRO ajansı olarak nasıl çalıştığımızı](/hizmetler/cro) tek cümlede özetlersek: yeni trafik satın almıyoruz, gelen trafiğin nerede vazgeçtiğini buluyoruz ve o noktaları sırayla düzeltiyoruz. Bu yazıdaki yirmi bir taktik o sıranın kendisi.",
+          en: "To sum up [how we work as a CRO agency](/hizmetler/cro) in one sentence: we do not buy new traffic, we find where the traffic you already have gives up, and we fix those points in order. The twenty-one tactics in this article are that order.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "E-ticarette iyi bir dönüşüm oranı kaç?",
+          en: "What is a good e-commerce conversion rate?",
+        },
+        answer: {
+          tr: "Tek bir doğru rakam yok; oran sektöre, trafiğin kaynağına, cihaza ve fiyat seviyesine göre değişir ve başka mağazanın rakamı sizin için ölçü olmaz. İşe yarayan kıyas kendi taban ölçümünüzdür: dört huni adımının bugünkü geçiş oranları ve bunların hafta hafta nereye gittiği. Ortalama bir sayı yerine en düşük geçişe bakan mağaza, nereden başlayacağını her zaman bilir.",
+          en: "No single figure is right; the rate varies by sector, traffic source, device and price level, and another store's number is no yardstick for yours. The useful comparison is your own baseline: today's step-to-step rates across the four funnel steps and where they move week by week. A store that watches its weakest step rather than an average always knows where to start.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı çalışması kaç haftada sonuç verir?",
+          en: "How many weeks does conversion work take to show results?",
+        },
+        answer: {
+          tr: "Ölçüm ve hızlı kazanımlar ilk haftalarda görünür: kargo bilgisini öne almak, misafir ödemeyi açmak, sürprizleri kaldırmak gibi taktikler tek satın alma döngüsünde okunur. Test gerektiren değişiklikler ise örneklem dolunca konuşur; az trafikli sitede bu haftalar, çok trafikli sitede günler sürer. Takvimi belirleyen şey ekibin hızı değil, sitenin ziyaretçi sayısıdır.",
+          en: "Measurement and quick wins show in the first weeks: tactics such as moving delivery information forward, opening guest checkout and removing surprises read within a single purchase cycle. Changes that need testing speak once the sample fills; on a low-traffic site that takes weeks, on a high-traffic site days. The calendar is set by the site's visitor count, not the team's speed.",
+        },
+      },
+      {
+        question: {
+          tr: "Mobilde dönüşüm oranı neden masaüstünden düşük?",
+          en: "Why is mobile conversion lower than desktop?",
+        },
+        answer: {
+          tr: "Mobil ziyaretçi daha çok araştırır ve daha az tamamlar; küçük ekranda form doldurmak, varyant seçmek ve kart bilgisi girmek daha zahmetlidir ve her zahmet bir vazgeçme noktasıdır. Fark çoğu zaman kullanıcıdan değil sayfadan gelir: yavaş açılan görsel, açılır menüde gizlenen beden, tek alanda toplanmamış adres. Mobil huniyi ayrı ölçüp ayrı düzeltmek, ortalamayı düzeltmekten daha çok sipariş getirir.",
+          en: "Mobile visitors research more and complete less; filling forms, choosing variants and entering card details is harder on a small screen, and every difficulty is a drop-off point. The gap usually comes from the page rather than the user: a slow-loading image, a size hidden in a dropdown, an address not gathered in one field. Measuring and fixing the mobile funnel separately brings more orders than fixing the average.",
+        },
+      },
+      {
+        question: {
+          tr: "Trafik mi artırılmalı, dönüşüm mü?",
+          en: "Should you grow traffic or conversion?",
+        },
+        answer: {
+          tr: "Sıra dönüşümden başlar. Dönüşüm oranı bütün trafiğin çarpanıdır: huni düzeltilmeden alınan trafik, aynı deliklerden aynı oranda akıp gider ve reklam maliyeti sızıntıyı büyütür. Huni ölçülüp en düşük geçişler kapatıldıktan sonra artırılan trafik ise her lira için daha çok sipariş üretir. GYMWOLVES ve SOYLU AVM vakalarında da sıra buydu: önce ölçüm ve huni, sonra kampanya.",
+          en: "The order starts with conversion. Conversion rate is the multiplier of all traffic: traffic bought before the funnel is fixed leaks through the same holes at the same rate, and ad cost enlarges the leak. Traffic added after the funnel is measured and the weakest steps are closed produces more orders for every unit spent. In the GYMWOLVES and SOYLU AVM cases the order was the same: measurement and funnel first, campaign second.",
+        },
+      },
+      {
+        question: {
+          tr: "Sepet terk e-postasında indirim vermek doğru mu?",
+          en: "Is offering a discount in the cart abandonment email right?",
+        },
+        answer: {
+          tr: "İlk mesajda hayır. Terkin ilk saatinde gönderilen hatırlatma, kararını vermiş ama dikkati dağılmış müşteriyi indirim olmadan geri getirir; indirimle açmak o müşteriye gereksiz marj bırakır ve bir sonraki alışverişte bekletmeyi öğretir. İndirim, ilk mesaja dönmeyenlere ikinci mesajda ve kâr marjı hesaplanarak düşünülür. İki varyantın satın alma oranı ve marjı birlikte okunmadan karar verilmez.",
+          en: "Not in the first message. A reminder sent in the first hour after abandonment brings back the customer who had decided but got distracted, without a discount; opening with a discount leaves that customer unnecessary margin and teaches them to wait next time. A discount is considered in a second message to those who did not return, with the profit margin worked out. No decision is made before the purchase rate and margin of the two variants are read together.",
+        },
+      },
+      {
+        question: {
+          tr: "Az trafikli bir site A/B testi yapabilir mi?",
+          en: "Can a low-traffic site run A/B tests?",
+        },
+        answer: {
+          tr: 'Yapabilir, ama az sayıda ve büyük değişikliklerle. Küçük bir fark ölçmek için gereken örneklem az trafikli sitede aylar alır; bu yüzden düğme metni değil, ödeme akışının tamamı ya da ürün sayfasının düzeni gibi büyük farklar test edilir. Test yapılamayan durumlarda ise öncesi-sonrası kıyası, oturum kayıtları ve huni adım oranları karar için yeterli sinyal verir; yeter ki sonuç "kesin" diye değil "gözlem" diye kaydedilsin.',
+          en: "It can, but with few tests and large changes. The sample needed to measure a small difference takes months on a low-traffic site, so what gets tested is not button copy but the whole checkout flow or the layout of the product page. Where a test is not possible, before-and-after comparison, session recordings and funnel step rates give enough signal for a decision, provided the result is recorded as an observation rather than a certainty.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı artırma çalışmasına hangi araçlar gerekir?",
+          en: "What tools does conversion work need?",
+        },
+        answer: {
+          tr: "Üç katman yeter: GA4 gibi bir analitik aracı huni ve adım oranları için, bir oturum kaydı ve ısı haritası aracı davranışı görmek için, bir A/B test aracı da varyantları karşılaştırmak için. Araçların markası sonucu belirlemez; belirleyen şey olayların doğru tanımlanmış olması ve haftalık okuma disiplinidir. Yanlış tanımlanmış bir satın alma olayı, en pahalı aracı bile kör eder.",
+          en: "Three layers are enough: an analytics tool such as GA4 for the funnel and step rates, a session recording and heatmap tool to see behaviour, and an A/B testing tool to compare variants. The brand of the tools does not decide the outcome; what decides it is correctly defined events and a weekly reading discipline. A wrongly defined purchase event blinds even the most expensive tool.",
+        },
+      },
+      {
+        question: {
+          tr: "Hangi taktik en hızlı sonuç verir?",
+          en: "Which tactic delivers results fastest?",
+        },
+        answer: {
+          tr: "Ödeme akışındaki sürprizleri kaldıran taktikler: kargo ücretini öne almak, misafir ödemeyi açmak, gereksiz form alanlarını silmek. Üçü de test gerektirmez, tek satın alma döngüsünde okunur ve huninin en son adımını düzelttikleri için etkileri doğrudan siparişe yazılır. İlk sprintin bu üçüyle başlaması, ekibe hem hızlı bir kazanım hem de sonraki testler için güvenilir bir taban verir.",
+          en: "The tactics that remove surprises from checkout: moving delivery cost forward, opening guest checkout, deleting unnecessary form fields. None of the three needs a test, all read within a single purchase cycle, and because they fix the last step of the funnel their effect lands directly on orders. Starting the first sprint with these three gives the team both a quick win and a reliable baseline for the tests that follow.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı yükselirken ortalama sipariş değeri düşerse ne yapmalı?",
+          en: "What if conversion rises but average order value falls?",
+        },
+        answer: {
+          tr: "İki metrik birlikte okunur; biri yükselip diğeri düşüyorsa kazanç görünürde kalabilir. Sık sebep, indirimin ya da ücretsiz kargo eşiğinin düşürülmesidir: daha çok kişi alır, daha az öder. Karar ölçüsü sipariş sayısı değil, ziyaretçi başına gelirdir; o sayı artmıyorsa taktik geri alınır ya da eşik yeniden ayarlanır. Fiyat ve kargo değişikliklerinde her zaman iki metriği aynı tabloya yazın.",
+          en: "Read the two metrics together; if one rises while the other falls, the gain may be only apparent. A frequent cause is a lowered discount or free-delivery threshold: more people buy, each pays less. The deciding measure is not the number of orders but revenue per visitor; if that number is not rising, the tactic is rolled back or the threshold reset. Always write both metrics into the same table when price or delivery changes.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO çalışmasını ajansa vermek ne zaman mantıklı?",
+          en: "When does it make sense to hand CRO to an agency?",
+        },
+        answer: {
+          tr: "Ekipte ölçüm altyapısını kuracak ve her hafta test okuyacak kimse yoksa. Dönüşüm çalışması tek seferlik bir tasarım işi değil, süren bir disiplindir; disiplini kuramayan ekip için dışarıdan destek, aracı olan ekipten daha çok sipariş getirir. Ajans seçerken bakılacak şey vaat değil kanıttır: rakamlı vaka, ölçüm yöntemi ve test süresi konusunda dürüstlük. Sekiz soruluk kontrol listesi ajans seçimi yazısında duruyor.",
+          en: "When nobody on the team will build the measurement infrastructure and read tests every week. Conversion work is not a one-off design job but an ongoing discipline; for a team that cannot sustain the discipline, outside support brings more orders than a team with tools. What to look at when choosing an agency is proof rather than promise: cases with numbers, the measurement method and honesty about test duration. The eight-question checklist sits in the article on choosing an agency.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "cro",
+    tags: ["donusum-orani", "cro", "sepet-terk", "e-ticaret"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-18",
+    readingMinutes: 17,
+    seo: {
+      title: {
+        tr: "Dönüşüm oranı nasıl artırılır: 21 taktik",
+        en: "How to increase conversion rate: 21 tactics",
+      },
+      description: {
+        tr: "Aynı trafikten daha fazla sipariş: ölçüm, ilk ekran, ürün sayfası, sepet terki, trafik ve test için 21 taktik. GYMWOLVES'ta satış 3 ayda 12 katına çıktı.",
+        en: "More orders from the same traffic: 21 tactics for measurement, first screen, product page, cart abandonment and testing. GYMWOLVES sales rose 12× in 3 months.",
+      },
+    },
+  },
 ];
 
 export function getArticleBySlug(

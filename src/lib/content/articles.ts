@@ -10823,8 +10823,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bu yazı haber değil, karar yazısı. Tez tek cümle: reklam cevabın altına girer, GEO cevabın içine. İkisi birbirinin yerine geçmez; ama bütçesi olan bir işletme için ilk kez \"bir yapay zeka cevap motorunda görünmek\" satın alınabilir bir şey oldu. Üç okura cevap vermeye çalışacağız: bütçesini Google Ads'ten kaydırıp kaydırmamayı düşünen ticaret kurucusu, müşterisinin ChatGPT'de karar verip vermediğini merak eden sanayi dönüşüm yöneticisi ve ölçümü kurmak zorunda olan pazarlama yöneticisi.",
-          en: "This is a decision piece, not a news report. The thesis fits one sentence: ads go beneath the answer, GEO goes inside it. Neither replaces the other; but for a business with a budget, \"being visible in an AI answer engine\" has become something you can buy for the first time. We are writing for three readers: the commerce founder wondering whether to move budget away from Google Ads, the industrial transformation manager asking whether their customer decides inside ChatGPT at all, and the marketing manager who has to build the measurement.",
+          tr: "Bu yazı haber değil, karar yazısı. Tez tek cümle: reklam cevabın altına girer, GEO cevabın içine. İkisi birbirinin yerine geçmez; ama bütçesi olan bir işletme için ilk kez \"bir yapay zeka cevap motorunda görünmek\" satın alınabilir bir şey oldu. Üç okura cevap vermeye çalışacağız: bütçesini Google Ads'ten kaydırıp kaydırmamayı düşünen ticaret kurucusu, müşterisinin ChatGPT'de karar verip vermediğini merak eden sanayi dönüşüm yöneticisi ve ölçümü kurmak zorunda olan pazarlama yöneticisi. Yazının ikinci yarısı aynı soruyu KOBİ, ihracatçı ve büyük şirket için ayrı ayrı ele alıyor; çünkü bir talep en değerli hâlini istendiği ve merak edildiği anda alır ve bu üçü o anı farklı yerlerden yakalar.",
+          en: "This is a decision piece, not a news report. The thesis fits one sentence: ads go beneath the answer, GEO goes inside it. Neither replaces the other; but for a business with a budget, \"being visible in an AI answer engine\" has become something you can buy for the first time. We are writing for three readers: the commerce founder wondering whether to move budget away from Google Ads, the industrial transformation manager asking whether their customer decides inside ChatGPT at all, and the marketing manager who has to build the measurement. The second half of the article takes the same question through the SME, the exporter and the large company in turn — because a request is worth the most at the moment it is wanted and wondered about, and those three catch that moment from different places.",
         },
       },
       {
@@ -10998,6 +10998,35 @@ export const ARTICLES: ArticleContent[] = [
       },
       {
         type: "h2",
+        id: "talep-ani",
+        text: {
+          tr: "Talep anı neden bu kadar değerli?",
+          en: "Why is the moment of demand so valuable?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir talep en değerli hâlini istendiği ve merak edildiği anda alır; sonrasında yalnız ucuzlar. Diyelim bir kullanıcı ChatGPT'ye şunu yazdı: \"kırk kişilik bir üretim tesisim var, stok takibini hâlâ elle yapıyoruz, nereden başlamalıyım.\" Bu cümle bir anahtar kelime değil; kısıtı, ölçeği, aciliyeti ve bağlamı aynı yerde taşıyan bir talep. Arama motoruna hiç gitmemiş, kimseyle konuşmamış, henüz bir kısa liste yazmamış bir alıcının ilk cümlesi.",
+          en: "A request is worth the most at the moment it is wanted and wondered about; afterwards it only gets cheaper. Suppose a user types this into ChatGPT: \"I run a forty-person production plant, we still track stock by hand, where do I start.\" That sentence is not a keyword; it is a request carrying constraint, scale, urgency and context in one place — the first sentence of a buyer who has not yet gone to a search engine, spoken to anyone or written a shortlist.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Değerli olmasının sebebi zamanlama. Google'da yazılan kelime, sohbette kurulan cümlenin birkaç adım sonrasıdır: kullanıcı ne aradığını öğrenmiş, seçenekleri daraltmış, karşılaştırma diline geçmiştir. Sohbette ise kısa liste o anda yazılıyor. Cevabın içinde adı geçen marka listeye kaynak olarak girer; cevabın altında görünen marka listeye görülür bir seçenek olarak eklenir. İkisi de aynı anın parçası ve bu an, dönüşüm hunisinin satın alınabilir en erken noktası.",
+          en: "Timing is what makes it valuable. The word typed into Google comes several steps after the sentence formed in a conversation: by then the user has learnt what they are looking for, narrowed the options and switched to the language of comparison. In the conversation, the shortlist is being written right now. The brand named inside the answer enters that list as a source; the brand shown beneath it is added as a visible option. Both belong to the same moment, and that moment is the earliest point in the funnel that can be bought.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu anın bir de sorumluluğu var. Kullanıcı o cümleyi bir güven ilişkisi içinde yazıyor; cevabın altındaki reklam bağırırsa, cevabın kurduğu güveni harcar. Bağlam eşleşmesinin ödüllendirdiği şey yüksek sesli vaat değil, sorulan derde tam oturan tek bir teklif. Yazının tezi burada somutlaşıyor: talep anında ideal konum hem cevabın içinde hem altında olmak. İçi içerikle kazanılır, altı bütçeyle kiralanır; ikisini aynı anda tutan marka, o kısa listeyi yazan el olur.",
+          en: "The moment also carries a responsibility. The user writes that sentence inside a relationship of trust; if the ad beneath the answer shouts, it spends the trust the answer has just built. What context matching rewards is not a loud promise but a single offer that fits the stated problem exactly. This is where the article's thesis becomes concrete: at the moment of demand the ideal position is both inside the answer and beneath it. The inside is earned with content, the space beneath is rented with budget; the brand that holds both at once is the hand writing the shortlist.",
+        },
+      },
+      {
+        type: "h2",
         id: "geo-ile-iliskisi",
         text: {
           tr: "GEO ile ilişkisi: reklam mı organik mi?",
@@ -11030,6 +11059,93 @@ export const ARTICLES: ArticleContent[] = [
         text: {
           tr: "Bu yüzden sıralama önerimiz sabit: önce ölç, sonra reklam ver. [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) sitenizin cevap motorları için ne kadar okunabilir olduğunu birkaç dakikada ölçüyor; reklam bütçesini açmadan önce cevabın içinde nerede durduğunuzu bilin. Reklam, organik görünürlüğü olmayan bir markaya kısa süreli erişim satar; organik görünürlüğü olan markaya ise ekranın ikinci yarısını da verir.",
           en: "Which is why our recommended order does not change: measure first, advertise second. [The GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) measures in a few minutes how readable your site is for answer engines; know where you stand inside the answer before you open an ad budget. To a brand with no organic visibility, an ad sells short-lived reach; to a brand that already has it, the ad hands over the second half of the screen as well.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kobi-icin",
+        text: {
+          tr: "KOBİ için ne ifade ediyor?",
+          en: "What does it mean for an SME?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "KOBİ için değişen şey eşik. Bir yapay zeka cevap motorunda görünmek şimdiye kadar aylar süren içerik ve otorite işi gerektiriyordu; 17 Eylül'den itibaren self-servis bir panel, üç kampanya hedefi, ülke ve cihaz hedeflemesi, basına göre günlük 25 dolarlık taban ve ilk 500 dolara 500 dolar kredi ile cevabın altındaki alan küçük bir bütçeyle kiralanabiliyor. Kanal yeni olduğu için rakip yoğunluğu da düşük.",
+          en: "What changes for an SME is the threshold. Being visible in an AI answer engine used to require months of content and authority work; since 17 September a self-serve panel, three campaign objectives, country and device targeting, a press-reported floor of 25 dollars a day and 500 dollars of credit on the first 500 spent let a small budget rent the space beneath the answer. Because the channel is new, competition is also thin.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "KOBİ'nin asıl avantajı ise bütçe değil, keskinlik. Bağlam eşleşmesi, dar tarif edilmiş bir derde dar tarif edilmiş bir teklifi ödüllendirir; \"dijital ajans\" gibi genel bir vaat sohbetin hiçbir cümlesine oturmaz, tek bir problemi çözen somut bir hizmet ya da ürün oturur. Büyük şirketin geniş kataloğu bu formatta dağılır; KOBİ'nin tek ürünü tam yerine düşer. KOBİ'nin Google Ads'te uzun süredir bütçeyle yenildiği bir alanda ilk kez tarifle kazanabildiği bir kanal bu.",
+          en: "The SME's real advantage, though, is not budget but sharpness. Context matching rewards a narrowly described offer for a narrowly described problem; a general promise such as \"digital agency\" fits no sentence in a conversation, while a concrete service or product that solves one problem fits exactly. The large company's broad range scatters in this format; the SME's single product lands in place. For once, this is a channel where an SME long outspent on Google Ads can win on description.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç uyarı da KOBİ için geçerli. Birincisi, ölçüm: pixel ya da Conversions API kurulmadan açılan kampanya dört haftanın sonunda hiçbir şey öğretmez. İkincisi, kanibalizasyon: zaten dönüşüm getiren Google Ads bütçesinden kesip buraya taşımak yerine ayrı bir test bütçesi ayırın. Üçüncüsü, kitle: KOBİ'ye satan KOBİ'nin alıcısı çoğu zaman ücretsiz planda, kurumsal alıcı ise değil; kime sattığınız kanalın size uygunluğunu belirler. E-ticaret yapan bir KOBİ, reklamdan önce mağazasının yedi kritik sayfasını [Diagnoo](/araclar/diagnoo) ile taratıp ödeme adımındaki sürtünmeyi kaldırırsa aynı bütçe daha fazla sipariş getirir.",
+          en: "Three cautions apply to SMEs as well. First, measurement: a campaign launched without the Pixel or the Conversions API teaches nothing after four weeks. Second, cannibalisation: set aside a separate test budget instead of cutting the Google Ads spend that already converts. Third, audience: an SME selling to SMEs usually finds its buyer on the free plan, a corporate buyer usually not; who you sell to decides whether the channel fits. An SME running a store that scans its seven critical pages with [Diagnoo](/araclar/diagnoo) and removes the friction at checkout before advertising will get more orders from the same budget.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ihracat-firsati",
+        text: {
+          tr: "İhracatçı için ne ifade ediyor?",
+          en: "What does it mean for an exporter?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İhracatçı için en somut fırsat ülke listesi. Reklamlar ABD, Kanada, Avustralya, Yeni Zelanda, Birleşik Krallık, Meksika, Brezilya, Japonya, Güney Kore, 31 Avrupa ülkesi ve Hindistan, Orta Doğu ile Kuzey Afrika'daki seçili ülkelerde açık; hedefleme ülke bazlı. Aynı panelden Almanya'daki bir satın almacının ya da Körfez'deki bir distribütörün sohbetinin altına teklif koymak mümkün. Kampanya kurulumunda hedef ülkenin listede olduğunu teyit etmek yeterli.",
+          en: "For an exporter the most concrete opportunity is the country list. Ads are live in the United States, Canada, Australia, New Zealand, the United Kingdom, Mexico, Brazil, Japan, South Korea, 31 European countries and selected countries across India, the Middle East and North Africa, and targeting is by country. From the same panel, an offer can be placed beneath the conversation of a buyer in Germany or a distributor in the Gulf. Confirming that the target country is on the list at set-up is all it takes.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Asıl mesele şu: yabancı alıcının tedarikçi araştırması giderek bir sohbetle başlıyor; \"Türkiye'de bu parçayı kim üretir\", \"Avrupa'ya yakın alternatif tedarikçi\" gibi cümlelerle. Türk ihracatçısı bu evrede tarihsel olarak görünmezdi; fuar, B2B rehberi ve aracı hep daha sonra geliyordu. Reklam bu evreye bir varlık koyar; GEO ise tedarikçiyi cevabın içine yerleştirir. [Meccanotecnica Umbra vakasındaki](/vakalar/meccanotecnica-umbra-teklif-portali) dört dilli arama ve cevap motoru görünürlüğü bunun organik biçimi; [e-ticaret hizmetimizin](/hizmetler/e-ticaret) B2B e-ihracat platformu ve tedarikçi portalı tarafı ise o alıcının indiği sayfayı kurar.",
+          en: "The real point is this: the foreign buyer's supplier research increasingly begins as a conversation — \"who makes this part in Turkey\", \"a near-shore alternative supplier for Europe\". The Turkish exporter has historically been invisible at that stage; the trade fair, the B2B directory and the intermediary always came later. An ad puts a presence at that stage; GEO puts the supplier inside the answer. The four-language search and answer-engine visibility in [the Meccanotecnica Umbra case](/vakalar/meccanotecnica-umbra-teklif-portali) is the organic form of this; the B2B export platform and supplier portal side of [our e-commerce service](/hizmetler/e-ticaret) builds the page that buyer lands on.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pratik kurallar: reklamın dili pazarın dili olur, hedef sayfa aynı dilde açılır, fuarlardan biriken kartvizitler hash'lenmiş e-posta listesi olarak ilk özel kitleyi oluşturur ve her ülke ayrı kampanya olarak ölçülür. Dört haftalık okuma kuralı ihracatta daha da önemli: satın alma döngüsü uzun, ilk haftanın verisi yanıltır.",
+          en: "Practical rules: the ad's language is the market's language, the destination page opens in the same language, the business cards collected at fairs become the first custom audience as a hashed email list, and each country is measured as its own campaign. The four-week reading rule matters even more in export: buying cycles are long and the first week's data misleads.",
+        },
+      },
+      {
+        type: "h2",
+        id: "buyuk-sirket-icin",
+        text: {
+          tr: "Büyük şirket için ne ifade ediyor?",
+          en: "What does it mean for a large company?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük şirket için soru bütçe değil, iki şey: marka güvenliği ve karar vericinin nerede oturduğu. Marka güvenliği tarafında olgular net; reklam sponsorlu etiketiyle cevaptan ayrı duruyor, OpenAI reklamların cevabı etkilemediğini taahhüt ediyor, sağlık, ruh sağlığı ve siyaset gibi hassas konuların yanında reklam çıkmıyor, sohbetler reklamverenle paylaşılmıyor ve müşteri verisi satılmıyor. Kurumsal uyum ekibinin ilk soracağı soruların cevabı ürünün kendi tasarımında.",
+          en: "For a large company the question is not budget but two things: brand safety and where the decision-maker sits. On brand safety the facts are clear — the ad stands apart from the answer under a sponsored label, OpenAI commits that ads do not influence answers, no ads appear next to sensitive topics such as health, mental health and politics, conversations are not shared with advertisers and customer data is not sold. The first questions a corporate compliance team will ask are answered in the product's own design.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar verici sorusu iki büyük şirketi birbirinden ayırır. Tüketiciye satan büyük marka için kanal geniş: ücretsiz plan ağırlıklı pazar, CRM listesinden kurulan özel kitle, Conversions API ile sunucu tarafı ölçüm ve carousel formatı; altyapı, verisi olan reklamveren için tasarlanmış gibi. Kurumsal alıcıya satan büyük şirket için ise tablo tersine döner; alıcısı büyük ihtimalle ücretli ya da kurumsal bir hesapta ve reklamı hiç görmüyor. O şirketin oyunu cevabın içinde, yani kaynak olmakta.",
+          en: "The decision-maker question separates two kinds of large company. For a large consumer brand the channel is wide: a market dominated by the free plan, custom audiences built from the CRM list, server-side measurement through the Conversions API and the carousel format; the infrastructure looks designed for the advertiser with data. For a large company selling to corporate buyers the picture flips — its buyer is most likely on a paid or corporate account and never sees the ad. That company's game is inside the answer, as a source.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Stratejik nokta savunmayla ilgili. Büyük şirketin cevabın içine girecek içeriği ve otoritesi zaten var; reklam onun için küçük kaldıraç. Risk tersten geliyor: bir meydan okuyucu, büyük markanın adının geçtiği cevabın altındaki alanı kiralayabilir ve ekranın ikinci yarısını alır. Kurumsal marka için doğru duruş bu yüzden ikisini birden tutmak; içeride kaynak, altta görünür seçenek. Hangi sohbetlerin altında durulacağı ise bir reklam ayarı değil, [marka stratejisi](/hizmetler/marka-stratejisi) kararıdır.",
+          en: "The strategic point is about defence. The large company already has the content and authority to get inside the answer; for it, the ad is the smaller lever. The risk comes from the other direction: a challenger can rent the space beneath the very answer that names the large brand and take the second half of the screen. So the right posture for a corporate brand is to hold both — a source inside, a visible option beneath. Which conversations to stand beneath is not an ad setting but a [brand strategy](/hizmetler/marka-stratejisi) decision.",
         },
       },
       {
@@ -11230,6 +11346,26 @@ export const ARTICLES: ArticleContent[] = [
       },
       {
         question: {
+          tr: "KOBİ'ler ChatGPT reklamı vermeli mi?",
+          en: "Should SMEs advertise in ChatGPT?",
+        },
+        answer: {
+          tr: "Tek ve dar tarif edilmiş bir teklifi olan, dönüşüm ölçümünü kurmuş ve dört haftalık ayrı bir test bütçesi ayırabilen KOBİ için evet. Bağlam eşleşmesi keskin teklifi ödüllendirir; genel bir ajans ya da katalog vaadi sohbetin hiçbir cümlesine oturmaz. Alıcısı kurumsal hesaplarda oturan KOBİ ise reklamdan önce cevabın içine girmeyi, yani içeriği önceliklendirmeli; ücretsiz plandaki alıcı reklamı görür, ücretli plandaki görmez.",
+          en: "Yes, for an SME with a single, narrowly described offer, working conversion measurement and a separate test budget it can sustain for four weeks. Context matching rewards a sharp offer; a general agency or catalogue promise fits no sentence in a conversation. An SME whose buyers sit on corporate accounts should put getting inside the answer, meaning content, ahead of advertising; the buyer on a free plan sees the ad, the buyer on a paid plan does not.",
+        },
+      },
+      {
+        question: {
+          tr: "İhracat pazarlarında ChatGPT reklamı verebilir miyim?",
+          en: "Can I run ChatGPT ads in export markets?",
+        },
+        answer: {
+          tr: "Hedefleme ülke bazlı ve reklamlar ABD, Kanada, Avustralya, Yeni Zelanda, Birleşik Krallık, Meksika, Brezilya, Japonya, Güney Kore, 31 Avrupa ülkesi ile Hindistan, Orta Doğu ve Kuzey Afrika'daki seçili ülkelerde açık. Kampanya kurulumunda hedef ülkenin listede olduğunu teyit edin; reklamı ve hedef sayfayı pazarın dilinde hazırlayın, her ülkeyi ayrı kampanya olarak ölçün ve fuar bağlantılarını hash'lenmiş liste olarak ilk özel kitle yapın.",
+          en: "Targeting is by country, and ads are live in the United States, Canada, Australia, New Zealand, the United Kingdom, Mexico, Brazil, Japan, South Korea, 31 European countries and selected countries across India, the Middle East and North Africa. Confirm at set-up that the target country is on the list; prepare the ad and the destination page in the market's language, measure each country as its own campaign, and turn trade-fair contacts into the first custom audience as a hashed list.",
+        },
+      },
+      {
+        question: {
           tr: "Sessiz atıf ne demek?",
           en: "What is a silent citation?",
         },
@@ -11244,7 +11380,7 @@ export const ARTICLES: ArticleContent[] = [
     tags: ["chatgpt-reklamlari", "openai-ads", "geo", "ai-reklam"],
     authorSlug: "burak-ozgul",
     publishedAt: "2026-09-18",
-    readingMinutes: 15,
+    readingMinutes: 22,
     seo: {
       title: {
         tr: "ChatGPT reklamları: nasıl çalışır, kim görür",

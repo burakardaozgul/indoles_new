@@ -168,13 +168,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   // 12 hizmet detayı — slug locale başına farklı (docs/08 §2).
+  // `lastmod` içerikten gelir: dokunulan hizmet `updatedAt` taşır, diğerleri
+  // build anına düşer — makaledeki kuralın hizmet karşılığı (indeks denetimi
+  // 2026-09-18, `docs/strateji/Indeks-Denetimi-2026-09-18.md`).
   for (const service of SERVICES) {
     const path = {
       tr: `/tr/hizmetler/${service.slug.tr}`,
       en: `/en/services/${service.slug.en}`,
     };
+    const lastModified = service.updatedAt
+      ? new Date(service.updatedAt)
+      : BUILD_TIME;
     for (const locale of ["tr", "en"] as const) {
-      entries.push(entry(path, locale, 0.8, "monthly"));
+      entries.push(entry(path, locale, 0.8, "monthly", lastModified));
     }
   }
 

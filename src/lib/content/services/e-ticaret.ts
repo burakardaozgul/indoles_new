@@ -394,4 +394,9 @@ export const eTicaret: ServiceContent = {
 
   relatedPackages: ["buyume-sprinti"],
   relatedServices: ["cro", "performans-pazarlama", "ozel-yazilim-ve-mobil"],
+
+  // 2026-09-18: kanıt şeridi MKComputer'dan SOYLU AVM'ye geçti (künye
+  // güncellemesi `cases.ts`te) — sayfanın vakası artık bir e-ticaret büyüme
+  // vakası. Gerekçe: `docs/strateji/Indeks-Denetimi-2026-09-18.md`.
+  updatedAt: "2026-09-18",
 };

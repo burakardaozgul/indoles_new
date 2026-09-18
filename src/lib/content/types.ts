@@ -465,6 +465,16 @@ export type ServiceContent = {
   }>;
 
   /**
+   * Yayın sonrası içerik güncellemesi — makaledeki `updatedAt` ile aynı
+   * sözleşme (ADR-020). Sitemap `lastmod` buradan beslenir; alan boşsa build
+   * anına düşer. Sayfaya gerçekten dokunulmadan ileri alınmaz: her deploy'da
+   * "değişti" demek Google'ın lastmod'a güvenini bitiriyor (denetim T-05).
+   * İlk kullanım: indeks denetimi 2026-09-18
+   * (`docs/strateji/Indeks-Denetimi-2026-09-18.md`).
+   */
+  updatedAt?: string;
+
+  /**
    * Aylık yönetim planları — hizmet sayfasındaki fiyat tablosu.
    *
    * Paketler'den ayrı bir satış modeli: paket sabit kapsam + sabit süre,

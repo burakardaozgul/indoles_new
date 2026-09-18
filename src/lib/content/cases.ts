@@ -37,8 +37,13 @@ export const CASES: CaseStudyContent[] = [
         "Campaign management",
       ],
     },
+    // `e-ticaret` 2026-09-18'de eklendi: vaka bir e-ticaret mağazasının
+    // büyüme işi (sektör, başlık ve slug bunu söylüyor); künyede yalnız
+    // performans pazarlamanın durması e-ticaret hizmet sayfasını kanıtsız
+    // bırakıyordu (`relatedCaseForService` MKComputer'a düşüyordu).
     serviceSlugs: [
       "performans-pazarlama",
+      "e-ticaret",
     ],
     title: {
       tr: "E-ticarette 6 günde 1,5 milyon dolar gelir.",

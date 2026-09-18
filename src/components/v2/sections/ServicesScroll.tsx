@@ -215,10 +215,17 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
                   <PersonaText {...s.desc} />
                 </p>
 
+                {/*
+                  12 kart aynı "Keşfet" metnini taşıyor: ekran okuyucu için
+                  ayrıştırıcı ad, arama motoru için hizmet adını taşıyan çapa
+                  (indeks denetimi 2026-09-18). Görünür metin adın içinde
+                  kalır — WCAG 2.5.3 "Label in Name".
+                */}
                 <Link
                   href={`/${locale}/${locale === "tr" ? "hizmetler" : "services"}/${s.slug}`}
                   className="v2-svc-link mono"
                   data-cursor="hover"
+                  aria-label={`${isTr ? "Keşfet" : "Explore"}: ${s.name}`}
                 >
                   {isTr ? "Keşfet" : "Explore"}
                   <svg viewBox="0 0 14 14" width="13" height="13" aria-hidden="true">

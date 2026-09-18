@@ -377,6 +377,26 @@ export type ConsultantContent = {
   quote: Localized<string>;
   /** Kadro listesinde sıralama; küçük olan önce gelir. */
   order: number;
+  /**
+   * Arama yüzeyi — sayfada görünen `name`/`title`dan ve `shortBio`dan ayrı.
+   *
+   * Danışman `<title>`ı ve `<meta description>`ı `danismanlar/[slug]`
+   * şablonundan üretiliyordu: başlık `name — title`ın ilk parçası, açıklama
+   * ise `shortBio` cümlelerinin 160 karaktere sığdığı kadarı. Şablon geçerli
+   * bir çıktı veriyor ama arama niyetini karşılamıyor — isim sorgusu rolü ve
+   * kurumu SERP'te görmek ister (A-3 CTR denetimi: `burak-ozgul` 34 gösterim,
+   * `mert-kaplan` 45 gösterim, ikisi de sıfır tık). Sayfadaki ad, unvan ve
+   * biyografi değişmez; kısalan yalnız SERP'e giden dizgedir.
+   *
+   * Sözleşme `ArticleContent.seo` ile aynı: `title` ≤50 karakter — layout'un
+   * "%s — INDOLES" şablonu 10 karakter ekler; `description` 140-160 ve
+   * kişinin biyografisinde karşılığı olmayan rakam ya da vaat yazılmaz.
+   * İki alan da opsiyonel: doldurulmayan danışman şablon fallback'inde kalır.
+   */
+  seo?: {
+    title?: Localized<string>;
+    description?: Localized<string>;
+  };
 };
 
 export type ServiceDeliverableKind = "document" | "system" | "training" | "access";

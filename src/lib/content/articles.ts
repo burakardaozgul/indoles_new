@@ -347,8 +347,8 @@ export const ARTICLES: ArticleContent[] = [
     readingMinutes: 6,
     seo: {
       title: {
-        tr: "Gerilla pazarlama: dijital çağda ne değişti",
-        en: "Guerrilla marketing in the digital age",
+        tr: "Dijital gerilla pazarlama: bugün ne işe yarar",
+        en: "Digital guerrilla marketing: what still works",
       },
       description: {
         tr: "Levinson'ın 1984'te adını koyduğu yöntem bugün growth hacking'in atası sayılıyor. Share a Coke örneği, yapay zeka çağının kuralları ve beş uygulama ipucu.",
@@ -3098,12 +3098,12 @@ export const ARTICLES: ArticleContent[] = [
     readingMinutes: 9,
     seo: {
       title: {
-        tr: "Pazarlama ajansı seçimi: sorulacak 8 soru",
-        en: "Choosing a marketing agency: 8 questions",
+        tr: "Hangi ajansla çalışmalıyım? İlk görüşmede 8 soru",
+        en: "Which agency should I work with? 8 questions",
       },
       description: {
-        tr: "Dijital reklam ajansı ile tedarikçi arasındaki fark ilk görüşmede duyulur: kanıt, hedefleme, yapay zeka kullanımı ve kriz anı. Her cevapta ne aranır?",
-        en: "A digital advertising agency and a vendor sound different in the first meeting: evidence, targeting, AI use, crisis handling. What to listen for in each.",
+        tr: "Hangi ajansla çalışmalıyım sorusunun cevabı ilk görüşmede belli olur: kanıt, hedefleme, yapay zeka kullanımı ve kriz anı. Her cevapta ne aranır, 8 soruda.",
+        en: "Which agency should you work with? The answer shows in the first meeting: evidence, targeting, AI use, crisis handling. What to listen for in 8 questions.",
       },
     },
   },
@@ -5477,8 +5477,8 @@ export const ARTICLES: ArticleContent[] = [
     readingMinutes: 6,
     seo: {
       title: {
-        tr: "B2B lead kalitesi: ICP, lead scoring ve huni",
-        en: "B2B lead quality: ICP, scoring and the funnel",
+        tr: "Nitelikli B2B lead nasıl toplanır: ICP ve puanlama",
+        en: "Qualified B2B leads: ICP, scoring, funnel",
       },
       description: {
         tr: "Bin lead kutlanır, satış sıfıra yakın kapatır. Profili daraltın, davranışı puanlayın, 70 eşiğinde bildirim kurun; süreç otomasyonu teklifi 10 katına çıkardı.",
@@ -6954,6 +6954,18 @@ export const ARTICLES: ArticleContent[] = [
         },
       },
       {
+        // Köprü paragrafı (A-3 CTR dalgası). Bu sayfaya gelen en yüklü sorgu
+        // "şirketimi yapay zeka motorlarında görünür kılacak bir danışman ya da
+        // ajans önerir misin" (14 gösterim, poz. 6,7): niyet GEO, yazı ise
+        // dönüşüm danışmanlığını anlatıyor. Ayrımı girişte kurar ve arayanı
+        // doğru yüzeye taşır — SSS'e eklenmedi, orası H2 tekrarı kuralına tabi.
+        type: "p",
+        text: {
+          tr: "Bir ayrım daha var ve çoğu görüşmede adı konmadan geçiliyor: şirketinizin ChatGPT, Gemini ve Perplexity gibi yapay zeka motorlarında anılması, içeride bir yapay zeka sistemi kurmaktan ayrı bir iştir. Adı GEO, yani üretken motor optimizasyonu; danışman ararken iki kalemi tek başlık saymak yanlış masaya oturmak demektir. Yöntemini [yapay zeka aramalarında öne çıkma rehberinde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) anlattık; sitenizin bugün nerede durduğunu beş sinyal üzerinden [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) gösteriyor.",
+          en: "There is one more line, and most meetings pass over it without naming it: having your company named inside AI engines such as ChatGPT, Gemini and Perplexity is separate work from building an AI system inside the company. It goes by GEO — generative engine optimization; treating the two as a single heading while you look for a consultant means sitting down at the wrong table. We set out the method in the [guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz), and the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) shows where your site stands today across five signals.",
+        },
+      },
+      {
         type: "h2",
         id: "ajans-mi-danisman-mi",
         text: {
@@ -7505,7 +7517,7 @@ export const ARTICLES: ArticleContent[] = [
     readingMinutes: 13,
     seo: {
       title: {
-        tr: "Yapay zeka danışmanı seçerken 12 soru",
+        tr: "Yapay zeka danışmanı nasıl seçilir? 12 soru",
         en: "How to choose an AI consultant: 12 questions",
       },
       description: {
@@ -7994,8 +8006,8 @@ export const ARTICLES: ArticleContent[] = [
     readingMinutes: 12,
     seo: {
       title: {
-        tr: "Google AI Overviews'da yer almak: rehber",
-        en: "How to appear in Google AI Overviews",
+        tr: "Google AI Overview'da nasıl çıkılır: 5 koşul",
+        en: "How to get into Google AI Overviews: 5 conditions",
       },
       description: {
         tr: "AI Overview nedir, Google hangi sorgularda gösteriyor, tıklamaya ne oluyor? Yanıtın içine giren sayfaların beş ortak koşulu ve sahadan ölçülmüş rakamlar.",
@@ -9063,8 +9075,8 @@ export const ARTICLES: ArticleContent[] = [
     readingMinutes: 14,
     seo: {
       title: {
-        tr: "CRO nedir? Dönüşüm oranı optimizasyonu",
-        en: "What is CRO? Conversion rate optimisation",
+        tr: "CRO nedir? Aynı trafikten daha fazla satış",
+        en: "What is CRO? More sales from the same traffic",
       },
       description: {
         tr: "Dönüşüm oranı nedir, CRO süreci nasıl işler? Ölçüm, funnel analizi, ab testi ve sepet terki disiplini — GYMWOLVES'te 3 ayda 12 kat satışa çıkan yöntem.",
@@ -10327,12 +10339,12 @@ export const ARTICLES: ArticleContent[] = [
     readingMinutes: 5,
     seo: {
       title: {
-        tr: "Türkiye'nin ilk GEO denetim aracı yayında",
-        en: "Turkey's first GEO audit tool is live",
+        tr: "Türkçe GEO denetim aracı: siteyi 5 sinyalde ölçün",
+        en: "GEO audit tool: score your site on 5 signals",
       },
       description: {
-        tr: "GEO artık ölçülebiliyor. Türkiye'nin ilk GEO denetim aracı sitenizi beş sinyal üzerinden 100 puana topluyor ve her kalemde neyi düzelteceğinizi gösteriyor.",
-        en: "GEO is now measurable. Turkey's first GEO audit tool scores your site across five signals out of 100 and shows what to fix in each one — no ranking promise.",
+        tr: "Türkçe GEO aracı var mı? Var: Türkiye'nin ilk GEO denetim aracı sitenizi beş sinyal üzerinden 100 puana topluyor, her kalemde neyi düzelteceğinizi gösteriyor.",
+        en: "Is there a Turkish GEO tool? Yes: Turkey's first GEO audit tool scores your site on five signals out of 100 and shows what to fix in each. No ranking promise.",
       },
     },
   },

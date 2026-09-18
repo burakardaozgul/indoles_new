@@ -49,6 +49,20 @@ export const CONSULTANTS: ConsultantContent[] = [
       "yapay zeka danışmanlığı",
     ],
     linkedinUrl: "https://www.linkedin.com/in/burakardaozgul",
+    // Sorgu ismin kendisi ("burak arda", "arda ozgul" — 34 gösterim, poz. 7,4;
+    // EN'de 23 gösterim, poz. 6,4; ikisinde de sıfır tık). Şablon başlığı
+    // "Burak Arda Özgül — Kurucu"da kesiliyordu: isim arayan kişi rolü de
+    // görmek ister. Unvanın ikinci parçası başlığa girer, kurum açıklamada.
+    seo: {
+      title: {
+        tr: "Burak Arda Özgül — Kurucu · Marka Stratejisti",
+        en: "Burak Arda Özgül — Founder · Brand Strategist",
+      },
+      description: {
+        tr: "Burak Arda Özgül, INDOLES kurucusu; marka stratejisi ve performans pazarlamayı aynı masada tutar. Türkiye, Avrupa ve MENA'da 40+ markanın büyümesine eşlik etti.",
+        en: "Burak Arda Özgül, INDOLES founder; keeps brand strategy and performance marketing at the same table. Worked alongside 40+ brands in Turkey, Europe and MENA.",
+      },
+    },
   },
   {
     slug: "can-aydinlik",
@@ -166,6 +180,16 @@ export const CONSULTANTS: ConsultantContent[] = [
     },
     pillars: ["growth"],
     expertise: ["Görüntü yönetmenliği", "Reklam filmi", "Kurumsal belgesel"],
+    // "mert kaplan" sorgusu 45 gösterim, poz. 7,7, sıfır tık. Şablon başlığı
+    // ("Mert Kaplan — Görüntü Yönetmeni") zaten rolü taşıyor ve değişmez;
+    // düşen taraf açıklamaydı — EN'de 121 karakterde pillar adına ("Growth")
+    // düşüyor, TR'de biyografinin ilk cümlesini tekrarlıyordu.
+    seo: {
+      description: {
+        tr: "Mert Kaplan, INDOLES görüntü yönetmeni: reklam filmi, kurumsal belgesel ve marka hikâyelerinde ışığı bir dile çeviriyor; her sahneyi atmosferiyle anlatıyor.",
+        en: "Mert Kaplan, INDOLES director of photography: turns light into language in commercials, corporate documentaries and brand stories; atmosphere tells each scene.",
+      },
+    },
   },
   {
     slug: "berk-bogaz",

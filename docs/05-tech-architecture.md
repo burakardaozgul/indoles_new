@@ -296,6 +296,21 @@ ADR-006 kapsamında Sanity kaldırıldı; içerik git içinde statik TS ve MDX d
 - **TypeScript tipler** — İçerik şemaları `src/lib/content/types.ts`'de tanımlanır; Sanity typegen veya GROQ yoktur, doğrudan TS importlar kullanılır.
 - **Preview:** Sanity Presentation tool kaldırıldı. İçerik değişiklikleri git branch üzerinden izlenir; gerektiğinde Next.js draft mode ile preview branch'te incelenebilir.
 
+#### Arama yüzeyi (`seo`) alanı
+
+Sayfada görünen başlık/metin ile SERP'e giden dizge ayrı tutulur. İçerik tiplerinin tamamında aynı desen geçerli:
+
+| Tip | Alan | Zorunluluk | Tip yorumundaki band |
+|---|---|---|---|
+| `ServiceContent` | `seo` (+ `entities`) | zorunlu | `title` ≤60, `description` 80-160 |
+| `PillarContent` | `seo?` | opsiyonel, iç alanlar zorunlu | `title` ≤50, `description` 140-160 |
+| `CaseStudyContent` | `seo?` | opsiyonel, fallback `clientName — title` + `lead` | `title` ≤50, `description` 140-160 |
+| `ArticleContent` | `seo?` | opsiyonel; `articles-content.test.ts` yayımlanmış yazılarda zorunlu kılar | `title` ≤50, `description` 140-160 |
+| `ConsultantContent` | `seo?` | opsiyonel, fallback şablon türetmesi | `title` ≤50, `description` 140-160 |
+
+- `title` ≤50/≤60 ayrımının sebebi tek: `[locale]/layout.tsx` şablonu `"%s — INDOLES"` ile 10 karakter ekler ve denetim (`src/lib/seo/audit.ts`) **render edilmiş** başlığı 15-60 bandında ister. ≤50 yazan tipler ham değeri, ≤60 yazanlar render edilmiş değeri kasteder.
+- `ConsultantContent.seo` 2026-09-18'de eklendi (A-3 CTR dalgası, `docs/strateji/CTR-Revizyonu-2026-09.md`). Danışman `<title>`/`<meta description>`ı o güne dek yalnız `danismanlar/[slug]/page.tsx` şablonundan (`name — title` ilk parçası + `shortBio` cümleleri) türetiliyordu; alan şablonu **ezer, kırmaz** — doldurulmayan danışman türetmede kalır. Tip değişikliği içerik alanı olduğu için ADR gerektirmez.
+
 ### 4.8 Randevu ve iletişim
 - **Cal.com Cloud** — `@calcom/embed-react` ile inline embed. Popup Stage 3'te prefill (name, email, persona, selected_problems). Webhook yok — Cal.com kendi onay emailini gönderir.
 - **Resend** — Transactional email. React Email ile template'ler; `emails/` klasöründe TSX dosyaları.

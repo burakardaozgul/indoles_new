@@ -84,9 +84,11 @@ export async function generateMetadata({
   // Kreatif Direktör" tam haliyle "%s — INDOLES" şablonuyla 60'ı aşıyor.
   const shortTitle = c.title[loc].split(" · ")[0];
 
+  // `consultants.ts`teki `seo` alanı şablonu ezer, kırmaz: doldurulmamış
+  // danışman yukarıdaki türetmede kalır (A-3 CTR dalgası, ConsultantContent.seo).
   return buildMetadata({
-    title: `${c.name} — ${shortTitle}`,
-    description,
+    title: c.seo?.title?.[loc] ?? `${c.name} — ${shortTitle}`,
+    description: c.seo?.description?.[loc] ?? description,
     paths: consultantPaths(c.slug),
     locale: loc,
   });

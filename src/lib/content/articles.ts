@@ -10785,6 +10785,477 @@ export const ARTICLES: ArticleContent[] = [
       },
     },
   },
+  // 2026-09-18 — GEO kümesi, güncel olay yazısı. OpenAI ChatGPT reklamlarını
+  // 17 Eylül 2026'da Türkiye'ye açtı; TR SERP'te yalnız haber var, "işletme ne
+  // yapmalı, GEO ile ilişkisi ne" sorusu boş. Olgular prompt dosyasındaki
+  // doğrulanmış listeyle sınırlı (OpenAI duyuruları + Search Engine Land +
+  // TR basını); basın kaynaklı iki rakam (25 $/gün, retargeting yok) metinde
+  // "basına göre" diye işaretli. Kaynak dış link verilmez, adıyla ve tarihiyle
+  // anılır (mevcut yazı kalıbı). Görev: docs/prompts 02 (18 Eyl).
+  {
+    slug: {
+      tr: "chatgpt-reklamlari-turkiye",
+      en: "chatgpt-ads-explained",
+    },
+    title: {
+      tr: "ChatGPT reklamları Türkiye'de: markalar için ne değişti, ne değişmedi",
+      en: "ChatGPT ads: what changed for brands, and what did not",
+    },
+    excerpt: {
+      tr: "OpenAI, ChatGPT reklamlarını 17 Eylül 2026'da Türkiye'ye açtı: ücretsiz sürümde, cevabın altında, sponsorlu etiketiyle. Bu yazı haberi değil kararı anlatıyor — reklam nasıl çalışıyor, kim görüyor, neye mal oluyor ve organik görünürlükle (GEO) nerede ayrışıyor.",
+      en: "OpenAI opened ChatGPT ads to Turkey on 17 September 2026: on the free tier, beneath the answer, labelled as sponsored. This is a decision piece, not a news item — how the ads work, who sees them, what they cost, and where they part ways with organic visibility (GEO).",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "OpenAI, ChatGPT reklamlarını 17 Eylül 2026'da Türkiye'deki kullanıcılara açtı. Reklamlar yalnız Free ve Go planlarında görünüyor; Plus, Pro, Business, Enterprise ve Education kullanıcıları reklam görmüyor. Yerleşim sabit: reklam cevabın altında, \"sponsorlu\" etiketiyle ve cevaptan görsel olarak ayrı bir alanda duruyor. Self-servis reklam paneli Türkiye için ads.openai.com/tr-TR adresinde açık.",
+          en: "OpenAI opened ChatGPT ads to users in Turkey on 17 September 2026. Ads appear only on the Free and Go plans; Plus, Pro, Business, Enterprise and Education users see none. The placement is fixed: the ad sits beneath the answer, carries a \"sponsored\" label and lives in an area visually separate from the answer itself. The self-serve ads panel for Turkey is open at ads.openai.com/tr-TR.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Türkiye bu takvimin son durağı. OpenAI testi 9 Şubat 2026'da ABD'de başlattı; 26 Mart'ta Kanada, Avustralya ve Yeni Zelanda, 11 Ağustos'ta Birleşik Krallık, Meksika, Brezilya, Japonya ve Güney Kore eklendi. 18 Ağustos duyurusuyla 31 Avrupa ülkesi listeye girdi ve self-servis Ads Manager 31 Ağustos'ta açıldı; 4 Eylül'de Avrupa, Hindistan, Orta Doğu ve Kuzey Afrika'da seçili ülkelere genişleme ile reklam altyapısının yeni parçaları duyuruldu. Türkiye'ye gelen ürün yedi aylık bir testin sonucu, bir deneme değil.",
+          en: "Turkey is the latest stop on a long timetable. OpenAI began testing in the United States on 9 February 2026; Canada, Australia and New Zealand followed on 26 March, then the United Kingdom, Mexico, Brazil, Japan and South Korea on 11 August. The 18 August announcement added 31 European countries and the self-serve Ads Manager opened on 31 August; on 4 September OpenAI announced expansion to selected countries across Europe, India, the Middle East and North Africa along with new pieces of the ad stack. What arrived in Turkey is the product of a seven-month test, not an experiment.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazı haber değil, karar yazısı. Tez tek cümle: reklam cevabın altına girer, GEO cevabın içine. İkisi birbirinin yerine geçmez; ama bütçesi olan bir işletme için ilk kez \"bir yapay zeka cevap motorunda görünmek\" satın alınabilir bir şey oldu. Üç okura cevap vermeye çalışacağız: bütçesini Google Ads'ten kaydırıp kaydırmamayı düşünen ticaret kurucusu, müşterisinin ChatGPT'de karar verip vermediğini merak eden sanayi dönüşüm yöneticisi ve ölçümü kurmak zorunda olan pazarlama yöneticisi.",
+          en: "This is a decision piece, not a news report. The thesis fits one sentence: ads go beneath the answer, GEO goes inside it. Neither replaces the other; but for a business with a budget, \"being visible in an AI answer engine\" has become something you can buy for the first time. We are writing for three readers: the commerce founder wondering whether to move budget away from Google Ads, the industrial transformation manager asking whether their customer decides inside ChatGPT at all, and the marketing manager who has to build the measurement.",
+        },
+      },
+      {
+        type: "h2",
+        id: "chatgpt-reklamlari-nasil-calisir",
+        text: {
+          tr: "ChatGPT reklamları nasıl çalışıyor?",
+          en: "How do ChatGPT ads work?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Reklam, ChatGPT'nin cevabı bittikten sonra cevabın altındaki ayrı bir alanda görünür ve \"sponsorlu\" etiketi taşır. Cevabın metnine karışmaz: OpenAI'nin taahhüdü, reklamların ChatGPT'nin verdiği cevapları etkilemediği yönünde. Format bugün görsel, başlık ve hedef bağlantıdan oluşuyor; ürün feed'inden beslenen carousel biçimi de var. Video, Türkiye basınına göre henüz yok.",
+          en: "The ad appears once ChatGPT's answer has finished, in a separate area beneath it, and carries a \"sponsored\" label. It does not blend into the answer text: OpenAI's commitment is that ads do not influence the answers ChatGPT gives. Today's format is an image, a headline and a destination link; a carousel format fed from a product feed also exists. Video is not yet available, according to the Turkish press.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Eşleşme anahtar kelimeyle değil bağlamla kurulur. OpenAI'nin kendi metnine göre reklam seçiminde dört sinyal kullanılıyor: sohbetin konusu, geçmiş sohbetler, önceki reklam etkileşimleri ve hafıza verisi. Reklamveren bu sinyallerin hiçbirini görmez; eline yalnız gösterim ve tıklama gibi toplu metrikler geçer. Bireysel sohbet, geçmiş veya kimlik verisi paylaşılmıyor; OpenAI sohbetlerin reklamverenle paylaşılmadığını ve müşteri verisinin satılmadığını yazıyor.",
+          en: "Matching runs on context, not keywords. According to OpenAI's own text, four signals feed ad selection: the topic of the conversation, past conversations, previous ad interactions and memory data. The advertiser sees none of these signals; what reaches them is aggregate metrics such as impressions and clicks. No individual conversation, history or identity data is shared, and OpenAI writes that conversations are not shared with advertisers and customer data is not sold.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kullanıcı tarafında dört kontrol var: reklamı kapatmak, \"neden bu reklam\" diye sormak, reklam verisini silmek ve kişiselleştirmeyi tümden kapatmak. Bir de dışlama kuralı var: sağlık, ruh sağlığı ve siyaset gibi hassas konuların yanında reklam çıkmıyor. Sağlık ürünü satan bir marka için bu cümle bir sınır; reklam ekibinin baştan bilmesi gerekir.",
+          en: "On the user's side there are four controls: dismissing an ad, asking \"why this ad\", deleting ad data and switching personalisation off altogether. There is also an exclusion rule: no ads appear next to sensitive topics such as health, mental health and politics. For a brand selling health products that sentence is a boundary, and the ad team needs to know it from day one.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kim-goruyor",
+        text: {
+          tr: "Kim görüyor, kim görmüyor?",
+          en: "Who sees the ads, and who does not?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Reklamı yalnız Free ve Go planındaki kullanıcılar görüyor. Plus, Pro, Business, Enterprise ve Education planları reklamsız; 18 yaş altı olan ya da reşit olmadığı tahmin edilen hesaplara da reklam gösterilmiyor.",
+          en: "Only users on the Free and Go plans see ads. Plus, Pro, Business, Enterprise and Education stay ad-free, and accounts belonging to users under 18, or estimated to be minors, are not shown ads either.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu ayrım pazarlama planı için üç şey söylüyor. Birincisi, Türkiye ücretsiz plan ağırlıklı bir pazar; erişim geniş. İkincisi, ödeyen kullanıcıyı — kurumsal hesabı olan yöneticiyi, Business planındaki ekibi — bu kanalla yakalayamazsınız; o okur cevabın altında reklam değil, cevabın içinde kaynak görür. Üçüncüsü, yaş filtresi genç kitleye satan markalar için kanalı baştan daraltıyor.",
+          en: "The split tells a marketing plan three things. First, Turkey is a market dominated by the free plan, so the reach is wide. Second, you cannot reach the paying user through this channel — the executive on a corporate account, the team on a Business plan; that reader sees no ad beneath the answer, only sources inside it. Third, the age filter narrows the channel from the start for brands selling to a young audience.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yani \"ChatGPT'de görünmek\" tek bir şey değil. Ücretsiz kullanıcıya görünmek satın alınabilir; ödeyen kullanıcıya görünmek ancak cevabın kaynağı olarak mümkün. Bu ayrım yazının geri kalanının omurgası.",
+          en: "So \"being visible in ChatGPT\" is not one thing. Visibility to the free user can be bought; visibility to the paying user is possible only as a source of the answer. That distinction is the spine of everything that follows.",
+        },
+      },
+      {
+        type: "h2",
+        id: "reklam-nasil-verilir",
+        text: {
+          tr: "Reklam nasıl verilir, neye mal olur?",
+          en: "How do you place an ad, and what does it cost?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Reklam, self-servis Ads Manager üzerinden veriliyor; Türkiye için adres ads.openai.com/tr-TR. Kampanya hedefi üç seçenekten biri: erişim, tıklama, dönüşüm. Fiyatlama CPM (bin gösterim maliyeti) ve CPC (tıklama başına maliyet) üzerinden işliyor; dönüşüm hedefli kampanyalarda dönüşüm optimizasyonlu teklif de var.",
+          en: "Ads are placed through the self-serve Ads Manager; for Turkey the address is ads.openai.com/tr-TR. A campaign objective is one of three: reach, clicks or conversions. Pricing runs on CPM (cost per thousand impressions) and CPC (cost per click), with conversion-optimised bidding available for conversion campaigns.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hedefleme iki katmanlı: ülke ve cihaz seçimi ile özel kitle (custom audience) — hash'lenmiş e-posta ya da telefon listesi yükleyerek kendi müşterinizi veya potansiyel listenizi hedefleyebiliyorsunuz. OpenAI'nin saydığı katmanlar bunlar; ilgi alanı hedeflemesi listede yok, eşleşmeyi sohbetin bağlamı yapıyor. Ölçüm için OpenAI Pixel, Conversions API ve üçüncü taraf ölçüm entegrasyonları sunuluyor.",
+          en: "Targeting has two layers: country and device selection, plus custom audiences — you upload a hashed email or phone list to reach your own customers or prospects. Those are the layers OpenAI lists; interest targeting is not among them, and the conversation's context does the matching. For measurement, OpenAI offers its Pixel, a Conversions API and third-party measurement integrations.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Maliyet tarafında OpenAI'nin açıkladığı tek rakam bir teşvik: yeni reklamverene 500 dolar harcayana 500 dolar kredi. Türkiye basınına göre günlük minimum bütçe 25 dolar ve lansmanda kişiselleştirilmiş yeniden pazarlama (retargeting) yok; bu iki bilgi OpenAI'nin kendi metninde geçmiyor, basına dayanarak yazıyoruz. OpenAI Ağustos'ta \"on binlerce pazarlamacının\" reklam verdiğini söyledi; Türkiye açılmadan önce bile kanal boş değildi.",
+          en: "On cost, the only figure OpenAI itself has published is an incentive: new advertisers who spend 500 dollars receive 500 dollars in credit. According to the Turkish press the minimum daily budget is 25 dollars and there is no personalised remarketing at launch; neither point appears in OpenAI's own text, so we report them on the press's authority. OpenAI said in August that \"tens of thousands of marketers\" had already advertised — the channel was not empty before Turkey opened.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Self-servis akışı sırasıyla şöyle işliyor: hesap açılır, ölçüm (pixel ya da Conversions API) kurulur, kampanya hedefi seçilir, ülke ve cihaz belirlenir, varsa özel kitle yüklenir, görsel-başlık-bağlantı üçlüsü girilir, bütçe ve teklif tanımlanır. Adımların en pahalısı ilki değil ikincisi: ölçümü sonraya bırakan hesap, ilk dört haftayı okuyamaz.",
+          en: "The self-serve flow runs in this order: open an account, install measurement (the Pixel or the Conversions API), choose a campaign objective, set country and device, upload a custom audience if you have one, enter the image, headline and link, then define budget and bid. The costliest step is not the first but the second: an account that leaves measurement for later cannot read its first four weeks.",
+        },
+      },
+      {
+        type: "h2",
+        id: "cevabi-etkiliyor-mu",
+        text: {
+          tr: "Reklam, ChatGPT'nin cevabını etkiliyor mu?",
+          en: "Do ads influence ChatGPT's answer?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "OpenAI'ye göre hayır: reklamlar cevabı etkilemiyor, cevaptan ayrı bir alanda duruyor ve reklamverenin cevabı şekillendirme imkânı yok. Bu taahhüt ürünün en önemli cümlesi, çünkü kanalın güvenilirliği buna bağlı; kullanıcı cevabın satın alındığını düşündüğü gün ne cevap ne reklam işe yarar.",
+          en: "According to OpenAI, no: ads do not influence the answer, they sit in a separate area, and advertisers have no way to shape what the model says. That commitment is the product's most important sentence, because the channel's credibility rests on it; the day users believe the answer has been bought, neither the answer nor the ad works.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir çelişkiyi de kaydedelim. Webtekno, sohbet geçmişinin reklam seçiminde kullanılmadığını yazdı; OpenAI'nin kendi metni ise geçmiş sohbetleri ve hafıza verisini eşleşme sinyali olarak sayıyor. Biz birincil kaynağı esas alıyoruz: geçmiş sohbet reklamı etkiliyor, cevabı etkilemiyor.",
+          en: "One contradiction is worth recording. Webtekno wrote that conversation history is not used in ad selection; OpenAI's own text counts past conversations and memory data among the matching signals. We go with the primary source: past conversations influence the ad, not the answer.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cevabı etkilememesi ekranı etkilemediği anlamına gelmez. Kullanıcı cevabı okuyup aşağı indiğinde ilk gördüğü şey artık reklam. Cevabın içinde adı geçen marka ile cevabın altında reklamı çıkan marka aynı ekranda yan yana duruyor; biri güven, diğeri erişim satıyor. Reklam cevabı değiştirmez ama ekran payını değiştirir; GEO bölümünde bu cümleye döneceğiz.",
+          en: "Not influencing the answer is not the same as not influencing the screen. When the user finishes reading and scrolls down, the first thing they now see is an ad. The brand named inside the answer and the brand advertising beneath it share the same screen; one sells trust, the other sells reach. The ad does not change the answer, but it changes the share of the screen — we will come back to that sentence in the GEO section.",
+        },
+      },
+      {
+        type: "h2",
+        id: "google-ads-farki",
+        text: {
+          tr: "Google Ads'ten farkı ne?",
+          en: "How is this different from Google Ads?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "En büyük fark niyet sinyali: Google Ads anahtar kelimeye teklif verir, ChatGPT reklamı sohbet bağlamına eşleşir. Kullanıcı \"sepet terk oranı\" yazmaz; \"müşteriler ödeme adımında vazgeçiyor, ne yapmalıyım\" diye anlatır ve reklam o anlatının yanında çıkar.",
+          en: "The biggest difference is the intent signal: Google Ads bids on a keyword, a ChatGPT ad matches the context of a conversation. The user does not type \"cart abandonment rate\"; they explain that \"customers give up at the payment step, what should I do\", and the ad appears beside that account.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci fark huni konumu. Arama reklamı çoğu zaman karar anına yakındır; ChatGPT'deki sohbet çoğu zaman öğrenme, karşılaştırma ve seçenek daraltma evresinde geçer. Üçüncü fark ölçüm olgunluğu: Google Ads'in yıllar içinde biriktirdiği dönüşüm takibi, atıf modelleri ve kanal içi deney araçları burada henüz kuruluş aşamasında; pixel ve Conversions API var, ama basına göre yeniden pazarlama katmanı lansmanda yok.",
+          en: "The second difference is funnel position. A search ad usually sits close to the moment of decision; a ChatGPT conversation usually happens while the user is learning, comparing and narrowing options. The third is measurement maturity: the conversion tracking, attribution models and in-channel experiment tools Google Ads has accumulated over the years are still being built here; the Pixel and the Conversions API exist, but according to the press there is no remarketing layer at launch.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Niyet sinyali — Google Ads: anahtar kelime, kullanıcı ne aradığını yazar. ChatGPT reklamı: sohbet bağlamı, kullanıcı derdini anlatır.",
+            en: "Intent signal — Google Ads: a keyword, the user types what they are looking for. ChatGPT ads: conversation context, the user describes their problem.",
+          },
+          {
+            tr: "Huni konumu — Google Ads: karar anına yakın, satın alma niyeti oluşmuş. ChatGPT reklamı: araştırma ve karşılaştırma evresi, niyet henüz şekilleniyor.",
+            en: "Funnel position — Google Ads: close to the decision, purchase intent already formed. ChatGPT ads: the research and comparison stage, intent still taking shape.",
+          },
+          {
+            tr: "Ölçüm ve yeniden pazarlama — Google Ads: olgun dönüşüm takibi ve retargeting. ChatGPT reklamı: OpenAI Pixel ve Conversions API var; retargeting basına göre lansmanda yok.",
+            en: "Measurement and remarketing — Google Ads: mature conversion tracking and retargeting. ChatGPT ads: the OpenAI Pixel and Conversions API exist; retargeting, according to the press, is absent at launch.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu üç fark bir sonuca bağlanıyor: ChatGPT reklamı Google Ads'in yerine değil, üstüne gelir. Arama reklamı karar anını, ChatGPT reklamı kararın olgunlaştığı sohbeti yakalar. Bütçeyi taşımak değil, huniyi bir kat yukarı uzatmak doğru çerçeve; [performans pazarlama hizmetimizde](/hizmetler/performans-pazarlama) kanal karması tam bu mantıkla kurulur.",
+          en: "The three differences point to one conclusion: ChatGPT ads come on top of Google Ads, not in place of it. The search ad catches the moment of decision; the ChatGPT ad catches the conversation in which the decision matures. The right frame is not moving budget but extending the funnel one level up — the channel mix in [our performance marketing service](/hizmetler/performans-pazarlama) is built on exactly that logic.",
+        },
+      },
+      {
+        type: "h2",
+        id: "geo-ile-iliskisi",
+        text: {
+          tr: "GEO ile ilişkisi: reklam mı organik mi?",
+          en: "How does this relate to GEO: paid or organic?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Reklam cevabın altına girer, GEO cevabın içine. Reklamla satın aldığınız şey cevabın yanındaki alan; organik görünürlükle kazandığınız şey cevabın kendisinde kaynak ya da öneri olarak anılmak. İkisinin ekonomisi farklı: reklam bütçe bitince biter, atıf kalır.",
+          en: "Ads go beneath the answer, GEO goes inside it. What you buy with an ad is the space next to the answer; what you earn with organic visibility is being named as a source or a recommendation in the answer itself. The economics differ: the ad ends when the budget ends, the citation stays.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GEO, yani üretken motor optimizasyonu, ChatGPT, Gemini ve Perplexity gibi cevap motorlarının sizi kaynak olarak kullanmasını sağlama işi. [Yapay zeka aramalarında öne çıkma rehberimiz](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) bu işin yöntemini anlatıyor; [Google AI Overviews yazısı](/yazilar/google-ai-overviews-da-yer-almak) aynı mantığın Google tarafını, [llms.txt yazısı](/yazilar/llms-txt-nedir) teknik girişini kapsıyor. Ortak nokta şu: cevabın içine girmek içerikle olur, satın alınamaz.",
+          en: "GEO — generative engine optimization — is the work of getting answer engines such as ChatGPT, Gemini and Perplexity to use you as a source. [Our guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) explains the method; [the Google AI Overviews article](/yazilar/google-ai-overviews-da-yer-almak) covers the Google side of the same logic and [the llms.txt article](/yazilar/llms-txt-nedir) the technical entry point. The common thread: getting inside the answer is done with content, and it cannot be bought.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki görünürlük türü arasında bir de sessiz atıf var: markanız cevap metninde anılmaz ama sayfanız kaynak listesinde durur. Okur kaynağı görmeden geçebilir; yine de sayfanız modelin kaynak havuzuna girmiştir ve bu, bir sonraki cevapta anılmanın ön koşuludur. Reklam bu havuza hiçbir şey eklemez. Ödeyen kullanıcı, kurumsal hesap, reşit olmayan kullanıcı ve hassas konular reklamın dışında kalır; atıfın değil.",
+          en: "Between the two kinds of visibility sits a third: the silent citation. Your brand is not named in the answer text, but your page stands in the source list. The reader may scroll past it; even so, your page has entered the model's source pool, and that is the precondition for being named in the next answer. An ad adds nothing to that pool. The paying user, the corporate account, the under-age user and the sensitive topics are all outside the reach of ads — not outside the reach of citations.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yüzden sıralama önerimiz sabit: önce ölç, sonra reklam ver. [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) sitenizin cevap motorları için ne kadar okunabilir olduğunu birkaç dakikada ölçüyor; reklam bütçesini açmadan önce cevabın içinde nerede durduğunuzu bilin. Reklam, organik görünürlüğü olmayan bir markaya kısa süreli erişim satar; organik görünürlüğü olan markaya ise ekranın ikinci yarısını da verir.",
+          en: "Which is why our recommended order does not change: measure first, advertise second. [The GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) measures in a few minutes how readable your site is for answer engines; know where you stand inside the answer before you open an ad budget. To a brand with no organic visibility, an ad sells short-lived reach; to a brand that already has it, the ad hands over the second half of the screen as well.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kim-denemeli",
+        text: {
+          tr: "Hangi işletme şimdi denemeli, hangisi beklemeli?",
+          en: "Which businesses should try it now, and which should wait?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret ve tüketiciye satan markalar için cevap: dene, küçük bütçeyle, dönüşüm hedefiyle. Ücretsiz plan ağırlıklı pazar geniş bir kitle demek; ürün feed'iyle çalışan carousel formatı ve dönüşüm optimizasyonlu teklif bu segment için tasarlanmış gibi duruyor. [GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) satışı üç ayda on iki katına çıkaran şey kanal değil, ölçümü onarılmış huniydi; aynı kural burada da geçerli, ölçüm önce, kanal sonra.",
+          en: "For e-commerce and consumer brands the answer is: try it, with a small budget and a conversion objective. A market dominated by the free plan means a wide audience; the product-feed carousel and conversion-optimised bidding look designed for this segment. In [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis), what multiplied sales twelvefold in three months was not a channel but a funnel whose measurement had been repaired; the same rule applies here — measurement first, channel second.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sanayi ve B2B için cevap: önce organik. Karar vericiniz ChatGPT'de araştırma yapıyorsa büyük ihtimalle kurumsal ya da ücretli bir hesaptan yapıyor ve reklamı hiç görmüyor; onu yakalamanın tek yolu cevabın kaynağı olmak. [Meccanotecnica Umbra vakasında](/vakalar/meccanotecnica-umbra-teklif-portali) teklif talebini on katına çıkaran çalışmanın omurgası AI teknik danışman ile dört dilde arama ve cevap motoru görünürlüğüydü; reklam bütçesi değil. Reklam, organik temel kurulduktan sonra ihracat pazarlarında bir erişim katmanı olarak gelebilir.",
+          en: "For industry and B2B the answer is: organic first. If your decision-maker researches in ChatGPT, they most likely do so from a corporate or paid account and never see the ad; the only way to reach them is to be the source of the answer. In [the Meccanotecnica Umbra case](/vakalar/meccanotecnica-umbra-teklif-portali), what multiplied quote requests tenfold was built on an AI technical advisor and search and answer-engine visibility in four languages — not on an ad budget. Ads can come later, as a reach layer in export markets once the organic base is in place.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç koşulu sağlayan işletme bugün başlayabilir:",
+          en: "A business that meets three conditions can start today:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Dönüşüm ölçümü çalışıyor: hedef sayfada pixel ya da Conversions API kurulu, dönüşüm tanımı tek ve net.",
+            en: "Conversion measurement works: the Pixel or the Conversions API is installed on the destination page, and the conversion is defined once and clearly.",
+          },
+          {
+            tr: "Sohbet bağlamına uyan bir teklif var: kullanıcının derdini anlattığı anda mantıklı gelen tek bir ürün ya da hizmet.",
+            en: "There is an offer that fits a conversation: a single product or service that makes sense at the moment the user describes their problem.",
+          },
+          {
+            tr: "Kanalı dört hafta yaşatacak bütçe var: basına göre günlük taban 25 dolar, ama kanalı okumak için anlamlı bir örneklem gerekir.",
+            en: "There is budget to keep the channel alive for four weeks: the daily floor is 25 dollars according to the press, but reading the channel needs a meaningful sample.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçünden biri eksikse beklemek kayıp değil. Kanal yeni ve rakip yoğunluğu düşük; ama ölçülemeyen bir kampanya hiçbir şey öğretmez ve öğretmeyen bütçe, harcanmamış bütçeden pahalıdır.",
+          en: "If one of the three is missing, waiting is not a loss. The channel is new and competition is thin; but a campaign that cannot be measured teaches nothing, and budget that teaches nothing costs more than budget left unspent.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kontrol-listesi",
+        text: {
+          tr: "İlk kampanyada hangi 5 adım atlanmamalı?",
+          en: "Which 5 steps must the first campaign not skip?",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Ölçüm önce: OpenAI Pixel ya da Conversions API hedef sayfaya kurulur, dönüşüm olayı tek ve test edilmiş olur. Ölçümsüz kampanya bütçe değil, veri kaybıdır.",
+            en: "Measurement first: install the OpenAI Pixel or the Conversions API on the destination page, with one conversion event, tested. A campaign without measurement loses data, not just budget.",
+          },
+          {
+            tr: "Özel kitle: mevcut müşteri ve potansiyel listeleri hash'lenmiş e-posta ya da telefonla yüklenir; ilk turu tanıdık bir kitleyle okumak yanılma payını düşürür.",
+            en: "Custom audience: upload existing customer and prospect lists as hashed emails or phone numbers; reading the first round against a familiar audience lowers the margin for error.",
+          },
+          {
+            tr: "Hedef sayfa hızı: reklam sohbetin ortasında tıklanıyor ve yavaş açılan sayfa kullanıcıyı sohbete geri döndürür. Mobil ilk ekran reklamdan önce test edilir.",
+            en: "Destination page speed: the ad is clicked in the middle of a conversation, and a slow page sends the user straight back to it. Test the mobile first screen before the ad goes live.",
+          },
+          {
+            tr: "Ölçüm ayrımı: ChatGPT trafiği GA4'te UTM ile ayrı bir kaynak olarak etiketlenir, Google Ads ve organikle karışmaz; kanalın kendi dönüşüm maliyeti ancak böyle okunur.",
+            en: "Separate measurement: tag ChatGPT traffic as its own source in GA4 with UTM parameters so it does not blend with Google Ads or organic; only then can the channel's own cost per conversion be read.",
+          },
+          {
+            tr: "Dört haftalık bütçe: kanal ilk haftada değil dördüncü haftada okunur. Günlük taban basına göre 25 dolar, ama karar dört haftalık toplam üzerinden verilir.",
+            en: "A four-week budget: the channel is read in week four, not week one. The daily floor is 25 dollars according to the press, but the decision is made on the four-week total.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kapanış tezi başladığımız cümle: ChatGPT reklamı cevabın altında bir alan satıyor, cevabın içindeki yeri satmıyor. İlk alanı kiralamak artık mümkün; ikincisini kazanmak hâlâ içerik işi. Sıra değişmiyor: önce ölçüm, sonra reklam.",
+          en: "The closing thesis is the sentence we opened with: a ChatGPT ad sells a space beneath the answer, not a place inside it. The first can now be rented; the second is still earned with content. The order does not change: measure first, advertise second.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "ChatGPT reklamları Türkiye'de ne zaman başladı?",
+          en: "When did ChatGPT ads start in Turkey?",
+        },
+        answer: {
+          tr: "OpenAI, ChatGPT reklamlarını 17 Eylül 2026'da Türkiye'deki kullanıcılara açtı ve self-servis paneli ads.openai.com/tr-TR adresinde erişime sundu. Türkiye, 9 Şubat 2026'da ABD'de başlayan ve Mart'ta Kanada, Avustralya ve Yeni Zelanda'ya, Ağustos'ta Birleşik Krallık ve 31 Avrupa ülkesine, Eylül başında Hindistan, Orta Doğu ve Kuzey Afrika'ya genişleyen takvimin son durağı oldu.",
+          en: "OpenAI opened ChatGPT ads to users in Turkey on 17 September 2026 and made the self-serve panel available at ads.openai.com/tr-TR. Turkey is the latest stop on a rollout that began in the United States on 9 February 2026, reached Canada, Australia and New Zealand in March, the United Kingdom and 31 European countries in August, and India, the Middle East and North Africa in early September.",
+        },
+      },
+      {
+        question: {
+          tr: "ChatGPT Plus kullanıcıları reklam görüyor mu?",
+          en: "Do ChatGPT Plus users see ads?",
+        },
+        answer: {
+          tr: "Hayır. Reklam yalnız Free ve Go planlarındaki kullanıcılara gösteriliyor; Plus, Pro, Business, Enterprise ve Education planları reklamsız kalıyor. 18 yaş altı olan ya da reşit olmadığı tahmin edilen hesaplara da reklam gösterilmiyor. Ödeyen kullanıcıya ulaşmanın tek yolu reklam değil, cevabın içinde kaynak olarak anılmak; yazının GEO bölümü bu ayrımı ele alıyor.",
+          en: "No. Ads are shown only to users on the Free and Go plans; Plus, Pro, Business, Enterprise and Education stay ad-free. Accounts belonging to users under 18, or estimated to be minors, are not shown ads either. The only way to reach the paying user is not an ad but being named as a source inside the answer, which the GEO section of this article addresses.",
+        },
+      },
+      {
+        question: {
+          tr: "ChatGPT'de reklam vermek için minimum bütçe ne kadar?",
+          en: "What is the minimum budget for advertising in ChatGPT?",
+        },
+        answer: {
+          tr: "Türkiye basınına göre günlük minimum bütçe 25 dolar; OpenAI'nin kendi metninde bu rakam geçmiyor. OpenAI'nin açıkladığı tek maliyet bilgisi bir teşvik: yeni reklamverene 500 dolar harcayana 500 dolar kredi veriliyor. Fiyatlama CPM ve CPC üzerinden işliyor, dönüşüm hedefli kampanyalarda dönüşüm optimizasyonlu teklif de sunuluyor. Kanalı okumak için bütçe en az dört hafta yaşatılmalı.",
+          en: "According to the Turkish press the minimum daily budget is 25 dollars; the figure does not appear in OpenAI's own text. The only cost information OpenAI has published is an incentive: new advertisers who spend 500 dollars receive 500 dollars in credit. Pricing runs on CPM and CPC, and conversion campaigns can use conversion-optimised bidding. To read the channel at all, the budget should be kept alive for at least four weeks.",
+        },
+      },
+      {
+        question: {
+          tr: "ChatGPT reklamları hangi formatlarda çıkıyor?",
+          en: "What formats do ChatGPT ads come in?",
+        },
+        answer: {
+          tr: "Reklam cevabın altında, sponsorlu etiketiyle ve cevaptan görsel olarak ayrı bir alanda çıkıyor. Temel format görsel, başlık ve hedef bağlantıdan oluşuyor; ürün feed'inden beslenen carousel formatı da var ve birden çok ürünü aynı reklamda gösteriyor. Video formatı Türkiye basınına göre henüz sunulmuyor. Reklam cevabın metnine karışmıyor; OpenAI reklamların cevapları etkilemediğini taahhüt ediyor.",
+          en: "The ad appears beneath the answer, with a sponsored label, in an area visually separate from the answer. The basic format is an image, a headline and a destination link; a carousel format fed from a product feed also exists and shows several products in one ad. A video format is not yet offered, according to the Turkish press. The ad does not blend into the answer text, and OpenAI commits that ads do not influence answers.",
+        },
+      },
+      {
+        question: {
+          tr: "ChatGPT reklamlarında hedefleme nasıl yapılıyor?",
+          en: "How does targeting work in ChatGPT ads?",
+        },
+        answer: {
+          tr: "Reklamveren tarafında iki katman var: ülke ve cihaz seçimi ile hash'lenmiş e-posta ya da telefon listesinden kurulan özel kitle (custom audience). İlgi alanı hedeflemesi OpenAI'nin saydığı katmanlar arasında yok. Asıl eşleşmeyi OpenAI'nin sistemi yapıyor ve dört sinyal kullanıyor: sohbetin konusu, geçmiş sohbetler, önceki reklam etkileşimleri ve hafıza verisi. Reklamveren bu sinyalleri görmüyor; yalnız gösterim ve tıklama gibi toplu metrikler alıyor.",
+          en: "On the advertiser's side there are two layers: country and device selection, and a custom audience built from a hashed email or phone list. Interest targeting is not among the layers OpenAI lists. The actual matching is done by OpenAI's system using four signals: the topic of the conversation, past conversations, previous ad interactions and memory data. The advertiser does not see those signals; they receive only aggregate metrics such as impressions and clicks.",
+        },
+      },
+      {
+        question: {
+          tr: "ChatGPT reklam dönüşümleri nasıl ölçülür?",
+          en: "How are ChatGPT ad conversions measured?",
+        },
+        answer: {
+          tr: "OpenAI üç ölçüm yolu sunuyor: hedef sayfaya kurulan OpenAI Pixel, sunucu tarafından dönüşüm gönderen Conversions API ve üçüncü taraf ölçüm entegrasyonları. Kampanyadan önce kurulmaları gerekir; sonradan kurulan ölçüm ilk haftaları kaybettirir. Kendi analitiğinizde ChatGPT trafiğini UTM ile ayrı bir kaynak olarak etiketlemek de şart, yoksa kanalın dönüşüm maliyeti Google Ads ve organikle karışır.",
+          en: "OpenAI offers three measurement routes: the OpenAI Pixel installed on the destination page, a Conversions API that sends conversions server-side, and third-party measurement integrations. They need to be in place before the campaign starts; measurement installed afterwards loses the first weeks. Tagging ChatGPT traffic as its own source with UTM parameters in your own analytics is also essential, otherwise the channel's cost per conversion blends with Google Ads and organic.",
+        },
+      },
+      {
+        question: {
+          tr: "Reklam verirsem ChatGPT markamı cevabında önerir mi?",
+          en: "If I advertise, will ChatGPT recommend my brand in its answer?",
+        },
+        answer: {
+          tr: "Hayır. OpenAI'nin taahhüdü açık: reklamlar ChatGPT'nin verdiği cevapları etkilemiyor ve reklamverenin cevabı şekillendirme imkânı yok. Reklam cevabın altındaki ayrı alanda yaşıyor. Cevabın içinde kaynak ya da öneri olarak anılmak, üretken motor optimizasyonu (GEO) denen ayrı bir işin sonucu ve içerikle kazanılıyor; yapay zeka aramalarında öne çıkma rehberimiz o yöntemi anlatıyor.",
+          en: "No. OpenAI's commitment is explicit: ads do not influence the answers ChatGPT gives, and advertisers have no way to shape them. The ad lives in a separate area beneath the answer. Being named as a source or a recommendation inside the answer is the result of a different discipline, generative engine optimization (GEO), and it is earned with content; our guide to standing out in AI search explains that method.",
+        },
+      },
+      {
+        question: {
+          tr: "Hangi konularda ChatGPT reklamı çıkmıyor?",
+          en: "Which topics never show ChatGPT ads?",
+        },
+        answer: {
+          tr: "OpenAI sağlık, ruh sağlığı ve siyaset gibi hassas konuların yanında reklam göstermiyor. Buna ek olarak 18 yaş altı olan ya da reşit olmadığı tahmin edilen hesaplara ve Plus, Pro, Business, Enterprise, Education gibi ücretli planlara hiç reklam çıkmıyor. Sağlık ürünü ya da hizmeti satan markalar için bu dışlama, kanalın kendileri için kapalı olabileceği anlamına gelir; organik görünürlük bu sınırdan etkilenmez.",
+          en: "OpenAI does not show ads next to sensitive topics such as health, mental health and politics. Beyond that, no ads appear for accounts belonging to users under 18 or estimated to be minors, nor on paid plans such as Plus, Pro, Business, Enterprise and Education. For brands selling health products or services the exclusion may mean the channel is closed to them; organic visibility is not affected by that boundary.",
+        },
+      },
+      {
+        question: {
+          tr: "Kullanıcılar ChatGPT reklamlarını kapatabilir mi?",
+          en: "Can users turn ChatGPT ads off?",
+        },
+        answer: {
+          tr: "Ücretsiz planda reklamı tümden kapatmanın yolu ücretli plana geçmek; Plus ve üstü planlar reklamsız. Ücretsiz kullanıcının elinde dört kontrol var: tek bir reklamı kapatmak, \"neden bu reklam\" diye sormak, reklam verisini silmek ve kişiselleştirmeyi kapatmak. Kişiselleştirmeyi kapatmak planı reklamsız yapmaz; OpenAI'nin metnine göre reklamsız deneyim yalnız ücretli planlarda, ücretsiz kullanıcı için kontroller reklamın hangi veriyle seçildiğini sınırlar.",
+          en: "On the free plan the only way to remove ads entirely is to move to a paid plan; Plus and above are ad-free. The free user has four controls: dismissing a single ad, asking \"why this ad\", deleting ad data and switching personalisation off. Switching personalisation off does not make the plan ad-free; according to OpenAI's text the ad-free experience exists only on paid plans, and for the free user the controls limit which data an ad is selected with.",
+        },
+      },
+      {
+        question: {
+          tr: "Google Ads bütçesini ChatGPT reklamlarına kaydırmalı mıyım?",
+          en: "Should I move Google Ads budget into ChatGPT ads?",
+        },
+        answer: {
+          tr: "Kaydırmak değil, eklemek doğru çerçeve. Google Ads anahtar kelimeye teklif verir ve karar anına yakın çalışır; ChatGPT reklamı sohbet bağlamına eşleşir ve kararın olgunlaştığı araştırma evresini yakalar. İkisi aynı işi yapmıyor. Küçük bir dönüşüm hedefli kampanyayla dört hafta test edip kanalın kendi dönüşüm maliyetini okumak, sonra bütçe kararını vermek daha güvenli bir yol.",
+          en: "Adding, not moving, is the right frame. Google Ads bids on keywords and works close to the moment of decision; ChatGPT ads match conversation context and catch the research stage in which the decision matures. The two do not do the same job. A safer path is to test with a small conversion-objective campaign for four weeks, read the channel's own cost per conversion, and only then decide on budget.",
+        },
+      },
+      {
+        question: {
+          tr: "Sessiz atıf ne demek?",
+          en: "What is a silent citation?",
+        },
+        answer: {
+          tr: "Sessiz atıf, markanızın cevap metninde anılmadığı ama sayfanızın cevabın kaynak listesinde göründüğü durum. Okur kaynağı görmeden geçebilir; yine de sayfanız modelin kaynak havuzuna girmiştir ve bu, bir sonraki cevapta adıyla anılmanın ön koşuludur. Reklam bu havuza hiçbir şey eklemez; sayfanın cevap motorları için okunabilirliğini GEO Görünürlük Denetleyicisi ile birkaç dakikada ölçebilirsiniz.",
+          en: "A silent citation is the situation in which your brand is not named in the answer text but your page appears in the answer's source list. The reader may scroll past it; even so, your page has entered the model's source pool, and that is the precondition for being named in the next answer. An ad adds nothing to that pool; you can measure how readable your page is for answer engines in a few minutes with the GEO Visibility Checker.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "geo",
+    tags: ["chatgpt-reklamlari", "openai-ads", "geo", "ai-reklam"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-18",
+    readingMinutes: 15,
+    seo: {
+      title: {
+        tr: "ChatGPT reklamları: nasıl çalışır, kim görür",
+        en: "ChatGPT ads: how they work, who sees them",
+      },
+      description: {
+        tr: "ChatGPT reklamları 17 Eylül 2026'dan beri Türkiye'de. Kim görüyor, nerede çıkıyor, neye mal oluyor ve cevabın içine giren organik görünürlükten farkı ne?",
+        en: "ChatGPT ads reached Turkey on 17 September 2026. Who sees them, where they appear, what they cost, and how they differ from organic visibility (GEO).",
+      },
+    },
+  },
 ];
 
 export function getArticleBySlug(

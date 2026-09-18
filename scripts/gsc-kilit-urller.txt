@@ -1,0 +1,80 @@
+# INDOLES — GSC URL Inspection kilit listesi
+#
+# `scripts/gsc-inspect.mjs`'in varsayılan girdisi. Satır başına bir URL;
+# `#` ile başlayan satırlar ve boş satırlar atlanır.
+#
+# Kapsam: ticari değeri en yüksek ve indekslenmesi kritik yüzeyler.
+#   - Hizmet sayfaları (hub + 12 hizmet, TR ve EN) — 26 URL
+#   - Vaka hub'ı + 9 vaka (TR) — 10 URL
+#   - Araç hub'ı + 2 araç (TR) — 3 URL
+#   - /tr/paketler · /tr/hakkimizda — 2 URL
+#   - Launch sonrası yazılar (publishedAt >= 2026-08-28, TR) — 11 URL
+# Toplam 52 URL. URL Inspection kotası 2.000/gün — haftalık tarama için bol.
+#
+# Not: görev tanımı "16 TR + 16 EN hizmet sayfası" ve "9 yazı" diyordu.
+# Depodaki gerçek envanter 12 hizmet (+1 hub) ve 11 launch sonrası yazı
+# (18 Eylül'de iki yazı daha yayımlandı). Liste envantere göre yazıldı.
+
+# --- Hizmetler TR ---
+https://www.indoles.com.tr/tr/hizmetler
+https://www.indoles.com.tr/tr/hizmetler/marka-stratejisi
+https://www.indoles.com.tr/tr/hizmetler/performans-pazarlama
+https://www.indoles.com.tr/tr/hizmetler/cro
+https://www.indoles.com.tr/tr/hizmetler/e-ticaret
+https://www.indoles.com.tr/tr/hizmetler/ui-ux-tasarim
+https://www.indoles.com.tr/tr/hizmetler/ai-danismanlik
+https://www.indoles.com.tr/tr/hizmetler/dijital-donusum
+https://www.indoles.com.tr/tr/hizmetler/is-otomasyonlari
+https://www.indoles.com.tr/tr/hizmetler/is-zekasi
+https://www.indoles.com.tr/tr/hizmetler/isletme-muhendisligi
+https://www.indoles.com.tr/tr/hizmetler/ozel-yazilim-ve-mobil
+https://www.indoles.com.tr/tr/hizmetler/teknoloji-ve-altyapi
+
+# --- Hizmetler EN ---
+https://www.indoles.com.tr/en/services
+https://www.indoles.com.tr/en/services/brand-strategy
+https://www.indoles.com.tr/en/services/performance-marketing
+https://www.indoles.com.tr/en/services/cro
+https://www.indoles.com.tr/en/services/e-commerce
+https://www.indoles.com.tr/en/services/ui-ux-design
+https://www.indoles.com.tr/en/services/ai-consulting
+https://www.indoles.com.tr/en/services/digital-transformation
+https://www.indoles.com.tr/en/services/business-automation
+https://www.indoles.com.tr/en/services/business-intelligence
+https://www.indoles.com.tr/en/services/business-engineering
+https://www.indoles.com.tr/en/services/custom-software-development
+https://www.indoles.com.tr/en/services/technology-infrastructure
+
+# --- Vakalar TR ---
+https://www.indoles.com.tr/tr/vakalar
+https://www.indoles.com.tr/tr/vakalar/soylu-avm-e-ticaret-buyume
+https://www.indoles.com.tr/tr/vakalar/gymwolves-12-kat-satis
+https://www.indoles.com.tr/tr/vakalar/mkcomputer-dropshipping-otomasyonu
+https://www.indoles.com.tr/tr/vakalar/istanbul-ortez-protez-arama-gorunurlugu
+https://www.indoles.com.tr/tr/vakalar/fyr-luks-dekorasyon-lansmani
+https://www.indoles.com.tr/tr/vakalar/feruza-luks-perakende-anlasmasi
+https://www.indoles.com.tr/tr/vakalar/sim-baski-ihracat-icerigi
+https://www.indoles.com.tr/tr/vakalar/meccanotecnica-umbra-teklif-portali
+https://www.indoles.com.tr/tr/vakalar/odorgo-kategori-yaratma
+
+# --- Araçlar TR ---
+https://www.indoles.com.tr/tr/araclar
+https://www.indoles.com.tr/tr/araclar/geo-gorunurluk-denetleyicisi
+https://www.indoles.com.tr/tr/araclar/diagnoo
+
+# --- Diğer kilit sayfalar ---
+https://www.indoles.com.tr/tr/paketler
+https://www.indoles.com.tr/tr/hakkimizda
+
+# --- Launch sonrası yazılar (TR) ---
+https://www.indoles.com.tr/tr/yazilar/ai-donusumu-nedir
+https://www.indoles.com.tr/tr/yazilar/ai-danismani-secerken-sorulacak-12-soru
+https://www.indoles.com.tr/tr/yazilar/google-ai-overviews-da-yer-almak
+https://www.indoles.com.tr/tr/yazilar/llms-txt-nedir
+https://www.indoles.com.tr/tr/yazilar/cro-nedir
+https://www.indoles.com.tr/tr/yazilar/cro-ajansi-nasil-secilir
+https://www.indoles.com.tr/tr/yazilar/is-gelistirme-studyosu-nedir
+https://www.indoles.com.tr/tr/yazilar/turkiyenin-ilk-geo-denetim-araci
+https://www.indoles.com.tr/tr/yazilar/e-ticaret-gap-analizi-cro-denetimi
+https://www.indoles.com.tr/tr/yazilar/chatgpt-reklamlari-turkiye
+https://www.indoles.com.tr/tr/yazilar/donusum-orani-nasil-artirilir-21-taktik

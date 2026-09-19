@@ -164,7 +164,16 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "ss01", "cv11";
-    overflow-x: hidden;
+    /* `hidden` DEĞİL `clip`: `overflow-x: hidden`, diğer eksenin hesaplanmış
+       değerini `visible`dan `auto`ya çevirir ve body'yi bir scroll container
+       yapar. html'de `overflow-x: clip` olduğu için body'nin taşması artık
+       viewport'a da propagate edilmiyor — yani body kendi başına scrollport
+       oluyor, ama içerik yüksekliği kadar uzun olduğu için hiç kaydırılmıyor.
+       Sonuç: içindeki tüm `position: sticky` elemanlar (hizmet track'i, vaka
+       bloğu, referans etiketi) hiç pinlenmiyor; pinli bölümler yalnızca
+       yükseklik olarak kalıp boş kayıyordu. `clip` aynı yatay kesmeyi scroll
+       mekanizması yaratmadan yapar — html'deki gerekçenin aynısı. */
+    overflow-x: clip;
   }
 
   /* Başlık ağırlığı 600'dür — 700 Lexend'de fazla kalın duruyor, 500 ise
@@ -475,7 +484,9 @@ html[data-iframe="true"] main {
 }
 
 html[data-iframe="true"] body {
-  overflow-x: hidden;
+  /* Base'teki gerekçenin aynısı: `hidden` body'yi scrollport yapıp sticky'yi
+     öldürür, `clip` yalnız keser. */
+  overflow-x: clip;
 }
 
 /* ============================================================================

@@ -82,16 +82,11 @@ export function CustomCursor() {
     <div
       ref={dotRef}
       aria-hidden="true"
-      // z-60: dialog portal'ı z-50'de; cursor onun altında kalırsa popup içinde
-      // fare tamamen kaybolur (`cursor:none` global). Katman sözleşmesi v2.css'te.
-      // Beyaz + `difference`: nokta zeminin tersini alır. Sabit `bg-ink-900`
-      // koyu yüzeylerde (siyah topbar, footer) siyah üstüne siyah kalıyor ve
-      // imleç tamamen kayboluyordu. Fark harmanı açık zeminde koyu, koyu
-      // zeminde açık nokta üretir; yeni koyu bölüm eklendikçe bakım da
-      // gerektirmez. Opaklıklar (0.7 / hover 0.25) korunuyor — yumuşak nokta
-      // ve hover'da büyüyüp silikleşme davranışı aynı kalsın.
-      className="pointer-events-none fixed left-0 top-0 z-60 rounded-full bg-white will-change-transform"
+      // z-[9999] / zIndex 9999: Custom cursor sanal işaretçidir; çerez şeridi,
+      // diyalog ve tüm katmanların daima üzerinde kalmalıdır.
+      className="pointer-events-none fixed left-0 top-0 z-[9999] rounded-full bg-white will-change-transform"
       style={{
+        zIndex: 9999,
         mixBlendMode: "difference",
         width: size,
         height: size,

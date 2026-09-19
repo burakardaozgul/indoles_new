@@ -385,9 +385,10 @@ export function BenchmarkRows({
  *
  * Adlar `src/lib/content/services/*`teki `name` alanlarının kopyasıdır;
  * orada bir hizmet adı değişirse burası elle hizalanır (en son 2026-09-19,
- * CRO H1 kararı).
+ * CRO H1 kararı). Kopyanın kayması `tests/unit/diagnoo-related-services.test.ts`
+ * ile yakalanır — test `SERVICES`i içeri alır, bileşen almaz.
  */
-const RELATED_SERVICES = [
+export const RELATED_SERVICES = [
   {
     slug: "cro",
     path: { tr: "/hizmetler/cro", en: "/hizmetler/cro" },

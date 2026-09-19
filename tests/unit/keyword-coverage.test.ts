@@ -91,13 +91,43 @@ describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
     // `\b` KULLANILMAZ: JavaScript'in kelime sınırı `\w` = [A-Za-z0-9_]
     // tanımına dayanıyor ve `ı`, `ş`, `ğ` bu kümede değil. `/\bajansı\b/`
     // hiçbir zaman eşleşmiyor — bu test önce sessizce geçiyordu.
+    //
+    // TEK İSTİSNA — `cro` kaydının `seo.title`ı (Burak, 2026-09-18,
+    // "bu seferlik"; strateji v1.16). Gerekçe: "cro ajansı" P0 müşteri
+    // kelimesi ve rakip eşiği Poligon Interactive'in birebir "CRO Ajansı"
+    // taşıyan title'ı (`docs/strateji/Rakip-Analizi-P0-SERP.md` §4) —
+    // başlıkta kelimeyi taşımayan bir sonuç o SERP'te tıklama dilinde
+    // geride kalıyordu. İstisna yalnız bu sayfa ve yalnız `seo.title`
+    // yüzeyi içindir; `name` yasağı 12 hizmetin 12'sinde sürer, diğer 11
+    // hizmetin `seo.title`ında da sürer.
     for (const s of SERVICES) {
-      for (const surface of [s.name.tr, s.seo.title.tr]) {
+      const exemptTitle = s.slug.tr === "cro";
+      const surfaces: Array<[label: string, value: string]> = [
+        ["name.tr", s.name.tr],
+        ...(exemptTitle
+          ? []
+          : ([["seo.title.tr", s.seo.title.tr]] as Array<[string, string]>)),
+      ];
+      for (const [field, surface] of surfaces) {
         const n = norm(surface);
-        expect(n.includes("ajansi"), `${s.slug.tr}: "${surface}"`).toBe(false);
-        expect(n.includes("firmalari"), `${s.slug.tr}: "${surface}"`).toBe(false);
+        expect(n.includes("ajansi"), `${s.slug.tr} ${field}: "${surface}"`).toBe(
+          false,
+        );
+        expect(
+          n.includes("firmalari"),
+          `${s.slug.tr} ${field}: "${surface}"`,
+        ).toBe(false);
       }
     }
+  });
+
+  it("cro istisnası gerçekten kullanılıyor — başlık hedef kelimeyi taşıyor", () => {
+    // İstisna ölü kalırsa kural fiilen eskisi gibi çalışır ve istisnanın
+    // neden açıldığı kaybolur. Bu test istisnanın karşılığını dondurur:
+    // kelime başlıkta duruyor ve H1 hâlâ temiz.
+    const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
+    expect(norm(cro.seo.title.tr)).toContain(norm("cro ajansı"));
+    expect(norm(cro.name.tr).includes("ajansi")).toBe(false);
   });
 
   it("her karşı-konumlandırma sorusu bir farkı tanımlıyor", () => {
@@ -204,11 +234,32 @@ describe("EN keyword yerleşimi (strateji §2.0 karar 6, docs/19 C-13)", () => {
     // hiçbirinde name.en/seo.title.en içinde "agency" yok — kelime yalnız
     // SSS'lerde (karşı-konumlandırma veya üçüncü taraf tanımı olarak)
     // geçiyor. Bu test o durumu dondurur.
+    //
+    // TEK İSTİSNA — `cro` kaydının `seo.title.en`i: TR istisnasının EN
+    // eşleniği (Burak, 2026-09-18; strateji v1.16). İki dilde aynı başlık
+    // kalıbı kullanılıyor, kural ikisinde de yalnız bu sayfanın arama
+    // başlığı için esniyor; `name.en` yasağı 12 hizmetin 12'sinde sürer.
     for (const s of SERVICES) {
-      for (const surface of [s.name.en, s.seo.title.en]) {
-        expect(norm(surface).includes("agency"), `${s.slug.tr}: "${surface}"`).toBe(false);
+      const exemptTitle = s.slug.tr === "cro";
+      const surfaces: Array<[label: string, value: string]> = [
+        ["name.en", s.name.en],
+        ...(exemptTitle
+          ? []
+          : ([["seo.title.en", s.seo.title.en]] as Array<[string, string]>)),
+      ];
+      for (const [field, surface] of surfaces) {
+        expect(
+          norm(surface).includes("agency"),
+          `${s.slug.tr} ${field}: "${surface}"`,
+        ).toBe(false);
       }
     }
+  });
+
+  it("cro EN istisnası gerçekten kullanılıyor", () => {
+    const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
+    expect(norm(cro.seo.title.en)).toContain(norm("cro agency"));
+    expect(norm(cro.name.en).includes("agency")).toBe(false);
   });
 });
 

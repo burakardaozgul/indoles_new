@@ -389,14 +389,19 @@ export const cro: ServiceContent = {
 
   seo: {
     /**
-     * Tam sorgu biçimi ("dönüşüm oranı optimizasyonu") başa alındı; kısaltma
-     * arkaya düştü. "CRO ajansı" başlığa GİRMEZ: `ajansı`/`firmaları` ailesi
-     * `name` ve `seo.title` yüzeylerinde yasaklı (strateji v1.4 karar 3,
-     * `keyword-coverage.test.ts`). O kelime lede, açıklama ve SSS'te yaşar.
+     * Hedef kelime ("cro ajansı") başlığa GİRER — bu sayfaya özel istisna
+     * (Burak, 2026-09-18, "bu seferlik"; strateji v1.16).
+     *
+     * Genel kural değişmedi: `ajansı`/`firmaları` ailesi `name` ve `seo.title`
+     * yüzeylerinde yasaklı (v1.4 karar 3, `keyword-coverage.test.ts`). İstisna
+     * yalnız `cro` kaydının `seo.title`ı için açıldı; gerekçe iki tane:
+     * kelime P0 müşteri kelimesi ve rakip eşiği Poligon Interactive'in
+     * birebir "CRO Ajansı" taşıyan title'ı (`Rakip-Analizi-P0-SERP.md` §4).
+     * H1 (`name`) DEĞİŞMEZ — kendimizi sayfada "ajans" diye adlandırmıyoruz.
      */
     title: {
-      tr: "Dönüşüm oranı optimizasyonu — CRO",
-      en: "Conversion rate optimisation — CRO",
+      tr: "CRO ajansı: dönüşüm oranı optimizasyonu",
+      en: "CRO agency: conversion rate optimisation",
     },
     description: {
       tr: "Bir CRO ajansından beklenen tek şey ölçülmüş artıştır. Dönüşüm oranı optimizasyonunda sepet terk ve form vazgeçme noktaları ölçülür, A/B testiyle düzeltilir.",
@@ -421,6 +426,22 @@ export const cro: ServiceContent = {
       ],
     },
   },
+
+  /**
+   * Kanıt şeridinin iki vakası elle seçildi (Burak kararı, 2026-09-18).
+   *
+   * İkisi de künyesinde `cro` taşır, yani otomatik eşleme de ikisini bulurdu;
+   * seçimin yaptığı iş sıralamayı ve üçüncü adayı belirlemek. GYMWOLVES
+   * dönüşüm hunisinin yeniden kurulmasının rakamı (12× satış), OdorGo ise
+   * tüketiciye satan bir e-ticaret markasında ciro metriğiyle duruyor —
+   * ikisi birlikte CRO alıcısının iki sorusunu (oran ve ciro) karşılıyor.
+   *
+   * Künyede `cro` taşıyan üçüncü vaka MKComputer bilinçli olarak dışarıda:
+   * anlatısı stok/fiyat senkronu ve sipariş otomasyonu, yani kanıtı CRO
+   * kanıtı değil. Künye doğru (arayüz ve CRO işi yapıldı), kanıt anlatısı
+   * bu sayfaya uymuyor.
+   */
+  featuredCaseSlugs: ["gymwolves-12-kat-satis", "odorgo-kategori-yaratma"],
 
   relatedPackages: ["buyume-sprinti"],
   relatedServices: ["performans-pazarlama", "e-ticaret", "ui-ux-tasarim"],

@@ -5,6 +5,7 @@ import {
   getService,
   getServicesByPillar,
 } from "@/lib/content/services";
+import { CASES } from "@/lib/content/cases";
 import { PILLARS } from "@/lib/content/pillars";
 
 const LOCALES = ["tr", "en"] as const;
@@ -111,6 +112,25 @@ describe("SERVICES bütünlüğü", () => {
   it("pillar'ı bilinen bir pillar'dır", () => {
     const keys = PILLARS.map((p) => p.key);
     for (const s of SERVICES) expect(keys).toContain(s.pillar);
+  });
+
+  it("her featuredCaseSlugs kaydı CASES'te var", () => {
+    // Elle seçilen kanıt vakası (`ServiceContent.featuredCaseSlugs`) TR vaka
+    // slug'ı tutar. Vaka yeniden adlandırılır veya kaldırılırsa seçim sessizce
+    // düşer ve şerit otomatik eşlemeye kayar — kayıp burada görünür olsun.
+    const known = new Set(CASES.map((c) => c.slug.tr));
+    for (const s of SERVICES) {
+      for (const slug of s.featuredCaseSlugs ?? []) {
+        expect(known, `${s.slug.tr} → "${slug}" CASES'te yok`).toContain(slug);
+      }
+    }
+  });
+
+  it("featuredCaseSlugs kendi içinde tekrar etmez", () => {
+    for (const s of SERVICES) {
+      const slugs = s.featuredCaseSlugs ?? [];
+      expect(new Set(slugs).size, `${s.slug.tr}`).toBe(slugs.length);
+    }
   });
 });
 

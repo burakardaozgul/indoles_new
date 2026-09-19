@@ -549,6 +549,21 @@ export type ServiceContent = {
     entities: Localized<string[]>;
   };
 
+  /**
+   * Kanıt şeridinde öne çıkarılacak vakalar — TR vaka slug'ı, sıra anlamlıdır.
+   *
+   * Dolu olduğunda şeridin sırası bu listeyi izler; liste iki vakayı
+   * doldurmuyorsa kalan yer otomatik eşlemeyle (künye, sonra pillar)
+   * tamamlanır — `relatedCasesForService`. Alan boşsa seçim tümüyle
+   * otomatiktir; bugün yalnız `cro` dolduruyor.
+   *
+   * Elle seçimin gerekçesi künye ile kanıt anlatısının ayrışabilmesi: bir
+   * vaka künyesinde hizmeti taşıyabilir ama ölçülmüş sonucu başka bir işin
+   * sonucu olabilir (`cro.ts`teki MKComputer notu). Bilinmeyen slug
+   * `services-content.test.ts` ile yakalanır — sessizce boş kalmaz.
+   */
+  featuredCaseSlugs?: string[];
+
   /** Paket slug'ı (TR). Boşsa pillar eşlemesine düşülür. */
   relatedPackages: string[];
   /** Komşu hizmet slug'ı (TR), 3 adet. */

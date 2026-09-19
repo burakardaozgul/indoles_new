@@ -69,6 +69,9 @@ const COPY = {
     relatedPackages: "Bu hizmete giriş paketi",
     relatedCase: "İlgili vaka çalışması",
     caseProof: "Bu işin sonucu",
+    /* Şerit iki vaka basabiliyor (Burak, 2026-09-18); tekil başlık iki
+       müşterinin işini tek işmiş gibi gösteriyordu. */
+    caseProofPlural: "Bu işlerin sonucu",
     caseProofSource: "Kaynak",
     relatedServices: "Komşu hizmetler",
     relatedArticles: "İlgili yazılar",
@@ -103,6 +106,9 @@ const COPY = {
     relatedPackages: "The entry package for this service",
     relatedCase: "Related case study",
     caseProof: "What the work produced",
+    /* İngilizce'de "work" sayılamaz olduğu için çoğul biçim aynı cümledir;
+       anahtar yine de ayrı duruyor, TR ile aynı çağrı noktası kullanılsın. */
+    caseProofPlural: "What the work produced",
     caseProofSource: "Source",
     relatedServices: "Neighbouring services",
     relatedArticles: "Related reading",
@@ -189,7 +195,7 @@ export function relatedArticlesForService(
 }
 
 /**
- * İlgili vaka çalışması — künye (`serviceSlugs`) birincil, pillar fallback
+ * İlgili vaka çalışmaları — künye (`serviceSlugs`) birincil, pillar fallback
  * (denetim bulgusu C-03).
  *
  * Eski kural `CASES.find((c) => c.pillar === service.pillar)` idi: dizideki
@@ -212,18 +218,54 @@ export function relatedArticlesForService(
  * kanıt şeridini tümden kaybeder.
  *
  * Birden fazla vaka aynı hizmeti künyesinde taşırsa (ör. `performans-
- * pazarlama` beş vakada geçer) dizideki ilk eşleşme seçilir — `CASES`
- * sırası sabit olduğu için sonuç build'ler arasında değişmez, rastgelelik
- * yoktur.
+ * pazarlama` beş vakada geçer) `CASES` sırası belirler — dizi sabit olduğu
+ * için sonuç build'ler arasında değişmez, rastgelelik yoktur.
+ *
+ * Şerit 2026-09-18'de tek vakadan iki vakaya çıktı (Burak kararı): hizmet
+ * sayfası tek bir müşteriyle değil, tekrar eden bir sonuçla konuşuyor. Sıra
+ * üç katmanlı:
+ *
+ * 1. `featuredCaseSlugs` — elle seçim, verilen sırayla (bugün yalnız `cro`).
+ * 2. Künye eşleşmesi — `serviceSlugs` bu hizmeti taşıyan vakalar, `CASES`
+ *    sırasıyla.
+ * 3. Pillar eşleşmesi — yalnız ilk iki katman `limit`i doldurmazsa.
+ *
+ * Tekrar yok: bir vaka listeye bir kez girer. Katmanların hiçbiri vaka
+ * bulamazsa dizi boş döner; `ServiceDetail` o durumda kanıt şeridini hiç
+ * basmaz. Pillar fallback'i kaldırılmaz — künyesinde bu hizmeti taşıyan
+ * vakası olmayan dört hizmet (`dijital-donusum`, `is-zekasi`,
+ * `isletme-muhendisligi`, `teknoloji-ve-altyapi`) kanıt şeridini tümden
+ * kaybederdi.
+ *
+ * `limit` 2'ye tamamlanmayabilir: bir pillar'da tek vaka varsa (bugün
+ * `transform`) şerit tek kartla basılır — düzen bunu kaldırır.
  */
-export function relatedCaseForService(
+export function relatedCasesForService(
   serviceSlugTr: string,
   pillar: Pillar,
-): CaseStudyContent | undefined {
-  return (
-    CASES.find((c) => c.serviceSlugs?.includes(serviceSlugTr)) ??
-    CASES.find((c) => c.pillar === pillar)
-  );
+  limit = 2,
+  featuredCaseSlugs: readonly string[] = [],
+): CaseStudyContent[] {
+  const picked: CaseStudyContent[] = [];
+
+  const add = (c: CaseStudyContent | undefined) => {
+    if (!c) return;
+    if (picked.length >= limit) return;
+    if (picked.some((p) => p.slug.tr === c.slug.tr)) return;
+    picked.push(c);
+  };
+
+  for (const slug of featuredCaseSlugs) {
+    add(CASES.find((c) => c.slug.tr === slug));
+  }
+  for (const c of CASES) {
+    if (c.serviceSlugs?.includes(serviceSlugTr)) add(c);
+  }
+  for (const c of CASES) {
+    if (c.pillar === pillar) add(c);
+  }
+
+  return picked;
 }
 
 /**
@@ -263,14 +305,37 @@ export function ServiceDetail({
       ? PACKAGES.filter((p) => service.relatedPackages.includes(p.slug.tr))
       : PACKAGES.filter((p) => p.pillar === service.pillar);
 
-  const relatedCase = relatedCaseForService(service.slug.tr, service.pillar);
+  const relatedCases = relatedCasesForService(
+    service.slug.tr,
+    service.pillar,
+    2,
+    service.featuredCaseSlugs ?? [],
+  );
 
   /**
-   * Vakanın ölçülmüş sonucundan en fazla üçü hizmet sayfasının gövdesine
-   * girer (denetim bulgusu K-02). Metriksiz vaka — dizi boş olabilir —
-   * eski metin bağlantılı hâle düşer; rakam uydurulmaz (ADR-018).
+   * Her vakanın ölçülmüş sonucundan en fazla üçü hizmet sayfasının gövdesine
+   * girer (denetim bulgusu K-02). Metriksiz vaka şeride hiç girmez; rakam
+   * uydurulmaz (ADR-018). Bugün yalnız Feruza metriksiz.
    */
-  const caseProofMetrics = (relatedCase?.metrics ?? []).slice(0, 3);
+  const caseProofCards = relatedCases
+    .filter((c) => c.metrics.length > 0)
+    .map((c) => ({
+      lead: c.lead[locale],
+      clientName: c.clientName[locale],
+      caseTitle: c.title[locale],
+      href: localizedHref(locale, "cases", c.slug[locale]),
+      metrics: c.metrics.slice(0, 3).map((m) => ({
+        value: m.value[locale],
+        label: m.label[locale],
+        ...(m.context ? { context: m.context[locale] } : {}),
+      })),
+    }));
+
+  /**
+   * Seçilen vakaların hiçbirinde metrik yoksa eski metin bağlantılı hâle
+   * düşülür — şerit "Bu işin sonucu" başlığını rakamsız taşımaz.
+   */
+  const textOnlyCase = caseProofCards.length === 0 ? relatedCases[0] : undefined;
 
   /** Komşu hizmetler — henüz yazılmamış olanlar elenir (404 önlenir). */
   const siblings = service.relatedServices
@@ -657,19 +722,13 @@ export function ServiceDetail({
           </h2>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
-            {relatedCase && caseProofMetrics.length > 0 ? (
+            {caseProofCards.length > 0 ? (
               <ServiceCaseProof
-                heading={t.caseProof}
-                lead={relatedCase.lead[locale]}
+                heading={
+                  caseProofCards.length > 1 ? t.caseProofPlural : t.caseProof
+                }
                 sourceLabel={t.caseProofSource}
-                clientName={relatedCase.clientName[locale]}
-                caseTitle={relatedCase.title[locale]}
-                href={localizedHref(locale, "cases", relatedCase.slug[locale])}
-                metrics={caseProofMetrics.map((m) => ({
-                  value: m.value[locale],
-                  label: m.label[locale],
-                  ...(m.context ? { context: m.context[locale] } : {}),
-                }))}
+                cases={caseProofCards}
               />
             ) : null}
 
@@ -720,15 +779,15 @@ export function ServiceDetail({
               </div>
             ) : null}
 
-            {relatedCase && caseProofMetrics.length === 0 ? (
+            {textOnlyCase ? (
               <div>
                 <h3 className="typography-h3 text-ink-900 flex items-center gap-2.5">
                   <ChartNoAxesColumn aria-hidden="true" size={18} strokeWidth={1.5} className="text-brand-700 shrink-0" />{t.relatedCase}</h3>
                 <p className="typography-body-md text-ink-700 mt-6 max-w-prose-editorial">
-                  {relatedCase.lead[locale]}
+                  {textOnlyCase.lead[locale]}
                 </p>
                 <Link
-                  href={localizedHref(locale, "cases", relatedCase.slug[locale])}
+                  href={localizedHref(locale, "cases", textOnlyCase.slug[locale])}
                   className="inline-flex items-center gap-2 mt-6 text-brand-700 typography-body-md"
                 >
                   <span className="underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500">

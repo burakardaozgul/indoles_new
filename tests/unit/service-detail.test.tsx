@@ -7,7 +7,7 @@ import { ARTICLES } from "@/lib/content/articles";
 import { TOPICS } from "@/lib/content/topics";
 import {
   relatedArticlesForService,
-  relatedCaseForService,
+  relatedCasesForService,
 } from "@/components/marketing/service-detail";
 
 describe("ScopeColumns", () => {
@@ -67,8 +67,17 @@ describe("ScopeColumns", () => {
  * "en fazla 3 metrik" dilimi doğrulanıyor.
  */
 describe("ServiceDetail — vaka kanıt şeridi seçimi", () => {
+  /** Şeridin ilk kartı — eski tek-vaka sözleşmesinin bugünkü karşılığı. */
+  const firstCaseFor = (service: (typeof SERVICES)[number]) =>
+    relatedCasesForService(
+      service.slug.tr,
+      service.pillar,
+      2,
+      service.featuredCaseSlugs ?? [],
+    )[0];
+
   const proofFor = (service: (typeof SERVICES)[number]) => {
-    const c = relatedCaseForService(service.slug.tr, service.pillar);
+    const c = firstCaseFor(service);
     return { hasCase: Boolean(c), metrics: (c?.metrics ?? []).slice(0, 3) };
   };
 
@@ -121,37 +130,59 @@ describe("ServiceDetail — vaka kanıt şeridi seçimi", () => {
  * — SOYLU AVM'nin künyesinde yalnız `performans-pazarlama` var, `cro` yok.
  */
 describe("ServiceDetail — vaka eşlemesi (C-03)", () => {
-  it("12 hizmetin 12'si de bir vaka bulur — kanıt şeridi hiçbirinde kaybolmaz", () => {
-    for (const service of SERVICES) {
-      const c = relatedCaseForService(service.slug.tr, service.pillar);
-      expect(c, `${service.slug.tr} için vaka bulunamadı`).toBeDefined();
-    }
-  });
+  const casesFor = (service: (typeof SERVICES)[number]) =>
+    relatedCasesForService(
+      service.slug.tr,
+      service.pillar,
+      2,
+      service.featuredCaseSlugs ?? [],
+    );
 
-  it("seçilen her vaka ya künyesinde hizmeti taşır ya da (fallback) aynı pillar'dadır", () => {
+  it("12 hizmetin 12'si de en az bir vaka bulur — kanıt şeridi hiçbirinde kaybolmaz", () => {
     for (const service of SERVICES) {
-      const c = relatedCaseForService(service.slug.tr, service.pillar)!;
-      const matchesBySlug = c.serviceSlugs?.includes(service.slug.tr) ?? false;
-      const matchesByPillar = c.pillar === service.pillar;
       expect(
-        matchesBySlug || matchesByPillar,
-        `${service.slug.tr} → "${c.slug.tr}" ne künyede ne pillar'da eşleşiyor`,
-      ).toBe(true);
+        casesFor(service).length,
+        `${service.slug.tr} için vaka bulunamadı`,
+      ).toBeGreaterThan(0);
     }
   });
 
-  it("künyede eşleşme varsa pillar'a bakılmaksızın o vaka seçilir", () => {
+  it("seçilen her vaka ya künyesinde hizmeti taşır, ya elle seçilmiştir, ya da (fallback) aynı pillar'dadır", () => {
     for (const service of SERVICES) {
-      const bySlug = CASES.find((c) =>
+      for (const c of casesFor(service)) {
+        const matchesBySlug = c.serviceSlugs?.includes(service.slug.tr) ?? false;
+        const matchesByPillar = c.pillar === service.pillar;
+        const featured = (service.featuredCaseSlugs ?? []).includes(c.slug.tr);
+        expect(
+          matchesBySlug || matchesByPillar || featured,
+          `${service.slug.tr} → "${c.slug.tr}" ne künyede ne pillar'da eşleşiyor`,
+        ).toBe(true);
+      }
+    }
+  });
+
+  it("künye eşleşmeleri pillar'a bakılmaksızın ve CASES sırasıyla öne geçer", () => {
+    for (const service of SERVICES) {
+      if ((service.featuredCaseSlugs ?? []).length > 0) continue;
+      const bySlug = CASES.filter((c) =>
         c.serviceSlugs?.includes(service.slug.tr),
-      );
-      if (!bySlug) continue;
-      const chosen = relatedCaseForService(service.slug.tr, service.pillar);
+      ).slice(0, 2);
+      if (bySlug.length === 0) continue;
+      const chosen = casesFor(service).slice(0, bySlug.length);
       expect(
-        chosen?.slug,
-        `${service.slug.tr}: künye eşleşmesi "${bySlug.slug}" varken farklı vaka seçildi`,
-      ).toBe(bySlug.slug);
+        chosen.map((c) => c.slug.tr),
+        `${service.slug.tr}: künye eşleşmeleri sırayı belirlemedi`,
+      ).toEqual(bySlug.map((c) => c.slug.tr));
     }
+  });
+
+  it("künye ikiye tamamlamıyorsa kalan yer pillar eşleşmesiyle dolar", () => {
+    // `teknoloji-ve-altyapi` künyesiz bir `build` hizmeti: iki kart da
+    // pillar fallback'inden gelir.
+    const service = SERVICES.find((s) => s.slug.tr === "teknoloji-ve-altyapi")!;
+    const picked = casesFor(service);
+    expect(picked).toHaveLength(2);
+    for (const c of picked) expect(c.pillar).toBe("build");
   });
 
   it("künyede hiçbir vaka bu hizmeti taşımıyorsa pillar fallback'e düşülür", () => {
@@ -172,30 +203,104 @@ describe("ServiceDetail — vaka eşlemesi (C-03)", () => {
     );
     for (const slug of fallbackServices) {
       const service = SERVICES.find((s) => s.slug.tr === slug)!;
-      const c = relatedCaseForService(slug, service.pillar)!;
-      expect(c.pillar, `${slug} fallback vakası pillar'ı uyuşmuyor`).toBe(
-        service.pillar,
-      );
+      const picked = casesFor(service);
+      expect(picked.length, `${slug} kanıt şeridi boş kaldı`).toBeGreaterThan(0);
+      for (const c of picked) {
+        expect(c.pillar, `${slug} fallback vakası pillar'ı uyuşmuyor`).toBe(
+          service.pillar,
+        );
+      }
     }
   });
 
-  it("CRO hizmet sayfası artık künyesinde cro geçen bir vakayı gösterir", () => {
+  it("tek vakalı pillar'da şerit tek kartla döner — uydurma vakayla doldurulmaz", () => {
+    // `transform` pillar'ında bugün tek vaka var (Meccanotecnica Umbra);
+    // künyesiz üç transform hizmeti bu yüzden iki karta tamamlanamaz.
+    const transformCases = CASES.filter((c) => c.pillar === "transform");
+    expect(transformCases).toHaveLength(1);
+    const onlyTransform = transformCases[0]!;
+    for (const slug of ["dijital-donusum", "is-zekasi", "isletme-muhendisligi"]) {
+      const service = SERVICES.find((s) => s.slug.tr === slug)!;
+      expect(casesFor(service).map((c) => c.slug.tr)).toEqual([
+        onlyTransform.slug.tr,
+      ]);
+    }
+  });
+
+  it("hiçbir hizmet aynı vakayı iki kez basmaz", () => {
+    for (const service of SERVICES) {
+      const slugs = casesFor(service).map((c) => c.slug.tr);
+      expect(new Set(slugs).size, service.slug.tr).toBe(slugs.length);
+    }
+  });
+
+  it("limit aşılmaz", () => {
+    for (const service of SERVICES) {
+      expect(casesFor(service).length, service.slug.tr).toBeLessThanOrEqual(2);
+      expect(
+        relatedCasesForService(service.slug.tr, service.pillar, 1).length,
+        service.slug.tr,
+      ).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("CRO hizmet sayfası künyesinde cro geçen iki vakayı gösterir", () => {
     const soyluAvm = CASES.find(
       (c) => c.slug.tr === "soylu-avm-e-ticaret-buyume",
     )!;
     expect(soyluAvm.serviceSlugs).not.toContain("cro");
 
     const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
-    const chosen = relatedCaseForService("cro", cro.pillar)!;
-    expect(chosen.serviceSlugs).toContain("cro");
-    expect(chosen.slug.tr).not.toBe("soylu-avm-e-ticaret-buyume");
+    const picked = casesFor(cro);
+    expect(picked).toHaveLength(2);
+    for (const c of picked) expect(c.serviceSlugs).toContain("cro");
+    expect(picked.map((c) => c.slug.tr)).not.toContain(
+      "soylu-avm-e-ticaret-buyume",
+    );
   });
 
-  it("seçim deterministiktir — tekrar çağrıda aynı vaka çıkar", () => {
+  it("featuredCaseSlugs sırayı belirler — CRO'da GYMWOLVES, sonra OdorGo", () => {
+    // Burak kararı (2026-09-18): MKComputer künyesinde `cro` taşısa da
+    // kanıt anlatısı otomasyon; elle seçim onu üçüncü sıraya iter.
+    const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
+    expect(cro.featuredCaseSlugs).toEqual([
+      "gymwolves-12-kat-satis",
+      "odorgo-kategori-yaratma",
+    ]);
+    expect(casesFor(cro).map((c) => c.slug.tr)).toEqual([
+      "gymwolves-12-kat-satis",
+      "odorgo-kategori-yaratma",
+    ]);
+    expect(
+      relatedCasesForService("cro", cro.pillar, 2).map((c) => c.slug.tr),
+    ).toEqual(["gymwolves-12-kat-satis", "mkcomputer-dropshipping-otomasyonu"]);
+  });
+
+  it("elle seçim listeyi doldurmuyorsa kalan yer otomatik eşlemeyle tamamlanır", () => {
+    const picked = relatedCasesForService("cro", "growth", 2, [
+      "odorgo-kategori-yaratma",
+    ]);
+    expect(picked.map((c) => c.slug.tr)).toEqual([
+      "odorgo-kategori-yaratma",
+      "gymwolves-12-kat-satis",
+    ]);
+  });
+
+  it("bilinmeyen featuredCaseSlugs kaydı şeridi boşaltmaz — otomatik eşleme sürer", () => {
+    // Tip ve `services-content.test.ts` bunu içerik tarafında yakalar; burada
+    // çalışma zamanı davranışı donduruluyor.
+    const picked = relatedCasesForService("cro", "growth", 2, ["olmayan-vaka"]);
+    expect(picked.map((c) => c.slug.tr)).toEqual([
+      "gymwolves-12-kat-satis",
+      "mkcomputer-dropshipping-otomasyonu",
+    ]);
+  });
+
+  it("seçim deterministiktir — tekrar çağrıda aynı vakalar aynı sırada çıkar", () => {
     for (const service of SERVICES) {
-      const first = relatedCaseForService(service.slug.tr, service.pillar);
-      const second = relatedCaseForService(service.slug.tr, service.pillar);
-      expect(second?.slug).toBe(first?.slug);
+      expect(casesFor(service).map((c) => c.slug.tr)).toEqual(
+        casesFor(service).map((c) => c.slug.tr),
+      );
     }
   });
 });

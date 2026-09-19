@@ -1,7 +1,7 @@
 import type { ServiceContent } from "../types";
 
 /**
- * CRO — dönüşüm optimizasyonu — Growth.
+ * Dönüşüm oranı optimizasyonu (CRO) — Growth.
  *
  * Slug iki dilde de `cro`: kısaltma her iki pazarda da arama hacmine sahip.
  * Sayfa metninde açık adı ("dönüşüm oranı optimizasyonu") ilk paragrafta
@@ -12,9 +12,22 @@ import type { ServiceContent } from "../types";
 export const cro: ServiceContent = {
   slug: { tr: "cro", en: "cro" },
   pillar: "growth",
+  /**
+   * H1 hedef kelimeyi taşır (Burak kararı, 2026-09-19).
+   *
+   * "dönüşüm oranı optimizasyonu" kümenin en güçlü tohum sorgusu — GSC'de
+   * 192 gösterim, poz. 15 (`docs/strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md`
+   * §2 CRO kümesi). H1 şimdiye dek yalnız kısaltmayı ve kısa formu
+   * ("dönüşüm optimizasyonu") taşıyordu; tam form yalnız lede ve `seo.title`
+   * yüzeylerindeydi. Parantezdeki "CRO" hem "cro" sorgusunu hem kısaltmayı
+   * korur, yani kazanç kayıpsız.
+   *
+   * "ajansı" H1'e GİRMEZ — yerleşim kuralı sürüyor; `seo.title` istisnası
+   * yalnız title yüzeyinde geçerli (strateji v1.16, `keyword-coverage.test.ts`).
+   */
   name: {
-    tr: "CRO — dönüşüm optimizasyonu",
-    en: "CRO — conversion optimisation",
+    tr: "Dönüşüm oranı optimizasyonu (CRO)",
+    en: "Conversion rate optimisation (CRO)",
   },
 
   shortDescription: {
@@ -381,11 +394,12 @@ export const cro: ServiceContent = {
   ],
 
   /**
-   * Sayfa 2026-09-18'de gerçekten değişti: SSS sırası, lede ve arama yüzeyi.
+   * Sayfa 2026-09-19'da gerçekten değişti: H1 (`name`) hedef kelimeyi taşımaya
+   * başladı. Bir önceki dokunuş 2026-09-18'di (SSS sırası, lede, arama yüzeyi).
    * `lastmod` ve `WebPage.dateModified` buradan beslenir — tarih sayfaya
    * dokunulmadan ileri alınmaz (bkz. `types.ts`, denetim T-05).
    */
-  updatedAt: "2026-09-18",
+  updatedAt: "2026-09-19",
 
   seo: {
     /**
@@ -397,7 +411,9 @@ export const cro: ServiceContent = {
      * yalnız `cro` kaydının `seo.title`ı için açıldı; gerekçe iki tane:
      * kelime P0 müşteri kelimesi ve rakip eşiği Poligon Interactive'in
      * birebir "CRO Ajansı" taşıyan title'ı (`Rakip-Analizi-P0-SERP.md` §4).
-     * H1 (`name`) DEĞİŞMEZ — kendimizi sayfada "ajans" diye adlandırmıyoruz.
+     * H1 (`name`) bu kelimeyi ALMAZ — kendimizi sayfada "ajans" diye
+     * adlandırmıyoruz. (H1 2026-09-19'da ayrı bir kararla değişti; taşıdığı
+     * kelime "dönüşüm oranı optimizasyonu", "ajansı" değil.)
      */
     title: {
       tr: "CRO ajansı: dönüşüm oranı optimizasyonu",

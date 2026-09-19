@@ -190,7 +190,9 @@ describe("DiagnooReport", () => {
 
   it("hizmet linkine basıldığında tool_service_cta_clicked atar", () => {
     render(<DiagnooReport report={REPORT} locale="tr" />);
-    const link = screen.getByRole("link", { name: /CRO — dönüşüm optimizasyonu/ });
+    const link = screen.getByRole("link", {
+      name: /Dönüşüm oranı optimizasyonu \(CRO\)/,
+    });
     // jsdom gerçek gezinmeyi denemesin — olay yine de bileşenin eline geçer.
     link.addEventListener("click", (e) => e.preventDefault());
     fireEvent.click(link);

@@ -382,12 +382,19 @@ export function BenchmarkRows({
  * katmanının tamamını (`SERVICES`, ~500 KB kaynak) bir istemci bileşenine
  * çekmek yalnız üç ad ve üç slug için ölçülür bir bundle bedeli olurdu.
  * `target_service` olay parametresi kararlı TR slug'ıdır.
+ *
+ * Adlar `src/lib/content/services/*`teki `name` alanlarının kopyasıdır;
+ * orada bir hizmet adı değişirse burası elle hizalanır (en son 2026-09-19,
+ * CRO H1 kararı).
  */
 const RELATED_SERVICES = [
   {
     slug: "cro",
     path: { tr: "/hizmetler/cro", en: "/hizmetler/cro" },
-    name: { tr: "CRO — dönüşüm optimizasyonu", en: "CRO — conversion optimisation" },
+    name: {
+      tr: "Dönüşüm oranı optimizasyonu (CRO)",
+      en: "Conversion rate optimisation (CRO)",
+    },
   },
   {
     slug: "performans-pazarlama",

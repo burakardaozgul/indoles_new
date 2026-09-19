@@ -271,6 +271,9 @@ Mono, 11px, uppercase, `tracking-label`, teal-700. Solunda 22px hairline (`::bef
 | `.btn-ghost` | beyaz gradient + ink-200 kenar | teal-700 kenar ve metin |
 | `.btn-invert` | beyaz (dark yüzey için) | gold-400 |
 | `.btn-lg` | 18/28px padding, 15px | — |
+| `.btn-sm` | 9/16px padding, 13px | — |
+
+`.btn-sm` yardımcı yüzeyler içindir (çerez şeridi gibi bilgilendirme kartları): sayfanın birincil CTA'sıyla ağırlık olarak yarışmaz, dokunma hedefi 36px'in altına düşmez.
 
 `.arrow` alt elemanı hover'da `translate(2px, -2px)` yapar — bu hareket markanın imzasıdır, tüm CTA'larda aynıdır.
 

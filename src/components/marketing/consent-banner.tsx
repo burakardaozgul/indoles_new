@@ -127,38 +127,46 @@ export function ConsentBanner({
     <section
       role="region"
       aria-label={regionLabel}
-      className="fixed inset-x-0 bottom-0 z-[60] border-t border-ink-200 bg-bg-pure/95 backdrop-blur-sm"
+      /*
+        TAM GENİŞLİK BANT DEĞİL, KÖŞE KARTI
+        -----------------------------------
+        Şerit bir SORU değil çoğunlukla bir BİLDİRİM (ADR-035) ve sayfanın
+        birincil yüzeyiyle yer için yarışmamalı. Tam genişlik bant 1280'de
+        ekranın %16'sını, 390'da %29'unu yiyordu. Sol altta 448px'lik kart
+        aynı metni taşır, ayak izi dörtte birine iner ve hero/CTA açıkta
+        kalır. Mobilde kart iki kenara yapışır — dar ekranda köşe kartı
+        okunmaz genişliğe düşerdi.
+      */
+      className="fixed bottom-4 left-4 right-4 z-[60] rounded-lg border border-ink-200 bg-bg-pure/95 p-4 shadow-lg backdrop-blur-sm md:right-auto md:max-w-md"
     >
-      <div className="ds-container flex flex-col gap-4 py-5 md:flex-row md:items-center md:justify-between md:gap-8">
-        <div className="max-w-2xl">
-          <p className="typography-body-md font-medium text-ink-900">
-            {isEea ? title : titleNotice}
-          </p>
-          <p className="typography-body-sm mt-1 text-ink-700">
-            {isEea ? body : bodyNotice}{" "}
-            <a href={policyHref} className="underline underline-offset-2">
-              {policyLabel}
-            </a>
-          </p>
-        </div>
-        <div className="flex shrink-0 gap-3">
-          <button type="button" className="btn btn-primary" onClick={() => decide("granted")}>
-            {accept}
-          </button>
-          {/*
-            EEA'da ikinci düğme gerçek bir RET; diğer bölgelerde yalnız
-            bildirimi kapatır ve varsayılanı ("granted") yazar. EDPB'nin
-            "eşit kolaylık" şartı ret düğmesinin bulunduğu yerde geçerli,
-            yani EEA yüzeyinde — orada iki düğme de aynı ağırlıkta.
-          */}
-          <button
-            type="button"
-            className="btn btn-ghost"
-            onClick={() => decide(isEea ? "denied" : "granted")}
-          >
-            {isEea ? reject : close}
-          </button>
-        </div>
+      <p className="typography-body-sm font-medium text-ink-900">
+        {isEea ? title : titleNotice}
+      </p>
+      <p className="typography-caption mt-1 text-ink-700">
+        {isEea ? body : bodyNotice}{" "}
+        <a href={policyHref} className="underline underline-offset-2">
+          {policyLabel}
+        </a>
+      </p>
+      {/* Düğmeler her genişlikte yan yana: dikey yığın kartı gereksiz
+          uzatıyor ve "eşit kolaylık" okumasını da zayıflatıyor. */}
+      <div className="mt-3 flex gap-2">
+        <button type="button" className="btn btn-primary btn-sm" onClick={() => decide("granted")}>
+          {accept}
+        </button>
+        {/*
+          EEA'da ikinci düğme gerçek bir RET; diğer bölgelerde yalnız
+          bildirimi kapatır ve varsayılanı ("granted") yazar. EDPB'nin
+          "eşit kolaylık" şartı ret düğmesinin bulunduğu yerde geçerli,
+          yani EEA yüzeyinde — orada iki düğme de aynı ağırlıkta.
+        */}
+        <button
+          type="button"
+          className="btn btn-ghost btn-sm"
+          onClick={() => decide(isEea ? "denied" : "granted")}
+        >
+          {isEea ? reject : close}
+        </button>
       </div>
     </section>
   );

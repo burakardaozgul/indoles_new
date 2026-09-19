@@ -308,6 +308,9 @@
   transform: translateY(-2px);
 }
 .btn-lg { padding: 18px 28px; font-size: 15px; }
+/* Yardımcı yüzeylerin düğmesi (çerez şeridi gibi): sayfanın birincil
+   eylemiyle yarışmayacak kadar küçük, dokunma hedefi hâlâ 36px+. */
+.btn-sm { padding: 9px 16px; font-size: 13px; }
 .btn .arrow {
   width: 14px;
   height: 14px;

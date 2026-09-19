@@ -22,7 +22,7 @@ export default function manifest(): MetadataRoute.Manifest {
     // yol daha önce burada yazılıydı; tarayıcı `/icon`e 404 alıyordu, manifest
     // ikon eşlemesi hiç çalışmıyordu.
     icons: [
-      { src: "/icon.png", sizes: "32x32", type: "image/png" },
+      { src: "/icon.png", sizes: "192x192", type: "image/png" },
       { src: "/apple-icon.png", sizes: "180x180", type: "image/png" },
     ],
   };

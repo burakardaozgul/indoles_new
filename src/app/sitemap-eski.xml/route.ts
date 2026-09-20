@@ -21,6 +21,9 @@ export const dynamic = "force-static";
  *   sinyali vermekten kaçınılır.
  * - Kaynak `legacy-redirects.ts` — listeyi burada elle tutmak iki listenin
  *   kopmasına yol açardı; eklenen her 301 buraya kendiliğinden düşer.
+ * - 2026-09-20'den beri liste WordPress adreslerinin yanında 2026-08-29
+ *   öncesi TR-slug'lı EN vaka adreslerini de taşır: GSC URL Inspection o
+ *   adresleri hâlâ kanonik gösteriyordu, yani 308'ler taranmamıştı.
  */
 export function GET() {
   const urls = legacySitemapPaths()

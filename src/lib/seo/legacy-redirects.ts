@@ -239,7 +239,15 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
 
 /**
  * 2026-08-29 EN vaka slug lokalizasyonu — yeni sitenin kendi geçmişi,
- * WordPress kalıntısı değil; eski-URL sitemap'ine GİRMEZ.
+ * WordPress kalıntısı değil; yine de eski-URL sitemap'ine GİRER.
+ *
+ * Gerekçe (GSC URL Inspection, 2026-09-20): Google üç EN vakayı (SOYLU,
+ * İstanbul Ortez, Feruza) "kopya" sayıp kanonik olarak buradaki eski
+ * TR-slug'lı adresleri seçiyor; `/en/case-studies/soylu-avm-e-ticaret-buyume`
+ * hâlâ indeksli (son tarama 5 Eyl) ve 308'ler işlenmemiş. Karar (Burak,
+ * 2026-09-20): eski adresleri de sitemap'e koy ki Googlebot onları tarayıp
+ * yönlendirmeyi görsün. Adresler Next dönemine ait, bu yüzden sitemap'te
+ * eğik çizgisiz yazılır — Google'ın kanonik tuttuğu biçim bu.
  */
 // prettier-ignore
 export const EN_CASE_SLUG_REDIRECTS: LegacyRedirect[] = [
@@ -272,9 +280,8 @@ export const EN_CASE_SLUG_REDIRECTS: LegacyRedirect[] = [
  * canonical sinyali bölünür. Burası aynı çeviriyi **kalıcı** (308) yapar —
  * config'teki `redirects()` middleware'den önce çalışır.
  *
- * Bu liste WordPress kalıntısı değil, yeni sitenin kendi geçmişidir:
- * eski-URL sitemap'ine GİRMEZ (`legacySitemapPaths` yalnız
- * `LEGACY_REDIRECTS` okur).
+ * Bu liste tümüyle joker kurallardan oluşur, dolayısıyla eski-URL
+ * sitemap'ine GİRMEZ (`legacySitemapPaths` joker kaynakları eler).
  *
  * Slug'lar çevrilmez: `/en/vakalar/<tr-slug>` önce `/en/case-studies/<tr-slug>`
  * olur, oradan `EN_CASE_SLUG_REDIRECTS` ikinci bir 308 ile EN slug'a taşır.
@@ -306,11 +313,18 @@ export const EN_SEGMENT_REDIRECTS: LegacyRedirect[] = [
 
 /**
  * Eski-URL sitemap'inde listelenecek adresler: joker (`:slug*`) taşımayan
- * WordPress URL'leri, eski sitenin indekslediği biçimiyle (eğik çizgili).
- * Google'ın URL Inspection sonucu da bu biçimi kanonik gösteriyor.
+ * kaynaklar, her biri Google'ın kanonik tuttuğu biçimde.
+ *
+ * - `LEGACY_REDIRECTS`: WordPress URL'leri, eski sitenin indekslediği
+ *   biçimiyle eğik çizgili.
+ * - `EN_CASE_SLUG_REDIRECTS`: Next dönemi adresleri, eğik çizgisiz —
+ *   URL Inspection kanonik olarak bu yazımı gösteriyor.
  */
 export function legacySitemapPaths(): string[] {
-  return LEGACY_REDIRECTS.filter((r) => !r.source.includes(":")).map(
-    (r) => `${r.source}/`
-  );
+  const withoutWildcards = (list: LegacyRedirect[]) =>
+    list.filter((r) => !r.source.includes(":"));
+  return [
+    ...withoutWildcards(LEGACY_REDIRECTS).map((r) => `${r.source}/`),
+    ...withoutWildcards(EN_CASE_SLUG_REDIRECTS).map((r) => r.source),
+  ];
 }

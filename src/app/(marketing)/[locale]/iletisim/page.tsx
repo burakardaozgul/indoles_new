@@ -25,16 +25,24 @@ import type { Locale } from "@/lib/content/types";
 
 const PATHS = { tr: segmentRoot("tr", "contact"), en: segmentRoot("en", "contact") };
 
+/**
+ * Başlık ve açıklama randevu vadetmiyor (Burak, 2026-09-22): sayfadaki takvim
+ * kalktığı için "1 saatlik ön görüşme" / "book a one-hour call" artık sayfanın
+ * yapabildiği şeyi anlatmıyordu. Yerine sayfanın gerçek yüzeyi geçiyor — form,
+ * e-posta, telefon ve `COMPANY` üzerinden ekranda da görünen konum/çalışma
+ * saati. `audit.ts` bandı: render edilen başlık ("%s — INDOLES") ≤60,
+ * açıklama 140-160.
+ */
 const META = {
   tr: {
-    title: "İletişim — 1 saatlik ön görüşme",
+    title: "İletişim — projenizi anlatın, biz dönelim",
     description:
-      "Formu doldurun, 1 iş günü içinde dönelim. 1 saatlik ön görüşme taahhütsüz: somut problem, somut yön. Satış sunumu değil, teşhis konuşması yapıyoruz.",
+      "Projenizi formla, e-posta ya da telefonla anlatın; Levent, İstanbul'dan Pzt–Cum 09:00–18:00 dönüyoruz. Hangi hizmetin uygun olduğunu birlikte netleştirelim.",
   },
   en: {
-    title: "Contact — book a one-hour call",
+    title: "Contact — tell us about your project",
     description:
-      "Send the form and we reply within one business day. The one-hour intro call carries no commitment: a concrete problem, a concrete direction, a diagnosis.",
+      "Tell us about your project by form, email or phone; we reply from Levent, Istanbul, Mon–Fri 09:00–18:00. Together we clarify which service fits best.",
   },
 } as const;
 

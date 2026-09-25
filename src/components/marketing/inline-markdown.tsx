@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ARTICLES } from "@/lib/content/articles";
 import { CASES } from "@/lib/content/cases";
+import { PACKAGES } from "@/lib/content/packages";
 import { SERVICES } from "@/lib/content/services";
 import { TOOLS } from "@/lib/content/tools";
 import { localeHref } from "@/lib/i18n/locale-href";
@@ -66,6 +67,17 @@ function resolveInlineHref(href: string, loc: Locale): string {
     const tool = TOOLS.find((t) => t.slug.tr === parts[1]);
     if (tool) {
       return localizedHref(loc, "tools", tool.slug[loc]);
+    }
+  }
+  // Yazıdan pakete link (2026-09-25): paket slug'ı da locale başına ayrık
+  // (`/tr/paketler/buyume-sprinti` ↔ `/en/packages/growth-sprint`). Bu dal
+  // yokken `localeHref` yalnız segmenti çeviriyor, EN'de TR slug'lı
+  // `/en/packages/buyume-sprinti` üretiyordu; bir yazı bu yüzden EN gövdeye
+  // elle EN slug yazmıştı. Artık gövdede hep kanonik TR yol yazılır.
+  if (parts[0] === "paketler" && parts[1]) {
+    const pkg = PACKAGES.find((p) => p.slug.tr === parts[1]);
+    if (pkg) {
+      return localizedHref(loc, "packages", pkg.slug[loc]);
     }
   }
   return localeHref(href, loc);

@@ -1,5 +1,7 @@
 # Hedef Kelime ve Sorgu Önceliklendirmesi
 
+> **Güncelleme (2026-09-25, strateji v1.18):** Burak kararıyla SEO/GEO'nun ana amacı satın alma niyetli görünürlük oldu; öncelik ve ölçüde bu dosyanın yerini `Yol-Haritasi-Satin-Alma-Niyeti-2026-09.md` ve `Niyetli-Sorgu-Seti-2026-09.md` aldı. Bu dosyada geçerliliğini yitirenler: §2 Dalga 2'deki `mvp nedir` (#5) ve reklam ajansı havuzu (#2, K-1) öncelikten düştü (§3 hafta 7 ve 12 slotları silinmedi); §4'ün gösterim ara hedefleri bağlam ölçüsüne indi ve **A-4** 8K/ay toplam gösterim eşiği yerine niyetli ölçülerle yeniden tanımlandı (strateji §9.2). G1-G5 kümeleri ve A-1, A-2, A-3, A-5, A-6, A-7 alarmları değişmedi.
+
 > **Tarih:** 2026-08-27 · **Statü:** **Onaylı** — K-1, K-3, K-4, K-6 karara bağlandı (aşağıda); K-2, K-5, K-7, K-8 açık
 > **Otoriteler:** `INDOLES-Organik-Strateji-SEO-GEO-v1.md` (v1.6) · `Rakip-Analizi-P0-SERP.md` · `Keyword-Planner/*.csv` (245 kelime) · `docs/18` §6/§10 · `docs/19` §5/§9 · `tests/unit/keyword-coverage.test.ts`
 > **Amaç:** Kelime evrenini, bugünkü sayfa envanterini ve rakip eşiklerini birleştirip "hangi kelime, hangi sırayla, hangi içerikle" sorusuna uygulanabilir cevap vermek.

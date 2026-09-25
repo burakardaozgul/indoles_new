@@ -1,6 +1,6 @@
-# INDOLES Organik Büyüme Stratejisi — SEO + GEO v1.17
+# INDOLES Organik Büyüme Stratejisi — SEO + GEO v1.18
 
-> **Statü:** Onaylı (v1.17 — 2026-09-19, Burak kararı: CRO H1 hedef kelimeyi taşıyor). Açık karar yok.
+> **Statü:** Onaylı (v1.18 — 2026-09-25, Burak kararı: ana amaç satın alma niyetli görünürlük; yol haritası `Yol-Haritasi-Satin-Alma-Niyeti-2026-09.md`). Açık karar: yeni A-4 eşiğinin biçimi (üç GSC ölçüsünden ikisi, §9) öneri olarak yazıldı, Burak teyidi bekliyor.
 > **Kanonik kopya:** 2026-08-23'ten itibaren bu dosya repo'da yaşar (`indoles-web/docs/strateji/`); güncellemeler burada changelog satırıyla yapılır. Desktop'taki kopya arşivdir.
 > **Tarih:** 2026-08-20 · **Bağlam:** Yeni site launch'ına 3 gün
 > **Veri tabanı:** GSC son 3 ay (22 tıklama / 2.190 gösterim / ort. poz. 17) + `indoles-web/docs/*` + Burak'ın strateji cevapları (2026-08-20)
@@ -10,6 +10,7 @@
 
 | Sürüm | Tarih | Değişiklik |
 |---|---|---|
+| v1.18 | 2026-09-25 | **Ana amaç: satın alma niyetli görünürlük (Burak kararı).** SEO/GEO, işin ve değerin farkında olan, doğrudan çalışmak isteyen alıcının önüne çıkmak için yapılır ("cro ajansı" tipi); genel ve rekabetli kelimelerde ("dijital reklam ajansı", "google reklam ajansı", "mvp nedir", "iş zekası") güç harcanmaz. Onaylı yol haritası repoya alındı: `Yol-Haritasi-Satin-Alma-Niyeti-2026-09.md` (odak haritası P0 CRO + yapay zeka danışmanlığı + GEO, P1 e-ticaret + dijital dönüşüm + UX; Faz 1-3 takvimi). **(1) §1:** ana amaç cümlesi eklendi. **(2) §2.0:** öncelik sıralamasına v1.18 notu — yol haritası §2'nin odak haritası geçerli. **(3) §4:** "mvp nedir" (h.12-1) ve K-1 reklam ajansı seçim rehberi (Keyword-Onceliklendirme §3, hafta 7) öncelikten düştü; slotlar silinmedi, gerekçe yanında. **(4) §9:** toplam gösterim bağlam ölçüsüne indi; beş birincil ölçü ve 30 Kasım hedefleri yol haritası §5'ten (niyetli sorgularda ilk 10'da 12+ sorgu, hizmet sayfası gösterim payı %3 → %15, niyetli sorgulardan ayda 20+ tık, ayda 5+ nitelikli form, GEO turu 5/30); baz çizgisi 22 Ağu–19 Eyl. **(5) A-4 yeniden tanımlandı:** 8K/ay toplam gösterim eşiği yerine üç GSC ölçüsü (ilk 10, hizmet sayfası payı, niyetli tık); 30 Kasım kaydında üçten ikisi hedefin altındaysa strateji revizyonu — "ikisi" eşiği öneri. Ölçüm altyapısı: `gsc-pull.mjs` N0 satın alma niyeti kümesi ve 43 sorguluk hedef set (`Niyetli-Sorgu-Seti-2026-09.md`). `Keyword-Onceliklendirme-2026-08-27.md` başına bu kararla güncellendiğini söyleyen not düşüldü; `docs/12` §5.3'e KPI işaret satırı eklendi. |
 | v1.17 | 2026-09-19 | **CRO hizmet sayfasının H1'i hedef kelimeyi taşıyor (Burak kararı).** `name` TR "CRO — dönüşüm optimizasyonu" → **"Dönüşüm oranı optimizasyonu (CRO)"**, EN "CRO — conversion optimisation" → **"Conversion rate optimisation (CRO)"**. Gerekçe: "dönüşüm oranı optimizasyonu" kümenin en güçlü tohum sorgusu (GSC 192 gösterim, poz. 15 — §2 CRO kümesi); H1 şimdiye dek yalnız kısaltmayı ve kısa formu taşıyordu, tam form `lede` ve `seo.title` yüzeylerinde kalıyordu. Parantezdeki "CRO" hem `cro` sorgusunu hem kısaltmayı koruyor. **v1.4 karar 3 ve v1.16 istisnası değişmedi:** "ajansı" H1'e girmez, `seo.title` istisnası yalnız title yüzeyinde geçerli (`keyword-coverage.test.ts` ikisini de denetlemeye devam ediyor). `seo.title`, `lede`, `shortDescription` ve `seo.description` değişmedi; `updatedAt` 2026-09-18 → 2026-09-19 (gerçek içerik değişikliği, `lastmod` ve `WebPage.dateModified` buradan besleniyor). Ad site genelinde tek kaynaktan türüyor (hub kartı, ana sayfa `ServicesScroll`, breadcrumb, komşu hizmet listeleri, pillar sayfası, `Service`/`BreadcrumbList` JSON-LD, `llms.txt`); tek elle kopya Diagnoo rapor adası (`diagnoo-report.tsx` `RELATED_SERVICES`) ile hizalandı. **v1.16'nın ikinci vaka kararı teyit edildi:** CRO'nun `featuredCaseSlugs` listesi değişmedi — GYMWOLVES + OdorGo. |
 | v1.16 | 2026-09-18 | **v1.15'in açık sorusu kapandı — CRO `seo.title` hedef kelimeyi taşıyor (Burak kararı, "bu seferlik").** `/tr/hizmetler/cro` başlığı "CRO ajansı: dönüşüm oranı optimizasyonu" (39 karakter), EN karşılığı "CRO agency: conversion rate optimisation" (40). Gerekçe: "cro ajansı" P0 müşteri kelimesi ve rakip eşiği Poligon Interactive'in birebir "CRO Ajansı" taşıyan title'ı (`Rakip-Analizi-P0-SERP.md` §4). **v1.4 karar 3 kaldırılmadı, geçerlilik alanı daraltıldı:** `ajansı`/`firmaları` ailesi `name` ve `seo.title` yüzeylerine girmez — **`cro` kaydının `seo.title`ı hariç**. H1 (`name`) değişmedi, diğer 11 hizmetin başlığı değişmedi; `keyword-coverage.test.ts` istisnayı adıyla tanıyor ve istisnanın karşılığını (başlıkta kelime var, H1 temiz) ayrı bir testle donduruyor — EN tarafında `agency` yasağı da aynı biçimde yalnız bu sayfanın `seo.title.en`i için esnedi. İkinci karar aynı oturumdan: **hizmet sayfasının kanıt şeridi iki vaka basıyor** (`relatedCasesForService` — elle seçim, sonra künye, sonra pillar; tekrar yok, limit 2). CRO'nun iki vakası elle seçildi (`featuredCaseSlugs`): GYMWOLVES + OdorGo; künyesinde `cro` taşıyan MKComputer kanıt anlatısı otomasyon olduğu için dışarıda. |
 | v1.15 | 2026-09-18 | **CRO hedef sayfası netleşti — "cro ajansı" tek yüzeyden dört yüzeye (detay: `CRO-Hedef-Netligi-2026-09-18.md`).** U-3 bulgusu kapandı: kelime artık yalnız kapanış SSS'inde değil, `lede`, `seo.description`, `seo.entities` ve ikinci sıraya alınan karşı-konumlandırma SSS'inde yaşıyor (FAQPage `mainEntity` sırası da değişti). `seo.title` tam sorgu biçimini başa aldı ("Dönüşüm oranı optimizasyonu — CRO"); **v1.4 karar 3 değişmedi** — `ajansı`/`firmaları` ailesi `name` ve `seo.title` yüzeylerine girmedi, `keyword-coverage.test.ts` bunu denetlemeye devam ediyor. Prompt'un önerdiği "CRO ajansı: dönüşüm oranı optimizasyonu" başlığı bu kuralla çelişiyor; uygulanmadı, karar Burak'ta. Tazelik sinyali: `ServiceContent.updatedAt` ilk kez CRO'da (`2026-09-18`) ve yeni `WebPage.dateModified` alanını besliyor (`webPageLd`; `Service` düğümüne yazılmaz — `dateModified` bir `CreativeWork` özelliğidir). İç link: `cro-ajansi-nasil-secilir` girişi ve sonucu `/hizmetler/cro`'ya exact-anchor ile bağlandı. Vaka künyesi: GYMWOLVES `cro` taşımaya devam ediyor, SOYLU AVM'ye eklenmedi (anlatıda test ve vazgeçme noktası analizi yok). |
@@ -32,6 +33,8 @@
 ---
 
 ## 1. Stratejik Çerçeve
+
+> **Ana amaç (v1.18, Burak kararı 2026-09-25):** SEO ve GEO, işin ve değerin farkında olan, doğrudan çalışmak isteyen alıcının önüne çıkmak için yapılır — "cro ajansı", "yapay zeka danışmanlığı", "şirketimi yapay zeka motorlarında görünür kılacak bir ajans önerir misin" tipi satın alma niyetli sorgularda görünürlük. Genel ve rekabetli kelimelerden ("dijital reklam ajansı", "google reklam ajansı", "mvp nedir", "iş zekası") **bilinçli olarak uzak durulur**: hacimleri büyük ama bu alıcıyı taşımıyorlar ve yeni bir alan adının ilk sayfaya çıkması beklenmez. Başarı toplam gösterimle değil, niyetli sorgulardaki sıralama, hizmet sayfalarının payı ve nitelikli formla ölçülür (§9). Uygulama sırası: `Yol-Haritasi-Satin-Alma-Niyeti-2026-09.md`; hedef sorgular: `Niyetli-Sorgu-Seti-2026-09.md`.
 
 Tek cümlelik strateji:
 
@@ -73,6 +76,8 @@ Kaynak: `Keyword-Planner/keyword-hacim-birlesik.csv` (245 kelime, hacim bantlar�
 6. **Küme budaması:** İş Otomasyonu bağımsız küme olmaktan çıkar (toplam ~100; "yapay zeka otomasyonu" 100-1B kelimesi AI kümesine taşınır, hizmet sayfası kalır). EN'de "cro agency" Londra'da veri üretmedi — **EN-CRO ertelenir**; EN önceliği: "ai consultancy / artificial intelligence consulting / digital transformation consultancy" (100-1B Orta) + ~~**"ux agency london" (100-1B, Düşük)**~~ — **GEÇERSİZ (v1.4):** Londra varlığı teyit edilemedi; lokasyon iddiası olmadan bu kelime hedeflenemez + "custom software development company" (100-1B, Düşük).
 
 **Revize öncelik sıralaması:** P0-müşteri: CRO + Yapay Zeka Danışmanlığı · P0-trafik: GEO-editoryal · P1: Performans Pazarlama, E-Ticaret ("e ticaret danışmanlığı/danışmanı/ajansı" üçlüsü 100-1B), UI/UX ("ui ux tasarım", "ux tasarımı", "kullanıcı deneyimi tasarımı" 100-1B Düşük), İş Geliştirme (kategori) · P2: Özel Yazılım/MVP, Dijital Dönüşüm, İş Zekası + İşletme Müh. (eğitici açı), Marka Stratejisi, Lokal ("yazılım şirketi istanbul" 100-1B Düşük).
+
+> **v1.18 öncelik güncellemesi:** Geçerli sıralama `Yol-Haritasi-Satin-Alma-Niyeti-2026-09.md` §2'nin odak haritasıdır — **P0:** CRO, yapay zeka danışmanlığı, GEO / yapay zeka görünürlüğü (artık trafik kümesi değil müşteri kümesi; hizmet sayfası açılıyor) · **P1:** e-ticaret danışmanlığı, dijital dönüşüm danışmanlığı, UX · **P2:** yazılım / teknoloji danışmanlığı · **Dışarıda:** genel reklam ajansı kelimeleri (karar 4'ün "google/dijital reklam ajansı" havuzu dahil) ve baş kelimeler (mvp nedir, iş zekası, işletme mühendisliği). Yukarıdaki satır v1.2 kaydı olarak korunur.
 
 Aşağıdaki küme tabloları v1.0 yapısını korur; hacim detayı birleşik CSV'dedir.
 
@@ -175,6 +180,12 @@ GSC'nin en ilginç bulgusu: site zaten "yapay zeka arama optimizasyonu" (99 gös
 ## 4. İçerik Motoru — Haftada 2, 12 Haftalık Takvim
 
 > **Güncel sıralama (v1.7):** Aşağıdaki tablo özgün planı korur. Uygulanacak sıra **`Keyword-Onceliklendirme-2026-08-27.md` §3**'tedir — AI slotları (h.1-2, h.2-2) ve GEO slotları (h.7-2, h.10-2) ilk iki haftaya çekildi, yayında olan iki slot (h.7-1, h.8-1) silinip kapasitesi iki yeni slota aktarıldı.
+>
+> **Öncelikten düşenler (v1.18):** İki slot silinmedi, sırası belirsiz sona alındı:
+> 1. **h.12-1 "MVP nasıl kapsamlanır"** — kanonik hedefi "mvp nedir" (1B-10B, Düşük). Gerekçe: bilgi niyetli baş kelime, alıcıyı taşımıyor; 25 Eylül analizinde sıfır gösterim. MVP Build paketi kendi dar kelimeleriyle ("mvp geliştirme") kalır.
+> 2. **K-1 "Reklam ajansı seçim rehberi"** (Keyword-Onceliklendirme §3, hafta 7) — "google/dijital reklam ajansı" havuzu (2 × 1B-10B, Orta). Gerekçe: Burak kararıyla genel reklam ajansı kelimelerinde güç harcanmaz; rekabet ve teklif maliyeti en yüksek havuz, INDOLES'in P0 hizmetini arayan alıcı burada değil.
+>
+> Boşalan kapasite yol haritası §4'ün karar içeriklerine gider (Faz 1: GEO hizmet sayfası + "GEO ajansı nasıl seçilir", CRO "neye mal olur"; Faz 2: yapay zeka danışmanlığı "neye mal olur" + "ajans mı danışmanlık mı", e-ticaret karar kümesi). Ritim: haftada 1 karar içeriği + 1 destek içeriği.
 
 Kadans: **her hafta 1 ticari-destek içerik + 1 otorite/GEO içeriği.** Tüm slotlar yeni üretim — revize eski yazılar ve vakalar launch'ta zaten yayında. Her makale: Q&A-formatlı H2'ler, ilk 2 cümlede net cevap, en az 1 orijinal rakam/çerçeve, danışman kadrosundan gerçek yazar (author schema), 3-5 iç link (en az 1'i ilgili vakaya), FAQ bloğu.
 
@@ -191,7 +202,7 @@ Kadans: **her hafta 1 ticari-destek içerik + 1 otorite/GEO içeriği.** Tüm sl
 | 9 | UX denetimi nasıl yapılır: SaaS ve e-ticaret için çerçeve | ChatGPT ve Gemini'de markanız nasıl önerilir: GEO taktik rehberi |
 | 10 | UI/UX ajansı seçim rehberi: portföyde neye bakılır (BOFU) | llms.txt nedir, nasıl hazırlanır (TR'de ilk kanonik içerik) |
 | 11 | Özel yazılım mı hazır çözüm mü: karar çerçevesi | İş otomasyonu nereden başlar: önce hangi süreçler |
-| 12 | MVP nasıl kapsamlanır: 6 haftada üretime çıkma | Sepet terk oranı düşürme: uçtan uca rehber |
+| 12 | MVP nasıl kapsamlanır: 6 haftada üretime çıkma — *öncelikten düştü (v1.18)* | Sepet terk oranı düşürme: uçtan uca rehber |
 
 Notlar:
 - BOFU içerikleri (h.2) öne çekildi — 6 ay müşteri hedefinde en kısa yol satın alma niyetli sorgular.
@@ -251,13 +262,44 @@ PostHog funnel: organik giriş → magnet → e-posta → Cal.com → görüşme
 
 ## 9. Ölçüm Çerçevesi ve 6 Ay Hedefinin Matematiği
 
+> **v1.18 — toplam gösterim artık bağlam ölçüsüdür.** İzlenmeye devam eder (`ozet.txt` haftalık toplamı), ama hedef ve alarm eşiği değildir. Gerekçe: niyetli sorgu düşük hacimlidir — GKP "cro ajansı / cro danışmanlığı / cro uzmanı"na hacim bile göstermiyor — ve toplam gösterimi bilgi yazıları ile TR dışı trafik taşıyor (25 Eylül analizi: gösterimin %62'si yazılar, %32'si TR dışı, TR hizmet sayfaları %3). Toplam gösterimi büyütmenin en kısa yolu tam da §1'in uzak durduğu baş kelimelerdir.
+
+### 9.1 Birincil ölçüler ve 30 Kasım hedefleri (v1.18)
+
+Kaynak: `Yol-Haritasi-Satin-Alma-Niyeti-2026-09.md` §5. Baz çizgisi 22 Ağu–19 Eyl GSC verisinden (`Niyetli-Sorgu-Seti-2026-09.md` §4).
+
+| Ölçü | Tanım ve kaynak | Baz (22 Ağu–19 Eyl) | 30 Kasım hedefi |
+|---|---|---|---|
+| **Niyetli sorgularda ilk 10'daki sorgu** | N0 satın alma niyeti kümesinde ağırlıklı ort. poz ≤ 10 olan sorgu sayısı — `gsc-pull.mjs`, `ozet.txt` "Satın alma niyeti" bölümü | 4 | **12+** |
+| **Hizmet sayfalarının gösterim payı** | `/tr/hizmetler/*` + `/en/services/*` gösterimi / toplam sayfa gösterimi — aynı bölüm | %2,94 (69 / 2.346) | **%15** |
+| **Niyetli sorgulardan tıklama** | N0 kümesinin tıkı, 28 günlük pencere — aynı bölüm | 0 | **ayda 20+** |
+| **Form / brief** | GA4 lead anahtar olayları (`contact_form_submitted`, `contact_booking_submitted`, `popup_booking_submitted`, `popup_contact_submitted`); nitelik elle ayrılır | GA4'te teyit edilecek | **ayda 5+ nitelikli** |
+| **GEO turu** | `GEO-Olcum-Rutini.md`: 10 sabit prompt × 3 motor = 30 sorgu, INDOLES'in geçtiği sorgu sayısı | 1/30 | **5/30** |
+
+**Niyetli sorgu** = TR niteleyici (ajansı, danışmanlığı, firması, uzmanı, hizmeti, fiyat, nasıl seçilir, önerir misin, en iyi … kimlerdir) + altı hizmetten birinin terimi; genel reklam ajansı, kariyer ve araç niyeti hariç. Kural ve 43 sorguluk hedef set `Niyetli-Sorgu-Seti-2026-09.md`'de. Ölçüm set üzerinden değil kural üzerinden alınır — alıcı her hafta yeni bir konuşma biçimiyle arıyor; set kuralın hedef çekirdeğidir ve setteki her sorgunun kurala düştüğü testle sabitlenmiştir.
+
+### 9.2 A-4 — yeniden tanım (v1.18)
+
+| | Eski (v1.7 – v1.17) | Yeni (v1.18) |
+|---|---|---|
+| Ölçü | Aylık toplam gösterim | Üç GSC ölçüsü: niyetli sorgularda ilk 10 · hizmet sayfası gösterim payı · niyetli tık |
+| Eşik | 3. ay <8K/ay | 30 Kasım kaydında üç ölçüden **ikisi** hedefin altında (<12 sorgu · <%15 · <20 tık) |
+| Aksiyon | Strateji revizyonu | Strateji revizyonu (değişmedi) |
+| Haftalık kontrol | `ozet.txt` A-4 satırı: "ALTINDA / üstünde" | `ozet.txt` A-4 satırı her hafta "30 Kasım hedefinin altında N/3 ölçü" yazar; alarm yalnız 30 Kasım kaydında değerlendirilir |
+
+"Üçten ikisi" eşiği yol haritasının hedeflerinden türetilmiş bir öneridir, Burak teyidi bekliyor. Form ve GEO turu alarma girmez (script onları göremez); 30 Kasım 90 gün raporunda alarm satırının yanında raporlanır. Bugünkü durum: 3/3 ölçü hedefin altında — beklenen, Faz 1 başlıyor.
+
+### 9.3 v1.0 çerçevesi (tarihsel)
+
+Aşağıdaki tablo ve paragraf v1.0 kaydıdır. Gösterim satırları v1.18'den itibaren bağlam ölçüsüdür; "≥1 yeni müşteri" ve görüşme hedefleri geçerliliğini korur.
+
 | Dönem | KPI | Eşik |
 |---|---|---|
 | Ay 1 | Teknik: indeksleme oranı, 301 bütünlüğü, CWV yeşil | Tüm hizmet sayfaları indeksli |
 | Ay 2-3 | Gösterim: 2K/ay → 15-25K/ay · CRO kümesinde ilk sayfa · CTR >%2 | "dönüşüm optimizasyonu" top-10 |
 | Ay 4-6 | 10+ kelime ilk sayfa · 800-1.500 organik oturum/ay · 30-60 magnet lead · 10-20 Cal.com görüşmesi (kümülatif) | **≥1 yeni müşteri** |
 
-Dürüst not: 6 ayda organikten müşteri **mümkün ama dar marj** — matematik şöyle çalışır: en hızlı kapanış BOFU kelimeler (cro ajansı, ai danışmanlığı) + GBP + vaka sayfaları üçgeninden gelir; hacim kelimeleri 6. aydan sonra ivmelenir. LinkedIn dağıtımı bu süreyi kısaltan tek bedava çarpan — içerik motoruyla aynı disiplinde yürütülmeli. 3. ay sonunda gösterim eğrisi yataysa strateji revize edilir (eşik: aylık gösterim <8K ise alarm).
+Dürüst not: 6 ayda organikten müşteri **mümkün ama dar marj** — matematik şöyle çalışır: en hızlı kapanış BOFU kelimeler (cro ajansı, ai danışmanlığı) + GBP + vaka sayfaları üçgeninden gelir; hacim kelimeleri 6. aydan sonra ivmelenir. LinkedIn dağıtımı bu süreyi kısaltan tek bedava çarpan — içerik motoruyla aynı disiplinde yürütülmeli. ~~3. ay sonunda gösterim eğrisi yataysa strateji revize edilir (eşik: aylık gösterim <8K ise alarm).~~ **v1.18:** Alarm niyetli ölçülere çevrildi — bkz. §9.2.
 
 ---
 
@@ -318,4 +360,4 @@ Keyword Planner'dan çekilecek kolonlar: kelime · aylık ort. hacim · rekabet 
 
 ---
 
-**Sürüm:** v1.12 · Değişiklikler bu dosyada changelog ile ilerler; büyük revizyon = v2 dosyası, üzerine yazılmaz.
+**Sürüm:** v1.18 · Değişiklikler bu dosyada changelog ile ilerler; büyük revizyon = v2 dosyası, üzerine yazılmaz.

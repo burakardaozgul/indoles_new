@@ -306,6 +306,9 @@ const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
   ["google-ai-overviews-da-yer-almak", "google ai overviews"],
   ["google-ai-overviews-da-yer-almak", "ai overview"],
   ["llms-txt-nedir", "llms txt"],
+  // Karar kümesi "nasıl seçilir" (Yol-Haritasi-Satin-Alma-Niyeti §3): seçim
+  // niyeti bu yazıda, satın alma niyeti `geo-danismanligi` hizmet sayfasında.
+  ["geo-ajansi-nasil-secilir", "geo ajansı"],
   ["cro-nedir", "cro nedir"],
   ["cro-nedir", "ab testi"],
   ["cro-nedir", "sepet terk"],

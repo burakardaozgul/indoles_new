@@ -12,7 +12,8 @@ const entries = sitemap();
 const urls = entries.map((e) => e.url);
 
 describe("sitemap", () => {
-  it("12 hizmetin TR ve EN URL'ini içerir", () => {
+  it("13 hizmetin TR ve EN URL'ini içerir", () => {
+    expect(SERVICES).toHaveLength(13);
     for (const s of SERVICES) {
       expect(urls).toContain(`${SITE_URL}/tr/hizmetler/${s.slug.tr}`);
       expect(urls).toContain(`${SITE_URL}/en/services/${s.slug.en}`);

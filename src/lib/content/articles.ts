@@ -5909,8 +5909,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Turun ilk aylarında sonuç genellikle sıfıra yakın okunur ve bu normaldir. İlk sinyal kategori sorularından değil kısıt sorularından gelir: uzun ve şartlı bir soruda adınızın geçmesi, kategori sorusunda geçmesinden aylar önce olur. SIM Baskı Malzemeleri'nde AI motorlarındaki görünürlük altı aylık bir içerik programının sonunda sıfırdan 40 bine çıktı; o altı ayın büyük kısmı, dışarıdan bakan biri için hiçbir şeyin olmadığı bir dönem gibi görünürdü. Ölçmenin asıl faydası burada — eğriyi göremeyen ekip, işe yarayan programı üçüncü ayda kapatır.",
-          en: "In the round's first months the result usually reads close to zero, and that is normal. The first signal comes from the constraint questions rather than the category ones: your name appears inside a long, conditional question months before it appears in the category answer. At SIM Printing Suppliers, visibility across AI engines went from zero to 40,000 at the end of a six-month content programme; for most of those six months, seen from outside, it looked like a period when nothing was happening. That is the real use of measuring — a team that can't see the curve shuts down the programme that works in month three.",
+          tr: "Turun ilk aylarında sonuç genellikle sıfıra yakın okunur ve bu normaldir. İlk sinyal kategori sorularından değil kısıt sorularından gelir: uzun ve şartlı bir soruda adınızın geçmesi, kategori sorusunda geçmesinden aylar önce olur. SIM Baskı Malzemeleri'nde AI motorlarındaki görünürlük altı aylık bir içerik programının sonunda sıfırdan 40 bine çıktı; o altı ayın büyük kısmı, dışarıdan bakan biri için hiçbir şeyin olmadığı bir dönem gibi görünürdü. Ölçmenin asıl faydası burada — eğriyi göremeyen ekip, işe yarayan programı üçüncü ayda kapatır. Aynı turu teknik zemin ve içerik mimarisiyle birlikte bir markanın sitesinde nasıl kurduğumuz [GEO danışmanlığı sayfamızda](/hizmetler/geo-danismanligi) adım adım yazılı.",
+          en: "In the round's first months the result usually reads close to zero, and that is normal. The first signal comes from the constraint questions rather than the category ones: your name appears inside a long, conditional question months before it appears in the category answer. At SIM Printing Suppliers, visibility across AI engines went from zero to 40,000 at the end of a six-month content programme; for most of those six months, seen from outside, it looked like a period when nothing was happening. That is the real use of measuring — a team that can't see the curve shuts down the programme that works in month three. How we set up the same round on a brand's site, together with the technical groundwork and content structure, is written out step by step on [our GEO consulting page](/hizmetler/geo-danismanligi).",
         },
       },
       {
@@ -7392,8 +7392,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Aynı disiplinin pazarlama tarafındaki karşılığını [ajansa sorulacak sekiz soruda](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) yazmıştık; sorular farklı, mantık aynı. Bu on iki soruyu bize de sorun: ikinci ve sekizinci sorunun cevabı bu yazının içinde, rakamlarıyla duruyor.",
-          en: "We wrote the marketing-side equivalent of this discipline in [eight questions to ask an agency](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru); different questions, same logic. Ask us these twelve too: the answers to the second and the eighth already sit inside this article, with their numbers attached.",
+          tr: "Aynı disiplinin pazarlama tarafındaki karşılığını [ajansa sorulacak sekiz soruda](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) yazmıştık; sorular farklı, mantık aynı. Aradığınız şey yapay zeka motorlarında görünür olmaksa, yani ChatGPT'nin ya da Perplexity'nin sizi kaynak göstermesiyse, soru listesi başka: [GEO ajansı seçerken sorulacaklar](/yazilar/geo-ajansi-nasil-secilir) ayrı bir yazıda. Bu on iki soruyu bize de sorun: ikinci ve sekizinci sorunun cevabı bu yazının içinde, rakamlarıyla duruyor.",
+          en: "We wrote the marketing-side equivalent of this discipline in [eight questions to ask an agency](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru); different questions, same logic. If what you are after is visibility in AI engines, meaning ChatGPT or Perplexity citing you as a source, the question list is different: [what to ask when choosing a GEO agency](/yazilar/geo-ajansi-nasil-secilir) sits in a separate article. Ask us these twelve too: the answers to the second and the eighth already sit inside this article, with their numbers attached.",
         },
       },
     ],
@@ -8617,8 +8617,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Sınırı da çizelim. Bu bir garanti değil, bir örüntü: aynı yapıyı kuran her site aynı hızda ilerlemiyor, sektörün rekabeti ve sitenin teknik durumu hızı belirliyor. Ölçülmüş başka örnekleri rakamlarıyla görmek isterseniz [vaka sayfalarımız](/vakalar) açık duruyor.",
-          en: "Let's draw the boundary too. This is a pattern, not a guarantee: not every site building the same structure moves at the same speed, and the competition in a sector plus the technical state of the site set the pace. If you want to see other measured examples with their numbers attached, [our case pages](/vakalar) are open.",
+          tr: "Sınırı da çizelim. Bu bir garanti değil, bir örüntü: aynı yapıyı kuran her site aynı hızda ilerlemiyor, sektörün rekabeti ve sitenin teknik durumu hızı belirliyor. Ölçülmüş başka örnekleri rakamlarıyla görmek isterseniz [vaka sayfalarımız](/vakalar) açık duruyor. Aynı koşulları bir sitede kurarken izlediğimiz adım sırası da [GEO danışmanlığı hizmetimizde](/hizmetler/geo-danismanligi) yazılı.",
+          en: "Let's draw the boundary too. This is a pattern, not a guarantee: not every site building the same structure moves at the same speed, and the competition in a sector plus the technical state of the site set the pace. If you want to see other measured examples with their numbers attached, [our case pages](/vakalar) are open. The order of steps we follow when building the same conditions on a site is written out in [our GEO consulting service](/hizmetler/geo-danismanligi).",
         },
       },
       {
@@ -9052,8 +9052,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Dosyanın bugünkü içeriği: üç disiplin altında 12 hizmet, 9 vaka çalışması, yayındaki her yazı, iletişim ve beş kaynak sayfası — Türkçe sürümde kırkı aşan bağlantı, her biri tek cümlelik açıklamasıyla. Kök /llms.txt iki dili tek belgede birleştiriyor, Türkçe bölüm önde, bir ayırıcıdan sonra İngilizce bölüm geliyor. Tek dilli sürümler karşı dile hiçbir bağlantı taşımıyor, çünkü tek dilli bir dosyanın işi kendi dilinin haritasını vermek.",
-          en: "What the file holds today: 12 services across three disciplines, 9 case studies, every published article, contact details and five resource pages — over forty links in the Turkish version, each with its own one-sentence description. The root /llms.txt merges both languages into one document, Turkish first, English after a separator. The single-language versions carry no links to the other language, because a single-language file's job is to map its own language.",
+          tr: "Dosyanın bugünkü içeriği: üç disiplin altında 13 hizmet, 9 vaka çalışması, yayındaki her yazı, iletişim ve beş kaynak sayfası — Türkçe sürümde kırkı aşan bağlantı, her biri tek cümlelik açıklamasıyla. Kök /llms.txt iki dili tek belgede birleştiriyor, Türkçe bölüm önde, bir ayırıcıdan sonra İngilizce bölüm geliyor. Tek dilli sürümler karşı dile hiçbir bağlantı taşımıyor, çünkü tek dilli bir dosyanın işi kendi dilinin haritasını vermek.",
+          en: "What the file holds today: 13 services across three disciplines, 9 case studies, every published article, contact details and five resource pages — over forty links in the Turkish version, each with its own one-sentence description. The root /llms.txt merges both languages into one document, Turkish first, English after a separator. The single-language versions carry no links to the other language, because a single-language file's job is to map its own language.",
         },
       },
       {
@@ -9066,8 +9066,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bu dosyaların [SIM Baskı Malzemeleri vakasındaki](/vakalar/sim-baski-ihracat-icerigi) sonuçları ürettiğini iddia etmiyoruz. Orada organik trafiğin altı ayda 15 katına çıkması ve AI motorlarındaki görünürlüğün sıfırdan 40 bine ulaşması, sitenin beş dilli olarak yeniden kurulmasından ve içeriğin soru-cevap mimarisiyle yazılmasından geldi. llms.txt o işin dipnotu, kaldıracı değil. Sıralama bilinçli: önce içerik, sonra harita.",
-          en: "We do not claim these files produced the results in the [SIM Printing Suppliers case](/vakalar/sim-baski-ihracat-icerigi). There, organic traffic growing 15× in six months and visibility in AI engines going from zero to 40,000 came from rebuilding the site in five languages and writing the content on a question-and-answer architecture. llms.txt is a footnote to that work, not its lever. The order is deliberate: content first, map second.",
+          tr: "Bu dosyaların [SIM Baskı Malzemeleri vakasındaki](/vakalar/sim-baski-ihracat-icerigi) sonuçları ürettiğini iddia etmiyoruz. Orada organik trafiğin altı ayda 15 katına çıkması ve AI motorlarındaki görünürlüğün sıfırdan 40 bine ulaşması, sitenin beş dilli olarak yeniden kurulmasından ve içeriğin soru-cevap mimarisiyle yazılmasından geldi. llms.txt o işin dipnotu, kaldıracı değil. Sıralama bilinçli: önce içerik, sonra harita. Dipnotun ait olduğu işin tamamı — teknik zemin, içerik mimarisi, aylık ölçüm — [GEO danışmanlığı hizmetimizin](/hizmetler/geo-danismanligi) kapsamında.",
+          en: "We do not claim these files produced the results in the [SIM Printing Suppliers case](/vakalar/sim-baski-ihracat-icerigi). There, organic traffic growing 15× in six months and visibility in AI engines going from zero to 40,000 came from rebuilding the site in five languages and writing the content on a question-and-answer architecture. llms.txt is a footnote to that work, not its lever. The order is deliberate: content first, map second. The whole of the work that footnote belongs to — technical groundwork, content structure, monthly measurement — sits within the scope of [our GEO consulting service](/hizmetler/geo-danismanligi).",
         },
       },
       {
@@ -9253,8 +9253,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "How many links should an llms txt file contain?",
         },
         answer: {
-          tr: "Sabit bir sayı yok, ama seçicilik dosyanın işlevinin kendisi. Yirmi ile kırk bağlantı çoğu kurumsal site için işi görüyor; bizim Türkçe sürümümüzde 12 hizmet, 9 vaka ve yayındaki her yazıyla birlikte kırkın üzerinde satır var. Sınırı belirleyen soru şu: bir model bu listeyle sizi doğru anlatabilir mi? Yüzlerce bağlantı eklemek dosyayı sitemap kopyasına çevirir ve seçim yapmadığınız için modelin işini kolaylaştırmaz.",
-          en: "No fixed number exists, but selectivity is the whole function of the file. Twenty to forty links serve most corporate sites; our Turkish version runs to over forty lines with 12 services, 9 case studies and every published article. The question that sets the limit is whether a model could describe you correctly from this list alone. Adding hundreds of links turns the file into a copy of the sitemap and, because you made no selection, does nothing to ease the model's work.",
+          tr: "Sabit bir sayı yok, ama seçicilik dosyanın işlevinin kendisi. Yirmi ile kırk bağlantı çoğu kurumsal site için işi görüyor; bizim Türkçe sürümümüzde 13 hizmet, 9 vaka ve yayındaki her yazıyla birlikte kırkın üzerinde satır var. Sınırı belirleyen soru şu: bir model bu listeyle sizi doğru anlatabilir mi? Yüzlerce bağlantı eklemek dosyayı sitemap kopyasına çevirir ve seçim yapmadığınız için modelin işini kolaylaştırmaz.",
+          en: "No fixed number exists, but selectivity is the whole function of the file. Twenty to forty links serve most corporate sites; our Turkish version runs to over forty lines with 13 services, 9 case studies and every published article. The question that sets the limit is whether a model could describe you correctly from this list alone. Adding hundreds of links turns the file into a copy of the sitemap and, because you made no selection, does nothing to ease the model's work.",
         },
       },
       {
@@ -9302,6 +9302,690 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "llms.txt, sitenizin haritasını dil modellerine sade metinle veren bir dosya önerisi. Ne işe yarar, llms-full.txt'ten farkı ne, AI crawler'lar okuyor mu?",
         en: "llms.txt hands language models a plain-text map of your site. What it does, how it differs from llms-full.txt, whether AI crawlers read it, how to write one.",
+      },
+    },
+  },
+  {
+    // Karar kümesi "nasıl seçilir" halkası (Yol-Haritasi-Satin-Alma-Niyeti
+    // §3, 2026-09-25). Emsal: `cro-ajansi-nasil-secilir`. Seçim niyeti bu
+    // yazıda, satın alma niyeti `/hizmetler/geo-danismanligi`nde (ADR-040);
+    // bilgi niyeti kanonik rehberde kalır. Kendi sitemizin rakamları kaynak
+    // ve tarihle: GSC `haftalik-2026-09-22` (2026-08-22 → 2026-09-19),
+    // GEO-Olcum `ozet.md` Ay 0 (2026-08-30, 0/30) ve Ay 1 (2026-09-01, 1/30).
+    slug: {
+      tr: "geo-ajansi-nasil-secilir",
+      en: "how-to-choose-a-geo-agency",
+    },
+    title: {
+      tr: "ChatGPT'de anılmayı garanti eden teklif: GEO ajansı nasıl seçilir?",
+      en: "The proposal that guarantees a ChatGPT mention: how to choose a GEO agency",
+    },
+    excerpt: {
+      tr: "GEO teklifleri aynı kelimeleri kullanıyor, aynı ekran görüntülerini gösteriyor. Ayrım ölçüm yönteminde, ilk görüşmenin on sorusunda ve üç kırmızı bayrakta ortaya çıkıyor.",
+      en: "GEO proposals use the same words and show the same screenshots. The difference shows up in the measurement method, in ten first-meeting questions and in three red flags.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Selin'in masasında iki GEO teklifi vardı. Birincisi üç ay içinde ChatGPT'de \"kategorinizde ilk anılan marka\" olmayı garanti ediyor, her ay bir yapay zeka görünürlük skoru raporluyordu; fiyatı diğerinin yarısıydı. İkincisi hiçbir garanti vermiyordu. Onun yerine her ay hangi 10 sorunun, hangi üç motora, hangi kurallarla sorulacağını madde madde yazıyordu. Selin birincisini seçti.",
+          en: "Two GEO proposals sat on Selin's desk. The first guaranteed that within three months her company would be \"the first brand named in your category\" on ChatGPT, with an AI visibility score reported every month; it cost half as much as the other. The second guaranteed nothing. Instead it listed, line by line, which 10 questions would be asked each month, to which three engines, under which rules. Selin picked the first.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü ayın sonunda elinde kurulmuş bir llms.txt dosyası, her ay biraz yükselen bir skor grafiği ve ChatGPT ekranından alınmış üç görüntü vardı. Görüntülerin üçünde de markası anılıyordu, çünkü üç promptta da markanın adı geçiyordu. Adı çıkarıp aynı soruyu kendisi sorduğunda cevapta yine rakipleri vardı. Selin'i bu yazı için kurguladım; yazıdaki tek kurgu da o.",
+          en: "By the end of the fourth month she had an installed llms.txt file, a score chart that crept up a little every month and three screenshots from ChatGPT. All three showed her brand being named, because all three prompts contained the brand's name. When she removed the name and asked the same question herself, the answer still listed her competitors. I invented Selin for this article; she is the only invented thing in it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GEO ajansı seçmek bir içerik tedarikçisi seçmek değil, ölçüm ortağı seçmektir. Yanlış seçim bütçeden fazlasını götürür: yanlış kurulmuş bir ölçüm, işe yaramayan programı başarılı, işe yarayanı başarısız gösterir ve bir sonraki yılın kararları bu yanılgının üstüne kurulur. Aşağıda altı değerlendirme kriteri, ilk görüşmede sorulacak on soru, görüşmeyi bitirmenizi gerektiren üç vaat ve fiyatın nasıl oluştuğu var. Kavramın kendisi [yapay zeka aramalarında öne çıkma rehberinde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) anlatılıyor; [GEO ajansı olarak nasıl çalıştığımız](/hizmetler/geo-danismanligi) ise hizmet sayfasında yazılı.",
+          en: "Choosing a GEO agency is not choosing a content supplier; it is choosing a measurement partner. A wrong choice costs more than the budget: a badly built measurement makes a programme that doesn't work look successful and one that does work look like a failure, and the next year's decisions get built on that error. Below are six evaluation criteria, ten questions for the first meeting, three promises that should end the conversation, and how the price is put together. The concept itself is explained in the [guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz); [how we work as a GEO agency](/hizmetler/geo-danismanligi) is written out on the service page.",
+        },
+      },
+      {
+        type: "h2",
+        id: "geo-ajansi-ne-satar",
+        text: {
+          tr: "GEO ajansı ne satar, ne satmaz?",
+          en: "What does a GEO agency sell, and what doesn't it?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GEO ajansı size sıralama satmaz; ChatGPT, Gemini, Perplexity ve Google AI Overviews bir soruyu cevaplarken markanızın kaynak gösterilme olasılığını artıran işi satar. Bu olasılık dört katmanda kurulur: motorun sitenizi okuyabildiği teknik zemin, kesilip alındığında ayakta kalan içerik, markanızın her kaynakta aynı cümleyle tanımlanması ve bunların hepsini her ay izleyen bir ölçüm.",
+          en: "A GEO agency does not sell you rankings; it sells the work that raises the chance of your brand being cited when ChatGPT, Gemini, Perplexity and Google AI Overviews answer a question. That chance is built in four layers: technical groundwork that lets an engine read your site, content that still stands when a passage is lifted out, a brand described in the same sentence everywhere, and a measurement that tracks all of it every month.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Satmadığı şeyler de o kadar net olmalı. İyi bir GEO ajansı motorların kaynak seçimini kontrol ettiğini iddia etmez, çünkü hiçbir motor bu seçimi dışarıya açmıyor. Reklam alanı satmaz; ChatGPT'de reklam vermek ayrı bir iştir ve [ChatGPT reklamları yazısında](/yazilar/chatgpt-reklamlari-turkiye) anlattığım gibi organik görünürlüğün yerine değil üstüne gelir. Sıralama raporu da satmaz: Google sıralamasını gösteren bir rapor değerli olabilir, ama o rapor SEO'nun raporudur.",
+          en: "What it doesn't sell should be just as clear. A good GEO agency does not claim to control how engines pick sources, because no engine discloses that choice. It does not sell ad space; advertising on ChatGPT is a separate job and, as I set out in the [piece on ChatGPT ads](/yazilar/chatgpt-reklamlari-turkiye), it sits on top of organic visibility rather than replacing it. Nor does it sell a ranking report: a report on Google rankings can be useful, but it is SEO's report.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sınırın önemi şurada: GEO, SEO'nun üstüne kurulur ama onun yerine geçmez. İndekslenmeyen, yavaş açılan ya da içeriğini JavaScript arkasına saklayan bir sayfayı üretken motor da okuyamaz. İyi ajans ilk görüşmede sitenizin bu tabanı taşıyıp taşımadığını söyler; taşımıyorsa önce onu düzeltmeyi önerir. Zayıf ajans tabana bakmadan içerik takvimi sunar.",
+          en: "The boundary matters because GEO is built on top of SEO without replacing it. A generative engine cannot read a page that isn't indexed, loads slowly or hides its content behind JavaScript. A good agency tells you in the first meeting whether your site carries that foundation and, if it doesn't, proposes fixing that first. A weak agency presents a content calendar without looking at the foundation.",
+        },
+      },
+      {
+        type: "h2",
+        id: "basari-olcusu",
+        text: {
+          tr: "Ajans başarıyı neyle ölçüyor?",
+          en: "What does the agency measure success by?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İlk kriter budur, çünkü diğer beşinin değeri ona bağlı: ajans GEO'nun sonucunu neyle ölçüyor? Doğru cevap sıralama değil anılmadır — belirli soruların cevabında markanızın geçip geçmediği, hangi cümleyle geçtiği ve hangi sayfanızın kaynak gösterildiği.",
+          en: "This is the first criterion, because the value of the other five depends on it: what does the agency measure GEO's outcome by? The right answer is not rankings but mentions — whether your brand appears in the answer to specific questions, in which sentence, and which of your pages is cited.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi yöntemimizi örnek vereyim, çünkü görüşmede aynı ayrıntıyı karşı taraftan da duymalısınız. Her ay aynı 10 prompt ChatGPT, Gemini ve Perplexity'ye soruluyor: dördü kategori sorusu, üçü kısıt sorusu, üçü karşılaştırma sorusu. Promptlar bir kez yazılıyor ve değişmiyor; marka adı hiçbirinde geçmiyor, sorular temiz oturumda soruluyor ve yanıtlar elle kaydediliyor. Ayda 30 sorgu, her biri için üç alan: geçtik mi, hangi cümleyle, hangi sayfa kaynak gösterildi. Yöntemin gerekçesi [GEO rehberinin ölçüm bölümünde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) ayrıntısıyla duruyor.",
+          en: "Let me use our own method as the example, because you should hear the same level of detail from the other side of the table. Every month the same 10 prompts go to ChatGPT, Gemini and Perplexity: four category questions, three constraint questions, three comparison questions. The prompts are written once and never change; none contains the brand name, the questions are asked in a clean session and the answers are recorded by hand. Thirty queries a month, three fields for each: did we appear, in which sentence, which page was cited. The reasoning behind the method is laid out in the measurement section of [the GEO guide](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz).",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçümün dürüst olup olmadığını anlamanın en hızlı yolu, ajansın kendi sayısını sormaktır. Bizimki şu: 30 Ağustos 2026'daki başlangıç turunda 30 sorgunun hiçbirinde geçmedik; 1 Eylül 2026 turunda Perplexity, CRO ajansı seçimiyle ilgili bir soruda [CRO ajansı seçim yazımızı](/yazilar/cro-ajansi-nasil-secilir) kaynak gösterdi ve sayı 1/30 oldu. Küçük bir sayı, ama nereden geldiğini ve hangi sayfanın hangi soruda kaynak gösterildiğini biliyoruz. \"Görünürlüğünüz yüzde kırk arttı\" diyen ama hangi sorunun cevabında arttığını söyleyemeyen bir rapor ölçüm değil, izlenimdir.",
+          en: "The quickest way to tell whether a measurement is honest is to ask the agency for its own number. Ours is this: in the baseline round on 30 August 2026 we appeared in none of the 30 queries; in the 1 September 2026 round Perplexity cited [our article on choosing a CRO agency](/yazilar/cro-ajansi-nasil-secilir) for a question on that subject, and the number became 1/30. A small number, but we know where it came from and which page was cited for which question. A report that says \"your visibility is up forty percent\" but cannot tell you in the answer to which question is an impression, not a measurement.",
+        },
+      },
+      {
+        type: "h2",
+        id: "teknik-zemin",
+        text: {
+          tr: "Ajans teknik zemine nereden bakıyor?",
+          en: "Where does the agency start with your technical groundwork?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci kriter zemindir: ajans içerik konuşmadan önce sitenizin yapay zeka motorlarına açık olup olmadığına bakıyor mu? Zemin beş sinyalde okunur — robots.txt'te AI botlarına verilen izin, llms.txt dosyası, yapısal veri, dil sinyalleri ve soru biçimli başlıkların oranı.",
+          en: "The second criterion is the groundwork: before talking about content, does the agency check whether your site is open to AI engines at all? The groundwork reads on five signals — the permission given to AI crawlers in robots.txt, the llms.txt file, structured data, language signals and the share of headings written as questions.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu beşini görüşmeden önce kendiniz ölçebilirsiniz. [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) ücretsiz ve saniyeler içinde yüz puanlık bir skor veriyor; beş sinyalin puan dağılımını [Türkiye'nin ilk GEO denetim aracı yazısında](/yazilar/turkiyenin-ilk-geo-denetim-araci) açıkladık. Skoru ve en düşük iki kalemi not edin, görüşmede ajansa sorun: sitemde ilk hafta neyi düzelteceksiniz? Cevap elinizdeki bulgularla örtüşüyorsa ajans sitenize gerçekten bakmıştır.",
+          en: "You can measure those five yourself before the meeting. The [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) is free and returns a score out of a hundred within seconds; we explained how the points split across the five signals in the [article on Türkiye's first GEO audit tool](/yazilar/turkiyenin-ilk-geo-denetim-araci). Note the score and the two lowest items, then ask the agency in the meeting: what will you fix on my site in the first week? If the answer matches the findings already in your hands, the agency has genuinely looked at your site.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Somut bir ayrıntı daha sorun: robots.txt'te hangi botlara açıkça izin verilmeli? İyi cevap adları sayar — GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended gibi — ve bir tuzağı da bilir: adı yazılan bot yıldız bloğunu okumaz, yani kısıt listesi her blokta tekrar edilmezse yönetim yolları da açılır. Kendi sitemizde on AI tarayıcıyı adıyla listeleyip aynı kısıtı her blokta tekrarlamamızın sebebi bu; ayrıntısı [llms.txt rehberinde](/yazilar/llms-txt-nedir). Zayıf cevap tek cümledir: \"Botlar zaten sitenize girebiliyor.\"",
+          en: "Ask one more concrete question: which crawlers should robots.txt allow explicitly? A good answer names them — GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot, Google-Extended and so on — and knows the trap as well: a crawler named in its own block never reads the wildcard block, so unless the restriction list is repeated in every block, admin paths open up too. That is why our own site lists ten AI crawlers by name and repeats the same restrictions in each block; the detail is in the [llms.txt guide](/yazilar/llms-txt-nedir). A weak answer is one sentence: \"The bots can already reach your site.\"",
+        },
+      },
+      {
+        type: "h2",
+        id: "icerik-mimarisi",
+        text: {
+          tr: "İçeriği kim, neye göre yazıyor?",
+          en: "Who writes the content, and on what basis?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçüncü kriter içerik mimarisidir. Üretken motorlar uzun girişlerle vakit kaybetmez, bir başlığın altındaki ilk net cevabı alır. Bu yüzden ajansa sorulacak soru \"kaç yazı üreteceksiniz?\" değil, \"başlıkları neye göre seçeceksiniz?\" sorusudur.",
+          en: "The third criterion is content structure. Generative engines don't waste time on long introductions; they take the first clear answer under a heading. So the question to ask an agency isn't \"how many articles will you produce?\" but \"how will you choose the headings?\"",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İyi cevap kaynak gösterir: Search Console'daki sorgu raporu, satış görüşmelerinin ilk dakikaları ve destek kayıtları. Başlık, müşterinin gerçekten kurduğu cümleden çıkar; altındaki ilk paragraf bağlamından koparıldığında da anlamlı kalır, rakamını ve kısıtını cümlenin içinde taşır. Zayıf cevap bir hacimdir: ayda yüz sayfa, yapay zekayla üretilmiş. Yüz sayfanın hiçbiri alıntılanabilir bir paragraf taşımıyorsa hacim, yalnızca taranacak daha çok sayfa demektir.",
+          en: "A good answer names its sources: the Search Console query report, the first minutes of sales calls and support logs. A heading comes from a sentence a customer actually wrote; the paragraph under it still makes sense when lifted out of context and carries its figure and its constraint inside the sentence. A weak answer is a volume: a hundred AI-generated pages a month. If none of those hundred pages holds a citable paragraph, volume only means more pages to crawl.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir test önerisi: ajanstan daha önce yazdığı bir sayfayı isteyin, rastgele bir paragrafını kesin ve bağlamından kopuk okuyun. Öznesi belli mi, iddiası tek cümlede duruyor mu, rakamı kendi içinde mi? Üçüne de evet diyemiyorsanız o paragraf sizin sitenizde de alıntılanmayacaktır.",
+          en: "One test: ask the agency for a page it has written before, cut out a random paragraph and read it out of context. Is its subject clear, does its claim stand in a single sentence, is its figure inside it? If you cannot say yes to all three, that kind of paragraph won't be cited on your site either.",
+        },
+      },
+      {
+        type: "h2",
+        id: "varlik-tutarliligi",
+        text: {
+          tr: "Marka tanımınızı sitenin dışında da düzeltiyor mu?",
+          en: "Does it fix how your brand is described beyond your own site?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü kriter çoğu teklifte hiç geçmez: varlık tutarlılığı. Model bir markayı anlatırken yalnız sitenize bakmaz; LinkedIn sayfanızı, Google işletme kaydınızı, sektör dizinlerini ve hakkınızda yazılmış diğer sayfaları da okur. Sitede bir, LinkedIn'de başka, dizinde üçüncü bir tanım varsa model hangisini yazacağına karar veremez ve emin olduğu rakibi yazar.",
+          en: "The fourth criterion rarely appears in proposals at all: entity consistency. When a model describes a brand it doesn't read only your site; it also reads your LinkedIn page, your Google Business Profile, sector directories and whatever else has been written about you. If the site says one thing, LinkedIn another and a directory a third, the model can't decide which to write, so it writes the competitor it is sure about.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ajansa sorun: markamızın tek cümlelik tanımını kim yazacak, hangi profillerde güncelleyecek ve tutarlılığı nasıl kontrol edecek? Bu iş teknik değil editoryaldir ve çoğu zaman şirket içinde kimsenin sahiplenmediği bir iştir. Sahibi belli olmayan tanım altı ay içinde yeniden dağılır. İyi ajans profil listesini çıkarır, ilk düzeltmeyi yapar ve kaydı size bırakır.",
+          en: "Ask the agency: who will write our one-sentence brand description, on which profiles will it be updated, and how will consistency be checked? This is editorial rather than technical work, and it is usually work nobody inside the company owns. A description without an owner scatters again within six months. A good agency draws up the list of profiles, makes the first round of corrections and leaves the record with you.",
+        },
+      },
+      {
+        type: "h2",
+        id: "raporlama",
+        text: {
+          tr: "Raporda ne görmelisiniz?",
+          en: "What should you see in the report?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beşinci kriter rapordur ve tek soruya iner: raporda sıfır aylar da var mı? Yalnız anıldığınız cevapların ekran görüntüsünü taşıyan bir belge rapor değil, vitrindir.",
+          en: "The fifth criterion is the report, and it comes down to one question: are the zero months in the report too? A document that carries only screenshots of the answers you appeared in is a shop window, not a report.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Şeffaf bir GEO raporu dört şey taşır: sabit soru listesinde kaç sorguda geçtiğiniz, geçtiğiniz her cevapta hangi cümleyle anıldığınız, hangi sayfanızın kaynak gösterildiği ve aynı cevaplarda hangi rakiplerin geçtiği. Bir ayrım daha önemli: marka adı cevabın metninde mi geçiyor, yoksa yalnız kaynak listesinde mi? Kendi ölçümümüzdeki ilk atıf ikinci türdendi — sayfamız kaynak gösterildi ama markamızın adı cevap metninde geçmedi. İkisi farklı kazançlardır ve rapor ikisini ayrı yazmalıdır.",
+          en: "A transparent GEO report carries four things: how many queries on the fixed question list you appeared in, which sentence named you in each of those answers, which of your pages was cited, and which competitors appeared in the same answers. One further distinction matters: is the brand name in the text of the answer, or only in the source list? The first citation in our own measurement was of the second kind — our page was cited but our name didn't appear in the answer text. Those are different gains, and the report should record them separately.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kaynak gösterilen sayfanın kaydı raporun en az okunan, en değerli satırıdır. Hangi sayfa hangi soruda kaynak gösterildiyse bir sonraki içerik o sayfanın yapısıyla yazılır. Raporu bu satırdan geriye okuyamayan ajans ay ay aynı yanlışı tekrarlar.",
+          en: "The record of which page was cited is the least-read and most valuable line in the report. Whichever page was cited for whichever question, the next piece of content is written in that page's structure. An agency that can't read its report back from that line repeats the same mistake month after month.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kanit-istemek",
+        text: {
+          tr: "Hangi kanıtı istemelisiniz?",
+          en: "What evidence should you ask for?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altıncı kriter kanıttır. Logo duvarı kanıt değil, müşteri listesidir. İstemeniz gereken şeyler birlikte gelir: başlangıç değeri, bitiş değeri ve arada geçen süre; GEO'da bir dördüncüsü de ölçümün hangi sorular ve hangi motorlar üzerinden yapıldığı.",
+          en: "The sixth criterion is evidence. A wall of logos is a client list, not evidence. What you should ask for comes together: the starting value, the ending value and the time between them — and in GEO a fourth, the questions and engines the measurement was based on.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi tarafımızdan aynı ölçüyle iki örnek. [SIM Baskı Malzemeleri'nde](/vakalar/sim-baski-ihracat-icerigi) site beş dilli bir Next.js uygulaması olarak yeniden kuruldu ve içerik programı SEO ile GEO birlikte gözetilerek yazıldı; altı ayda organik trafik 15 katına çıktı, AI motorlarındaki görünürlük sıfırdan 40 bine ulaştı. [İstanbul Ortez Protez'de](/vakalar/istanbul-ortez-protez-arama-gorunurlugu) içerik soru-cevap yapısıyla ve yapay zeka motorlarının alıntılayabileceği kendine yeten pasajlarla yazıldı; öncelikli kelimelerde organik ilk 3'e çıkmak on beş ay sürdü. İkincisindeki asıl bilgi rakam değil süre: güvenin pahalı olduğu alanlarda sonuç aylarla gelir ve bunu baştan söyleyen ajans size doğruyu söylüyordur.",
+          en: "Here are two from our side, held to the same standard. At [SIM Printing Suppliers](/vakalar/sim-baski-ihracat-icerigi) the site was rebuilt as a five-language Next.js application and the content programme was written with SEO and GEO in mind together; in six months organic traffic grew 15× and visibility in AI engines went from zero to 40,000. At [İstanbul Ortez Protez](/vakalar/istanbul-ortez-protez-arama-gorunurlugu) the content was written with a question-and-answer structure and self-contained passages that AI engines can cite; reaching the organic top 3 for priority keywords took fifteen months. The real information in the second is not the figure but the duration: where trust is expensive, results come in months, and an agency that says so up front is telling you the truth.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir de şunu isteyin: yavaş ilerlemiş ya da beklenen sonucu vermemiş bir çalışma. GEO genç bir alan; sonucu hiç sapmamış bir geçmiş anlatan ajans ya çok az iş yapmıştır ya da raporunu seçerek okuyordur.",
+          en: "Then ask for one more thing: a piece of work that moved slowly or missed its expected result. GEO is a young field; an agency whose history shows no deviation at all has either done very little work or reads its reports selectively.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ilk-gorusmede-on-soru",
+        text: {
+          tr: "İlk görüşmede hangi on soruyu sorarsınız?",
+          en: "Which ten questions do you ask in the first meeting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Soruların amacı ajansı sınava sokmak değil, yöntemini duymak. Cevapların kendisi kadar hangi soruda cevabın genelleştiğine de dikkat edin.",
+          en: "The point of the questions is not to put the agency through an exam but to hear its method. Pay as much attention to which question gets a vague answer as to the answers themselves.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Başarıyı hangi sorularla, hangi motorlarda ve hangi sıklıkla ölçeceksiniz?",
+            en: "Which questions, which engines and what frequency will you measure success by?",
+          },
+          {
+            tr: "Promptlarda markamızın adı geçecek mi?",
+            en: "Will our brand name appear in the prompts?",
+          },
+          {
+            tr: "Sitemizde ilk hafta hangi teknik sorunları düzelteceksiniz?",
+            en: "Which technical issues will you fix on our site in the first week?",
+          },
+          {
+            tr: "Başlıkları ve soruları hangi kaynaklardan çıkaracaksınız?",
+            en: "Which sources will you draw the headings and questions from?",
+          },
+          {
+            tr: "Markamızın tanımını hangi dış profillerde düzelteceksiniz?",
+            en: "On which external profiles will you correct our brand description?",
+          },
+          {
+            tr: "Raporda sıfır geçen aylar ve yalnız kaynak listesinde geçtiğimiz cevaplar nasıl görünecek?",
+            en: "How will zero months, and answers where we appear only in the source list, look in the report?",
+          },
+          {
+            tr: "Benzer ölçekte bir işin başlangıç ve bitiş değerini, ölçüm yöntemiyle birlikte gösterebilir misiniz?",
+            en: "Can you show the start and end values of similar-scale work, together with the measurement method?",
+          },
+          {
+            tr: "Fiyat hangi kalemlerden oluşuyor ve hangileri dahil değil?",
+            en: "Which items make up the price, and which are excluded?",
+          },
+          {
+            tr: "Çalışma bittiğinde soru listesi, ölçüm kayıtları ve erişimler kimde kalıyor?",
+            en: "When the work ends, who keeps the question list, the measurement records and the access?",
+          },
+          {
+            tr: "Bu işi almamanız gereken bir durum var mı?",
+            en: "Is there a situation in which you should turn this work down?",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci soru en kısa sürede en çok bilgiyi verir. Evet cevabı, raporlanacak başarının büyük kısmının sorunun kendisinden geleceği anlamına gelir: markanın adını içeren bir soruya model markayı zaten getirir. Onuncu soru ise ajansın kendi kapsamını bilip bilmediğini gösterir. Sitesi indekslenmeyen ya da hiç içeriği olmayan bir şirkete önce başka bir iş gerektiğini söyleyebilen ajans, sınırını biliyordur.",
+          en: "The second question yields the most in the least time. A yes means most of the success to be reported will come from the question itself: a model hands back a brand when the brand's name is in the question. The tenth shows whether the agency knows its own scope. An agency that can tell a company with an unindexed site, or no content at all, that it needs a different job first knows where its boundaries are.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Soruların GEO'ya özgü katmanı burada bitiyor. Ajans ilişkisinin genel katmanı — veri kullanımı, kanal bütünlüğü, kriz refleksi — için [sözleşmeden önce ajansa sorulacak 8 soru](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) aynı disiplini daha geniş bir çerçevede kuruyor. Yapay zekayı iş süreçlerine koyacak bir danışman arıyorsanız doğru liste [AI danışmanı seçerken sorulacak 12 soru](/yazilar/ai-danismani-secerken-sorulacak-12-soru).",
+          en: "That is where the GEO-specific layer of the questions ends. For the general layer of an agency relationship — how data is used, whether channels cohere, how the team reacts in a crisis — [the 8 questions to ask an agency before you sign](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) applies the same discipline to a wider frame. If what you need is a consultant to put AI into your business processes, the right list is [the 12 questions to ask when choosing an AI consultant](/yazilar/ai-danismani-secerken-sorulacak-12-soru).",
+        },
+      },
+      {
+        type: "h2",
+        id: "kirmizi-bayraklar",
+        text: {
+          tr: "Hangi üç vaatte görüşmeyi bitirmelisiniz?",
+          en: "Which three promises mean the meeting is over?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç vaat var ki duyduğunuz anda görüşmenin geri kalanı gereksizleşir. Üçü de aynı şeyi gizler: ölçülemeyen bir işi ölçülmüş gibi satmak.",
+          en: "Three promises make the rest of the meeting unnecessary the moment you hear them. All three hide the same thing: selling unmeasured work as if it had been measured.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Birincisi sıralama ya da anılma garantisidir. \"Üç ayda ChatGPT'de ilk anılan marka olacaksınız\" cümlesi dürüstçe kurulamaz, çünkü hiçbir motor kaynak seçimini dışarıya açmıyor ve aynı soru aynı gün iki farklı cevap üretebiliyor. Garanti veren teklifte hangi sorunun, hangi motorun ve hangi oturum koşulunun kastedildiği de çoğu zaman yazılı değildir; yani garanti edilen şeyin ne olduğu belirsiz kalır.",
+          en: "The first is a ranking or mention guarantee. \"In three months you'll be the first brand ChatGPT names\" cannot honestly be said, because no engine discloses how it picks sources and the same question can produce two different answers on the same day. A guaranteeing proposal usually doesn't state which question, which engine or which session conditions it means either — so what is being guaranteed stays undefined.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkincisi ölçüm yöntemi olmayan tekliftir. Sabit bir soru listesi, motor listesi ve kayıt biçimi yoksa, ya da ölçüm yalnız bir aracın ürettiği tek bir \"yapay zeka görünürlük skoru\"ndan ibaretse, elinizde sonuç değil gösterge vardır. Skorun kendisi kötü değildir; bizim aracımız da bir skor üretir. Ama o skor zemini ölçer, cevabı değil. Zemin skorunu sonuç diye raporlayan ajans, termometreyi tedavi diye satıyordur.",
+          en: "The second is the proposal with no measurement method. If there is no fixed question list, engine list and record format, or if measurement comes down to a single \"AI visibility score\" produced by a tool, what you hold is an indicator, not a result. The score itself is not the problem; our own tool produces one. But that score measures the groundwork, not the answer. An agency that reports a groundwork score as the result is selling the thermometer as the cure.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçüncüsü yalnız llms.txt satan modeldir. llms.txt, dil modellerine sitenizin haritasını sade metinle veren bir dosya önerisidir; kurmak ucuzdur, zarar vermez ve hiçbir motor onu kaynak gösterme koşulu olarak ilan etmedi. Dosyayı kurup çalışmayı bitiren teklif işin dipnotunu satıyordur. Aynı şey yalnız şema basmak ya da yalnız robots.txt düzenlemek için de geçerli: üçü de zeminin parçasıdır, hiçbiri tek başına GEO değildir.",
+          en: "The third is the llms.txt-only model. llms.txt is a proposed file that gives language models a plain-text map of your site; it is cheap to set up, does no harm, and no engine has declared it a condition for citing a source. A proposal that installs the file and calls the job done is selling the footnote. The same goes for only adding schema or only editing robots.txt: all three are part of the groundwork, and none of them on its own is GEO.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü bir işaret daha var; sessiz olduğu için daha tehlikeli: sitenize bakmadan verilen fiyat. Zemin durumu, sayfa sayısı ve dil sayısı bilinmeden yazılan fiyat, kapsamın sonradan ya daraltılacağını ya da büyütüleceğini söyler.",
+          en: "There is a fourth marker, more dangerous because it is quieter: a price given without looking at your site. A price written before the state of the groundwork, the number of pages and the number of languages are known tells you the scope will later be either narrowed or expanded.",
+        },
+      },
+      {
+        type: "h2",
+        id: "fiyat-nasil-olusur",
+        text: {
+          tr: "GEO ajansı fiyatı nasıl oluşur?",
+          en: "How is a GEO agency's price put together?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GEO için herkesin kabul ettiği bir fiyat listesi yok ve bu yazıda rakam vermeyeceğim; vereceğim rakam sizin sitenize değil ortalama bir siteye ait olurdu. Onun yerine fiyatı oluşturan kalemleri ve her kalemi neyin büyüttüğünü yazıyorum, çünkü iki teklifi karşılaştırmanın yolu toplam tutara değil kalemlere bakmaktır.",
+          en: "GEO has no price list everyone agrees on, and I won't give a figure in this article; any figure I gave would belong to an average site, not yours. Instead I'm setting out the items that make up the price and what makes each one grow, because the way to compare two proposals is to look at the items rather than the total.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Teşhis: beş sinyallik denetim ve başlangıç ölçümü. Kritik sayfa sayısı ve ölçülecek motor sayısıyla büyür.",
+            en: "Diagnosis: the five-signal audit and the baseline measurement. It grows with the number of key pages and engines to measure.",
+          },
+          {
+            tr: "Teknik zemin: bot izinleri, yapısal veri, llms.txt ve render düzeltmeleri. Sitenin altyapısıyla büyür; hazır bir platformda birkaç ayar, özel yazılmış bir sitede geliştirme işi olabilir.",
+            en: "Technical groundwork: crawler permissions, structured data, llms.txt and rendering fixes. It grows with the site's stack; on an off-the-shelf platform it may be a few settings, on a custom-built site it may be development work.",
+          },
+          {
+            tr: "İçerik: yeniden yazılacak ve yeni açılacak sayfalar. Sayfa ve dil sayısıyla büyür; her dil çeviriyle değil, kendi alıcısının sorularıyla yazılmalıdır.",
+            en: "Content: pages to rewrite and pages to create. It grows with the number of pages and languages; each language should be written to its own buyers' questions, not translated.",
+          },
+          {
+            tr: "Varlık tutarlılığı: dış profillerin düzeltilmesi. Profil sayısıyla büyür ve çoğu zaman en ucuz kalemdir.",
+            en: "Entity consistency: correcting external profiles. It grows with the number of profiles and is often the cheapest item.",
+          },
+          {
+            tr: "Ölçüm: aylık tur ve rapor. Kaç ay süreceğiyle büyür; devirden sonra iç ekibe geçebilir.",
+            en: "Measurement: the monthly round and report. It grows with the number of months, and after handover it can move to your team.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Model seçerken sorulacak soru her ajans işinde aynıdır: bu ücretlendirme ajansın hangi davranışını ödüllendiriyor? Sayfa başına fiyat çok sayfa üretmeyi, süresiz aylık bedel işi uzatmayı ödüllendirir. Sağlıklı yapı çoğu zaman ikisinin birleşimidir: teşhis ve zemin için proje bedeli, içerik ve ölçüm için süresi baştan yazılmış aylık bedel, sonunda devir. Hangi modeli seçerseniz seçin, dahil olmayanlar yazılı olsun: reklam bütçesi, platform taşıma, sıfırdan site yapımı ve çeviri.",
+          en: "The question to ask when choosing a model is the same in any agency work: which agency behaviour does this pricing reward? A per-page price rewards producing many pages; an open-ended monthly fee rewards stretching the work. A healthy structure is often a mix of the two: a project fee for the diagnosis and groundwork, a monthly fee with its duration written in up front for content and measurement, and a handover at the end. Whichever model you choose, get the exclusions in writing: ad budget, replatforming, building a site from scratch and translation.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bizim tarafımızda bu hizmetin sabit bir paketi yok; fiyat teşhisten sonra, bulgulara göre yazılıyor. Hangi kalemlerin [GEO danışmanlığı hizmetimizin kapsamında](/hizmetler/geo-danismanligi) olduğunu, hangilerinin dışarıda kaldığını hizmet sayfasında açıkça listeledik.",
+          en: "On our side this service has no fixed package; the price is written after the diagnosis, against its findings. We have listed plainly on the service page which items fall within [the scope of our GEO consulting](/hizmetler/geo-danismanligi) and which stay outside it.",
+        },
+      },
+      {
+        type: "h2",
+        id: "segmentler",
+        text: {
+          tr: "KOBİ, ihracatçı ve büyük şirket için ne değişir?",
+          en: "What changes for an SME, an exporter and a large company?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kriterler aynı kalır, ağırlıkları değişir. Üç ölçeğin her birinde ajanstan beklemeniz gereken şey farklı bir kaleme yoğunlaşır.",
+          en: "The criteria stay the same; their weights change. At each of the three scales, what you should expect from an agency concentrates on a different item.",
+        },
+      },
+      {
+        type: "h3",
+        text: { tr: "KOBİ", en: "SMEs" },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Küçük işletmenin avantajı kategorisinin dar olmasıdır. \"Türkiye'de bu işi yapan firmalar\" gibi bir kategori sorusunda büyük oyuncularla yarışmak zordur; ama konum, bütçe ya da teknik şart taşıyan kısıt sorularında — \"İstanbul'da hem şunu hem bunu yapan bir firma var mı\" — anılma şansı daha erken doğabilir. KOBİ için doğru başlangıç, aracın gösterdiği zemin açıklarını kapatmak, Google işletme kaydını ve dizin tanımlarını tek cümleye çekmek ve müşterinin en sık sorduğu beş-on soruya cevap veren sayfaları yazmaktır. Bu işin bir kısmını iç ekip yapabilir; ajanstan beklenen ölçüm disiplini ve önceliklendirmedir, büyük bir içerik takvimi değil.",
+          en: "A small business's advantage is a narrow category. Competing with the big players on a category question such as \"which firms do this in Türkiye\" is hard; but on constraint questions carrying a location, a budget or a technical requirement — \"is there a firm in Istanbul that does both this and that\" — the chance of being named can arise earlier. For an SME the right start is closing the groundwork gaps the tool shows, pulling the Google Business Profile and directory descriptions into one sentence, and writing pages that answer the five to ten questions customers ask most. Part of this the in-house team can do; what you want from an agency is measurement discipline and prioritisation, not a big content calendar.",
+        },
+      },
+      {
+        type: "h3",
+        text: { tr: "İhracatçı", en: "Exporters" },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İhracatçı için mesele dildir. Yabancı alıcının tedarikçi araştırması giderek bir sohbetle başlıyor ve o sohbet alıcının kendi dilinde geçiyor. Ajansa sorulacak ilk soru, hedef pazarların dillerinde ayrı ölçüm yapıp yapmayacağıdır: Türkçe promptlarla yapılan bir tur, Almanca soran bir alıcının cevabında görünüp görünmediğinizi söylemez. İkinci soru hreflang ve dil sinyalleri, üçüncüsü içeriğin çeviri mi yoksa o dilin sorularıyla yazım mı olduğudur. [Meccanotecnica Umbra'da](/vakalar/meccanotecnica-umbra-teklif-portali) SEO ve GEO mimarisi dört dilde (TR, EN, AR, RU) aynı anda kuruldu; SIM Baskı Malzemeleri'nde beş dilli yapı, talebin Türkiye dışından da gelmesinin önünü açtı.",
+          en: "For an exporter the issue is language. A foreign buyer's supplier search increasingly starts as a conversation, and that conversation happens in the buyer's own language. The first question for an agency is whether it will measure separately in each target market's language: a round run with Turkish prompts won't tell you whether you appear in the answer given to a buyer asking in German. The second is hreflang and language signals; the third is whether the content will be translated or written to that language's own questions. At [Meccanotecnica Umbra](/vakalar/meccanotecnica-umbra-teklif-portali) the SEO and GEO architecture was built in four languages (TR, EN, AR, RU) at once; at SIM Printing Suppliers the five-language structure opened the door to demand from outside Türkiye.",
+        },
+      },
+      {
+        type: "h3",
+        text: { tr: "Büyük şirket", en: "Large companies" },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük şirketin sorunu görünmemek değil, yanlış görünmektir. Otorite ve içerik zaten vardır; risk, modelin eski bir ürün adını, kapanmış bir tesisi ya da bir iştirakin tanımını markanın cümlesi gibi yazmasıdır. Burada ajanstan beklenen yönetişimdir: marka tanımının sahibi kim, hukuki onay nasıl işliyor, birden çok iştirakin tanımı nasıl ayrı tutuluyor. İkinci risk savunmadır. ChatGPT reklamları yazısında anlattığım gibi bir meydan okuyucu, büyük markanın adının geçtiği cevabın altındaki alanı kiralayabilir; organik kaynağı elde tutmak bu yüzden büyük şirket için de bir iş kalemidir.",
+          en: "A large company's problem is not being invisible but being visible wrongly. The authority and the content already exist; the risk is a model writing an old product name, a closed facility or a subsidiary's description as if it were the brand's own sentence. What you want from an agency here is governance: who owns the brand description, how legal sign-off works, how the descriptions of several subsidiaries are kept apart. The second risk is defence. As I set out in the piece on ChatGPT ads, a challenger can rent the space beneath an answer that names the big brand; holding the organic source is therefore a line item for a large company too.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ajans-mi-ic-ekip-mi",
+        text: {
+          tr: "Ajans mı, danışman mı, iç ekip mi?",
+          en: "Agency, consultant or in-house team?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar işin nerede tıkandığına bağlıdır. Sorun yalnız teknik zeminse — kapalı bir bot izni, eksik şema, JavaScript arkasında kalan içerik — iyi bir geliştirici bunu birkaç haftada kapatır ve ajansa gerek kalmaz. Sorun içerikteyse ve kimse her ay ölçmüyorsa, dışarıdan yöntem ve disiplin getiren bir ekip gerekir.",
+          en: "The decision depends on where the work is stuck. If the problem is only the groundwork — a closed crawler rule, missing schema, content hidden behind JavaScript — a good developer closes it in a few weeks and no agency is needed. If the problem is the content and nobody measures monthly, you need a team that brings method and discipline from outside.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İç ekip üç koşulda mantıklıdır: müşterinin sorularını bilen ve yazabilen biri varsa, siteye yayın erişimi olan bir teknik kişi varsa ve her ay yaklaşık bir saatini ölçüm turuna ayıracak biri varsa. Üçüncüsü en çok atlanan koşuldur; ölçülmeyen GEO çalışması birkaç ay sonra sessizce durur.",
+          en: "An in-house team makes sense under three conditions: someone knows the customers' questions and can write, a technical person has publishing access to the site, and someone will give roughly an hour a month to the measurement round. The third is the most often skipped; GEO work that isn't measured quietly stops after a few months.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Çoğu şirket için doğru cevap melez modeldir: ajans zemini ve ilk içerik dalgasını kurar, ölçüm turunu iç ekibe öğretir, sonrasında yalnız dönemsel denetim için kalır. Bu modelde ajansın başarısı kendini gereksizleştirmesiyle ölçülür; bu yüzden devri sözleşmeye yazdırın. Soru listesi, ölçüm kayıtları ve bütün erişimler sizde kalmalı.",
+          en: "For most companies the right answer is the hybrid: the agency builds the groundwork and the first wave of content, teaches the measurement round to your team, and then stays only for periodic review. In this model the agency's success is measured by how unnecessary it makes itself, so put the handover in the contract. The question list, the measurement records and all access should stay with you.",
+        },
+      },
+      {
+        type: "h2",
+        id: "indoles-nasil-calisir",
+        text: {
+          tr: "INDOLES bu işi nasıl yürütüyor?",
+          en: "How does INDOLES run this work?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "INDOLES bu işi dört adımda yürütür ve bu yazıdaki kriterleri kendine de uygular: teşhis ve başlangıç ölçümü, teknik zemin, içerik mimarisi, ölçüm ve devir. Teşhiste site beş sinyalde taranır ve kategorinizin 10 sorusu üç motora, marka adı geçmeden sorulur. Zemin oturmadan içerik yazılmaz. İçerik, müşterinin kurduğu cümlelerden çıkan bir soru haritasıyla yazılır; marka tanımı dış profillerde aynı cümleye çekilir. Ölçüm her ay aynı 30 sorguyla tekrarlanır ve tur sonunda iç ekibinize devredilir.",
+          en: "INDOLES runs this work in four steps and holds itself to the criteria in this article: diagnosis and baseline, technical groundwork, content structure, then measurement and handover. In the diagnosis the site is scanned on five signals and your category's 10 questions go to three engines without the brand name. No content is written before the groundwork is set. Content is written against a question map drawn from customers' own sentences, and the brand description is aligned to one sentence across external profiles. The measurement repeats with the same 30 queries every month, and at the end the round is handed over to your team.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı yapıyı önce kendi sitemizde kurduk ve sonucunu olduğu gibi yazıyoruz. Google Search Console'da 22 Ağustos – 19 Eylül 2026 döneminde \"yerli geo aracı\" sorgusunda ortalama pozisyonumuz 1,2, \"türkçe geo aracı var mı\" sorgusunda 2,5 oldu. Aylık turda ise yolun başındayız: 30 sorgudan 1'inde kaynak gösteriliyoruz. İki sayıyı yan yana koymamızın sebebi, bir ajanstan duymanız gerekenin tam olarak bu olması: nerede öndeyiz, nerede değiliz ve bunu neyle ölçüyoruz.",
+          en: "We built the same structure on our own site first, and we report the result as it is. In Google Search Console for 22 August – 19 September 2026, our average position was 1.2 for the query \"yerli geo aracı\" (local GEO tool) and 2.5 for \"türkçe geo aracı var mı\" (is there a Turkish GEO tool). In the monthly round we are at the start of the road: we are cited in 1 of 30 queries. We put the two numbers side by side because this is exactly what you should hear from an agency: where we lead, where we don't, and what we measure it with.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kapsamın tamamı, teslim listesi ve kapsam dışı kalanlar [GEO hizmet sayfamızda](/hizmetler/geo-danismanligi) yazılı.",
+          en: "The full scope, the deliverables and what stays out of scope are written out on [our GEO service page](/hizmetler/geo-danismanligi).",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-karsilastirmadan-once-test",
+        text: {
+          tr: "Sonuç: teklifleri karşılaştırmadan önce yapılacak test",
+          en: "Conclusion: the test to run before comparing proposals",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "GEO ajansı seçimi bir sunum karşılaştırması değil, bir ölçüm denetimidir. Sabit sorularla ölçen, marka adını prompta koymayan, zemine içerikten önce bakan, sıfır aylarını raporda gösteren ve fiyatını kalem kalem yazan ajans, garanti veren ajanstan daha iyi bir yatırımdır; çünkü size sonuç kadar gerekçe de bırakır.",
+          en: "Choosing a GEO agency is an audit of measurement, not a comparison of decks. An agency that measures with fixed questions, keeps the brand name out of prompts, looks at the groundwork before the content, shows its zero months in the report and itemises its price is a better investment than one offering guarantees, because it leaves you the reasoning as well as the result.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut test şu: kategorinizin müşterinin soracağı biçimde üç sorusunu yazın, markanızın adını koymadan ChatGPT'ye, Gemini'ye ve Perplexity'ye sorun ve cevaplarda kimin geçtiğini not edin. Sonra görüştüğünüz her ajanstan aynı üç soruyu, aynı koşulda, altı ay sonra nasıl ölçeceğini anlatmasını isteyin. Yöntemi anlatabilen ajans ölçmeyi biliyordur; \"size bir skor raporlarız\" diyenle imzalamadan önce bir kez daha düşünün.",
+          en: "Here is the concrete test you can run today: write three questions about your category the way a customer would ask them, put them to ChatGPT, Gemini and Perplexity without your brand name, and note who appears in the answers. Then ask every agency you meet to explain how it would measure those same three questions, under the same conditions, six months from now. An agency that can describe the method knows how to measure; think twice before signing with one that says it will report a score.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu soruları bize de sorun. Cevaplarımızın bir kısmı — ölçüm yöntemi, kendi sayılarımız, kapsam dışı kalanlar — bu yazıda ve hizmet sayfasında zaten yazılı; geri kalanını yan yana koyup karşılaştırın.",
+          en: "Ask us the same questions. Part of our answer — the measurement method, our own numbers, what stays out of scope — is already written in this article and on the service page; put the rest side by side and compare.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "GEO ajansı tam olarak ne yapar?",
+          en: "What exactly does a GEO agency do?",
+        },
+        answer: {
+          tr: "Markanızın ChatGPT, Gemini, Perplexity ve Google AI Overviews cevaplarında kaynak gösterilme olasılığını artıran dört işi yürütür: sitenin yapay zeka botlarına açık teknik zeminini kurar, içeriği soru biçimli başlıklar ve kendine yeten paragraflarla yeniden yazar, marka tanımını dış profillerde tek cümleye çeker ve sonucu sabit sorularla her ay ölçer. Reklam yönetimi ve sıralama garantisi bu işin parçası değildir.",
+          en: "It runs four pieces of work that raise the chance of your brand being cited in ChatGPT, Gemini, Perplexity and Google AI Overviews answers: it sets up technical groundwork open to AI crawlers, rewrites content with question headings and self-contained paragraphs, aligns the brand description to one sentence across external profiles, and measures the result monthly with fixed questions. Ad management and ranking guarantees are not part of the job.",
+        },
+      },
+      {
+        question: {
+          tr: "GEO ajansı ile SEO ajansı arasındaki fark nedir?",
+          en: "What is the difference between a GEO agency and an SEO agency?",
+        },
+        answer: {
+          tr: "Hedef ve rapor farklıdır. SEO ajansı sıralama ve tıklama için çalışır, raporunda pozisyonlar ve trafik vardır. GEO ajansı cevabın içinde anılmak için çalışır; raporunda sabit sorularda kaç cevapta geçtiğiniz, hangi cümleyle anıldığınız ve hangi sayfanın kaynak gösterildiği yer alır. İkisi rakip değil katmandır: indekslenmeyen bir sayfayı üretken motor da okuyamaz, bu yüzden GEO sağlam bir SEO zemininin üstüne kurulur.",
+          en: "The goal and the report differ. An SEO agency works for rankings and clicks, and its report shows positions and traffic. A GEO agency works for being named inside the answer; its report shows how many answers to fixed questions you appear in, which sentence names you and which page is cited. They are layers rather than rivals: a generative engine cannot read a page that isn't indexed, so GEO is built on a solid SEO foundation.",
+        },
+      },
+      {
+        question: {
+          tr: "Ajansla görüşmeden önce neyi hazırlamalıyım?",
+          en: "What should I prepare before meeting an agency?",
+        },
+        answer: {
+          tr: "Üç şey yeterli. Birincisi sitenizin GEO Görünürlük Denetleyicisi'ndeki skoru ve en düşük iki kalemi; araç ücretsizdir ve saniyeler sürer. İkincisi kategorinizin müşterinin soracağı biçimde yazılmış üç sorusu ve bu soruların marka adı olmadan ChatGPT, Gemini ve Perplexity'de aldığı cevaplar. Üçüncüsü markanızın bugün sitede, LinkedIn'de ve Google işletme kaydında nasıl tanımlandığının listesi. Görüşmede ajansın bulguları bunlarla örtüşmeli.",
+          en: "Three things are enough. First, your site's score in the GEO Visibility Checker and its two lowest items; the tool is free and takes seconds. Second, three questions about your category written the way a customer would ask them, along with the answers they get on ChatGPT, Gemini and Perplexity without your brand name. Third, a list of how your brand is described today on the site, LinkedIn and your Google Business Profile. In the meeting, the agency's findings should match these.",
+        },
+      },
+      {
+        question: {
+          tr: "Bir GEO ajansından ilk ayda ne beklemeliyim?",
+          en: "What should I expect from a GEO agency in the first month?",
+        },
+        answer: {
+          tr: "İlk ayın çıktısı sonuç değil, taban çizgisidir: beş sinyallik denetim raporu, sabit sorularla alınmış başlangıç ölçümü ve önceliklendirilmiş bir düzeltme listesi. Teknik zemin düzeltmelerinin bir kısmı da genellikle bu ayda yayına alınır. Cevaplarda anılmak daha yavaş gelir; SIM Baskı Malzemeleri'nde AI motorlarındaki görünürlük altı aylık içerik programının sonunda sıfırdan 40 bine çıktı. İlk ayda anılma vaat eden ajansa temkinli yaklaşın.",
+          en: "The first month's output is a baseline, not a result: a five-signal audit report, a baseline measurement taken with fixed questions and a prioritised fix list. Some of the groundwork fixes usually go live that month too. Being named in answers comes more slowly; at SIM Printing Suppliers, visibility in AI engines went from zero to 40,000 by the end of a six-month content programme. Be wary of an agency promising mentions in the first month.",
+        },
+      },
+      {
+        question: {
+          tr: "GEO ajansı ücretlendirmesi nasıl yapılandırılmalı?",
+          en: "How should GEO agency pricing be structured?",
+        },
+        answer: {
+          tr: "Modeli işin evresine göre seçin. Teşhis ve teknik zemin için sabit kapsamlı proje bedeli doğrudur; içerik ve ölçüm için süresi baştan yazılmış aylık bedel uygundur ve sonunda devir olmalıdır. Sayfa başına fiyat çok sayfa üretmeyi, süresiz aylık bedel işi uzatmayı ödüllendirir. Hangi modeli seçerseniz seçin, reklam bütçesi, platform taşıma, sıfırdan site yapımı ve çeviri gibi dahil olmayan kalemler sözleşmede yazılı olmalıdır.",
+          en: "Match the model to the phase of the work. A fixed-scope project fee fits the diagnosis and technical groundwork; a monthly fee with its duration written in up front fits content and measurement, with a handover at the end. A per-page price rewards producing many pages; an open-ended monthly fee rewards stretching the work. Whichever you choose, the exclusions — ad budget, replatforming, building a site from scratch, translation — belong in the contract.",
+        },
+      },
+      {
+        question: {
+          tr: "Bir araçtaki görünürlük skoru GEO sonucu yerine geçer mi?",
+          en: "Can a visibility score from a tool stand in for GEO results?",
+        },
+        answer: {
+          tr: "Geçmez. GEO Görünürlük Denetleyicisi gibi araçlar zemini ölçer: botların siteye girip giremediğini, yapısal veriyi, llms.txt dosyasını, dil sinyallerini ve soru başlıklarını. Yüksek skor, kaynak gösterilme olasılığını artıran koşulların yerinde olduğunu söyler ama bir motorun sizi anacağını söylemez. Sonuç, sabit sorularla ve üç motorda elle yapılan aylık ölçümle okunur; skor bir teşhistir, sonuç raporu değildir.",
+          en: "It can't. Tools such as the GEO Visibility Checker measure the groundwork: whether crawlers can reach the site, the structured data, the llms.txt file, language signals and question headings. A high score says the conditions that raise the chance of being cited are in place, but not that an engine will name you. The result is read through a monthly measurement done by hand with fixed questions across three engines; the score is a diagnosis, not a results report.",
+        },
+      },
+      {
+        question: {
+          tr: "Ajans prompta markamızın adını yazarsa ne olur?",
+          en: "What happens if the agency puts our brand name in the prompt?",
+        },
+        answer: {
+          tr: "Ölçüm kendi sorusunu ölçmeye başlar. Markanın adını içeren bir soruya model markayı zaten getirir, dolayısıyla raporlanan anılmaların çoğu çalışmanın değil sorunun sonucudur. Doğru ölçümde promptlar müşterinin kategorisini, kısıtını ya da karşılaştırmasını anlatan cümlelerdir ve marka adı hiçbirinde geçmez. Ekran görüntülerinin yanında prompt metnini de isteyin; adı içeren promptla alınmış bir görüntü kanıt sayılmaz.",
+          en: "The measurement starts measuring its own question. A model hands back a brand when the brand's name is in the question, so most of the mentions reported come from the question rather than the work. In a sound measurement the prompts are sentences describing the customer's category, constraint or comparison, and none contains the brand name. Ask to see the prompt text alongside every screenshot; a screenshot taken with a prompt containing the name doesn't count as evidence.",
+        },
+      },
+      {
+        question: {
+          tr: "Hangi yapay zeka motorlarında ölçüm istemeliyim?",
+          en: "Which AI engines should I ask to be measured?",
+        },
+        answer: {
+          tr: "En az ChatGPT, Gemini ve Perplexity; üçü kaynak seçerken farklı davrandığı için tek motorun sonucu genellenemez. Google AI Overviews Google'ın indeksine yaslandığından Search Console verisiyle birlikte okunur. İhracat yapıyorsanız ölçümü hedef pazarın dilinde ayrı bir soru serisiyle isteyin: Türkçe promptlarla yapılan tur, yabancı alıcının kendi dilinde aldığı cevapta görünüp görünmediğinizi söylemez.",
+          en: "At least ChatGPT, Gemini and Perplexity; the three behave differently when choosing sources, so one engine's result can't be generalised. Google AI Overviews rests on Google's index and is read together with Search Console data. If you export, ask for measurement with a separate question series in each target market's language: a round with Turkish prompts won't tell you whether you appear in the answer a foreign buyer gets in their own language.",
+        },
+      },
+      {
+        question: {
+          tr: "Küçük bir işletmenin GEO ajansına ihtiyacı var mı?",
+          en: "Does a small business need a GEO agency?",
+        },
+        answer: {
+          tr: "Her zaman değil. Teknik zemin açıkları çoğu zaman bir geliştiricinin birkaç gününe sığar ve marka tanımını dış profillerde düzeltmek iç ekibin yapabileceği bir iştir. Küçük işletme için dışarıdan alınması gereken şey çoğunlukla önceliklendirme ve ölçüm disiplinidir. Kategorisi dar olan işletmenin bir avantajı da vardır: konum ya da teknik şart taşıyan kısıt sorularında anılma şansı, genel kategori sorularından daha erken doğabilir.",
+          en: "Not always. Groundwork gaps often fit into a few days of a developer's time, and correcting the brand description on external profiles is work the in-house team can do. What a small business usually needs from outside is prioritisation and measurement discipline. A business with a narrow category also has an advantage: on constraint questions carrying a location or a technical requirement, the chance of being named can arise earlier than on broad category questions.",
+        },
+      },
+      {
+        question: {
+          tr: "İhracat yapan bir üretici GEO ajansında neye bakmalı?",
+          en: "What should an exporting manufacturer look for in a GEO agency?",
+        },
+        answer: {
+          tr: "Üç şeye. Hedef pazarların dillerinde ayrı ölçüm yapıp yapmadığına, hreflang ve html lang gibi dil sinyallerini denetleyip denetlemediğine ve içeriği çeviriyle mi yoksa o dilin alıcısının sorularıyla mı yazdığına. Tedarikçi araştırması giderek alıcının kendi dilinde bir sohbetle başladığı için cevapta adı geçmeyen üretici kısa listeye hiç girmiyor. Meccanotecnica Umbra'da SEO ve GEO mimarisi dört dilde kuruldu.",
+          en: "Three things. Whether it measures separately in each target market's language; whether it audits language signals such as hreflang and html lang; and whether it writes content through translation or to the questions of that language's buyers. Because supplier research increasingly starts as a conversation in the buyer's own language, a manufacturer missing from the answer never reaches the shortlist. At Meccanotecnica Umbra the SEO and GEO architecture was built in four languages.",
+        },
+      },
+      {
+        question: {
+          tr: "GEO ajansını değiştirirken hangi kayıtları devralmalıyım?",
+          en: "Which records should I take over when changing GEO agency?",
+        },
+        answer: {
+          tr: "Dört kaydı isteyin ve sözleşmede adlarıyla yazsın: sabit soru listesi ve prompt metinleri, ay ay tutulmuş ölçüm kayıtları (geçiş, anılma cümlesi, kaynak sayfa, rakipler), soru haritası ve dış profil listesi, bir de Search Console, analitik ve site erişimleri. Soru listesi en çok atlanan ve en pahalıya mal olan kalemdir: listesi olmayan şirket yeni ajansla sıfırdan başlar ve eski ayları hiçbir şeyle kıyaslayamaz.",
+          en: "Ask for four records, named in the contract: the fixed question list and prompt texts, the month-by-month measurement records (appearances, the sentence used, the cited page, competitors), the question map and external profile list, plus access to Search Console, analytics and the site. The question list is the item most often forgotten and the most expensive to lose: a company without it starts from zero with the new agency and can compare the old months with nothing.",
+        },
+      },
+      {
+        question: {
+          tr: "Sözleşmede GEO için hangi maddeler yazılı olmalı?",
+          en: "Which clauses should a GEO contract contain?",
+        },
+        answer: {
+          tr: "Beş madde: ölçülecek soruların ve motorların listesi, ölçüm sıklığı ve kayıt biçimi; ilk ayda yapılacak teknik düzeltmeler; yazılacak ya da yeniden yazılacak sayfa sayısı ve diller; sıfır ayları ve yalnız kaynak listesinde geçilen cevapları da kapsayan rapor içeriği; son olarak devir, yani çalışma bittiğinde soru listesinin, kayıtların ve erişimlerin kimde kalacağı. Sözleşmede garanti maddesi değil, yöntem maddesi olmalı.",
+          en: "Five clauses: the list of questions and engines to be measured, with measurement frequency and record format; the technical fixes to be made in the first month; the number of pages to be written or rewritten, and in which languages; the report content, including zero months and answers where you appear only in the source list; and finally the handover — who keeps the question list, the records and the access when the work ends. The contract should hold a method clause, not a guarantee clause.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "geo",
+    tags: ["geo", "geo-ajansi", "geo-danismanligi", "ajans-secimi", "yapay-zeka-optimizasyonu"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-25",
+    readingMinutes: 18,
+    seo: {
+      title: {
+        tr: "GEO ajansı nasıl seçilir? Kontrol listesi",
+        en: "How to choose a GEO agency: a checklist",
+      },
+      description: {
+        tr: "GEO ajansı seçerken ölçüm yöntemi, teknik zemin ve içerik mimarisi nasıl denetlenir? Altı kriter, ilk görüşmede 10 soru, üç kırmızı bayrak ve fiyatın yapısı.",
+        en: "Choosing a GEO agency? How to audit measurement, technical groundwork and content structure: six criteria, 10 first-meeting questions, three red flags, pricing.",
       },
     },
   },
@@ -11638,8 +12322,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Tez tek cümle: GEO artık ölçülemeyen bir şey değil. Ölçemediğimiz şeyi yönetemeyiz; bu araç, GEO'yu yönetilebilir bir işe çeviren ilk adım. Bugün yapabileceğiniz test iki dakika sürüyor — [GEO Görünürlük Denetleyicisi'ne](/araclar/geo-gorunurluk-denetleyicisi) sitenizin adresini girin, beş sinyaldeki skorunuzu okuyun ve en düşük puanlı kalemden başlayın. Skorun neden önemli olduğunu ve her sinyalin arkasındaki mantığı [yapay zeka aramalarında öne çıkma rehberinde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) adım adım anlattım.",
-          en: "The thesis in one sentence: GEO is no longer something you cannot measure. We cannot manage what we cannot measure, and this tool is the first step that turns GEO into work you can manage. The test you can run today takes two minutes — enter your site's address into the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi), read your score across the five signals, and start with the lowest-scoring item. Why the score matters, and the logic behind each signal, I walk through step by step in the [guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz).",
+          tr: "Tez tek cümle: GEO artık ölçülemeyen bir şey değil. Ölçemediğimiz şeyi yönetemeyiz; bu araç, GEO'yu yönetilebilir bir işe çeviren ilk adım. Bugün yapabileceğiniz test iki dakika sürüyor — [GEO Görünürlük Denetleyicisi'ne](/araclar/geo-gorunurluk-denetleyicisi) sitenizin adresini girin, beş sinyaldeki skorunuzu okuyun ve en düşük puanlı kalemden başlayın. Skorun neden önemli olduğunu ve her sinyalin arkasındaki mantığı [yapay zeka aramalarında öne çıkma rehberinde](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) adım adım anlattım. Skor düşük çıktığında izlediğimiz sıra — önce zemin, sonra içerik, sonra aylık ölçüm — [GEO danışmanlığı](/hizmetler/geo-danismanligi) sayfasında yazılı.",
+          en: "The thesis in one sentence: GEO is no longer something you cannot measure. We cannot manage what we cannot measure, and this tool is the first step that turns GEO into work you can manage. The test you can run today takes two minutes — enter your site's address into the [GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi), read your score across the five signals, and start with the lowest-scoring item. Why the score matters, and the logic behind each signal, I walk through step by step in the [guide to standing out in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz). The order we follow when a score comes back low — groundwork first, then content, then monthly measurement — is written out on the [GEO consulting](/hizmetler/geo-danismanligi) page.",
         },
       },
     ],
@@ -13320,8 +14004,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bu yüzden sıralama önerimiz sabit: önce ölç, sonra reklam ver. [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) sitenizin cevap motorları için ne kadar okunabilir olduğunu birkaç dakikada ölçüyor; reklam bütçesini açmadan önce cevabın içinde nerede durduğunuzu bilin. Reklam, organik görünürlüğü olmayan bir markaya kısa süreli erişim satar; organik görünürlüğü olan markaya ise ekranın ikinci yarısını da verir.",
-          en: "Which is why our recommended order does not change: measure first, advertise second. [The GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) measures in a few minutes how readable your site is for answer engines; know where you stand inside the answer before you open an ad budget. To a brand with no organic visibility, an ad sells short-lived reach; to a brand that already has it, the ad hands over the second half of the screen as well.",
+          tr: "Bu yüzden sıralama önerimiz sabit: önce ölç, sonra reklam ver. [GEO Görünürlük Denetleyicisi](/araclar/geo-gorunurluk-denetleyicisi) sitenizin cevap motorları için ne kadar okunabilir olduğunu birkaç dakikada ölçüyor; reklam bütçesini açmadan önce cevabın içinde nerede durduğunuzu bilin. Reklam, organik görünürlüğü olmayan bir markaya kısa süreli erişim satar; organik görünürlüğü olan markaya ise ekranın ikinci yarısını da verir. Cevabın kaynağı olma işini nasıl yürüttüğümüz [GEO danışmanlığı hizmetimizde](/hizmetler/geo-danismanligi) anlatılıyor.",
+          en: "Which is why our recommended order does not change: measure first, advertise second. [The GEO Visibility Checker](/araclar/geo-gorunurluk-denetleyicisi) measures in a few minutes how readable your site is for answer engines; know where you stand inside the answer before you open an ad budget. To a brand with no organic visibility, an ad sells short-lived reach; to a brand that already has it, the ad hands over the second half of the screen as well. How we run the work of becoming the answer's source is set out in [our GEO consulting service](/hizmetler/geo-danismanligi).",
         },
       },
       {

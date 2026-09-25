@@ -168,7 +168,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // 12 hizmet detayı — slug locale başına farklı (docs/08 §2).
+  // Hizmet detayları (13; ADR-040) — slug locale başına farklı (docs/08 §2).
   // `lastmod` içerikten gelir: dokunulan hizmet `updatedAt` taşır, diğerleri
   // build anına düşer — makaledeki kuralın hizmet karşılığı (indeks denetimi
   // 2026-09-18, `docs/strateji/Indeks-Denetimi-2026-09-18.md`).

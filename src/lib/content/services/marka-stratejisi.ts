@@ -357,5 +357,10 @@ export const markaStratejisi: ServiceContent = {
   },
 
   relatedPackages: ["buyume-sprinti"],
-  relatedServices: ["performans-pazarlama", "ui-ux-tasarim", "e-ticaret"],
+  /**
+   * `e-ticaret` yerine `geo-danismanligi` (ADR-040): markanın her kaynakta
+   * aynı cümleyle tanımlanması GEO'nun varlık tutarlılığı işiyle aynı iş.
+   * E-ticaret dört hizmetten bağ almaya devam ediyor.
+   */
+  relatedServices: ["performans-pazarlama", "ui-ux-tasarim", "geo-danismanligi"],
 };

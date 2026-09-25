@@ -1,10 +1,13 @@
 import { describe, it, expect } from "vitest";
 import {
   SERVICES,
+  SERVICE_DIAGRAM_ORDER,
   SERVICE_ORDER,
   getService,
   getServicesByPillar,
+  serviceDiagramIndex,
 } from "@/lib/content/services";
+import { PACKAGES } from "@/lib/content/packages";
 import { CASES } from "@/lib/content/cases";
 import { PILLARS } from "@/lib/content/pillars";
 
@@ -39,11 +42,46 @@ describe("SERVICES bütünlüğü", () => {
     }
   });
 
-  it("SERVICE_ORDER 12 hizmetin kanonik sırasıdır", () => {
-    // Sabit ve tam liste: diyagram indeksi ve "kaçıncı / kaç" göstergesi
-    // buradan geliyor. İçerik dosyaları yazıldıkça büyüseydi, önceden
-    // yazılmış sayfaların görseli ve numarası sessizce kayardı.
+  it("SERVICE_ORDER 13 hizmetin kanonik sırasıdır", () => {
+    // Sabit ve tam liste: "kaçıncı / kaç" göstergesi ve ana sayfa kart
+    // sırası buradan geliyor. İçerik dosyaları yazıldıkça büyüseydi,
+    // önceden yazılmış sayfaların numarası sessizce kayardı. 13. hizmet
+    // (`geo-danismanligi`, ADR-040) Growth'un sonuna bilinçli olarak girdi.
     expect(SERVICE_ORDER).toEqual([
+      "marka-stratejisi",
+      "performans-pazarlama",
+      "cro",
+      "e-ticaret",
+      "ui-ux-tasarim",
+      "geo-danismanligi",
+      "ai-danismanlik",
+      "dijital-donusum",
+      "is-otomasyonlari",
+      "is-zekasi",
+      "isletme-muhendisligi",
+      "ozel-yazilim-ve-mobil",
+      "teknoloji-ve-altyapi",
+    ]);
+    expect(new Set(SERVICE_ORDER).size).toBe(13);
+  });
+
+  it("SERVICE_ORDER pillar'a göre bitişik — Growth, Transform, Build", () => {
+    // Ana sayfa kaydırıcısı kartları bu sırayla dizer ve her kartta pillar
+    // adı yazar; araya giren bir pillar okuru bölümler arasında gezdirir.
+    const pillars = SERVICE_ORDER.map(
+      (slug) => SERVICES.find((s) => s.slug.tr === slug)?.pillar,
+    );
+    const runs = pillars.filter((p, i) => i === 0 || p !== pillars[i - 1]);
+    expect(runs).toEqual(["growth", "transform", "build"]);
+  });
+
+  it("diyagram ataması sıradan bağımsız ve her hizmete tek varyant verir", () => {
+    // ADR-040: diyagram `SERVICE_ORDER` indeksinden ayrıldı. İlk 12 kayıt
+    // eski sıranın kopyası — 13. hizmet araya girdiğinde hiçbir sayfanın
+    // görseli değişmesin diye. Aynı küme, tekrar yok, yeni hizmet sonda.
+    expect(new Set(SERVICE_DIAGRAM_ORDER)).toEqual(new Set(SERVICE_ORDER));
+    expect(new Set(SERVICE_DIAGRAM_ORDER).size).toBe(SERVICE_DIAGRAM_ORDER.length);
+    expect(SERVICE_DIAGRAM_ORDER.slice(0, 12)).toEqual([
       "marka-stratejisi",
       "performans-pazarlama",
       "cro",
@@ -57,7 +95,7 @@ describe("SERVICES bütünlüğü", () => {
       "ozel-yazilim-ve-mobil",
       "teknoloji-ve-altyapi",
     ]);
-    expect(new Set(SERVICE_ORDER).size).toBe(12);
+    expect(serviceDiagramIndex("geo-danismanligi")).toBe(12);
   });
 
   it("SERVICES, SERVICE_ORDER'ın alt kümesidir", () => {
@@ -76,8 +114,8 @@ describe("SERVICES bütünlüğü", () => {
   });
 
   it("relatedServices üç komşu belirtir", () => {
-    // Topikal kümenin taşıyıcısı: 12 sayfa birbirine bağlanmazsa küme
-    // oluşmaz, 12 ayrı yaprak sayfa kalır.
+    // Topikal kümenin taşıyıcısı: 13 sayfa birbirine bağlanmazsa küme
+    // oluşmaz, 13 ayrı yaprak sayfa kalır.
     for (const s of SERVICES) {
       expect(s.relatedServices.length, s.slug.tr).toBe(3);
     }
@@ -88,10 +126,10 @@ describe("SERVICES bütünlüğü", () => {
     // komşu referansları henüz yazılmamış hizmetleri gösterebiliyor. Bu
     // yüzden bütünlük kontrolü küme tamamlanınca açılır.
     //
-    // Kontrolün sessizce kapalı kalması mümkün değil: SERVICE_ORDER'ın 12
+    // Kontrolün sessizce kapalı kalması mümkün değil: SERVICE_ORDER'ın 13
     // hizmet içerdiğini ayrı bir test doğruluyor, dolayısıyla eksik küme
     // her hâlükârda görünür oluyor.
-    if (SERVICES.length < 12) {
+    if (SERVICES.length < SERVICE_ORDER.length) {
       const known = new Set(SERVICES.map((s) => s.slug.tr));
       const pending = SERVICES.flatMap((s) =>
         s.relatedServices.filter((ref) => !known.has(ref)),
@@ -122,6 +160,22 @@ describe("SERVICES bütünlüğü", () => {
     for (const s of SERVICES) {
       for (const slug of s.featuredCaseSlugs ?? []) {
         expect(known, `${s.slug.tr} → "${slug}" CASES'te yok`).toContain(slug);
+      }
+    }
+  });
+
+  it("relatedPackages gerçek paketlere işaret eder; null yalnız bilinçli istisnadır", () => {
+    // `null` = "bu hizmetin paketi yok" (ADR-040): pillar paketine düşmez,
+    // sayfada fiyatlı giriş paketi ve şemada Offer basılmaz. Bugün yalnız
+    // GEO danışmanlığı — fiyatı ve paketi yok, uydurulmadı.
+    const known = new Set(PACKAGES.map((p) => p.slug.tr));
+    const noPackage = SERVICES.filter((s) => s.relatedPackages === null).map(
+      (s) => s.slug.tr,
+    );
+    expect(noPackage).toEqual(["geo-danismanligi"]);
+    for (const s of SERVICES) {
+      for (const slug of s.relatedPackages ?? []) {
+        expect(known, `${s.slug.tr} → "${slug}" PACKAGES'te yok`).toContain(slug);
       }
     }
   });

@@ -19,8 +19,10 @@ export type TopicDef = {
   blurb: Localized<string>;
   /**
    * Kümenin hedef hizmet sayfası (TR slug). `null` ise hizmet sayfası yok —
-   * `geo` kümesinde hedef yazıların kendisi, `video-kreatif`te sayfa henüz
-   * açılmadı (ADR-021 açık iş).
+   * `is-gelistirme` ve `video-kreatif`te sayfa henüz açılmadı (ADR-021 açık
+   * iş). `geo` 2026-09-25'e kadar `null`dı ve sitenin en büyük gösterim
+   * kümesinin ticari karşılığı yoktu; ADR-040 ile `geo-danismanligi`
+   * hizmetine bağlandı.
    */
   serviceSlug: string | null;
 };
@@ -42,7 +44,10 @@ export const TOPICS: TopicDef[] = [
       tr: "ChatGPT, Gemini ve AI Overviews cevap verirken sizi neden anmıyor — ve nasıl anar.",
       en: "Why ChatGPT, Gemini and AI Overviews don't cite you yet — and how they start.",
     },
-    serviceSlug: null,
+    // Bilgi niyeti ("yapay zeka arama optimizasyonu", "geo optimizasyonu")
+    // kanonik rehberde kalır; hizmet sayfası ticari niteleyicileri taşır
+    // (ADR-040, kanibalizasyon sınırı).
+    serviceSlug: "geo-danismanligi",
   },
   {
     id: "cro",

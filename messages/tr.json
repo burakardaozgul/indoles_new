@@ -116,7 +116,8 @@
           "CRO",
           "UI/UX Tasarım",
           "E-ticaret",
-          "Marka Stratejisi"
+          "Marka Stratejisi",
+          "GEO Danışmanlığı"
         ]
       },
       "transform": {
@@ -457,11 +458,11 @@
   "pages": {
     "services": {
       "industrial": {
-        "title": "Üç disiplin, 12 uzmanlık.",
+        "title": "Üç disiplin, 13 uzmanlık.",
         "lede": "Growth, Transform ve Build ayrı ekipler değil; teşhisten uygulamaya aynı omurgayı paylaşan tek bir disiplinin üç kolu."
       },
       "commerce": {
-        "title": "Büyüme için 12 kaldıraç.",
+        "title": "Büyüme için 13 kaldıraç.",
         "lede": "Growth, Transform ve Build tek bir büyüme motorunun üç kolu. Hangi kaldıraç önce — cevabı metrik verir."
       }
     },

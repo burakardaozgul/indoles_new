@@ -100,7 +100,7 @@ const COPY = {
       {
         href: segmentRoot("tr", "services"),
         label: "Hizmetler",
-        note: "On iki hizmet, üç disiplin altında toplanmış.",
+        note: "On üç hizmet, üç disiplin altında toplanmış.",
       },
       {
         href: segmentRoot("tr", "cases"),
@@ -129,7 +129,7 @@ const COPY = {
       {
         href: segmentRoot("en", "services"),
         label: "Services",
-        note: "Twelve services, grouped under three disciplines.",
+        note: "Thirteen services, grouped under three disciplines.",
       },
       {
         href: segmentRoot("en", "cases"),

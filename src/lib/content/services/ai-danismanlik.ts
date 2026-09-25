@@ -378,5 +378,10 @@ export const aiDanismanlik: ServiceContent = {
   },
 
   relatedPackages: ["ai-pilot"],
-  relatedServices: ["is-otomasyonlari", "is-zekasi", "dijital-donusum"],
+  /**
+   * `dijital-donusum` yerine `geo-danismanligi` (ADR-040): GEO'nun ters
+   * yöndeki iki komşusundan biri. Dijital dönüşüm dört hizmetten bağ
+   * almaya devam ediyor; GEO'nun transform tarafından tek girişi burası.
+   */
+  relatedServices: ["is-otomasyonlari", "is-zekasi", "geo-danismanligi"],
 };

@@ -116,7 +116,8 @@
           "CRO",
           "UI/UX Design",
           "E-commerce",
-          "Brand Strategy"
+          "Brand Strategy",
+          "GEO Consulting"
         ]
       },
       "transform": {
@@ -457,11 +458,11 @@
   "pages": {
     "services": {
       "industrial": {
-        "title": "Three disciplines, 12 areas of expertise.",
+        "title": "Three disciplines, 13 areas of expertise.",
         "lede": "Growth, Transform and Build are not separate teams — they are three arms of one discipline that shares the same spine from diagnosis to delivery."
       },
       "commerce": {
-        "title": "Twelve levers for growth.",
+        "title": "Thirteen levers for growth.",
         "lede": "Growth, Transform and Build are three arms of one revenue engine. Which lever comes first is a question the metrics answer."
       }
     },

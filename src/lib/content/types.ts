@@ -564,8 +564,16 @@ export type ServiceContent = {
    */
   featuredCaseSlugs?: string[];
 
-  /** Paket slug'ı (TR). Boşsa pillar eşlemesine düşülür. */
-  relatedPackages: string[];
+  /**
+   * Paket slug'ı (TR). Boş dizi pillar eşlemesine düşer; `null` "bu
+   * hizmetin paketi yok" demektir ve hiçbir paket basılmaz — ne "giriş
+   * paketi" bloğu ne `Service` şemasında fiyatlı `Offer`.
+   *
+   * `null` ilk kez `geo-danismanligi` için açıldı (ADR-040): pillar
+   * fallback'i Growth'un Büyüme Sprinti'ni GEO'nun giriş paketi ve fiyatı
+   * gibi gösterecekti; sprint GEO kapsamı taşımıyor, fiyat uydurulmaz.
+   */
+  relatedPackages: string[] | null;
   /** Komşu hizmet slug'ı (TR), 3 adet. */
   relatedServices: string[];
 };

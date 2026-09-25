@@ -182,9 +182,10 @@ export default async function ArticleDetail({
    * `topics.ts`teki `serviceSlug` yazı→hizmet yönünde zaten hizmet
    * sayfasında okunuyordu (`relatedArticlesForService`); yazı sayfasında hiç
    * okunmuyordu — makale→hizmet köprüsü yalnız yazarın gövdeye elle koyduğu
-   * satır içi linke bağlıydı. `serviceSlug` `null` olan üç küme (geo,
-   * is-gelistirme, video-kreatif) henüz bir hizmet sayfasına bağlanmadığı
-   * için blok o yazılarda hiç basılmaz.
+   * satır içi linke bağlıydı. `serviceSlug` `null` olan iki küme
+   * (is-gelistirme, video-kreatif) henüz bir hizmet sayfasına bağlanmadığı
+   * için blok o yazılarda hiç basılmaz; `geo` 2026-09-25'ten beri
+   * `geo-danismanligi`ne bağlı (ADR-040).
    */
   const bridgeService = getTopic(a.topic).serviceSlug
     ? SERVICES.find((s) => s.slug.tr === getTopic(a.topic).serviceSlug)

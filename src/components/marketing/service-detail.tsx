@@ -27,6 +27,7 @@ import { TOPICS } from "@/lib/content/topics";
 import {
   SERVICE_ORDER,
   getService,
+  serviceDiagramIndex,
   serviceOrderIndex,
 } from "@/lib/content/services";
 import type {
@@ -299,11 +300,17 @@ export function ServiceDetail({
     en: localizedHref("en", "services", service.slug.en),
   };
 
-  /** Açıkça belirtilmemişse pillar eşlemesine düşülür. */
+  /**
+   * Açıkça belirtilmemişse (boş dizi) pillar eşlemesine düşülür; `null`
+   * paketi olmayan hizmettir ve hiçbir paket basılmaz (ADR-040).
+   */
+  const packageSlugs = service.relatedPackages;
   const relatedPackages =
-    service.relatedPackages.length > 0
-      ? PACKAGES.filter((p) => service.relatedPackages.includes(p.slug.tr))
-      : PACKAGES.filter((p) => p.pillar === service.pillar);
+    packageSlugs === null
+      ? []
+      : packageSlugs.length > 0
+        ? PACKAGES.filter((p) => packageSlugs.includes(p.slug.tr))
+        : PACKAGES.filter((p) => p.pillar === service.pillar);
 
   const relatedCases = relatedCasesForService(
     service.slug.tr,
@@ -506,7 +513,7 @@ export function ServiceDetail({
                 className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-surface-3"
               />
               <div className="aspect-[200/140]">
-                <ServiceIllustration index={orderIndex} />
+                <ServiceIllustration index={serviceDiagramIndex(service.slug.tr)} />
               </div>
               <figcaption className="mt-5 pt-4 border-t border-surface-2 flex items-center justify-between typography-label text-ink-500">
                 <span>

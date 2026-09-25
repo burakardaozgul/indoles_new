@@ -42,7 +42,7 @@ const COPY = {
     faqTitle: "Denetimden önce en çok sorulanlar.",
     relatedEyebrow: "Devamı",
     relatedTitle: "Skorunuzu yükseltmek için.",
-    serviceLink: "AI danışmanlığı hizmeti",
+    serviceLink: "GEO danışmanlığı hizmeti",
     articlesLabel: "GEO rehber yazıları",
     read: "Oku",
   },
@@ -58,7 +58,7 @@ const COPY = {
     faqTitle: "The questions asked most before an audit.",
     relatedEyebrow: "Next",
     relatedTitle: "To lift your score.",
-    serviceLink: "AI consulting service",
+    serviceLink: "GEO consulting service",
     articlesLabel: "GEO guide articles",
     read: "Read",
   },
@@ -93,7 +93,9 @@ export default async function GeoVisibilityCheckerPage({
 
   const tool = GEO_TOOL;
 
-  const aiService = SERVICES.find((s) => s.slug.tr === "ai-danismanlik");
+  // Aracın ticari karşılığı GEO danışmanlığı (ADR-040); 2026-09-25'e kadar
+  // GEO'nun hizmet sayfası olmadığı için kart AI danışmanlığına gidiyordu.
+  const geoService = SERVICES.find((s) => s.slug.tr === "geo-danismanligi");
   const geoArticles = ARTICLES.filter((a) => a.topic === "geo").slice(0, 3);
 
   const faqItems = tool.faq.map((f) => ({
@@ -230,16 +232,16 @@ export default async function GeoVisibilityCheckerPage({
             {c.relatedTitle}
           </h2>
           <div className="mt-8 flex flex-col gap-6">
-            {aiService ? (
+            {geoService ? (
               <Link
-                href={localeHref(`/hizmetler/${aiService.slug[loc]}`, loc)}
+                href={localeHref(`/hizmetler/${geoService.slug[loc]}`, loc)}
                 className="group block v2-surface border border-surface-2 rounded-xl p-6"
               >
                 <span className="eyebrow-bare mono text-ink-500">
                   {COPY[loc].serviceLink}
                 </span>
                 <h3 className="typography-h3 text-ink-900 mt-3">
-                  {aiService.name[loc]}
+                  {geoService.name[loc]}
                 </h3>
                 <span
                   aria-hidden="true"

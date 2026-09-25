@@ -9880,6 +9880,11 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Sunum dosyaları birbirine benziyor, referans listeleri birbirine benziyor. Ayrım beş kriterde, sekiz soruda ve üç kırmızı bayrakta ortaya çıkıyor.",
       en: "The decks look alike and the client lists look alike. The difference shows up in five criteria, eight questions and three red flags.",
     },
+    updatedAt: "2026-09-25",
+    updateNote: {
+      tr: "Bu yazı ilk olarak 28 Ağustos 2026'da yayımlandı. 25 Eylül 2026'da düzeltildi: test süresi örneğindeki hesap yanlıştı. Aylık 20.000 ziyaretçi alan, %2 dönüşen bir sayfada %10'luk artışı ayırt etmek hafta değil, yaklaşık sekiz ay sürer; ilgili bölüm ve sık sorulan soru buna göre güncellendi. Ücretlendirme bölümüne fiyat yazısının bağlantısı eklendi.",
+      en: "First published on 28 August 2026. Corrected on 25 September 2026: the calculation in the test duration example was wrong. On a page with 20,000 visitors a month converting at 2%, detecting a 10% lift takes about eight months, not weeks; the section and the related FAQ answer were updated accordingly. A link to the pricing article was added to the pricing section.",
+    },
     blocks: [
       {
         type: "p",
@@ -10007,8 +10012,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Rakamla konuşalım. Aylık 20.000 ziyaretçi alan ve %2 dönüşen bir sayfada, %10'luk göreli bir artışı güvenle ayırt etmek için varyant başına on binlerce oturum gerekir; bu çoğu sitede hafta demektir, gün değil. Ajans bu hesabı görüşmede yapabiliyorsa bir yöntemi vardır. \"Birkaç güne sonuç alırız\" diyorsa size istatistik değil his satıyordur.",
-          en: "Put numbers on it. On a page with 20,000 visitors a month converting at 2%, separating a 10% relative lift from noise takes tens of thousands of sessions per variant — on most sites, weeks rather than days. An agency that can run that calculation in the meeting has a method. One that says \"we'll have results in a few days\" is selling an impression, not a statistic.",
+          tr: "Rakamla konuşalım. Aylık 20.000 ziyaretçi alan ve %2 dönüşen bir sayfada %10'luk göreli bir artışı — %2'den %2,2'ye — %95 güven ve %80 istatistiksel güçle ayırt etmek için varyant başına yaklaşık 80.700, iki varyantta toplam 161.000 civarında ziyaretçi gerekir; bu trafikte yaklaşık sekiz ay. Gün değil, hafta bile değil. Ajans bu hesabı görüşmede yapabiliyorsa bir yöntemi vardır ve size ya daha büyük bir etki aramayı ya da testi daha kalabalık bir sayfaya taşımayı önerir. \"Birkaç haftada sonuç alırız\" diyorsa size istatistik değil his satıyordur.",
+          en: "Put numbers on it. On a page with 20,000 visitors a month converting at 2%, telling a 10% relative lift — from 2% to 2.2% — apart from noise at 95% confidence and 80% statistical power takes roughly 80,700 visitors per variant, around 161,000 across two variants; on that traffic, about eight months. Not days, and not weeks either. An agency that can run that calculation in the meeting has a method, and will suggest either looking for a bigger effect or moving the test to a busier page. One that says \"we'll have results in a few weeks\" is selling an impression, not a statistic.",
         },
       },
       {
@@ -10335,8 +10340,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "How long before a CRO agency produces results?",
         },
         answer: {
-          tr: "Tek bir A/B testi güvenilir sonuç için genellikle iki ila dört hafta çalışır; süre trafiğe ve mevcut dönüşüm oranına bağlıdır. İlk iki haftası ölçüm onarımına gittiği için ilk yayına alınmış düzeltme çoğunlukla ikinci ayda görülür. Ölçülebilir bir birikimden söz edebilmek içinse bir çeyrek gerekir, çünkü tek test bir sonuç değil bir veri noktasıdır.",
-          en: "A single A/B test usually needs two to four weeks to give a trustworthy answer, and the duration depends on traffic and on the current conversion rate. Since the first two weeks go to repairing measurement, the first shipped fix typically lands in the second month. Talking about a measurable accumulation takes a quarter, because one test is a data point rather than a result.",
+          tr: "Tek bir A/B testinin süresi trafiğe, mevcut dönüşüm oranına ve aranan etkinin büyüklüğüne bağlıdır. %2 dönüşen bir sayfada %10'luk göreli artışı ayırt etmek, ayda 100.000 ziyaretçiyle yaklaşık yedi hafta, ayda 20.000 ziyaretçiyle yaklaşık sekiz ay sürer. İlk iki hafta ölçüm onarımına gittiği için ilk yayına alınmış düzeltme çoğunlukla ikinci ayda görülür. Ölçülebilir bir birikim için en az bir çeyrek gerekir, çünkü tek test bir sonuç değil bir veri noktasıdır.",
+          en: "How long a single A/B test runs depends on traffic, the current conversion rate and the size of the effect you are looking for. On a page converting at 2%, detecting a 10% relative lift takes about seven weeks at 100,000 visitors a month and about eight months at 20,000. Since the first two weeks go to repairing measurement, the first shipped fix typically lands in the second month. A measurable accumulation takes at least a quarter, because one test is a data point rather than a result.",
         },
       },
       {

@@ -9395,8 +9395,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Dürüst cevap: sektöre, fiyat bandına, trafiğin kaynağına ve ölçümün nasıl kurulduğuna göre değişir; herkes için geçerli tek bir \"iyi\" rakam yok. İnternette dolaşan sektör ortalamalarını gördüğünüzde şunu sorun: bu rakam hangi ülkedeki, hangi fiyat bandındaki, hangi trafik karmasına sahip kaç mağazadan toplandı? Cevap yoksa rakam da yoktur.",
-          en: "The honest answer: it depends on the sector, the price band, where the traffic comes from and how the measurement was set up; there is no single \"good\" number that holds for everyone. When you see an industry average circulating online, ask one thing: how many stores was it collected from, in which country, at which price band, with what traffic mix? If there is no answer, there is no number.",
+          tr: "Dürüst cevap: sektöre, fiyat bandına, trafiğin kaynağına ve ölçümün nasıl kurulduğuna göre değişir; herkes için geçerli tek bir \"iyi\" rakam yok. İnternette dolaşan sektör ortalamalarını gördüğünüzde şunu sorun: bu rakam hangi ülkedeki, hangi fiyat bandındaki, hangi trafik karmasına sahip kaç mağazadan toplandı? Cevap yoksa rakam da yoktur. Cevabı olan rakamları kaynağı, dönemi ve örneklemiyle [e-ticaret dönüşüm oranı ortalamaları yazısında](/yazilar/e-ticaret-donusum-orani-benchmark) derledik.",
+          en: "The honest answer: it depends on the sector, the price band, where the traffic comes from and how the measurement was set up; there is no single \"good\" number that holds for everyone. When you see an industry average circulating online, ask one thing: how many stores was it collected from, in which country, at which price band, with what traffic mix? If there is no answer, there is no number. We have gathered the numbers that do have an answer, with source, period and sample, in [our article on e-commerce conversion rate benchmarks](/yazilar/e-ticaret-donusum-orani-benchmark).",
         },
       },
       {
@@ -11577,6 +11577,843 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "GAP analizi mağazanızın ideal hâlinden uzaklığını ölçer: 7 kritik sayfada dört boyut, etki ve efor sıralaması, 90 günlük kapatma planı adım adım.",
         en: "A GAP analysis measures how far your store sits from its ideal version: four dimensions across 7 pages, impact-effort ordering and a 90-day closing plan.",
+      },
+    },
+  },
+  // 2026-09-25 — CRO kümesi, takvim h.5-1 (Keyword-Onceliklendirme §3). INDOLES'in
+  // paylaşılabilir müşteri verisi yok: yazı kamuya açık, anonim/toplu araştırma
+  // verilerinin derlemesi + INDOLES yorumu; "orijinal veri" iddiası taşımaz. Her
+  // rakam kaynağından okundu, künyesi ve kullanılmayan adaylar
+  // docs/strateji/arastirma/eticaret-benchmark-kaynaklari-2026-09.md'de. Hedef
+  // "e ticaret dönüşüm oranı" (CSV 10-100); `cro-nedir` (iyi oran H2'si) ve 21
+  // taktik SSS'inin derin cevabı — H2 metinleri onlarla birebir aynı değil.
+  // Diagnoo linki gövdede inline, köprü yok (tools-content testi 9 → 10).
+  {
+    slug: {
+      tr: "e-ticaret-donusum-orani-benchmark",
+      en: "ecommerce-conversion-rate-benchmarks",
+    },
+    title: {
+      tr: "E-ticaret dönüşüm oranı ortalamaları: sektör, cihaz ve kanala göre 2026 verileri",
+      en: "E-commerce conversion rate benchmarks: 2026 data by sector, device and channel",
+    },
+    excerpt: {
+      tr: "Ortalama e-ticaret dönüşüm oranı kaynağına göre %1,4 ile %2,72 arasında. Dokuz kamuya açık kaynağı sektör, cihaz, trafik kaynağı ve sepet tutarı kırılımıyla tek yerde topladık; kendi oranınızı nasıl kıyaslayacağınızı da.",
+      en: "The average e-commerce conversion rate runs from 1.4% to 2.72% depending on the source. We gathered nine public sources in one place, broken down by sector, device, traffic source and order value — plus how to compare your own rate.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Selin'in ev tekstili mağazasında dönüşüm oranı %1,1. Bir pazarlama bülteninde \"ortalama %3\" yazdığını okuyunca iki gün boyunca mağazasının bozuk olduğuna inandı. Sonra başka bir yazıda \"%1-2 normaldir\" cümlesini gördü ve rahatladı. İki rakam da bir yerden alıntıydı; hiçbiri hangi mağazalardan, hangi dönemde, hangi tanımla ölçüldüğünü söylemiyordu.",
+          en: "The conversion rate of Selin's home textiles store is 1.1%. When she read \"the average is 3%\" in a marketing newsletter, she spent two days convinced her store was broken. Then another article said \"1-2% is normal\" and she relaxed. Both numbers were quoted from somewhere; neither said which stores they were measured on, over which period, or by which definition.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Selin'i bu yazı için kurguladım; sorusunu kurgulamadım — \"benim oranım iyi mi?\" e-ticaret görüşmelerinde en sık duyduğumuz soru. Cevap vermek için bir rakam uydurmak yerine kamuya açık, yöntemi yayımlanmış veri setlerini tek tek açtık: dokuz kaynak, her birinin tarihi, ölçüm dönemi ve örneklemiyle. Bu yazıdaki rakamların hiçbiri INDOLES müşterilerinden gelmiyor; paylaşılabilir, denetlenebilir bir müşteri veri setimiz yok ve öyleymiş gibi davranmıyoruz. Bizim katkımız derleme ve yorum: hangi rakam kimin için anlamlı, hangisi yanıltıcı.",
+          en: "I invented Selin for this article; I did not invent her question — \"is my rate any good?\" is the question we hear most often in e-commerce meetings. Instead of making up a number to answer it, we opened public datasets with published methods one by one: nine sources, each with its date, measurement period and sample. None of the figures in this article come from INDOLES clients; we do not have a shareable, auditable client dataset and we do not pretend to. Our contribution is compilation and interpretation: which number means something for whom, and which one misleads.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Rakamlar 25 Eylül 2026'da kaynağından okundu. Kaynakların çoğu kayan veri yayımlıyor; bugün baktığınızda bir kısmı değişmiş olabilir. Her kaynağın künyesi yazının sonunda.",
+          en: "The figures were read from their sources on 25 September 2026. Most sources publish rolling data, so some may have changed by the time you look. Each source's details are at the end of the article.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ortalama-e-ticaret-donusum-orani",
+        text: {
+          tr: "Ortalama e-ticaret dönüşüm oranı yüzde kaç?",
+          en: "What is the average e-commerce conversion rate?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kamuya açık büyük veri setlerinde ortalama e-ticaret dönüşüm oranı %1,4 ile %2,72 arasında değişiyor; en geniş ve en güncel küresel seri olan Dynamic Yield verisi Ağustos 2025–Temmuz 2026 için %2,72 veriyor. Kabaca söylersek, yüz ziyaretin iki ya da üçü siparişle bitiyor, geri kalanı bitmiyor.",
+          en: "Across large public datasets the average e-commerce conversion rate sits between 1.4% and 2.72%; Dynamic Yield, the broadest and most recent global series, gives 2.72% for August 2025 to July 2026. Roughly, two or three in every hundred visits end in an order and the rest do not.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Dynamic Yield by Mastercard: %2,72 — 12 aylık küresel ortalama; şirketin müşteri tabanında aylık 200 milyon tekil kullanıcı ve 300 milyon oturum.",
+            en: "Dynamic Yield by Mastercard: 2.72% — a 12-month global average across the company's customer base of 200 million monthly unique users and 300 million sessions.",
+          },
+          {
+            tr: "IRP Commerce: %2,23 — Ağustos 2026, Birleşik Krallık ve İrlanda'daki bağımsız KOBİ ve orta ölçekli mağazalar; bir yıl önce aynı ay %1,85.",
+            en: "IRP Commerce: 2.23% — August 2026, independent SME and mid-market stores in the UK and Ireland; 1.85% in the same month a year earlier.",
+          },
+          {
+            tr: "Triple Whale: %1,69 — Ağustos 2025–Temmuz 2026, 53.000'i aşkın markada ücretli reklam trafiğinin medyan dönüşüm oranı.",
+            en: "Triple Whale: 1.69% — August 2025 to July 2026, the median conversion rate of paid-ad traffic across more than 53,000 brands.",
+          },
+          {
+            tr: "Littledata: %1,4 — 2023'te ölçülen 2.800 Shopify mağazasının ortalaması; en iyi %20'lik dilim %3,2'nin, en iyi %10'luk dilim %4,7'nin üstünde.",
+            en: "Littledata: 1.4% — the average of 2,800 Shopify stores measured in 2023; the top 20% sit above 3.2% and the top 10% above 4.7%.",
+          },
+          {
+            tr: "Contentsquare: masaüstünde %3,4, mobilde %2 — 2025'in son çeyreği, 9 sektörde 6.500'ü aşkın site ve 99 milyar oturum; tek bir genel ortalama yayımlamıyor.",
+            en: "Contentsquare: 3.4% on desktop, 2% on mobile — the last quarter of 2025, more than 6,500 sites in 9 sectors and 99 billion sessions; it does not publish a single overall average.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu beş rakamın hiçbiri yanlış değil, ama hiçbiri sizin mağazanızın rakamı da değil. %1,4 ile %2,72 arasındaki fark, mağazaların iyi ya da kötü olmasından çok kimin neyi hangi paydaya bölerek saydığından geliyor. İyi haber şu: farkın kaynağını bilirseniz hangi rakamın size yakın durduğunu, yani sizin için doğru benchmark'ın (kıyas noktasının) hangisi olduğunu da bilirsiniz.",
+          en: "None of these five numbers is wrong, but none of them is your store's number either. The gap between 1.4% and 2.72% comes less from stores being good or bad than from who counts what, divided by which denominator. The good news: once you know where the gap comes from, you also know which number sits closest to you — which one is the right benchmark for you.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kaynaklar-neden-farkli",
+        text: {
+          tr: "Kaynaklar neden birbirinden farklı ortalamalar veriyor?",
+          en: "Why do the sources give different averages?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Çünkü her kaynak farklı bir paydaya, farklı bir dönüşüm tanımına ve farklı bir mağaza örneklemine bakıyor. Aynı mağazanın oranı hangi tanımla hesaplandığına göre ikiye katlanabilir; tanımı eşleşmeyen iki rakamı kıyaslamak bilgi değil gürültü üretir.",
+          en: "Because each source looks at a different denominator, a different definition of conversion and a different sample of stores. The same store's rate can double depending on the definition used; comparing two numbers whose definitions do not match produces noise, not information.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Payda: oturum mu, ziyaretçi mi?",
+          en: "Denominator: sessions or visitors?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "IRP Commerce oranı işlem sayısını oturum sayısına bölerek hesaplıyor. Dynamic Yield tamamlanan satın almayı ziyaretçiye bölüyor. Aradaki fark küçük görünür ama değildir: bir hafta içinde siteye üç kez gelip bir kez satın alan kişi oturum bazlı hesapta %33, ziyaretçi bazlı hesapta %100 dönüşüm yazar. Geri dönen ziyaretçisi çok olan bir mağazada ziyaretçi bazlı oran, oturum bazlı orandan belirgin biçimde yüksek çıkar.",
+          en: "IRP Commerce calculates the rate by dividing transactions by sessions. Dynamic Yield divides completed purchases by visitors. The difference looks small but is not: someone who visits three times in a week and buys once scores 33% on a session basis and 100% on a visitor basis. In a store with many returning visitors, the visitor-based rate comes out clearly higher than the session-based one.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Pay: yalnız satın alma mı, her dönüşüm mü?",
+          en: "Numerator: purchases only, or any conversion?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Contentsquare dönüşümü \"satın alma ya da form gönderimi gibi bir dönüşüm olayı içeren ziyaretlerin payı\" olarak tanımlıyor; bülten kaydı ve form da sayılabiliyor. Dynamic Yield, IRP ve Littledata ise satın almayı sayıyor. Triple Whale'in %1,69'u yalnız ücretli reklam kanallarından gelen trafiğin oranı, site geneli değil.",
+          en: "Contentsquare defines conversion as \"the share of visits that include a conversion event, like a purchase or form submission\"; newsletter sign-ups and forms can count. Dynamic Yield, IRP and Littledata count purchases. Triple Whale's 1.69% is the rate of traffic from paid-ad channels only, not the whole site.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Örneklem: ortalamayı kimler üretiyor?",
+          en: "Sample: who produces the average?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dynamic Yield'ın verisi kendi müşterilerinden geliyor; kişiselleştirme yazılımına bütçe ayırmış bu markalar, bizim okumamıza göre belirli bir ölçeğin üstündeki perakendeciler. Littledata Shopify mağazalarını, IRP İngiltere ve İrlanda'daki bağımsız KOBİ'leri, Triple Whale reklam verisini bağlamış markaları ölçüyor. Contentsquare'in 9 sektörü içinde finans ve seyahat gibi e-ticaret dışı alanlar da var. Aynı sektör adı bile farklı mağaza demek olabiliyor: gıda ve içecek Dynamic Yield'da %4,80, IRP'de %1,58.",
+          en: "Dynamic Yield's data comes from its own customers; brands that have budgeted for personalisation software are, on our reading, retailers above a certain scale. Littledata measures Shopify stores, IRP independent SMEs in the UK and Ireland, Triple Whale brands that have connected their ad data. Contentsquare's 9 sectors include non-retail areas such as finance and travel. Even the same sector name can mean different stores: food and beverage is 4.80% at Dynamic Yield and 1.58% at IRP.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Dönem ve istatistik: ortalama mı, medyan mı?",
+          en: "Period and statistic: mean or median?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dynamic Yield 12 aylık ortalama veriyor, IRP tek bir ayı, Contentsquare iki yılın son çeyreklerini karşılaştırıyor. Triple Whale ortalama yerine medyan kullanıyor; medyan birkaç çok başarılı markanın ortalamayı yukarı çekmesini engeller ve tipik mağazaya daha yakın durur. Kasım'ı içeren bir dönemle içermeyen bir dönemi kıyaslamak tek başına yarım puandan fazla fark yaratabilir; rakamını aşağıda, kendi oranınızı kıyasladığınız bölümde göreceksiniz.",
+          en: "Dynamic Yield gives a 12-month average, IRP a single month, and Contentsquare compares the final quarters of two years. Triple Whale uses the median rather than the mean; the median stops a few very successful brands from pulling the figure up and sits closer to the typical store. Comparing a period that includes November with one that does not can by itself create a gap of more than half a point; you will see the figure below, in the section on comparing your own rate.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sektore-gore-donusum-orani",
+        text: {
+          tr: "Sektörlere göre dönüşüm oranı ne kadar değişiyor?",
+          en: "How much does conversion rate vary by sector?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sektör, dönüşüm oranını en çok değiştiren tek değişken: Dynamic Yield'ın 12 aylık verisinde kozmetik ve kişisel bakım %5,39 ile en üstte, lüks ve mücevher %0,72 ile en altta; aradaki fark yedi kattan fazla. Sık alınan, düşük tutarlı ürünler yüksek, seyrek alınan ve uzun düşünülen ürünler düşük dönüşüyor.",
+          en: "Sector is the single variable that moves conversion rate most: in Dynamic Yield's 12-month data, beauty and personal care leads at 5.39% and luxury and jewellery trails at 0.72%, a gap of more than sevenfold. Frequently bought, low-value products convert high; rarely bought, long-considered products convert low.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          { tr: "Kozmetik ve kişisel bakım: %5,39", en: "Beauty and personal care: 5.39%" },
+          { tr: "Gıda ve içecek: %4,80", en: "Food and beverage: 4.80%" },
+          {
+            tr: "Evcil hayvan bakımı: %4,71 (aydan aya %2,24 ile %7,68 arasında oynuyor)",
+            en: "Pet care: 4.71% (swinging between 2.24% and 7.68% month to month)",
+          },
+          { tr: "Çok markalı perakende: %3,01", en: "Multi-brand retail: 3.01%" },
+          { tr: "Moda, aksesuar ve giyim: %2,77", en: "Fashion, accessories and apparel: 2.77%" },
+          { tr: "Tüketim ürünleri: %2,47", en: "Consumer goods: 2.47%" },
+          { tr: "Ev ve mobilya: %1,22", en: "Home and furniture: 1.22%" },
+          { tr: "Lüks ve mücevher: %0,72", en: "Luxury and jewellery: 0.72%" },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dynamic Yield elektroniği ayrı yayımlamıyor. Elektronik için en yakın güncel veri Triple Whale'in ücretli reklam medyanları: aynı dönemde elektronik %1,49 ile listenin en altında; gıda ve içecek %2,60, evcil hayvan %2,39, güzellik %2,38 ile en üstte; giyim ve aksesuar %1,80, ev ve bahçe %1,64. Sıralama Dynamic Yield'la aynı yönde, seviye daha düşük, çünkü bu rakam yalnız reklamdan gelen ve çoğu henüz markayı tanımayan trafiği ölçüyor.",
+          en: "Dynamic Yield does not publish electronics separately. The closest recent data for electronics is Triple Whale's paid-ad medians: over the same period electronics sits at the bottom with 1.49%, while food and beverage (2.60%), pets (2.39%) and beauty (2.38%) lead; apparel and accessories is at 1.80% and home and garden at 1.64%. The order runs the same way as Dynamic Yield's, the level is lower, because this figure measures only traffic from ads, much of which does not yet know the brand.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İngiltere tarafında IRP Commerce'in Ağustos 2026 verisi aynı dersi küçük mağaza ölçeğinde veriyor: moda giyim ve aksesuar %1,86, sağlık ve zindelik %3,31, mutfak ve ev aletleri %2,98, yiyecek ve içecek %1,58, bebek ve çocuk %0,57. Moda için üç kaynak arasındaki bant %1,8 ile %2,8 arası; bir moda mağazası kendini tek bir rakama değil, bu bandın içinde bir yere koyabilir.",
+          en: "On the UK side, IRP Commerce's August 2026 data teaches the same lesson at small-store scale: fashion clothing and accessories 1.86%, health and wellbeing 3.31%, kitchen and home appliances 2.98%, food and drink 1.58%, baby and child 0.57%. For fashion, the band across three sources runs from 1.8% to 2.8%; a fashion store can place itself somewhere inside that band rather than against a single number.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bizim okumamız şu: sektör tablosu hedef koymak için değil, beklentiyi ayarlamak için kullanılır. %1,2 dönüşen bir mobilya mağazası sorunlu değil, sektörünün ortasında; aynı oranla çalışan bir kozmetik mağazası ise sektör ortalamasının dörtte biri civarında. Türkiye'de sektör okurken iki düzeltme daha gerekiyor, iade oranı ve sepet tutarı; ikisini aşağıda rakamlarıyla ele alıyoruz.",
+          en: "Our reading: a sector table is for calibrating expectations, not for setting targets. A furniture store converting at 1.2% is not in trouble, it is in the middle of its sector; a beauty store running at the same rate is at around a quarter of its sector average. Reading sectors in Turkey needs two more corrections, return rates and basket size; we cover both below with figures.",
+        },
+      },
+      {
+        type: "h2",
+        id: "mobil-masaustu-donusum-orani",
+        text: {
+          tr: "Mobil dönüşüm oranı masaüstünden ne kadar düşük?",
+          en: "How much lower is mobile conversion than desktop?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Çoğu kaynakta belirgin biçimde düşük: Contentsquare'in 2026 raporunda masaüstü ziyaretler %3,4, mobil ziyaretler %2 oranında dönüşüyor, yani masaüstü %74 önde; perakendede fark %3,7'ye %2. Buna karşın ziyaretlerin %69,9'u mobilden geliyor, yani trafiğin çoğu daha düşük dönüşen cihazda.",
+          en: "In most sources, clearly lower: in Contentsquare's 2026 report desktop visits convert at 3.4% and mobile visits at 2%, putting desktop 74% ahead; in retail the gap is 3.7% against 2%. Yet 69.9% of visits come from mobile, so most traffic is on the device that converts worse.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Littledata'nın 2023 Shopify verisi aynı yönü gösteriyor: masaüstü %1,9, mobil %1,2. Dynamic Yield'ın son 12 ayı ise tersini söylüyor: mobil %2,88, tablet %2,85, masaüstü %2,37. Üstelik Dynamic Yield'da masaüstü oranı Kasım 2025'teki %3,35'ten Temmuz 2026'da %1,76'ya indi.",
+          en: "Littledata's 2023 Shopify data points the same way: desktop 1.9%, mobile 1.2%. Dynamic Yield's last 12 months say the opposite: mobile 2.88%, tablet 2.85%, desktop 2.37%. On top of that, Dynamic Yield's desktop rate fell from 3.35% in November 2025 to 1.76% in July 2026.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Çelişkinin bizce en makul açıklaması örneklemin sektör karması. Dynamic Yield'ın yayımladığı aylık cihaz paylarından hesapladığımız ortalamaya göre en yüksek dönüşen kozmetik trafiğinin yaklaşık %91'i mobilden geliyor; en düşük dönüşenlerden ev ve mobilyada bu pay %63 civarında. Yüksek dönüşen sektör mobilde yoğunlaşınca cihaz ortalaması cihazı değil sektörü ölçmeye başlar. Ders şu: mobil oranınızı masaüstü oranınızla değil, sektörünüzün mobil oranıyla ve kendi geçmişinizle kıyaslayın.",
+          en: "The most plausible explanation for the contradiction, in our view, is the sample's sector mix. By our average of the monthly device shares Dynamic Yield publishes, about 91% of traffic in beauty, the best-converting sector, comes from mobile; in home and furniture, one of the lowest, the share is around 63%. When the high-converting sector concentrates on mobile, the device average starts measuring the sector rather than the device. The lesson: compare your mobile rate not with your desktop rate but with your sector's mobile rate and your own history.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Cihaz farkı huninin nerede açıldığını da gösteriyor. Dynamic Yield'da mobil ziyaretçi ürünü sepete daha sık ekliyor (%6,35'e karşı masaüstünde %5,21), ama sepeti de daha sık terk ediyor (%79,84'e karşı %69,48). Mobilde sorun çoğu zaman ilgide değil, ödeme adımında: küçük ekranda form, kart bilgisi ve adres girişi.",
+          en: "The device gap also shows where the funnel opens up. At Dynamic Yield, mobile visitors add products to the cart more often (6.35% against 5.21% on desktop) but also abandon the cart more often (79.84% against 69.48%). On mobile the problem is usually not interest but the checkout step: forms, card details and address entry on a small screen.",
+        },
+      },
+      {
+        type: "h2",
+        id: "trafik-kaynagina-gore-donusum-orani",
+        text: {
+          tr: "Trafik kaynağı dönüşüm oranını ne kadar etkiler?",
+          en: "How much does traffic source affect conversion rate?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sektör kadar: Contentsquare'in 2026 verisinde ücretli kanallar içinde en yüksek oranı %2,8 ile ücretli arama veriyor, organik sosyal medya %0,7'de kalıyor. Arayarak gelen ziyaretçi bir ihtiyaçla gelir; akışta bir gönderiye tıklayan ziyaretçi ise çoğu zaman henüz karar vermemiştir.",
+          en: "As much as sector does: in Contentsquare's 2026 data, paid search has the highest rate among paid channels at 2.8%, while organic social stays at 0.7%. A visitor who arrives by searching comes with a need; a visitor who taps a post in a feed usually has not decided yet.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı raporda iki bulgu daha var. Birincisi, geri dönen ziyaretçiler %2,9, yeni ziyaretçiler %1,7 oranında dönüşüyor ve ziyaretlerin %52,8'i artık geri dönen ziyaretlerden oluşuyor. İkincisi, yapay zekâ asistanlarından yönlendirilen trafiğin dönüşüm oranı bir yılda %55 artarak %1,3'e çıktı; payı hâlâ küçük ama dönüşümü artan tek kanal bu. [Yapay zekâ aramalarında görünür olmak](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) bu yüzden artık yalnız bir marka meselesi değil.",
+          en: "The same report has two more findings. First, returning visitors convert at 2.9% and new visitors at 1.7%, and 52.8% of visits now come from returning visitors. Second, the conversion rate of traffic referred by AI assistants rose 55% in a year to 1.3%; its share is still small, but it is the only channel whose conversion is growing. That is why [being visible in AI search](/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz) is no longer only a brand matter.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ücretli reklamın kendi seviyesi için Triple Whale'in medyanı iyi bir çıpa: 53.000'i aşkın markada Ağustos 2025–Temmuz 2026 arasında ücretli reklam trafiğinin medyan dönüşüm oranı %1,69 ve bir önceki döneme göre %4,63 geriledi.",
+          en: "For the level of paid advertising itself, Triple Whale's median is a good anchor: across more than 53,000 brands between August 2025 and July 2026, the median conversion rate of paid-ad traffic was 1.69%, down 4.63% on the previous period.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pratik sonucu şu: kanal karması değiştiğinde toplam oran da değişir. Reklam bütçesini artırdığınız ay oranın düşmesi başarısızlık olmayabilir; yeni gelen, markayı tanımayan trafik ortalamayı aşağı çeker. Toplam oranı değil, her kanalın kendi oranını ve o kanalın benchmark'ını izleyin: reklam trafiğini %1,69'la, ücretli aramayı %2,8'le, sosyal medyayı %0,7'yle kıyaslamak, toplam oranı %2,72'yle kıyaslamaktan çok daha fazla şey söyler.",
+          en: "The practical consequence: when the channel mix changes, the total rate changes too. A drop in the month you raise the ad budget may not be a failure; new traffic that does not know the brand pulls the average down. Track each channel's own rate against that channel's benchmark rather than the total: comparing ad traffic with 1.69%, paid search with 2.8% and social with 0.7% tells you far more than comparing the total with 2.72%.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sepet-terk-orani-ortalamasi",
+        text: {
+          tr: "Sepet terk oranı ortalaması kaç, huni adımları neyi gösteriyor?",
+          en: "What is the average cart abandonment rate, and what do funnel steps show?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Baymard Institute'un 2006–2025 arasındaki 50 çalışmadan hesapladığı ortalamaya göre sepetlerin %70,22'si satın almayla bitmiyor; Dynamic Yield'ın son 12 aylık verisinde sepete eklenen ürünlerin %77,55'i satın alınmıyor. Sepete ekleme bir niyet sinyalidir, satın alma sözü değil.",
+          en: "According to the average Baymard Institute calculates from 50 studies between 2006 and 2025, 70.22% of carts do not end in a purchase; in Dynamic Yield's last 12 months, 77.55% of products added to carts are not bought. Adding to cart is a signal of intent, not a promise to buy.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Baymard'ın derlediği çalışmalar %55 ile %84,27 arasında dağılıyor; tek bir \"normal\" sepet terki yok, bir bant var. Terkin bir kısmı zaten önlenemez: Baymard'ın ABD'li çevrim içi alışverişçilerle yaptığı en son sebep çalışmasında katılımcıların %42'si sepeti \"yalnızca bakıyordum\" diye bırakmış. Bu grup dışarıda bırakıldığında sebepler şöyle sıralanıyor:",
+          en: "The studies Baymard compiles range from 55% to 84.27%; there is no single \"normal\" abandonment rate, there is a band. Part of abandonment cannot be prevented anyway: in Baymard's latest reasons study with US online shoppers, 42% had left a cart because they were \"just browsing\". Setting that group aside, the reasons rank as follows:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          { tr: "Ek maliyetler (kargo, vergi, ücret) çok yüksek: %40", en: "Extra costs (delivery, tax, fees) too high: 40%" },
+          { tr: "Teslimat çok yavaş: %20", en: "Delivery too slow: 20%" },
+          { tr: "Siteye kart bilgisi vermeye güvenmeme: %19", en: "Did not trust the site with card details: 19%" },
+          { tr: "Zorunlu hesap açma: %18", en: "The site required an account: 18%" },
+          { tr: "Uzun ya da karmaşık ödeme süreci: %17", en: "Checkout too long or complicated: 17%" },
+          { tr: "Site hatası ya da çökme: %17", en: "Website errors or crashes: 17%" },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Listenin çoğu ürünle değil ödeme akışıyla ilgili, dolayısıyla düzeltilebilir. Baymard'ın ölçümüne göre ortalama bir ABD ödeme akışı kullanıcıya varsayılan olarak 23,48 form öğesi gösteriyor, ideal bir akış ise 12-14 öğeyle yetiniyor; kurum, yalnız ödeme tasarımını düzelterek büyük ölçekli bir e-ticaret sitesinin dönüşüm oranını ortalama %35,26 artırabileceğini hesaplıyor. [Sepet terk oranını düşüren beş taktik](/yazilar/donusum-orani-nasil-artirilir-21-taktik) bu listenin uygulamadaki karşılığı.",
+          en: "Most of the list concerns the checkout flow rather than the product, so it can be fixed. By Baymard's measurement, the average US checkout shows 23.48 form elements by default, while an ideal flow manages with 12-14; the institute calculates that better checkout design alone can raise a large e-commerce site's conversion rate by 35.26% on average. [The five tactics for reducing cart abandonment](/yazilar/donusum-orani-nasil-artirilir-21-taktik) are this list's practical counterpart.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Huni adımlarında benchmark",
+          en: "Benchmarks at each funnel step",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tek bir dönüşüm oranı yerine huniyi adımlara bölmek benchmark'ı teşhise çevirir. Dynamic Yield'ın aynı 12 aylık serisi üç ayrı gösterge veriyor: ürün sayfası görüntülemesinden sonra sepete ekleme %6,08, sepete eklenen üründe terk %77,55, ziyaretçi başına satın alma %2,72. Üçü farklı birimlerle ölçüldüğü için birbirinden hesaplanmaz; her biri kendi adımının çıpasıdır. Sepete ekleme de sektöre göre değişiyor: kozmetikte %9,56, modada %6,24, ev ve mobilyada %3,67, lüks ve mücevherde %1,76.",
+          en: "Splitting the funnel into steps instead of one conversion rate turns a benchmark into a diagnosis. Dynamic Yield's same 12-month series gives three separate indicators: add-to-cart after a product page view at 6.08%, abandonment of products added to cart at 77.55%, purchases per visitor at 2.72%. Because the three are measured in different units they cannot be derived from one another; each is the anchor for its own step. Add-to-cart varies by sector too: 9.56% in beauty, 6.24% in fashion, 3.67% in home and furniture, 1.76% in luxury and jewellery.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Okuma kuralı basit: sepete ekleme oranınız sektörünüzün üstünde ama dönüşümünüz altındaysa sorun ürün sayfasında değil, sepet ve ödeme adımındadır. Tersi durumda, yani ziyaretçi ürünü sepete bile eklemiyorsa, bakılacak yer ürün sayfası, fiyat ve trafiğin kendisidir.",
+          en: "The reading rule is simple: if your add-to-cart rate is above your sector's but your conversion is below it, the problem is not on the product page but in the cart and checkout. In the opposite case, when visitors do not even add the product to the cart, the places to look are the product page, the price and the traffic itself.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sepet-tutari-ve-donusum",
+        text: {
+          tr: "Sepet tutarı yükseldikçe dönüşüm oranı neden düşüyor?",
+          en: "Why does conversion rate fall as order value rises?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Çünkü tutar büyüdükçe karar uzar ve aynı alıcı satın almadan önce siteye birkaç kez gelir: Triple Whale'in verisinde ortalama sipariş değeri 113 dolar olan elektronik %1,49, 63 dolar olan gıda ve içecek %2,60 oranında dönüşüyor. Dynamic Yield'da da listenin sonunda yüksek tutarlı iki sektör var: ev ve mobilya %1,22, lüks ve mücevher %0,72.",
+          en: "Because the larger the amount, the longer the decision, and the same buyer visits several times before purchasing: in Triple Whale's data, electronics with an average order value of 113 dollars converts at 1.49%, while food and beverage at 63 dollars converts at 2.60%. At Dynamic Yield, too, the bottom of the list holds two high-value sectors: home and furniture at 1.22% and luxury and jewellery at 0.72%.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Türkiye'de bu farkın ne kadar büyük olduğunu Ticaret Bakanlığı'nın 2025 verisi gösteriyor. Sektörlere göre ortalama sepet tutarı:",
+          en: "The Ministry of Trade's 2025 data shows how large this gap is in Turkey. Average basket value by sector:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          { tr: "Beyaz eşya ve küçük ev aletleri: 10.513 TL", en: "White goods and small appliances: 10,513 TL" },
+          { tr: "Ev, bahçe, mobilya ve dekorasyon: 9.388 TL", en: "Home, garden, furniture and decoration: 9,388 TL" },
+          { tr: "Medikal, kişisel bakım ve kozmetik: 3.062 TL", en: "Medical, personal care and cosmetics: 3,062 TL" },
+          { tr: "Giyim, ayakkabı ve aksesuar: 2.910 TL", en: "Clothing, footwear and accessories: 2,910 TL" },
+          { tr: "Elektronik: 1.894 TL", en: "Electronics: 1,894 TL" },
+          { tr: "Gıda ve süpermarket: 889 TL", en: "Food and supermarket: 889 TL" },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "En büyük sepet en küçüğün on bir katından fazla. 10.513 TL'lik sepetle çalışan bir beyaz eşya mağazasını 889 TL'lik sepetle çalışan bir market sitesinin oranıyla kıyaslamak anlamsız. Farklı fiyat bantlarını kıyaslamanız gerekiyorsa oranı değil ziyaretçi başına geliri kullanın, yani dönüşüm oranı çarpı ortalama sepet: %1 dönüşen ve 10.000 TL sepetle çalışan mağaza ziyaretçi başına 100 TL üretir, %4 dönüşen ve 900 TL sepetle çalışan mağaza 36 TL.",
+          en: "The largest basket is more than eleven times the smallest. Comparing a white goods store with a 10,513 TL basket against the rate of a grocery site with an 889 TL basket makes no sense. If you have to compare different price bands, use revenue per visitor rather than the rate, that is, conversion rate multiplied by average basket: a store converting at 1% with a 10,000 TL basket earns 100 TL per visitor, a store converting at 4% with a 900 TL basket earns 36 TL.",
+        },
+      },
+      {
+        type: "h2",
+        id: "turkiye-donusum-orani-verisi",
+        text: {
+          tr: "Türkiye'ye özgü dönüşüm oranı verisi var mı?",
+          en: "Is there conversion rate data specific to Turkey?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kamuya açık ve yöntemi açıklanmış bir Türkiye dönüşüm oranı serisi bulamadık; Türkiye'ye özgü veri bu konuda sınırlı. Ticaret Bakanlığı'nın ETBİS kayıtlarına dayanan raporu hacmi, sepet tutarını, iade oranını ve satış kanalını ölçüyor, ziyaret başına dönüşümü ölçmüyor; altyapı sağlayıcılarının yazılarında geçen oranlar da ya yabancı kaynaklardan aktarılıyor ya da kaynaksız.",
+          en: "We found no public Turkish conversion rate series with a published method; Turkey-specific data on this is limited. The Ministry of Trade's report, based on ETBİS records, measures volume, basket value, return rates and sales channel, not conversion per visit; the rates quoted in e-commerce platform providers' articles are either carried over from foreign sources or unsourced.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yüzden Türkiye'deki bir mağazanın dönüşüm oranı benchmark'ı bugün yurt dışı serilerden gelmek zorunda. Türkiye verisinin işi o benchmark'ı düzeltmek: hangi ay kıyas yapılmamalı, hangi sektörde net oran brüt orandan çok farklı, hangi kanal site oranına girmemeli. Bakanlığın 12 Mayıs 2026'da yayımladığı 2025 raporu ve TÜİK'in 2026 araştırması bunun için yeterli malzeme veriyor.",
+          en: "So for a store in Turkey, the conversion rate benchmark has to come from foreign series for now. The job of Turkish data is to correct that benchmark: which months should not be compared, in which sector the net rate differs sharply from the gross, which channel should stay out of the site rate. The Ministry's 2025 report, published on 12 May 2026, and TÜİK's 2026 survey provide enough material for that.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Hacim ve talep",
+          en: "Volume and demand",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Türkiye'de e-ticaret hacmi 2025'te %52,2 artışla 4,57 trilyon TL'ye ulaştı, işlem sayısı 5,94 milyar oldu; e-ticaret genel ticaretin %19,3'ünü oluşturuyor. TÜİK'in 2026 araştırmasına göre 16-74 yaş arasındaki bireylerin %60,0'ı internetten mal ya da hizmet siparişi veriyor; bu oran bir yıl önce %55,7'ydi. Mobil alışverişin payı ise resmi raporlarda yok, Bakanlık raporu cihaz kırılımı vermiyor. Küresel serilerde mobilin trafik payı %69,9 (Contentsquare) ile %75,75 (Dynamic Yield) arasında; Türkiye için doğrulanmış bir rakam olmadığından bu yazıda Türkiye'nin mobil payını vermiyoruz.",
+          en: "E-commerce volume in Turkey rose 52.2% in 2025 to 4.57 trillion TL, with 5.94 billion transactions; e-commerce makes up 19.3% of all trade. According to TÜİK's 2026 survey, 60.0% of individuals aged 16-74 order goods or services online, up from 55.7% a year earlier. The share of mobile shopping is absent from official reports; the Ministry's report gives no device breakdown. In global series, mobile's share of traffic ranges from 69.9% (Contentsquare) to 75.75% (Dynamic Yield); since there is no verified figure for Turkey, we do not give one in this article.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Kampanya takvimi: Kasım ayrı bir dönemdir",
+          en: "Campaign calendar: November is a period of its own",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaretin genel ticarete oranı Kasım'da %22,4'e çıkıyor, yaz aylarında %17-18 bandına iniyor. Sektörde fark daha sert: beyaz eşyada oran yıl genelinde %35,3 iken Kasım'da %61,4; elektronikte %38,6'ya karşı %49,4; giyimde %25,4'e karşı %32,4. Kasım'ı içeren bir ayla içermeyen bir ayı kıyaslamak, kampanyanın etkisini sitenin başarısı sanmak demek.",
+          en: "E-commerce's share of all trade rises to 22.4% in November and falls to a 17-18% band in the summer months. In some sectors the swing is sharper: in white goods the share is 35.3% across the year but 61.4% in November; in electronics 38.6% against 49.4%; in clothing 25.4% against 32.4%. Comparing a month that includes November with one that does not means mistaking the campaign's effect for the site's success.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Sektör: brüt oran ve net oran",
+          en: "Sector: gross rate and net rate",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bakanlık verisine göre 2025'te iptal ve iade oranı giyim, ayakkabı ve aksesuarda %21,6, elektronikte %12,0, spor ve outdoor ürünlerinde %11,4, beyaz eşyada %7,2, medikal, kişisel bakım ve kozmetikte %3,2. Giyimde yaklaşık her beş siparişten biri iptal ya da iadeyle geri dönüyor. Yurt dışı benchmark'lar brüt siparişi sayar; giyim mağazası kendi oranını hem brüt hem iade sonrası net olarak hesaplamalı ve bir iyileştirmenin iadeyi artırıp artırmadığını da izlemeli.",
+          en: "According to the Ministry's data, cancellation and return rates in 2025 were 21.6% in clothing, footwear and accessories, 12.0% in electronics, 11.4% in sports and outdoor, 7.2% in white goods and 3.2% in medical, personal care and cosmetics. In clothing, roughly one order in five comes back as a cancellation or return. Foreign benchmarks count gross orders; a clothing store should calculate its rate both gross and net of returns, and check whether an improvement also raises returns.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Kanal: pazar yeri satışları site oranına girmez",
+          en: "Channel: marketplace sales stay out of the site rate",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bakanlığın 781 işletmeyle yaptığı ankete göre işletmelerin %48,8'i hem kendi sitesinden hem pazar yerlerinden, %39,5'i yalnız pazar yerlerinden, %11,7'si yalnız kendi sitesinden satıyor. Pazar yerindeki sipariş sitenizin oturumundan geçmez; toplam sipariş sayısını site oturumuna bölerseniz oranınız olduğundan yüksek görünür. Ödeme tarafında da bir Türkiye düzeltmesi var: hacmin %62,5'i kartla, %29,2'si havale ya da EFT ile, %3,5'i kapıda ödemeyle ödeniyor. Havale siparişi onay beklerken satın alma olayı tetikleniyor ve iptal edilen havale geri düşülmüyorsa oran yine şişer.",
+          en: "According to the Ministry's survey of 781 businesses, 48.8% sell both on their own site and on marketplaces, 39.5% only on marketplaces and 11.7% only on their own site. A marketplace order does not pass through your site's sessions; divide total orders by site sessions and your rate looks higher than it is. There is a Turkish correction on payments too: 62.5% of volume is paid by card, 29.2% by bank transfer and 3.5% cash on delivery. If the purchase event fires while a bank-transfer order is still awaiting confirmation, and cancelled transfers are never deducted, the rate is inflated again.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kobi-ihracatci-buyuk-perakendeci",
+        text: {
+          tr: "KOBİ, ihracatçı ve büyük perakendeci aynı benchmark'a mı bakmalı?",
+          en: "Should an SME, an exporter and a large retailer use the same benchmark?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hayır; ortalamayı üreten mağazalar sizin ölçeğinizde değilse o rakam sizin için ölçü değildir. KOBİ mağazası küçük mağaza serilerine, çok pazarlı ihracatçı bölge serilerine, büyük perakendeci kurumsal platform serilerine bakmalı.",
+          en: "No; if the stores producing the average are not at your scale, the number is no yardstick for you. An SME store should look at small-store series, a multi-market exporter at regional series, and a large retailer at enterprise platform series.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "KOBİ mağazası",
+          en: "The SME store",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "En yakın çıpa, Littledata'nın 2.800 Shopify mağazasından çıkardığı dağılım: ortalama %1,4, en iyi %20'lik dilim %3,2'nin, en iyi %10'luk dilim %4,7'nin üstünde. Veri 2023'ten, ama tek bir ortalama yerine dağılım verdiği için hâlâ kullanışlı: %1,4 ortada olmak, %3,2 üst beşte birde olmak demek. Daha güncel bir kontrol noktası IRP Commerce'in İngiltere ve İrlanda'daki bağımsız KOBİ ve orta ölçekli mağazalar için Ağustos 2026'da ölçtüğü %2,23.",
+          en: "The closest anchor is the distribution Littledata drew from 2,800 Shopify stores: an average of 1.4%, the top 20% above 3.2% and the top 10% above 4.7%. The data is from 2023, but because it gives a distribution rather than one average it is still useful: 1.4% means sitting in the middle, 3.2% means the top fifth. A more recent checkpoint is the 2.23% IRP Commerce measured in August 2026 for independent SME and mid-market stores in the UK and Ireland.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Küçük mağazanın asıl tuzağı istatistiksel: ayda 2.000 oturum alan bir mağazada on siparişlik fark oranı yarım puan oynatır. Aylık oranla karar vermek yerine 90 günlük ya da 12 aylık kayan ortalamayla çalışın. iyzico, Dogma Alares ve ETİD'in 108 satıcıyla yaptığı ankette satıcıların %35'i mobil uyum ve optimizasyon zorluğu yaşadığını söylüyor; mobil trafiğin payı düşünülünce KOBİ için ilk kıyas kalemi mobil huni olmalı.",
+          en: "The real trap for a small store is statistical: in a store with 2,000 sessions a month, a difference of ten orders moves the rate by half a point. Work with a 90-day or 12-month rolling average instead of deciding on the monthly rate. In the survey of 108 sellers by iyzico, Dogma Alares and ETİD, 35% of sellers say they struggle with mobile compatibility and optimisation; given mobile's share of traffic, the mobile funnel should be the SME's first line of comparison.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "İhracat yapan, çok pazarlı mağaza",
+          en: "The exporting, multi-market store",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dönüşüm bölgeye göre de değişiyor: Dynamic Yield'ın 12 aylık verisinde EMEA (Avrupa, Orta Doğu ve Afrika) %2,89, Amerika %2,66, Asya-Pasifik %1,51. Yurt dışındaki alıcıların Türkiye'deki sitelerden yaptığı alımlar 2025'te e-ticaret hacminin %3,7'si; iyzico anketinde satıcıların %35'i aktif olarak yurt dışına satıyor, %44'ü yurt dışına satışı ve globalleşmeyi bir zorluk olarak anıyor. Çok pazarlı mağaza tek bir toplam oranla yönetilemez: GA4'te her ülke ayrı bir huni olarak okunmalı, her pazar kendi bölge ortalamasıyla kıyaslanmalı.",
+          en: "Conversion also varies by region: in Dynamic Yield's 12-month data, EMEA (Europe, the Middle East and Africa) is at 2.89%, the Americas at 2.66% and Asia-Pacific at 1.51%. Purchases by buyers abroad from sites in Turkey made up 3.7% of e-commerce volume in 2025; in the iyzico survey, 35% of sellers actively sell abroad and 44% name selling abroad and going global as a challenge. A multi-market store cannot be run on one total rate: in GA4 each country should be read as a separate funnel, and each market compared with its own regional average.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Baymard'ın sebep listesi ihracatta daha ağır basıyor: ek maliyet (%40) gümrük ve uluslararası kargoyla, yavaş teslimat (%20) sınır ötesi teslim süresiyle büyüyor. Bizim önerimiz, yurt dışı pazarın oranını yerel pazarınızla değil, o pazarın bölge serisiyle ve ödeme adımında toplam maliyetin ne kadar erken göründüğüyle birlikte okumak.",
+          en: "Baymard's list of reasons weighs heavier in exporting: extra costs (40%) grow with customs and international delivery, slow delivery (20%) with cross-border transit times. Our recommendation is to read a foreign market's rate not against your home market but against that market's regional series, together with how early the total cost appears in checkout.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Büyük perakendeci",
+          en: "The large retailer",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük perakendeci için Shopify ortalaması yanlış çıpadır; Dynamic Yield'ın aylık 200 milyon tekil kullanıcılık müşteri tabanı ve Contentsquare'in 6.500'ü aşkın sitesi ölçek olarak daha yakın. Büyük olmak ödeme akışının iyi olduğu anlamına da gelmiyor: Baymard'ın %35,26'lık iyileşme potansiyeli hesabı, Walmart, Amazon, Wayfair ve ASOS gibi sitelerin ödeme akışları test edildikten sonra büyük ölçekli siteler için yapılmış. Büyük perakendecide benchmark'ın asıl işi iç kıyastır: kategori, cihaz ve kanal kırılımlarını sektör değerleriyle tek tek karşılaştırıp en uzaktaki kırılımı bulmak. Pazar yerinde de satan büyük perakendecinin site oranı, toplam dijital satışın yalnız bir parçasını anlatır.",
+          en: "For a large retailer, the Shopify average is the wrong anchor; Dynamic Yield's customer base of 200 million monthly unique users and Contentsquare's more than 6,500 sites are closer in scale. Being large does not mean the checkout is good either: Baymard's 35.26% improvement potential was calculated for large sites after testing the checkouts of sites such as Walmart, Amazon, Wayfair and ASOS. For a large retailer, the real job of a benchmark is internal comparison: setting category, device and channel breakdowns one by one against sector values and finding the one furthest away. For a large retailer that also sells on marketplaces, the site rate tells only part of the digital sales story.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kendi-oraninizi-kiyaslama",
+        text: {
+          tr: "Kendi dönüşüm oranınızı bir benchmark'la nasıl kıyaslarsınız?",
+          en: "How do you compare your own conversion rate with a benchmark?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Önce oranınızı kaynakla aynı tanımla hesaplayın, sonra aynı dönemle ve aynı kırılımda kıyaslayın; bu üç eşleşme olmadan yapılan kıyas yanıltır. Pratikte bu, GA4'te satın alma içeren oturumları toplam oturuma bölmek, 12 aylık kayan ortalama almak ve cihaz, kanal ve yeni-geri dönen ziyaretçi kırılımlarını ayrı okumak demek.",
+          en: "First calculate your rate with the same definition as the source, then compare it over the same period and in the same breakdown; a comparison without these three matches misleads. In practice this means dividing sessions with a purchase by total sessions in GA4, taking a 12-month rolling average and reading device, channel and new-versus-returning breakdowns separately.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Satın alma olayını doğrulayın. GA4'teki purchase olayı her sipariş için bir kez ve doğru tutarla tetiklenmeli; test siparişleri, iptaller ve onay bekleyen havale siparişleri ayıklanmalı. Olay yanlışsa sonraki adımların hepsi yanlış olur.",
+            en: "Verify the purchase event. The purchase event in GA4 should fire once per order with the correct value; test orders, cancellations and bank-transfer orders awaiting confirmation should be filtered out. If the event is wrong, every later step is wrong.",
+          },
+          {
+            tr: "Paydayı seçin ve yazın. Oturum bazlı oran (işlem ÷ oturum) IRP ve Contentsquare'e, ziyaretçi bazlı oran Dynamic Yield'a yakın. Raporun başına hangisini kullandığınızı yazın ve kıyası yalnız aynı tanımlı kaynakla yapın.",
+            en: "Choose and write down the denominator. A session-based rate (transactions ÷ sessions) is close to IRP and Contentsquare, a visitor-based rate to Dynamic Yield. State at the top of the report which one you use and compare only with a source that uses the same definition.",
+          },
+          {
+            tr: "Gürültüyü ayıklayın. Bot ve iç trafik filtrelenmeli; ödeme sağlayıcısının 3D Secure sayfasından dönüş satın almayı o sağlayıcıya atfediyorsa, alan adı GA4'ün istenmeyen yönlendirmeler listesine eklenmeli, yoksa kanal kırılımı bozulur.",
+            en: "Strip out the noise. Bot and internal traffic should be filtered; if the return from the payment provider's 3D Secure page attributes the purchase to that provider, its domain should go on GA4's unwanted referrals list, or the channel breakdown breaks.",
+          },
+          {
+            tr: "Dönemi eşleyin. Dynamic Yield'ın küresel serisinde oran Kasım 2025'te %3,34, Aralık'ta %3,30, Nisan 2026'da %2,33 oldu; bir aylık rakamı 12 aylık ortalamayla kıyaslamayın. Türkiye'de Kasım kampanyaları için ayrı bir kıyas dönemi tutun.",
+            en: "Match the period. In Dynamic Yield's global series the rate was 3.34% in November 2025, 3.30% in December and 2.33% in April 2026; do not compare a single month with a 12-month average. In Turkey, keep a separate comparison period for the November campaigns.",
+          },
+          {
+            tr: "Kırılımları ayırın: cihaz, kanal, yeni ve geri dönen ziyaretçi, ülke. Toplam oran bu kırılımların ağırlıklı ortalamasıdır; karma değiştiğinde hiçbir şey iyileşmeden ya da kötüleşmeden oran oynar.",
+            en: "Separate the breakdowns: device, channel, new and returning visitors, country. The total rate is a weighted average of these; when the mix changes, the rate moves without anything getting better or worse.",
+          },
+          {
+            tr: "Net oranı da hesaplayın. İptal ve iadenin yüksek olduğu sektörlerde, özellikle giyimde, brüt oranın yanına iade sonrası net oranı koyun.",
+            en: "Calculate the net rate as well. In sectors with high cancellations and returns, clothing above all, put the net-of-returns rate next to the gross rate.",
+          },
+          {
+            tr: "Tek rakamla değil bantla kıyaslayın. Sektörünüz için iki ya da üç kaynağın değerini yan yana yazın ve kendinizi o bandın içinde konumlandırın.",
+            en: "Compare with a band, not a single number. Write the values of two or three sources for your sector side by side and position yourself within that band.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Diyelim ki bir moda mağazası oturum bazlı %1,6 dönüşüyor. Moda bandı %1,8 ile %2,8 arasında olduğu için mağaza bandın biraz altında. Ama kırılımda masaüstü %2,6, mobil %1,2 çıkıyorsa sorun mağazanın bütününde değil, mobil ödeme adımında. Benchmark'ın değeri bu ikinci cümlededir: nereye bakacağınızı söyler.",
+          en: "Say a fashion store converts at 1.6% on a session basis. With the fashion band at 1.8% to 2.8%, the store sits slightly below it. But if the breakdown shows desktop at 2.6% and mobile at 1.2%, the problem is not the store as a whole but the mobile checkout step. The value of a benchmark lies in that second sentence: it tells you where to look.",
+        },
+      },
+      {
+        type: "h2",
+        id: "benchmarkin-altindaysaniz",
+        text: {
+          tr: "Benchmark'ın altındaysanız nereden başlamalısınız?",
+          en: "Where do you start if you are below the benchmark?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ortalamanın altında olmak tek başına bir teşhis değildir; önce hangi huni adımında ve hangi kırılımda geride kaldığınızı bulun, sonra yalnız o adımı düzeltin. Oranı huni adımlarına bölüp her adımı yukarıdaki adım değerleriyle karşılaştırmak, nereden başlayacağınızı çoğu zaman tek başına söyler.",
+          en: "Being below average is not a diagnosis by itself; first find at which funnel step and in which breakdown you fall behind, then fix only that step. Splitting the rate into funnel steps and setting each against the step values above will often tell you on its own where to start.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İlk kontrol ölçümün kendisi olmalı. [GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) piksel ve veri akışı hatalıydı, reklam kararları eksik veriyle alınıyordu; o hâliyle hiçbir oran bir benchmark'la kıyaslanamazdı. Veri akışı onarılıp huni yeniden kurulduktan sonra satış üç ayda 12 katına çıktı. Bu rakam bir benchmark değil, tek bir mağazanın kendi başlangıç noktasına göre ilerlemesi; ama sıranın neden ölçümle başladığını iyi gösteriyor.",
+          en: "The first check should be the measurement itself. In [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis) the pixel and data flow were broken and ad decisions ran on incomplete data; in that state no rate could be compared with any benchmark. Once the data flow was repaired and the funnel rebuilt, sales rose 12× in three months. That figure is not a benchmark but one store's progress against its own starting point; still, it shows well why the order begins with measurement.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçüm doğruysa açığı sayfa sayfa görmek için [GAP analizi rehberindeki](/yazilar/e-ticaret-gap-analizi-cro-denetimi) yedi kritik sayfa yöntemini kullanın; hangi adımda ne yapılacağını [21 taktiklik uygulama kataloğu](/yazilar/donusum-orani-nasil-artirilir-21-taktik) sıralıyor. Oranın ne olduğundan ve nasıl hesaplandığından başlamak isterseniz [CRO nedir yazısı](/yazilar/cro-nedir) iyi bir giriş.",
+          en: "If the measurement is sound, use the seven critical pages method in [the GAP analysis guide](/yazilar/e-ticaret-gap-analizi-cro-denetimi) to see the gap page by page; [the 21-tactic implementation catalogue](/yazilar/donusum-orani-nasil-artirilir-21-taktik) lists what to do at each step. If you would rather start from what the rate is and how it is calculated, [the article on what CRO is](/yazilar/cro-nedir) is a good introduction.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bütçe gerektirmeyen ilk adım, mağazanızın yedi kritik sayfasını [Diagnoo](/araclar/diagnoo) ile taratmak: araç ölçüm altyapısındaki eksikleri de listeler ve hangi boşluğun kaç puan götürdüğünü ayrı ayrı yazar. Tanıyı birlikte yapmak isterseniz [CRO danışmanlığımız](/hizmetler/cro) ölçümle başlar ve hipotezleri etki-efor sırasıyla test eder; [dönüşüm oranı optimizasyonu hizmet sayfası](/hizmetler/cro) adımları ve teslimatları anlatıyor. Sorun altyapıdaysa, yani ödeme sağlayıcısında, pazar yeri entegrasyonunda ya da çok pazarlı kurguda, [e-ticaret danışmanlığı](/hizmetler/e-ticaret) o katmanı ele alır.",
+          en: "The first step needs no budget: scan your store's seven critical pages with [Diagnoo](/araclar/diagnoo); it also lists the gaps in your tracking set-up and shows how many points each gap costs. If you want to run the diagnosis together, [our CRO consultancy](/hizmetler/cro) starts with measurement and tests hypotheses in impact-effort order; [the conversion rate optimisation service page](/hizmetler/cro) sets out the steps and deliverables. If the problem is in the infrastructure, meaning the payment provider, marketplace integration or multi-market set-up, [e-commerce consultancy](/hizmetler/e-ticaret) handles that layer.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tek cümleyle: benchmark hedef değil, pusuladır. Bugün yapabileceğiniz test şu: son 12 ayın oturum bazlı oranını cihaz ve kanala bölün, her kırılımı bu yazıdaki en yakın kaynağın değeriyle yan yana yazın ve en uzaktaki satırın altını çizin. Sıradaki işiniz o satır.",
+          en: "In one sentence: a benchmark is a compass, not a target. The test you can run today: split the last 12 months' session-based rate by device and channel, write each breakdown next to the value of the closest source in this article, and underline the row furthest away. That row is your next job.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yontem-ve-kaynaklar",
+        text: {
+          tr: "Yöntem ve kaynaklar",
+          en: "Method and sources",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazı kamuya açık, anonim ve toplu araştırma verilerinin derlemesidir; INDOLES'in kendi müşteri verisi kullanılmadı. Rakamlar 25 Eylül 2026'da kaynağından okundu; ikinci elden aktarılan ve kaynağında doğrulanamayan rakamlar yazıya alınmadı. Kaynaklara dış link vermiyoruz; adları ve tarihleriyle aratıp bulabilirsiniz.",
+          en: "This article is a compilation of public, anonymous and aggregated research data; no INDOLES client data was used. The figures were read from their sources on 25 September 2026; figures passed on second-hand that could not be verified at source were left out. We do not link out to the sources; you can find them by searching their names and dates.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Dynamic Yield by Mastercard, eCommerce Benchmarks: Ağustos 2025–Temmuz 2026 aylık serileri ve 12 aylık ortalamaları; şirketin müşteri tabanı (aylık 200 milyon tekil kullanıcı, 300 milyon oturum); dönüşüm = tamamlanan satın alma ÷ ziyaretçi.",
+            en: "Dynamic Yield by Mastercard, eCommerce Benchmarks: monthly series and 12-month averages for August 2025 to July 2026; the company's customer base (200 million monthly unique users, 300 million sessions); conversion = completed purchases ÷ visitors.",
+          },
+          {
+            tr: "Contentsquare, 2026 Digital Experience Benchmark (25 Şubat 2026): 2024 ve 2025'in son çeyrekleri; 9 sektörde 6.500'ü aşkın site, 99 milyar oturum; dönüşüm = dönüşüm olayı içeren ziyaretlerin payı.",
+            en: "Contentsquare, 2026 Digital Experience Benchmark (25 February 2026): the final quarters of 2024 and 2025; more than 6,500 sites in 9 sectors, 99 billion sessions; conversion = share of visits that include a conversion event.",
+          },
+          {
+            tr: "IRP Commerce, eCommerce Market Data: Ağustos 2026; Birleşik Krallık ve İrlanda'daki bağımsız KOBİ ve orta ölçekli mağazalar; dönüşüm = işlem ÷ oturum.",
+            en: "IRP Commerce, eCommerce Market Data: August 2026; independent SME and mid-market stores in the UK and Ireland; conversion = transactions ÷ sessions.",
+          },
+          {
+            tr: "Triple Whale, Ecommerce Benchmarks 2026 (24 Ağustos 2026): Ağustos 2025–Temmuz 2026; 53.000'i aşkın markanın ücretli reklam medyanları.",
+            en: "Triple Whale, Ecommerce Benchmarks 2026 (24 August 2026): August 2025 to July 2026; paid-ad medians across more than 53,000 brands.",
+          },
+          {
+            tr: "Littledata, Shopify dönüşüm oranı benchmark'ı: 2023, 2.800 Shopify mağazası.",
+            en: "Littledata, Shopify conversion rate benchmark: 2023, 2,800 Shopify stores.",
+          },
+          {
+            tr: "Baymard Institute, sepet terk oranı listesi (son güncelleme 22 Eylül 2025): 2006–2025 arası 50 çalışmanın ortalaması; terk sebepleri ABD'li çevrim içi alışverişçilerle yapılan çalışmadan.",
+            en: "Baymard Institute, cart abandonment rate list (last updated 22 September 2025): the average of 50 studies from 2006 to 2025; abandonment reasons from its study of US online shoppers.",
+          },
+          {
+            tr: "T.C. Ticaret Bakanlığı, Türkiye'de E-Ticaretin Görünümü Raporu 2025 (12 Mayıs 2026): ETBİS 2025 verisi; satış kanalı dağılımı 781 işletmelik anketten.",
+            en: "Republic of Türkiye Ministry of Trade, Türkiye'de E-Ticaretin Görünümü Raporu 2025, its annual e-commerce outlook report (12 May 2026): ETBİS data for 2025; the sales channel split comes from a survey of 781 businesses.",
+          },
+          {
+            tr: "TÜİK, Hanehalkı Bilişim Teknolojileri Kullanım Araştırması 2026 (5 Ağustos 2026): 16-74 yaş bireyler.",
+            en: "TÜİK (Turkish Statistical Institute), Hanehalkı Bilişim Teknolojileri Kullanım Araştırması 2026, its household ICT usage survey (5 August 2026): individuals aged 16-74.",
+          },
+          {
+            tr: "iyzico, Dogma Alares ve ETİD, Türkiye E-Ticaret Ekosistemi 2025 (17 Haziran 2026): 108 satıcılık anket.",
+            en: "iyzico, Dogma Alares and ETİD, Türkiye E-Ticaret Ekosistemi 2025, an e-commerce ecosystem report (17 June 2026): a survey of 108 sellers.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kaynaklar arasında bir çelişki var ve açık bırakıyoruz: Contentsquare ile Littledata masaüstünü, Dynamic Yield mobili önde ölçüyor. Cihaz bölümündeki açıklama, yani sektör karması, bizim yorumumuz; kaynakların değil. Sektör bazında mobil trafik payları da Dynamic Yield'ın yayımladığı aylık payların bizim hesapladığımız ortalamasıdır.",
+          en: "There is one contradiction between the sources and we leave it in the open: Contentsquare and Littledata measure desktop ahead, Dynamic Yield measures mobile ahead. The explanation in the device section, the sector mix, is our interpretation, not the sources'. The sector-level mobile traffic shares are likewise our own average of the monthly shares Dynamic Yield publishes.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "Yüzde 1 dönüşüm oranı kötü mü?",
+          en: "Is a 1% conversion rate bad?",
+        },
+        answer: {
+          tr: "Sektöre ve trafiğe bağlı. Lüks ve mücevherde Dynamic Yield ortalaması %0,72, ev ve mobilyada %1,22 olduğu için %1 bu sektörlerde ortalamanın çevresinde sayılır. Kozmetikte ortalama %5,39 olduğundan aynı oran ciddi bir açık demektir. Trafiğin çoğu reklamdan geliyorsa Triple Whale'in %1,69'luk ücretli reklam medyanı daha adil bir kıyas noktasıdır.",
+          en: "It depends on the sector and the traffic. In luxury and jewellery the Dynamic Yield average is 0.72% and in home and furniture 1.22%, so 1% sits around the average in those sectors. In beauty the average is 5.39%, so the same rate signals a serious gap. If most of your traffic comes from ads, Triple Whale's 1.69% paid-ad median is the fairer comparison point.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı oturuma göre mi, kullanıcıya göre mi hesaplanmalı?",
+          en: "Should conversion rate be calculated per session or per user?",
+        },
+        answer: {
+          tr: "İkisi de doğru, yeter ki kıyasladığınız kaynakla aynı olsun. Oturum bazlı oran siparişi oturum sayısına böler ve IRP Commerce'in tanımıyla örtüşür; ziyaretçi bazlı oran satın almayı tekil ziyaretçiye böler ve Dynamic Yield'ın tanımına yakındır. Geri dönen ziyaretçisi çok olan mağazada ziyaretçi bazlı oran daha yüksek çıkar, bu yüzden raporda hangisinin kullanıldığı mutlaka yazılmalıdır.",
+          en: "Both are valid, as long as they match the source you compare against. A session-based rate divides orders by sessions and matches IRP Commerce's definition; a visitor-based rate divides purchases by unique visitors and is close to Dynamic Yield's. In a store with many returning visitors the visitor-based rate comes out higher, so a report should always state which one it uses.",
+        },
+      },
+      {
+        question: {
+          tr: "Pazar yeri satışları dönüşüm oranına dahil edilmeli mi?",
+          en: "Should marketplace sales be included in your conversion rate?",
+        },
+        answer: {
+          tr: "Site dönüşüm oranına hayır. Pazar yerindeki sipariş sitenizin oturumundan geçmediği için toplam siparişi site oturumuna bölmek oranı olduğundan yüksek gösterir. Ticaret Bakanlığı'nın anketinde işletmelerin %48,8'i hem kendi sitesinden hem pazar yerinden sattığı için bu hata Türkiye'de yaygın. Pazar yeri performansı o platformun kendi görüntülenme ve sipariş verisiyle ayrı izlenmelidir.",
+          en: "Not in the site conversion rate. A marketplace order does not pass through your site's sessions, so dividing total orders by site sessions makes the rate look higher than it is. In the Ministry of Trade's survey 48.8% of businesses sell both on their own site and on marketplaces, which makes this error common in Turkey. Marketplace performance should be tracked separately with that platform's own view and order data.",
+        },
+      },
+      {
+        question: {
+          tr: "Kampanya aylarında dönüşüm oranı nasıl yorumlanmalı?",
+          en: "How should conversion rate be read in campaign months?",
+        },
+        answer: {
+          tr: "Ayrı bir dönem olarak. Dynamic Yield'ın küresel serisinde oran Kasım 2025'te %3,34'e çıktı, Nisan 2026'da %2,33'e indi; Türkiye'de beyaz eşyada e-ticaretin genel ticarete oranı Kasım'da %61,4'e ulaştı. Kampanya ayını bir önceki yılın aynı kampanya ayıyla, normal ayları 12 aylık kayan ortalamayla kıyaslamak, indirimin etkisini sitenin başarısıyla karıştırmayı önler.",
+          en: "As a period of its own. In Dynamic Yield's global series the rate rose to 3.34% in November 2025 and fell to 2.33% in April 2026; in Turkey, e-commerce's share of all trade in white goods reached 61.4% in November. Comparing a campaign month with the same campaign month a year earlier, and normal months with a 12-month rolling average, avoids mistaking the discount's effect for the site's success.",
+        },
+      },
+      {
+        question: {
+          tr: "Mobilde sepet terki neden daha yüksek?",
+          en: "Why is cart abandonment higher on mobile?",
+        },
+        answer: {
+          tr: "Mobil ziyaretçi ürünü daha kolay sepete ekler ama ödemeyi daha zor tamamlar. Dynamic Yield'ın 12 aylık verisinde mobilde sepete ekleme %6,35, terk %79,84; masaüstünde sepete ekleme %5,21, terk %69,48. Küçük ekranda adres, kart bilgisi ve form alanı doldurmak zahmetlidir; Baymard'ın ölçtüğü ortalama ödeme akışındaki 23,48 form öğesi mobilde daha ağır basar.",
+          en: "Mobile visitors add products to the cart more easily but complete checkout with more difficulty. In Dynamic Yield's 12-month data, mobile add-to-cart is 6.35% with 79.84% abandonment, against 5.21% and 69.48% on desktop. Filling in address, card details and form fields is laborious on a small screen, and the 23.48 form elements Baymard measures in the average checkout weigh more heavily on mobile.",
+        },
+      },
+      {
+        question: {
+          tr: "Benchmark rakamlarına ne sıklıkla yeniden bakılmalı?",
+          en: "How often should you revisit benchmark figures?",
+        },
+        answer: {
+          tr: "Yılda bir ya da iki kez yeterli; kendi oranınıza ise her hafta bakılmalı. Dynamic Yield ve IRP Commerce aylık güncellenen seriler yayımlıyor, Contentsquare ve Ticaret Bakanlığı yılda bir rapor çıkarıyor. Dış benchmark yönü ve beklentiyi ayarlar, iç ölçüm ise kararı verir. Kaynağın dönemi ya da tanımı değiştiyse eski rakamla yeni rakamı yan yana koymamaya dikkat edin.",
+          en: "Once or twice a year is enough; your own rate, on the other hand, deserves a weekly look. Dynamic Yield and IRP Commerce publish monthly series, while Contentsquare and the Ministry of Trade release one report a year. An external benchmark sets direction and expectation, internal measurement makes the decision. If a source's period or definition has changed, take care not to set the old figure beside the new one.",
+        },
+      },
+      {
+        question: {
+          tr: "İade ve iptaller dönüşüm oranından düşülmeli mi?",
+          en: "Should returns and cancellations be deducted from conversion rate?",
+        },
+        answer: {
+          tr: "Kıyas için brüt oranı, karar için net oranı kullanın. Yurt dışı benchmark'lar brüt siparişi sayar, o yüzden dış kıyasta brüt oran gerekir. Ticaret Bakanlığı verisine göre giyim, ayakkabı ve aksesuarda iptal ve iade oranı %21,6; bu sektörde brüt oranı artıran bir değişiklik iadeyi de artırıyorsa kazanç yalnız görünürde kalır. İki oranı aynı tabloda izleyin.",
+          en: "Use the gross rate for comparison and the net rate for decisions. Foreign benchmarks count gross orders, so an external comparison needs the gross rate. According to the Ministry of Trade, cancellations and returns in clothing, footwear and accessories run at 21.6%; in that sector, a change that lifts the gross rate while also lifting returns only looks like a gain. Track both rates in the same table.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zekâ asistanlarından gelen trafik iyi dönüşüyor mu?",
+          en: "Does traffic from AI assistants convert well?",
+        },
+        answer: {
+          tr: "Henüz ortalamanın altında ama hızla yükseliyor. Contentsquare'in 2026 raporunda yapay zekâ yönlendirmeli trafiğin dönüşüm oranı bir yılda %55 artarak %1,3'e çıktı; ücretli aramanın %2,8'inin altında, organik sosyal medyanın %0,7'sinin üstünde. Asistanın ilk araştırmayı yaptığı ve ziyaretçinin daha net bir niyetle geldiği bir kanal; payı küçük olsa da GA4'te ayrı bir kanal olarak izlenmeye değer.",
+          en: "Still below average, but rising fast. In Contentsquare's 2026 report the conversion rate of AI-referred traffic rose 55% in a year to 1.3%; below paid search at 2.8%, above organic social at 0.7%. It is a channel where the assistant has done the first research and the visitor arrives with clearer intent; small as its share is, it is worth tracking as a separate channel in GA4.",
+        },
+      },
+      {
+        question: {
+          tr: "Yeni açılan bir mağaza hangi oranı hedeflemeli?",
+          en: "What rate should a newly opened store aim for?",
+        },
+        answer: {
+          tr: "İlk aylarda sabit bir rakam değil, yön hedeflenmeli. Yeni mağazanın trafiği çoğunlukla markayı tanımayan ziyaretçilerden oluşur; Contentsquare verisinde yeni ziyaretçiler %1,7, geri dönenler %2,9 oranında dönüşüyor. Littledata'nın Shopify dağılımında ortalama %1,4'tü; ilk yıl bu çevrede başlayıp geri dönen ziyaretçi payı arttıkça oranın yükselmesi beklenir. Kıyas için ilk üç ayı taban kabul edin.",
+          en: "In the first months, aim for a direction rather than a fixed number. A new store's traffic is mostly visitors who do not know the brand; in Contentsquare's data new visitors convert at 1.7% and returning ones at 2.9%. The average in Littledata's Shopify distribution was 1.4%; a store can expect to start around that level in its first year and see the rate rise as the share of returning visitors grows. Treat the first three months as the baseline for comparison.",
+        },
+      },
+      {
+        question: {
+          tr: "B2B e-ticarette bu ortalamalar kullanılabilir mi?",
+          en: "Can these averages be used for B2B e-commerce?",
+        },
+        answer: {
+          tr: "Doğrudan kullanılamaz. Bu yazıdaki serilerin hepsi ağırlıklı olarak tüketiciye satış yapan mağazalardan geliyor. B2B'de sipariş tutarı yüksek, karar birden fazla kişiye yayılı ve satın alma çoğu zaman teklif, onay ya da sözleşme adımından geçer; bu yüzden anlamlı oran çoğunlukla teklif talebi ya da hesap açma gibi mikro dönüşümlerde ölçülür. B2B mağaza kendi huni adımlarını kendi geçmişiyle kıyaslamalıdır.",
+          en: "Not directly. All the series in this article come mainly from stores selling to consumers. In B2B, order values are high, the decision is spread across several people and a purchase usually passes through a quote, approval or contract step; the meaningful rate is therefore usually measured on micro conversions such as quote requests or account sign-ups. A B2B store should compare its own funnel steps with its own history.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı mı, ziyaretçi başına gelir mi daha iyi bir ölçüt?",
+          en: "Is conversion rate or revenue per visitor the better measure?",
+        },
+        answer: {
+          tr: "Farklı fiyat bantlarını ya da fiyat değişikliklerini kıyaslarken ziyaretçi başına gelir daha iyi bir ölçüttür. Dönüşüm oranı yalnız kaç kişinin satın aldığını söyler; ziyaretçi başına gelir oranı ortalama sepetle çarpar. Ticaret Bakanlığı verisinde beyaz eşyada ortalama sepet 10.513 TL, gıda ve süpermarkette 889 TL; bu iki mağazanın oranı değil, ziyaretçi başına geliri kıyaslanabilir.",
+          en: "When comparing different price bands or price changes, revenue per visitor is the better measure. Conversion rate only says how many people bought; revenue per visitor multiplies that rate by the average basket. In the Ministry of Trade's data the average basket is 10,513 TL in white goods and 889 TL in food and supermarket; what can be compared between those two stores is revenue per visitor, not the rate.",
+        },
+      },
+      {
+        question: {
+          tr: "Sektör ortalamasını geçtikten sonra iyileştirmeye devam etmek gerekir mi?",
+          en: "Should you keep improving once you beat the sector average?",
+        },
+        answer: {
+          tr: "Evet, çünkü ortalama bir tavan değil. Littledata'nın Shopify dağılımında ortalama %1,4, en iyi %10'luk dilim ise %4,7'nin üstünde; aradaki alan ortalamayı geçmiş mağazalar için de açık. Baymard, büyük ölçekli sitelerde bile yalnız ödeme tasarımıyla ortalama %35,26'lık dönüşüm artışı potansiyeli hesaplıyor. Ortalamanın üstündeki mağaza için kıyas noktası üst dilim ve kendi geçmişidir.",
+          en: "Yes, because the average is not a ceiling. In Littledata's Shopify distribution the average is 1.4% while the top 10% sit above 4.7%; the space in between stays open for stores that have already beaten the average. Baymard calculates an average conversion uplift potential of 35.26% from checkout design alone, even on large sites. For a store above average, the comparison points are the top band and its own history.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "cro",
+    tags: ["donusum-orani", "benchmark", "e-ticaret", "sepet-terk", "cro"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-25",
+    readingMinutes: 27,
+    seo: {
+      title: {
+        tr: "E-ticaret dönüşüm oranı ortalamaları 2026",
+        en: "E-commerce conversion rate benchmarks 2026",
+      },
+      description: {
+        tr: "Ortalama e-ticaret dönüşüm oranı %1,4 mü, %2,72 mi? 9 kaynaktan sektör, mobil-masaüstü, trafik kaynağı ve sepet terki verisi; kendi oranınızı kıyaslama yolu.",
+        en: "Is the average e-commerce conversion rate 1.4% or 2.72%? Sector, mobile vs desktop, traffic source and cart abandonment data from 9 sources, and how to compare.",
       },
     },
   },

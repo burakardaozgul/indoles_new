@@ -7631,8 +7631,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "İlk iki haftanın çıktısı tek sayfadır: seçilen süreç, adı yazılmış bir süreç sahibi, bir yönetim sponsoru ve hareket etmesi beklenen tek rakam. Aday listesi iki ile üç süreci geçmez; her aday aşağıdaki ölçütlerle puanlanır ve en yüksek puanı alan seçilir. Aday süreçler bile belirsizse bu blok Dijital Dönüşüm Teşhisi paketimizle üç haftaya uzar; teşhis, üç ile beş pilot adayını veriyle sıraya dizer ve takvim oradan devam eder.",
-          en: "The first two weeks produce a single page: the chosen process, a named process owner, an executive sponsor and the one number expected to move. The candidate list never runs past two or three processes; each one is scored against the criteria below and the highest scorer wins. If even the candidates are unclear, this block stretches to three weeks with our Digital Transformation Audit package, which ranks three to five pilot candidates from data before the calendar picks up again.",
+          tr: "İlk iki haftanın çıktısı tek sayfadır: seçilen süreç, adı yazılmış bir süreç sahibi, bir yönetim sponsoru ve hareket etmesi beklenen tek rakam. Aday listesi iki ile üç süreci geçmez; her aday aşağıdaki ölçütlerle puanlanır ve en yüksek puanı alan seçilir. Aday süreçler bile belirsizse bu blok [Dijital Dönüşüm Teşhisi paketimizle](/paketler/dijital-donusum-teshisi) üç haftaya uzar; teşhis, üç ile beş pilot adayını veriyle sıraya dizer ve takvim oradan devam eder.",
+          en: "The first two weeks produce a single page: the chosen process, a named process owner, an executive sponsor and the one number expected to move. The candidate list never runs past two or three processes; each one is scored against the criteria below and the highest scorer wins. If even the candidates are unclear, this block stretches to three weeks with our [Digital Transformation Audit package](/paketler/dijital-donusum-teshisi), which ranks three to five pilot candidates from data before the calendar picks up again.",
         },
       },
       {
@@ -9880,6 +9880,11 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Sunum dosyaları birbirine benziyor, referans listeleri birbirine benziyor. Ayrım beş kriterde, sekiz soruda ve üç kırmızı bayrakta ortaya çıkıyor.",
       en: "The decks look alike and the client lists look alike. The difference shows up in five criteria, eight questions and three red flags.",
     },
+    updatedAt: "2026-09-25",
+    updateNote: {
+      tr: "Bu yazı ilk olarak 28 Ağustos 2026'da yayımlandı. 25 Eylül 2026'da düzeltildi: test süresi örneğindeki hesap yanlıştı. Aylık 20.000 ziyaretçi alan, %2 dönüşen bir sayfada %10'luk artışı ayırt etmek hafta değil, yaklaşık sekiz ay sürer; ilgili bölüm ve sık sorulan soru buna göre güncellendi. Ücretlendirme bölümüne fiyat yazısının bağlantısı eklendi.",
+      en: "First published on 28 August 2026. Corrected on 25 September 2026: the calculation in the test duration example was wrong. On a page with 20,000 visitors a month converting at 2%, detecting a 10% lift takes about eight months, not weeks; the section and the related FAQ answer were updated accordingly. A link to the pricing article was added to the pricing section.",
+    },
     blocks: [
       {
         type: "p",
@@ -10007,8 +10012,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Rakamla konuşalım. Aylık 20.000 ziyaretçi alan ve %2 dönüşen bir sayfada, %10'luk göreli bir artışı güvenle ayırt etmek için varyant başına on binlerce oturum gerekir; bu çoğu sitede hafta demektir, gün değil. Ajans bu hesabı görüşmede yapabiliyorsa bir yöntemi vardır. \"Birkaç güne sonuç alırız\" diyorsa size istatistik değil his satıyordur.",
-          en: "Put numbers on it. On a page with 20,000 visitors a month converting at 2%, separating a 10% relative lift from noise takes tens of thousands of sessions per variant — on most sites, weeks rather than days. An agency that can run that calculation in the meeting has a method. One that says \"we'll have results in a few days\" is selling an impression, not a statistic.",
+          tr: "Rakamla konuşalım. Aylık 20.000 ziyaretçi alan ve %2 dönüşen bir sayfada %10'luk göreli bir artışı — %2'den %2,2'ye — %95 güven ve %80 istatistiksel güçle ayırt etmek için varyant başına yaklaşık 80.700, iki varyantta toplam 161.000 civarında ziyaretçi gerekir; bu trafikte yaklaşık sekiz ay. Gün değil, hafta bile değil. Ajans bu hesabı görüşmede yapabiliyorsa bir yöntemi vardır ve size ya daha büyük bir etki aramayı ya da testi daha kalabalık bir sayfaya taşımayı önerir. \"Birkaç haftada sonuç alırız\" diyorsa size istatistik değil his satıyordur.",
+          en: "Put numbers on it. On a page with 20,000 visitors a month converting at 2%, telling a 10% relative lift — from 2% to 2.2% — apart from noise at 95% confidence and 80% statistical power takes roughly 80,700 visitors per variant, around 161,000 across two variants; on that traffic, about eight months. Not days, and not weeks either. An agency that can run that calculation in the meeting has a method, and will suggest either looking for a bigger effect or moving the test to a busier page. One that says \"we'll have results in a few weeks\" is selling an impression, not a statistic.",
         },
       },
       {
@@ -10086,8 +10091,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Model seçerken tek bir soru işi görür: bu ücretlendirme ajansın hangi davranışını ödüllendiriyor? Test sayısını ödüllendiren model çok ve kısa test üretir; öğrenmeyi ödüllendiren model az ve uzun test üretir. İkincisi daha yavaş görünür ve daha hızlı ilerler.",
-          en: "One question settles the choice: which agency behaviour does this pricing reward? A model that rewards test volume produces many short tests; a model that rewards learning produces fewer long ones. The second looks slower and moves faster.",
+          tr: "Model seçerken tek bir soru işi görür: bu ücretlendirme ajansın hangi davranışını ödüllendiriyor? Test sayısını ödüllendiren model çok ve kısa test üretir; öğrenmeyi ödüllendiren model az ve uzun test üretir. İkincisi daha yavaş görünür ve daha hızlı ilerler. Modelin içindeki rakamın nasıl oluştuğunu — trafik, ölçüm, kapsam ve geliştirme kaynağının fiyatı nasıl değiştirdiğini — [CRO danışmanlığının neye mal olduğunu anlattığımız yazıda](/yazilar/cro-danismanligi-fiyatlari) ayrıca açtık.",
+          en: "One question settles the choice: which agency behaviour does this pricing reward? A model that rewards test volume produces many short tests; a model that rewards learning produces fewer long ones. The second looks slower and moves faster. How the figure inside each model is built — how traffic, measurement, scope and development capacity move the price — is set out in [what CRO consultancy costs](/yazilar/cro-danismanligi-fiyatlari).",
         },
       },
       {
@@ -10335,8 +10340,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "How long before a CRO agency produces results?",
         },
         answer: {
-          tr: "Tek bir A/B testi güvenilir sonuç için genellikle iki ila dört hafta çalışır; süre trafiğe ve mevcut dönüşüm oranına bağlıdır. İlk iki haftası ölçüm onarımına gittiği için ilk yayına alınmış düzeltme çoğunlukla ikinci ayda görülür. Ölçülebilir bir birikimden söz edebilmek içinse bir çeyrek gerekir, çünkü tek test bir sonuç değil bir veri noktasıdır.",
-          en: "A single A/B test usually needs two to four weeks to give a trustworthy answer, and the duration depends on traffic and on the current conversion rate. Since the first two weeks go to repairing measurement, the first shipped fix typically lands in the second month. Talking about a measurable accumulation takes a quarter, because one test is a data point rather than a result.",
+          tr: "Tek bir A/B testinin süresi trafiğe, mevcut dönüşüm oranına ve aranan etkinin büyüklüğüne bağlıdır. %2 dönüşen bir sayfada %10'luk göreli artışı ayırt etmek, ayda 100.000 ziyaretçiyle yaklaşık yedi hafta, ayda 20.000 ziyaretçiyle yaklaşık sekiz ay sürer. İlk iki hafta ölçüm onarımına gittiği için ilk yayına alınmış düzeltme çoğunlukla ikinci ayda görülür. Ölçülebilir bir birikim için en az bir çeyrek gerekir, çünkü tek test bir sonuç değil bir veri noktasıdır.",
+          en: "How long a single A/B test runs depends on traffic, the current conversion rate and the size of the effect you are looking for. On a page converting at 2%, detecting a 10% relative lift takes about seven weeks at 100,000 visitors a month and about eight months at 20,000. Since the first two weeks go to repairing measurement, the first shipped fix typically lands in the second month. A measurable accumulation takes at least a quarter, because one test is a data point rather than a result.",
         },
       },
       {
@@ -10414,6 +10419,632 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "CRO danışmanlığı satın alırken ölçüm, hipotez ve test süresi nasıl denetlenir? Beş kriter, sekiz soru, üç kırmızı bayrak ve rakamlı vaka isteme kültürü.",
         en: "Buying CRO consultancy? How to audit measurement, hypotheses and test duration before you sign: five criteria, eight questions, three red flags to walk from.",
+      },
+    },
+  },
+  // Yol haritası §3 "neye mal olur" (2026-09-25, Burak kararı: satın alma
+  // niyetli alıcı). CRO karar kümesinin eksik ayağı: nasıl seçilir
+  // (`cro-ajansi-nasil-secilir`), ne yapılır (`cro-nedir`, 21 taktik),
+  // benchmark var; bu yazı fiyatın nasıl oluştuğunu anlatır.
+  //
+  // Fiyat kaynakları — uydurma rakam yok:
+  // - Büyüme Sprinti 240.000 TL / €7.500, 4 hafta: `packages.ts` (pricing,
+  //   scope, FAQ); "KDV hariç liste fiyatı" `llms-full.txt/route.ts`.
+  //   Paketin CRO'ya denk gelen kısmı (dönüşüm oranı kıyaslaması, A/B test
+  //   planı, 8 haftalık test listesi) ile gelmeyen kısmı (sürekli test
+  //   programı) gövdede ayrıca yazıldı.
+  // - Dış kaynak: Convert, "How Much Should a CRO Agency Charge?" (6 Ağu 2025,
+  //   güncelleme 3 Nis 2026; 25 Eylül 2026'da okundu). Anket değil derleme;
+  //   gövdede bu nitelikle anılır. Türkiye için yöntemi yayımlanmış derleme
+  //   bulunamadı, gövde bunu açıkça söyler.
+  // - Örneklem büyüklükleri iki oranlı z-testiyle hesaplandı (%95 güven,
+  //   %80 güç, iki yönlü). Getiri hesabı açıkça varsayımsaldır; EN tarafında
+  //   € karşılıkları paket kuruyla (240.000 TL ↔ €7.500) orantılı seçildi,
+  //   yüzdeler iki dilde aynı çıkar.
+  //
+  // Diagnoo linki gövdede inline durur; köprü eklenmez (21 taktik ve
+  // benchmark emsali, `tools-content.test.ts`).
+  {
+    slug: {
+      tr: "cro-danismanligi-fiyatlari",
+      en: "cro-consulting-pricing",
+    },
+    title: {
+      tr: "CRO danışmanlığı neye mal olur: fiyat nasıl oluşur?",
+      en: "What does CRO consultancy cost? How the price is built",
+    },
+    excerpt: {
+      tr: "Üç teklif, üç farklı birim: aylık ücret, ciro payı, tek seferlik denetim. CRO danışmanlığının fiyatını beş değişken belirler; getirisini kendi trafiğiniz ve sipariş değerinizle hesaplayabilirsiniz.",
+      en: "Three proposals, three different units: a monthly fee, a share of the lift, a one-off audit. Five variables set the price of CRO consultancy, and you can work out its return with your own traffic and order value.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Ece bir ev tekstili markasının e-ticaret müdürü ve masasında üç CRO teklifi var. Birincisi aylık sabit bir ücretle her ay dört test vaat ediyor. İkincisi düşük bir sabit ücretin üstüne dönüşüm artışından pay istiyor. Üçüncüsü tek seferlik bir denetim öneriyor ve sonrası için rakam vermiyor. Üç teklifin üç ayrı birimi var; Ece hangisinin pahalı olduğunu bile söyleyemiyor.",
+          en: "Ece runs e-commerce for a home textiles brand, and three CRO proposals sit on her desk. The first promises four tests a month for a fixed monthly fee. The second asks for a small fixed fee plus a share of the conversion lift. The third proposes a one-off audit and gives no figure for what comes after. The three proposals are priced in three different units; Ece cannot even tell which one is expensive.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ece'yi bu yazı için kurguladım; sorusunu kurgulamadım — \"CRO danışmanlığı ne kadar tutar?\" satın alma görüşmelerinin ilk on dakikasında mutlaka sorulur. Dürüst cevap tek bir rakam değil, rakamı üreten beş değişkendir: trafik hacmi, ölçüm altyapısının durumu, kapsam, geliştirme kaynağının kimde olduğu ve raporlama. Bu yazıda beşini tek tek açıyorum, kendi fiyat listemizden hangi kalemin CRO'ya denk geldiğini ve hangisinin gelmediğini yazıyorum, sonra fiyatın geri dönüşünü kendi trafiğiniz ve sipariş değerinizle nasıl hesaplayacağınızı gösteriyorum.",
+          en: "I invented Ece for this article; I did not invent her question — \"what does CRO consultancy cost?\" comes up in the first ten minutes of every buying conversation. The honest answer is not a number but the five variables that produce one: traffic volume, the state of your measurement, scope, who holds the development resource, and reporting. Below I take the five one by one, say which items on our own price list correspond to CRO and which do not, and then show how to work out the return on the price with your own traffic and order value.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazı CRO karar kümesinin \"neye mal olur\" ayağı. Ajansı hangi kriterlerle eleyeceğinizi [CRO ajansı seçerken neye bakılacağını anlattığımız yazıda](/yazilar/cro-ajansi-nasil-secilir), işin kendisinin nasıl yürüdüğünü, yani [CRO ajansı olarak nasıl çalıştığımızı](/hizmetler/cro), hizmet sayfasında bulursunuz.",
+          en: "This article is the \"what does it cost\" part of the CRO decision set. The criteria for shortlisting an agency are in [how to choose a CRO agency](/yazilar/cro-ajansi-nasil-secilir); how the work itself runs — [how we work as a CRO agency](/hizmetler/cro) — is on the service page.",
+        },
+      },
+      {
+        type: "h2",
+        id: "fiyati-ne-belirler",
+        text: {
+          tr: "CRO danışmanlığının fiyatını ne belirler?",
+          en: "What sets the price of CRO consultancy?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO danışmanlığının fiyatını beş değişken belirler: test yapılabilecek trafik, ölçüm altyapısının onarım ihtiyacı, işin kapsamı, kazanan değişiklikleri kimin geliştireceği ve raporlamanın derinliği. Aynı ajansın iki mağazaya verdiği iki teklif, bu beşinden biri farklı olduğu için birkaç kat ayrışabilir; ajanslar arasındaki farkın büyük kısmı da buradan gelir.",
+          en: "Five variables set the price of CRO consultancy: the traffic available for testing, how much the measurement needs repairing, the scope of the work, who builds the winning changes, and how deep the reporting goes. Two proposals from the same agency to two stores can differ several times over because one of the five differs — and most of the gap between agencies comes from the same place.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Uluslararası tarafta bu farkın genişliğini gösteren bir derleme var. A/B test aracı üreticisi Convert'in 6 Ağustos 2025'te yayımlayıp 3 Nisan 2026'da güncellediği \"How Much Should a CRO Agency Charge?\" yazısı, aylık retainer modelinde CRO ajansı ücretini düşük uçta 2.000, ortalamada 16.000, üst uçta 30.000 dolar; tek seferlik dönüşüm denetimini 2.500 ile 4.500 dolar arası olarak özetliyor. Rakamlar bir anketten değil, bir CRO ajansı olan Invesp'in yayımladığı kademe aralıklarından ve uzman görüşlerinden derlenmiş ve dolar bazlı. Türkiye'deki teklifleri kıyaslamak için değil, aynı iş adının neden 15 kat farklı fiyatlanabildiğini görmek için işe yarıyor. Türkiye için yöntemi yayımlanmış bir CRO fiyat derlemesi bulamadık.",
+          en: "Internationally, there is one compilation that shows how wide the gap runs. \"How Much Should a CRO Agency Charge?\", published by the A/B testing tool maker Convert on 6 August 2025 and updated on 3 April 2026, summarises CRO agency fees under a monthly retainer as $2,000 at the low end, $16,000 on average and $30,000 at the premium end, and a one-off conversion audit at $2,500 to $4,500. The figures come not from a survey but from tier ranges published by Invesp, itself a CRO agency, and from expert opinion, and they are in dollars. They are useful not for benchmarking proposals in Türkiye but for seeing why the same job title can be priced fifteen times apart. We could not find a CRO price compilation for Türkiye with a published method.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aşağıdaki beş bölüm o farkın nereden geldiğini sırayla açıyor. Her birinin sonunda, teklifinizde aramanız gereken satırı yazdım.",
+          en: "The five sections below trace where that gap comes from, one by one. At the end of each I have written the line to look for in your proposal.",
+        },
+      },
+      {
+        type: "h2",
+        id: "trafik-ve-test-suresi",
+        text: {
+          tr: "Trafik hacmi fiyatı neden değiştirir?",
+          en: "Why does traffic volume change the price?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Trafik, bir ayda kaç testin anlamlı sonuç verebileceğini belirler; aylık ücretin satın aldığı şey de test başına öğrenmedir. Ziyaretçisi az bir sitede aynı ücret daha az test, dolayısıyla daha pahalı bir öğrenme demektir.",
+          en: "Traffic decides how many tests can reach a meaningful result in a month, and what a monthly fee buys is learning per test. On a site with few visitors, the same fee buys fewer tests, and so more expensive learning.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Rakamla gösterelim. %2 dönüşen bir sayfada %10'luk göreli bir artışı — %2'den %2,2'ye — %95 güven ve %80 istatistiksel güçle ayırt etmek için varyant başına yaklaşık 80.700, iki varyantta toplam 161.000 civarında ziyaretçi gerekir. Sayfa ayda 100.000 ziyaretçi alıyorsa test yaklaşık yedi hafta sürer. Ayda 20.000 alıyorsa sekiz ay sürer; pratikte hiç bitmez, çünkü sekiz ayda sezon, fiyatlar ve kampanya takvimi değişir ve test başka bir şeyi ölçmeye başlar.",
+          en: "Put numbers on it. On a page converting at 2%, telling a 10% relative lift — from 2% to 2.2% — apart from noise at 95% confidence and 80% statistical power takes roughly 80,700 visitors per variant, around 161,000 across two variants. If the page gets 100,000 visitors a month, the test runs about seven weeks. At 20,000 a month it runs eight months — in practice it never finishes, because in eight months the season, the prices and the campaign calendar all change and the test starts measuring something else.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Küçük trafikte çıkış yolu daha büyük etkiyi aramaktır. Aynı sayfada %20'lik göreli artış aramak gereken ziyaretçiyi yaklaşık 42.000'e indirir; ayda 20.000 ziyaretçiyle bu iki ay demektir. Ama büyük etki yalnız büyük değişiklikten çıkar: ödeme akışının yeniden kurgusu, fiyat ve kargo bedelinin sunumu, ürün sayfasının baştan düzeni. Buton rengi testi, küçük trafikte satın alınabilecek en pahalı şeydir.",
+          en: "On small traffic, the way out is to look for bigger effects. Looking for a 20% relative lift on the same page cuts the visitors needed to roughly 42,000; at 20,000 visitors a month that is two months. But big effects only come from big changes: a rebuilt checkout flow, a different way of presenting price and delivery charges, a product page reorganised from the top. A button-colour test is the most expensive thing you can buy on small traffic.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Trafik fiyatı iki yönden etkiler. Az trafikte program küçülür ama test başına maliyet büyür; bu yüzden az trafikli bir sitede doğru satın alma test programı değil, doğrudan denetim ve bariz engellerin ölçüm beklemeden düzeltilmesidir. Çok trafikte aynı anda birden fazla test çalışabilir ve fiyat bu kez analist ve geliştirme saatiyle büyür. Teklifte aranacak satır: test başına öngörülen süre ve bu sürenin hangi trafik varsayımıyla hesaplandığı.",
+          en: "Traffic moves the price in two directions. With little traffic the programme shrinks but the cost per test grows; so on a low-traffic site the right purchase is not a testing programme but a direct audit, with obvious blockers fixed without waiting for data. With plenty of traffic several tests can run at once, and the price grows with analyst and development hours instead. The line to look for in the proposal: the expected duration per test, and the traffic assumption behind it.",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcum-altyapisi-maliyeti",
+        text: {
+          tr: "Ölçüm altyapısı bozuksa bütçeye ne eklenir?",
+          en: "What does broken measurement add to the budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bozuk ölçüm bütçeye testten önce gelen bir kalem ekler: dönüşüm olaylarının yeniden tanımlanması, çift sayımın ayıklanması, sipariş değerinin analitiğe doğru aktarılması ve mobil ile masaüstü akışların ayrı ayrı doğrulanması. Bu kalem atlanırsa bütçenin geri kalanı hatalı veri üzerine harcanır.",
+          en: "Broken measurement adds a line to the budget that comes before any test: redefining the conversion events, removing double counting, passing order value to analytics correctly, and verifying mobile and desktop flows separately. Skip it and the rest of the budget is spent on faulty data.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu kalemin maliyeti çoğunlukla takvimde görünür. Tipik olarak ilk iki hafta ölçüm doğrulamasına gider; kurulum çok bozuksa bu süre uzar ve ilk test onunla birlikte kayar. Ucuz görünen bir teklifteki \"mevcut kurulumunuzu kullanırız\" cümlesi, bu kalemi silerek ucuzlamış olabilir — ve silinen kalem, her testin sonucunu şüpheli bırakır.",
+          en: "The cost of this line mostly shows up in the calendar. Typically the first two weeks go to validating measurement; if the setup is badly broken this stretches and the first test slips with it. A cheap-looking proposal that says \"we'll use your current setup\" may have become cheap by deleting this line — and the deleted line leaves every test result in doubt.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[GYMWOLVES vakasında](/vakalar/gymwolves-12-kat-satis) sıra buydu: veri akışı önce onarıldı, dönüşüm hunisi sonra yeniden kuruldu, kampanya en son sporcularla çekilen sosyal kanıtla beslendi; üçüncü ayın sonunda satış 12 katına çıktı. O sonucu okunabilir kılan şey ölçümün ilk kalem olmasıydı. Kendi durumunuzu teklif istemeden önce görmek isterseniz [Diagnoo](/araclar/diagnoo) bu kontrolün etiket kısmını ücretsiz yapar: GA4, Meta Pixel ve oturum analitiği etiketlerinin mağazanızda kurulu olup olmadığına bakar. Teklifte aranacak satır: ölçüm onarımının kapsamı, süresi ve fiyatın içinde olup olmadığı.",
+          en: "That was the order in [the GYMWOLVES case](/vakalar/gymwolves-12-kat-satis): the data flow was repaired first, the conversion funnel rebuilt next, and the campaign fed last with social proof shot with athletes; by the end of the third month sales were up 12×. What made that result readable was measurement being the first line. If you want to see your own position before asking for proposals, [Diagnoo](/araclar/diagnoo) does the tag part of this check at no cost: it looks at whether GA4, Meta Pixel and session-analytics tags are installed on your store. The line to look for in the proposal: the scope and duration of the measurement repair, and whether it is inside the price.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kapsam-denetim-test-uygulama",
+        text: {
+          tr: "Denetim, test programı ve uygulama fiyatı nasıl böler?",
+          en: "How do audit, testing programme and implementation split the price?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO kapsamı üç katmandan oluşur ve her katman farklı biçimde fiyatlanır. Denetim tek seferliktir ve sabit fiyata uygundur. Test programı süreklidir ve aylık fiyatlanır. Uygulama, yani kazanan değişikliklerin kalıcı olarak geliştirilmesi, çoğu teklifte hiç yazmaz ve en büyük sürprizi üretir.",
+          en: "CRO scope has three layers, and each is priced differently. The audit is one-off and suits a fixed price. The testing programme is continuous and priced monthly. Implementation — building the winning changes permanently — is missing from most proposals altogether and produces the biggest surprise.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Denetimin çıktısı bir kayıp haritası ve sıraya dizilmiş bir test listesidir: ziyaretçinin nerede vazgeçtiği, her noktanın tahmini kaybı ve hangi hipotezin önce deneneceği. Nasıl yapıldığını [e-ticaret GAP analizi rehberinde](/yazilar/e-ticaret-gap-analizi-cro-denetimi) adım adım yazdım. Kendi oranınızın sektörünüze göre nerede durduğunu denetimden önce görmek isterseniz, [e-ticaret dönüşüm oranı ortalamalarını](/yazilar/e-ticaret-donusum-orani-benchmark) derlediğimiz yazı kıyas için doğru başlangıçtır.",
+          en: "An audit delivers a map of the losses and a prioritised test backlog: where visitors give up, the estimated loss at each point, and which hypothesis to try first. I have written up how it is done, step by step, in [the e-commerce GAP analysis guide](/yazilar/e-ticaret-gap-analizi-cro-denetimi). If you want to see where your own rate sits against your sector before an audit, the article where we gathered [e-commerce conversion rate benchmarks](/yazilar/e-ticaret-donusum-orani-benchmark) is the right starting point for the comparison.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi fiyat listemizden örnek vereyim. Denetim katmanına en yakın ürünümüz [Büyüme Sprinti](/paketler/buyume-sprinti): dört hafta sürer ve KDV hariç 240.000 TL sabit fiyatlıdır. Kapsamında kanal başına dönüşüm oranı kıyaslaması, hunideki en kritik adım için en az üç hipotezli bir A/B test planı ve sekiz haftalık bir test listesi var; listedeki her test hipotezi, öncelik puanı ve beklenen dönüşüm etkisiyle yazılır. Açıkça söyleyeyim: Büyüme Sprinti saf bir CRO paketi değildir, kanal denetimiyle huni teşhisini birlikte yapar ve sürekli bir test programını kapsamaz. Landing page testi gibi hızlı kazanımlar sprint içinde canlıya alınabilir; test listesinin yürütülmesi ise sprintten sonra iç ekibinize ya da ayrı bir proje veya aylık çalışmaya kalır. Reklam bütçesi, araç lisansları ve kreatif üretim de fiyatın dışındadır.",
+          en: "Let me use our own price list as the example. Our product closest to the audit layer is the [Growth Sprint](/paketler/buyume-sprinti): it runs four weeks at a fixed €7,500 excluding VAT. Its scope includes a conversion rate benchmark per channel, an A/B test plan with at least three hypotheses for the single most critical funnel step, and an eight-week test backlog in which each test is written with its hypothesis, priority score and expected conversion impact. To be plain about it: the Growth Sprint is not a pure CRO package — it combines a channel audit with a funnel diagnosis and does not cover a continuous testing programme. Quick wins such as a landing page test can go live within the sprint; running the backlog falls, after the sprint, to your team or to a separate project or monthly engagement. Media budget, tool licences and creative production also sit outside the price.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sürekli test programı için sitede yayımlanmış bir aylık fiyatımız yok. Aylık ücret, trafik ve geliştirme kaynağı soruları cevaplanmadan yazılırsa kapsam sonradan ya daralır ya genişler; iki durumda da pazarlığın merkezine iş değil fatura oturur. Teklifte aranacak satır: üç katmandan hangilerinin fiyata dahil olduğu, adlarıyla — özellikle uygulamanın.",
+          en: "We have no published monthly price for a continuous testing programme. A monthly fee written before the traffic and development questions are answered means the scope later either shrinks or grows; either way, the invoice rather than the work ends up at the centre of the relationship. The line to look for in the proposal: which of the three layers are included in the price, by name — implementation above all.",
+        },
+      },
+      {
+        type: "h2",
+        id: "gelistirme-kaynagi",
+        text: {
+          tr: "Geliştirme kaynağı kimde olmalı?",
+          en: "Who should hold the development resource?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Geliştirme kaynağı, CRO bütçesinin en çok gizlenen kalemidir. Bir testi kurmak bir iştir, kazanan varyantı sitenin kalıcı parçası yapmak başka bir iş; ikincisi teklifte yazmıyorsa ya ekibinizin saatinden ya da kazancın geç gelmesinden ödenir.",
+          en: "The development resource is the most hidden line in a CRO budget. Setting up a test is one job; making the winning variant a permanent part of the site is another — and if the second is not in the proposal, it is paid for either in your team's hours or in the gain arriving late.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç model var. Birincisinde ajans hem test varyantlarını hem kalıcı değişikliği kendisi geliştirir; ücret yüksektir ama kazanç hızlı yayına girer. İkincisinde ajans hipotez ve analizi yapar, geliştirmeyi sizin ekibiniz üstlenir; ücret düşer, ama ekibinizin iş kuyruğu testin temposunu belirler. Üçüncüsü melezdir: ajans varyantları test aracının içinde kurar, kazananı kalıcı hâle getirmek sizin ekibinize kalır. Çoğu orta ölçekli mağaza için üçüncüsü dengelidir, yeter ki kazananın yayına alınma süresi sözleşmede yazılı olsun.",
+          en: "There are three models. In the first, the agency builds both the test variants and the permanent change; the fee is higher but the gain goes live quickly. In the second, the agency handles hypotheses and analysis and your team takes on development; the fee drops, but your team's backlog sets the pace of testing. The third is a hybrid: the agency builds variants inside the testing tool and your team makes the winner permanent. For most mid-sized stores the third is the balanced option — provided the time to ship a winner is written into the contract.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altyapı da bu hesaba girer. İKAS, Ticimax, İdeaSoft ya da Shopify gibi hazır altyapılarda tema ve ödeme adımına müdahale, platformun izin verdiği ölçüdedir; bazı hipotezler hiç test edilemez, bazıları ancak eklentiyle edilebilir. Kendi yazılımınız varsa her şey mümkündür ama her değişiklik geliştirme saatidir. Kazanan varyant üç ay kuyrukta bekliyorsa üç aylık artış hiç yaşanmamıştır; getiri hesabı bu gecikmeyi de içermelidir. Teklifte aranacak satır: kazananın yayına alınma süresi ve bu işin kimin bütçesinden çıktığı.",
+          en: "The platform enters the calculation too. On hosted platforms such as İKAS, Ticimax, İdeaSoft or Shopify, changes to the theme and the checkout step go only as far as the platform allows; some hypotheses cannot be tested at all, and some only through an add-on. With your own software anything is possible, but every change is development time. If a winning variant waits three months in the queue, three months of lift never happened; the return calculation has to include that delay. The line to look for in the proposal: the time to ship a winner, and whose budget that work comes out of.",
+        },
+      },
+      {
+        type: "h2",
+        id: "raporlama-kalemi",
+        text: {
+          tr: "Raporlama bütçede neden ayrı bir kalemdir?",
+          en: "Why is reporting a separate line in the budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Raporlama analist saatidir ve analist saati bütçede yer tutar. Her testin hipotezi, süresi, toplanan örneklemi, sonucu ve değiştirdiği karar yazılı bir kayda geçer; bu kayıt olmadan program bir sonraki çeyrekte aynı fikri ikinci kez test eder.",
+          en: "Reporting is analyst time, and analyst time takes up budget. Each test's hypothesis, duration, sample collected, outcome and the decision it changed go into a written record; without that record the programme tests the same idea a second time next quarter.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ucuz teklif raporlamayı gösterge paneline indirerek ucuzlar. Panel ne olduğunu gösterir, neden olduğunu göstermez; kaybeden ve fark üretmeyen testler de panelde görünmez. Raporun biçimini ve sıklığını teklif aşamasında isteyin: aylık bir sonuç raporu mu, her test bitiminde tek sayfalık bir kayıt mı, üç ayda bir yol haritası gözden geçirmesi mi? Üçü farklı analist yükü, dolayısıyla farklı fiyattır.",
+          en: "A cheap proposal gets cheaper by reducing reporting to a dashboard. A dashboard shows what happened, not why; and losing or inconclusive tests never appear on it. Ask for the format and frequency of reporting at proposal stage: a monthly results report, a one-page record at the end of each test, or a roadmap review every three months? Each carries a different analyst load, and so a different price.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sahiplik de raporun parçasıdır. Test aracının hesabı, dönüşüm tanımları ve geçmiş test kayıtları sizin adınıza durmalı; çalışma bittiğinde bunları geri almak için ayrıca ödeme yapmak, raporlamanın en pahalı biçimidir. Teklifte aranacak satır: rapor biçimi, sıklığı ve çalışma bittiğinde test kayıtlarının kimde kaldığı.",
+          en: "Ownership is part of reporting too. The testing tool account, the conversion definitions and the archive of past tests should sit in your name; paying extra to get them back when the engagement ends is the most expensive form of reporting there is. The line to look for in the proposal: the report format, its frequency, and who keeps the test records when the engagement ends.",
+        },
+      },
+      {
+        type: "h2",
+        id: "proje-mi-aylik-mi",
+        text: {
+          tr: "Proje bazlı mı, aylık mı çalışmalısınız?",
+          en: "Should you pay per project or per month?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İşin evresine göre ikisi de doğrudur: ilk denetim ve ölçüm onarımı proje bazlı, sürekli test programı aylık çalışılır. Sırayı tersine çevirmek, yani denetim yapılmadan aylık programa başlamak, ilk üç ayın ücretini hangi sayfanın neden test edildiği bilinmeden ödemek demektir.",
+          en: "Both are right, depending on the phase of the work: the first audit and the measurement repair run as a project, the continuous testing programme runs monthly. Reversing the order — starting a monthly programme without an audit — means paying the first three months' fees without knowing which page is being tested, or why.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Projeden aylık çalışmaya geçmek için üç koşul arayın. Trafik ayda en az bir testi makul sürede bitirmeye yetmeli. Kazanan varyantı iki hafta içinde yayına alacak bir geliştirme kapasitesi olmalı. Ölçüm doğrulanmış ve baz dönem kayda geçmiş olmalı. Üçü de yoksa aylık ücret, bekleyen testlerin ücretidir.",
+          en: "Look for three conditions before moving from a project to a monthly engagement. Traffic should be enough to finish at least one test a month in a reasonable time. There should be development capacity to ship a winning variant within two weeks. Measurement should be validated and the baseline period on record. Without all three, a monthly fee is a fee for tests that are waiting.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aylık sözleşmede fiyatın karşılığını sayılabilir kılın: ayda kaç testin başlayacağı, ortalama test süresinin ne olması beklendiği, kaç saatlik geliştirmenin dahil olduğu ve yol haritasının hangi aralıkla yeniden sıralanacağı. [Dönüşüm oranı optimizasyonu hizmetimizin yöntem sırası](/hizmetler/cro) da bu mantıkla kurulu: önce kayıp noktaları bulunur, sonra hipotezler sıralanır, sonra test edilip ölçülür, en sonda düzen iç ekibe devredilir.",
+          en: "Make what the monthly fee buys countable in the contract: how many tests start each month, what the average test duration is expected to be, how many hours of development are included, and how often the roadmap is re-prioritised. [The method behind our conversion rate optimisation service](/hizmetler/cro) is built on the same logic: first the leaks are found, then the hypotheses are prioritised, then they are tested and measured, and last the routine is handed over to your team.",
+        },
+      },
+      {
+        type: "h2",
+        id: "performansa-bagli-ucret",
+        text: {
+          tr: "Performansa bağlı ücret neden risklidir?",
+          en: "Why is performance-based pay risky?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Performansa bağlı ücret, ajansın kontrol etmediği değişkenler için de ödeme yapmanız ya da ödeme almamanız demektir. Dönüşüm oranı sezonla, kampanya takvimiyle, fiyat değişikliğiyle, stok durumuyla ve trafik karmasıyla da hareket eder; sözleşme bu hareketin hangi kısmının ajansa ait olduğunu ayıramazsa ücret gürültüye bağlanmış olur.",
+          en: "Performance-based pay means paying — or not paying — for variables the agency does not control. The conversion rate also moves with the season, the campaign calendar, price changes, stock levels and the traffic mix; if the contract cannot separate the part of that movement that belongs to the agency, the fee has been tied to noise.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç sorun tekrar eder. Birincisi baz dönem kavgasıdır: artış hangi döneme göre ölçülecek, indirim haftası tabana dahil mi? İkincisi teşvik kaymasıdır: dönüşüm oranına bağlı ücret, oranı marjdan ödeyerek yükselten hamleleri ödüllendirir — agresif indirim kodu, ücretsiz kargo eşiğinin düşürülmesi, kısa tutulup erken kazanan ilan edilen testler. Üçüncüsü fiyatın kendisidir: riski üstlenen ajans o riski fiyatlar ve iyi giden bir yılda toplam ücret sabit ücretten pahalıya gelir.",
+          en: "Three problems recur. The first is the baseline fight: against which period is the lift measured, and does the sale week count as part of the base? The second is incentive drift: a fee tied to conversion rate rewards moves that lift the rate by paying for it out of margin — aggressive discount codes, a lower free-delivery threshold, tests kept short and declared winners early. The third is the price itself: an agency that takes on the risk prices that risk in, and in a good year the total fee comes out higher than a fixed one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yine de bu modeli isterseniz dört şartı yazıya geçirin. Metrik dönüşüm oranı değil, ziyaretçi başına gelir ya da sipariş başına katkı olsun; oran marj pahasına da yükselebilir. Ölçüm, trafiğin küçük bir kısmının eski sürümde tutulduğu bir kontrol grubuyla yapılsın. Baz dönem ve ölçüm kaynağı imzadan önce sabitlensin. Değişken ücretin bir üst sınırı olsun ve sabit bir taban ücretin üstüne eklensin; tamamen başarıya bağlı bir sözleşme, ajansı yalnız kolay ve hızlı kazanılacak testlere iter.",
+          en: "If you still want the model, put four conditions in writing. The metric should be revenue per visitor or contribution per order rather than conversion rate, because the rate can rise at the expense of margin. Measurement should use a control group in which a small share of traffic stays on the old version. The baseline period and the measurement source should be fixed before signing. The variable fee should have a cap and sit on top of a fixed base; a contract tied entirely to success pushes the agency towards tests that are easy and quick to win.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ucuz-teklif",
+        text: {
+          tr: "Ucuz bir CRO teklifinde neye dikkat etmelisiniz?",
+          en: "What should you watch for in a cheap CRO proposal?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ucuz teklif çoğunlukla bir kalemi silerek ucuzlar; soru hangi kalemin silindiğidir. Beş yere bakın.",
+          en: "A cheap proposal usually gets cheap by deleting a line; the question is which line. Look in five places.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Test sayısı var, süre yok: \"ayda dört test\" vaadi trafik varsayımı ve örneklem hesabı olmadan yazıldıysa testlerin çoğu gürültüyü ölçer.",
+            en: "A test count but no duration: if \"four tests a month\" is written without a traffic assumption and a sample size calculation, most of those tests will measure noise.",
+          },
+          {
+            tr: "Ölçüm onarımı yok: \"mevcut kurulumunuzla başlarız\" cümlesi, ilk testten önce gelmesi gereken kalemin silindiği anlamına gelebilir.",
+            en: "No measurement repair: \"we'll start with your current setup\" can mean the line that should come before the first test has been deleted.",
+          },
+          {
+            tr: "Geliştirme yok: yalnız test aracının görsel düzenleyicisinin izin verdiği metin ve renk değişiklikleri test edilir; büyük etki üretecek yapısal değişiklikler kapsam dışında kalır.",
+            en: "No development: only the text and colour changes the testing tool's visual editor allows get tested, and the structural changes that produce big effects stay out of scope.",
+          },
+          {
+            tr: "Lisans belirsiz: test aracının lisansı teklife dahil değilse ayrıca faturalanır; hesap ajansın adınaysa çalışma bittiğinde geçmiş kayıtlar da onunla gider.",
+            en: "An unclear licence: if the testing tool licence is not in the proposal it will be invoiced separately; if the account is in the agency's name, the past records leave with the agency when the engagement ends.",
+          },
+          {
+            tr: "Rapor yalnız kazananları taşıyor: kaybeden testlerin görünmediği bir rapor, sonraki çeyreğin bütçesini aynı fikirlere harcatır.",
+            en: "A report that carries only winners: a report in which losing tests never appear spends next quarter's budget on the same ideas.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir uyarı daha: reklam yönetimi teklifleri bazen \"dönüşüm odaklı iyileştirmeler\" diye bir satır taşır. O satır reklamın yanında gelen bir iyileştirme kalemidir, CRO programı değildir. Arkasında örneklem hesabı, hipotez listesi ya da test takvimi yoksa onu CRO bütçesi saymak, ölçülmemiş bir işe CRO fiyatı biçmektir.",
+          en: "One more warning: advertising management proposals sometimes carry a line reading \"conversion-focused improvements\". That line is an improvement item that comes with the advertising, not a CRO programme. If there is no sample size calculation, hypothesis backlog or testing calendar behind it, counting it as your CRO budget means paying a CRO price for work nobody measures.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ucuz teklifin gerçek fiyatını tek satırda hesaplayın: teklif tutarı, artı ekibinizin geliştirme saatleri, artı ayrıca faturalanacak araç lisansı, artı yanlışlıkla kazanan ilan edilmiş bir testin siteye yerleşmesinin maliyeti. Son kalem sıfır görünür, çünkü kimse onu fatura etmez.",
+          en: "Work out the real price of a cheap proposal in one line: the proposal amount, plus your team's development hours, plus the separately invoiced tool licence, plus the cost of a test wrongly declared a winner settling into the live site. The last item looks like zero, because nobody ever invoices it.",
+        },
+      },
+      {
+        type: "h2",
+        id: "getiri-hesabi",
+        text: {
+          tr: "CRO fiyatının geri dönüşünü nasıl hesaplarsınız?",
+          en: "How do you work out the return on a CRO price?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beklenen artışı tahmin etmek yerine, fiyatın kendini ödemesi için gereken artışı hesaplayın; ikincisi yalnız kendi rakamlarınızı ister ve tahmin içermez. Hesap dört adımdır: aylık sipariş sayısı, sipariş başına katkı, teklifin aylık karşılığı ve bu karşılığı ödeyecek ek sipariş sayısı.",
+          en: "Rather than estimating the lift you expect, calculate the lift the price needs in order to pay for itself; the second needs only your own numbers and involves no forecasting. It takes four steps: monthly orders, contribution per order, the monthly equivalent of the proposal, and the number of extra orders that would cover it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aşağıdaki rakamlar varsayımsaldır; hiçbir müşterimize ait değildir ve yalnız hesabın nasıl kurulduğunu göstermek için seçildi. Mağaza ayda 60.000 oturum alıyor ve %1,5 dönüşüyor: ayda 900 sipariş. Ortalama sipariş 1.280 TL; ürün maliyeti, kargo ve ödeme komisyonu düşüldükten sonra sipariş başına katkı %35, yani 448 TL. Maliyet tarafına kendi listemizden gerçek bir rakam koyalım: 240.000 TL, Büyüme Sprinti'nin liste fiyatı. Artışın on iki ay süreceğini varsayarsak aylık karşılığı 20.000 TL eder.",
+          en: "The figures below are hypothetical; they belong to none of our clients and were chosen only to show how the calculation is built. The store gets 60,000 sessions a month and converts at 1.5%: 900 orders a month. The average order is €40; after product cost, delivery and payment fees, the contribution per order is 35%, or €14. For the cost side, let us use a real figure from our own list: €7,500, the list price of the Growth Sprint. Assuming the gain lasts twelve months, that is €625 a month.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "20.000 TL'yi 448 TL'ye bölün: fiyatın kendini ödemesi için ayda yaklaşık 45 ek sipariş gerekir. 900 siparişe göre bu %5'lik göreli artıştır; dönüşüm oranı %1,5'ten yaklaşık %1,58'e çıkmalıdır. Bu trafikte tek bir testle kanıtlanamayacak kadar küçük bir fark — varyant başına 400.000'i aşkın ziyaretçi gerekir — ama birkaç düzeltmenin toplamı olarak makul bir hedef. Benim okumam bu.",
+          en: "Divide €625 by €14: the price needs roughly 45 extra orders a month to pay for itself. Against 900 orders that is a 5% relative lift; the conversion rate has to move from 1.5% to about 1.58%. On this traffic the difference is too small to prove with a single test — it would need more than 400,000 visitors per variant — but as the sum of several fixes it is a reasonable target. That is my reading.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı hesabı ayda 15.000 oturum alan bir mağazaya uygulayın. Sipariş sayısı 225'e iner ve gereken 45 ek sipariş bu kez %20'lik göreli artış demektir: oran %1,5'ten %1,8'e çıkmalıdır. %20'lik bir farkı tek testte ayırt etmek varyant başına yaklaşık 28.300, toplamda 56.600 civarında ziyaretçi ister; bu trafikte dört aya yakın bir süre. Aynı fiyat küçük mağazada dört kat büyük bir göreli artış ister — trafik bölümünde söylediğim şeyin rakamla hâli.",
+          en: "Apply the same calculation to a store with 15,000 sessions a month. Orders drop to 225, and the same 45 extra orders now mean a 20% relative lift: the rate has to move from 1.5% to 1.8%. Telling a 20% difference apart in a single test takes roughly 28,300 visitors per variant, around 56,600 in total — close to four months on this traffic. At the smaller store the same price demands a relative lift four times as large; that is the traffic section's point, in numbers.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hesabı kendi rakamlarınızla yapın ve iki şeyi ekleyin. Birincisi gecikme: kazanan değişiklik yayına ne kadar geç girerse on iki aylık varsayım o kadar kısalır. İkincisi marj: artışı indirimle satın alan bir değişiklik oranı yükseltir ama katkıyı düşürür; bu yüzden hesabın birimi dönüşüm oranı değil, ziyaretçi başına katkı olmalıdır. Bu artışı hangi taktiklerin üretebileceğini [dönüşüm oranını artırmanın yirmi bir taktiğini](/yazilar/donusum-orani-nasil-artirilir-21-taktik) sıraladığımız yazıda bulursunuz.",
+          en: "Run the calculation with your own numbers and add two things. The first is delay: the later a winning change goes live, the shorter the twelve-month assumption becomes. The second is margin: a change that buys the lift with a discount raises the rate but lowers the contribution, so the unit of the calculation should be contribution per visitor rather than conversion rate. Which tactics can produce that lift is covered in the article where we set out [twenty-one tactics for raising your conversion rate](/yazilar/donusum-orani-nasil-artirilir-21-taktik).",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcege-gore-butce",
+        text: {
+          tr: "Bütçe ve kapsam mağazanın ölçeğine göre nasıl değişir?",
+          en: "How do budget and scope change with the size of the store?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçek, beş değişkenin ağırlığını değiştirir. Küçük mağazada bağlayıcı kısıt trafiktir, ihracat yapan mağazada pazar sayısı, büyük perakendecide geliştirme ve iç onay süreçleri. Aşağıdaki üç profil rakam vermiyor; bütçenin nereye gitmesi gerektiğini tarif ediyor.",
+          en: "Scale changes the weight of the five variables. In a small store the binding constraint is traffic; in an exporting store it is the number of markets; in a large retailer it is development and internal sign-off. The three profiles below give no figures; they describe where the budget should go.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "KOBİ mağazası",
+          en: "An SME store",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ayda 15.000 oturum civarındaki bir KOBİ mağazasında test programı satın almak çoğu zaman erkendir; bir önceki bölümdeki hesap bunun nedenini gösteriyor. Bütçenin doğru yeri tek seferlik bir denetim ve bariz engellerin — zorunlu üyelik, uzun form, geç görünen kargo bedeli, yavaş mobil sayfa — ölçüm beklemeden düzeltilmesidir. Büyüme Sprinti'ni yıllık cirosu 20 milyon TL'nin altındaki markalara önermiyoruz, çünkü o ölçekte kanal denetiminin açacağı fark dar kalır. Bu ölçekte ücretsiz bir teşhis ve kendi ekibinizle uygulanabilecek temel düzeltmeler, ücretli bir programdan daha çok kazandırır.",
+          en: "For an SME store at around 15,000 sessions a month, buying a testing programme is usually premature; the calculation in the previous section shows why. The budget belongs in a one-off audit and in fixing the obvious blockers — forced registration, a long form, a delivery charge that appears late, a slow mobile page — without waiting for data. We do not recommend the Growth Sprint to brands with annual revenue below 20M TL, because at that scale the gap a channel audit can open stays narrow. At this size a free diagnosis and the basic fixes your own team can make earn more than a paid programme.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "İhracat yapan mağaza",
+          en: "An exporting store",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İhracat yapan mağazada trafik pazarlara bölünür ve her pazar kendi örneklemiyle test edilir; toplamda yüksek görünen trafik, pazar başına küçük kalabilir. Ölçüm de pazar başına doğrulanmalıdır: para birimi, ödeme yöntemleri, kargo ve gümrük bedelinin gösterimi her pazarda ayrı bir kayıp noktasıdır. Hipotezler de pazara göre ayrışır; bir pazarda güven işareti, diğerinde teslimat süresi kaybettirir. Bütçe pazar sayısıyla büyür ama doğrusal büyümez: doğru sıra, yöntemi en büyük pazarda kurmak ve kazanan kalıpları sonra diğer pazarlarda doğrulamaktır.",
+          en: "In an exporting store, traffic splits across markets and each market is tested on its own sample; traffic that looks high in total can be small per market. Measurement has to be validated per market as well: currency, payment methods and the way delivery and customs charges are shown are separate leak points in each one. Hypotheses differ by market too — in one market a missing trust signal loses the sale, in another the delivery time does. The budget grows with the number of markets, but not in a straight line: the right order is to build the method in the largest market and then validate the winning patterns in the others.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Büyük perakendeci",
+          en: "A large retailer",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük perakendecide trafik kısıt olmaktan çıkar ve aynı anda birden fazla test çalışabilir. Bütçe bu kez test hızıyla, yani ayda kaç testin kurulup kalite kontrolünden geçip yayına alınabildiğiyle büyür. Kurumsal bir test platformunun lisansı ayrı bir kalemdir; geliştirme, kalite kontrol ve iç onay süreçleri ajans ücretinden fazla yer tutabilir. Bu ölçekte dışarıdan satın alınan şeyin değeri test sayısında değil; program tasarımında, hipotez kalitesinde ve iç ekibe devredilen düzende yatar.",
+          en: "In a large retailer traffic stops being the constraint, and several tests can run at once. The budget now grows with testing velocity: how many tests a month can be built, pass quality assurance and go live. An enterprise testing platform licence is a separate line, and development, quality assurance and internal sign-off can take up more room than the agency fee. At this scale the value of what you buy from outside lies not in the number of tests but in programme design, hypothesis quality and the routine handed over to the in-house team.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-butce-onayi",
+        text: {
+          tr: "Sonuç: bütçeyi onaylamadan önce hangi hesabı yapmalısınız?",
+          en: "Conclusion: which calculation should you run before approving the budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "CRO danışmanlığının fiyatı bir etiket değil, beş değişkenin sonucudur: trafik, ölçüm, kapsam, geliştirme kaynağı ve raporlama. İki teklifi fiyatla kıyaslamadan önce bu beş satırı yan yana koyun; farkın çoğu orada görünür ve çoğu zaman ucuz teklifin sildiği satırı gösterir.",
+          en: "The price of CRO consultancy is not a label but the result of five variables: traffic, measurement, scope, development resource and reporting. Before comparing two proposals on price, put those five lines side by side; most of the gap shows up there, and it usually points to the line the cheaper proposal deleted.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut test şu: son üç ayın ortalama aylık oturum sayısını, dönüşüm oranını, ortalama sipariş tutarını ve sipariş başına katkı oranınızı not edin. Masadaki teklifin tutarını on ikiye, sonra sipariş başına katkıya bölün ve çıkan ek sipariş sayısını mevcut aylık siparişinize oranlayın. Kabaca söylersek, çıkan yüzde %5 civarındaysa makul bir hedef konuşuyorsunuz; %20'nin üstündeyse önce trafik ya da daha büyük bir değişiklik gerekir, test programı değil.",
+          en: "Here is the concrete test you can run today: note your average monthly sessions over the last three months, your conversion rate, your average order value and your contribution rate per order. Divide the proposal on the table by twelve, then by the contribution per order, and set the resulting number of extra orders against your current monthly orders. Roughly speaking, if the percentage comes out around 5% you are discussing a reasonable target; if it is above 20% you first need traffic or a bigger change, not a testing programme.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı hesabı bizim teklifimiz için de yapın. [CRO danışmanlığı hizmetimizin kapsamı](/hizmetler/cro) — neyin dahil olduğu, neyin olmadığı — hizmet sayfasında yazılı; rakamları yan yana koyup kıyaslayın.",
+          en: "Run the same calculation on our proposal too. [The scope of our CRO consultancy service](/hizmetler/cro) — what is included and what is not — is written out on the service page; put the numbers side by side and compare.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "CRO danışmanlığı fiyatları neden ajanstan ajansa bu kadar değişir?",
+          en: "Why do CRO consultancy prices vary so much between agencies?",
+        },
+        answer: {
+          tr: "Fiyatlar aynı işi anlatmadığı için değişir. Bir teklif yalnız denetimi, diğeri aylık test programını, üçüncüsü testlerin geliştirilmesini de kapsayabilir ve üçü de \"CRO\" diye satılır. Fark ayrıca trafik hacminden, ölçümün onarım ihtiyacından ve raporlamanın derinliğinden gelir. Convert'in 2026'da güncellenen derlemesinde aylık ücretin iki ucu arasında 15 kat fark var; kıyaslamadan önce kapsamı satır satır eşleştirin.",
+          en: "Because the prices are not describing the same work. One proposal may cover only an audit, another a monthly testing programme, a third the development of the tests as well — and all three are sold as \"CRO\". The gap also comes from traffic volume, how much the measurement needs repairing and how deep the reporting goes. In Convert's compilation, updated in 2026, the two ends of the monthly fee sit fifteen times apart; match the scope line by line before comparing.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO hizmeti ne kadar tutar?",
+          en: "How much does a CRO service cost?",
+        },
+        answer: {
+          tr: "INDOLES'te denetim ve planlama katmanına en yakın ürün Büyüme Sprinti'dir: dört hafta, KDV hariç 240.000 TL sabit fiyat. Kanal başına dönüşüm oranı kıyaslaması, en kritik huni adımı için A/B test planı ve sekiz haftalık test listesi kapsamdadır; sürekli test programı ayrı fiyatlanır. Uluslararası bir referans olarak Convert'in derlemesi, aylık CRO ajansı ücretini 2.000 ile 30.000 dolar arasında özetliyor.",
+          en: "At INDOLES the product closest to the audit and planning layer is the Growth Sprint: four weeks at a fixed €7,500 excluding VAT. It covers a conversion rate benchmark per channel, an A/B test plan for the most critical funnel step and an eight-week test backlog; a continuous testing programme is priced separately. As an international reference, Convert's compilation puts the monthly CRO agency fee between $2,000 and $30,000.",
+        },
+      },
+      {
+        question: {
+          tr: "Dönüşüm oranı optimizasyonu ücreti neye göre belirlenir?",
+          en: "What determines the fee for conversion rate optimisation?",
+        },
+        answer: {
+          tr: "Beş değişkene göre belirlenir: test yapılabilecek trafik, ölçüm altyapısının onarım ihtiyacı, kapsamın denetim, test programı ve uygulamadan hangilerini içerdiği, kazanan değişiklikleri kimin geliştireceği ve raporlamanın biçimi. Trafik test sayısını, geliştirme kaynağı test hızını, ölçüm ise ilk testin ne zaman başlayabileceğini belirler. Beşi netleşmeden verilen bir fiyat, sonradan ya daralan ya da genişleyen bir kapsamla sonuçlanır.",
+          en: "Five variables determine it: the traffic available for testing, how much the measurement needs repairing, which of audit, testing programme and implementation the scope includes, who builds the winning changes, and the format of reporting. Traffic sets the number of tests, the development resource sets their pace, and measurement sets when the first test can start. A price given before all five are clear ends in a scope that later either shrinks or grows.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO ajansı fiyatları neden çoğu zaman teklifle verilir?",
+          en: "Why are CRO agency prices usually given by proposal?",
+        },
+        answer: {
+          tr: "Fiyatı belirleyen değişkenler sitenin kendisine bakmadan bilinemez. Aylık trafik, dönüşüm tanımlarının doğruluğu, altyapının test edilebilirliği ve iç ekibin geliştirme kapasitesi her mağazada farklıdır. Sabit kapsamlı işler, örneğin tek seferlik bir denetim, liste fiyatıyla satılabilir; INDOLES paket fiyatlarını bu yüzden yayımlar. Sürekli test programında ise kapsam, trafik ve geliştirme kaynağı görüldükten sonra yazılır.",
+          en: "The variables that set the price cannot be known without looking at the site itself. Monthly traffic, the accuracy of the conversion definitions, how testable the platform is and the in-house team's development capacity differ from store to store. Work with a fixed scope, such as a one-off audit, can be sold at a list price, which is why INDOLES publishes its package prices. For a continuous testing programme, the scope is written after traffic and development capacity have been seen.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO ajansı ile çalışmak için ne kadar trafik gerekir?",
+          en: "How much traffic do you need to work with a CRO agency?",
+        },
+        answer: {
+          tr: "A/B testi için genellikle ayda birkaç bin ziyaretçi ve düzenli dönüşüm alt sınırdır, ama yeterli trafik aranan etkinin büyüklüğüne bağlıdır. %2 dönüşen bir sayfada %10'luk göreli artışı ayırt etmek toplam 161.000 civarında ziyaretçi ister; %20'lik artış için 42.000 civarı yeter. Trafik bunun altındaysa test programı yerine denetim ve doğrudan düzeltme daha verimli bir harcamadır.",
+          en: "A few thousand visitors and a steady flow of conversions a month is usually the floor for A/B testing, but how much traffic is enough depends on the size of the effect you are looking for. Detecting a 10% relative lift on a page converting at 2% takes around 161,000 visitors in total; for a 20% lift around 42,000 is enough. Below that, an audit and direct fixes are a better use of money than a testing programme.",
+        },
+      },
+      {
+        question: {
+          tr: "A/B test aracının lisansı CRO fiyatına dahil mi?",
+          en: "Is the A/B testing tool licence included in the CRO price?",
+        },
+        answer: {
+          tr: "Çoğu teklifte dahil değildir ve ayrıca faturalanır; Büyüme Sprinti'nde de araç lisansları fiyatın dışındadır, çünkü müşterinin kendi hesabından doğrudan ödenir. Asıl önemli olan lisansın kimin adına açıldığıdır. Hesap sizin adınıza olursa çalışma bittiğinde test kurulumu ve geçmiş kayıtlar sizde kalır; ajansın adına olursa ikisi de ajansla birlikte gider.",
+          en: "In most proposals it is not, and it is invoiced separately; in the Growth Sprint, too, tool licences sit outside the price because they are paid directly from the client's own account. What matters more is whose name the licence is in. If the account is in your name, the testing setup and past records stay with you when the engagement ends; if it is in the agency's name, both leave with the agency.",
+        },
+      },
+      {
+        question: {
+          tr: "Performansa dayalı bir CRO sözleşmesi nasıl güvenli kurulur?",
+          en: "How do you set up a performance-based CRO contract safely?",
+        },
+        answer: {
+          tr: "Dört şartı imzadan önce yazıya geçirin. Metrik dönüşüm oranı değil, ziyaretçi başına gelir ya da sipariş başına katkı olsun. Artış, trafiğin bir kısmının eski sürümde tutulduğu bir kontrol grubuyla ölçülsün. Baz dönem ve ölçüm kaynağı sabitlensin. Değişken ücret sabit bir tabanın üstüne eklensin ve bir üst sınırı olsun; tamamen başarıya bağlı ücret, kolay ve hızlı kazanılacak testleri ödüllendirir.",
+          en: "Put four conditions in writing before you sign. The metric should be revenue per visitor or contribution per order rather than conversion rate. The lift should be measured against a control group in which part of the traffic stays on the old version. The baseline period and the measurement source should be fixed. The variable fee should sit on top of a fixed base and have a cap; a fee tied entirely to success rewards tests that are easy and quick to win.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO yatırımı ne kadar sürede geri döner?",
+          en: "How long does a CRO investment take to pay back?",
+        },
+        answer: {
+          tr: "Süre, kazanan değişikliklerin ne zaman yayına girdiğine bağlıdır. İlk iki hafta genellikle ölçüm onarımına gider ve ilk yayına alınmış düzeltme çoğunlukla ikinci ayda görülür. Geri dönüşü tahmin etmek yerine fiyatın kendini ödemesi için gereken ek sipariş sayısını hesaplayın: teklif tutarını on iki aya, sonra sipariş başına katkıya bölün ve sonucu mevcut aylık siparişinize oranlayın.",
+          en: "It depends on when the winning changes go live. The first two weeks usually go to repairing measurement, and the first shipped fix typically appears in the second month. Rather than forecasting the payback, calculate the number of extra orders the price needs to pay for itself: divide the proposal by twelve months, then by the contribution per order, and set the result against your current monthly orders.",
+        },
+      },
+      {
+        question: {
+          tr: "Büyüme Sprinti bir CRO paketi mi?",
+          en: "Is the Growth Sprint a CRO package?",
+        },
+        answer: {
+          tr: "Tam olarak değil. Büyüme Sprinti kanal denetimiyle huni teşhisini birlikte yapar: kanal başına dönüşüm oranı kıyaslaması, en kritik huni adımı için en az üç hipotezli A/B test planı ve sekiz haftalık test listesi kapsamdadır. Dört hafta sürer ve KDV hariç 240.000 TL'dir. Test listesinin yürütülmesi, sprintten sonra iç ekibinize ya da ayrı bir proje veya aylık çalışmaya kalır.",
+          en: "Not exactly. The Growth Sprint combines a channel audit with a funnel diagnosis: a conversion rate benchmark per channel, an A/B test plan with at least three hypotheses for the most critical funnel step, and an eight-week test backlog are in scope. It runs four weeks and costs €7,500 excluding VAT. Running the backlog falls, after the sprint, to your team or to a separate project or monthly engagement.",
+        },
+      },
+      {
+        question: {
+          tr: "Küçük bir e-ticaret sitesi CRO'ya bütçe ayırmalı mı?",
+          en: "Should a small e-commerce site set aside a budget for CRO?",
+        },
+        answer: {
+          tr: "Ayırmalı, ama test programına değil, denetime ve doğrudan düzeltmeye. Ayda 15.000 oturum alan bir mağazada tek bir testin %20'lik farkı ayırt etmesi dört aya yakın sürer; bu tempoda aylık program pahalı bir beklemeye dönüşür. Zorunlu üyelik, uzun form, geç görünen kargo bedeli ve yavaş mobil sayfa gibi bariz engeller ölçüm beklemeden düzeltilir; trafik büyüdükçe test devreye girer.",
+          en: "Yes, but for an audit and direct fixes rather than a testing programme. In a store with 15,000 sessions a month, a single test takes close to four months to detect a 20% difference; at that pace a monthly programme becomes an expensive wait. Obvious blockers such as forced registration, a long form, a delivery charge that appears late and a slow mobile page get fixed without waiting for data, and testing comes in as traffic grows.",
+        },
+      },
+      {
+        question: {
+          tr: "CRO teklifinde hangi kalemler yazılı olmalı?",
+          en: "Which items should be written into a CRO proposal?",
+        },
+        answer: {
+          tr: "Yedi kalem: ölçüm onarımının kapsamı ve süresi, ayda başlayacak test sayısı ve ortalama test süresi, bu sürenin dayandığı trafik varsayımı, kazanan varyantı kimin ve hangi sürede yayına alacağı, test aracı lisansının kimin adına açıldığı, rapor biçimi ve sıklığı, çalışma bittiğinde test kayıtlarının devri. Yazılı olmayan her kalem sonradan ya fiyata ya kapsama eklenir.",
+          en: "Seven items: the scope and duration of the measurement repair, the number of tests starting each month and their average duration, the traffic assumption behind that duration, who ships a winning variant and how fast, whose name the testing tool licence is in, the report format and frequency, and the handover of test records when the engagement ends. Every item left unwritten is later added either to the price or to the scope.",
+        },
+      },
+      {
+        question: {
+          tr: "Aylık CRO çalışması en az ne kadar sürmeli?",
+          en: "What is the minimum length for a monthly CRO engagement?",
+        },
+        answer: {
+          tr: "Ölçülebilir bir birikim için en az bir çeyrek gerekir. İlk iki hafta ölçüm doğrulamasına gider, tek bir A/B testi trafiğe göre birkaç hafta ile birkaç ay arasında çalışır ve kazananın yayına girmesi ayrıca zaman alır. Üç aydan kısa bir sözleşme çoğu zaman tek bir test döngüsünü bile tamamlayamaz; değerlendirmeyi çeyreğin sonunda, yazılı test kaydına bakarak yapın.",
+          en: "A measurable accumulation needs at least a quarter. The first two weeks go to validating measurement, a single A/B test runs anywhere from a few weeks to a few months depending on traffic, and shipping the winner takes time on top. A contract shorter than three months often cannot complete even one testing cycle; make the assessment at the end of the quarter, against the written test record.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "cro",
+    tags: ["cro", "cro-danismanligi", "cro-fiyatlari", "donusum-optimizasyonu", "fiyatlandirma"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-25",
+    readingMinutes: 22,
+    seo: {
+      title: {
+        tr: "CRO danışmanlığı fiyatları: bütçe nasıl oluşur",
+        en: "CRO consulting pricing: how the budget is built",
+      },
+      description: {
+        tr: "CRO danışmanlığı fiyatları neye göre değişir? Trafik, ölçüm, kapsam ve geliştirme kaynağı; proje mi aylık mı, ucuz teklif neyi gizler, getiri nasıl hesaplanır?",
+        en: "What sets CRO consulting pricing? Traffic, measurement, scope and development capacity; project or retainer, what cheap proposals hide, how to judge the return.",
       },
     },
   },

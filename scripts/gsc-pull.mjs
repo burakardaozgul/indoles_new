@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * GSC Pull — Search Console verisini service account ile çeker, CSV döker ve
- * G1-G5 küme özetini hesaplar.
+ * GSC Pull — Search Console verisini service account ile çeker, CSV döker,
+ * G1-G5 küme özetini ve N0 satın alma niyeti kümesini (strateji v1.18'in
+ * birincil ölçüleri) hesaplar.
  *
  * Sıfır bağımlılık: Node 22+ (fetch + crypto). Ortak altyapı
  * `scripts/gsc-ortak.mjs`'te; `googleapis` paketi bilinçli olarak eklenmedi
@@ -80,6 +81,101 @@ const G4_RE = /iş geliştirme|iş inşası|iş modeli|business building/;
 /** K-4 kararı: kariyer niyetli hacim KPI'ya sayılmaz, ayrı satırda izlenir. */
 const K4_RE = /iş zekası|işletme mühendisliği/;
 
+// ------------------------------------------------ N0 — satın alma niyeti
+
+/**
+ * N0 satın alma niyeti kümesi — otorite:
+ * `docs/strateji/Niyetli-Sorgu-Seti-2026-09.md` (Burak kararı, 2026-09-25:
+ * SEO/GEO'nun ana amacı satın alma niyetli görünürlük). G1-G4'ten bağımsız
+ * hesaplanır; onların sayılarını değiştirmez.
+ *
+ * Bir sorgu N0'a girer ⇔ (1) bir niteleyici taşır, (2) altı hizmetten birinin
+ * terimini taşır, (3) hiçbir dışlama deseni tutmaz. Niteleyicisiz hizmet
+ * sorgusu ("cro nedir", "geo optimizasyonu") bilgi niyetidir, sayılmaz;
+ * hizmet terimi taşımayan karar sorgusu ("hangi ajansla çalışmalıyım") genel
+ * ajans havuzudur, sayılmaz.
+ *
+ * Sınır: `\b` Türkçe harflerde çalışmadığı için kelime sınırı Unicode harf
+ * sınıfıyla (`\p{L}`) yazıldı — "şirketimi" `şirketi` sayılmasın, "microsoft"
+ * `cro` sayılmasın.
+ *
+ * Kapsam TR niteleyicilerdir. EN sorgular bilerek dışarıda: EN'e F2'ye kadar
+ * yatırım yok ve G5 onları ayrıca izliyor (strateji v1.18).
+ */
+const NIYET_NITELEYICI_RE =
+  /ajans|danışman|firma|şirket(i|leri|ler)(?!\p{L})|uzman|hizmet|fiyat|ücret(?!siz)|maliyet|nasıl seç|(?<!\p{L})öner(ir|irsin|irsiniz)?(?!\p{L})|tavsiye|kim yapar|en (iyi|başarılı|güvenilir) .*(kim|hangi)/u;
+
+/**
+ * Hizmet alt kırılımı — İLK EŞLEŞEN kazanır, sıra bilinçli:
+ *  - GEO, AI'dan önce: "yapay zeka motorlarında görünür kılacak ajans" GEO
+ *    talebidir (G3'ün G2'ye önceliğiyle aynı mantık).
+ *  - CRO, E-ticaret'ten önce: "e-ticaret dönüşüm oranı ajansı" CRO talebidir.
+ *  - P0 hizmetler (GEO, CRO, AI) P1'lerden (UX, E-ticaret, Dijital dönüşüm)
+ *    önce; iki hizmet terimi birden taşıyan sorgu P0'a yazılır.
+ * Sırası `kumeler.csv` ve `ozet.txt`'teki alt satır sırasıdır.
+ */
+export const NIYET_HIZMETLERI = [
+  {
+    key: "GEO",
+    label: "GEO",
+    re: /(?<!\p{L})geo(?!\p{L})|görün(ür|mek|me)|(yapay zeka|ai) (arama )?motor|(ai|yapay zeka|chatgpt) seo|arama optimizasyon|ai overview|generative engine|answer engine|llms|(chatgpt|gemini|perplexity)['’]?\s?(d[ae]|t[ae])(?!\p{L})/u,
+  },
+  {
+    key: "CRO",
+    label: "CRO",
+    re: /(?<!\p{L})cro(?!\p{L})|dönüşüm oran|dönüşüm optimizasyon|dönüşüm artır|a\/b test|(?<!\p{L})ab test|sepet terk/u,
+  },
+  {
+    key: "AI",
+    label: "Yapay zeka",
+    re: /yapay zek[aâ]|(?<!\p{L})ai(?!\p{L})|(?<!\p{L})llm/u,
+  },
+  {
+    key: "UX",
+    label: "UX",
+    re: /(?<!\p{L})(ux|ui)(?!\p{L})|kullanıcı deneyimi|arayüz|kullanılabilirlik/u,
+  },
+  {
+    key: "ETICARET",
+    label: "E-ticaret",
+    re: /(?<!\p{L})e[- ]?ticaret|shopify|trendyol|(?<!\p{L})ikas(?!\p{L})|pazar ?yeri|e[- ]?ihracat/u,
+  },
+  {
+    key: "DIJITAL",
+    label: "Dijital dönüşüm",
+    re: /dijital dönüşüm|dijitalleş|endüstri [0-9]/u,
+  },
+];
+
+/**
+ * Dışlamalar — niteleyici ve hizmet terimi tutsa bile N0'a girmez:
+ *  - Genel reklam/pazarlama ajansı havuzu (Burak kararı: "dijital reklam
+ *    ajansı", "google reklam ajansı" gibi rekabetli kelimelerde güç
+ *    harcanmaz). "yapay zeka destekli dijital reklam ajansı" da dışarıda.
+ *  - Kariyer/öğrenci niyeti: "uzmanı" bir iş unvanıdır da ("cro uzmanı maaş").
+ *  - Araç niyeti: "en iyi geo aracı hangisi" hizmet değil araç arar; araç
+ *    sayfaları kendi kelimelerini taşır (strateji v1.11, A-6 disiplini).
+ */
+const NIYET_HARIC_RE = [
+  /reklam|pazarlama ajans|dijital ajans|performans (pazarlama )?ajans|dijital performans|sosyal medya|google ads|meta ads|growth hacking/u,
+  /maaş|ilan|kariyer|staj|nasıl olunur|olmak için|kurs|sertifika|bootcamp|üniversite/u,
+  /(?<!\p{L})ara[çc](ı|i|lar|ları|lari)?(?!\p{L})|(?<!\p{L})tool/u,
+];
+
+/**
+ * Sorgunun N0 hizmet anahtarını döner (`"CRO"`, `"GEO"` …); niyetli değilse
+ * `null`.
+ */
+export function niyetHizmeti(query) {
+  const q = norm(query);
+  if (!NIYET_NITELEYICI_RE.test(q)) return null;
+  if (NIYET_HARIC_RE.some((re) => re.test(q))) return null;
+  return NIYET_HIZMETLERI.find((h) => h.re.test(q))?.key ?? null;
+}
+
+/** "İlk 10": ağırlıklı ortalama pozisyon 10,0 veya daha iyi. */
+export const ILK10_ESIK = 10;
+
 /** Sorgu bazlı kümeler — sırası `kumeler.csv`'deki satır sırasıdır. */
 export const SORGU_KUMELERI = [
   { key: "G1", label: "CRO", test: (q) => G1_RE.test(q) },
@@ -139,6 +235,93 @@ export function sorguKumeleri(rows) {
     if (K4_RE.test(q)) ekle(acc.K4, g, t, p);
   }
   return Object.fromEntries(Object.entries(acc).map(([k, v]) => [k, kapat(v)]));
+}
+
+/**
+ * `sorgular.csv` satırlarından N0 satın alma niyeti özetini üretir.
+ *
+ * Döner: N0 toplamı (kayıt/gösterim/tık/ağırlıklı poz), görünen sorgu
+ * gösterimi (payda), niyetli pay, ilk 10'daki niyetli sorgular, hizmet alt
+ * kırılımı ve gösterime göre sıralı niyetli sorgu listesi.
+ */
+export function niyetKumesi(rows) {
+  const gorunen = bosOzet();
+  const toplam = bosOzet();
+  const alt = Object.fromEntries(
+    NIYET_HIZMETLERI.map((h) => [h.key, bosOzet()])
+  );
+  const sorgular = [];
+  for (const r of rows) {
+    const g = num(r.impressions);
+    const t = num(r.clicks);
+    const p = num(r.position);
+    ekle(gorunen, g, t, p);
+    const hizmet = niyetHizmeti(r.query);
+    if (!hizmet) continue;
+    ekle(toplam, g, t, p);
+    ekle(alt[hizmet], g, t, p);
+    sorgular.push({
+      query: String(r.query ?? ""),
+      hizmet,
+      gosterim: g,
+      tiklama: t,
+      pozisyon: p,
+    });
+  }
+  sorgular.sort((a, b) => b.gosterim - a.gosterim || a.pozisyon - b.pozisyon);
+  const ilk10 = sorgular.filter((s) => s.pozisyon <= ILK10_ESIK);
+  return {
+    ...kapat(toplam),
+    gorunenGosterim: gorunen.gosterim,
+    pay: gorunen.gosterim > 0 ? (toplam.gosterim / gorunen.gosterim) * 100 : 0,
+    ilk10,
+    alt: Object.fromEntries(
+      NIYET_HIZMETLERI.map((h) => [
+        h.key,
+        {
+          ...kapat(alt[h.key]),
+          ilk10: ilk10.filter((s) => s.hizmet === h.key).length,
+        },
+      ])
+    ),
+    sorgular,
+  };
+}
+
+/**
+ * Hizmet sayfası = `/tr/hizmetler/<slug>` veya `/en/services/<slug>`.
+ * Liste sayfaları (`/tr/hizmetler`, `/en/services`) ve eski URL'ler
+ * (`/hizmetler`, locale segmenti bozuk `/en/hizmetler/*`) sayılmaz. Pillar
+ * sayfaları (growth/transform/build) aynı önek altında olduğu için sayılır.
+ */
+const HIZMET_SAYFASI_RE = /^\/(tr\/hizmetler|en\/services)\/[^/]+\/?$/;
+
+/** `sayfalar.csv`'den hizmet sayfalarının toplam gösterim payı. */
+export function hizmetSayfasiPayi(rows) {
+  let toplam = 0;
+  const hizmet = bosOzet();
+  const sayfalar = [];
+  for (const r of rows) {
+    const g = num(r.impressions);
+    toplam += g;
+    let path;
+    try {
+      path = new URL(r.page).pathname;
+    } catch {
+      path = String(r.page ?? "");
+    }
+    if (HIZMET_SAYFASI_RE.test(path)) {
+      ekle(hizmet, g, num(r.clicks), num(r.position));
+      sayfalar.push({ path, gosterim: g, tiklama: num(r.clicks) });
+    }
+  }
+  sayfalar.sort((a, b) => b.gosterim - a.gosterim);
+  return {
+    ...kapat(hizmet),
+    toplam,
+    pay: toplam > 0 ? (hizmet.gosterim / toplam) * 100 : 0,
+    sayfalar,
+  };
 }
 
 /** `ulkeler.csv`'den G5 (TR dışı) ve referans TR satırını üretir. */
@@ -258,8 +441,25 @@ export function gunlukOzet(rows) {
 const yuzde = (v) => (v === null ? "-" : `${v.toFixed(2)}%`);
 const poz = (v) => (v === null ? "-" : v.toFixed(2));
 
-/** `kumeler.csv` — G1-G5 + K-4 ayrı satırı. */
-export function kumelerCsv(sorgu, ulke) {
+/**
+ * v1.18 birincil ölçülerin 30 Kasım hedefleri — otorite: strateji §9 ve
+ * `docs/strateji/Yol-Haritasi-Satin-Alma-Niyeti-2026-09.md` §5. Tık hedefi
+ * aylıktır; çekim penceresi 28 gün olduğu için doğrudan kıyaslanır. Form
+ * (GA4) ve GEO turu (elle) bu script'in dışında ölçülür.
+ */
+export const NIYET_HEDEF = { ilk10: 12, hizmetSayfasiPay: 15, tiklama: 20 };
+
+/**
+ * `kumeler.csv` — G1-G5 + K-4 ayrı satırı; `niyet` ve `hs` verilirse N0
+ * satırları ve hizmet sayfası satırı EN SONA eklenir (önceki satırların sırası
+ * ve değeri değişmez, haftalık log kıyaslanabilir kalır).
+ *
+ * @param {ReturnType<typeof sorguKumeleri>} sorgu
+ * @param {ReturnType<typeof ulkeKumeleri>} ulke
+ * @param {ReturnType<typeof niyetKumesi> | null} [niyet]
+ * @param {ReturnType<typeof hizmetSayfasiPayi> | null} [hs]
+ */
+export function kumelerCsv(sorgu, ulke, niyet = null, hs = null) {
   const satirlar = [
     [
       "kume",
@@ -289,7 +489,107 @@ export function kumelerCsv(sorgu, ulke) {
   yaz("G5", "TR dışı", "ülke", ulke.G5);
   yaz("TR", "TR içi (referans)", "ülke", ulke.TR);
   yaz("K4", "Kariyer niyetli (KPI dışı)", "sorgu", sorgu.K4);
+  if (niyet) {
+    yaz("N0", "Satın alma niyeti", "sorgu", niyet);
+    for (const h of NIYET_HIZMETLERI) {
+      yaz(`N0-${h.key}`, `Niyet · ${h.label}`, "sorgu", niyet.alt[h.key]);
+    }
+  }
+  if (hs) {
+    yaz(
+      "HS",
+      "Hizmet sayfaları (/tr/hizmetler/*, /en/services/*)",
+      "sayfa",
+      hs
+    );
+  }
   return toCsv(satirlar);
+}
+
+/**
+ * A-4 (v1.18): üç GSC ölçüsünün 30 Kasım hedefine göre durumu. Form (GA4) ve
+ * GEO turu bu hesaba girmez — script onları göremez.
+ */
+export function a4Niyet(niyet, hs) {
+  const ilk10 = niyet.ilk10.length;
+  const olcu = [
+    ilk10 < NIYET_HEDEF.ilk10,
+    hs.pay < NIYET_HEDEF.hizmetSayfasiPay,
+    niyet.tiklama < NIYET_HEDEF.tiklama,
+  ];
+  return {
+    ilk10,
+    pay: hs.pay,
+    tiklama: niyet.tiklama,
+    altinda: olcu.filter(Boolean).length,
+  };
+}
+
+/** `ozet.txt`'in "Satın alma niyeti" bölümü — satır dizisi döner. */
+export function niyetBolumu({ niyet, hs, toplamGosterim }) {
+  const L = [];
+  const toplamPay =
+    toplamGosterim > 0 ? (niyet.gosterim / toplamGosterim) * 100 : 0;
+  const etiket = Object.fromEntries(
+    NIYET_HIZMETLERI.map((h) => [h.key, h.label])
+  );
+  L.push("## Satın alma niyeti (N0) — v1.18 birincil ölçüler");
+  L.push("");
+  L.push(
+    "Tanım: TR niteleyici (ajansı, danışmanlığı, firması, uzmanı, hizmeti, fiyat, nasıl seçilir, önerir misin, en iyi … kimlerdir) + altı hizmetten birinin terimi (GEO, CRO, yapay zeka, UX, e-ticaret, dijital dönüşüm). Genel reklam/pazarlama ajansı, kariyer ve araç niyeti dışarıda. Otorite: docs/strateji/Niyetli-Sorgu-Seti-2026-09.md."
+  );
+  L.push("");
+  L.push("| Ölçü | Bu çekim | 30 Kasım hedefi |");
+  L.push("|---|---|---|");
+  L.push(
+    `| Niyetli sorgu | ${niyet.kayit} sorgu / ${niyet.gosterim} gösterim / ${niyet.tiklama} tık / ort. poz ${poz(niyet.pozisyon)} | — |`
+  );
+  L.push(
+    `| Görünen sorgu gösterimindeki payı | ${yuzde(niyet.pay)} (${niyet.gosterim} / ${niyet.gorunenGosterim}) | — |`
+  );
+  L.push(
+    `| Toplam gösterimdeki payı (anonim dahil) | ${yuzde(toplamPay)} (${niyet.gosterim} / ${toplamGosterim}) | — |`
+  );
+  L.push(
+    `| İlk 10'daki niyetli sorgu (ort. poz <= ${ILK10_ESIK}) | ${niyet.ilk10.length} | ${NIYET_HEDEF.ilk10}+ |`
+  );
+  L.push(
+    `| Niyetli sorgulardan tık | ${niyet.tiklama} | ${NIYET_HEDEF.tiklama}+/ay |`
+  );
+  L.push(
+    `| Hizmet sayfalarının gösterim payı (/tr/hizmetler/*, /en/services/*) | ${yuzde(hs.pay)} (${hs.gosterim} / ${hs.toplam}, ${hs.kayit} sayfa) | %${NIYET_HEDEF.hizmetSayfasiPay} |`
+  );
+  L.push("");
+  L.push(
+    "Form/brief (GA4, hedef ayda 5+ nitelikli) ve GEO turu (30 sorgu, hedef 5/30) bu raporun dışında ölçülür; haftalık kayda elle eklenir."
+  );
+  L.push("");
+  L.push("| Hizmet | Kayıt | Gösterim | Tıklama | Ort. poz | İlk 10 |");
+  L.push("|---|---|---|---|---|---|");
+  for (const h of NIYET_HIZMETLERI) {
+    const o = niyet.alt[h.key];
+    L.push(
+      `| ${h.label} | ${o.kayit} sorgu | ${o.gosterim} | ${o.tiklama} | ${poz(o.pozisyon)} | ${o.ilk10} |`
+    );
+  }
+  L.push("");
+  const satir = (s) =>
+    `  - ${s.query} — ${etiket[s.hizmet]} · ${s.gosterim} gösterim · ${s.tiklama} tık · poz ${s.pozisyon.toFixed(2)}`;
+  L.push(`İlk 10'daki niyetli sorgular (${niyet.ilk10.length}):`);
+  if (niyet.ilk10.length === 0) L.push("  - yok");
+  for (const s of niyet.ilk10) L.push(satir(s));
+  L.push("");
+  L.push(
+    `Niyetli sorgular, gösterime göre (${Math.min(20, niyet.sorgular.length)} / ${niyet.sorgular.length}):`
+  );
+  for (const s of niyet.sorgular.slice(0, 20)) L.push(satir(s));
+  L.push("");
+  L.push("En yüksek gösterimli 5 hizmet sayfası:");
+  for (const s of hs.sayfalar.slice(0, 5)) {
+    L.push(`  - ${s.path} — ${s.gosterim} gösterim · ${s.tiklama} tık`);
+  }
+  L.push("");
+  return L;
 }
 
 /** `ozet.txt` — `GSC-Data/haftalik-log.md` kaydına doğrudan kopyalanabilir. */
@@ -303,6 +603,8 @@ export function ozetMetni({
   eski,
   a3,
   a6,
+  niyet = null,
+  hs = null,
 }) {
   const delta = (a, b) => {
     const d = a - b;
@@ -360,6 +662,11 @@ export function ozetMetni({
     `Ayrı satır (KPI'ya sayılmaz, K-4 kararı): "iş zekası" + "işletme mühendisliği" — ${sorgu.K4.gosterim} gösterim / ${sorgu.K4.kayit} sorgu.`
   );
   L.push("");
+  if (niyet && hs) {
+    L.push(
+      ...niyetBolumu({ niyet, hs, toplamGosterim: gunluk.donem.gosterim })
+    );
+  }
   L.push(
     `## A-3 adayları (poz<10 & CTR<%1 & gösterim>=20) — ${a3.length} sayfa`
   );
@@ -398,9 +705,16 @@ export function ozetMetni({
   L.push(
     `  - A-3 (CTR): ${a3.length} sayfa eşiği aşıyor — title/description revizyonu.`
   );
-  L.push(
-    `  - A-4 (gösterim eğrisi): dönem toplamı ${gunluk.donem.gosterim}; eşik 8.000/ay — ${gunluk.donem.gosterim < 8000 ? "ALTINDA" : "üstünde"}.`
-  );
+  if (niyet && hs) {
+    const a4 = a4Niyet(niyet, hs);
+    L.push(
+      `  - A-4 (niyetli görünürlük, v1.18): 30 Kasım hedefinin altında ${a4.altinda}/3 ölçü — ilk 10'da niyetli sorgu ${a4.ilk10}/${NIYET_HEDEF.ilk10} · hizmet sayfası payı ${yuzde(a4.pay)}/%${NIYET_HEDEF.hizmetSayfasiPay} · niyetli tık ${a4.tiklama}/${NIYET_HEDEF.tiklama}. Alarm 30 Kasım kaydında değerlendirilir: 3 ölçüden 2'si hedefin altındaysa strateji revizyonu. Toplam gösterim bağlamdır, eşik değil: ${gunluk.donem.gosterim}.`
+    );
+  } else {
+    L.push(
+      `  - A-4 (gösterim eğrisi): dönem toplamı ${gunluk.donem.gosterim}; eşik 8.000/ay — ${gunluk.donem.gosterim < 8000 ? "ALTINDA" : "üstünde"}.`
+    );
+  }
   L.push(`  - A-6 (kanibalizasyon): ${a6.length} sorgu.`);
   L.push(
     "  - A-1 / A-2 / A-5: elle değerlendirilir (301 haritası, indeks taraması, GEO prompt turu)."
@@ -445,9 +759,15 @@ export function kumeHesabi(fromDir, outDir, meta = {}) {
   const a3 = a3Adaylari(sayfalar);
   const a6 = a6Kanibalizasyon(sorguSayfa);
   const gunluk = gunlukOzet(gunlukRows);
+  const niyet = niyetKumesi(sorgular);
+  const hs = hizmetSayfasiPayi(sayfalar);
 
   mkdirSync(outDir, { recursive: true });
-  writeFileSync(join(outDir, "kumeler.csv"), kumelerCsv(sorgu, ulke), "utf8");
+  writeFileSync(
+    join(outDir, "kumeler.csv"),
+    kumelerCsv(sorgu, ulke, niyet, hs),
+    "utf8"
+  );
   writeFileSync(
     join(outDir, "ozet.txt"),
     ozetMetni({
@@ -460,10 +780,12 @@ export function kumeHesabi(fromDir, outDir, meta = {}) {
       eski,
       a3,
       a6,
+      niyet,
+      hs,
     }),
     "utf8"
   );
-  return { sorgu, ulke, eski, a3, a6, gunluk };
+  return { sorgu, ulke, eski, a3, a6, gunluk, niyet, hs };
 }
 
 // ------------------------------------------------------------------- API
@@ -532,6 +854,29 @@ function isoDaysAgo(n) {
   return d.toISOString().slice(0, 10);
 }
 
+/** Küme hesabının konsol özeti — iki çalışma kipinde de aynı satırlar. */
+function konsolOzeti({ sorgu, ulke, eski, a3, niyet, hs }) {
+  for (const kume of SORGU_KUMELERI) {
+    const o = sorgu[kume.key];
+    console.log(
+      `  ${kume.key} ${kume.label}: ${o.kayit} sorgu / ${o.gosterim} gösterim / ${o.tiklama} tık / poz ${poz(o.pozisyon)}`
+    );
+  }
+  console.log(
+    `  G5 TR dışı: ${ulke.G5.kayit} ülke / ${ulke.G5.gosterim} gösterim / ${ulke.G5.tiklama} tık`
+  );
+  console.log(
+    `  Eski URL payı: ${eski.pay.toFixed(1)}% (${eski.eski} / ${eski.toplam}, ${eski.sayfa} sayfa)`
+  );
+  console.log(`  A-3 adayı: ${a3.length} sayfa`);
+  console.log(
+    `  N0 Satın alma niyeti: ${niyet.kayit} sorgu / ${niyet.gosterim} gösterim / ${niyet.tiklama} tık / poz ${poz(niyet.pozisyon)} · ilk 10'da ${niyet.ilk10.length} · görünen sorgu payı ${yuzde(niyet.pay)}`
+  );
+  console.log(
+    `  Hizmet sayfası payı: ${yuzde(hs.pay)} (${hs.gosterim} / ${hs.toplam}, ${hs.kayit} sayfa)`
+  );
+}
+
 async function main() {
   const fromDir = arg("from-dir");
 
@@ -539,20 +884,7 @@ async function main() {
   if (fromDir) {
     const outDir = arg("out", fromDir);
     console.log(`GSC küme hesabı (API'siz) · kaynak ${fromDir}`);
-    const { sorgu, ulke, eski, a3 } = kumeHesabi(fromDir, outDir);
-    for (const kume of SORGU_KUMELERI) {
-      const o = sorgu[kume.key];
-      console.log(
-        `  ${kume.key} ${kume.label}: ${o.kayit} sorgu / ${o.gosterim} gösterim / ${o.tiklama} tık / poz ${poz(o.pozisyon)}`
-      );
-    }
-    console.log(
-      `  G5 TR dışı: ${ulke.G5.kayit} ülke / ${ulke.G5.gosterim} gösterim / ${ulke.G5.tiklama} tık`
-    );
-    console.log(
-      `  Eski URL payı: ${eski.pay.toFixed(1)}% (${eski.eski} / ${eski.toplam}, ${eski.sayfa} sayfa)`
-    );
-    console.log(`  A-3 adayı: ${a3.length} sayfa`);
+    konsolOzeti(kumeHesabi(fromDir, outDir));
     console.log(`Tamam → ${outDir}`);
     return;
   }
@@ -621,25 +953,8 @@ async function main() {
     "utf8"
   );
 
-  const { sorgu, ulke, eski, a3 } = kumeHesabi(outDir, outDir, {
-    site,
-    start,
-    end,
-  });
   console.log("Küme özeti:");
-  for (const kume of SORGU_KUMELERI) {
-    const o = sorgu[kume.key];
-    console.log(
-      `  ${kume.key} ${kume.label}: ${o.kayit} sorgu / ${o.gosterim} gösterim / ${o.tiklama} tık / poz ${poz(o.pozisyon)}`
-    );
-  }
-  console.log(
-    `  G5 TR dışı: ${ulke.G5.kayit} ülke / ${ulke.G5.gosterim} gösterim / ${ulke.G5.tiklama} tık`
-  );
-  console.log(
-    `  Eski URL payı: ${eski.pay.toFixed(1)}% (${eski.eski} / ${eski.toplam}, ${eski.sayfa} sayfa)`
-  );
-  console.log(`  A-3 adayı: ${a3.length} sayfa`);
+  konsolOzeti(kumeHesabi(outDir, outDir, { site, start, end }));
   console.log(`Tamam → ${outDir}`);
 }
 

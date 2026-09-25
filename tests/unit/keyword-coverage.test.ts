@@ -315,6 +315,12 @@ const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
   // (TARGETS_TOOLS), bilgi niyeti "gap analizi" bu yazıda oturur — aynı
   // kanibalizasyon kuralı (A-6).
   ["e-ticaret-gap-analizi-cro-denetimi", "gap analizi"],
+  // Takvim h.5-2 (2026-09-25): uygulama niyeti — "nereden başlanır" ve pilot
+  // sorguları bu yazıda oturur; tanım niyeti `ai-donusumu-nedir`de kalır.
+  ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "yapay zeka pilot projesi"],
+  ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "ai pilot projesi"],
+  ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "yapay zeka dönüşümüne nereden başlanır"],
+  ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "yapay zeka projesi nasıl başlatılır"],
 ];
 
 describe("Dalga 1 makale keyword yerleşimi (2026-08-28 partisi)", () => {

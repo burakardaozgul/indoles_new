@@ -6626,8 +6626,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Pilot tek süreçte, sekiz ile on iki hafta içinde ve tek bir başarı ölçüsüyle kurulur. Baştan bir de durdurma eşiği yazılır: hangi rakama ulaşılamazsa proje kapanır. Önce pilot yaklaşımının nedeni bütçe kısıtı değil, öğrenme hızıdır — bir süreçte on iki haftada öğrendiğinizi, beş süreçte on iki ayda öğrenirsiniz ve o sırada ilk varsayımınız çoktan eskimiş olur.",
-          en: "The pilot runs on one process, inside eight to twelve weeks, against a single success measure. A stopping threshold is written at the start too: the number that, if unmet, closes the project. The reason for going pilot-first is not a tight budget but learning speed — what one process teaches you in twelve weeks, five processes teach you in twelve months, by which point your first assumption has already aged out.",
+          tr: "Pilot tek süreçte, sekiz ile on iki hafta içinde ve tek bir başarı ölçüsüyle kurulur. Baştan bir de durdurma eşiği yazılır: hangi rakama ulaşılamazsa proje kapanır. Önce pilot yaklaşımının nedeni bütçe kısıtı değil, öğrenme hızıdır — bir süreçte on iki haftada öğrendiğinizi, beş süreçte on iki ayda öğrenirsiniz ve o sırada ilk varsayımınız çoktan eskimiş olur. Bu aşamanın seçimden karara kadar gün gün takvimini [90 günlük pilot çerçevesinde](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot) açtım.",
+          en: "The pilot runs on one process, inside eight to twelve weeks, against a single success measure. A stopping threshold is written at the start too: the number that, if unmet, closes the project. The reason for going pilot-first is not a tight budget but learning speed — what one process teaches you in twelve weeks, five processes teach you in twelve months, by which point your first assumption has already aged out. I lay this stage out day by day, from selection to decision, in the [90-day pilot framework](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot).",
         },
       },
       {
@@ -7523,6 +7523,789 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "Chatbot satan yapay zeka ajansı mı, sistem kuran danışman mı? Pilot süresi, veri hazırlığı, taban ölçüm ve sistem sahipliği dahil 12 soruyla ayrımı görün.",
         en: "An AI agency selling chatbots, or a consultant building systems? Twelve questions covering pilot timelines, data prep, baselines and who owns the system.",
+      },
+    },
+  },
+  {
+    // Takvim h.5-2 (Keyword-Onceliklendirme-2026-08-27 §3). Uygulama
+    // çerçevesi: tanım ve dört aşama `ai-donusumu-nedir`de, danışman seçimi
+    // `ai-danismani-secerken-sorulacak-12-soru`da kalır — bu yazı ikisini
+    // tekrar etmez, linkler. ROI hesabının ayrıntısı h.6-2 slotuna ait;
+    // burada yalnız eşiğin maliyet karşılığı olduğu söylenir. Dış rakamlar
+    // adıyla ve tarihiyle: TÜİK Yapay Zeka İstatistikleri (1 Ekim 2025),
+    // Eurostat (11 Aralık 2025), Gartner (29 Temmuz 2024 · 26 Şubat 2025),
+    // AB Yapay Zeka Tüzüğü (yürürlük 1 Ağustos 2024). Paket süre ve fiyatı
+    // `packages.ts` ai-pilot + dijital-donusum-teshisi kayıtlarından.
+    slug: {
+      tr: "ai-donusumune-nereden-baslanir-90-gunluk-pilot",
+      en: "where-to-start-ai-transformation-90-day-pilot",
+    },
+    title: {
+      tr: "AI dönüşümüne nereden başlanır? 90 günlük pilot çerçevesi",
+      en: "Where to start with AI transformation: a 90-day pilot framework",
+    },
+    excerpt: {
+      tr: "Yapay zeka dönüşümü bir strateji belgesiyle değil, tek bir süreçte doksan gün süren bir pilotla başlar. Gün blokları, süreç seçim ölçütleri, taban ölçüm, durdurma eşiği, bütçe kalemleri ve KOBİ, sanayi ile büyük şirket için ayrı ayrı neyin değiştiği.",
+      en: "AI transformation starts not with a strategy document but with a ninety-day pilot on a single process. Day-by-day blocks, process selection criteria, the baseline, a stopping threshold, budget lines — and what changes for an SME, a manufacturer and a large company.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Bir kablo üreticisinin dönüşüm müdürü Selin, yönetim kurulu toplantısından elinde tek bir cümleyle çıktı: yapay zeka konusunda bir şey yapalım, üç ay içinde sonucunu görelim. Masasında iki tedarikçi sunumu, bir strateji danışmanının kırk sayfalık yol haritası taslağı ve kimsenin cevaplamadığı bir soru duruyordu — pazartesi sabahı ilk olarak ne yapılacak?",
+          en: "Selin, transformation manager at a cable manufacturer, walked out of a board meeting carrying a single sentence: let's do something with AI and see the result within three months. On her desk sat two vendor decks, a forty-page roadmap draft from a strategy consultant, and a question nobody had answered — what happens first thing on Monday morning?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Selin'i bu yazı için kurguladım; masasındaki soruyu kurgulamadım. Aynı soruyu her ay başka bir şirketten duyuyoruz ve cevabı ne bir platform satın almak ne de altı aylık bir strateji çalışması başlatmak. Yapay zeka dönüşümü tek bir süreçte, önceden yazılmış bir başarı ölçüsüyle ve doksan günlük bir takvimle başlar. Bu yazı o takvimi bloklar hâlinde açıyor: hangi süreç seçilir, taban ölçüm nasıl alınır, pilot ne zaman durdurulur, bütçe hangi kalemlerden oluşur ve doksanıncı gün karar nasıl verilir.",
+          en: "I invented Selin for this article; I did not invent the question on her desk. We hear it from a different company every month, and the answer is neither buying a platform nor commissioning a six-month strategy exercise. AI transformation starts on one process, with a success measure written in advance and a ninety-day calendar. This article opens that calendar up block by block: which process to choose, how to take a baseline, when to stop a pilot, which lines make up the budget, and how the call gets made on day ninety.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI dönüşümünün ne olduğunu ve dört aşamalı yol haritasını [AI dönüşümü nedir yazısında](/yazilar/ai-donusumu-nedir) anlattım; bir danışmanı ilk görüşmede nasıl sınayacağınızı ise [yapay zeka danışmanına sorulacak 12 soruda](/yazilar/ai-danismani-secerken-sorulacak-12-soru) topladık. Bu yazı ikisinin arasındaki boşluğu dolduruyor: karar verildikten sonra, sözleşme imzalanmadan önce ve pilot sürerken ne yapıldığını.",
+          en: "I set out what AI transformation is, along with its four-stage roadmap, in [what AI transformation is](/yazilar/ai-donusumu-nedir); how to test a consultant in the first meeting is collected in [12 questions to ask an AI consultant](/yazilar/ai-danismani-secerken-sorulacak-12-soru). This piece fills the gap between the two: what gets done after the decision is taken, before the contract is signed, and while the pilot is running.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yapay-zeka-donusumune-nereden-baslanir",
+        text: {
+          tr: "Yapay zeka dönüşümüne nereden başlanır?",
+          en: "Where does AI transformation actually start?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka dönüşümü, şirketin en çok tekrar eden ve kaydı tutulan tek bir sürecinde, doksan günlük bir pilotla başlar. Başlangıç noktası bir teknoloji, bir departman ya da bir strateji belgesi değil; sahibi belli, bugünkü değeri ölçülebilen ve çıktısı aynı gün kontrol edilebilen bir iştir. Strateji belgesi yanlış değildir, yalnızca sırası yanlıştır: ilk pilotun verisi olmadan yazılan bir yol haritası, varsayımlardan kurulmuş bir takvimdir.",
+          en: "AI transformation starts with a ninety-day pilot on a single process — the one that repeats most and keeps a record. The starting point is not a technology, a department or a strategy document; it is a piece of work with a clear owner, a value you can measure today and output someone can check the same day. A strategy document is not wrong, only out of order: a roadmap written before the first pilot has produced any data is a calendar built on assumptions.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Türkiye'de bu başlangıcı yapmış şirket sayısı hâlâ az. TÜİK'in 1 Ekim 2025'te ilk kez yayımladığı Yapay Zeka İstatistikleri bültenine göre 10 ve üzeri çalışanı olan girişimlerin yüzde 7,5'i herhangi bir yapay zeka teknolojisi kullanıyor; oran 2021'de yüzde 2,7'ydi. Eurostat'ın 11 Aralık 2025'te yayımladığı veride aynı ölçekteki girişimler için AB ortalaması yüzde 20,0. Aradaki fark bir teknoloji açığı değil, bir başlangıç açığıdır ve kapanması için kimsenin önce büyük bir program kurması gerekmiyor.",
+          en: "Few companies in Türkiye have made that start. According to the Artificial Intelligence Statistics bulletin that TÜİK, the Turkish Statistical Institute, published for the first time on 1 October 2025, 7.5% of enterprises with 10 or more employees use any AI technology at all, up from 2.7% in 2021. Eurostat's figure for the same size band, released on 11 December 2025, puts the EU average at 20.0%. The gap is not a technology gap but a starting gap, and closing it does not require anyone to build a large programme first.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pratik soru — yapay zeka projesi nasıl başlatılır — üç kararla cevaplanır: hangi süreç, kim sahibi, hangi rakam hareket etmeli. Üçü kâğıda yazılmadan tedarikçiyle konuşmak, kapsam pazarlığından önce fiyat pazarlığına girmek demektir. Aşağıdaki çerçeve bu üç kararı ilk on beş güne, gerisini kalan yetmiş beş güne yerleştiriyor.",
+          en: "The practical question — how do you actually get an AI project started — is answered by three decisions: which process, who owns it, which number has to move. Talking to vendors before those three are on paper means negotiating the price before the scope. The framework below fits those three decisions into the first fifteen days and everything else into the remaining seventy-five.",
+        },
+      },
+      {
+        type: "h2",
+        id: "90-gunluk-pilot-bloklari",
+        text: {
+          tr: "90 günlük yapay zeka pilot projesi hangi bloklardan oluşur?",
+          en: "Which blocks make up a 90-day AI pilot project?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Doksan gün dört bloğa bölünür: seçim ve sahiplik (gün 0-15), taban ölçüm ve veri hazırlığı (gün 16-30), kurulum ve saha testi (gün 31-72), değerlendirme ve karar (gün 73-90). Her blok bir sonrakinin girdisini üretir ve bir blok kapanmadan diğeri açılmaz. Takvim bizim kapsamlama tercihimizdir, bir sektör normu değil; blokların sırası ise pazarlık konusu değildir.",
+          en: "The ninety days split into four blocks: selection and ownership (days 0-15), baseline and data preparation (days 16-30), build and field test (days 31-72), then evaluation and decision (days 73-90). Each block produces the input for the next, and none opens before the previous one closes. The calendar is how we scope the work rather than an industry norm; the order of the blocks, though, is not up for negotiation.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI dönüşümü yazısında pilotu sekiz ile on iki hafta olarak kapsamlamıştım. Doksan günlük çerçeve o aralığı takvime döküyor: on altıncı günden doksanıncı güne kadar geçen yaklaşık on bir hafta pilotun kendisidir, ilk on beş gün ise pilotun doğru süreçte açılmasını sağlayan seçim işidir.",
+          en: "In the AI transformation piece I scoped a pilot at eight to twelve weeks. The ninety-day frame lays that range onto a calendar: the roughly eleven weeks from day sixteen to day ninety are the pilot itself, while the first fifteen days are the selection work that makes sure the pilot opens on the right process.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Gün 0-15 — Seçim ve sahiplik",
+          en: "Days 0-15 — Selection and ownership",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İlk iki haftanın çıktısı tek sayfadır: seçilen süreç, adı yazılmış bir süreç sahibi, bir yönetim sponsoru ve hareket etmesi beklenen tek rakam. Aday listesi iki ile üç süreci geçmez; her aday aşağıdaki ölçütlerle puanlanır ve en yüksek puanı alan seçilir. Aday süreçler bile belirsizse bu blok Dijital Dönüşüm Teşhisi paketimizle üç haftaya uzar; teşhis, üç ile beş pilot adayını veriyle sıraya dizer ve takvim oradan devam eder.",
+          en: "The first two weeks produce a single page: the chosen process, a named process owner, an executive sponsor and the one number expected to move. The candidate list never runs past two or three processes; each one is scored against the criteria below and the highest scorer wins. If even the candidates are unclear, this block stretches to three weeks with our Digital Transformation Audit package, which ranks three to five pilot candidates from data before the calendar picks up again.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Gün 16-30 — Taban ölçüm ve veri hazırlığı",
+          en: "Days 16-30 — Baseline and data preparation",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci blokta iki iş paralel yürür. Birincisi taban ölçümdür: seçilen sürecin bugünkü değeri iki haftalık bir pencerede, gerçek iş üzerinde kaydedilir. İkincisi veri hazırlığıdır: sürecin kaydının nerede durduğu, hangi alanlarının boş olduğu ve erişim izninin kimden alınacağı belirlenir. Blok, başarı ve durdurma kriterlerinin süreç sahibi ile sponsor tarafından imzalanmasıyla kapanır; imzasız kriterle kuruluma geçilmez.",
+          en: "Two jobs run in parallel in the second block. The first is the baseline: the chosen process's current value, recorded over a two-week window on real work. The second is data preparation: where the process's record lives, which of its fields are empty and who has to grant access. The block closes when the process owner and the sponsor sign the success and stopping criteria; nobody moves on to the build with unsigned criteria.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Gün 31-72 — Kurulum ve saha testi",
+          en: "Days 31-72 — Build and field test",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçüncü blok, [AI Pilot paketimizin](/paketler/ai-pilot) altı haftasına denk gelir. İlk dört haftada kullanım senaryosu doğrulanır, veri envanteri ve kalite kontrolü çıkarılır, model seçilir, prototip ve arayüz kurulup mevcut sisteme bağlanır; son iki haftada gerçek kullanıcı onu gerçek işte kullanır. Saha testi simüle edilmez, çünkü ölçülen şey laboratuvar doğruluğu değil, sürecin birim süresidir. Bu blokta kapsam dondurulur: yeni bir fikir, ikinci bir kullanım senaryosu ya da komşu bir departman bir sonraki pilotun listesine yazılır.",
+          en: "The third block matches the six weeks of our [AI Pilot package](/paketler/ai-pilot). In the first four weeks the use case is validated, the data inventory and quality check are completed, the model is chosen, and the prototype and interface are built and wired into the existing system; in the final two weeks real users work with it on real work. The field test is not simulated, because what gets measured is not laboratory accuracy but the unit time of the process. Scope is frozen in this block: a new idea, a second use case or a neighbouring department goes onto the list for the next pilot.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Gün 73-90 — Değerlendirme ve karar",
+          en: "Days 73-90 — Evaluation and decision",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Son blokta taban ölçüm aynı yöntemle tekrarlanır, fark hesaplanır ve pilotun işletme maliyeti — model kullanım ücreti, altyapı, insan denetimi — yıllık rakama çevrilir. Doksanıncı gün tek gündemli bir toplantıdır: ölçekle, genişlet, düzelt ve tekrarla ya da durdur. Pilot raporu toplantıdan en az bir hafta önce sponsorun masasında olur; kararı toplantı odasında ilk kez okunan bir rapor değil, önceden okunmuş bir rapor verir.",
+          en: "In the final block the baseline is repeated with the same method, the difference is calculated, and the pilot's running cost — model usage fees, infrastructure, human review — is turned into an annual figure. Day ninety is a meeting with a single agenda item: scale, extend, fix and rerun, or stop. The pilot report reaches the sponsor's desk at least a week before that meeting; the decision comes from a report read in advance, not one opened for the first time in the room.",
+        },
+      },
+      {
+        type: "h2",
+        id: "pilot-icin-surec-secimi",
+        text: {
+          tr: "Pilot için hangi süreç seçilmeli?",
+          en: "Which process should the pilot run on?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pilot için seçilecek süreç; ayda yüzlerce kez tekrar eden, dijital kaydı olan, hatası aynı gün fark edilen, sahibi belli ve iyileşmesi doksan gün içinde ölçülebilen süreçtir. İlk üç ölçüt, AI dönüşümü yazısındaki üç filtredir; pilot seçiminde onlara iki ölçüt daha eklenir, çünkü yapay zekaya uygun her iş iyi bir ilk pilot değildir.",
+          en: "The process to pick for a pilot is one that runs hundreds of times a month, leaves a digital record, fails in ways someone spots the same day, has a clear owner, and can show its improvement within ninety days. The first three criteria are the three filters from the AI transformation piece; pilot selection adds two more, because not every piece of work that suits AI makes a good first pilot.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beş ölçütü birer puanla değerlendirmek, aday listesi üzerindeki tartışmayı bir hesaba çevirir:",
+          en: "Scoring the five criteria one by one turns the argument over the candidate list into a calculation:",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Tekrar: süreç ayda kaç kez çalışıyor? Seyrek yapılan bir iş, pilotun saha testinde anlamlı bir örneklem üretmez.",
+            en: "Repetition: how many times a month does the process run? Work done rarely will not produce a meaningful sample during the field test.",
+          },
+          {
+            tr: "Kayıt: sürecin geçmişi dijital bir izde duruyor mu — e-posta, ERP satırı, form, çağrı kaydı? Kayıt yoksa ikinci blok veri toplamaya, pilot da bir kayıt projesine dönüşür.",
+            en: "Record: does the process's history sit in a digital trace — an email, an ERP row, a form, a call log? Without one, the second block turns into data collection and the pilot into a record-keeping project.",
+          },
+          {
+            tr: "Görünür hata: yanlış çıktıyı birisi aynı gün yakalıyor mu? Yakalanmayan hata saha testinde ölçülemez, üretimde ise sessizce çoğalır.",
+            en: "Visible error: does someone catch a wrong output the same day? An error nobody catches cannot be measured in the field test, and in production it multiplies quietly.",
+          },
+          {
+            tr: "Sahiplik: sonucu savunacak, adıyla anılan bir süreç sahibi var mı? Sahibi bilgi işlem olan pilot, süreci yöneten birimde karşılık bulmaz.",
+            en: "Ownership: is there a named process owner who will stand behind the result? A pilot owned by IT finds no backing in the unit that actually runs the process.",
+          },
+          {
+            tr: "Doksan günlük sınır: model yanılırsa sonuç geri alınabiliyor mu, mevcut sisteme haftalar içinde bağlanılabiliyor mu? İş güvenliği, ürün uygunluğu ya da yasal yükümlülük taşıyan kararlar ilk pilotun konusu olmaz.",
+            en: "Ninety-day fit: if the model gets it wrong, can the result be undone, and can it be wired into the existing system within weeks? Decisions carrying workplace safety, product conformity or legal liability are never the subject of a first pilot.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Seçimin mantığı çoğu zaman sezgiye ters düşer. En görünür süreç — genel müdürün her toplantıda andığı darboğaz — genellikle en iyi ilk pilot değildir, çünkü görünür süreçlerin çoğu onay, yetki ya da müzakere içerir ve bunlar yapay zekanın değil yönetimin işidir. İyi bir ilk pilot çoğu zaman sıkıcıdır: teklif hazırlama, sipariş girişi, teknik doküman arama, gelen talebin sınıflandırılması. Sıkıcı işin avantajı, tekrarının yüksek, hatasının görünür ve sonucunun tartışmasız olmasıdır.",
+          en: "The logic of the choice often runs against instinct. The most visible process — the bottleneck the managing director mentions in every meeting — is usually not the best first pilot, because most visible processes involve approval, authority or negotiation, and those are management's job rather than AI's. A good first pilot is often dull: preparing quotes, entering orders, searching technical documents, classifying incoming requests. The advantage of dull work is that it repeats often, its errors show, and its result is beyond argument.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[Meccanotecnica Umbra](/vakalar/meccanotecnica-umbra-teklif-portali) bu mantığın sahadaki karşılığı. Darboğaz teklif süreciydi: mühendis alıcı hangi donanımın tesisine uygun olduğunu uzman desteği olmadan çıkaramıyordu, talepler telefon ve e-postayla gelip elle işleniyordu. Süreç sık tekrar eden, e-posta trafiğinde iz bırakan ve her talepte ölçülebilen bir işti. Çalışma bir pilot değil, 22 haftalık tam bir projeydi; ama sonucu seçimin isabetinden geldi — AI teknik danışman ve teklif portalı devreye girdikten sonra teklif talebi 10 katına çıktı, talep ile yanıt arasındaki süre yüzde doksan kısaldı.",
+          en: "[Meccanotecnica Umbra](/vakalar/meccanotecnica-umbra-teklif-portali) is what that logic looks like in the field. The bottleneck was quoting: an engineer buying equipment could not work out what suited their plant without expert support, and requests arrived by phone and email to be handled by hand. The process repeated often, left a trace in the email traffic, and could be measured on every request. The work was a full 22-week project rather than a pilot, yet its result came from the accuracy of the choice — once the AI technical advisor and quote portal went live, quote requests rose tenfold and the time between request and response fell by ninety percent.",
+        },
+      },
+      {
+        type: "h2",
+        id: "taban-olcum-nasil-alinir",
+        text: {
+          tr: "Taban ölçüm pilottan önce nasıl alınır?",
+          en: "How do you take the baseline before the pilot?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Taban ölçüm, seçilen sürecin bugünkü değerini iki haftalık bir pencerede, gerçek iş üzerinde ve pilottan sonra aynen tekrarlanacak bir yöntemle kaydetmektir. Üç sayı yeterlidir: birim başına süre, hata ya da düzeltme oranı ve kuyrukta bekleyen iş sayısı. Tahmin, hatıra ya da departman sunumundaki rakam taban ölçüm sayılmaz; sayılan tek şey pencere boyunca tutulmuş kayıttır.",
+          en: "Taking a baseline means recording the chosen process's current value over a two-week window, on real work, with a method that will be repeated exactly after the pilot. Three numbers are enough: time per unit, the error or correction rate, and the number of items waiting in the queue. An estimate, a recollection or a figure from a departmental presentation does not count as a baseline; the only thing that counts is the record kept across the window.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yöntemin üç kuralı var. Birincisi, ölçümü süreci yapan kişi değil, süreç sahibinin görevlendirdiği ikinci bir kişi tutar; kendi işini ölçen kişi iyimser ölçer. İkincisi, pencere olağan bir döneme denk gelir — bayram öncesi, yıl sonu kapanışı ya da fuar haftası taban değer olarak alınmaz. Üçüncüsü, yöntem yazıya geçer: doksanıncı gün aynı tanımla, aynı süre boyunca ve mümkünse aynı kişi ölçer. Yöntem değişirse ortaya çıkan fark, pilotun değil yöntemin farkıdır.",
+          en: "The method has three rules. First, the measuring is done not by the person doing the work but by a second person the process owner assigns; people measuring their own work measure optimistically. Second, the window falls in an ordinary period — the run-up to a public holiday, year-end closing or a trade-fair week does not count as a baseline. Third, the method is written down: on day ninety the same definition is measured over the same length of time, by the same person where possible. Change the method and the difference you see belongs to the method, not the pilot.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Taban ölçümün ikinci bir işlevi daha var: bazen pilotu gereksiz kılar. Ölçüm sırasında birim sürenin büyük kısmının bir onay kuyruğunda ya da iki sistem arasında elle veri taşımakla geçtiği ortaya çıkarsa, doğru hamle yapay zeka değil, [dijital dönüşüm](/hizmetler/dijital-donusum) ya da süreç tasarımı tarafında bir düzeltmedir. Bu, pilotun başarısızlığı değil, iki haftada alınmış ucuz bir derstir.",
+          en: "The baseline has a second job: sometimes it makes the pilot unnecessary. If the measurement shows that most of the unit time goes into an approval queue, or into moving data between two systems by hand, the right move is not AI but a fix on the [digital transformation](/hizmetler/dijital-donusum) or process design side. That is not a failed pilot; it is a cheap lesson learned in two weeks.",
+        },
+      },
+      {
+        type: "h2",
+        id: "basari-ve-durdurma-kriterleri",
+        text: {
+          tr: "Başarı ve durdurma kriterleri nasıl yazılır?",
+          en: "How do you write success and stopping criteria?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Başarı ve durdurma kriterleri, kurulum başlamadan, taban ölçümün rakamıyla ve iki eşik hâlinde yazılır: devam eşiği ve durdurma eşiği. Devam eşiği, pilotun ölçeğe çıkması için ulaşılması gereken en küçük iyileşmedir; durdurma eşiği ise altında kalındığında sürecin eski hâlinin daha ucuz olduğu değerdir. İki eşiğin arası düzelt ve tekrarla bölgesidir ve orada kalan pilota tek bir ek tur hakkı tanınır.",
+          en: "Success and stopping criteria are written before the build starts, using the baseline figure, as two thresholds: a continue threshold and a stop threshold. The continue threshold is the smallest improvement the pilot has to reach in order to scale; the stop threshold is the value below which the old way of running the process is cheaper. The space between them is the fix-and-rerun zone, and a pilot landing there is allowed a single extra round.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Eşikler tahminle değil hesapla bulunur. Devam eşiği, pilot sonrası yıllık işletme maliyetini — model kullanım ücreti, altyapı, entegrasyon bakımı, insan denetimi — karşılayan iyileşmedir; bunun altındaki bir kazanç, ne kadar etkileyici görünürse görünsün, faturayı ödemez. Hesabın ayrıntısı bir yatırım getirisi konusudur; pilot aşamasında bilinmesi gereken, eşiğin bir yüzde tahmini değil bir maliyet karşılığı olduğudur.",
+          en: "The thresholds come from a calculation, not a guess. The continue threshold is the improvement that covers the post-pilot annual running cost — model usage fees, infrastructure, integration maintenance, human review; any gain below that, however impressive it looks, does not pay the invoice. The detail of that calculation is a return-on-investment topic in its own right; what matters at the pilot stage is that the threshold is a cost equivalent, not a percentage someone hoped for.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kriterler hızın yanında kaliteyi ve kullanımı da taşır. Birim süre kısalırken hata oranı artıyorsa pilot başarılı değildir; hızlanan şey hatadır. Saha testindeki kullanıcılar sistemi gerçekten kullanmıyorsa prototipin doğruluğu ölçekleme kararı için hiçbir şey söylemez. Bu yüzden kriter sayfası tek sayfadır ve dört satır taşır:",
+          en: "Alongside speed, the criteria carry quality and usage. If unit time falls while the error rate climbs, the pilot has not succeeded; what sped up is the mistake. If the field-test users are not really using the system, the prototype's accuracy says nothing about the scaling decision. That is why the criteria sheet is a single page with four lines:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Hız: birim başına süre, taban değere göre hangi eşiğin altına inmeli?",
+            en: "Speed: below which threshold, relative to the baseline, must time per unit fall?",
+          },
+          {
+            tr: "Kalite: hata ya da düzeltme oranı hangi eşiğin üstüne çıkmamalı?",
+            en: "Quality: above which threshold must the error or correction rate never rise?",
+          },
+          {
+            tr: "Kullanım: saha testindeki kullanıcıların işinin ne kadarı sistem üzerinden geçmeli?",
+            en: "Usage: how much of the field-test users' work has to run through the system?",
+          },
+          {
+            tr: "Durdurma: hangi rakamın altında kalınırsa pilot doksanıncı gün kapanır?",
+            en: "Stop: which figure, if missed, closes the pilot on day ninety?",
+          },
+        ],
+      },
+      {
+        type: "h2",
+        id: "pilot-icin-veri-hazirligi",
+        text: {
+          tr: "Pilot için veri ne kadar hazır olmalı?",
+          en: "How ready does the data need to be for a pilot?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pilot için verinin kusursuz olması gerekmez; seçilen sürecin yakın dönemini temsil eden, erişilebilen ve kimin güncellediği belli olan bir kaydın bulunması yeterlidir. Şirketin tüm verisini temizlemek pilotun konusu değildir, pilot yalnız kendi sürecinin kaydıyla ilgilenir. Kayıt hiç yoksa doğru adım pilot değil, önce o kaydı kuran bir dijitalleşme adımıdır.",
+          en: "The data does not have to be perfect for a pilot; it is enough to have a record that represents the chosen process's recent history, can be accessed, and has a known owner who keeps it up to date. Cleaning the whole company's data is not the pilot's business; a pilot only concerns itself with the record of its own process. If there is no record at all, the right step is not a pilot but a digitisation step that creates that record first.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Veri, pilotların en sık düştüğü yerdir ve bu yalnız bizim gözlemimiz değil. Gartner, 26 Şubat 2025 tarihli açıklamasında 2026'ya kadar yapay zekaya hazır veriyle desteklenmeyen projelerin yüzde 60'ının kuruluşlarca terk edileceğini öngördü; aynı açıklamadaki ankete göre 248 veri yönetimi liderinin yüzde 63'ü, kuruluşlarında yapay zeka için doğru veri yönetimi uygulamalarının bulunmadığını ya da bulunup bulunmadığından emin olmadığını söylüyor. Çerçevenin ikinci bloğunun veri hazırlığına ayrılmasının nedeni bu.",
+          en: "Data is where pilots fall over most often, and that is not only our observation. In a statement dated 26 February 2025, Gartner predicted that through 2026 organisations will abandon 60% of AI projects unsupported by AI-ready data; according to the survey in the same statement, 63% of 248 data management leaders said their organisation either lacks the right data management practices for AI or is unsure whether it has them. That is why the framework's second block is given over to data preparation.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Veri hazırlığında sorulacak dört soru var: kayıt nerede duruyor, ne kadar geriye gidiyor, hangi alanları boş ve erişim izni kimden alınıyor. Dördüncüsü genellikle en uzun sürenidir. Teknik iş günler içinde biterken bir ERP ya da CRM erişiminin onaylanması haftalar alabilir; bu yüzden erişim talebi ikinci bloğun ilk gününde değil, birinci bloğun son gününde gönderilir.",
+          en: "Data preparation asks four questions: where the record sits, how far back it goes, which of its fields are empty and who grants access to it. The fourth usually takes longest. The technical work can finish within days while approval for ERP or CRM access takes weeks, so the access request goes out on the last day of the first block rather than the first day of the second.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kişisel veri içeren süreçlerde bir soru daha eklenir: veri hangi ülkede, hangi sağlayıcının sunucusunda işlenecek? KVKK açısından veri sorumlusu şirketin kendisidir ve bu ayrım pilot sözleşmesinde yazılı olmadan müşteri ya da çalışan verisi saha testine girmez. Pilot takvimi açısından bilinmesi gereken, bu onayın da ikinci bloğun içinde alınmasıdır; saha testi başladıktan sonra alınan veri onayı, takvimi değil pilotu durdurur.",
+          en: "Processes involving personal data add one more question: in which country, and on whose servers, will the data be processed? Under Turkish data protection law (KVKK) the company itself is the data controller, and no customer or employee data enters the field test until that split is written into the pilot contract. For the calendar, the point is that this approval also belongs inside the second block; a data approval sought after the field test has started stops the pilot, not just the schedule.",
+        },
+      },
+      {
+        type: "h2",
+        id: "pilot-ekibi-ve-sahiplik",
+        text: {
+          tr: "Pilot ekibinde kimler olmalı, sahibi kim olmalı?",
+          en: "Who belongs on the pilot team, and who should own it?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pilot ekibi beş rolden oluşur: yönetim sponsoru, süreç sahibi, teknik muhatap, saha kullanıcıları ve dış ekip. Sahibi her zaman süreç sahibidir — bilgi işlem ya da dış danışman değil. Sonucu savunacak, doksanıncı gün kararı önerecek ve pilot ölçeklenirse yeni süreci yönetecek kişi odur; bu kişi adıyla belli değilse pilot başlamaz.",
+          en: "A pilot team has five roles: the executive sponsor, the process owner, the technical counterpart, the field users and the external team. The owner is always the process owner — not IT and not an outside consultant. That is the person who will defend the result, recommend the day-ninety decision, and run the new process if the pilot scales; if nobody is named for that role, the pilot does not start.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Yönetim sponsoru: bütçeyi ve doksanıncı gün kararını sahiplenir. Haftalık toplantılara değil, üç karar noktasına katılır: on beşinci gün süreç seçimi, otuzuncu gün kriter imzası, doksanıncı gün karar.",
+            en: "Executive sponsor: owns the budget and the day-ninety decision. Attends not the weekly meetings but three decision points: process selection on day fifteen, signing the criteria on day thirty, and the decision on day ninety.",
+          },
+          {
+            tr: "Süreç sahibi: seçilen sürecin bugünkü yöneticisidir. Taban ölçümü görevlendirir, saha testini yürütür, kararı önerir.",
+            en: "Process owner: today's manager of the chosen process. Assigns the baseline measurement, runs the field test and recommends the decision.",
+          },
+          {
+            tr: "Teknik muhatap: veri ve sistem erişimini açar; ERP, CRM ya da üretim yazılımına bağlantının şirket içindeki sorumlusudur.",
+            en: "Technical counterpart: opens data and system access, and is the in-house person responsible for the connection to ERP, CRM or production software.",
+          },
+          {
+            tr: "Saha kullanıcıları: prototipi iki hafta boyunca gerçek işte kullanan operatörler, satış mühendisleri ya da müşteri temsilcileri. Geri bildirimleri ölçümün parçasıdır, nezaket değil.",
+            en: "Field users: the operators, sales engineers or customer representatives who use the prototype on real work for two weeks. Their feedback is part of the measurement, not a courtesy.",
+          },
+          {
+            tr: "Dış ekip: kurulumu, model seçimini ve pilot raporunu üstlenir. Kararı vermez; kararın dayanacağı rakamı üretir.",
+            en: "External team: takes on the build, the model choice and the pilot report. It does not make the decision; it produces the number the decision rests on.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ekip sorusu Türkiye'de ayrıca önemli. Aynı TÜİK bülteninde, yapay zekayı kullanmayı düşünüp henüz kullanmayan girişimlerin en sık gösterdiği neden yüzde 74,2 ile girişimde ilgili uzmanlığın bulunmaması; onu yüzde 67,4 ile maliyetlerin çok yüksek olması ve yüzde 62,4 ile zarar hâlinde sorumluluğun kimde olacağına dair hukuki belirsizlik izliyor. İyi kurulmuş bir pilot bu üç engelin üçüne de küçük ölçekte cevap verir: uzmanlığı dışarıdan getirip ekibinize bırakır, maliyeti sabit bir kapsama bağlar ve sorumluluğu ilk günden yazıya geçirir.",
+          en: "The team question carries extra weight in Türkiye. In the same TÜİK bulletin, among enterprises that are considering AI but not yet using it, the most common reason given is a lack of relevant expertise in the business, at 74.2%; it is followed by costs being too high, at 67.4%, and legal uncertainty over who is liable if AI causes harm, at 62.4%. A well-built pilot answers all three barriers on a small scale: it brings expertise in from outside and leaves it with your team, ties the cost to a fixed scope, and puts responsibility in writing from the first day.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Devir, pilotun kendi çıktısıdır. Saha testinin sonunda ekibinizin sistemi dış ekip olmadan çalıştırabilir, hatayı tanıyabilir ve müdahale edebilir hâle gelmesi gerekir. Bu bir eğitim sunumuyla değil, altı hafta boyunca aynı masada çalışmakla olur; pilot bittiğinde bilgi dış ekiple birlikte kapıdan çıkıyorsa şirket bir sistem değil, bir bağımlılık satın almıştır.",
+          en: "Handover is an output of the pilot itself. By the end of the field test your team needs to be able to run the system without the external team, recognise when it goes wrong and step in. That comes not from a training deck but from six weeks at the same table; if the knowledge walks out of the door with the external team when the pilot ends, the company has bought a dependency rather than a system.",
+        },
+      },
+      {
+        type: "h2",
+        id: "pilot-butcesi-kalemleri",
+        text: {
+          tr: "Yapay zeka pilot projesinin bütçesi hangi kalemlerden oluşur?",
+          en: "Which lines make up the budget for an AI pilot project?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir yapay zeka pilot projesinin bütçesi altı kalemden oluşur: dış ekip ve kurulum, iç ekip zamanı, veri hazırlığı, entegrasyon, model kullanım ve altyapı ücretleri, pilot sonrası işletme maliyeti. İlk kalem genellikle sabittir ve teklifte görünür; geri kalan beşi değişkendir ve AI pilot projesi tekliflerinin çoğunda hiç yazmaz. Yapay zeka maliyeti sorusunun gerçek cevabı bu altı kalemin toplamıdır.",
+          en: "The budget for an AI pilot project has six lines: the external team and build, internal team time, data preparation, integration, model usage and infrastructure fees, and the post-pilot running cost. The first line is usually fixed and visible in the proposal; the other five vary and most proposals never mention them. The honest answer to what AI costs is the sum of all six.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi fiyatımızı örnek vereyim, çünkü kalemlerin nasıl ayrışması gerektiğini gösteriyor. AI Pilot paketimiz altı hafta sürer ve 480.000 TL sabit fiyatlıdır: kullanım senaryosu seçimini, veri envanteri ve kalite kontrolünü, model seçimini, prototip ve arayüz geliştirmeyi ve gerçek kullanıcıyla iki haftalık saha testini kapsar; kaynak kod tam sahiplikle teslim edilir. Model kullanım ücretleri, bulut altyapısı ve araç lisansları fiyatın dışındadır, çünkü tüketime bağlıdırlar; sabit fiyata alınmaz, üretim geçiş yol haritasında tahmin olarak yazılırlar. Aday süreç belirsizse öncesinde gelen Dijital Dönüşüm Teşhisi üç hafta sürer ve 180.000 TL'dir.",
+          en: "Let me use our own pricing as the example, because it shows how the lines ought to separate. Our AI Pilot package runs six weeks at a fixed €15,000: it covers use case selection, the data inventory and quality check, model selection, prototype and interface development, and a two-week field test with real users, and the source code is handed over in full ownership. Model usage fees, cloud infrastructure and tool licences sit outside the price because they depend on consumption; they are not fixed, and they appear in the production roadmap as estimates. Where the candidate process is unclear, the Digital Transformation Audit that comes first runs three weeks at €5,500.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Teklifte görünmeyen en büyük kalem iç ekip zamanıdır. Süreç sahibinin taban ölçümü yönetmesi, teknik muhatabın erişimleri açması ve saha kullanıcılarının iki hafta boyunca yeni sistemle çalışması gerçek bir maliyettir; saha testinin ilk günlerinde sürecin eskisinden yavaş yürümesi de öyle. Bu kalemi bütçeye yazmayan şirket pilotu olduğundan ucuz sanır ve sürprizi ikinci pilotta yaşar.",
+          en: "The largest line missing from any proposal is internal team time. The process owner running the baseline, the technical counterpart opening access, and field users working with a new system for two weeks are all real costs — as is the process running slower than usual in the first days of the field test. A company that leaves this line out of the budget thinks the pilot is cheaper than it is, and gets its surprise on the second one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Son kalem olan pilot sonrası işletme maliyeti, ölçekleme kararının paydasıdır. Model kullanım ücreti, altyapı, entegrasyon bakımı ve insan denetimi kalıcı giderlerdir ve doksanıncı gün toplantısına yıllık rakam olarak gelir. Pilotu yalnız kurulum fiyatıyla onaylatan şirket, kararı ilk kullanım faturasında yeniden vermek zorunda kalır.",
+          en: "The last line, post-pilot running cost, is the denominator of the scaling decision. Model usage fees, infrastructure, integration maintenance and human review are permanent costs, and they arrive at the day-ninety meeting as an annual figure. A company that gets the pilot approved on the build price alone ends up making the decision again when the first usage invoice lands.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kobi-icin-pilot",
+        text: {
+          tr: "KOBİ için 90 günlük pilot ne ifade eder?",
+          en: "What does a 90-day pilot mean for an SME?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "KOBİ için 90 günlük pilot, yapay zekayı bir yatırım programı olarak değil, tek bir sürecin kapasite testi olarak denemek demektir. KOBİ'nin avantajı karar hızı ve kısa zincirdir; dezavantajı, süreç sahibinin çoğu zaman aynı anda üç işi birden yürütmesidir. Bu yüzden KOBİ pilotunda en kritik karar teknoloji değil, doksan gün boyunca süreç sahibine ayrılacak zamandır.",
+          en: "For an SME, a 90-day pilot means trying AI not as an investment programme but as a capacity test on one process. The SME's advantage is decision speed and a short chain of command; its disadvantage is a process owner who is usually running three jobs at once. That is why the most important decision in an SME pilot is not the technology but how much of the process owner's time is protected for ninety days.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "TÜİK verisi KOBİ tarafındaki tabloyu açıkça gösteriyor: yapay zeka kullanım oranı 10-49 çalışanlı girişimlerde yüzde 6,6, 50-249 çalışanlılarda yüzde 9,6. Oran düşük, ama okunuşu dezavantaj değil: bugün başlayan bir KOBİ, aynı ölçekteki rakiplerinin büyük çoğunluğunun henüz başlamadığı bir noktadan yola çıkıyor.",
+          en: "TÜİK's figures show the SME picture plainly: AI use stands at 6.6% among enterprises with 10-49 employees and 9.6% among those with 50-249. The rate is low, but the reading is not a handicap: an SME starting today sets off from a point where the great majority of its same-sized competitors have not yet begun.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "KOBİ pilotunun üç kuralı var. Birincisi, hazır model ve mevcut yazılım: özel bir model eğitmek KOBİ pilotunda nadiren gerekir; kazanç genellikle hazır bir modelin muhasebe, sipariş ya da e-ticaret sistemine doğru bağlanmasından çıkar. İkincisi, önce otomasyon: sürecin kural yazılarak çözülebilen kısmı [iş otomasyonları](/hizmetler/is-otomasyonlari) tarafında çözülür, model yalnız kuralın yazılamadığı yere girer. Üçüncüsü, kısa kayıt: KOBİ'nin geçmiş verisi büyük şirketinkinden kısadır, bu yüzden pilot uzun bir geçmişten öğrenen bir tahmin işine değil, metin okuyan, sınıflandıran ya da taslak hazırlayan bir işe kurulur.",
+          en: "An SME pilot follows three rules. First, off-the-shelf models and existing software: training a custom model is rarely needed at this scale, and the gain usually comes from wiring a ready-made model correctly into the accounting, order or e-commerce system. Second, automation first: whatever part of the process can be solved by writing a rule is solved on the [business automation](/hizmetler/is-otomasyonlari) side, and the model only steps in where no rule can be written. Third, a short record: an SME's history is shorter than a large company's, so the pilot is built on work that reads, classifies or drafts text rather than forecasting from a long past.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tipik KOBİ adayları sıkıcı ve sık tekrarlanan işlerdir: e-postayla gelen siparişin sisteme girilmesi, teklif taslağının hazırlanması, müşteri sorularının sınıflandırılıp doğru kişiye yönlendirilmesi, tedarikçi faturasının muhasebe koduna eşlenmesi. Hepsinde birim süre ölçülebilir, hata aynı gün görünür ve süreç sahibi zaten bellidir; çoğu zaman şirketin kurucusudur. Kurucunun sahiplendiği bir pilotun büyük avantajı, doksanıncı gün kararının aynı masada, aynı gün verilebilmesidir.",
+          en: "Typical SME candidates are dull, frequent tasks: keying orders that arrive by email into the system, drafting quotes, classifying customer questions and routing them to the right person, matching supplier invoices to accounting codes. In every one of them unit time can be measured, errors show the same day, and the process owner is already clear — often the founder. The big advantage of a founder-owned pilot is that the day-ninety decision can be made at the same table, on the same day.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sanayi-ve-ihracatci-icin-pilot",
+        text: {
+          tr: "Sanayi ve ihracatçı şirketler için pilot neyi değiştirir?",
+          en: "What does a pilot change for manufacturers and exporters?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sanayi ve ihracatçı şirket için ilk pilot çoğu zaman üretim hattından önce satış ve teknik destek hattını değiştirir. Sanayide yapay zeka denince akla ilk kalite kontrol ve bakım planlaması gelir; ikisi de pilotun konusu olabilir, ama yalnızca sensör verisi, etiketli görüntü ya da arıza geçmişi zaten kayıtlıysa. Kayıt yoksa doksan günün yarısı veri toplamaya gider ve pilot kendi takvimine sığmaz.",
+          en: "For a manufacturer or exporter, the first pilot often changes the sales and technical support line before it touches the production line. AI in manufacturing brings quality control and maintenance planning to mind first; both can be the subject of a pilot, but only where sensor data, labelled images or a fault history is already on record. Without that record, half of the ninety days goes on data collection and the pilot no longer fits its own calendar.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üretimde yapay zeka için doksan güne en rahat sığan pilotlar masa başı süreçlerdir: teklif hazırlama, teknik doküman ve katalog arama, sipariş teyidi, çok dilli müşteri yazışması. Teknik ürün satan bir üreticide teklif hazırlayan mühendis, çoğu zaman hiçbir yerde yazılı olmayan bir bilginin tek kopyasıdır. Pilot bu bilgiyi kural ve örnek olarak kayda geçirdiği ölçüde yalnız hız değil süreklilik de kazandırır; kıdemli kişi emekli olduğunda teklif süreci onunla birlikte gitmez.",
+          en: "In AI for manufacturing, the pilots that fit most comfortably into ninety days are desk processes: preparing quotes, searching technical documents and catalogues, confirming orders, handling customer correspondence across languages. At a manufacturer selling technical products, the engineer who prepares quotes is often the only copy of knowledge written down nowhere. To the extent the pilot captures that knowledge as rules and examples, it buys continuity as well as speed; when the senior engineer retires, the quoting process does not leave with them.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İhracatçı için ek kaldıraç dildir. Meccanotecnica Umbra'da arama ve içerik mimarisi Türkçe, İngilizce, Arapça ve Rusça olmak üzere dört dilde kuruldu ve yan pazarları da kapsadı. Yabancı alıcının teknik sorusuna kendi dilinde, aynı gün cevap vermek, satış ekibini büyütmeden yeni bir pazara açılmanın en kısa yollarından biridir ve pilotun doksan günde ölçebileceği bir süreçtir: dil başına talep sayısı, yanıt süresi ve teklife dönüşen talep oranı.",
+          en: "For an exporter, language is an extra lever. At Meccanotecnica Umbra the search and content architecture was built in four languages — Turkish, English, Arabic and Russian — and reached adjacent markets as well. Answering a foreign buyer's technical question in their own language on the same day is one of the shortest routes into a new market without growing the sales team, and it is a process a pilot can measure within ninety days: requests per language, response time, and the share of requests that become quotes.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İhracatçının ikinci sorusu uyumdur. AB Yapay Zeka Tüzüğü 1 Ağustos 2024'te yürürlüğe girdi ve kademeli olarak uygulanıyor; yasaklı uygulamalar ile yapay zeka okuryazarlığı hükümleri 2 Şubat 2025'ten beri geçerli. Tüzük, AB dışında kurulu olsa bile çıktısı AB'de kullanılan yapay zeka sistemlerinin sağlayıcı ve kullanıcılarını da kapsıyor. Avrupalı bir alıcıya teklif ya da teknik öneri üreten bir sistem kuruyorsanız, sistemin ne yaptığını ve insan onayının nerede durduğunu pilotun kapsam sayfasına yazmak, sonradan yapılacak bir uyum çalışmasından ucuzdur. Hukuki değerlendirme hukuk danışmanınızın işidir; pilotun işi o değerlendirmeye gereken bilgiyi baştan hazırlamaktır.",
+          en: "An exporter's second question is compliance. The EU AI Act entered into force on 1 August 2024 and applies in stages; its provisions on prohibited practices and AI literacy have applied since 2 February 2025. The Act also covers providers and deployers established outside the EU where the output of their AI system is used in the Union. If you are building a system that produces quotes or technical recommendations for a European buyer, writing down what the system does and where human approval sits on the pilot's scope sheet is cheaper than a compliance exercise after the fact. The legal assessment is your legal adviser's job; the pilot's job is to prepare the information that assessment needs from the start.",
+        },
+      },
+      {
+        type: "h2",
+        id: "buyuk-sirket-icin-pilot",
+        text: {
+          tr: "Büyük şirkette pilot neden farklı yönetilir?",
+          en: "Why is a pilot run differently in a large company?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük şirkette sorun pilotu başlatmak değil, bitirmektir. TÜİK verisine göre 250 ve üzeri çalışanlı girişimlerin yüzde 24,1'i yapay zeka teknolojisi kullanıyor; yani büyük şirketlerin yaklaşık dörtte birinde yapay zeka zaten bir yerde çalışıyor. Buradaki risk, birbirinden habersiz yürüyen, hiçbiri ölçülmeyen ve hiçbiri kapanmayan pilotların çoğalmasıdır.",
+          en: "In a large company the problem is not starting a pilot but finishing one. According to TÜİK, 24.1% of enterprises with 250 or more employees use AI technology — so in roughly a quarter of large companies AI is already running somewhere. The risk here is a growing number of pilots that run unaware of one another, none of them measured and none of them ever closed.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sorun yalnız Türkiye'ye özgü değil. Gartner, 29 Temmuz 2024 tarihli açıklamasında üretken yapay zeka projelerinin en az yüzde 30'unun 2025 sonuna kadar kavram kanıtlama aşamasından sonra terk edileceğini öngörmüş; gerekçe olarak zayıf veri kalitesi, yetersiz risk kontrolleri, tırmanan maliyetler ve belirsiz iş değerini saymıştı. Dört gerekçenin dördü de doksan günlük çerçevenin bir bloğuna karşılık geliyor ve dördü de pilot başlamadan yazıya geçirilebilir.",
+          en: "The problem is not unique to Türkiye. In a statement dated 29 July 2024, Gartner predicted that at least 30% of generative AI projects would be abandoned after proof of concept by the end of 2025, citing poor data quality, inadequate risk controls, escalating costs and unclear business value. All four map onto a block of the ninety-day framework, and all four can be put in writing before the pilot starts.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kurumsal yapay zeka pilotunun üç farkı var. Birincisi, onay takvimi: bilgi güvenliği incelemesi, satın alma süreci ve veri erişim onayı teknik kurulumdan uzun sürebilir, bu yüzden büyük şirkette ilk blok adaylar puanlanırken bu üç onayı da başlatır. İkincisi, portföy disiplini: aynı birimde bir pilotun sonucu okunmadan ikincisi açılmaz ve her pilotun kendi süreç sahibi, kendi durdurma eşiği olur. Üçüncüsü, yayılma yolu: pilot başlamadan, başarılı olursa hangi birimlere ve hangi sırayla yayılacağı yazılır; yayılma planı olmayan pilot başarılı olsa bile tek bir ekibin aracı olarak kalır.",
+          en: "An enterprise AI pilot differs in three ways. First, the approval calendar: an information security review, the procurement process and data access approval can take longer than the technical build, so in a large company the first block starts all three approvals while the candidates are still being scored. Second, portfolio discipline: no second pilot opens in the same unit before the first one's result has been read, and every pilot has its own process owner and its own stop threshold. Third, the rollout path: before the pilot starts, it is written down which units it will spread to, and in what order, if it succeeds; a pilot without a rollout plan stays one team's tool even when it works.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük şirketin avantajı veridir: süreçlerin çoğu yıllardır ERP'de, CRM'de, çağrı merkezi kayıtlarında duruyor. Dezavantajı, o verinin sahibinin çoğu zaman süreç sahibi olmamasıdır. Veri sahibi birimin ilk bloktan ekibe alınması ikinci bloğun takvimini korur. Pilotları tek bir ölçüm çerçevesine bağlamak ve devam, düzelt ya da durdur kararını ölçüme dayandırmak, [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) hizmetimizin yöntemidir.",
+          en: "A large company's advantage is data: most of its processes have lived in ERP, CRM and call-centre records for years. Its disadvantage is that the owner of that data is rarely the owner of the process. Bringing the data-owning unit onto the team from the first block protects the second block's schedule. Tying pilots to a single measurement frame and basing the continue, fix or stop decision on measurement is the method behind our [AI consulting](/hizmetler/ai-danismanlik) work.",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcekleme-karari",
+        text: {
+          tr: "Pilot bitince ölçekleme kararı nasıl verilir?",
+          en: "How is the scaling decision made when the pilot ends?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçekleme kararı doksanıncı gün, otuzuncu gün imzalanmış kriterlere göre ve dört seçenekten biri olarak verilir: ölçekle, genişlet, düzelt ve tekrarla ya da durdur. Karar toplantısında yeni kriter yazılmaz. Kriterin karar anında değiştirilmesi, pilotun bir ölçüm aracı olmaktan çıkıp bir ikna aracına dönüştüğünün işaretidir.",
+          en: "The scaling decision is made on day ninety, against the criteria signed on day thirty, as one of four options: scale, extend, fix and rerun, or stop. No new criteria are written in the decision meeting. Changing the criteria at the moment of decision is the sign that the pilot has stopped being a measuring instrument and become a tool of persuasion.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Ölçekle: devam eşiği aşıldı, yıllık işletme maliyeti karşılanıyor, süreç sahibi yeni süreci yönetmeye hazır. Sistem üretim ortamına taşınır ve aynı süreç şirketin geri kalanına yayılır.",
+            en: "Scale: the continue threshold was passed, the annual running cost is covered, and the process owner is ready to run the new process. The system moves into production and the same process spreads across the rest of the company.",
+          },
+          {
+            tr: "Genişlet: sonuç devam eşiğinin üstünde ve aynı yapı komşu bir sürece taşınabiliyor. Kurulum maliyeti bir kez ödendiği için ikinci süreç ilkinden ucuza çıkar.",
+            en: "Extend: the result is above the continue threshold and the same set-up can be carried over to a neighbouring process. Because the build cost has been paid once, the second process comes in cheaper than the first.",
+          },
+          {
+            tr: "Düzelt ve tekrarla: sonuç iki eşiğin arasında ve neyin eksik kaldığı belli. Tek bir ek tur, yeniden yazılmış kapsamla açılır; ikinci kez aynı bölgede kalan pilot durdurulur.",
+            en: "Fix and rerun: the result sits between the two thresholds and it is clear what fell short. A single extra round opens with a rewritten scope; a pilot that lands in the same zone twice is stopped.",
+          },
+          {
+            tr: "Durdur: durdurma eşiğinin altında kalındı. Öğrenilen yazıya geçer, kaynak kod şirkette kalır ve bir sonraki aday listenin ikinci satırından seçilir.",
+            en: "Stop: the result fell below the stop threshold. What was learned is written down, the source code stays with the company, and the next candidate is taken from the second line of the list.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dört seçeneğin dördü de iyi yönetilmiş bir pilotun meşru sonucudur. Başarısız pilot, durdurulan pilot değil, kararsız biten pilottur: ne ölçeklenen ne kapatılan, bütçe dönemleri boyunca sessizce süren bir deneme. Doksanıncı gün kararının zorunlu tutulmasının tek nedeni bu sonucu imkânsız kılmaktır.",
+          en: "All four options are legitimate outcomes of a well-run pilot. The failed pilot is not the one that gets stopped but the one that ends undecided: neither scaled nor closed, an experiment that runs on quietly through budget cycle after budget cycle. The only reason the day-ninety decision is mandatory is to make that outcome impossible.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar toplantısına üç belge gelir: taban ölçüm ile pilot sonrası ölçümü yan yana koyan pilot raporu, yıllık işletme maliyeti ve pilot ölçeklenirse üretime geçişin teknik adımlarını, tahmini bütçesini ve zaman çizelgesini gösteren yol haritası. Üçünden biri eksikse karar ertelenmez; eksik belge tamamlanır ve toplantı en fazla bir hafta kayar.",
+          en: "Three documents come to the decision meeting: the pilot report setting the baseline beside the post-pilot measurement, the annual running cost, and a roadmap showing the technical steps, estimated budget and timeline for moving to production if the pilot scales. If one of the three is missing the decision is not shelved; the missing document is completed and the meeting slips by a week at most.",
+        },
+      },
+      {
+        type: "h2",
+        id: "90-gunluk-pilotta-sik-hatalar",
+        text: {
+          tr: "90 günlük pilotta en sık hangi hatalar yapılır?",
+          en: "What are the most common mistakes in a 90-day pilot?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "En sık hata pilotu bir departmanın tamamına açmak, ikincisi taban ölçümü atlamak, üçüncüsü saha testi sırasında kapsamı değiştirmektir. Üçü de aynı kökten gelir: pilotu bir öğrenme deneyi olarak değil, bir tanıtım projesi olarak görmek. Takvimin hangi gününde ortaya çıktıklarıyla birlikte yedi hata:",
+          en: "The most common mistake is opening the pilot to an entire department, the second is skipping the baseline, and the third is changing scope during the field test. All three share a root: treating the pilot as a showcase rather than a learning experiment. Here are seven mistakes, with the day on the calendar where each one shows up:",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Departman kapsamı (gün 0-15): \"satış departmanını yapay zekayla dönüştürelim\" bir pilot değil, bir programdır. Pilot tek süreçte açılır.",
+            en: "Department scope (days 0-15): \"let's transform the sales department with AI\" is a programme, not a pilot. A pilot opens on one process.",
+          },
+          {
+            tr: "Ölçümsüz başlangıç (gün 16-30): taban değer kaydedilmeden kurulan pilot, sonucu iyi olsa bile ispatlanamaz.",
+            en: "Starting unmeasured (days 16-30): a pilot built without a recorded baseline cannot prove its result, however good it is.",
+          },
+          {
+            tr: "İmzasız kriter (gün 30): başarı ve durdurma eşiği otuzuncu gün yazılmadıysa doksanıncı gün tartışma çıkar, karar çıkmaz.",
+            en: "Unsigned criteria (day 30): if the success and stop thresholds were not written by day thirty, day ninety produces an argument instead of a decision.",
+          },
+          {
+            tr: "Kayan kapsam (gün 31-72): saha testinde eklenen her yeni istek ölçümü sıfırlar; yeni fikirler bir sonraki pilotun listesine yazılır.",
+            en: "Scope creep (days 31-72): every new request added during the field test resets the measurement; new ideas go onto the list for the next pilot.",
+          },
+          {
+            tr: "Sahipsiz pilot (her gün): bilgi işlemin sırtında yürüyen pilotun sonucunu süreci yöneten birim savunmaz.",
+            en: "The ownerless pilot (every day): a pilot carried on IT's back gets no defence from the unit that runs the process.",
+          },
+          {
+            tr: "Görünmeyen maliyet (gün 73-90): iç ekip zamanı ve işletme maliyeti bütçeye yazılmadıysa ölçekleme kararı ilk faturada geri alınır.",
+            en: "The hidden cost (days 73-90): if internal team time and running cost were never budgeted, the scaling decision is reversed at the first invoice.",
+          },
+          {
+            tr: "Tek başarıdan programa atlamak (gün 90 sonrası): ilk başarılı pilottan sonra beş yeni pilot birden açmak, ilkinin öğrettiği disiplini dağıtır. İkinci pilot, ilkinin kriter sayfası şablon alınarak açılır.",
+            en: "Leaping from one success to a programme (after day 90): opening five new pilots at once after the first success scatters the discipline the first one taught. The second pilot opens using the first one's criteria sheet as its template.",
+          },
+        ],
+      },
+      {
+        type: "h2",
+        id: "pazartesi-sabahi-ilk-adim",
+        text: {
+          tr: "Pazartesi sabahı atılacak ilk adım",
+          en: "The first step to take on Monday morning",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Selin'in sorusuna dönelim: pazartesi sabahı ilk olarak ne yapılır? Bir sayfa açılır ve üç sütun yazılır — aday iki ya da üç süreç, her birinin bugünkü sahibi ve her birinde hareket etmesi gereken tek rakam. Sayfa yarım saatte dolar; dolmuyorsa sorun yapay zekada değil süreçlerin sahipsizliğindedir ve ilk iş o sahipliği kurmaktır.",
+          en: "Back to Selin's question: what happens first thing on Monday morning? A page gets opened and three columns get written — two or three candidate processes, the current owner of each, and the one number that has to move in each. The page fills in half an hour; if it does not, the problem is not AI but processes nobody owns, and the first job is to establish that ownership.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sayfa dolduysa doksan günün ilk on beşi başlamış demektir. Adayları beş ölçütle puanlayın, en yüksek puanı alanın taban ölçüm penceresini iki hafta sonrasına koyun ve erişim taleplerini bugünden gönderin. Yapay zeka dönüşümü büyük bir kararla değil, küçük ve ölçülmüş bir kararla başlar; doksan günü kendi ekibinizle yürütmeniz de mümkün, dışarıdan destekle yürütmeniz de. İkinci yolu seçerseniz yöntemi [danışmanlık kapsamımızda](/hizmetler/ai-danismanlik), kanıtını vaka kayıtlarımızda bulabilirsiniz.",
+          en: "If the page is full, the first fifteen of the ninety days have begun. Score the candidates against the five criteria, set the baseline window for the top scorer two weeks out, and send the access requests today. AI transformation starts not with a big decision but with a small, measured one; you can run the ninety days with your own team or with outside support. If you choose the second route, you will find the method in [our consulting scope](/hizmetler/ai-danismanlik) and the evidence in our case records.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "Yapay zeka projesi nasıl başlatılır, ilk hafta ne yapılır?",
+          en: "How do you start an AI project, and what happens in week one?",
+        },
+        answer: {
+          tr: "İlk hafta teknoloji seçilmez; süreç, sahip ve rakam seçilir. İki ya da üç aday süreç listelenir, her birinin bugünkü sahibi yazılır ve her birinde hareket etmesi gereken tek rakam belirlenir. Adaylar tekrar, kayıt, görünür hata, sahiplik ve doksan günlük sınır ölçütleriyle puanlanır. İlk haftanın sonunda sponsor ile süreç sahibinin belli, veri erişim taleplerinin de gönderilmiş olması gerekir; tedarikçi görüşmeleri bu sayfa dolduktan sonra başlar.",
+          en: "Week one is not about choosing technology; it is about choosing a process, an owner and a number. Two or three candidate processes are listed, the current owner of each is written down, and the one number that has to move is named for each. The candidates are scored on repetition, record, visible error, ownership and ninety-day fit. By the end of the week the sponsor and process owner should be named and the data access requests sent; vendor meetings start only once that page is complete.",
+        },
+      },
+      {
+        question: {
+          tr: "90 günlük çerçeve AI Pilot paketinin altı haftasıyla nasıl örtüşüyor?",
+          en: "How does the 90-day frame fit the six weeks of the AI Pilot package?",
+        },
+        answer: {
+          tr: "AI Pilot paketinin altı haftası çerçevenin 31. ile 72. günleri arasına oturur: kullanım senaryosunun doğrulanması, veri envanteri, model seçimi, prototip geliştirme ve iki haftalık saha testi bu aralıkta yapılır. İlk otuz gün şirketin kendi hazırlığıdır — süreç seçimi, sahiplik, taban ölçüm ve erişim izinleri. Son on sekiz gün ise ölçümün tekrarı, yıllık işletme maliyetinin hesabı ve doksanıncı gün verilecek karardır.",
+          en: "The six weeks of the AI Pilot package sit between days 31 and 72 of the frame: use case validation, the data inventory, model selection, prototype development and the two-week field test all happen in that span. The first thirty days are the company's own preparation — process selection, ownership, the baseline and access approvals. The last eighteen days cover repeating the measurement, calculating the annual running cost, and the decision taken on day ninety.",
+        },
+      },
+      {
+        question: {
+          tr: "Pilotu kendi ekibimizle yürütebilir miyiz, dış destek ne zaman gerekir?",
+          en: "Can we run the pilot with our own team, and when is outside support needed?",
+        },
+        answer: {
+          tr: "Seçim, sahiplik ve taban ölçüm blokları kendi ekibinizle yürütülebilir; bu işlerin hepsi süreç bilgisi ister, yapay zeka uzmanlığı istemez. Dış destek genellikle kurulum ve saha testi bloğunda gerekir: model seçimi, mevcut sisteme entegrasyon, prototip ve arayüz geliştirme uzmanlık ister. TÜİK'in 2025 verisinde yapay zekayı kullanmayı düşünen girişimlerin en sık gösterdiği engelin uzmanlık eksikliği olması da ayrımı doğruluyor; dış ekibin görevi o uzmanlığı pilot sonunda ekibinize bırakmaktır.",
+          en: "The selection, ownership and baseline blocks can be run by your own team; all of that work needs process knowledge rather than AI expertise. Outside support is usually needed in the build and field-test block: model selection, integration with the existing system, and prototype and interface development call for specialist skills. TÜİK's 2025 data, where lack of expertise is the barrier cited most often by enterprises considering AI, supports that split; the external team's task is to leave that expertise with your people when the pilot ends.",
+        },
+      },
+      {
+        question: {
+          tr: "Hazır bir yapay zeka aracı satın almak pilotun yerine geçer mi?",
+          en: "Does buying an off-the-shelf AI tool replace the need for a pilot?",
+        },
+        answer: {
+          tr: "Hazır araç pilotun yerine geçmez, pilotun içindeki bir bileşen olabilir. Araç satın almak bir teknoloji kararıdır; pilot ise o aracın belirli bir süreçte, taban değere göre, önceden yazılmış bir eşikle ölçülmesidir. Ölçülmeden yaygınlaştırılan bir araç, kullanıldığı ekiplerde farklı sonuçlar üretir ve hiçbirinin karşılığı ispatlanamaz. Doğru sıra, aracı tek süreçte saha testinden geçirmek ve lisansı ölçekleme kararından sonra yaygınlaştırmaktır.",
+          en: "An off-the-shelf tool does not replace a pilot; it can be one component inside it. Buying a tool is a technology decision, whereas a pilot measures that tool on a specific process, against a baseline, with a threshold written in advance. A tool rolled out without measurement produces different results in each team that uses it, and none of them can be proven. The right order is to put the tool through a field test on one process and extend the licence only after the scaling decision.",
+        },
+      },
+      {
+        question: {
+          tr: "Pilot için hangi yapay zeka modeli seçilmeli?",
+          en: "Which AI model should the pilot use?",
+        },
+        answer: {
+          tr: "Model seçimi pilotun son teknik kararıdır, ilk kararı değil. Önce süreç, taban ölçüm ve kriterler yazılır; model, bu kriterleri en düşük işletme maliyetiyle karşılayan seçenek olarak belirlenir — büyük dil modeli, klasik makine öğrenmesi ya da ikisinin karışımı. İyi kurulmuş bir pilotta model değiştirilebilir bir bileşendir; iş mantığı, veri akışı ve arayüz yerinde kalırken sağlayıcı değişebilir. Modeli değiştirmek sistemi baştan yazmayı gerektiriyorsa mimari yanlış kurulmuştur.",
+          en: "Choosing the model is the pilot's last technical decision, not its first. The process, baseline and criteria are written first; the model is then picked as whichever option meets those criteria at the lowest running cost — a large language model, classical machine learning or a mix of the two. In a well-built pilot the model is a replaceable component, so the provider can change while the business logic, data flow and interface stay put. If swapping the model means rewriting the system, the architecture is wrong.",
+        },
+      },
+      {
+        question: {
+          tr: "Aynı anda birden fazla pilot yürütmek mantıklı mı?",
+          en: "Does it make sense to run several pilots at the same time?",
+        },
+        answer: {
+          tr: "İlk pilotta hayır, sonrasında yalnızca farklı birimlerde ve ayrı sahiplerle. İlk pilot şirkete bir yöntem öğretir: taban ölçüm, kriter sayfası, doksanıncı gün kararı. Aynı anda iki ya da üç pilot açan şirket bu yöntemi hiçbirinde tam öğrenmez ve ekip dikkatini bölerek ölçümü zayıflatır. İkinci pilot, ilk pilotun kriter sayfası şablon alınarak ve başka bir süreç sahibiyle açılır; büyük şirkette bile aynı birimde iki pilot üst üste bindirilmez.",
+          en: "Not for the first pilot, and afterwards only in different units with separate owners. The first pilot teaches the company a method: the baseline, the criteria sheet, the day-ninety decision. A company opening two or three pilots at once learns that method fully in none of them, and splitting the team's attention weakens the measurement. The second pilot opens with the first one's criteria sheet as a template and a different process owner; even in a large company, two pilots never overlap in the same unit.",
+        },
+      },
+      {
+        question: {
+          tr: "Doksan gün yetmezse takvim uzatılabilir mi?",
+          en: "Can the calendar be extended if ninety days is not enough?",
+        },
+        answer: {
+          tr: "Takvim kendiliğinden uzatılmaz; uzatma, doksanıncı gün verilen düzelt ve tekrarla kararının adıdır. Pilot iki eşiğin arasında kaldıysa neyin eksik kaldığı yazılır ve yeniden yazılmış kapsamla tek bir ek tur açılır. Takvimi sessizce uzatmak, pilotu ölçülmeyen ve kapanmayan bir denemeye dönüştürmenin en kısa yoludur. Gecikmenin nedeni çoğu zaman modelde değil veri erişiminde olduğu için, erişim talepleri ilk bloğun son gününde gönderilir.",
+          en: "The calendar never stretches on its own; an extension is simply what a fix-and-rerun decision on day ninety is called. If the pilot lands between the two thresholds, what fell short is written down and one extra round opens with a rewritten scope. Quietly extending the calendar is the fastest way to turn a pilot into an experiment that is neither measured nor closed. Since delays usually come from data access rather than the model, access requests go out on the last day of the first block.",
+        },
+      },
+      {
+        question: {
+          tr: "Pilot sırasında çalışanların direnci nasıl yönetilir?",
+          en: "How do you handle staff resistance during a pilot?",
+        },
+        answer: {
+          tr: "Direnç en çok, çalışan pilotun kendisine ne yapacağını bilmediğinde çıkar. Saha kullanıcılarını ilk bloktan ekibe almak, taban ölçümün kişileri değil süreci ölçtüğünü açıkça söylemek ve geri bildirimi ölçümün resmi bir parçası yapmak direnci azaltır. Devredilen şey çoğu zaman işin kendisi değil, işin tekrar eden kısmıdır; kazanılan sürenin hangi işe aktarılacağı da pilot başlamadan konuşulmalıdır. Rol tasarımı, model tasarımı kadar planlanmalıdır.",
+          en: "Resistance runs highest when staff do not know what the pilot will do to them. Bringing field users onto the team from the first block, saying plainly that the baseline measures the process rather than the people, and making feedback a formal part of the measurement all reduce it. What gets handed over is usually the repeating part of a job rather than the job itself, and where the time saved will go should be discussed before the pilot starts. Role design deserves as much planning as model design.",
+        },
+      },
+      {
+        question: {
+          tr: "Pilot sonucu yönetim kuruluna nasıl sunulur?",
+          en: "How should the pilot result be presented to the board?",
+        },
+        answer: {
+          tr: "Sonuç tek sayfada, üç satırla sunulur: taban değer ile pilot sonrası değer yan yana, yıllık işletme maliyeti ve önerilen karar — ölçekle, genişlet, düzelt ve tekrarla ya da durdur. Model doğruluğu, mimari şeması ve kullanılan araçların listesi ekte durur, ana sayfada değil. Yönetim kurulunun sorusu hangi rakamın ne kadar hareket ettiği ve kalıcı giderin bunu karşılayıp karşılamadığıdır; sayfa bu iki soruya ilk bakışta cevap vermelidir.",
+          en: "The result goes on a single page with three lines: the baseline and the post-pilot value side by side, the annual running cost, and the recommended decision — scale, extend, fix and rerun, or stop. Model accuracy, the architecture diagram and the list of tools belong in an appendix, not on the main page. The board's question is which number moved by how much, and whether the permanent cost is covered by it; the page should answer both at first glance.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka pilotu hangi durumlarda hiç başlatılmamalı?",
+          en: "When should an AI pilot not be started at all?",
+        },
+        answer: {
+          tr: "Dört durumda başlatılmamalıdır. Sürecin dijital kaydı yoksa önce o kayıt kurulur. Süreç sahibi adıyla belli değilse önce sahiplik netleşir. Darboğaz veri değil onay ya da yetkiyse sorun yönetim tarafında çözülür. Karar geri alınamaz nitelikteyse — iş güvenliği, ürün uygunluğu, yasal yükümlülük — yapay zeka ilk pilotun konusu olmaz. Dört durumda da doğru hamle pilotu ertelemek değil, önce eksik olan adımı tamamlamaktır.",
+          en: "There are four situations. If the process has no digital record, that record gets built first. If no process owner is named, ownership is settled first. If the bottleneck is approval or authority rather than data, the problem is solved on the management side. If the decision cannot be undone — workplace safety, product conformity, legal liability — AI is not the subject of a first pilot. In all four cases the right move is not to postpone the pilot but to complete the missing step first.",
+        },
+      },
+      {
+        question: {
+          tr: "Pilot başarısız olursa yatırım boşa mı gider?",
+          en: "If the pilot fails, is the investment wasted?",
+        },
+        answer: {
+          tr: "Durdurulan pilot boşa gitmiş bir yatırım değildir; kararsız biten pilot öyledir. Durdurma eşiğinin altında kalan bir pilot, bir kullanım senaryosunu doksan günde eler ve aynı yanlışa yıllık bütçe bağlamaktan ucuzdur. Pilot raporu neyin denendiğini, metriğin ne yaptığını ve neyin farklı yapılması gerektiğini yazar. AI Pilot paketinde kaynak kod her durumda tam sahiplikle şirkette kalır ve bir sonraki aday, listenin ikinci satırından seçilir.",
+          en: "A stopped pilot is not a wasted investment; an undecided one is. A pilot that falls below its stop threshold eliminates a use case in ninety days, which costs less than tying an annual budget to the same mistake. The pilot report records what was tried, what the metric did and what should be done differently. In the AI Pilot package the source code stays with the company in full ownership whatever the outcome, and the next candidate is taken from the second line of the list.",
+        },
+      },
+    ],
+    category: "transform",
+    topic: "yapay-zeka",
+    tags: [
+      "yapay-zeka-pilot-projesi",
+      "ai-pilot-projesi",
+      "yapay-zeka-donusumu",
+      "yapay-zeka-projesi-baslatma",
+      "yapay-zeka-maliyeti",
+    ],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-09-25",
+    readingMinutes: 24,
+    seo: {
+      title: {
+        tr: "Yapay zeka pilot projesi: 90 günlük çerçeve",
+        en: "AI pilot project: a 90-day framework",
+      },
+      description: {
+        tr: "Yapay zeka dönüşümüne nereden başlanır? 90 günlük pilot: süreç seçimi, taban ölçüm, durdurma eşiği, bütçe kalemleri ve KOBİ, sanayi ile büyük şirket farkı.",
+        en: "Where to start with AI transformation: a 90-day pilot covering process choice, baselines, stop criteria, budget lines and what differs for SMEs and enterprises.",
       },
     },
   },

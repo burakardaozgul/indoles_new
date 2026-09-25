@@ -307,8 +307,8 @@ export const cro: ServiceContent = {
         en: "How long do test results take?",
       },
       answer: {
-        tr: "Tek bir A/B testi güvenilir sonuç için genellikle iki ila dört hafta çalışır; süre trafiğe ve mevcut dönüşüm oranına bağlıdır. Erken bakılan test yanıltır, çünkü küçük veri kümesinde rastlantı gerçek fark gibi görünür. INDOLES her test için gereken süreyi ve karar eşiğini baştan yazar, sonuçtan önce yorum yapmaz.",
-        en: "A single A/B test usually runs two to four weeks to give a reliable answer, depending on traffic and current conversion rate. Reading a test early misleads, because in a small sample chance looks like a real difference. INDOLES writes down the required duration and decision threshold for each test up front and does not comment before the result.",
+        tr: "Tek bir A/B testinin süresi trafiğe, mevcut dönüşüm oranına ve aranan etkinin büyüklüğüne bağlıdır: %2 dönüşen bir sayfada %10'luk göreli artışı %95 güven ve %80 güçle ayırt etmek, ayda 100.000 ziyaretçiyle yaklaşık yedi hafta, ayda 20.000 ziyaretçiyle yaklaşık sekiz ay sürer. Erken bakılan test yanıltır, çünkü küçük veri kümesinde rastlantı gerçek fark gibi görünür. INDOLES her test için gereken süreyi ve karar eşiğini baştan yazar, sonuçtan önce yorum yapmaz.",
+        en: "How long a single A/B test runs depends on traffic, the current conversion rate and the size of the effect you are looking for: on a page converting at 2%, detecting a 10% relative lift at 95% confidence and 80% power takes about seven weeks at 100,000 visitors a month and about eight months at 20,000. Reading a test early misleads, because in a small sample chance looks like a real difference. INDOLES writes down the required duration and decision threshold for each test up front and does not comment before the result.",
       },
     },
     {
@@ -394,12 +394,16 @@ export const cro: ServiceContent = {
   ],
 
   /**
-   * Sayfa 2026-09-19'da gerçekten değişti: H1 (`name`) hedef kelimeyi taşımaya
-   * başladı. Bir önceki dokunuş 2026-09-18'di (SSS sırası, lede, arama yüzeyi).
+   * Sayfa 2026-09-25'te gerçekten değişti: "Test sonuçları ne kadar sürede
+   * çıkar?" SSS cevabındaki "iki ila dört hafta" genellemesi, trafiğe bağlı
+   * hesapla değiştirildi (CRO fiyat yazısı ve `cro-ajansi-nasil-secilir`
+   * düzeltmesiyle aynı yöntem: %95 güven, %80 güç). Önceki dokunuşlar
+   * 2026-09-19 (H1 hedef kelimeyi taşımaya başladı) ve 2026-09-18 (SSS sırası,
+   * lede, arama yüzeyi).
    * `lastmod` ve `WebPage.dateModified` buradan beslenir — tarih sayfaya
    * dokunulmadan ileri alınmaz (bkz. `types.ts`, denetim T-05).
    */
-  updatedAt: "2026-09-19",
+  updatedAt: "2026-09-25",
 
   seo: {
     /**

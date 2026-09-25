@@ -101,7 +101,8 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       images: [OG_IMAGE.url],
-      site: "@indoles",
+      // `site` (twitter:site) yok: INDOLES'in X hesabı yok (Burak, 2026-09-25);
+      // kartı var olmayan bir hesaba bağlamak yanlış veri üretir.
       title: m.ogTitle,
       description: m.ogDescription,
     },

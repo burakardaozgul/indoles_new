@@ -238,7 +238,7 @@ Hem TR hem EN sürüm (`/tr/llms.txt`, `/en/llms.txt`) yayınlanır; root `/llms
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:site" content="@indoles" />
+<!-- twitter:site yok — INDOLES'in X hesabı yok (2026-09-25) -->
 ```
 
 ### 7.2 OG görselleri — derleme zamanı üretim (ADR-031)
@@ -282,8 +282,9 @@ Her sayfa tipine uygun schema.org JSON-LD.
   "url": "https://indoles.com.tr",
   "logo": "https://indoles.com.tr/logo.svg",
   "sameAs": [
-    "https://www.linkedin.com/company/indoles",
-    "https://twitter.com/indoles"
+    "https://www.linkedin.com/company/indoles-growth/",
+    "https://www.instagram.com/indolesgrowth/",
+    "https://www.google.com/search?kgmid=/g/11lfqvny97"
   ],
   "address": {
     "@type": "PostalAddress",
@@ -291,6 +292,8 @@ Her sayfa tipine uygun schema.org JSON-LD.
   }
 }
 ```
+
+`sameAs` kaynağı (2026-09-25): `COMPANY.social` (üst bar/footer'da ikonu olan LinkedIn ve Instagram) + `COMPANY.profiles` (ikonsuz doğrulanmış kayıtlar — Google İşletme Profili `kgmid`). X kaydı yok; hesap yok.
 
 ### 8.2 Service (pillar ve hizmet sayfalarında)
 

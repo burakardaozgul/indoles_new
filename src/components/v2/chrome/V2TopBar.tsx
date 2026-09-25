@@ -96,17 +96,6 @@ export function V2TopBar({ locale }: { locale: "tr" | "en" }) {
               <circle cx="11.4" cy="4.6" r="0.7" fill="currentColor" />
             </svg>
           </a>
-          <a
-            href={COMPANY.social.x}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="v2-tb-item v2-tb-social"
-            aria-label="X"
-          >
-            <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true">
-              <path d="M2.5 2.5h2.7L7.7 6l2.6-3.5h2.2l-3.7 4.9L13 13.5h-2.7L7.6 9.9 4.8 13.5H2.6l4-5.2L2.5 2.5zm2 .8L9.2 9.6l.8 1.1 2 2.3h1L6.6 3.3H4.5z" />
-            </svg>
-          </a>
         </div>
       </div>
     </div>

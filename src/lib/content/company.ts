@@ -26,10 +26,28 @@ export const COMPANY = {
     tr: "Pzt–Cum 09:00–18:00",
     en: "Mon–Fri 09:00–18:00",
   },
+  /**
+   * Görünür ikonu olan profiller — üst bar ve footer yalnız bunları basar.
+   *
+   * 2026-09-25 (Burak): LinkedIn ve Instagram adresleri yanlıştı; doğru
+   * hesaplar `indoles-growth` ve `indolesgrowth`. X kaydı kaldırıldı —
+   * INDOLES'in X hesabı yok; var olmayan bir hesabı `sameAs`ta ya da üst
+   * barda göstermek yanlış veridir.
+   */
   social: {
-    linkedin: "https://www.linkedin.com/company/indoles",
-    instagram: "https://www.instagram.com/indoles",
-    x: "https://x.com/indoles",
+    linkedin: "https://www.linkedin.com/company/indoles-growth/",
+    instagram: "https://www.instagram.com/indolesgrowth/",
+  },
+  /**
+   * İkonsuz doğrulanmış kayıtlar — yalnız Organization `sameAs`a gider.
+   *
+   * `googleBusiness`: Google İşletme Profili / Bilgi Grafiği kaydı (`kgmid`).
+   * Ziyaretçiye gösterilecek bir sosyal profil değil, varlık eşleştirmesi
+   * için bir kimlik; bu yüzden `social`dan ayrı durur ve üst bar/footer onu
+   * hiç okumaz.
+   */
+  profiles: {
+    googleBusiness: "https://www.google.com/search?kgmid=/g/11lfqvny97",
   },
   geo: {
     lat: "41.0082° N",

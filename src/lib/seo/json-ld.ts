@@ -22,15 +22,18 @@ const IN_LANGUAGE: Record<Locale, string> = { tr: "tr-TR", en: "en-US" };
  * `sameAs`: markanın doğrulanabilir dış profilleri.
  *
  * AI motorları entity'yi çapraz kaynak tutarlılığından öğreniyor
- * (docs/strateji §5); LinkedIn/Instagram/X adresleri zaten `COMPANY.social`
- * içinde tek kaynakta duruyordu, şema onları yalnızca işaret ediyor.
+ * (docs/strateji §5); LinkedIn ve Instagram adresleri `COMPANY.social`
+ * içinde tek kaynakta duruyor, şema onları yalnızca işaret ediyor. Google
+ * İşletme Profili kaydı (`COMPANY.profiles`) görünür ikon taşımadığı için
+ * ayrı alanda durur ama aynı varlığın doğrulanmış kaydı olarak buraya girer.
  * Boş bir `sameAs` dizisi "profil yok" değil "bağ kurulamadı" okunduğu için
  * hiç basılmaz.
  */
 export function organizationLd() {
-  const sameAs: string[] = Object.values(COMPANY.social).filter(
-    (url) => url.length > 0,
-  );
+  const sameAs: string[] = [
+    ...Object.values(COMPANY.social),
+    ...Object.values(COMPANY.profiles),
+  ].filter((url) => url.length > 0);
   return {
     "@type": "Organization",
     "@id": ORG_ID,

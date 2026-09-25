@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   organizationLd,
@@ -21,10 +23,51 @@ describe("organizationLd", () => {
     expect(ld.legalName).toBe("İndoles Yazılım A.Ş.");
   });
 
-  it("sameAs'i COMPANY.social'daki her profille doldurur", () => {
+  it("sameAs'i COMPANY.social profilleri ve ikonsuz COMPANY.profiles kayıtlarıyla doldurur", () => {
     const ld = organizationLd() as Record<string, any>;
-    expect(ld.sameAs).toEqual(Object.values(COMPANY.social));
+    expect(ld.sameAs).toEqual([
+      ...Object.values(COMPANY.social),
+      ...Object.values(COMPANY.profiles),
+    ]);
     expect(ld.sameAs).toContain(COMPANY.social.linkedin);
+    expect(ld.sameAs).toContain(COMPANY.profiles.googleBusiness);
+  });
+
+  it("doğrulanmış kayıtları birebir taşır (Burak, 2026-09-25)", () => {
+    // Eski `/company/indoles` ve `/indoles` adresleri yanlıştı; X hesabı yok.
+    // Değerler sabitlenir ki künyedeki bir kayma sessizce şemaya geçmesin.
+    const ld = organizationLd() as Record<string, any>;
+    expect(ld.sameAs).toEqual([
+      "https://www.linkedin.com/company/indoles-growth/",
+      "https://www.instagram.com/indolesgrowth/",
+      "https://www.google.com/search?kgmid=/g/11lfqvny97",
+    ]);
+  });
+
+  it("var olmayan X hesabını sameAs'e koymaz", () => {
+    const ld = organizationLd() as Record<string, any>;
+    expect("x" in COMPANY.social).toBe(false);
+    for (const url of ld.sameAs as string[]) {
+      expect(url).not.toMatch(/x\.com|twitter\.com/);
+    }
+  });
+
+  it("ikonsuz kayıtlar üst bar ve footer'a basılmaz", () => {
+    // `COMPANY.profiles` yalnız şema içindir; görünür chrome yalnız
+    // `COMPANY.social` anahtarlarını adıyla okur.
+    for (const rel of [
+      "src/components/v2/chrome/V2TopBar.tsx",
+      "src/components/v2/chrome/V2Footer.tsx",
+    ]) {
+      const src = readFileSync(join(process.cwd(), rel), "utf8");
+      expect(src, rel).not.toMatch(/COMPANY\.profiles|Object\.values\(COMPANY\.social\)/);
+    }
+  });
+
+  it("ProfessionalService aynı sameAs'i devralır — iletişim sayfası tek varlık", () => {
+    const org = organizationLd() as Record<string, any>;
+    const ps = professionalServiceLd() as Record<string, any>;
+    expect(ps.sameAs).toEqual(org.sameAs);
   });
 });
 

@@ -307,6 +307,14 @@ const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
   ["cro-nedir", "sepet terk"],
   ["cro-ajansi-nasil-secilir", "cro ajansı"],
   ["cro-ajansi-nasil-secilir", "cro danışmanlığı"],
+  // Yol haritası §3 "neye mal olur" (2026-09-25): fiyat niyeti bu yazıda
+  // oturur; seçim niyeti `cro-ajansi-nasil-secilir`de kalır. GKP'de hacim
+  // "veri yok" bandında — niyet yüksek, hacim düşük, bilinçli.
+  ["cro-danismanligi-fiyatlari", "cro danışmanlığı fiyatları"],
+  ["cro-danismanligi-fiyatlari", "cro ajansı fiyatları"],
+  ["cro-danismanligi-fiyatlari", "dönüşüm oranı optimizasyonu ücreti"],
+  ["cro-danismanligi-fiyatlari", "cro hizmeti ne kadar"],
+  ["cro-danismanligi-fiyatlari", "cro ajansı ile çalışmak"],
   ["is-gelistirme-studyosu-nedir", "iş geliştirme stüdyosu"],
   ["is-gelistirme-studyosu-nedir", "iş inşası"],
   ["yapay-zeka-aramalarinda-nasil-one-cikarsiniz", "yapay zeka optimizasyonu"],

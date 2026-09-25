@@ -83,8 +83,8 @@ export const PILLARS: PillarContent[] = [
           en: "Which services sit under Growth?",
         },
         answer: {
-          tr: "Growth beş hizmeti taşır: marka stratejisi ve pazarlama danışmanlığı, performans pazarlama, dönüşüm optimizasyonu, e-ticaret ve UI/UX tasarım. Beşi ayrı ekipler olarak değil, tek sprint ritminde çalışır. Ölçü de kanal başına değil huninin bütünü üzerinden alınır, çünkü reklamda kazanılan tıklama arayüzde kaybedilirse tablo yanıltıcı çıkar.",
-          en: "Growth carries five services: brand strategy and marketing advisory, performance marketing, conversion optimisation, e-commerce, and UI/UX design. They run in one sprint cadence rather than as separate teams. Results are measured across the whole funnel rather than channel by channel, because a click won in advertising and lost in the interface makes any single-channel report misleading.",
+          tr: "Growth altı hizmeti taşır: marka stratejisi ve pazarlama danışmanlığı, performans pazarlama, dönüşüm optimizasyonu, e-ticaret, UI/UX tasarım ve yapay zeka arama optimizasyonu (GEO danışmanlığı). Altısı ayrı ekipler olarak değil, tek sprint ritminde çalışır. Ölçü de kanal başına değil huninin bütünü üzerinden alınır, çünkü reklamda kazanılan tıklama arayüzde kaybedilirse tablo yanıltıcı çıkar.",
+          en: "Growth carries six services: brand strategy and marketing advisory, performance marketing, conversion optimisation, e-commerce, UI/UX design, and generative engine optimization (GEO consulting). They run in one sprint cadence rather than as separate teams. Results are measured across the whole funnel rather than channel by channel, because a click won in advertising and lost in the interface makes any single-channel report misleading.",
         },
       },
       {

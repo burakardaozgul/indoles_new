@@ -74,6 +74,10 @@ const TARGETS: Array<[slug: string, keyword: string]> = [
   ["ai-danismanlik", "yapay zeka firmaları"],
   ["e-ticaret", "e ticaret dönüşüm oranı artırma"],
   ["performans-pazarlama", "performance marketing"],
+  // ADR-040 (2026-09-25): GEO kümesinin ticari hedefi. Başlık yüzeyinde;
+  // "geo ajansı" lede ve karşı-konumlandırma SSS'lerinde yaşar, bilgi niyeti
+  // ("geo optimizasyonu") kanonik rehberde kalır.
+  ["geo-danismanligi", "geo danışmanlığı"],
 ];
 
 describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
@@ -98,7 +102,7 @@ describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
     // taşıyan title'ı (`docs/strateji/Rakip-Analizi-P0-SERP.md` §4) —
     // başlıkta kelimeyi taşımayan bir sonuç o SERP'te tıklama dilinde
     // geride kalıyordu. İstisna yalnız bu sayfa ve yalnız `seo.title`
-    // yüzeyi içindir; `name` yasağı 12 hizmetin 12'sinde sürer, diğer 11
+    // yüzeyi içindir; `name` yasağı 13 hizmetin 13'ünde sürer, diğer 12
     // hizmetin `seo.title`ında da sürer.
     for (const s of SERVICES) {
       const exemptTitle = s.slug.tr === "cro";
@@ -238,7 +242,7 @@ describe("EN keyword yerleşimi (strateji §2.0 karar 6, docs/19 C-13)", () => {
     // TEK İSTİSNA — `cro` kaydının `seo.title.en`i: TR istisnasının EN
     // eşleniği (Burak, 2026-09-18; strateji v1.16). İki dilde aynı başlık
     // kalıbı kullanılıyor, kural ikisinde de yalnız bu sayfanın arama
-    // başlığı için esniyor; `name.en` yasağı 12 hizmetin 12'sinde sürer.
+    // başlığı için esniyor; `name.en` yasağı 13 hizmetin 13'ünde sürer.
     for (const s of SERVICES) {
       const exemptTitle = s.slug.tr === "cro";
       const surfaces: Array<[label: string, value: string]> = [

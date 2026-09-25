@@ -339,9 +339,11 @@ export const GEO_TOOL: ToolContent<GeoBand, GeoCheckId> = {
     tr: "Eylül 2026 itibarıyla Türkçe pazarda benzer kapsamda kamuya açık bir GEO denetim aracı tespit etmedik.",
     en: "As of September 2026, we found no comparable, publicly available GEO audit tool for the Turkish-language market.",
   },
-  // GEO denetimi cevap motoru görünürlüğünü ölçer — AI danışmanlığı
-  // hizmetinin doğal devamı; başka bir hizmetin teşhis kapsamına girmez.
-  relatedServices: ["ai-danismanlik"],
+  // GEO denetimi cevap motoru görünürlüğünü ölçer. 2026-09-25'ten beri
+  // doğal hizmeti `geo-danismanligi` (ADR-040) — araç o hizmetin teşhis
+  // adımının herkese açık hâli. `ai-danismanlik` ikinci sırada kalır:
+  // callout orada da görünmeye devam eder.
+  relatedServices: ["geo-danismanligi", "ai-danismanlik"],
   // Köprüler zaten üç GEO yazısının gövdesinde inline duruyor (Görev 13);
   // burada tekrarlanmaz — aynı linki iki kez basmak okuru yormaktan başka
   // işe yaramaz.

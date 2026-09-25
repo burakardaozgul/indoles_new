@@ -7,7 +7,7 @@ import { IndustriesSection } from "@/components/marketing/industries-section";
 import { PersonaText } from "@/components/marketing/persona-text";
 import { PersonaSwitch } from "@/components/marketing/persona-switch";
 import { PILLARS } from "@/lib/content/pillars";
-import { SERVICES, getServicesByPillar, serviceOrderIndex } from "@/lib/content/services";
+import { SERVICES, getServicesByPillar, serviceDiagramIndex } from "@/lib/content/services";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/lib/seo/JsonLd";
 import { breadcrumbLd, organizationLd, webPageLd } from "@/lib/seo/json-ld";
@@ -26,14 +26,14 @@ const PATHS = { tr: segmentRoot("tr", "services"), en: segmentRoot("en", "servic
  */
 const META = {
   tr: {
-    title: "İş geliştirme danışmanlığı — 12 uzmanlık",
+    title: "İş geliştirme danışmanlığı — 13 uzmanlık",
     description:
-      "Growth, Transform ve Build disiplinlerinde 12 uzmanlık: marka stratejisinden yapay zeka danışmanlığına, e-ticaretten altyapıya. Kapsamı yazılı.",
+      "Growth, Transform ve Build disiplinlerinde 13 uzmanlık: marka stratejisinden yapay zeka danışmanlığına, e-ticaretten altyapıya. Kapsamı yazılı.",
   },
   en: {
-    title: "Business development consultancy — 12 disciplines",
+    title: "Business development consultancy — 13 disciplines",
     description:
-      "Twelve areas of expertise across Growth, Transform and Build: brand strategy, AI advisory, e-commerce, custom software, infrastructure. Scope in writing.",
+      "Thirteen areas of expertise across Growth, Transform and Build: brand strategy, AI advisory, e-commerce, custom software, infrastructure. Scope in writing.",
   },
 } as const;
 
@@ -85,7 +85,7 @@ export default async function ServicesIndex({
             { name: HEADING[loc] },
           ]),
           {
-            // Kümenin tepesi yapraklarını sayar: ajan 12 hizmetin
+            // Kümenin tepesi yapraklarını sayar: ajan 13 hizmetin
             // tamamını tek düğümden görebiliyor.
             "@type": "ItemList",
             name: HEADING[loc],
@@ -174,7 +174,7 @@ export default async function ServicesIndex({
                             {/* `ServiceIllustration` %100 genişlik/yükseklik
                                 veriyor — ölçüsü olan bir kap gerekiyor. */}
                             <div className="w-[92px] aspect-[200/140] opacity-75">
-                              <ServiceIllustration index={serviceOrderIndex(s.slug.tr)} />
+                              <ServiceIllustration index={serviceDiagramIndex(s.slug.tr)} />
                             </div>
                           </div>
                           <div className="md:col-span-4">

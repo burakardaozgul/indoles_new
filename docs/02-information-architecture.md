@@ -1,7 +1,7 @@
 # Bilgi Mimarisi (Information Architecture)
 
 > **Statü:** Onaylı — routing ve navigasyon kararlarının tek otoritesi.
-> **Son revizyon:** 2026-08-19 (ADR-015, ADR-016). Bu revizyon dokümanı **uygulanan koda göre** düzeltti; Nisan sürümü kaldırılmış katmanları (auth alanı, admin paneli, AI chatbot, journal kategorileri, araçlar) hâlâ tarif ediyordu.
+> **Son revizyon:** 2026-09-25 (ADR-040 — 13. hizmet: GEO danışmanlığı). Önceki: 2026-08-19 (ADR-015, ADR-016) — dokümanı **uygulanan koda göre** düzeltti; Nisan sürümü kaldırılmış katmanları (auth alanı, admin paneli, AI chatbot, journal kategorileri, araçlar) hâlâ tarif ediyordu.
 > **Upstream:** `01-vision-positioning.md` (persona, pillar yapısı, problem-tipi filtreleme)
 > **Downstream:** `04-design-system-principles.md` §8 (sayfa mimarisi), `11-funnel-customer-flows.md` (dinamik akışlar)
 
@@ -110,9 +110,9 @@ Dil değiştirici ve CTA çekmecenin altında tekrarlanır.
 ```
 /{locale}                          Anasayfa (11 bölüm — bkz. §5)
 ├── /hakkimizda                    Hakkımızda
-├── /hizmetler                     Pillar + 12 hizmet listesi
+├── /hizmetler                     Pillar + 13 hizmet listesi
 │   └── /hizmetler/[slug]          Pillar detay (growth | transform | build)
-│                                  VEYA hizmet detayı (12 hizmet) — ADR-018
+│                                  VEYA hizmet detayı (13 hizmet) — ADR-018, ADR-040
 ├── /paketler                      4 ürünleşmiş paket
 │   └── /paketler/[slug]           Paket detay
 ├── /vakalar                       Vaka çalışmaları (problem tipine göre)
@@ -165,8 +165,29 @@ kendi boru hattını (`src/lib/tools/diagnoo/`) kullanır. Detay: ADR-030,
   paylaşım sonuç sayfasında görünür (ADR-030 carry-note 3).
 - `/araclar` birincil nav link setinde **değil**, ama 2026-09-03'ten beri
   header'da kendi kademesi var: ayrı vurgulu buton (bkz. §1 Navigasyon).
-  İçerik tarafındaki erişim üçgeni değişmedi — araç ↔
-  `/hizmetler/ai-danismanlik` ↔ GEO yazıları çift yönlü linkler.
+  İçerik tarafındaki erişim üçgeni 2026-09-25'te (ADR-040) GEO'nun kendi
+  hizmet sayfasına taşındı — araç ↔ `/hizmetler/geo-danismanligi` ↔ GEO
+  yazıları çift yönlü linkler. Araç `ai-danismanlik` sayfasındaki callout'ta
+  da görünmeye devam eder (`tools.ts` `relatedServices`).
+
+### `/hizmetler/geo-danismanligi` — 13. hizmet (ADR-040)
+
+| Yüzey | TR | EN |
+|---|---|---|
+| Hizmet sayfası | `/tr/hizmetler/geo-danismanligi` | `/en/services/geo-consulting` |
+
+- Pillar: **Growth** (altıncı Growth hizmeti). `SERVICE_ORDER`da Growth'un
+  sonunda, `ai-danismanlik`tan önce; sonraki yedi hizmetin "kaçıncı / kaç"
+  numarası bir kaydı. Diyagram ataması sıradan ayrıldı
+  (`SERVICE_DIAGRAM_ORDER`): hiçbir mevcut sayfanın görseli değişmedi.
+- Yazı konusu `geo` artık bu sayfayı hedefler (`topics.ts`); GEO yazıları
+  gövdeden tek satır içi bağlantıyla buraya bağlanır.
+- **Kanibalizasyon sınırı:** "yapay zeka arama optimizasyonu" / "geo
+  optimizasyonu" bilgi sorgusu kanonik rehberde
+  (`/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz`) kalır; hizmet
+  sayfası ticari niteleyicileri ("GEO danışmanlığı", "GEO ajansı") taşır.
+- Paketi ve fiyatı yok: `relatedPackages: null` — sayfada giriş paketi ve
+  şemada fiyatlı `Offer` basılmaz.
 
 ### Anasayfa — sürekli sahne
 
@@ -221,7 +242,7 @@ Ortak yapı: `PageHeader` (breadcrumb + eyebrow + display başlık + lede, düş
 |---|---|---|
 | `/hizmetler` | Hero, 3 pillar bloğu (her biri: tagline, açıklama, metodoloji, hizmet listesi) | **Evet** (ADR-014) |
 | `/hizmetler/[slug]` — pillar | Pillar hero, metodoloji, hizmet listesi (linkli), ilgili paket ve vakalar | Orta ton (ADR-014) |
-| `/hizmetler/[slug]` — hizmet | Hero + teşhis föyü, kimin için, kapsam, yöntem, teslim listesi, aylık yönetim planları (opsiyonel `retainerPlans` — Paketler'den ayrı retainer modeli; 2026-08-27, ilk kullanım: performans-pazarlama), SSS, ilgili içerik (ADR-018) | Orta ton, tek versiyon |
+| `/hizmetler/[slug]` — hizmet | Hero + teşhis föyü, kimin için, kapsam, yöntem, teslim listesi, aylık yönetim planları (opsiyonel `retainerPlans` — Paketler'den ayrı retainer modeli; 2026-08-27, ilk kullanım: performans-pazarlama), SSS, ilgili içerik (ADR-018). Giriş paketi `relatedPackages`tan gelir; boş dizi pillar paketine düşer, `null` paketsiz hizmettir ve paket bloğu basılmaz (ADR-040, ilk kullanım: geo-danismanligi) | Orta ton, tek versiyon |
 | `/paketler` | Hero, 4 paket kartı (isim, pillar, süre, fiyat, outcome) | **Evet** |
 | `/paketler/[slug]` | Hero, kapsam, çıktılar, kimin için, SSS, fiyat, CTA | **Evet** |
 | `/vakalar` | Hero, problem-tipi filtresi, vaka kartları | Orta ton |
@@ -242,7 +263,7 @@ Kadro listesinde **Chief Mood Officer profil sayfası almaz** — `BOOKABLE_CONS
 
 `docs/04` §8 ile aynı tabloyu paylaşır; otorite orasıdır. Özet:
 
-Hero → Referans marquee → Manifesto → Kadro → Üç pillar → Hizmet track (12) → Metodoloji (INDOLES Frame, 5 aşama) → Vakalar → Sektörler → Vizyon → Kapanış CTA
+Hero → Referans marquee → Manifesto → Kadro → Üç pillar → Hizmet track (13) → Metodoloji (INDOLES Frame, 5 aşama) → Vakalar → Sektörler → Vizyon → Kapanış CTA
 
 Persona-aware olanlar: Hero, Üç pillar, Hizmet track, Vakalar, Kapanış CTA.
 

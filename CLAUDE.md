@@ -84,7 +84,7 @@ INDOLES (İndoles Yazılım A.Ş.), Türkiye merkezli bir iş geliştirme danı�
 
 | Pillar | Hizmetler | Nitel Odak |
 |--------|-----------|------------|
-| **Growth** | Marka Stratejisi ve Pazarlama Danışmanlığı, Performans Pazarlama, CRO, E-Ticaret Danışmanlığı, UI/UX Tasarım | Marka bilinirliği, gelir büyümesi, müşteri edinimi, dönüşüm |
+| **Growth** | Marka Stratejisi ve Pazarlama Danışmanlığı, Performans Pazarlama, CRO, E-Ticaret Danışmanlığı, UI/UX Tasarım, GEO Danışmanlığı (yapay zeka arama optimizasyonu — ADR-040) | Marka bilinirliği, gelir büyümesi, müşteri edinimi, dönüşüm, yapay zeka cevaplarında görünürlük |
 | **Transform** | Endüstri v5 & v6 dönüşümü, AI Danışmanlığı, Dijital Dönüşüm, İş Otomasyonları, İş Zekası, İşletme Mühendisliği, Akıllı ERP ve İş Yönetim Yazılımları | Verim, maliyet optimizasyonu, dönüşüm |
 | **Build** | Özel Yazılım ve Mobil Uygulama, Teknoloji ve Altyapı Danışmanlığı | Altyapı, ürün, teknik kapasite |
 
@@ -163,7 +163,7 @@ indoles-web/
 │   ├── 06 / 07 / 09-*.md              # ARŞİV — uygulanmadı (ADR-010/007/008)
 │   ├── copy/                          # Persona copy taslakları
 │   ├── superpowers/                   # Spec ve plan arşivi
-│   └── decisions/ADR-001…ADR-030      # Karar kayıtları
+│   └── decisions/ADR-001…ADR-040      # Karar kayıtları
 ├── src/
 │   ├── app/(marketing)/[locale]/      # Tüm public sayfalar (araclar/ dahil — ADR-030)
 │   ├── app/(v2)/[locale]/v2/          # Yeni tasarım yönü — kendi chrome'u (ADR-016)

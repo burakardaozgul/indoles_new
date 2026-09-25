@@ -146,6 +146,24 @@ export function ServiceIllustration({ index }: { index: number }) {
       <circle cx="120" cy="70" r="34" fill="rgba(184,149,106,0.12)" />
       <line x1="92" y1="70" x2="108" y2="70" strokeWidth="1.4" />
     </g>,
+    // 13 — kaynak gösterilme: üç sayfa tek cevaba akar, biri alıntılanır (GEO)
+    <g key="13" stroke={T} fill="none" strokeWidth="1">
+      {[35, 70, 105].map((y, i) => (
+        <g key={y} opacity={i === 1 ? 1 : 0.5}>
+          <rect x="22" y={y - 9} width="44" height="18" />
+          <line x1="28" y1={y - 2} x2="58" y2={y - 2} opacity="0.5" />
+          <line x1="28" y1={y + 3} x2="50" y2={y + 3} opacity="0.5" />
+        </g>
+      ))}
+      <path d="M66 35 C 100 35, 110 60, 128 64" strokeDasharray="2 3" opacity="0.45" />
+      <path d="M66 105 C 100 105, 110 80, 128 76" strokeDasharray="2 3" opacity="0.45" />
+      <line x1="66" y1="70" x2="128" y2="70" stroke={G} strokeWidth="1.4" />
+      <circle cx="66" cy="70" r="3" fill={G} stroke="none" />
+      <rect x="128" y="44" width="52" height="52" rx="10" strokeWidth="1.4" />
+      <line x1="138" y1="60" x2="170" y2="60" opacity="0.6" />
+      <line x1="138" y1="70" x2="164" y2="70" opacity="0.6" />
+      <line x1="138" y1="80" x2="168" y2="80" opacity="0.6" />
+    </g>,
   ];
 
   return (

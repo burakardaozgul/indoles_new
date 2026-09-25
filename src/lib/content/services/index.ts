@@ -4,6 +4,7 @@ import { performansPazarlama } from "./performans-pazarlama";
 import { cro } from "./cro";
 import { eTicaret } from "./e-ticaret";
 import { uiUxTasarim } from "./ui-ux-tasarim";
+import { geoDanismanligi } from "./geo-danismanligi";
 import { aiDanismanlik } from "./ai-danismanlik";
 import { dijitalDonusum } from "./dijital-donusum";
 import { isOtomasyonlari } from "./is-otomasyonlari";
@@ -13,15 +14,19 @@ import { ozelYazilimVeMobil } from "./ozel-yazilim-ve-mobil";
 import { teknolojiVeAltyapi } from "./teknoloji-ve-altyapi";
 
 /**
- * Hizmetlerin kanonik sırası — 12 hizmetin tamamı.
+ * Hizmetlerin kanonik sırası — 13 hizmetin tamamı.
  *
  * Sabit ve tam liste. İçerik dosyaları sırayla yazılıyor ama sıra onlarla
- * birlikte büyümez: `ServiceIllustration` diyagramını bu dizideki indeksle
- * seçiyor ve "kaç hizmetten kaçıncısı" göstergesi uzunluğunu buradan alıyor.
- * Liste `SERVICES`ten türetilseydi her yeni hizmet dosyasında yazılmış olan
- * sayfaların diyagramı ve numarası sessizce kayardı.
+ * birlikte büyümez: "kaç hizmetten kaçıncısı" göstergesi ve ana sayfa
+ * kaydırıcısının kart sırası buradan gelir. Liste `SERVICES`ten
+ * türetilseydi her yeni hizmet dosyasında yazılmış olan sayfaların numarası
+ * sessizce kayardı.
  *
- * Sıra `pillars.ts`teki hizmet sırasıyla birebir aynıdır.
+ * Sıra pillar'a göre bitişiktir (Growth → Transform → Build). 13. hizmet
+ * `geo-danismanligi` (ADR-040, 2026-09-25) Growth'un sonuna girdi; ondan
+ * sonraki yedi hizmetin numarası bilinçli olarak bir kaydı. Diyagram
+ * ataması numaradan ayrıldı (`SERVICE_DIAGRAM_ORDER`) — hiçbir sayfanın
+ * diyagramı değişmedi.
  */
 export const SERVICE_ORDER: string[] = [
   "marka-stratejisi",
@@ -29,6 +34,7 @@ export const SERVICE_ORDER: string[] = [
   "cro",
   "e-ticaret",
   "ui-ux-tasarim",
+  "geo-danismanligi",
   "ai-danismanlik",
   "dijital-donusum",
   "is-otomasyonlari",
@@ -45,6 +51,7 @@ export const SERVICES: ServiceContent[] = [
   cro,
   eTicaret,
   uiUxTasarim,
+  geoDanismanligi,
   aiDanismanlik,
   dijitalDonusum,
   isOtomasyonlari,
@@ -76,7 +83,38 @@ export function getServicesByPillar(pillar: Pillar): ServiceContent[] {
   ).filter((s): s is ServiceContent => s !== undefined && s.pillar === pillar);
 }
 
-/** `SERVICE_ORDER` içindeki konum — diyagramı seçer. -1 = bilinmeyen. */
+/** `SERVICE_ORDER` içindeki konum — "kaçıncı hizmet" numarası. -1 = bilinmeyen. */
 export function serviceOrderIndex(slug: string): number {
   return SERVICE_ORDER.indexOf(slug);
+}
+
+/**
+ * Diyagram ataması — `ServiceIllustration` varyantının indeksi.
+ *
+ * 2026-09-25'e kadar diyagram `SERVICE_ORDER` indeksinden seçiliyordu.
+ * 13. hizmet Growth'un sonuna (6. sıra) girince o bağ yedi sayfanın
+ * diyagramını kaydıracaktı; atama bu yüzden sıradan ayrıldı. İlk 12 kayıt
+ * eski sıranın birebir kopyasıdır — her mevcut hizmet kendi diyagramını
+ * korur. Yeni hizmet listenin SONUNA eklenir ve yeni varyantını alır;
+ * araya eklemek bir sayfanın görselini sessizce değiştirir.
+ */
+export const SERVICE_DIAGRAM_ORDER: string[] = [
+  "marka-stratejisi",
+  "performans-pazarlama",
+  "cro",
+  "e-ticaret",
+  "ui-ux-tasarim",
+  "ai-danismanlik",
+  "dijital-donusum",
+  "is-otomasyonlari",
+  "is-zekasi",
+  "isletme-muhendisligi",
+  "ozel-yazilim-ve-mobil",
+  "teknoloji-ve-altyapi",
+  "geo-danismanligi",
+];
+
+/** Hizmetin diyagram varyantı. -1 = bilinmeyen (diyagram basılmaz). */
+export function serviceDiagramIndex(slug: string): number {
+  return SERVICE_DIAGRAM_ORDER.indexOf(slug);
 }

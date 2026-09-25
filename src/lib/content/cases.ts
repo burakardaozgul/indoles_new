@@ -821,9 +821,13 @@ export const CASES: CaseStudyContent[] = [
         "Google Ads",
       ],
     },
+    // `geo-danismanligi` (ADR-040, 2026-09-25): künyede "SEO ve GEO" var ve
+    // anlatı bunu taşıyor — içerik GEO için yazıldı, ayrı bir SSS'i var
+    // ("İçerikte yapay zeka motorları için ne farklı yapıldı?").
     serviceSlugs: [
       "ui-ux-tasarim",
       "performans-pazarlama",
+      "geo-danismanligi",
     ],
     title: {
       tr: "Biyonik protezde ilk 3, ayda 10 yeni hasta.",
@@ -1680,8 +1684,13 @@ export const CASES: CaseStudyContent[] = [
         "Content marketing",
       ],
     },
+    // `geo-danismanligi` (ADR-040, 2026-09-25): içerik programı SEO ile
+    // GEO'yu birlikte gözeterek kuruldu ve metriklerden biri doğrudan GEO
+    // sonucu ("GEO görünürlüğü 40.000"). GEO hizmet sayfasının kanıt
+    // şeridinin ilk vakası.
     serviceSlugs: [
       "ozel-yazilim-ve-mobil",
+      "geo-danismanligi",
     ],
     title: {
       tr: "WordPress'ten Next.js'e: 15 kat organik trafik.",
@@ -2000,10 +2009,15 @@ export const CASES: CaseStudyContent[] = [
         "SEO & GEO — TR, EN, AR, RU",
       ],
     },
+    // `geo-danismanligi` (ADR-040, 2026-09-25): künyede "SEO ve GEO — TR,
+    // EN, AR, RU" var ve yaklaşımın bir adımı dört dilli SEO/GEO mimarisi.
+    // Ölçülmüş sonucu (teklif talebi, yanıt süresi) AI danışman ve portal
+    // işinin sonucu olduğu için GEO sayfasının kanıt şeridine seçilmedi.
     serviceSlugs: [
       "ozel-yazilim-ve-mobil",
       "ai-danismanlik",
       "is-otomasyonlari",
+      "geo-danismanligi",
     ],
     title: {
       tr: "AI teknik danışmanla teklif talebinde 10 kat artış.",
@@ -2214,8 +2228,8 @@ export const CASES: CaseStudyContent[] = [
           en: "Which services does this work fall under?",
         },
         answer: {
-          tr: "Çalışma özel yazılım ve mobil uygulama, yapay zeka danışmanlığı ile iş otomasyonları hizmetlerinin kapsamına giriyor. Üçü tek bir uygulamada birleşti ve dört dilli arama mimarisi de aynı yapının parçası olarak kuruldu. Vaka Transform disiplininde duruyor, çünkü asıl kazanç yeni bir ürün değil, var olan satış sürecinin ölçülebilir biçimde hızlanmasıydı.",
-          en: "The work falls under custom software and mobile apps, AI advisory and business automation. The three converged in a single application, with the four-language search architecture built as part of the same structure. The case sits in the Transform discipline, because the real gain was not a new product but an existing sales process measurably speeding up.",
+          tr: "Çalışma özel yazılım ve mobil uygulama, yapay zeka danışmanlığı ile iş otomasyonları hizmetlerinin kapsamına giriyor. Üçü tek bir uygulamada birleşti; dört dilli SEO ve GEO mimarisi de GEO danışmanlığı kapsamında, aynı yapının parçası olarak kuruldu. Vaka Transform disiplininde duruyor, çünkü asıl kazanç yeni bir ürün değil, var olan satış sürecinin ölçülebilir biçimde hızlanmasıydı.",
+          en: "The work falls under custom software and mobile apps, AI advisory and business automation. The three converged in a single application, and the four-language SEO and GEO architecture was built as part of the same structure under GEO consulting. The case sits in the Transform discipline, because the real gain was not a new product but an existing sales process measurably speeding up.",
         },
       },
     ],

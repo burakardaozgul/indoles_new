@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { PILLARS } from "@/lib/content/pillars";
-import { SERVICES, SERVICE_ORDER } from "@/lib/content/services";
+import { SERVICES, SERVICE_ORDER, serviceDiagramIndex } from "@/lib/content/services";
 import { localizedHref } from "@/lib/i18n/segments";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
 import { PersonaText } from "@/components/marketing/persona-text";
@@ -15,7 +15,7 @@ import { BREAKPOINT } from "@/lib/v2/anim-config";
  *
  * Geniş ekran: sticky bölüm içinde dikey scroll'a bağlı yatay track.
  * Dar ekran (≤900px): parmakla kaydırılan snap slider. Ortadaki kart net,
- * komşular hafif blurlu ve küçük. Dikey listeye düşmek bölümü 13 kart boyunca
+ * komşular hafif blurlu ve küçük. Dikey listeye düşmek bölümü 14 kart boyunca
  * uzatıyor ve "portföyü gezme" hissini tamamen kaybettiriyordu.
  *
  * Geometrik illüstrasyonlar `service-illustration.tsx`'ten geliyor — zaten
@@ -44,6 +44,9 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
           const pillar = PILLARS.find((p) => p.key === s.pillar)!;
           return {
             slug: s.slug[locale],
+            /* Diyagram karta değil hizmete bağlı (ADR-040): kart sırası
+               `SERVICE_ORDER`dan gelir, diyagram `serviceDiagramIndex`ten. */
+            diagram: serviceDiagramIndex(s.slug.tr),
             pillarName: pillar.name[locale],
             name: s.name[locale],
             desc: {
@@ -165,7 +168,7 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
                   iki soyut sıfat yan yana, fiil yok. Somut uçlarla değişti. */}
               {isTr ? "Teşhisten " : "From diagnosis to "}
               <span className="v2-accent">{isTr ? "canlıya" : "deployment"}</span>
-              {isTr ? ", on iki uzmanlık." : ", twelve areas of expertise."}
+              {isTr ? ", on üç uzmanlık." : ", thirteen areas of expertise."}
             </h2>
           </div>
 
@@ -208,7 +211,7 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
                 </div>
 
                 <div className="v2-svc-illo">
-                  <ServiceIllustration index={i} />
+                  <ServiceIllustration index={s.diagram} />
                 </div>
 
                 <h3 className="v2-svc-title">{s.name}</h3>
@@ -217,7 +220,7 @@ export function ServicesScroll({ locale }: { locale: "tr" | "en" }) {
                 </p>
 
                 {/*
-                  12 kart aynı "Keşfet" metnini taşıyor: ekran okuyucu için
+                  13 kart aynı "Keşfet" metnini taşıyor: ekran okuyucu için
                   ayrıştırıcı ad, arama motoru için hizmet adını taşıyan çapa
                   (indeks denetimi 2026-09-18). Görünür metin adın içinde
                   kalır — WCAG 2.5.3 "Label in Name".

@@ -23,7 +23,7 @@ describe("serviceViewEvent", () => {
     expect(serviceViewEvent(cro, "tr").properties.pillar).toBe("growth");
   });
 
-  it("12 hizmetin tamamı için geçerli olay üretir", () => {
+  it("13 hizmetin tamamı için geçerli olay üretir", () => {
     for (const s of SERVICES) {
       const e = serviceViewEvent(s, "tr");
       expect(e.name).toBe("service_viewed");

@@ -87,7 +87,7 @@ describe("ServiceDetail — vaka kanıt şeridi seçimi", () => {
     }
   });
 
-  it("12 hizmetin hepsi en az bir metriğe bağlanır", () => {
+  it("13 hizmetin hepsi en az bir metriğe bağlanır", () => {
     for (const service of SERVICES) {
       expect(proofFor(service).metrics.length).toBeGreaterThan(0);
     }
@@ -138,7 +138,7 @@ describe("ServiceDetail — vaka eşlemesi (C-03)", () => {
       service.featuredCaseSlugs ?? [],
     );
 
-  it("12 hizmetin 12'si de en az bir vaka bulur — kanıt şeridi hiçbirinde kaybolmaz", () => {
+  it("13 hizmetin 13'ü de en az bir vaka bulur — kanıt şeridi hiçbirinde kaybolmaz", () => {
     for (const service of SERVICES) {
       expect(
         casesFor(service).length,

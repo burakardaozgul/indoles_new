@@ -321,6 +321,8 @@ describe("relatedServices", () => {
 
   it("toolsForService yayınlanmış araçları döndürür", () => {
     expect(toolsForService("ai-danismanlik").map((t) => t.slug.tr)).toEqual([GEO_TOOL.slug.tr]);
+    // ADR-040: GEO aracının asıl hizmeti GEO danışmanlığı; callout orada da basılır.
+    expect(toolsForService("geo-danismanligi").map((t) => t.slug.tr)).toEqual([GEO_TOOL.slug.tr]);
     // 2026-09-03 lansmanından sonra Diagnoo yayında; `cro` callout'u artık
     // aracı gösterir (üçgenin hizmet→araç ayağı canlı).
     expect(DIAGNOO_TOOL.published).toBe(true);

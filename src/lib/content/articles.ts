@@ -10428,9 +10428,6 @@ export const ARTICLES: ArticleContent[] = [
   //   Paketin CRO'ya denk gelen kısmı (dönüşüm oranı kıyaslaması, A/B test
   //   planı, 8 haftalık test listesi) ile gelmeyen kısmı (sürekli test
   //   programı) gövdede ayrıca yazıldı.
-  // - Performans pazarlama planları 45/75/90 bin TL: `performans-pazarlama.ts`
-  //   `retainerPlans`. CRO programı OLMADIKLARI için yalnız "ucuz teklif"
-  //   uyarısında örnek olarak geçer.
   // - Dış kaynak: Convert, "How Much Should a CRO Agency Charge?" (6 Ağu 2025,
   //   güncelleme 3 Nis 2026; 25 Eylül 2026'da okundu). Anket değil derleme;
   //   gövdede bu nitelikle anılır. Türkiye için yöntemi yayımlanmış derleme
@@ -10766,8 +10763,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bir uyarı da kendi fiyat listemizden. Performans pazarlama yönetimi için yayımladığımız aylık planlar KDV hariç 45.000, 75.000 ve 90.000 TL; en alttaki Giriş planında \"dönüşüm odaklı UI/UX iyileştirmeleri\" diye bir satır var. O satır bir reklam yönetimi planının içindeki iyileştirme kalemidir, CRO programı değildir: üç planın kalemleri arasında örneklem hesabı, hipotez listesi ya da test takvimi yok. Başka bir ajansın reklam teklifinde benzer bir satır görürseniz aynı ayrımı yapın; o satırı CRO bütçesi saymak, ölçülmemiş bir işe CRO fiyatı biçmektir.",
-          en: "One warning comes from our own price list. The monthly plans we publish for performance marketing management are ₺45,000, ₺75,000 and ₺90,000 excluding VAT, and the entry-level Starter plan has a line reading \"conversion-focused UI/UX improvements\". That line is an improvement item inside an advertising management plan, not a CRO programme: none of the three plans lists a sample size calculation, a hypothesis backlog or a testing calendar. If you see a similar line in another agency's advertising proposal, draw the same distinction; counting it as your CRO budget means paying a CRO price for work nobody measures.",
+          tr: "Bir uyarı daha: reklam yönetimi teklifleri bazen \"dönüşüm odaklı iyileştirmeler\" diye bir satır taşır. O satır reklamın yanında gelen bir iyileştirme kalemidir, CRO programı değildir. Arkasında örneklem hesabı, hipotez listesi ya da test takvimi yoksa onu CRO bütçesi saymak, ölçülmemiş bir işe CRO fiyatı biçmektir.",
+          en: "One more warning: advertising management proposals sometimes carry a line reading \"conversion-focused improvements\". That line is an improvement item that comes with the advertising, not a CRO programme. If there is no sample size calculation, hypothesis backlog or testing calendar behind it, counting it as your CRO budget means paying a CRO price for work nobody measures.",
         },
       },
       {

@@ -336,6 +336,13 @@ const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
   ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "ai pilot projesi"],
   ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "yapay zeka dönüşümüne nereden başlanır"],
   ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "yapay zeka projesi nasıl başlatılır"],
+  // Yol haritası §3 "neye mal olur", Faz 2 (2026-10-02): yapay zeka fiyat
+  // niyeti bu yazıda oturur (niyetli sorgu seti #16); seçim niyeti 12 soru
+  // yazısında, uygulama niyeti 90 günlük pilotta kalır. GKP'de ölçülmedi —
+  // niyet yüksek, hacim düşük, bilinçli (CRO fiyat yazısı emsali).
+  ["yapay-zeka-danismanligi-fiyatlari", "yapay zeka danışmanlığı fiyatları"],
+  ["yapay-zeka-danismanligi-fiyatlari", "yapay zeka danışmanlığı ne kadar tutar"],
+  ["yapay-zeka-danismanligi-fiyatlari", "yapay zeka danışmanlığı neye mal olur"],
 ];
 
 describe("Dalga 1 makale keyword yerleşimi (2026-08-28 partisi)", () => {

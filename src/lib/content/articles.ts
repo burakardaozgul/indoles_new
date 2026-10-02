@@ -6983,8 +6983,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Fark akademik değil, faturaya yansıyan bir fark. Bir sohbet botu kurmak bugün birkaç gün süren bir iştir ve fiyatı da öyle olmalıdır. Bir teklif sürecinin tamamını mühendisin diline çevirmek, kataloğu, CRM'i ve yanıt akışını aynı sisteme bağlamak ise ay ölçeğinde bir mühendislik işidir — ve karşılığında ölçülebilir bir sayı verir. Bu yazının çerçevesi [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) tarafında kurduğumuz projelerden çıktı.",
-          en: "The difference is not academic; it lands on the invoice. Standing up a chatbot takes a few days today, and the price should say so. Translating an entire quoting process into an engineer's language — wiring the catalogue, the CRM and the response flow into one system — is months of engineering work, and it returns a number you can measure. The frame in this article came out of the projects we run on the [AI advisory](/hizmetler/ai-danismanlik) side.",
+          tr: "Fark akademik değil, faturaya yansıyan bir fark. Bir sohbet botu kurmak bugün birkaç gün süren bir iştir ve fiyatı da öyle olmalıdır. Bir teklif sürecinin tamamını mühendisin diline çevirmek, kataloğu, CRM'i ve yanıt akışını aynı sisteme bağlamak ise ay ölçeğinde bir mühendislik işidir — ve karşılığında ölçülebilir bir sayı verir. Bu yazının çerçevesi [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) tarafında kurduğumuz projelerden çıktı. Danışmanlık tarafında fiyatın hangi kalemlerden oluştuğunu, neyin sabitlenip neyin sabitlenemeyeceğini [yapay zeka danışmanlığının neye mal olduğunu anlattığımız yazıda](/yazilar/yapay-zeka-danismanligi-fiyatlari) açtık.",
+          en: "The difference is not academic; it lands on the invoice. Standing up a chatbot takes a few days today, and the price should say so. Translating an entire quoting process into an engineer's language — wiring the catalogue, the CRM and the response flow into one system — is months of engineering work, and it returns a number you can measure. The frame in this article came out of the projects we run on the [AI advisory](/hizmetler/ai-danismanlik) side. On the consulting side, what the price is built from — and which parts can be fixed and which cannot — is set out in [what AI consultancy costs](/yazilar/yapay-zeka-danismanligi-fiyatlari).",
         },
       },
       {
@@ -7926,8 +7926,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Kendi fiyatımızı örnek vereyim, çünkü kalemlerin nasıl ayrışması gerektiğini gösteriyor. AI Pilot paketimiz altı hafta sürer ve 480.000 TL sabit fiyatlıdır: kullanım senaryosu seçimini, veri envanteri ve kalite kontrolünü, model seçimini, prototip ve arayüz geliştirmeyi ve gerçek kullanıcıyla iki haftalık saha testini kapsar; kaynak kod tam sahiplikle teslim edilir. Model kullanım ücretleri, bulut altyapısı ve araç lisansları fiyatın dışındadır, çünkü tüketime bağlıdırlar; sabit fiyata alınmaz, üretim geçiş yol haritasında tahmin olarak yazılırlar. Aday süreç belirsizse öncesinde gelen Dijital Dönüşüm Teşhisi üç hafta sürer ve 180.000 TL'dir.",
-          en: "Let me use our own pricing as the example, because it shows how the lines ought to separate. Our AI Pilot package runs six weeks at a fixed €15,000: it covers use case selection, the data inventory and quality check, model selection, prototype and interface development, and a two-week field test with real users, and the source code is handed over in full ownership. Model usage fees, cloud infrastructure and tool licences sit outside the price because they depend on consumption; they are not fixed, and they appear in the production roadmap as estimates. Where the candidate process is unclear, the Digital Transformation Audit that comes first runs three weeks at €5,500.",
+          tr: "Kendi fiyatımızı örnek vereyim, çünkü kalemlerin nasıl ayrışması gerektiğini gösteriyor. AI Pilot paketimiz altı hafta sürer ve 480.000 TL sabit fiyatlıdır: kullanım senaryosu seçimini, veri envanteri ve kalite kontrolünü, model seçimini, prototip ve arayüz geliştirmeyi ve gerçek kullanıcıyla iki haftalık saha testini kapsar; kaynak kod tam sahiplikle teslim edilir. Model kullanım ücretleri, bulut altyapısı ve araç lisansları fiyatın dışındadır, çünkü tüketime bağlıdırlar; sabit fiyata alınmaz, üretim geçiş yol haritasında tahmin olarak yazılırlar. Aday süreç belirsizse öncesinde gelen Dijital Dönüşüm Teşhisi üç hafta sürer ve 180.000 TL'dir. İki paketin neyi kapsadığını, hangi kalemin neden sabitlenemediğini ve pilot sonrası bütçenin nasıl yazıldığını [yapay zeka danışmanlığının neye mal olduğunu anlattığım yazıda](/yazilar/yapay-zeka-danismanligi-fiyatlari) ayrıca açtım.",
+          en: "Let me use our own pricing as the example, because it shows how the lines ought to separate. Our AI Pilot package runs six weeks at a fixed €15,000: it covers use case selection, the data inventory and quality check, model selection, prototype and interface development, and a two-week field test with real users, and the source code is handed over in full ownership. Model usage fees, cloud infrastructure and tool licences sit outside the price because they depend on consumption; they are not fixed, and they appear in the production roadmap as estimates. Where the candidate process is unclear, the Digital Transformation Audit that comes first runs three weeks at €5,500. What the two packages cover, why some lines cannot be fixed and how the post-pilot budget gets written are set out separately in [what AI consultancy costs](/yazilar/yapay-zeka-danismanligi-fiyatlari).",
         },
       },
       {
@@ -8306,6 +8306,652 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "Yapay zeka dönüşümüne nereden başlanır? 90 günlük pilot: süreç seçimi, taban ölçüm, durdurma eşiği, bütçe kalemleri ve KOBİ, sanayi ile büyük şirket farkı.",
         en: "Where to start with AI transformation: a 90-day pilot covering process choice, baselines, stop criteria, budget lines and what differs for SMEs and enterprises.",
+      },
+    },
+  },
+  // Yol haritası §3 "neye mal olur", Faz 2 (Burak kararı 2026-10-02: yazıda
+  // somut fiyat bandı). Yapay zeka karar kümesinin eksik ayağı: nasıl seçilir
+  // (`ai-danismani-secerken-sorulacak-12-soru`) ve nasıl işler
+  // (`ai-donusumune-nereden-baslanir-90-gunluk-pilot`) vardı; bu yazı fiyatın
+  // nasıl oluştuğunu anlatır. Niyetli sorgu seti #16.
+  //
+  // Fiyat kaynakları — uydurma rakam yok:
+  // - Dijital Dönüşüm Teşhisi 180.000 TL / €5.500 / $6.000, 3 hafta; AI Pilot
+  //   480.000 TL / €15.000 / $16.500, 6 hafta: `packages.ts` (pricing, scope,
+  //   deliverables, FAQ). "KDV hariç liste fiyatı" `llms-full.txt/route.ts`.
+  //   660.000 TL / €20.500 iki liste fiyatının aritmetik toplamıdır.
+  // - Fiyat dışı kalemler paket SSS'lerinden ("Fiyata neler dahil değil?",
+  //   "Yapay zeka maliyeti pilot sonrasında nasıl ilerliyor") ve
+  //   `services/ai-danismanlik.ts` scope.excludes'tan. Dış maliyet (model,
+  //   bulut, lisans) için rakam yok: tüketime bağlı ve doğrulanamaz.
+  // - Üretime geçiş için rakam yok: pilot raporundaki yol haritasıyla yazılı
+  //   teklif (Burak kararı). Dış kaynak, piyasa ortalaması, saatlik ücret,
+  //   rakip fiyatı yok.
+  // - Geri ödeme hesabı açıkça varsayımsal (600 tekrar/ay, 12 ay) ve yalnız
+  //   yayımlı fiyatları böler. EN tarafı € (sitenin EN fiyat birimi, CRO fiyat
+  //   emsali); $ karşılıkları giriş paragrafında ve ilk SSS'te parantez içinde.
+  //
+  // Diagnoo linki ve köprüsü yok: Diagnoo e-ticaret mağaza tarayıcısı,
+  // `yapay-zeka` konusu kapsamında değil (`tools-content.test.ts` sayacı
+  // cro/performans-pazarlama/e-ticaret konularını sayar, etkilenmez).
+  {
+    slug: {
+      tr: "yapay-zeka-danismanligi-fiyatlari",
+      en: "ai-consulting-pricing",
+    },
+    title: {
+      tr: "Yapay zeka danışmanlığı neye mal olur: fiyat nasıl oluşur?",
+      en: "What does AI consultancy cost? How the price is built",
+    },
+    excerpt: {
+      tr: "Yapay zeka danışmanlığı fiyatları iki sabit fiyatlı paketle, 180.000 ile 480.000 TL arasında başlar. Model kullanım ücreti ve üretime geçiş neden sabitlenemez, fiyatı hangi beş değişken büyütür ve pilot bedeli kendini nasıl öder?",
+      en: "AI consultancy starts with two fixed-price packages, between €5,500 and €15,000. Why model usage fees and the move to production cannot be fixed, which five variables grow the price, and how a pilot fee pays for itself.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka danışmanlığı INDOLES'te iki sabit fiyatlı işle başlar: üç haftalık Dijital Dönüşüm Teşhisi 180.000 TL, altı haftalık AI Pilot 480.000 TL'dir ve iki fiyat da KDV hariç liste fiyatıdır. Tek paketle başlayan ilk iş birliğinin bandı bu yüzden 180.000 ile 480.000 TL arasındadır; iki paket art arda alınırsa liste fiyatlarıyla toplam 660.000 TL eder. Bu fiyatın dışında kalan iki kalem sabitlenemez: model kullanım ve bulut ücretleri gibi tüketime bağlı giderler kullanım hacminize, pilot sonrası üretime geçiş ise pilotun ölçtüğü sonuca bağlıdır ve pilot raporundaki yol haritasıyla yazılı teklife dönüşür.",
+          en: "AI consultancy at INDOLES starts with two fixed-price pieces of work: the three-week Digital Transformation Audit at €5,500 and the six-week AI Pilot at €15,000 ($6,000 and $16,500), both list prices excluding VAT. A first engagement that starts with one package therefore falls between €5,500 and €15,000; take both back to back and the list prices add up to €20,500. Two items sit outside that price and cannot be fixed: consumption-based costs such as model usage and cloud fees depend on your usage volume, and the move to production after the pilot depends on what the pilot measures — it becomes a written proposal built on the roadmap in the pilot report.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kerem bir ambalaj üreticisinin operasyon direktörü ve yönetim kurulu ondan yapay zeka için tek bir bütçe rakamı istiyor. Masasındaki iki teklif aynı işi anlatmıyor: biri aylık sabit bir ücretle süresi belirsiz bir \"yapay zeka dönüşümü\" öneriyor, diğeri bir sohbet botu kurulumu için tek seferlik bir rakam veriyor; ikisi de modelin her ay ne kadar kullanım ücreti doğuracağından söz etmiyor. Kerem'i bu yazı için kurguladım; sorusunu kurgulamadım — \"yapay zeka danışmanlığı ne kadar tutar?\" görüşmelerimizde en erken sorulan sorulardan biri.",
+          en: "Kerem is director of operations at a packaging manufacturer, and the board wants a single budget figure for AI from him. The two proposals on his desk do not describe the same work: one offers an open-ended \"AI transformation\" for a fixed monthly fee, the other quotes a one-off figure for setting up a chatbot, and neither says how much the model will run up in usage fees each month. I invented Kerem for this article; I did not invent his question — \"how much does AI consultancy cost?\" is one of the first questions we hear in a buying conversation.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dürüst cevap iki parçadır: sabitlenebilen kısım ve sabitlenemeyen kısım. Bu yazıda önce kendi fiyat listemizi açıyorum, sonra fiyatı büyüten beş değişkeni, fiyatın dışında kalan kalemleri ve pilottan sonraki bütçenin nasıl yazıldığını anlatıyorum. Bir danışmanı ilk görüşmede nasıl sınayacağınızı [yapay zeka danışmanına sorulacak 12 soruda](/yazilar/ai-danismani-secerken-sorulacak-12-soru), pilotun gün gün nasıl yürüdüğünü [90 günlük pilot çerçevesinde](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot), işin yöntemini ise [yapay zeka danışmanlığı hizmet sayfasında](/hizmetler/ai-danismanlik) bulursunuz.",
+          en: "The honest answer comes in two parts: the part that can be fixed and the part that cannot. Below I open up our own price list first, then the five variables that grow the price, the lines that sit outside it, and how the budget after the pilot gets written. How to test a consultant in the first meeting is covered in [12 questions to ask an AI consultant](/yazilar/ai-danismani-secerken-sorulacak-12-soru); how a pilot runs day by day is in the [90-day pilot framework](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot); and the method behind the work is on the [AI advisory service page](/hizmetler/ai-danismanlik).",
+        },
+      },
+      {
+        type: "h2",
+        id: "fiyat-bandi",
+        text: {
+          tr: "INDOLES'te yapay zeka danışmanlığının fiyat bandı nedir?",
+          en: "What is the price band for AI consultancy at INDOLES?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Tek paketle başlayan ilk iş birliğinin fiyat bandı KDV hariç 180.000 ile 480.000 TL arasındadır ve iki sabit kapsamlı paketten oluşur. Bant, hangi paketle başladığınıza göre üç biçimde gerçekleşir:",
+          en: "For a first engagement that starts with one package, the price band runs from €5,500 to €15,000 excluding VAT, and it is made up of two fixed-scope packages. Depending on where you start, it plays out in one of three ways:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Yalnız teşhis: 180.000 TL, üç hafta. Hangi sürecin yapay zekaya, hangisinin klasik otomasyona aday olduğu henüz belli değilse.",
+            en: "Audit only: €5,500, three weeks. When it is not yet clear which process is a candidate for AI and which for classic automation.",
+          },
+          {
+            tr: "Yalnız pilot: 480.000 TL, altı hafta. Çözülecek problem ve verisi zaten belliyse.",
+            en: "Pilot only: €15,000, six weeks. When the problem to solve and its data are already clear.",
+          },
+          {
+            tr: "Önce teşhis, sonra pilot: liste fiyatlarıyla toplam 660.000 TL, dokuz haftalık çalışma. Teşhisin sıraya dizdiği adaylardan biri sahada denenecekse.",
+            en: "Audit, then pilot: €20,500 in total at list prices, nine weeks of work. When one of the candidates the audit ranks is to be tried in the field.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[Dijital Dönüşüm Teşhisi](/paketler/dijital-donusum-teshisi) üç haftada sahada 3-5 süreci gözlemler, süreç sahipleriyle 5-10 yapılandırılmış görüşme yapar ve mevcut durum haritalarını çıkarır. Çıktısı ROI projeksiyonuyla sıralanmış 3-5 pilot önerisi, her öneri için ayrı bir teknik şartname ve altı aylık bir uygulama yol haritasıdır. Teşhis yalnız yapay zekaya bakmaz; \"bu süreçte yapay zeka gerekmiyor\" sonucu da geçerli bir çıktıdır ve bütçenin yanlış yere bağlanmasını önler.",
+          en: "The [Digital Transformation Audit](/paketler/dijital-donusum-teshisi) spends three weeks observing 3-5 processes on site, running 5-10 structured interviews with process owners and drawing the current-state maps. Its output is 3-5 pilot recommendations ranked by ROI projection, a separate technical spec for each one and a six-month implementation roadmap. The audit does not look at AI alone; a finding that \"this process does not need AI\" is a valid output too, and it keeps budget from being tied to the wrong place.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[AI Pilot](/paketler/ai-pilot) altı haftayı tek bir kullanım senaryosuna ayırır. Kapsamında beş kalem var: senaryo seçimi ve değer doğrulaması, veri envanteri ve kalite kontrolü, model seçimi — büyük dil modeli, klasik makine öğrenmesi ya da ikisinin karışımı —, operatörün ya da son kullanıcının doğrudan kullanabileceği bir prototip ve gerçek kullanıcıyla iki haftalık saha testi. Teslim edilen şey çalışan prototip ve kaynak kodu, metrik etkisini ve maliyet analizini içeren pilot raporu ve üretime geçişin teknik adımlarını, tahmini bütçesini ve takvimini gösteren yol haritasıdır. Kaynak kod tam sahiplikle müşteride kalır.",
+          en: "The [AI Pilot](/paketler/ai-pilot) gives six weeks to a single use case. Its scope has five items: use case selection and value validation, a data inventory and quality check, model selection — a large language model, classical machine learning or a mix of the two — a prototype that operators or end users can work with directly, and a two-week field test with real users. What gets delivered is the working prototype with its source code, a pilot report covering the metric impact and the cost analysis, and a roadmap setting out the technical steps, estimated budget and timeline for moving to production. The source code stays with the client in full ownership.",
+        },
+      },
+      {
+        type: "h2",
+        id: "teshis-mi-pilot-mu",
+        text: {
+          tr: "Teşhisle mi başlamalısınız, doğrudan pilotla mı?",
+          en: "Should you start with the audit or go straight to the pilot?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Çözülecek problem netse doğrudan pilotla, net değilse teşhisle başlanır. Pilot altı haftayı tek bir senaryoya yatırır ve yanlış senaryo o altı haftanın tamamını harcar; teşhis ise adayları üç haftada veriyle sıraya dizer. Teşhise ödenen 180.000 TL, 480.000 TL'lik pilotun doğru problemde açılmasının bedelidir.",
+          en: "If the problem is clear, start with the pilot; if it is not, start with the audit. The pilot puts six weeks into one use case, and the wrong use case spends all six; the audit ranks the candidates from data in three weeks. The €5,500 paid for the audit is the price of opening a €15,000 pilot on the right problem.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Netlik testi basittir: tek bir cümle yazabiliyor musunuz? \"Teklif hazırlama süresini kısaltmak istiyoruz, teklif talepleri e-postada kayıtlı, süreç sahibi satış müdürü.\" Bu cümle yazılabiliyorsa — süreç, kayıt ve sahip belliyse — pilot doğrudan başlayabilir. Cümle \"yapay zekadan nasıl faydalanırız\" biçiminde kalıyorsa doğru satın alma pilot değil teşhistir. Teşhis yapay zeka tarafında bir aday önerirse pilot doğrudan o adayın şartnamesinden başlar; iki paket bunun için art arda çalışacak biçimde kurgulandı.",
+          en: "The clarity test is simple: can you write one sentence? \"We want to cut the time it takes to prepare quotes; quote requests are on record in email, and the process owner is the sales manager.\" If that sentence can be written — process, record and owner all known — the pilot can start directly. If the sentence stays at \"how do we benefit from AI\", the right purchase is the audit rather than the pilot. When the audit recommends a candidate on the AI side, the pilot starts straight from that candidate's spec; the two packages were designed to run back to back for exactly that reason.",
+        },
+      },
+      {
+        type: "h2",
+        id: "fiyati-ne-belirler",
+        text: {
+          tr: "Yapay zeka danışmanlığı fiyatları neye göre değişir?",
+          en: "What makes AI consulting prices vary?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka danışmanlığı fiyatlarını beş değişken belirler: verinin hazırlık durumu, senaryo sayısı, entegrasyon yüzeyi, saha testinin ve kullanıcıların kapsamı ve kullanım hacmi. İlk dördü kurulumun bedelini, sonuncusu her ay tekrar eden işletme giderini büyütür. Aynı başlıkla satılan iki teklifin birkaç kat ayrışabilmesinin nedeni de çoğu zaman bu beşinden birinin farklı varsayılmasıdır.",
+          en: "Five variables set AI consulting prices: how ready the data is, the number of use cases, the integration surface, the scope of the field test and its users, and usage volume. The first four grow the cost of the build; the last grows the running cost that comes back every month. When two proposals sold under the same heading differ several times over, the reason is usually that one of the five was assumed differently.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sabit fiyatlı bir paket bu değişkenleri ortadan kaldırmaz, sınırlar. AI Pilot'ta senaryo sayısı bir, aday sayısı en fazla iki, saha testi iki haftadır; teşhiste kapsam 3-5 süreçtir. Fiyat bu sınırlar içinde sabit kalır. Değişken sınırı aşarsa — ikinci bir senaryo, altıncı bir süreç, ikinci bir tesis — süre ve fiyat yazılı olarak yeniden hesaplanır; sınır sessizce genişletilmez. Aşağıdaki dört bölüm beş değişkeni sırayla açıyor ve her birinin sonunda teklifte aramanız gereken satırı yazıyor.",
+          en: "A fixed-price package does not remove these variables; it bounds them. In the AI Pilot there is one use case, at most two candidates and a two-week field test; in the audit the scope is 3-5 processes. Inside those bounds the price stays fixed. If a variable crosses its bound — a second use case, a sixth process, a second site — duration and price are recalculated in writing; the boundary is never widened quietly. The four sections below take the five variables in turn, and each ends with the line to look for in a proposal.",
+        },
+      },
+      {
+        type: "h2",
+        id: "veri-hazirligi",
+        text: {
+          tr: "Veri hazırlığı bütçeye ne ekler?",
+          en: "What does data preparation add to the budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Veri hazırlığı bütçeye çoğu zaman faturada değil, takvimde ve ekibinizin saatinde eklenir. Kayıtların toplanması, boş alanların bulunması, erişim izinlerinin açılması ve temizleme planı modelin kurulmasından uzun sürebilir; bu satır teklifte yoksa maliyeti sessizce size kalır.",
+          en: "Data preparation usually adds to the budget not on the invoice but in the calendar and in your team's hours. Collecting records, finding empty fields, opening access rights and drawing up a cleaning plan can take longer than building the model; if this line is missing from a proposal, its cost quietly lands on you.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "AI Pilot'ta veri envanteri ve kalite kontrolü fiyatın içindedir ve ilk haftalarda yapılır. Veri yetersizse bu, pilotun ortasında değil senaryo seçilirken söylenir: ya senaryo değişir ya da önce ölçüm ve kayıt düzeni kurulur. Eksik veriyle pilot başlatmıyoruz, çünkü eksik veriyle ölçülen bir pilotun sonucu hiçbir karara dayanak olmaz. En fazla iki adayla başlanmasının nedeni de budur; hangisinin verisi hazırsa o seçilir.",
+          en: "In the AI Pilot, the data inventory and quality check are inside the price and happen in the first weeks. If the data falls short, that is said while the use case is being chosen rather than halfway through the pilot: either the use case changes or measurement and record-keeping get set up first. We don't start a pilot on incomplete data, because a pilot measured on incomplete data gives no decision anything to stand on. That is also why the pilot starts with at most two candidates; whichever has its data ready gets picked.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Fiyatın dışında kalan iki veri işi var. Birincisi kayıt hiç yoksa o kaydı oluşturmaktır; bu, pilotun değil bir dijitalleşme adımının konusudur. İkincisi sürekli veri etiketleme operasyonudur; etiketleme bir defalık değil her ay süren bir iştir ve yapay zeka danışmanlığı kapsamımızın dışındadır. Teklifte aranacak satır: veri hazırlığını kimin yaptığı, kaç hafta sürdüğü ve veri yetersiz çıkarsa ne olacağı.",
+          en: "Two data jobs sit outside the price. The first is creating a record where none exists; that belongs to a digitisation step, not to a pilot. The second is an ongoing data labelling operation; labelling is not a one-off but a monthly job, and it sits outside our AI consultancy scope. The line to look for in the proposal: who prepares the data, how many weeks it takes, and what happens if the data falls short.",
+        },
+      },
+      {
+        type: "h2",
+        id: "senaryo-ve-entegrasyon",
+        text: {
+          tr: "Senaryo sayısı ve entegrasyon yüzeyi fiyatı nasıl büyütür?",
+          en: "How do the number of use cases and the integration surface grow the price?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Her yeni senaryo ve her yeni bağlantı kendi veri hazırlığı, kendi testi ve kendi hata durumlarıyla gelir; fiyat bu yüzden senaryo ve sistem sayısıyla birlikte büyür. AI Pilot tek senaryo ve tek bir akış üzerine kurulur: bir müşteri segmenti, bir kanal ya da bir sipariş akışı.",
+          en: "Every new use case and every new connection arrives with its own data preparation, its own testing and its own failure cases, so the price grows with the number of use cases and systems. The AI Pilot is built on a single use case and a single flow: one customer segment, one channel or one order flow.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Senaryo tarafında kural nettir. Kullanım senaryosu pilot boyunca sabittir; saha testi başladıktan sonra senaryoyu değiştirmek pilotu sıfırlar. Prototip içindeki küçük düzeltmeler kapsamdadır, yeni bir problem tanımı değildir. İkinci bir senaryo ayrı bir pilot olarak fiyatlanır ve kendi altı haftasını ister: altı hafta tek problem için planlanmıştır ve ikiye bölünürse iki senaryo da yarım kalır.",
+          en: "On the use case side the rule is clear. The use case stays fixed for the whole pilot; switching it after the field test starts resets the pilot. Minor corrections inside the prototype are in scope, a new problem definition is not. A second use case is priced as a separate pilot and needs its own six weeks: six weeks is planned for one problem, and split in two, both come out half-finished.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Entegrasyon tarafında asıl soru, sistemin kaç yere bağlanacağı ve oralardan yalnız okuyup okumayacağı, yoksa geri yazıp yazmayacağıdır. ERP'den veri okuyan bir prototip ile ERP'ye sipariş yazan bir üretim sistemi aynı iş değildir; ikincisi yetki, hata yönetimi ve geri alma senaryosu ister. Pilot prototipi üretime taşınabilecek bir temel mimariyle kurulur, ama üretim ortamındaki entegrasyonların tamamı pilotun değil üretim geçiş yol haritasının konusudur. Teklifte aranacak satır: hangi sistemlere bağlanılacağı, okuma mı yazma mı yapılacağı ve entegrasyonu kimin yazacağı.",
+          en: "On the integration side, the real question is how many places the system connects to, and whether it only reads from them or also writes back. A prototype that reads data from the ERP and a production system that writes orders into the ERP are not the same job; the second needs permissions, error handling and a way to roll back. The pilot prototype is built on a core architecture that can move to production, but the full set of production integrations belongs to the production roadmap rather than to the pilot. The line to look for in the proposal: which systems get connected, whether the connection reads or writes, and who writes the integration.",
+        },
+      },
+      {
+        type: "h2",
+        id: "saha-testi-ve-kullanicilar",
+        text: {
+          tr: "Saha testi ve kullanıcı sayısı neyi değiştirir?",
+          en: "What do the field test and the number of users change?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Saha testi pilotun fiyatını değil, pilotun etrafındaki maliyeti değiştirir. AI Pilot'ta saha testi iki hafta sürer ve gerçek kullanıcıyla yapılır; bu iki hafta fiyatın içindedir. Teste katılan kullanıcı sayısı arttıkça büyüyen iki kalem vardır: modelin tükettiği kullanım ücreti ve ekibinizin ayırdığı zaman.",
+          en: "The field test changes not the price of the pilot but the cost around it. In the AI Pilot the field test lasts two weeks with real users, and those two weeks are inside the price. As more users join the test, two lines grow: the usage fees the model consumes and the time your team puts in.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Saha testi simüle edilmez, çünkü ölçülen şey laboratuvar doğruluğu değil, sürecin gerçek işteki birim süresidir. Bunun bir bedeli var: operatörler, pazarlama ekibi ya da müşteri temsilcileri iki hafta boyunca yeni sistemle çalışır, ilk günlerde süreç eskisinden yavaş yürüyebilir ve süreç sahibi ölçümü yönetir. Bu zaman teklifte görünmez ama gerçek bir maliyettir; bütçeye yazılmazsa pilot olduğundan ucuz görünür.",
+          en: "The field test is not simulated, because what gets measured is not laboratory accuracy but the unit time of the process on real work. That has a cost: operators, the marketing team or customer representatives work with the new system for two weeks, the process may run slower than usual in the first days, and the process owner runs the measurement. That time never appears in a proposal, but it is a real cost; leave it out of the budget and the pilot looks cheaper than it is.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üretimde kullanıcı sayısı daha da belirleyicidir. Beş operatörün kullandığı bir sistemle beş yüz bayinin kullandığı bir sistem aynı model üzerinde çalışabilir, ama işletme maliyetleri, destek yükleri ve eğitim ihtiyaçları aynı değildir. Teklifte aranacak satır: saha testine kaç kişinin, hangi rolde ve ne kadar süreyle katılacağı ve üretimdeki kullanıcı sayısının hangi varsayımla hesaplandığı.",
+          en: "In production the number of users matters even more. A system used by five operators and one used by five hundred dealers can run on the same model, but their running costs, support load and training needs are not the same. The line to look for in the proposal: how many people take part in the field test, in which roles and for how long, and which assumption the number of production users was calculated on.",
+        },
+      },
+      {
+        type: "h2",
+        id: "model-kullanim-ucreti",
+        text: {
+          tr: "Model kullanım ücretleri neden sabit fiyata girmez?",
+          en: "Why don't model usage fees go into a fixed price?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Model kullanım ücretleri tüketime bağlıdır: sistem ne kadar çok istek alırsa, istekler ne kadar uzun olursa ve hangi model seçilirse fatura o kadar değişir. Bu yüzden sabit bir paket fiyatına alınmazlar; kullanım hacmi arttıkça o rakam da artar ve onu sabit göstermek yanıltıcı olur.",
+          en: "Model usage fees depend on consumption: the more requests the system handles, the longer those requests are and the model chosen, the more the bill moves. That is why they are not folded into a fixed package price; as usage rises the figure rises with it, and presenting it as fixed would mislead.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pilot bu belirsizliği kaldırmaz ama ölçer. İki haftalık saha testi gerçek kullanımın ilk verisini üretir: kaç istek geldi, istek başına ne tüketildi, hangi işler insan denetimine düştü. Pilot raporu bu veriden yıllık bir işletme maliyeti tahmini çıkarır ve üretim geçiş yol haritası bu tahmini ayrı bir bütçe kalemi olarak yazar. İşletme bütçesini pilottan sonraki ilk faturada değil, raporla birlikte görürsünüz.",
+          en: "The pilot does not remove this uncertainty, but it measures it. The two-week field test produces the first data on real usage: how many requests came in, what each one consumed, which tasks fell to human review. The pilot report turns that data into an estimate of the annual running cost, and the production roadmap writes that estimate down as a separate budget line. You see the running budget with the report, not on the first invoice after the pilot.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İşletme maliyetinin dört bileşeni vardır: model kullanım ücreti, bulut altyapısı, entegrasyon bakımı ve insan denetimi. Hassas veri söz konusuysa model kendi altyapınızda çalıştırılabilir; bu durumda kullanım ücretinin yerini sunucu maliyeti alır, GPU sunucu tedariki ve donanım işletmesi ise danışmanlık kapsamının dışında kalır. Model katmanı bu alanın en hızlı değişen ve en hızlı ucuzlayan parçası olduğu için iyi kurulmuş bir sistem modeli değiştirilebilir bir bileşen olarak tutar; daha uygun bir model çıktığında sistem baştan yazılmadan değiştirilebilmelidir. Teklifte aranacak satır: aylık işletme maliyeti tahmini, dayandığı kullanım varsayımı ve hesapların kimin adına açılacağı.",
+          en: "The running cost has four components: model usage fees, cloud infrastructure, integration maintenance and human review. Where sensitive data is involved the model can run on your own infrastructure; server cost then takes the place of usage fees, while GPU server procurement and hardware operations sit outside the consultancy scope. Because the model layer is the fastest-moving and fastest-cheapening part of this field, a well-built system keeps the model as a replaceable component; when a better-value model appears, it should be possible to swap it in without rewriting the system. The line to look for in the proposal: the monthly running cost estimate, the usage assumption behind it, and whose name the accounts are opened in.",
+        },
+      },
+      {
+        type: "h2",
+        id: "fiyat-disi-kalemler",
+        text: {
+          tr: "Paket fiyatının dışında hangi kalemler kalır?",
+          en: "Which lines sit outside the package price?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Paket fiyatı kapsam listesindeki beş kalemi karşılar; dışarıda kalan her kalem baştan adıyla yazılır. Dijital Dönüşüm Teşhisi'nde yazılım lisansları, araç abonelikleri, donanım ve uygulama işçiliği; AI Pilot'ta model kullanım ücretleri, bulut altyapısı ve araç lisansları fiyatın dışındadır. Yapay zeka danışmanlığı kapsamının tamamında dışarıda kalan dört iş daha var:",
+          en: "The package price covers the five items on the scope list; everything outside it is named up front. In the Digital Transformation Audit, software licences, tool subscriptions, hardware and implementation labour sit outside the price; in the AI Pilot, model usage fees, cloud infrastructure and tool licences do. Four more pieces of work sit outside our AI consultancy scope as a whole:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Sıfırdan model eğitimi ve akademik araştırma: çoğu işte hazır servisler ya da kural tabanlı otomasyon aynı sonucu çok daha ucuza verir.",
+            en: "Training models from scratch and academic research: for most tasks, ready-made services or rule-based automation give the same result far more cheaply.",
+          },
+          {
+            tr: "Veri etiketleme operasyonunun sürekli yürütülmesi.",
+            en: "Running an ongoing data labelling operation.",
+          },
+          {
+            tr: "GPU sunucu tedariki ve donanım işletmesi.",
+            en: "GPU server procurement and hardware operations.",
+          },
+          {
+            tr: "Üçüncü taraf yapay zeka servislerinin aylık kullanım bedelleri.",
+            en: "Monthly usage fees for third-party AI services.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dışarıda kalan kalemler görünmez değildir. Teşhis raporundaki her pilot önerisi tahmini maliyetiyle gelir, pilot raporu da üretim ve işletme bütçesini tahmin olarak yazar; bu rakamlar raporda durur, faturada değil. Kapsam değişirse yeniden fiyatlama yazılı yapılır ve süreç içinde sürpriz kalem çıkmaz. INDOLES'in hiçbir model ya da yazılım sağlayıcısıyla komisyon ilişkisi yoktur; önerilen araçtan ya da modelden pay alınmadığı için öneri fiyatı değil gereksinimi izler.",
+          en: "What sits outside is not invisible. Every pilot recommendation in the audit report comes with an estimated cost, and the pilot report writes down the production and running budget as estimates; those figures sit in the report, not on the invoice. If scope changes, repricing is put in writing, and no surprise line appears along the way. INDOLES has no commission relationship with any model or software provider; because no share is taken from a recommended tool or model, the recommendation follows the requirement rather than the price.",
+        },
+      },
+      {
+        type: "h2",
+        id: "uretime-gecis",
+        text: {
+          tr: "Pilottan sonra üretime geçişin fiyatı nasıl belirlenir?",
+          en: "How is the price of moving to production set after the pilot?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üretime geçişin sabit bir fiyatı yoktur; fiyat, pilotun ölçtüğü sonuca ve pilot raporundaki üretim geçiş yol haritasına göre yazılı teklifle belirlenir. Yol haritası teknik adımları, tahmini bütçeyi ve zaman çizelgesini içerir; devam kararı tamamen müşteriye aittir.",
+          en: "Moving to production has no fixed price; it is set by written proposal, based on what the pilot measured and on the production roadmap in the pilot report. The roadmap sets out the technical steps, the estimated budget and the timeline; the decision to go ahead belongs entirely to the client.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Fiyatın önceden sabitlenememesinin üç nedeni var. Birincisi sonuçtur: pilot dört karardan biriyle kapanır — ölçekle, genişlet, düzelt ve tekrarla ya da durdur — ve dördünün bütçesi birbirinden farklıdır. İkincisi kapsamdır: üretime geçiş, pilotun dokunmadığı entegrasyonları, kullanıcıları ve hata senaryolarını içerir; bunların büyüklüğü ancak saha testinden sonra bilinir. Üçüncüsü işletmedir: üretimdeki kullanım hacmi saha testindekinden farklıdır ve ancak testin verisiyle tahmin edilebilir.",
+          en: "There are three reasons the price cannot be fixed in advance. The first is the outcome: a pilot closes with one of four decisions — scale, extend, fix and rerun, or stop — and each of the four carries a different budget. The second is scope: production takes in integrations, users and failure cases the pilot never touched, and their size is only known after the field test. The third is running cost: usage in production differs from usage in the field test and can only be estimated from the test's data.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bunu bir eksiklik değil, bir sıralama olarak görüyorum. Pilotun işi üretim bütçesini tahminden ölçüme taşımaktır; o rakamı pilottan önce isteyen alıcı, kimsenin ölçmediği bir sistemin fiyatını ister. Kaynak kod sizde olduğu için üretim işini iç ekibiniz, mevcut tedarikçiniz ya da INDOLES yürütebilir. Aradığınız şey bitmiş, canlıya alınacak bir ürünse ihtiyacınız pilot değil ürün geliştirmedir ve o iş [MVP Build](/paketler/mvp-build) paketinin kapsamıdır.",
+          en: "I see that not as a gap but as an order of operations. The pilot's job is to move the production budget from guesswork to measurement; a buyer who asks for that figure before the pilot is asking for the price of a system nobody has measured. Because the source code is yours, the production work can be run by your internal team, an existing vendor or INDOLES. If what you are after is a finished product ready to go live, what you need is not a pilot but product development, and that work belongs to the [MVP Build](/paketler/mvp-build) package.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kime-uygun",
+        text: {
+          tr: "Sabit kapsamlı paket kime uygun, kime değil?",
+          en: "Who is a fixed-scope package for, and who is it not for?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sabit kapsamlı paket, tek bir soruya ölçülmüş bir cevap isteyen şirkete uygundur: hangi süreç yapay zekaya aday, ya da bu senaryo sahada işe yarıyor mu? Sürekli bir yapay zeka kapasitesi arayan şirkete uygun değildir. Yapay zeka danışmanlığı için sitede yayımlanmış aylık bir ücretimiz yok; çalışma iki sabit kapsamlı paketle yürür ve pilot getiriyorsa sistem iç ekibinize devredilir.",
+          en: "A fixed-scope package suits a company that wants a measured answer to one question: which process is a candidate for AI, or does this use case work in the field? It does not suit a company looking for ongoing AI capacity. We have no published monthly fee for AI consultancy; the work runs through two fixed-scope packages, and if the pilot pays off, the system is handed over to your in-house team.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Paketleri önermediğimiz dört durum var. Veri birikimi yoksa model öğrenecek bir geçmiş bulamaz ve pilot tahmine döner; önce kayıt kurulmalıdır. Somut bir operasyonel problem adlandırılamıyorsa pilot erkendir; önce teşhis gelir. Yönetim belirli bir aracı almaya çoktan karar vermiş ve yalnız onay arıyorsa bağımsız teşhis rahatsız eder; doğru iş kurulumdur. Süreç sahiplerine ve operasyon ekibine erişim verilmeyecekse teşhis eksik kalır, çünkü haritayı ekibin anlattığı gerçek akış üretir.",
+          en: "There are four situations where we don't recommend the packages. With no accumulated data, the model has no history to learn from and the pilot turns into guesswork; the record has to be built first. If no concrete operational problem can be named, a pilot is premature, and the audit comes first. If management has already settled on a particular tool and is only looking for endorsement, an independent audit will be uncomfortable; the right work is the installation. And if access to process owners and the operations team will be withheld, the audit falls short, because the map is drawn from the real flow the team describes.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir uyarı daha: her yapay zeka işi altı haftalık bir pilot gerektirmez. Bir sohbet botunu ya da hazır bir servisi tek bir ekrana bağlamak bugün birkaç günde yapılabilecek bir iştir ve fiyatı da öyle olmalıdır. O iş için 480.000 TL ödemek doğru bir satın alma değildir; pilot, sonucu ölçülmesi gereken ve mevcut bir sürece bağlanan sistem içindir.",
+          en: "One more warning: not every piece of AI work needs a six-week pilot. Connecting a chatbot or a ready-made service to a single screen can be done in a few days today, and the price should say so. Paying €15,000 for that would be the wrong purchase; a pilot is for a system whose result has to be measured and which has to connect to an existing process.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ucuz-teklif",
+        text: {
+          tr: "Ucuz görünen bir yapay zeka teklifinde hangi kalem eksiktir?",
+          en: "Which line is missing from a cheap-looking AI proposal?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ucuz görünen teklif çoğu zaman bir kalemi silerek ucuzlar ve silinen kalem size sonradan fatura edilir: ya ekibinizin saatiyle ya da ilk kullanım faturasıyla. Beş yere bakın.",
+          en: "A cheap-looking proposal usually gets cheap by deleting a line, and the deleted line is billed to you later — either in your team's hours or on the first usage invoice. Look in five places.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Taban ölçüm yok: işe başlamadan bugünkü değer kaydedilmiyorsa pilotun sonucu ispatlanamaz, yalnız iddia edilir.",
+            en: "No baseline: if today's value is not recorded before the work starts, the pilot's result can only be asserted, never proven.",
+          },
+          {
+            tr: "Veri hazırlığı yok: \"veriyi siz verin\" cümlesi işin en uzun kısmını size bırakır.",
+            en: "No data preparation: \"you supply the data\" hands you the longest part of the job.",
+          },
+          {
+            tr: "İşletme maliyeti tahmini yok: kullanım ücretinin fiyat dışında olması normaldir, tahmininin hiç verilmemesi değildir.",
+            en: "No running cost estimate: usage fees sitting outside the price is normal; never being given an estimate of them is not.",
+          },
+          {
+            tr: "Sahiplik belirsiz: kaynak kod, kural ve komut setleri ve hesaplar sizde kalmıyorsa sistemi satın almıyor, kiralıyorsunuz.",
+            en: "Unclear ownership: if the source code, the rule and prompt sets and the accounts don't stay with you, you are leasing the system, not buying it.",
+          },
+          {
+            tr: "Durdurma kriteri yok: hangi rakamın altında projenin kapanacağı yazılı değilse pilot bitmez, yalnız bütçesi biter.",
+            en: "No stopping criterion: if nobody has written down below which figure the project closes, the pilot doesn't end; only its budget does.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ucuz teklifin gerçek fiyatını tek satırda hesaplayın: teklif tutarı, artı ekibinizin veri ve saha testi saatleri, artı ayrıca faturalanacak kullanım ve altyapı, artı sözleşme bittiğinde sistemi geri almanın bedeli. Son kalem sıfır görünür, çünkü onu imza anında kimse fatura etmez. Bu beş kalemi ilk görüşmede nasıl soracağınız [12 soruluk listede](/yazilar/ai-danismani-secerken-sorulacak-12-soru) duruyor.",
+          en: "Work out the real price of a cheap proposal in one line: the proposal amount, plus your team's hours on data and the field test, plus usage and infrastructure invoiced separately, plus the cost of getting the system back when the contract ends. The last item looks like zero, because nobody invoices it at signing. How to ask about these five in the first meeting is set out in the [12-question list](/yazilar/ai-danismani-secerken-sorulacak-12-soru).",
+        },
+      },
+      {
+        type: "h2",
+        id: "pilot-bedeli-geri-donus",
+        text: {
+          tr: "Pilot bedelinin kendini ödemesi için ne gerekir?",
+          en: "What does it take for the pilot fee to pay for itself?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pilot bedelinin kendini ödemesi için gereken kazancı tahmin etmek yerine hesaplayın; hesap yalnız iki rakam ister: sürecin ayda kaç kez tekrarlandığı ve bedelin kaç ayda geri dönmesini beklediğiniz. Sonuç, sürecin her tekrarında üretilmesi gereken değerdir.",
+          en: "Rather than estimating the gain the pilot fee has to produce, calculate it; the calculation needs only two numbers: how many times a month the process runs, and how many months you expect the fee to take to come back. The result is the value each run of the process has to produce.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aşağıdaki rakamlar varsayımsaldır; hiçbir müşterimize ait değildir ve yalnız hesabın nasıl kurulduğunu göstermek için seçildi. Varsayımlar dört tane:",
+          en: "The figures below are hypothetical; they belong to none of our clients and were chosen only to show how the calculation is built. There are four assumptions:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Süreç: teklif hazırlama. İş gününde 30 kez tekrarlanıyor; ayda 20 iş günüyle ayda 600 tekrar.",
+            en: "Process: preparing quotes. It runs 30 times a working day; at 20 working days a month, that is 600 runs a month.",
+          },
+          {
+            tr: "Maliyet: yayımlı liste fiyatları — yalnız AI Pilot 480.000 TL, teşhisle birlikte 660.000 TL.",
+            en: "Cost: published list prices — €15,000 for the AI Pilot alone, €20,500 with the audit.",
+          },
+          {
+            tr: "Geri dönüş süresi: 12 ay.",
+            en: "Payback period: 12 months.",
+          },
+          {
+            tr: "Hesaba girmeyenler: üretime geçiş ve aylık işletme maliyeti bu hesapta yok; ikisi pilot raporundaki tahminle eklenir.",
+            en: "Left out: the move to production and the monthly running cost are not in this calculation; both get added from the estimates in the pilot report.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "480.000 TL'yi on iki aya bölün: ayda 40.000 TL. Bunu 600 tekrara bölün: pilot bedelinin bir yılda kendini ödemesi için her tekrarın yaklaşık 67 TL'lik değer üretmesi gerekir. Teşhisle birlikte 660.000 TL için aynı hesap ayda 55.000 TL ve tekrar başına yaklaşık 92 TL eder. Değer üç yerden gelir: kısalan süre, önlenen hata ve kaçmayan talep. Tekrar başına 67 TL'nin sizin işinizde kaç dakikalık emeğe denk geldiğini bilen tek kişi sizsiniz; hesabı kendi tam maliyetli çalışan saatinizle yapın.",
+          en: "Divide €15,000 by twelve months: €1,250 a month. Divide that by 600 runs: for the pilot fee to pay for itself within a year, each run has to produce about €2.08 of value. For €20,500 with the audit, the same calculation gives about €1,708 a month and about €2.85 per run. The value comes from three places: time saved, errors avoided and requests that no longer slip away. Only you know how many minutes of work €2.08 per run buys in your business; run the calculation with your own fully loaded cost per staff hour.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı süreç ayda 600 değil 60 kez, yani günde üç kez tekrarlanıyorsa tekrar başına gereken değer on katına, yaklaşık 667 TL'ye çıkar. Tekrar sıklığı fiyatın kendisinden daha belirleyicidir; ilk pilot için en çok tekrar eden sürecin seçilmesinin nedeni budur. Pilotu ölçeğe çıkarmanın eşiği ise bu hesaptan bir adım yüksektir, çünkü kazancın işletme maliyetini de karşılaması gerekir. O eşiği nasıl yazdığımızı [90 günlük pilot çerçevesinin başarı ve durdurma kriterleri bölümünde](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot) anlattım.",
+          en: "If the same process runs 60 times a month instead of 600 — three times a day — the value needed per run rises tenfold, to about €20.83. How often a process repeats matters more than the price itself, which is why the first pilot goes to the process that repeats most. The threshold for scaling a pilot sits one step higher than this calculation, because the gain also has to cover the running cost. I set out how we write that threshold in the success and stopping criteria section of the [90-day pilot framework](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot).",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-uc-rakam",
+        text: {
+          tr: "Sonuç: bütçeyi onaylamadan önce hangi üç rakamı istemelisiniz?",
+          en: "Conclusion: which three figures should you ask for before approving the budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka danışmanlığının fiyatı tek bir rakam değil, üç rakamdır: sabit kurulum bedeli, tahmini aylık işletme maliyeti ve üretime geçişin tahmini bütçesi. Birincisi teklifte yazar; ikincisi ve üçüncüsü çoğu zaman yazmaz, ama onlar olmadan verilen bütçe onayı ilk kullanım faturasında yeniden açılır.",
+          en: "The price of AI consultancy is not one figure but three: the fixed build fee, the estimated monthly running cost and the estimated budget for moving to production. The first is written in the proposal; the second and third often are not, yet a budget approved without them gets reopened at the first usage invoice.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz test şu: masanızdaki teklifi açın ve üç satırı arayın. Sabit bedel neyi kapsıyor, adıyla? Aylık işletme maliyeti hangi kullanım varsayımıyla tahmin edilmiş? Üretime geçişin bütçesi ne zaman ve hangi belgeyle görülecek? Üçünden birinin cevabı yoksa o fiyat henüz bir fiyat değil, bir açılış rakamıdır.",
+          en: "Here is a test you can run today: open the proposal on your desk and look for three lines. What does the fixed fee cover, by name? On which usage assumption was the monthly running cost estimated? When, and in which document, will the production budget be visible? If any of the three has no answer, that price is not yet a price; it is an opening figure.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı üç soruyu bize de sorun. İlk rakam bu yazıda ve paket sayfalarında yazılı: [Dijital Dönüşüm Teşhisi](/paketler/dijital-donusum-teshisi) 180.000 TL, [AI Pilot](/paketler/ai-pilot) 480.000 TL. İkinci ve üçüncü rakam pilot raporuyla gelir; nasıl çalıştığımızı [yapay zeka danışmanlığı hizmet sayfasında](/hizmetler/ai-danismanlik) bulabilirsiniz.",
+          en: "Ask us the same three questions. The first figure is written in this article and on the package pages: the [Digital Transformation Audit](/paketler/dijital-donusum-teshisi) at €5,500 and the [AI Pilot](/paketler/ai-pilot) at €15,000. The second and third arrive with the pilot report; how we work is set out on the [AI advisory service page](/hizmetler/ai-danismanlik).",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "Yapay zeka danışmanlığı ne kadar tutar?",
+          en: "How much does AI consultancy cost?",
+        },
+        answer: {
+          tr: "INDOLES'te yapay zeka danışmanlığı iki sabit fiyatlı paketle başlar: üç haftalık Dijital Dönüşüm Teşhisi 180.000 TL, altı haftalık AI Pilot 480.000 TL; iki fiyat da KDV hariç liste fiyatıdır. Tek paketle başlayan ilk iş birliğinin bandı 180.000 ile 480.000 TL arasındadır, iki paket art arda alınırsa toplam 660.000 TL eder. Model kullanım ücreti, bulut altyapısı ve pilot sonrası üretime geçiş bu fiyatın dışındadır ve tahminle yazılır.",
+          en: "At INDOLES, AI consultancy starts with two fixed-price packages: the three-week Digital Transformation Audit at €5,500 ($6,000) and the six-week AI Pilot at €15,000 ($16,500), both list prices excluding VAT. A first engagement that starts with one package falls between €5,500 and €15,000, or €20,500 for both back to back. Model usage fees, cloud infrastructure and the move to production after the pilot sit outside that price and are given as estimates.",
+        },
+      },
+      {
+        question: {
+          tr: "Dijital Dönüşüm Teşhisi ile AI Pilot arasındaki fark nedir?",
+          en: "What is the difference between the Digital Transformation Audit and the AI Pilot?",
+        },
+        answer: {
+          tr: "Teşhis hangi problemin çözüleceğini bulur, pilot o problemin çözümünü sahada ölçer. Teşhis üç hafta sürer ve 180.000 TL'dir: 3-5 süreci yerinde gözlemler, pilot adaylarını ROI sırasına dizer ve her biri için şartname bırakır. AI Pilot altı hafta sürer ve 480.000 TL'dir: tek bir senaryoda çalışan bir prototip kurar ve onu gerçek kullanıcıyla iki hafta test eder. Problem netse doğrudan pilot, değilse önce teşhis gelir.",
+          en: "The audit finds which problem to solve; the pilot measures a solution to that problem in the field. The audit runs three weeks at €5,500: it observes 3-5 processes on site, ranks pilot candidates by ROI and leaves a spec for each. The AI Pilot runs six weeks at €15,000: it builds a working prototype for a single use case and tests it with real users for two weeks. If the problem is clear, go straight to the pilot; if not, the audit comes first.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka danışmanlığı fiyatına neler dahil değil?",
+          en: "What is not included in the price of AI consultancy?",
+        },
+        answer: {
+          tr: "Tüketime bağlı kalemler ve uygulama işçiliği dahil değildir. Dijital Dönüşüm Teşhisi'nde yazılım lisansları, araç abonelikleri, donanım ve uygulama işçiliği; AI Pilot'ta model kullanım ücretleri, bulut altyapısı ve araç lisansları fiyatın dışındadır. Sıfırdan model eğitimi, sürekli veri etiketleme ve GPU sunucu tedariki de kapsam dışıdır. Dışarıda kalan kalemlerin tahmini bütçesi raporda yazılır, faturada değil.",
+          en: "Consumption-based items and implementation labour are not included. In the Digital Transformation Audit, software licences, tool subscriptions, hardware and implementation labour sit outside the price; in the AI Pilot, model usage fees, cloud infrastructure and tool licences do. Training models from scratch, ongoing data labelling and GPU server procurement are out of scope as well. The estimated budget for what sits outside appears in the report, not on the invoice.",
+        },
+      },
+      {
+        question: {
+          tr: "AI Pilot başarısız olursa ne olur?",
+          en: "What happens if the AI Pilot fails?",
+        },
+        answer: {
+          tr: "Sonuç belgelenir ve öğrenilen yazıya geçer. Pilot raporu ne denendiğini, metriğin ne yaptığını, neyin farklı yapılması gerektiğini ve maliyet analizini içerir; kaynak kod yine tam sahiplikle şirkette kalır. Fiyat sonuca değil kapsam listesine bağlıdır; başarı kriterleri ilk haftada yazıldığı için de sonucun ne olduğu tartışmaya açık kalmaz. Bir senaryonun altı haftada elenmesi, aynı yanlışa yıllık bütçe bağlamaktan ucuzdur.",
+          en: "The outcome is documented and the learning is written down. The pilot report covers what was tried, what the metric did, what should be done differently and the cost analysis; the source code still stays with the company in full ownership. The price is tied to the scope list rather than to the outcome, and because the success criteria are written in week one, the result is not open to argument. Eliminating a use case in six weeks costs less than tying an annual budget to the same mistake.",
+        },
+      },
+      {
+        question: {
+          tr: "Pilot sonrası yapay zeka sisteminin aylık maliyeti ne kadar olur?",
+          en: "What will the AI system cost per month after the pilot?",
+        },
+        answer: {
+          tr: "Aylık maliyet tek bir rakamla söylenemez, çünkü kullanım hacmine bağlıdır. İşletme maliyeti dört bileşenden oluşur: model kullanım ücreti, bulut altyapısı, entegrasyon bakımı ve insan denetimi. Sistem ne kadar çok istek alırsa ve hangi model seçilirse fatura o kadar değişir. AI Pilot'un iki haftalık saha testi gerçek kullanımın ilk verisini üretir; pilot raporu bu veriden yıllık bir tahmin çıkarır ve üretim yol haritasına ayrı bir kalem olarak yazar.",
+          en: "The monthly cost cannot be given as a single number, because it depends on usage volume. The running cost has four components: model usage fees, cloud infrastructure, integration maintenance and human review. The more requests the system handles, and the model chosen, the more the bill moves. The AI Pilot's two-week field test produces the first data on real usage; the pilot report turns that data into an annual estimate and writes it into the production roadmap as a separate line.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka danışmanlığı fiyatları neden çoğu zaman teklifle verilir?",
+          en: "Why are AI consultancy prices usually given by proposal?",
+        },
+        answer: {
+          tr: "Fiyatı belirleyen değişkenler şirketin verisine ve süreçlerine bakmadan bilinemez: verinin hazırlık durumu, senaryo sayısı, bağlanılacak sistemler ve kullanım hacmi her şirkette farklıdır. Kapsamı sabitlenebilen işler, örneğin üç haftalık bir teşhis ya da tek senaryolu bir pilot, liste fiyatıyla satılabilir; INDOLES paket fiyatlarını bu yüzden yayımlar. Üretime geçiş ise kapsamı pilottan sonra belli olduğu için yazılı teklifle fiyatlanır.",
+          en: "The variables that set the price cannot be known without looking at a company's data and processes: data readiness, the number of use cases, the systems to connect and usage volume differ from one company to the next. Work whose scope can be fixed, such as a three-week audit or a single-use-case pilot, can be sold at a list price, which is why INDOLES publishes its package prices. The move to production is priced by written proposal, because its scope only becomes clear after the pilot.",
+        },
+      },
+      {
+        question: {
+          tr: "Pilot sırasında kapsam değişirse fiyat da değişir mi?",
+          en: "If the scope changes during the pilot, does the price change too?",
+        },
+        answer: {
+          tr: "Kapsam listesi değişmedikçe fiyat değişmez; değişirse yeniden fiyatlama yazılı yapılır ve sürpriz kalem çıkmaz. Kullanım senaryosu pilot boyunca sabittir: prototip içindeki küçük düzeltmeler kapsamdadır, yeni bir problem tanımı değildir. Saha testi başladıktan sonra senaryoyu değiştirmek pilotu sıfırlar. İkinci bir senaryo istenirse ayrı bir pilot olarak fiyatlanır ve kendi altı haftasını ister.",
+          en: "As long as the scope list holds, the price does not change; if it changes, repricing is put in writing and no surprise line appears. The use case is fixed for the whole pilot: minor corrections inside the prototype are in scope, a new problem definition is not. Switching the use case after the field test has started resets the pilot. A second use case is priced as a separate pilot and needs its own six weeks.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka projesinde maliyeti en çok hangi kalem büyütür?",
+          en: "Which line grows the cost of an AI project the most?",
+        },
+        answer: {
+          tr: "Çoğu projede maliyeti model değil, veri hazırlığı ve entegrasyon büyütür. Kayıtların toplanması, temizlenmesi ve erişim izinlerinin açılması modelin kurulmasından uzun sürebilir; mevcut sistemlerden okuyup onlara yazan bir bağlantı da çoğu zaman projenin asıl mühendisliğidir. Kurulumdan sonra ise en büyük kalem, kullanım hacmiyle büyüyen işletme maliyetidir. Teklif bu üç satırı adıyla yazmıyorsa maliyetleri sonradan size kalır.",
+          en: "In most projects it is not the model but data preparation and integration. Collecting and cleaning records and opening access rights can take longer than building the model, and a connection that reads from and writes to existing systems is often the real engineering in the project. After the build, the largest line is the running cost, which grows with usage volume. If a proposal does not name these three lines, their cost lands on you later.",
+        },
+      },
+      {
+        question: {
+          tr: "Teşhisten sonra pilota geçmek zorunlu mu?",
+          en: "Do we have to move on to the pilot after the audit?",
+        },
+        answer: {
+          tr: "Zorunlu değildir. Dijital Dönüşüm Teşhisi kendi başına duran bir iştir ve raporla birlikte tamamlanır; uygulama kararı müşteriye aittir. Rapor 3-5 pilot önerisini ROI sırasıyla verir ve her öneri için kapsamı, araç seçimini, tahmini bütçeyi ve başarı kriterlerini içeren ayrı bir şartname bırakır. Şartnameyi iç ekibiniz, mevcut tedarikçiniz ya da INDOLES uygulayabilir; yapay zeka tarafındaki bir öneri seçilirse AI Pilot doğrudan o şartnameden başlar.",
+          en: "No. The Digital Transformation Audit stands on its own and completes with the report; the implementation decision belongs to the client. The report ranks 3-5 pilot recommendations by ROI and leaves a separate spec for each, covering scope, tool selection, estimated budget and success criteria. Your internal team, an existing vendor or INDOLES can implement the spec; if an AI-side recommendation is chosen, the AI Pilot starts directly from that spec.",
+        },
+      },
+      {
+        question: {
+          tr: "Ödenen bedelin karşılığında sistemin sahibi kim olur?",
+          en: "Who owns the system once the fee is paid?",
+        },
+        answer: {
+          tr: "AI Pilot'ta çalışan prototip, kaynak koduyla birlikte tam sahiplikle müşteriye teslim edilir ve pilot başarısız olsa bile şirkette kalır. Sahipliğin sözleşmede dört kalemde tanımlanması gerekir: kaynak kod, sistemin çalışma mantığını taşıyan kural ve komut setleri, üretilen veri ve bulut hesaplarının mülkiyeti. Dördü birden alıcıda kalmıyorsa sistem satın alınmamış, kiralanmıştır ve kiranın ne zaman artacağına alıcı karar vermez.",
+          en: "In the AI Pilot the working prototype is handed over with its source code in full ownership, and it stays with the company even if the pilot fails. Ownership should be defined across four items in the contract: the source code, the rule and prompt sets carrying the system's logic, the data produced, and title to the cloud accounts. If all four don't stay with the buyer, the system was leased rather than bought, and the buyer has no say over when the rent goes up.",
+        },
+      },
+      {
+        question: {
+          tr: "Hazır bir yapay zeka servisi kullanmak maliyeti düşürür mü?",
+          en: "Does using a ready-made AI service lower the cost?",
+        },
+        answer: {
+          tr: "Çoğu işte düşürür. Hazır bir servisi mevcut sisteme bağlamak sıfırdan model eğitmekten çok daha ucuzdur ve çoğu zaman en ucuz çalışan yoldur. Yöntem seçiminde hazır servis, kural tabanlı otomasyon ve özel model karşılaştırılır ve seçim gerekçesiyle yazılır. Hazır servis kurulum maliyetini düşürür ama aylık kullanım bedeli doğurur; o bedel danışmanlık fiyatından ayrı kalır ve hangi verinin nereye gönderildiği baştan belirtilir.",
+          en: "For most tasks, yes. Connecting a ready-made service to an existing system costs far less than training a model from scratch and is often the cheapest thing that works. Method selection compares ready-made services, rule-based automation and a custom model, and the choice is written down with its reasoning. A ready-made service lowers the build cost but brings a monthly usage fee; that fee stays separate from the consultancy price, and which data goes where is stated up front.",
+        },
+      },
+      {
+        question: {
+          tr: "KOBİ'ler yapay zeka danışmanlığına bütçe ayırmalı mı?",
+          en: "Should SMEs set aside a budget for AI consultancy?",
+        },
+        answer: {
+          tr: "Kararı şirket büyüklüğü değil, sürecin tekrar sıklığı verir. Paket fiyatı ölçeğe göre değişmez; değişen, o fiyatın her tekrara düşen payıdır. Ayda 600 kez tekrarlanan bir süreçte 480.000 TL'lik pilotun bir yılda kendini ödemesi için her tekrarın yaklaşık 67 TL'lik değer üretmesi yeter; ayda 60 tekrarda bu rakam yaklaşık 667 TL'ye çıkar. Kural yazılarak çözülebilen işlerde önce daha ucuz olan otomasyon denenir.",
+          en: "Company size does not decide it; how often the process repeats does. The package price does not change with scale; what changes is the share of that price each repetition has to carry. On a process that runs 600 times a month, a €15,000 pilot pays for itself within a year if each run produces about €2.08 of value; at 60 runs a month that rises to about €20.83. Where a written rule can do the job, cheaper automation gets tried first.",
+        },
+      },
+    ],
+    category: "transform",
+    topic: "yapay-zeka",
+    tags: [
+      "yapay-zeka-danismanligi",
+      "yapay-zeka-danismanligi-fiyatlari",
+      "ai-pilot",
+      "yapay-zeka-maliyeti",
+      "fiyatlandirma",
+    ],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-10-02",
+    readingMinutes: 22,
+    seo: {
+      title: {
+        tr: "Yapay zeka danışmanlığı fiyatları nasıl oluşur?",
+        en: "AI consulting pricing: how the budget is built",
+      },
+      description: {
+        tr: "Yapay zeka danışmanlığı fiyatları neye göre değişir? 180.000 TL teşhis, 480.000 TL pilot; fiyat dışı kalemler, kullanım maliyeti ve pilot sonrası bütçe.",
+        en: "What does AI consulting cost? A €5,500 audit and a €15,000 pilot, what sits outside the price, why usage costs float and how the post-pilot budget is set.",
       },
     },
   },

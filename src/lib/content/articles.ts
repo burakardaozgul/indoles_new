@@ -1293,8 +1293,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bir e-ticaret danışmanı seçmek, kişisel bir koç tutmak gibidir: sizi hedefe taşıyacak bilgiye, deneyime ve özveriye sahip biri gerekir. Karar vermeden önce şu üçünü mutlaka isteyin: geçmiş işlerin rakamlı kanıtı, benzer ölçekte müşteri referansı ve size özel bir yol haritası taslağı. \"Her şeyi yaparız\" diyen ajanstan değil, neyi yapmayacağını da söyleyen ajanstan güven duyun.",
-          en: "Choosing an e-commerce consultant is like hiring a personal coach: you need someone with the knowledge, experience and dedication to carry you to the goal. Before deciding, always ask for three things: numbered proof of past work, references from clients at a similar scale, and a draft roadmap specific to you. Trust the agency that tells you what it won't do — not the one that claims to do everything.",
+          tr: "Bir e-ticaret danışmanı seçmek, kişisel bir koç tutmak gibidir: sizi hedefe taşıyacak bilgiye, deneyime ve özveriye sahip biri gerekir. Karar vermeden önce şu üçünü mutlaka isteyin: geçmiş işlerin rakamlı kanıtı, benzer ölçekte müşteri referansı ve size özel bir yol haritası taslağı. \"Her şeyi yaparız\" diyen ajanstan değil, neyi yapmayacağını da söyleyen ajanstan güven duyun. Bu kriterleri, ilk görüşmede sorulacak on soruyla birlikte [e-ticaret danışmanı nasıl seçilir](/yazilar/e-ticaret-danismani-nasil-secilir) yazısında ayrıca açtık.",
+          en: "Choosing an e-commerce consultant is like hiring a personal coach: you need someone with the knowledge, experience and dedication to carry you to the goal. Before deciding, always ask for three things: numbered proof of past work, references from clients at a similar scale, and a draft roadmap specific to you. Trust the agency that tells you what it won't do — not the one that claims to do everything. We set out those criteria separately, with ten questions for the first meeting, in [how to choose an e-commerce consultant](/yazilar/e-ticaret-danismani-nasil-secilir).",
         },
       },
       {
@@ -12289,8 +12289,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Karar, kaybın nerede durduğuna bağlıdır. Tek bir sayfada veya tek bir adımda kayıp varsa bir CRO uzmanı yeterlidir; kayıp ölçüm, arayüz, içerik ve teknik altyapı arasına dağılmışsa tek kişi bu katmanları aynı anda tutamaz.",
-          en: "The decision depends on where the loss sits. If the loss is on one page or at one step, a CRO specialist is enough; if it is spread across measurement, interface, content and technical infrastructure, one person cannot hold those layers at the same time.",
+          tr: "Karar, kaybın nerede durduğuna bağlıdır. Tek bir sayfada veya tek bir adımda kayıp varsa bir CRO uzmanı yeterlidir; kayıp ölçüm, arayüz, içerik ve teknik altyapı arasına dağılmışsa tek kişi bu katmanları aynı anda tutamaz. Kayıp dönüşümde değil de altyapıda, sipariş akışında ya da kanal karmasındaysa aradığınız kişi CRO ajansı değil, e-ticaret danışmanıdır; onun seçim kriterlerini [e-ticaret danışmanı nasıl seçilir yazısında](/yazilar/e-ticaret-danismani-nasil-secilir) topladık.",
+          en: "The decision depends on where the loss sits. If the loss is on one page or at one step, a CRO specialist is enough; if it is spread across measurement, interface, content and technical infrastructure, one person cannot hold those layers at the same time. If the loss sits not in conversion but in the platform, the order flow or the channel mix, the person you need is an e-commerce consultant rather than a CRO agency; we gathered the criteria for choosing one in [how to choose an e-commerce consultant](/yazilar/e-ticaret-danismani-nasil-secilir).",
         },
       },
       {
@@ -12678,8 +12678,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Altyapı da bu hesaba girer. İKAS, Ticimax, İdeaSoft ya da Shopify gibi hazır altyapılarda tema ve ödeme adımına müdahale, platformun izin verdiği ölçüdedir; bazı hipotezler hiç test edilemez, bazıları ancak eklentiyle edilebilir. Kendi yazılımınız varsa her şey mümkündür ama her değişiklik geliştirme saatidir. Kazanan varyant üç ay kuyrukta bekliyorsa üç aylık artış hiç yaşanmamıştır; getiri hesabı bu gecikmeyi de içermelidir. Teklifte aranacak satır: kazananın yayına alınma süresi ve bu işin kimin bütçesinden çıktığı.",
-          en: "The platform enters the calculation too. On hosted platforms such as İKAS, Ticimax, İdeaSoft or Shopify, changes to the theme and the checkout step go only as far as the platform allows; some hypotheses cannot be tested at all, and some only through an add-on. With your own software anything is possible, but every change is development time. If a winning variant waits three months in the queue, three months of lift never happened; the return calculation has to include that delay. The line to look for in the proposal: the time to ship a winner, and whose budget that work comes out of.",
+          tr: "Altyapı da bu hesaba girer. İKAS, Ticimax, İdeaSoft ya da Shopify gibi hazır altyapılarda tema ve ödeme adımına müdahale, platformun izin verdiği ölçüdedir; bazı hipotezler hiç test edilemez, bazıları ancak eklentiyle edilebilir. Kendi yazılımınız varsa her şey mümkündür ama her değişiklik geliştirme saatidir. Kazanan varyant üç ay kuyrukta bekliyorsa üç aylık artış hiç yaşanmamıştır; getiri hesabı bu gecikmeyi de içermelidir. Altyapının kendisinin, yani kurulumun, entegrasyonun ve lisansın neye mal olduğunu [e-ticaret danışmanlığı fiyatları yazısında](/yazilar/e-ticaret-danismanligi-fiyatlari) ayrıca açtım. Teklifte aranacak satır: kazananın yayına alınma süresi ve bu işin kimin bütçesinden çıktığı.",
+          en: "The platform enters the calculation too. On hosted platforms such as İKAS, Ticimax, İdeaSoft or Shopify, changes to the theme and the checkout step go only as far as the platform allows; some hypotheses cannot be tested at all, and some only through an add-on. With your own software anything is possible, but every change is development time. If a winning variant waits three months in the queue, three months of lift never happened; the return calculation has to include that delay. What the platform itself costs — build, integration and licences — I have set out separately in [the e-commerce consulting pricing article](/yazilar/e-ticaret-danismanligi-fiyatlari). The line to look for in the proposal: the time to ship a winner, and whose budget that work comes out of.",
         },
       },
       {
@@ -14878,8 +14878,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bütçe gerektirmeyen ilk adım, mağazanızın yedi kritik sayfasını [Diagnoo](/araclar/diagnoo) ile taratmak: araç ölçüm altyapısındaki eksikleri de listeler ve hangi boşluğun kaç puan götürdüğünü ayrı ayrı yazar. Tanıyı birlikte yapmak isterseniz [CRO danışmanlığımız](/hizmetler/cro) ölçümle başlar ve hipotezleri etki-efor sırasıyla test eder; [dönüşüm oranı optimizasyonu hizmet sayfası](/hizmetler/cro) adımları ve teslimatları anlatıyor. Sorun altyapıdaysa, yani ödeme sağlayıcısında, pazar yeri entegrasyonunda ya da çok pazarlı kurguda, [e-ticaret danışmanlığı](/hizmetler/e-ticaret) o katmanı ele alır.",
-          en: "The first step needs no budget: scan your store's seven critical pages with [Diagnoo](/araclar/diagnoo); it also lists the gaps in your tracking set-up and shows how many points each gap costs. If you want to run the diagnosis together, [our CRO consultancy](/hizmetler/cro) starts with measurement and tests hypotheses in impact-effort order; [the conversion rate optimisation service page](/hizmetler/cro) sets out the steps and deliverables. If the problem is in the infrastructure, meaning the payment provider, marketplace integration or multi-market set-up, [e-commerce consultancy](/hizmetler/e-ticaret) handles that layer.",
+          tr: "Bütçe gerektirmeyen ilk adım, mağazanızın yedi kritik sayfasını [Diagnoo](/araclar/diagnoo) ile taratmak: araç ölçüm altyapısındaki eksikleri de listeler ve hangi boşluğun kaç puan götürdüğünü ayrı ayrı yazar. Tanıyı birlikte yapmak isterseniz [CRO danışmanlığımız](/hizmetler/cro) ölçümle başlar ve hipotezleri etki-efor sırasıyla test eder; [dönüşüm oranı optimizasyonu hizmet sayfası](/hizmetler/cro) adımları ve teslimatları anlatıyor. Sorun altyapıdaysa, yani ödeme sağlayıcısında, pazar yeri entegrasyonunda ya da çok pazarlı kurguda, [e-ticaret danışmanlığı](/hizmetler/e-ticaret) o katmanı ele alır; altyapının değişmesi gerekip gerekmediğine nasıl karar verileceğini [e-ticaret platform danışmanlığı yazısında](/yazilar/e-ticaret-platform-danismanligi) anlattık.",
+          en: "The first step needs no budget: scan your store's seven critical pages with [Diagnoo](/araclar/diagnoo); it also lists the gaps in your tracking set-up and shows how many points each gap costs. If you want to run the diagnosis together, [our CRO consultancy](/hizmetler/cro) starts with measurement and tests hypotheses in impact-effort order; [the conversion rate optimisation service page](/hizmetler/cro) sets out the steps and deliverables. If the problem is in the infrastructure, meaning the payment provider, marketplace integration or multi-market set-up, [e-commerce consultancy](/hizmetler/e-ticaret) handles that layer; how to decide whether the platform itself needs to change is covered in [the e-commerce platform consulting article](/yazilar/e-ticaret-platform-danismanligi).",
         },
       },
       {
@@ -15089,6 +15089,1878 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "Ortalama e-ticaret dönüşüm oranı %1,4 mü, %2,72 mi? 9 kaynaktan sektör, mobil-masaüstü, trafik kaynağı ve sepet terki verisi; kendi oranınızı kıyaslama yolu.",
         en: "Is the average e-commerce conversion rate 1.4% or 2.72%? Sector, mobile vs desktop, traffic source and cart abandonment data from 9 sources, and how to compare.",
+      },
+    },
+  },
+  // Karar kümesi "nasıl seçilir" halkası — e-ticaret (Yol-Haritasi-Satin-Alma-
+  // Niyeti §3, Faz 2; 2026-10-02). Emsal: `cro-ajansi-nasil-secilir` ve
+  // `geo-ajansi-nasil-secilir`. Seçim niyeti bu yazıda, satın alma niyeti
+  // `/hizmetler/e-ticaret`te; fiyat `e-ticaret-danismanligi-fiyatlari`nda,
+  // platform kararı `e-ticaret-platform-danismanligi`nda.
+  //
+  // Kaynaklar — uydurma rakam yok:
+  // - Yöntem, kapsam, süre ve sahiplik: `services/e-ticaret.ts` (dört adımlı
+  //   yöntem, "Kurulum ne kadar sürer?" ve "Sistem bizim adımıza mı kayıtlı
+  //   olur?" SSS'leri, altyapı listesi İKAS/Ticimax/İdeaSoft/Shopify/
+  //   WooCommerce); teşhis süreleri `packages.ts` (3 ve 4 hafta).
+  // - Kanıt yalnız `cases.ts`ten: SOYLU AVM (ölçüm önce, ilk 6 günde 1,5M $),
+  //   OdorGo (İKAS altyapısı, Trendyol + Hepsiburada, 8 ayda 10M TL toplam
+  //   ciro, Şubat 2026 devri), MKComputer (Magento 2; "denetim tamamlanmadan
+  //   Magento, sunucu veya arayüz kararı verilmez" SSS'i).
+  // - Ortaklık/komisyon: INDOLES'in kendi durumu hakkında iddia YAZILMADI —
+  //   `packages.ts` Teşhis SSS'i ("hiçbir yazılım sağlayıcısıyla iş ortaklığı
+  //   veya komisyon ilişkisi yoktur") ile `cases.ts` OdorGo yaklaşımı ("İKAS
+  //   ortaklığıyla") birbirini tutmuyor; okura soru olarak verildi.
+  // - Tek kurgu Murat, gövdede beyan edildi. Dış kaynak yok.
+  // Diagnoo linki gövdede inline (ölçüm bölümü); köprü eklenmez (21 taktik ve
+  // benchmark emsali, `tools-content.test.ts`).
+  {
+    slug: {
+      tr: "e-ticaret-danismani-nasil-secilir",
+      en: "how-to-choose-an-ecommerce-consultant",
+    },
+    title: {
+      tr: "Platformu ilk görüşmede seçen teklif: e-ticaret danışmanı nasıl seçilir?",
+      en: "The proposal that picks your platform in the first meeting: how to choose an e-commerce consultant",
+    },
+    excerpt: {
+      tr: "İyi bir e-ticaret danışmanı platform ya da kanal önermeden önce siparişinizin nasıl aktığını ve reklam bütçenizin ne getirdiğini sorar. Ayrım altı kriterde, ilk görüşmenin on sorusunda ve üç kırmızı bayrakta ortaya çıkıyor.",
+      en: "A good e-commerce consultant asks how your orders flow and what your ad budget returns before naming a platform or a channel. The difference shows up in six criteria, ten first-meeting questions and three red flags.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret danışmanı seçmenin en hızlı testi şudur: danışman bir platform ya da kanal önermeden önce siparişinizin bugün nasıl aktığını ve reklam bütçenizin hangi kanalda ne getirdiğini soruyor mu? İyi bir e-ticaret danışmanı dört kararı veriyle verir — hangi altyapı, hangi reklam kanalları ve bütçe dağılımı, nasıl bir çalışma sistemi, büyümek için önce hangi kayıp — bu kararları yazılı gerekçeyle sunar ve çalışma bittiğinde hesapları, veriyi ve varsa kaynak kodu sizin adınıza bırakır. Bu yazıda bunu sınamak için altı kriter, ilk görüşmede sorulacak on soru ve görüşmeyi bitirmeniz gereken üç vaat var.",
+          en: "The quickest test for choosing an e-commerce consultant is this: before recommending a platform or a channel, does the consultant ask how your orders flow today and what your ad budget returns in each channel? A good e-commerce consultant makes four decisions on data — which platform, which ad channels and budget split, what operating system, which loss to close first in order to grow — presents them with written reasoning, and leaves the accounts, the data and any source code in your name when the work ends. This article gives you six criteria to test that, ten questions for the first meeting and three promises that should end it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Murat bir ev aletleri markasının e-ticaret müdürüydü ve masasında iki teklif vardı. Birincisi ilk görüşmenin sonunda yeni bir altyapı önermiş, geçiş tarihini ve fiyatı aynı sayfaya yazmıştı. İkincisi fiyat vermeden önce bir hafta istiyordu: bir siparişin sepetten depoya, muhasebeden kargoya kadar kimin elinden geçtiğini görmek için. Murat birincisini seçti; hızlı ve net görünüyordu.",
+          en: "Murat ran e-commerce for a home appliances brand, and two proposals sat on his desk. The first recommended a new platform by the end of the first meeting and put the migration date and the price on the same page. The second asked for a week before quoting anything: to see whose hands an order passes through, from basket to warehouse and from accounting to the courier. Murat chose the first; it looked fast and clear.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altı ay sonra mağaza yeni altyapıdaydı, ama bayiler hâlâ telefonla sipariş veriyor, stok gece bir kez eşitleniyor, faturalar sabah elle kesiliyordu. Sorun hiçbir zaman platformda değildi; platformun arkasındaki akıştaydı ve kimse o akışı çizmemişti. Murat'ı bu yazı için kurguladım; yazıdaki tek kurgu da o.",
+          en: "Six months later the store was on the new platform, but dealers still ordered by phone, stock synced once a night and invoices were issued by hand every morning. The problem had never been the platform; it was the flow behind the platform, and nobody had drawn that flow. I invented Murat for this article; he is the only invented thing in it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret danışmanı seçmek bir platform seçmek değil, karar ortağı seçmektir: yanlış danışman yanlış altyapıyı, yanlış altyapı da sonraki iki yılın iş yükünü belirler. Bu yazı e-ticaret karar kümesinin \"nasıl seçilir\" ayağı. Fiyatın nasıl oluştuğunu [e-ticaret danışmanlığının neye mal olduğunu anlattığımız yazıda](/yazilar/e-ticaret-danismanligi-fiyatlari), platform kararının kendisini [e-ticaret platform danışmanlığı yazısında](/yazilar/e-ticaret-platform-danismanligi), işin bizde nasıl yürüdüğünü ise [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret) bulursunuz.",
+          en: "Choosing an e-commerce consultant is not choosing a platform; it is choosing a decision partner. The wrong consultant picks the wrong platform, and the wrong platform sets the workload for the next two years. This article is the \"how to choose\" part of the e-commerce decision set. How the price is built is in [what e-commerce consulting costs](/yazilar/e-ticaret-danismanligi-fiyatlari), the platform decision itself in [e-commerce platform consulting](/yazilar/e-ticaret-platform-danismanligi), and how the work runs on our side on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
+        },
+      },
+      {
+        type: "h2",
+        id: "e-ticaret-danismani-ne-yapar",
+        text: {
+          tr: "E-ticaret danışmanı ne yapar, ne yapmaz?",
+          en: "What does an e-commerce consultant do, and what is outside the job?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret danışmanı dört soruya veriyle cevap verir: mağaza hangi altyapıda çalışmalı, reklam bütçesi hangi kanallara ve hangi oranda gitmeli, sipariş, stok, muhasebe ve kargo nasıl bir sistemde akmalı, büyümek için önce hangi kayıp kapatılmalı? Çoğu zaman bu kararların uygulanmasına da eşlik eder. İşin dışında kalanlar da en az bu kadar net olmalı: reklam hesaplarının günlük yönetimi, depo operasyonu, ürün fotoğrafı ve pazaryeri hesaplarının günlük işletmesi ayrı işlerdir.",
+          en: "An e-commerce consultant answers four questions on data: which platform should the store run on, which ad channels should the budget go to and in what proportion, what system should orders, stock, accounting and shipping flow through, and which loss should be closed first in order to grow? Usually the consultant also stays to see those decisions implemented. What sits outside the job should be just as clear: day-to-day management of ad accounts, running the warehouse, product photography and the daily running of marketplace accounts are separate jobs.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu ayrımın pratik karşılığı şu: e-ticaret ajansı genellikle mağazayı kurar ve reklamı yönetir; e-ticaret danışmanı ise neyin, hangi sırayla kurulacağına ve bütçenin nereye gideceğine karar verir. İki rol aynı ekipte birleşebilir; önemli olan sıranın tersine dönmemesidir. Akış ve kanal verisi okunmadan seçilen platform ya da açılan kampanya ilk ay çalışır görünür; bedeli sonraki aylarda, elle yapılan işlerde ve geri dönmeyen reklam harcamasında çıkar.",
+          en: "In practice the distinction is this: an e-commerce agency usually builds the store and runs the ads, while an e-commerce consultant decides what gets built, in what order, and where the budget goes. The two roles can sit in the same team; what matters is that the order is never reversed. A platform chosen, or a campaign launched, before the flow and channel data have been read looks fine in the first month; the cost shows up in the months after, in manual work and in ad spend that never comes back.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Arama kutusuna \"Shopify danışmanlığı\", \"İKAS danışmanlığı\" ya da \"Trendyol danışmanlığı\" yazan alıcı çoğu zaman platformu ya da satış kanalını zaten seçmiştir. Bu seçim doğruysa o ekosistemde uzmanlaşmış bir danışman hızlıdır. Ama soru hâlâ \"hangi altyapı\" ise, tek bir platformda uzmanlaşmış danışman doğal olarak kendi alanına yakın durur; ondan bağımsız bir karşılaştırma beklemek adil olmaz. Görüşmede doğrudan sorun: herhangi bir platformdan komisyon, ortaklık ya da yönlendirme geliri alıyor musunuz?",
+          en: "A buyer who types \"Shopify consultant\", \"İKAS consultant\" or \"Trendyol consultant\" into a search box has usually already chosen the platform or the sales channel. If that choice is right, a consultant who specialises in that ecosystem is fast. But if the question is still \"which platform\", a consultant who specialises in one platform will naturally stay close to it, and it would not be fair to expect an independent comparison. Ask directly in the meeting: do you receive commission, partnership or referral income from any platform?",
+        },
+      },
+      {
+        type: "h2",
+        id: "siparis-akisi",
+        text: {
+          tr: "Danışman siparişinizin akışını çiziyor mu?",
+          en: "Does the consultant map your order flow?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İlk kriter budur: danışman platform önermeden önce bir siparişin girişten teslimata kadar geçtiği her adımı çıkarıyor mu? Akış haritası; elle yapılan işleri, iki sistem arasında kopan bilgiyi ve siparişin beklediği yerleri görünür kılar. Platform kararı bu haritanın sonucudur, başlangıcı değil.",
+          en: "This is the first criterion: before recommending a platform, does the consultant trace every step an order takes from entry to delivery? A flow map makes visible the manual work, the information that breaks between two systems and the places where an order waits. The platform decision is the outcome of that map, not its starting point.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Görüşmede şunu isteyin: \"Geçen haftaki bir siparişimizi baştan sona birlikte izleyelim.\" İyi danışman bu yolculuğu soru sorarak çizer: sipariş hangi ekrana düşüyor, stok ne zaman iniyor, faturayı kim kesiyor, kargo kaydı nasıl açılıyor, müşteri takip bilgisini nereden alıyor? Zayıf danışman bu soruları atlar ve doğrudan özellik listesine geçer.",
+          en: "Ask for this in the meeting: \"Let's follow one of last week's orders from start to finish together.\" A good consultant draws that journey by asking questions: which screen does the order land on, when does stock drop, who issues the invoice, how is the shipment created, where does the customer get the tracking information? A weak consultant skips those questions and goes straight to a feature list.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu sıranın gerçek bir örneği [MKComputer vakasında](/vakalar/mkcomputer-dropshipping-otomasyonu) duruyor. Almanya merkezli bu teknoloji perakendecisi 200.000'den fazla ürünü dropshipping ile satmak istiyordu; işe tedarikçinin veri akışının denetimiyle başlandı ve o denetim kapanmadan Magento, sunucu ya da arayüz kararı verilmedi. Sonunda stok, fiyat ve tedarikçi bilgisi her 5 dakikada bir kendiliğinden güncellenen bir platform çıktı; mimariyi bir platform tercihi değil, verinin hacmi ve düzensizliği belirledi.",
+          en: "A real example of this order sits in [the MKComputer case](/vakalar/mkcomputer-dropshipping-otomasyonu). This Germany-based technology retailer wanted to dropship more than 200,000 products; the work began with an audit of the supplier's data feed, and no decision on Magento, servers or interface was taken until that audit closed. The result was a platform where stock, price and supplier data update automatically every 5 minutes; the architecture was set not by a platform preference but by the volume and irregularity of the data.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Akış haritasının ikinci yarısı entegrasyonlardır. E-ticarette asıl yük vitrinde değil arkadadır: sanal POS ve taksit, e-fatura ve e-arşiv, muhasebe ya da ERP, kargo firmaları, varsa bayi fiyat listeleri ve pazaryeri siparişleri. Danışman bu bağlantıların listesini adlarıyla çıkarıyor ve her birini canlıya almadan önce gerçek bir siparişle test ediyor mu?",
+          en: "The second half of the flow map is integration. In e-commerce the real load sits behind the storefront: card payments and instalments, e-invoicing, accounting or ERP, carriers, dealer price lists where they exist, and marketplace orders. Does the consultant list those connections by name and test each one with a real order before go-live?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kâğıt üzerinde çalışan bağlantı canlıda çalışmayabilir: iki sistem aynı ürünü farklı kodla tanıyabilir, iade akışı faturayı geri almayabilir, kampanya günü kargo kaydı gecikebilir. Görüşmede şunu sorun: \"Muhasebe programımızın entegrasyon yolu yoksa bunu ne zaman öğreniriz?\" Doğru cevap \"akış haritası aşamasında, alternatifiyle ve maliyetiyle birlikte\"dir. \"Kurulumda bakarız\" cevabı, sürprizin sonraya bırakıldığını söyler.",
+          en: "A connection that works on paper can fail in production: two systems may know the same product by different codes, the returns flow may not reverse the invoice, the shipment record may lag on a campaign day. Ask this in the meeting: \"If our accounting software has no integration path, when do we find out?\" The right answer is \"at the flow mapping stage, with an alternative and its cost\". \"We'll look at it during the build\" tells you the surprise has been postponed.",
+        },
+      },
+      {
+        type: "h2",
+        id: "altyapi-karari",
+        text: {
+          tr: "Altyapı kararını neye dayandırıyor?",
+          en: "What does the consultant base the platform decision on?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İkinci kriter, altyapı kararının bir gerekçeye mi yoksa bir alışkanlığa mı dayandığıdır. Hazır bir altyapı mı, özel geliştirme mi sorusunun cevabı ürün sayısına, sipariş hacmine ve kurulacak entegrasyonlara göre değişir; danışmanın bu cevabı yazılı olarak, maliyet karşılaştırmasıyla birlikte vermesi gerekir.",
+          en: "The second criterion is whether the platform decision rests on reasoning or on habit. Whether an off-the-shelf platform or a custom build is right depends on catalogue size, order volume and the integrations you need; the consultant should give that answer in writing, with a cost comparison.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yazılı gerekçenin üç parçası olmalı. Birincisi kriterler: hangi ihtiyaç hangi ağırlıkla değerlendirildi. İkincisi elenen seçenekler: neden o altyapı değil. Üçüncüsü maliyet: yalnız kurulum değil; lisans, eklenti, bakım ve ekibinizin harcayacağı saatlerle birlikte birkaç yıllık toplam. Elenen seçeneği yazmayan bir gerekçe, tek seçenekli bir sunumdur. Bu kararın hangi sorularla kurulduğunu [e-ticaret platform danışmanlığı yazısında](/yazilar/e-ticaret-platform-danismanligi) ayrıca açtım.",
+          en: "Written reasoning should have three parts. First, the criteria: which need was weighed, and how heavily. Second, the options that were ruled out: why not that platform. Third, the cost: not just the build, but licences, add-ons, maintenance and the hours your team will spend, as a total over several years. Reasoning that does not mention the rejected options is a one-option presentation. I have set out the questions behind this decision separately in [the e-commerce platform consulting article](/yazilar/e-ticaret-platform-danismanligi).",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir uyarı: \"Bizim çalıştığımız altyapı her işe uyar\" cümlesi bir gerekçe değil, bir kapasite beyanıdır. Danışmanın hangi altyapılarla çalıştığını bilmek önemlidir, ama sizin işinize hangisinin uyduğu ayrı bir sorudur.",
+          en: "A warning: \"the platform we work with fits every business\" is not reasoning; it is a statement of capacity. It matters which platforms a consultant works with, but which one fits your business is a separate question.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kanal-ve-butce",
+        text: {
+          tr: "Reklam kanallarına ve bütçeye veriyle mi bakıyor?",
+          en: "Does the consultant look at ad channels and budget through data?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçüncü kriter reklam kanallarıdır. İyi bir e-ticaret danışmanı bütçenin nereye gideceğini önceki ayın alışkanlığına göre değil; kanal başına reklam getirisine (ROAS), müşteri edinme maliyetine (CAC) ve dönüşüm oranına bakarak önerir: hangi kanal büyüyecek, hangisi küçülecek, hangisi kapanacak. Danışmanlık burada kanalın günlük yönetimini değil, kanal ve bütçe kararını satar; kampanyayı mevcut ajansınız ya da iç ekibiniz yürütmeye devam edebilir.",
+          en: "The third criterion is ad channels. A good e-commerce consultant recommends where the budget goes not out of last month's habit but by looking at return on ad spend (ROAS), customer acquisition cost (CAC) and conversion rate per channel: which channel grows, which shrinks, which closes. What consulting sells here is the channel and budget decision, not the day-to-day running of the channel; your current agency or in-house team can keep running the campaigns.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Görüşmede şunu sorun: \"Reklam bütçemizin her kanalda ne getirdiğini nasıl ölçeceksiniz?\" İyi cevap kanal başına aynı tanımla ölçülmüş getiriden, kanal panellerinin aynı satışı birden fazla kez sahiplenebileceğinden ve ilk 90 günün bütçe dağılımının hangi hipotezle yazılacağından bahseder. Zayıf cevap tek bir kanalın paneline bakar ve bütçeyi oraya yığar. Kanal kararıyla kanal yönetiminin ayrı işler olduğunu bilen danışman, ajansınızı değiştirmeyi önermeden de işe yarar bir plan çıkarabilir.",
+          en: "Ask this in the meeting: \"How will you measure what our ad budget returns in each channel?\" A good answer talks about return measured on the same definition in every channel, about how channel dashboards can each claim the same sale, and about the hypothesis behind the budget split for the first 90 days. A weak answer looks at one channel's dashboard and piles the budget there. A consultant who knows that the channel decision and channel management are separate jobs can produce a workable plan without proposing that you change agencies.",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcum-ve-donusum",
+        text: {
+          tr: "Büyümeyi ölçüm ve dönüşüm üzerinden mi kuruyor?",
+          en: "Does the consultant build growth on measurement and conversion?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü kriter büyümenin nereden geleceğidir. Trafik satın almak büyümenin tek yolu değildir; gelen ziyaretçinin nerede vazgeçtiğini bulup o noktayı kapatmak çoğu zaman daha ucuzdur. İyi danışman önce ölçümü doğrular — hangi ürün satıyor, sepet nerede terk ediliyor, hangi kanal getiriyor — sonra dönüşüm oranınızı sektörünüzün ortalamasıyla kıyaslar ve kayıpları büyüklüklerine göre sıraya koyar.",
+          en: "The fourth criterion is where growth will come from. Buying traffic is not the only way to grow; finding where arriving visitors give up and closing that point is often cheaper. A good consultant validates measurement first — which products sell, where baskets are abandoned, which channel delivers — then compares your conversion rate with your sector's average and ranks the losses by size.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçümü sonradan eklenecek bir madde sayan teklif, ilk kampanyayı karanlıkta açar. [SOYLU AVM vakasında](/vakalar/soylu-avm-e-ticaret-buyume) sıra tersineydi: piksel ve dönüşüm izleme kampanyadan önce sıfırdan kuruldu, trafik kaynakları segmentlere ayrıldı; kampanyanın ilk 6 gününde kaydedilen 1,5 milyon dolarlık geliri okunabilir kılan şey bu sıraydı. Görüşmeden önce kendi mağazanızın ölçüm etiketlerini görmek isterseniz, ücretsiz e-ticaret site analizimiz [Diagnoo](/araclar/diagnoo) GA4, Meta Pixel ve oturum analitiği etiketlerinin kurulu olup olmadığına bakar.",
+          en: "A proposal that treats measurement as a later line item opens the first campaign in the dark. In [the SOYLU AVM case](/vakalar/soylu-avm-e-ticaret-buyume) the order was the other way round: pixels and conversion tracking were rebuilt from scratch before the campaign and traffic sources were segmented; what made the $1.5M recorded in the campaign's first 6 days readable was that order. If you want to see your own store's tracking tags before the meeting, our free e-commerce site analysis, [Diagnoo](/araclar/diagnoo), checks whether GA4, Meta Pixel and session analytics tags are installed.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kıyas için doğru başlangıç, kaynağı ve örneklemi belli rakamlardır; onları [e-ticaret dönüşüm oranı ortalamaları yazısında](/yazilar/e-ticaret-donusum-orani-benchmark) derledik. Kaybın test ve düzeltmeyle kapatılması ise [dönüşüm oranı optimizasyonu](/hizmetler/cro) işidir. İyi bir e-ticaret danışmanı bu ikisini birbirine bağlar: ölçülmemiş bir kaybı kapatmaya, kapatılamayacak bir kayıp için de yeni trafik almaya bütçe ayırmaz.",
+          en: "The right starting point for that comparison is figures with a known source and sample; we gathered them in [the e-commerce conversion rate benchmarks article](/yazilar/e-ticaret-donusum-orani-benchmark). Closing the loss through testing and fixes is the work of [conversion rate optimisation](/hizmetler/cro). A good e-commerce consultant ties the two together: it does not spend budget closing a loss nobody has measured, nor buying new traffic for a loss that cannot be closed.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sahiplik",
+        text: {
+          tr: "Hesaplar, veri ve kod kimin adına duruyor?",
+          en: "Whose name are the accounts, the data and the code in?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beşinci kriter sahipliktir. Altyapı hesapları, alan adı, ödeme ve kargo sözleşmeleri ve özel geliştirme yapıldıysa kaynak kod baştan firmanın adına açılmalı; danışman bu hesaplara yalnız yönetici erişimiyle bağlanmalı ve çalışma bittiğinde erişimi kaldırılmalıdır.",
+          en: "The fifth criterion is ownership. Platform accounts, the domain, payment and carrier contracts and, where custom development happens, the source code should be opened in the company's name from the start; the consultant should connect only with administrator access, and that access should be removed when the work ends.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sistemin ajans adına açıldığı düzen ilk gün kolaylık gibi görünür, ayrılmak istediğiniz gün bedel olarak geri gelir. Sipariş geçmişi, müşteri listesi ve ürün verisi işin kendisidir; danışmanın değil, sizin varlığınızdır. Sözleşmeye şu cümleyi yazdırın: \"Tüm hesaplar, veriler ve kaynak kod firmaya aittir; çalışma bitiminde yönetici erişimleri kaldırılır.\" Bu cümleye itiraz eden bir teklif size hizmet değil, bağımlılık öneriyordur.",
+          en: "An arrangement where the system is opened in the agency's name looks convenient on day one and returns as a cost on the day you want to leave. Order history, the customer list and product data are the business itself; they are your assets, not the consultant's. Have this sentence written into the contract: \"All accounts, data and source code belong to the company; administrator access is removed when the work ends.\" A proposal that objects to that sentence is offering you dependency, not a service.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kanit",
+        text: {
+          tr: "Hangi kanıtı istemelisiniz?",
+          en: "What evidence should you ask for?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altıncı kriter kanıttır ve logo duvarı kanıt değildir. Üç şeyi birlikte isteyin: işin başlangıç değeri, bitiş değeri ve arada geçen süre; bir de o işte hangi altyapının ve hangi entegrasyonların kullanıldığı.",
+          en: "The sixth criterion is evidence, and a wall of logos is not evidence. Ask for three things together: the starting value, the ending value and the time between them, plus which platform and which integrations the work used.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kendi tarafımızdan aynı ölçüyle bir örnek: [OdorGo](/vakalar/odorgo-kategori-yaratma) bize elinde yalnız ürünle geldi. E-ticaret sitesi İKAS altyapısıyla, ziyaretçi hangi sayfadan girerse girsin satın alma adımına ulaşacak biçimde kuruldu; Trendyol ve Hepsiburada mağazaları açıldı, kanallar tek bir ölçüm çerçevesinde yönetildi. Sekiz ayın sonunda e-ticaret, pazaryeri, perakende ve stand satışları birlikte 10 milyon TL ciroya ulaştı ve operasyon Şubat 2026'da markanın kendi ekibine devredildi. Buradaki asıl bilgi cirodan çok son cümle: kurulan sistem sahibiyle çalışmaya devam ediyor.",
+          en: "Here is one from our own side, held to the same standard: [OdorGo](/vakalar/odorgo-kategori-yaratma) came to us with only the product. The e-commerce site was built on İKAS so that a visitor reaches the purchase step whichever page they land on; Trendyol and Hepsiburada storefronts were opened, and the channels were run in one measurement frame. After eight months, e-commerce, marketplace, retail and stand sales together reached ₺10M in revenue, and in February 2026 the operation was handed over to the brand's own team. The useful information there is less the revenue than the last sentence: the system runs on with its owner.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bir de şunu isteyin: planlandığı gibi gitmemiş bir geçiş ya da kurulum. Neyin ters gittiğini ve nasıl toparlandığını anlatabilen danışman, sonraki ayları da dürüst anlatacak olandır.",
+          en: "Then ask for one more thing: a migration or build that did not go to plan. A consultant who can tell you what went wrong and how it was recovered is the one who will describe the coming months honestly too.",
+        },
+      },
+      {
+        type: "h2",
+        id: "gorusmede-on-soru",
+        text: {
+          tr: "İlk görüşmede hangi on soruyu sorarsınız?",
+          en: "Which ten questions do you ask in the first meeting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "On soru bir eleme listesi değil, bir dinleme aracıdır. Asıl bilgi cevabın kendisinde değil, danışmanın nerede duraksadığında saklıdır.",
+          en: "The ten questions are a listening device, not a filter. The real information is not in the answer itself but in where the consultant hesitates.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Platform ya da kanal önermeden önce siparişimizin akışını ve reklam bütçemizin bugünkü getirisini nasıl okuyacaksınız?",
+            en: "Before recommending a platform or a channel, how will you read our order flow and what our ad budget returns today?",
+          },
+          {
+            tr: "Altyapı kararını hangi kriterlerle veriyor, elediğiniz seçenekleri de yazıyor musunuz?",
+            en: "Which criteria do you use for the platform decision, and do you also write down the options you ruled out?",
+          },
+          {
+            tr: "Reklam bütçemizin hangi kanalda ne getirdiğini nasıl ölçecek, dağılımı neye göre önereceksiniz?",
+            en: "How will you measure what our ad budget returns in each channel, and on what basis will you recommend the split?",
+          },
+          {
+            tr: "Muhasebe ya da ERP programımızın entegrasyon yolu yoksa bunu ne zaman ve nasıl öğreniriz?",
+            en: "If our accounting or ERP software has no integration path, when and how do we find out?",
+          },
+          {
+            tr: "Entegrasyonları canlıya almadan önce nasıl test ediyorsunuz?",
+            en: "How do you test integrations before go-live?",
+          },
+          {
+            tr: "Herhangi bir platformdan komisyon, ortaklık ya da yönlendirme geliri alıyor musunuz?",
+            en: "Do you receive commission, partnership or referral income from any platform?",
+          },
+          {
+            tr: "Ölçüm ve dönüşüm tarafında ilk neyi düzeltirsiniz, sırayı neye göre koyarsınız?",
+            en: "On the measurement and conversion side, what would you fix first, and how do you set the order?",
+          },
+          {
+            tr: "Hesaplar, alan adı ve kaynak kod kimin adına açılacak?",
+            en: "Whose name will the accounts, the domain and the source code be in?",
+          },
+          {
+            tr: "Benzer ölçekte bir işin başlangıç ve bitiş rakamlarını görebilir miyim?",
+            en: "Can I see the starting and ending figures of a job at a similar scale?",
+          },
+          {
+            tr: "Bu işi almamanız gereken bir durum var mı?",
+            en: "Is there a situation in which you should turn this work down?",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altıncı ve onuncu sorular en çok bilgiyi verenlerdir. Cevabı ne olursa olsun, komisyon sorusu önerinin hangi teşviklerle yapıldığını masaya koyar; bu soruya rahat cevap veren danışmanın önerisini daha rahat tartarsınız. Onuncu soruya \"her işi alırız\" diyen danışman kendi kapsamını sizin bütçenizle öğrenecektir. Mağazanın asıl sorunu trafikse ya da depo düzeni henüz oturmamışsa, iyi bir danışman bunu ilk görüşmede söyler ve sizi başka bir işe yönlendirir.",
+          en: "The sixth and tenth questions yield the most. Whatever the answer, the commission question puts on the table the incentives behind the recommendation; you can weigh the advice of a consultant who answers it comfortably more easily. A consultant who answers the tenth with \"we take every job\" will learn its own scope on your budget. If the store's real problem is traffic, or the warehouse is not yet in order, a good consultant says so in the first meeting and points you to different work.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu sorular seçimin e-ticarete özgü katmanı. İlişkinin genel katmanı — veri kullanımı, kanal bütünlüğü, kriz refleksi — için [sözleşmeyi imzalamadan önce ajansa sorulacak 8 soru](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) aynı disiplini daha geniş bir çerçevede kuruyor.",
+          en: "These questions cover the e-commerce-specific layer of the choice. For the general layer of the relationship — how data is used, whether channels cohere, how the team reacts in a crisis — [the eight questions to ask an agency before you sign](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) applies the same discipline to a wider frame.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kirmizi-bayraklar",
+        text: {
+          tr: "Hangi üç vaatte görüşmeyi bitirmelisiniz?",
+          en: "Which three promises should end the meeting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç vaat var ki, duyulduğu anda görüşmenin geri kalanı gereksizleşir. Üçü de aynı alışkanlığı gizler: işinize ve verinize bakmadan karar vermeyi.",
+          en: "Three promises make the rest of the meeting unnecessary the moment you hear them. All three hide the same habit: deciding without looking at your business and your data.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Birincisi ilk görüşmede reçete yazmaktır. Siparişinizin akışını, entegrasyon listenizi ve katalog yapınızı görmeden önerilen altyapı ya da kanal raporlarınızı açmadan önerilen bütçe dağılımı, danışmanın en iyi bildiği reçetedir; sizin işinize en uygun olanı da olması bir tesadüftür. İkincisi sistemi kendi adına kurmayı teklif etmektir: \"Hesapları biz açarız, siz uğraşmayın\" cümlesi ilk gün kolaylık, son gün kilittir. Üçüncüsü ciro ya da dönüşüm garantisidir. Satışı trafik, fiyat, ürün, rekabet ve uygulama disiplini birlikte belirler; danışman bunların hiçbirini tek başına çevirmez. Aralık vermek dürüstlüktür, garanti vermek satıştır.",
+          en: "The first is writing the prescription in the first meeting. A platform recommended before anyone has seen your order flow, integration list and catalogue structure, or a budget split proposed before anyone has opened your channel reports, is the prescription the consultant knows best; if it also fits your business best, that is a coincidence. The second is offering to set the system up in the consultant's own name: \"we'll open the accounts, don't you worry\" is a convenience on day one and a lock on the last. The third is a revenue or conversion guarantee. Sales are set by traffic, price, product, competition and execution together, and a consultant turns none of those dials alone. A range is honesty; a guarantee is a sale.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dördüncü bir işaret daha var; sessiz olduğu için daha tehlikeli: akışı görmeden verilen fiyat. Entegrasyon sayısı bilinmeden yazılan fiyat, kapsamın sonradan ya daraltılacağını ya da büyütüleceğini söyler. Fiyatın hangi kalemlerden oluştuğunu [e-ticaret danışmanlığı fiyatları yazısında](/yazilar/e-ticaret-danismanligi-fiyatlari) satır satır açtım.",
+          en: "There is a fourth sign, more dangerous because it is quieter: a price given before the flow has been seen. A price written before the number of integrations is known tells you the scope will later either shrink or grow. I have broken down, line by line, which items make up the price in [the article on e-commerce consulting pricing](/yazilar/e-ticaret-danismanligi-fiyatlari).",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcege-gore",
+        text: {
+          tr: "KOBİ, büyüyen marka ve bayi satan üretici için ne değişir?",
+          en: "What changes for an SME, a growing brand and a manufacturer selling to dealers?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kriterler aynı kalır, ağırlıkları değişir. Üç ölçeğin her birinde danışmandan beklemeniz gereken şey farklı bir kaleme yoğunlaşır.",
+          en: "The criteria stay the same; their weights change. At each of the three scales, what you should expect from the consultant concentrates on a different item.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "KOBİ mağazası",
+          en: "An SME store",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Küçük mağazada doğru cevap çoğu zaman hazır bir altyapı, az sayıda ama sağlam entegrasyon ve baştan kurulmuş ölçümdür. Bu ölçekte özel geliştirme öneren bir danışmana gerekçesini iki kez sorun; bakım yükü ve bağımlılık, kazandıracağı esneklikten büyük olabilir. Danışmandan beklenen büyük bir proje değil, doğru sıradır: önce akış, sonra altyapı, sonra kampanya.",
+          en: "For a small store the right answer is usually an off-the-shelf platform, few but solid integrations, and measurement set up from the start. If a consultant recommends custom development at this scale, ask for the reasoning twice; the maintenance load and the dependency can outweigh the flexibility gained. What you need from the consultant is not a big project but the right order: flow first, then platform, then campaign.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Kendi sitesi ve pazaryeri olan büyüyen marka",
+          en: "A growing brand with its own site and marketplaces",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyüyen markada sorun genellikle kanallar çoğalınca başlar. Sipariş kendi siteden, pazaryerlerinden ve bazen mağaza ya da stanttan gelir; stok tektir, ama kayıtlar birden fazla yerdedir. Danışmana sorulacak ilk soru, sipariş nereden gelirse gelsin tek bir akışta işlenip işlenmeyeceğidir; ikincisi, müşteri edinme maliyeti yükselirken bütçenin kanallar arasında neye göre yeniden dağıtılacağıdır. Pazaryeri hesaplarının günlük yönetimi ayrı bir iştir ve çoğu zaman danışmanlık kapsamının dışında kalır; önemli olan o siparişlerin stok, fatura ve kargo tarafında aynı düzene bağlanmasıdır.",
+          en: "In a growing brand the trouble usually starts when channels multiply. Orders come from the brand's own site, from marketplaces and sometimes from a shop or a stand; the stock is one, but the records sit in several places. The first question for the consultant is whether every order, wherever it comes from, will be processed in one flow; the second is how the budget will be redistributed across channels as customer acquisition cost rises. Running marketplace accounts day to day is separate work and usually sits outside a consulting scope; what matters is that those orders connect to the same stock, invoicing and shipping routine.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Bayi ve toptan satan üretici",
+          en: "A manufacturer selling to dealers and wholesale",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "B2B tarafında yük vitrinde değil, kurallardadır: bayiye özel fiyat listesi, toplu sipariş ekranı, cari hesap görünürlüğü, vadeli ödeme ve ERP bağlantısı. Danışmandan tüketici mağazası örnekleri değil, ERP'yle konuşan bir bayi akışını nasıl kurduğunu dinleyin. Bu ölçekte süre de uzar: bizim kurulumlarımızda hazır altyapı üzerine standart bir mağaza genellikle altı ila sekiz hafta sürerken, ERP entegrasyonu ve bayi akışı eklendiğinde süre üç aya kadar çıkabiliyor.",
+          en: "On the B2B side the load is not in the storefront but in the rules: dealer-specific price lists, a bulk order screen, account balance visibility, deferred payment and an ERP connection. Ask the consultant not for consumer store examples but how they build a dealer flow that talks to an ERP. Timelines grow at this scale too: in our builds, a standard store on an off-the-shelf platform usually takes six to eight weeks, while adding ERP integration and a dealer flow can extend that to three months.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ajans-danisman-ic-ekip",
+        text: {
+          tr: "Ajans mı, serbest danışman mı, iç ekip mi?",
+          en: "Agency, independent consultant or in-house team?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar, işin nerede durduğuna bağlıdır. Tek bir platformda tek bir iş varsa — bir tema düzenlemesi, bir eklenti kurulumu, bir entegrasyonun onarımı — o platformu iyi bilen serbest bir uzman yeterlidir ve daha ucuza gelir. Sorun sipariş, stok, muhasebe, ölçüm ve büyüme arasına dağılmışsa tek kişi bu katmanları aynı anda tutamaz; orada ekip gerekir.",
+          en: "The decision depends on where the work sits. If it is one job on one platform — a theme change, an add-on installation, repairing an integration — an independent specialist who knows that platform well is enough and costs less. If the problem is spread across orders, stock, accounting, measurement and growth, one person cannot hold those layers at once; that needs a team.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İç ekip ise her durumda gereklidir, ama farklı bir rol için. Mağazayı her gün işletecek, ürün ekleyecek, siparişi yönetecek ve raporu okuyacak kişi sizin tarafınızda olmalıdır. Orta ölçekli markaların çoğu için doğru model melezdir: danışman akışı çizer, altyapıyı kurar, ekibi eğitir ve işi devreder; sonrasında dışarısı yalnız yeni bir karar anında ya da denetim için kalır. Bu modelde danışmanın başarısı kendini gereksizleştirmesiyle ölçülür, dolayısıyla eğitim oturumunu ve devir belgelerini sözleşmeye yazdırın.",
+          en: "An in-house team is needed in every case, but for a different role. The person who runs the store every day, adds products, manages orders and reads the reports has to sit on your side. For most mid-sized brands the right model is a hybrid: the consultant maps the flow, builds the platform, trains the team and hands the work over; after that the outside role narrows to new decision points and review. In this model the consultant's success is measured by how unnecessary it makes itself, so put the training session and the handover documents in the contract.",
+        },
+      },
+      {
+        type: "h2",
+        id: "indoles-nasil-calisir",
+        text: {
+          tr: "INDOLES bu işi nasıl yürütüyor?",
+          en: "How does INDOLES run this work?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazıdaki kriterleri kendimize de uyguluyoruz. E-ticaret danışmanlığında dört eksene bakıyoruz: platform, reklam kanalları, çalışma sistemi ve büyüme. İş dört adımda ilerliyor. Önce mevcut durum okunuyor: siparişin girişten teslimata kadar akışı, kanal başına ROAS, CAC ve dönüşüm oranı, ölçümün sağlığı. Sonra platform, kanal ve sistem kararları maliyet karşılaştırmasıyla, yazılı gerekçeyle veriliyor. Ardından kurulum ve entegrasyonlar gerçek siparişle test ediliyor, dönüşüm kayıpları bir test listesine diziliyor. En sonda sonuçlar gösterge panelinden okunuyor, ekip eğitiliyor ve iş devrediliyor.",
+          en: "We hold ourselves to the criteria in this article. In e-commerce consulting we look along four axes: platform, ad channels, operating system and growth. The work runs in four steps. First, the current state is read: how an order flows from entry to delivery, ROAS, CAC and conversion rate per channel, and the health of the measurement. Next, the platform, channel and system decisions are made in writing, with a cost comparison. Then builds and integrations are tested with a real order, and conversion losses are lined up in a test backlog. Last, results are read from a dashboard, the team is trained and the work is handed over.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları bu kapsamın içinde; altyapı kararını marka tercihiyle değil, ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla veriyoruz. Kanal tarafında ajans değişikliği önermiyoruz; mevcut kurulumun ROAS ve CAC tarafında ne ürettiğini ölçüp bütçe dağılımını öneriyoruz. Reklam hesaplarının günlük yönetimi [performans pazarlama](/hizmetler/performans-pazarlama) hizmetimizin, test edilerek yürütülen dönüşüm programı [dönüşüm oranı optimizasyonu](/hizmetler/cro) hizmetimizin konusu. Altyapı hesapları, alan adı ve varsa kaynak kod baştan firmanın adına açılıyor. Ayrıntıları [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret) yazdık.",
+          en: "İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds sit inside this scope; we make the platform decision on catalogue size, order volume and integration needs rather than brand preference. On the channel side we do not propose changing agencies; we measure what the current setup produces on ROAS and CAC and recommend the budget split. Day-to-day management of ad accounts belongs to our [performance marketing](/hizmetler/performans-pazarlama) service, and a tested conversion programme to our [conversion rate optimisation](/hizmetler/cro) service. Platform accounts, the domain and any source code are opened in the company's name from the start. The details are on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-tek-test",
+        text: {
+          tr: "Sonuç: teklifleri karşılaştırmadan önce yapabileceğiniz tek test",
+          en: "Conclusion: the one test to run before comparing proposals",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret danışmanı seçimi bir sunum karşılaştırması değil, bir yöntem denetimidir. Siparişin akışını önce çizen, altyapı ve kanal kararını elediği seçeneklerle birlikte yazan, entegrasyonu gerçek siparişle test eden, büyümeyi ölçüm ve dönüşüm üzerinden kuran ve sistemi sizin adınıza bırakan danışman, reçeteyi ilk görüşmede yazan danışmandan her koşulda daha iyi bir yatırımdır.",
+          en: "Choosing an e-commerce consultant is an audit of method, not a comparison of decks. A consultant who draws the order flow first, writes the platform and channel decisions down along with the options ruled out, tests integrations with a real order, builds growth on measurement and conversion and leaves the system in your name is a better investment than one who writes the prescription in the first meeting, in every case.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut test şu: geçen haftaki siparişlerinizden birini seçin ve kâğıda dökün — hangi ekrana düştü, kaç kişinin elinden geçti, kaç sisteme kaç kez elle girildi, müşteri kargo bilgisini ne zaman aldı. Sonra görüştüğünüz her danışmana aynı soruyu sorun: \"Bu sipariş sizin kuracağınız düzende nasıl akacak?\" Akışı soru sorarak çizebilen danışman yöntemi biliyordur. Cevabı bir platform adıyla başlayan danışmanla çalışmadan önce bir kez daha düşünün.",
+          en: "Here is the concrete test you can run today: pick one of last week's orders and put it on paper — which screen it landed on, how many people handled it, how many systems it was typed into by hand and how many times, when the customer received the tracking information. Then ask every consultant you meet the same question: \"How will this order flow in the setup you would build?\" A consultant who can draw the flow by asking questions knows the method. Think twice before signing with one whose answer starts with a platform name.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı testi bize de uygulayın. [E-ticaret danışmanlığında teşhisten devire kadar nasıl çalıştığımızı](/hizmetler/e-ticaret) hizmet sayfasında adım adım yazdık; cevapları yan yana koyup karşılaştırın.",
+          en: "Run the same test on us. [How we work in e-commerce consulting, from diagnosis to handover](/hizmetler/e-ticaret), is written out step by step on the service page; put the answers side by side and compare them.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "E-ticaret danışmanı tam olarak ne iş yapar?",
+          en: "What exactly does an e-commerce consultant do?",
+        },
+        answer: {
+          tr: "E-ticaret danışmanı dört kararı veriyle verir: mağaza hangi altyapıda çalışacak, reklam bütçesi hangi kanallara hangi oranda gidecek, sipariş, stok, muhasebe ve kargo nasıl bir sistemde akacak, büyümek için önce hangi kayıp kapatılacak. İş mevcut durumun okunmasıyla başlar, yazılı gerekçeli kararlarla sürer, test edilmiş entegrasyonlar, kurulmuş ölçüm ve eğitilmiş bir ekiple biter. Reklam hesaplarının ve pazaryeri mağazalarının günlük işletmesi ayrı işlerdir.",
+          en: "An e-commerce consultant makes four decisions on data: which platform the store will run on, which ad channels the budget goes to and in what proportion, what system orders, stock, accounting and shipping flow through, and which loss to close first in order to grow. The work starts by reading the current state, continues with decisions backed by written reasoning, and ends with tested integrations, working measurement and a trained team. Day-to-day running of ad accounts and marketplace storefronts is separate work.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanı ile e-ticaret ajansı arasındaki fark nedir?",
+          en: "What is the difference between an e-commerce consultant and an e-commerce agency?",
+        },
+        answer: {
+          tr: "Teslim edilen şeyde ayrışırlar. E-ticaret ajansı genellikle mağazayı kurar ve reklamı yönetir; e-ticaret danışmanı neyin, hangi altyapıda ve hangi sırayla kurulacağına ve bütçenin hangi kanala gideceğine karar verir. İki rol aynı ekipte birleşebilir. Pratikte farkı sözleşme gösterir: teslim listesinde yalnız tema ve kampanya varsa ajans modeli, akış haritası, gerekçeli altyapı kararı, test edilmiş entegrasyonlar ve devir varsa danışmanlık modeli konuşuluyordur.",
+          en: "They part ways at what gets delivered. An e-commerce agency usually builds the store and runs the ads; an e-commerce consultant decides what gets built, on which platform, in which order, and which channel the budget goes to. The two roles can sit in the same team. In practice the contract shows the difference: if the deliverables list holds only a theme and campaigns, it is the agency model; if it holds a flow map, a reasoned platform decision, tested integrations and a handover, it is the consulting model.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanı reklam hesaplarımızı da yönetir mi?",
+          en: "Does an e-commerce consultant also run our ad accounts?",
+        },
+        answer: {
+          tr: "Danışmanlığın işi kanal ve bütçe kararıdır: hangi kanalın büyüyeceği, hangisinin küçüleceği ve bütçenin hangi metrik hedefiyle dağıtılacağı. Hesapların günlük yönetimi, yani kampanya kurulumu, teklif ayarı ve kreatif yenileme ayrı bir iştir; mevcut ajansınız, iç ekibiniz ya da ayrı bir performans pazarlama hizmeti yürütebilir. Önemli olan iki tarafın aynı ölçüm tanımlarıyla çalışmasıdır.",
+          en: "The consulting job is the channel and budget decision: which channel grows, which shrinks, and with which metric target the budget is split. Day-to-day account management — setting up campaigns, adjusting bids, refreshing creative — is separate work that your current agency, your in-house team or a separate performance marketing service can run. What matters is that both sides work from the same measurement definitions.",
+        },
+      },
+      {
+        question: {
+          tr: "Shopify veya İKAS uzmanı yerine bağımsız bir e-ticaret danışmanı mı seçmeliyim?",
+          en: "Should I choose an independent e-commerce consultant rather than a Shopify or İKAS specialist?",
+        },
+        answer: {
+          tr: "Platform kararınız verilmiş ve doğruysa o ekosistemde uzmanlaşmış bir danışman hızlı ve verimlidir. Soru hâlâ hangi altyapının işinize uyduğuysa, tek platformda uzmanlaşmış danışman doğal olarak kendi alanına yakın durur. Bu durumda elenen seçenekleri de yazan, platformdan bağımsız bir karşılaştırma isteyin ve danışmana herhangi bir platformdan komisyon, ortaklık ya da yönlendirme geliri alıp almadığını açıkça sorun.",
+          en: "If your platform decision has been made and is right, a consultant who specialises in that ecosystem is fast and efficient. If the question is still which platform fits your business, a consultant who specialises in one platform will naturally stay close to it. In that case, ask for a platform-independent comparison that also documents the rejected options, and ask the consultant openly whether they receive commission, partnership or referral income from any platform.",
+        },
+      },
+      {
+        question: {
+          tr: "Yalnız Trendyol'da satıyorsam e-ticaret danışmanına ihtiyacım var mı?",
+          en: "If I only sell on Trendyol, do I need an e-commerce consultant?",
+        },
+        answer: {
+          tr: "Satışın tamamı tek bir pazaryerindeyse ve stok, fatura ve kargo düzeniniz bu hacmi taşıyorsa çoğu zaman ihtiyacınız yoktur. İhtiyaç, kendi sitenizi açmaya karar verdiğinizde ya da sipariş birden fazla kanaldan gelmeye başladığında doğar: o noktada siparişin nereden gelirse gelsin tek bir akışta işlenmesi gerekir. Pazaryeri hesabının günlük yönetimi ise danışmanlığın değil, operasyon ekibinin işidir.",
+          en: "If all your sales are on a single marketplace and your stock, invoicing and shipping routine carries that volume, you usually do not. The need arises when you decide to open your own site or when orders start arriving from more than one channel: at that point every order, wherever it comes from, has to be processed in one flow. Running the marketplace account day to day is the operations team's job, not the consultant's.",
+        },
+      },
+      {
+        question: {
+          tr: "Danışmanın bir platformla ticari ilişkisi olup olmadığını nasıl anlarım?",
+          en: "How can I tell whether a consultant has a commercial tie to a platform?",
+        },
+        answer: {
+          tr: "Doğrudan sorun ve cevabı yazılı isteyin: herhangi bir platformdan komisyon, ortaklık, yönlendirme geliri ya da indirimli lisans alınıyor mu? Ticari ilişki tek başına sorun değildir; gizlenmesi sorundur. Ardından altyapı kararı belgesine bakın: elenen seçenekler ve elenme gerekçeleri yazılıysa öneri bir karşılaştırmadan çıkmıştır, yalnız tek bir altyapı anlatılıyorsa karşılaştırma hiç yapılmamış olabilir.",
+          en: "Ask directly and ask for the answer in writing: does the consultant receive commission, partnership or referral income, or discounted licences, from any platform? A commercial tie is not a problem in itself; hiding it is. Then look at the platform decision document: if the rejected options and the reasons for rejecting them are written down, the recommendation came out of a comparison; if only one platform is described, a comparison may never have been made.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanlığı ne kadar sürer?",
+          en: "How long does e-commerce consulting take?",
+        },
+        answer: {
+          tr: "Süre işin evresine göre değişir. Teşhis ve karar aşaması bizim yayımlı paketlerimizde üç ila dört hafta sürer. Hazır altyapı üzerine standart bir mağaza kurulumu genellikle altı ila sekiz hafta, ERP entegrasyonu ve bayi akışı eklendiğinde üç aya kadar sürebilir. Mağaza tek seferde açılmak zorunda değildir; kritik akış önce yayına alınabilir ve geri kalanı onun üstüne eklenir.",
+          en: "It depends on the phase of the work. The diagnosis and decision stage takes three to four weeks in our published packages. A standard store build on an off-the-shelf platform usually takes six to eight weeks, and up to three months once ERP integration and a dealer flow are added. The store does not have to open all at once; the critical flow can go live first, with the rest added on top of it.",
+        },
+      },
+      {
+        question: {
+          tr: "Küçük bir mağaza e-ticaret danışmanıyla çalışmalı mı?",
+          en: "Should a small store work with an e-commerce consultant?",
+        },
+        answer: {
+          tr: "Önünüzdeki kararın büyüklüğüne bakın. Hazır bir altyapıda az ürünle ve birkaç entegrasyonla satan küçük bir mağaza çoğu zaman iyi bir kurulum uzmanıyla yetinebilir. Danışman, geri dönmesi pahalı bir karar öndeyse değer üretir: altyapı değişikliği, bayi kanalının açılması, muhasebe ya da ERP bağlantısı, birden fazla pazaryerinin tek akışa bağlanması gibi. Böyle bir karar yoksa bütçeyi trafiğe ve ürün sayfalarına ayırmak daha verimlidir.",
+          en: "Look at the size of the decision in front of you. A small store selling a modest range on an off-the-shelf platform with a few integrations can usually make do with a good implementer. A consultant earns their fee when a decision that is expensive to reverse lies ahead: a platform change, opening a dealer channel, an accounting or ERP connection, tying several marketplaces into one flow. Without such a decision, spending the budget on traffic and product pages is the better use of money.",
+        },
+      },
+      {
+        question: {
+          tr: "Danışman değiştirirken neyi devralmalıyım?",
+          en: "What should I take over when switching consultants?",
+        },
+        answer: {
+          tr: "Altı kalemi isteyin ve sözleşmede adlarıyla yazsın: altyapı ve alan adı hesaplarının yönetici erişimi, varsa kaynak kod ve depo erişimi, entegrasyonların listesi ve ayarları, sipariş akışı şeması, ölçüm tanımları ve analitik erişimleri, eğitim kayıtları ve kullanım kılavuzu. Entegrasyon ayarları en çok atlanan kalemdir; belgesi olmayan bir bağlantıyı yeni ekip baştan keşfetmek zorunda kalır.",
+          en: "Ask for six items, named in the contract: administrator access to the platform and domain accounts, the source code and repository access where they exist, the list of integrations and their settings, the order flow map, the measurement definitions and analytics access, and the training recordings and usage guide. Integration settings are the item most often forgotten; a connection without documentation has to be rediscovered from scratch by the new team.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanının referanslarını nasıl doğrularım?",
+          en: "How do I verify an e-commerce consultant's references?",
+        },
+        answer: {
+          tr: "Rakamlı bir vaka isteyin ve üç şeyi birlikte arayın: başlangıç değeri, bitiş değeri ve arada geçen süre. Ardından o işte hangi altyapının ve hangi entegrasyonların kullanıldığını sorun. Mümkünse vakadaki markayla kısa bir görüşme isteyin ve çalışma bittikten sonra sistemin kimde kaldığını öğrenin. Kurulan düzen markanın kendi ekibiyle çalışmaya devam ediyorsa referans gerçek bir devri anlatıyordur.",
+          en: "Ask for a case with numbers and look for three things together: the starting value, the ending value and the time between them. Then ask which platform and which integrations the work used. If you can, ask for a short call with the brand in the case and find out who held the system after the engagement ended. If the setup keeps running with the brand's own team, the reference describes a real handover.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanlığı sözleşmesinde hangi maddeler yazılı olmalı?",
+          en: "Which clauses should an e-commerce consulting contract contain?",
+        },
+        answer: {
+          tr: "Altı madde: kapsamdaki entegrasyonların adlarıyla listesi, altyapı kararının hangi belgeyle teslim edileceği, test yöntemi ve canlıya alma koşulu, hesapların, verinin ve kaynak kodun firmaya ait olduğu, eğitim oturumu ve devir belgeleri, bir de fiyata dahil olmayan kalemler: reklam bütçesi, lisanslar, eklentiler ve kapsam dışı işçilik. Yazılı olmayan her madde sonradan ya fiyata ya da kapsama eklenir.",
+          en: "Six clauses: the list of integrations in scope, by name; the document in which the platform decision will be delivered; the testing method and the go-live condition; the statement that accounts, data and source code belong to the company; the training session and handover documents; and the items not included in the price, such as ad budget, licences, add-ons and out-of-scope labour. Every clause left unwritten is later added either to the price or to the scope.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanı satış artışı garanti edebilir mi?",
+          en: "Can an e-commerce consultant guarantee higher sales?",
+        },
+        answer: {
+          tr: "Dürüst bir danışman garanti veremez. Satışı trafik, fiyat, ürün, rekabet ve uygulama disiplini birlikte belirler; bunların hiçbiri danışmanın tek başına çevirdiği kollar değildir. Verilebilecek taahhüt teslim listesidir: çizilmiş akış, gerekçeli altyapı kararı, test edilmiş entegrasyonlar, kurulmuş ölçüm ve eğitilmiş ekip. Garantili artış vaat eden tekliflerde artışın tanımı, ölçüm kaynağı ve baz dönemi çoğu zaman boş bırakılır.",
+          en: "An honest consultant cannot. Sales are set by traffic, price, product, competition and execution discipline together, and none of those is a lever the consultant pulls alone. What can be committed to is the deliverables list: a mapped flow, a reasoned platform decision, tested integrations, working measurement and a trained team. Proposals that promise a guaranteed lift usually leave the definition of the lift, its measurement source and its baseline period blank.",
+        },
+      },
+      {
+        question: {
+          tr: "İlk görüşmeye hangi bilgilerle gitmeliyim?",
+          en: "What should I bring to the first meeting?",
+        },
+        answer: {
+          tr: "Beş bilgi yeter: aylık sipariş sayısı ve ürün sayısı, siparişin dokunduğu sistemlerin listesi (altyapı, muhasebe ya da ERP, kargo, ödeme, pazaryerleri), elle yapılan işlerin kabaca dökümü, son altı ayda yapmak isteyip altyapı yüzünden yapamadığınız değişiklikler ve iki yıl sonraki hedef ölçek. Bu beşi masada olan bir görüşme platform adlarıyla değil, işinizin kendisiyle başlar.",
+          en: "Five pieces of information are enough: monthly order count and product count, the list of systems an order touches (platform, accounting or ERP, carriers, payments, marketplaces), a rough account of the manual work, the changes you wanted to make in the last six months but could not because of the platform, and the scale you are aiming for in two years. A meeting with those five on the table starts with your business, not with platform names.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "e-ticaret",
+    tags: ["e-ticaret", "e-ticaret-danismani", "e-ticaret-danismanligi", "danisman-secimi", "altyapi-secimi"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-10-02",
+    readingMinutes: 21,
+    seo: {
+      title: {
+        tr: "E-ticaret danışmanı nasıl seçilir? Kontrol listesi",
+        en: "How to choose an e-commerce consultant: checklist",
+      },
+      description: {
+        tr: "E-ticaret danışmanı seçerken platform, reklam kanalı, sistem ve büyüme kararları nasıl denetlenir? Altı kriter, ilk görüşmede 10 soru ve üç kırmızı bayrak.",
+        en: "Choosing an e-commerce consultant? How to audit platform, ad channel, operations and growth decisions: six criteria, 10 questions and three red flags.",
+      },
+    },
+  },
+  // Karar kümesi "neye mal olur" halkası — e-ticaret (Yol-Haritasi-Satin-Alma-
+  // Niyeti §3, Faz 2; 2026-10-02). Emsal: `cro-danismanligi-fiyatlari`.
+  //
+  // Fiyat bandı (Burak, 2026-10-02: "fiyat bandı olsun") YALNIZ `packages.ts`
+  // yayımlı fiyatlarından kuruldu — uydurma rakam yok:
+  // - Bant: Dijital Dönüşüm Teşhisi 180.000 TL / €5.500 / $6.000, 3 hafta
+  //   (ticaret personası: sipariş akışı, envanter, müşteri iletişimi; OMS/WMS
+  //   öncesi araç kararı; pazaryeri satıcısı) + Büyüme Sprinti 240.000 TL /
+  //   €7.500 / $8.200, 4 hafta (ticaret personası: D2C/e-ticaret markası,
+  //   Shopify/WooCommerce/pazaryeri, CAC/ROAS). "KDV hariç liste fiyatı"
+  //   `llms-full.txt/route.ts`. Teşhis = çalışma sistemi ekseni, Sprint =
+  //   reklam kanalı + büyüme ekseni (hizmet sayfasının dört ekseni).
+  // - Bant dışı, gerekçeyle: MVP Build 720.000 TL / €22.500 / $24.500,
+  //   8 hafta — "bugün karşılığı olmayan bir iş" (OMS, sipariş takip, müşteri
+  //   portalı), göç projeleri kapsam dışı (paket SSS'i). AI Pilot hiç bandda
+  //   değil: tek bir yapay zeka senaryosunu sınar, altyapı/akış kararı vermez.
+  // - Sprint 20M TL ciro altına önerilmez, 2-3 kanal için planlıdır; dahil
+  //   olmayan kalemler (reklam bütçesi, araç lisansı, kreatif; teşhiste
+  //   lisans, abonelik, donanım, uygulama işçiliği; MVP'de bulut, alan adı,
+  //   üçüncü taraf lisans) paket SSS'lerinden.
+  // - Kurulum süresi (6-8 hafta / ERP + bayi ile 3 aya kadar):
+  //   `services/e-ticaret.ts` SSS'i. Kurulum için yayımlı fiyat YOK; gövde
+  //   bunu açıkça söyler.
+  // - Dış veri: yalnız Ticaret Bakanlığı 2025 raporunun 781 işletmelik satış
+  //   kanalı anketi (`docs/strateji/arastirma/eticaret-benchmark-kaynaklari-
+  //   2026-09.md` K7). Piyasa fiyat aralığı VERİLMEDİ — yöntemli Türkiye
+  //   derlemesi elimizde yok; gövde bunu söyler.
+  // - Kendi site taşımamızın yönlendirme dersi: `docs/strateji/Indeks-
+  //   Denetimi-2026-09-18.md` §2-3.
+  // - Getiri hesabı açıkça varsayımsal; maliyet tarafı gerçek paket fiyatı.
+  //   EN € değerleri paket kuruyla (240.000 TL ↔ €7.500, oran 32) orantılı
+  //   seçildi; yüzdeler iki dilde aynı çıkar.
+  // Tek kurgu Aslı, beyan edildi. Diagnoo linki gövdede inline; köprü yok.
+  {
+    slug: {
+      tr: "e-ticaret-danismanligi-fiyatlari",
+      en: "ecommerce-consulting-pricing",
+    },
+    title: {
+      tr: "E-ticaret danışmanlığı neye mal olur: fiyat nasıl oluşur?",
+      en: "What does e-commerce consulting cost? How the price is built",
+    },
+    excerpt: {
+      tr: "E-ticaret danışmanlığının fiyatı kapsamın hangi kararları içerdiğiyle, entegrasyon ve kanal sayısıyla ve işi kimin uygulayacağıyla oluşur. Yayımlı paket fiyatlarımızdan bandı, bandın dışında kalan kalemleri ve geri dönüş hesabını yazdım.",
+      en: "The price of e-commerce consulting is built from which decisions the scope covers, the number of integrations and channels, and who implements the work. Here is the band from our published package prices, what sits outside it and how to work out the return.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret danışmanlığının fiyatı tek bir rakam değil; kapsamın hangi kararları içerdiği, kurulacak entegrasyonların ve denetlenecek kanalların sayısı, platform değişikliği gerekip gerekmediği ve işi kimin uygulayacağıyla oluşan bir toplamdır. INDOLES'te karar aşaması, yani operasyon teşhisi ya da büyüme sprinti, üç ila dört hafta sürer ve KDV hariç 180.000 ile 240.000 TL arasındadır; teşhis özel bir yazılım bileşeni gerektirirse sekiz haftalık MVP Build 720.000 TL'dir. Mağaza kurulumu ve entegrasyon işçiliği, platform lisansı ve reklam bütçesi bu bandın dışındadır ve akış haritasından sonra ayrıca yazılır.",
+          en: "The price of e-commerce consulting is not one number but a total built from which decisions the scope covers, how many integrations and channels are involved, whether a platform change is needed and who implements the work. At INDOLES the decision stage — an operations audit or a growth sprint — takes three to four weeks and costs €5,500 to €7,500 (US$6,000 to $8,200) excluding VAT; if the audit calls for a custom software component, the eight-week MVP Build is €22,500 ($24,500). Store build and integration work, platform licences and ad budget sit outside that band and are written up separately after the flow map.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aslı bir kozmetik markasının kurucu ortağı ve masasında üç teklif var. Birincisi aylık sabit bir danışmanlık ücreti istiyor, ama ne yapılacağını yazmıyor. İkincisi mağazayı anahtar teslim kuruyor, ama fiyatın içinde hangi entegrasyonun olduğunu söylemiyor. Üçüncüsü düşük bir kurulum ücretinin üstüne cirodan pay istiyor. Üç teklifin üç ayrı birimi var; Aslı hangisinin pahalı olduğunu bile söyleyemiyor.",
+          en: "Aslı is co-founder of a cosmetics brand, and three proposals sit on her desk. The first asks for a fixed monthly consulting fee but does not say what will be done. The second builds the store turnkey but does not say which integrations are inside the price. The third asks for a share of revenue on top of a low set-up fee. The three proposals are priced in three different units; Aslı cannot even tell which one is expensive.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aslı'yı bu yazı için kurguladım; sorusunu kurgulamadım — \"e-ticaret danışmanlığı ne kadar tutar?\" satın alma görüşmelerinin ilk on dakikasında mutlaka sorulur. Bu yazıda fiyatı oluşturan değişkenleri tek tek açıyorum, kendi yayımlı paket fiyatlarımızdan hangilerinin e-ticaret alıcısına denk geldiğini ve hangilerinin gelmediğini gerekçesiyle yazıyorum, sonra bandın dışında kalan kalemleri ve bütçenin geri dönüşünü kendi rakamlarınızla nasıl hesaplayacağınızı gösteriyorum.",
+          en: "I invented Aslı for this article; I did not invent her question — \"what does e-commerce consulting cost?\" comes up in the first ten minutes of every buying conversation. Below I take the variables that set the price one by one, say which of our own published package prices correspond to an e-commerce buyer and which do not, with the reasoning, and then show what sits outside the band and how to work out the return on the budget with your own numbers.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazı e-ticaret karar kümesinin \"neye mal olur\" ayağı. Danışmanı hangi kriterlerle eleyeceğinizi [e-ticaret danışmanı nasıl seçilir yazısında](/yazilar/e-ticaret-danismani-nasil-secilir), platform kararının kendisini [e-ticaret platform danışmanlığı yazısında](/yazilar/e-ticaret-platform-danismanligi), işin nasıl yürüdüğünü ise [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret) bulursunuz.",
+          en: "This article is the \"what does it cost\" part of the e-commerce decision set. The criteria for shortlisting a consultant are in [how to choose an e-commerce consultant](/yazilar/e-ticaret-danismani-nasil-secilir), the platform decision itself in [e-commerce platform consulting](/yazilar/e-ticaret-platform-danismanligi), and how the work runs on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
+        },
+      },
+      {
+        type: "h2",
+        id: "fiyati-ne-belirler",
+        text: {
+          tr: "E-ticaret danışmanlığının fiyatını ne belirler?",
+          en: "What sets the price of e-commerce consulting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Fiyatı beş değişken belirler: kapsamın hangi kararları içerdiği, kurulacak entegrasyonların sayısı ve derinliği, denetlenecek reklam kanallarının sayısı ve ölçümün durumu, altyapının tipi ve geçiş ihtiyacı, işi kimin uygulayacağı. Aynı danışmanın iki mağazaya verdiği iki teklif bu beşinden biri farklı olduğu için kat kat ayrışabilir.",
+          en: "Five variables set the price: which decisions the scope covers, the number and depth of integrations, the number of ad channels to audit and the state of measurement, the type of platform and any migration, and who implements the work. Two proposals from the same consultant to two stores can differ several times over because one of the five differs.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kapsam ilk değişkendir, çünkü \"e-ticaret danışmanlığı\" adı dört ayrı kararı taşıyabilir: hangi platform, hangi reklam kanalları ve bütçe dağılımı, nasıl bir çalışma sistemi, büyümek için önce hangi kayıp. Bir teklif yalnız kanal planını, diğeri yalnız mağaza kurulumunu, üçüncüsü dördünü birden kapsayabilir ve üçü de aynı adla satılır. Teklifleri karşılaştırmadan önce hangisinin hangi kararı verdiğini yazın.",
+          en: "Scope is the first variable, because the name \"e-commerce consulting\" can carry four separate decisions: which platform, which ad channels and budget split, what operating system, and which loss to close first in order to grow. One proposal may cover only the channel plan, another only the store build, a third all four, and all three are sold under the same name. Before comparing proposals, write down which decisions each one makes.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Entegrasyon, kurulum tarafının en ağır değişkenidir. Sanal POS ve taksit, e-fatura ve e-arşiv, muhasebe ya da ERP, kargo firmaları, pazaryeri siparişleri ve bayi fiyatları ayrı ayrı bağlantılardır; her biri kurulur, eşlenir ve gerçek siparişle test edilir. Biz kurulum süresini bu yüzden entegrasyon sayısına göre tahmin ediyoruz: hazır altyapı üzerine standart bir mağaza genellikle altı ila sekiz hafta sürüyor, ERP entegrasyonu ve bayi akışı eklendiğinde süre üç aya kadar çıkabiliyor.",
+          en: "Integration is the heaviest variable on the build side. Card payments and instalments, e-invoicing, accounting or ERP, carriers, marketplace orders and dealer pricing are separate connections; each one is built, mapped and tested with a real order. That is why we estimate build time by the number of integrations: a standard store on an off-the-shelf platform usually takes six to eight weeks, and adding ERP integration and a dealer flow can extend that to three months.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kanal ve ölçüm, büyüme tarafının değişkenidir. Kaç kanalın denetleneceği süreyi belirler: Büyüme Sprinti iki ya da üç kanalın denetimine göre planlanmış dört haftalık bir iştir ve dördüncü bir kanal ya da ikinci bir pazar eklendiğinde süre ve fiyat yazılı olarak yeniden hesaplanır. Ölçüm bozuksa kanal kıyası da bozuk veriyle yapılır; bu yüzden ölçümün onarılması, kanal kararından önce gelen bir kalemdir.",
+          en: "Channels and measurement are the variable on the growth side. How many channels are audited sets the timeline: the Growth Sprint is a four-week job planned around auditing two or three channels, and adding a fourth channel or a second market means duration and price are recalculated in writing. If measurement is broken, the channel comparison is made on broken data too; that is why repairing measurement is an item that comes before the channel decision.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Son iki değişken fiyatı farklı yönlerden iter. Hazır altyapıda kurulum hızlıdır ama özelleştirme platformun izin verdiği kadardır; özel geliştirmede her şey mümkündür ama her değişiklik geliştirme saatidir; platform değişikliği de veri taşıma ve adres yönlendirme gibi tek seferlik kalemler ekler. Uygulamayı danışmanın mı, iç ekibinizin mi, mevcut ajansınızın mı yapacağı ise maliyetin bütçenin hangi satırında duracağını belirler.",
+          en: "The last two variables push the price from different directions. On an off-the-shelf platform the build is fast but customisation goes only as far as the platform allows; with custom development anything is possible but every change is development time; and a platform change adds one-off items such as data migration and address redirects. Whether the consultant, your in-house team or your current agency does the implementation decides which line of the budget the cost sits on.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazıda bir piyasa fiyat aralığı vermiyorum. Türkiye için yöntemi açıklanmış bir e-ticaret danışmanlığı fiyat derlemesi elimde yok ve tek tek tekliflerden aralık türetmek sizi yanıltır, çünkü teklifler aynı işi anlatmıyor. Onun yerine kendi yayımlı fiyatlarımızı ve her kalemi neyin büyüttüğünü yazıyorum.",
+          en: "I am not giving a market price range in this article. I do not have a compilation of e-commerce consulting prices for Türkiye with a published method, and deriving a range from individual proposals would mislead you, because the proposals do not describe the same work. Instead I am writing down our own published prices and what makes each item grow.",
+        },
+      },
+      {
+        type: "h2",
+        id: "indoles-fiyat-bandi",
+        text: {
+          tr: "INDOLES'te e-ticaret danışmanlığının fiyat bandı ne?",
+          en: "What is the price band for e-commerce consulting at INDOLES?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar aşaması için yayımlı bandımız KDV hariç 180.000 ile 240.000 TL, süresi üç ila dört hafta. Bandın iki ucu iki ayrı paket ve hangisiyle başlanacağını kısıtın nerede olduğu belirler: sipariş, stok ve operasyon tarafındaysa Dijital Dönüşüm Teşhisi; reklam kanalları ve dönüşüm tarafındaysa Büyüme Sprinti.",
+          en: "Our published band for the decision stage is €5,500 to €7,500 (US$6,000 to $8,200) excluding VAT, over three to four weeks. The two ends of the band are two separate packages, and which one you start with depends on where the constraint sits: on the order, stock and operations side, the Digital Transformation Audit; on the ad channel and conversion side, the Growth Sprint.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "[Dijital Dönüşüm Teşhisi](/paketler/dijital-donusum-teshisi): 3 hafta, 180.000 TL. E-ticaret operasyonunun sürtünme haritasını çıkarır: sipariş akışı, envanter ve müşteri iletişimi haritalanır, operasyon ekibinden 3-6 kişiyle görüşülür, 3-5 otomasyon önerisi sipariş başına zaman kazanımı ve yıllık operasyon tasarrufu projeksiyonuyla sıralanır, altı aylık bir yol haritası çıkar. Her öneri için araç seçimini, entegrasyon gereksinimini ve tahmini maliyeti içeren ayrı bir teknik şartname teslim edilir.",
+            en: "[Digital Transformation Audit](/paketler/dijital-donusum-teshisi): 3 weeks, €5,500 ($6,000). It produces a friction map of e-commerce operations: order flow, inventory and customer communication are mapped, 3-6 people from the operations team are interviewed, 3-5 automation recommendations are ranked by projected time saved per order and annual operations saving, and a six-month roadmap is drawn. Each recommendation comes with a separate spec covering tool selection, integration requirements and estimated cost.",
+          },
+          {
+            tr: "[Büyüme Sprinti](/paketler/buyume-sprinti): 4 hafta, 240.000 TL. Mevcut kanalları (Google, Meta, TikTok, SEO, e-posta) ROAS, CAC ve dönüşüm oranı üzerinden denetler; 90 günlük kanal hipotezi ve bütçe dağılımı, hunideki en kritik adım için en az üç hipotezli bir A/B test planı, tek sayfalık marka ton ve mesaj çerçevesi ve beş metrikli haftalık gösterge paneli üretir.",
+            en: "[Growth Sprint](/paketler/buyume-sprinti): 4 weeks, €7,500 ($8,200). It audits current channels (Google, Meta, TikTok, SEO, email) on ROAS, CAC and conversion rate, and produces a 90-day channel hypothesis and budget allocation, an A/B test plan with at least three hypotheses for the most critical funnel step, a one-page brand tone and message framework, and a weekly five-metric dashboard.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu iki paketi e-ticaret bandına koymamın gerekçesi paketlerin kendi kapsamında yazılı. Teşhisin ticaret tarafındaki kapsamı doğrudan e-ticaret operasyonu için yazılmış; OMS ya da WMS yatırımından önce hangi aracı neden alacağını bilmek isteyen ticaret ekipleri ve elle yürüyen süreçlerini otomasyona taşımak isteyen pazaryeri satıcıları paketin hedef alıcıları arasında. Sprint ise reklam harcayan ama büyümesi beklediği gibi gitmeyen D2C ve e-ticaret markaları için; Shopify, WooCommerce ya da pazaryerinde büyüyen ve müşteri edinme maliyeti yükselen markalar kapsamın açık hedefi.",
+          en: "The reason I put these two packages in the e-commerce band is written into their own scope. The audit's commerce-side scope is written specifically for e-commerce operations; commerce teams that want to know which tool to buy, and why, before an OMS or WMS investment, and marketplace sellers that want to automate manual processes, are among its target buyers. The sprint is for D2C and e-commerce brands that spend on ads but whose growth is not landing as expected; brands growing on Shopify, WooCommerce or marketplaces with rising customer acquisition cost are its stated target.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bandın dışında kalan iki paketi de gerekçesiyle yazayım. [MVP Build](/paketler/mvp-build) sekiz hafta sürer ve 720.000 TL'dir; bugün karşılığı olmayan bir işi inşa etmek içindir: sipariş yönetim aracı, sipariş takip ya da müşteri portalı gibi. Teşhis böyle bir özel bileşen gerektirirse sonraki adım odur; ama hazır bir araç aynı işi görüyorsa yazılım yazmak pahalı yoldur ve mevcut büyük bir sistemin yerine geçecek göç projeleri bu paketin kapsamında değildir. AI Pilot'u ise bu hesaba hiç katmadım: ürün önerisi ya da sepet terk tahmini gibi tek bir yapay zeka senaryosunu altı haftada sınar, mağazanın platform ve akış kararını vermez.",
+          en: "Let me set out the two packages outside the band, with reasons too. [MVP Build](/paketler/mvp-build) runs eight weeks at €22,500 ($24,500); it is for building something that has no equivalent today, such as an order management tool, order tracking or a customer portal. If the audit calls for such a custom component, that is the next step; but if an existing tool does the same job, writing software is the expensive route, and migration projects that replace a large existing system are outside this package's scope. AI Pilot I left out of the calculation entirely: it tests a single AI use case, such as product recommendations or basket abandonment prediction, over six weeks; it does not make the store's platform and flow decisions.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Platform kararının yayımlı ayrı bir paketi yok. Kısıt operasyon tarafındaysa karar teşhisin araç seçimi şartnamesine girer; mağaza kurulumuyla birlikte ele alınıyorsa kurulum kapsamında yazılır. Bir sınırı da açık yazayım: Büyüme Sprinti'ni yıllık cirosu 20 milyon TL'nin altındaki markalara önermiyoruz, çünkü o ölçekte kanal denetiminin açacağı fark dar kalır. Reklam harcaması henüz başlamamış bir marka için de uygun değildir; sprint mevcut kanal verisini denetleyerek çalışır.",
+          en: "The platform decision has no separate published package. If the constraint sits on the operations side, the decision goes into the audit's tool selection spec; if it is handled together with a store build, it is written into the build scope. Let me state one limit plainly too: we do not recommend the Growth Sprint to brands with annual revenue below 20M TL, because at that scale the gap a channel audit can open stays narrow. Nor does it suit a brand that has not yet started spending on ads; the sprint works by auditing existing channel data.",
+        },
+      },
+      {
+        type: "h2",
+        id: "paket-fiyatina-dahil",
+        text: {
+          tr: "Paket fiyatına neler dahil, neler değil?",
+          en: "What is included in the package price, and what is not?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki paket de sabit kapsam, sabit süre ve sabit fiyatla satılır; kapsam değişmedikçe faturaya ek kalem girmez, değişirse süre ve fiyat yazılı olarak yeniden hesaplanır. Dahil olanlar kapsam listesindeki kalemlerdir: teşhiste saha gözlemi, görüşmeler, mevcut durum haritaları, önceliklendirilmiş öneriler ve yol haritası; sprintte kanal denetimi, 90 günlük kanal hipotezi, test planı, mesaj çerçevesi ve gösterge paneli kurulumu.",
+          en: "Both packages are sold with fixed scope, fixed duration and a fixed price; as long as the scope does not change, no extra line reaches the invoice, and if it does change, duration and price are recalculated in writing. What is included are the items on the scope list: in the audit, on-site observation, interviews, current-state maps, prioritised recommendations and the roadmap; in the sprint, the channel audit, the 90-day channel hypothesis, the test plan, the message framework and the dashboard setup.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Dahil olmayanlar da yazılı: teşhiste yazılım lisansları, araç abonelikleri, donanım ve uygulama işçiliği; sprintte reklam bütçesi, araç lisansları ve kreatif üretim. Önerilen araçların ve pilotların tahmini bütçesi raporda tahmin olarak durur, faturada değil. Yani teşhis size neyi, hangi sırayla ve kabaca neye mal olarak alacağınızı söyler; aldıklarınızın bedeli ayrı satırlardır.",
+          en: "What is excluded is written down too: in the audit, software licences, tool subscriptions, hardware and implementation labour; in the sprint, ad budget, tool licences and creative production. The estimated budget for the recommended tools and pilots sits in the report as an estimate, not on the invoice. In other words, the audit tells you what to buy, in what order and at roughly what cost; what you then buy sits on separate lines.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Teklifte aranacak satır: kapsam listesinin maddeleri, teslim edilecek belgelerin adı ve kapsam değişirse yeniden fiyatlamanın nasıl yapılacağı.",
+          en: "The line to look for in the proposal: the items on the scope list, the names of the documents to be delivered, and how repricing works if the scope changes.",
+        },
+      },
+      {
+        type: "h2",
+        id: "kurulum-ve-entegrasyon",
+        text: {
+          tr: "Mağaza kurulumu ve entegrasyon bütçesi nasıl hesaplanır?",
+          en: "How is the budget for store build and integration worked out?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kurulum ve entegrasyon için sitede yayımlanmış sabit bir fiyatımız yok; kapsam akış haritasından sonra, entegrasyon listesine göre yazılıyor. Sebebi basit: iki mağazanın kurulum bedelini aynı yapan şey vitrin değil, arkadaki bağlantıların sayısıdır ve o sayı akış çizilmeden bilinmez.",
+          en: "We have no fixed published price for build and integration; the scope is written after the flow map, according to the integration list. The reason is simple: what makes two stores cost the same to build is not the storefront but the number of connections behind it, and that number is unknown until the flow is drawn.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kurulum bütçesini satır satır düşünün. Mağazanın kendisi: kategori yapısı, ürün sayfaları ve arama. Ödeme ve fatura: sanal POS, taksit, havale, kurumsal alıcı için vadeli ödeme, e-fatura ve e-arşiv. Stok ve muhasebe ya da ERP bağlantısı. Kargo entegrasyonu ve takip bildirimi. Varsa bayi akışı: bayiye özel fiyat, toplu sipariş ekranı, cari hesap. Ölçüm kurulumu. Son olarak eğitim ve devir. Her satırın süresi, karşıdaki sistemin entegrasyona açık olup olmamasına bağlıdır; programın entegrasyon yolu yoksa bu akış haritası aşamasında ortaya çıkmalı ve alternatif yol maliyetiyle birlikte sunulmalıdır.",
+          en: "Think of the build budget line by line. The store itself: category structure, product pages and search. Payment and invoicing: card payments, instalments, bank transfer, deferred payment for corporate buyers, e-invoicing. Stock and the accounting or ERP connection. Carrier integration and tracking notifications. A dealer flow where there is one: dealer-specific pricing, a bulk order screen, account balances. Measurement setup. And finally training and handover. The duration of each line depends on whether the system on the other side is open to integration; if a program has no integration path, that should surface at the flow mapping stage and be presented with an alternative and its cost.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Teklifte aranacak satır: entegrasyonların adlarıyla listesi, her birinin nasıl test edileceği ve listede olmayan bir bağlantı çıkarsa nasıl fiyatlanacağı. \"Tüm entegrasyonlar dahil\" cümlesi bir liste değildir.",
+          en: "The line to look for in the proposal: the list of integrations by name, how each will be tested, and how a connection that is not on the list will be priced if it comes up. \"All integrations included\" is not a list.",
+        },
+      },
+      {
+        type: "h2",
+        id: "lisans-ve-platform",
+        text: {
+          tr: "Platform lisansı ve altyapı maliyeti neden ayrı bir kalemdir?",
+          en: "Why are platform licences and infrastructure a separate line?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Platform maliyeti danışmanlık fiyatının parçası değildir, çünkü sizin hesabınızdan doğrudan ödenir ve çalışma bittikten sonra da sürer. Danışmanın işi bu maliyeti sizin yerinize ödemek değil, karar anında görünür kılmaktır.",
+          en: "Platform cost is not part of the consulting price, because it is paid directly from your account and continues after the work ends. The consultant's job is not to pay it for you but to make it visible at the moment of decision.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altyapı tipine göre bu kalemin biçimi değişir. Hazır bir altyapıda genellikle aylık ya da yıllık abonelik, tema ve eklenti bedelleri, bazı modellerde satış başına işlem ücreti vardır. Kendi sunucunuzda çalışan bir altyapıda barındırma, güvenlik güncellemeleri ve bakım saatleri öne çıkar. Özel geliştirmede bulut altyapısı, alan adı, üçüncü taraf lisanslar ve devirden sonraki bakım ayrı satırlardır; MVP Build paketimizde de bu kalemler fiyatın dışındadır, çünkü tüketime göre değişirler ve sabit gösterilmeleri yanıltıcı olur. Rakam vermiyorum, çünkü her platformun fiyat listesi kendine özgüdür ve değişir; onu teklif anında platformun kendi sayfasından okuyun.",
+          en: "The shape of this line depends on the type of platform. On an off-the-shelf platform there is usually a monthly or annual subscription, theme and add-on fees, and in some models a transaction fee per sale. On a platform running on your own server, hosting, security updates and maintenance hours come to the fore. With custom development, cloud infrastructure, the domain, third-party licences and maintenance after handover are separate lines; in our MVP Build package these sit outside the price as well, because they vary with usage and showing them as fixed would mislead. I am not giving figures, because every platform's price list is its own and it changes; read it from the platform's own page at the time of the proposal.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hesabı iki ya da üç yıllık toplamla yapın: kurulum, yıllık abonelik ya da barındırma, eklentiler, bakım saatleri ve ekibinizin harcayacağı zaman. Kurulumu ucuz, işletmesi pahalı bir altyapı ilk yıl kârlı görünür. Teklifte aranacak satır: lisans ve aboneliklerin kimin adına açıldığı ve hangisinin fiyata dahil olmadığı.",
+          en: "Do the sum as a two- or three-year total: build, annual subscription or hosting, add-ons, maintenance hours and the time your team will spend. A platform that is cheap to build and expensive to run looks profitable in the first year. The line to look for in the proposal: whose name the licences and subscriptions are opened in, and which of them are not included in the price.",
+        },
+      },
+      {
+        type: "h2",
+        id: "platform-degisikligi",
+        text: {
+          tr: "Platform değiştirmek bütçeye ne ekler?",
+          en: "What does changing platform add to the budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Platform değişikliği bütçeye tek seferlik ama atlanması pahalı kalemler ekler: ürün, varyant, müşteri ve sipariş geçmişinin taşınması; eski adreslerin yeni adreslere yönlendirilmesi; entegrasyonların yeni altyapıda yeniden kurulması; ölçümün yeniden doğrulanması; ekibin yeni panele alıştırılması ve bir süre iki sistemin birlikte izlenmesi.",
+          en: "A platform change adds one-off items to the budget that are expensive to skip: moving products, variants, customers and order history; redirecting old addresses to new ones; rebuilding integrations on the new platform; revalidating measurement; getting the team used to the new admin panel and watching both systems side by side for a while.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yönlendirme kalemi en çok küçümsenenidir. Kendi sitemizi Ağustos 2026'nın sonunda yeni bir altyapıya taşıdık ve eski adresleri yönlendirdik; yirmi gün sonra Search Console'da baktığımızda Google, denetlediğimiz dört eski hizmet adresinin hiçbirini taşımadan beri yeniden taramamıştı, yani yönlendirmeleri henüz görmemişti. Eski adresleri ayrı bir site haritasıyla yeniden sunmak zorunda kaldık. Geçişin arama tarafı yönlendirmeyi kurmakla bitmez, Google'ın onu gördüğünü izlemekle biter; bu izleme de bütçede bir satırdır.",
+          en: "The redirect item is the most underestimated. We moved our own site to a new platform at the end of August 2026 and redirected the old addresses; when we checked Search Console twenty days later, Google had not recrawled any of the four old service addresses we inspected since the move, so it had not yet seen the redirects. We had to resubmit the old addresses in a separate sitemap. The search side of a migration does not end when the redirects are set up; it ends when you have confirmed Google has seen them, and that monitoring is a line in the budget too.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük bir sistemin yerine geçecek göç, yayımlı paketlerimizin hiçbirinde sabit fiyatlı değil; kapsamı teşhisten sonra yazılıyor. Geçişin ne zaman gerektiğini, ne zaman gerekmediğini [e-ticaret platform danışmanlığı yazısında](/yazilar/e-ticaret-platform-danismanligi) ayrıca anlattım. Teklifte aranacak satır: taşınacak verinin listesi, yönlendirme haritasını kimin hazırlayacağı ve geçişten sonra kaç hafta izleneceği.",
+          en: "A migration that replaces a large system has no fixed price in any of our published packages; its scope is written after the audit. When a migration is needed, and when it is not, I have set out separately in [the e-commerce platform consulting article](/yazilar/e-ticaret-platform-danismanligi). The line to look for in the proposal: the list of data to be moved, who prepares the redirect map, and for how many weeks things will be monitored after the switch.",
+        },
+      },
+      {
+        type: "h2",
+        id: "proje-mi-aylik-mi",
+        text: {
+          tr: "Proje bazlı mı, aylık mı çalışmalısınız?",
+          en: "Should you pay per project or per month?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İşin evresine göre ikisi de doğrudur: karar ve kurulum proje olarak, sürekli büyüme işi aylık olarak çalışılır. Sırayı tersine çevirmek, yani akış ve kanal verisi okunmadan aylık bir danışmanlık ücretine başlamak, ilk ayların ücretini neyin yapılacağı bilinmeden ödemek demektir.",
+          en: "Both are right, depending on the phase: the decision and the build run as a project, ongoing growth work runs monthly. Reversing the order — starting a monthly consulting fee before the flow and channel data have been read — means paying the first months' fees without knowing what will be done.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aylık modelde ücretin karşılığını sayılabilir kılın: ayda kaç saatlik iş, hangi raporlar, hangi karar toplantıları. Reklam yönetimi e-ticaret danışmanlığıyla aynı iş değildir; aylık yönetim planlarını [performans pazarlama hizmet sayfamızda](/hizmetler/performans-pazarlama) ayrı yayımladık. Reklam bütçesinin kendisi ise ne danışmanlık ne yönetim ücretidir; ayrı bir satır olarak izlenmelidir. Sürekli bir test programı da ayrı bir iştir; fiyatının nasıl oluştuğunu [CRO danışmanlığı fiyatları yazısında](/yazilar/cro-danismanligi-fiyatlari) açtım.",
+          en: "In a monthly model, make what the fee buys countable: how many hours of work a month, which reports, which decision meetings. Ad management is not the same job as e-commerce consulting; we publish its monthly management plans separately on [our performance marketing service page](/hizmetler/performans-pazarlama). The ad budget itself is neither a consulting fee nor a management fee; it should be tracked as a line of its own. A continuous testing programme is separate work too; how its price is built is in [the article on CRO consulting pricing](/yazilar/cro-danismanligi-fiyatlari).",
+        },
+      },
+      {
+        type: "h2",
+        id: "ciro-payi",
+        text: {
+          tr: "Cirodan pay alan danışmanlık modeli neden risklidir?",
+          en: "Why is a revenue-share consulting model risky?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ciro payı, danışmanın kontrol etmediği değişkenler için de ödeme yapmanız demektir. E-ticaret cirosu sezonla, kampanya takvimiyle, reklam bütçesiyle, stokla ve pazaryeri satışlarıyla hareket eder; sözleşme bu hareketin hangi kısmının danışmanın işinden geldiğini ayıramazsa ücret gürültüye bağlanmış olur.",
+          en: "A revenue share means paying for variables the consultant does not control. E-commerce revenue moves with the season, the campaign calendar, the ad budget, stock and marketplace sales; if the contract cannot separate the part of that movement that comes from the consultant's work, the fee has been tied to noise.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç sorun tekrar eder. Birincisi baz dönemdir: artış hangi döneme göre ölçülecek, Kasım dahil mi? İkincisi teşviktir: ciroya bağlı ücret, ciroyu marjdan ödeyerek yükselten hamleleri ödüllendirir — derin indirim, ücretsiz kargo eşiğinin düşürülmesi. Üçüncüsü kapsamdır: pazaryeri ve mağaza satışları ciroya sayılıyor mu? Yine de bu modeli isterseniz metriği ciro yerine sipariş başına katkı olarak yazın, baz dönemi ve ölçüm kaynağını imzadan önce sabitleyin, değişken ücreti sabit bir tabanın üstüne ekleyin ve ona bir üst sınır koyun.",
+          en: "Three problems recur. The first is the baseline: against which period is the increase measured, and is November included? The second is incentive: a fee tied to revenue rewards moves that lift revenue by paying for it out of margin — deep discounts, a lower free-delivery threshold. The third is scope: do marketplace and in-store sales count towards revenue? If you still want the model, write the metric as contribution per order rather than revenue, fix the baseline period and the measurement source before signing, add the variable fee on top of a fixed base and give it a cap.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ucuz-teklif",
+        text: {
+          tr: "Ucuz bir e-ticaret teklifinde hangi kalem eksik olabilir?",
+          en: "Which line might be missing from a cheap e-commerce proposal?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ucuz teklif çoğunlukla bir kalemi silerek ucuzlar; soru hangi kalemin silindiğidir. Beş yere bakın.",
+          en: "A cheap proposal usually gets cheap by deleting a line; the question is which line. Look in five places.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Entegrasyon listesi yok: \"tüm entegrasyonlar dahil\" yazıyor ama adları yok; listede olmayan bağlantı sonradan ek iş olarak gelir.",
+            en: "No integration list: it says \"all integrations included\" but names none; any connection not on a list comes back later as extra work.",
+          },
+          {
+            tr: "Test yok: bağlantılar kurulur ama gerçek siparişle denenmez; ilk hata canlıda, kampanya gününde bulunur.",
+            en: "No testing: connections are built but never tried with a real order; the first fault is found in production, on a campaign day.",
+          },
+          {
+            tr: "Ölçüm yok: mağaza açılır ama hangi kanalın sattığı okunmaz; bir sonraki bütçe kararı tahminle verilir.",
+            en: "No measurement: the store opens but nobody can read which channel sells; the next budget decision is made by guesswork.",
+          },
+          {
+            tr: "Sahiplik belirsiz: hesaplar ajansın adına açılır; çalışma bittiğinde veri ve kod onunla gider.",
+            en: "Unclear ownership: the accounts are opened in the agency's name; when the work ends, the data and the code leave with it.",
+          },
+          {
+            tr: "Devir yok: eğitim, kılavuz ve entegrasyon belgeleri teklifte yazmaz; ekip her soruda danışmana bağımlı kalır.",
+            en: "No handover: training, a usage guide and integration documents are not in the proposal; the team stays dependent on the consultant for every question.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ucuz teklifin gerçek fiyatını tek satırda hesaplayın: teklif tutarı, artı sonradan gelecek entegrasyon işleri, artı ayrıca faturalanacak lisanslar, artı ekibinizin elle yapmaya devam edeceği işlerin saatleri. Son kalem sıfır görünür, çünkü kimse onu fatura etmez.",
+          en: "Work out the real price of a cheap proposal in one line: the proposal amount, plus the integration work that will come later, plus the separately invoiced licences, plus the hours of manual work your team will keep doing. The last item looks like zero, because nobody ever invoices it.",
+        },
+      },
+      {
+        type: "h2",
+        id: "getiri-hesabi",
+        text: {
+          tr: "Danışmanlık bütçesinin geri dönüşünü nasıl hesaplarsınız?",
+          en: "How do you work out the return on a consulting budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Beklenen kazancı tahmin etmek yerine, bütçenin kendini ödemesi için gereken kazancı hesaplayın; ikincisi yalnız kendi rakamlarınızı ister. E-ticarette kazanç iki yerden gelir: elle yapılan işin kalkmasından ve ek siparişten. İkisini ayrı hesaplayın, çünkü iki teşhis paketinin her biri bunlardan birine odaklanır.",
+          en: "Rather than estimating the gain you expect, calculate the gain the budget needs in order to pay for itself; the second needs only your own numbers. In e-commerce the gain comes from two places: manual work that disappears, and extra orders. Calculate them separately, because each of the two packages focuses on one of them.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aşağıdaki rakamlar varsayımsaldır; hiçbir müşterimize ait değildir ve yalnız hesabın nasıl kurulduğunu göstermek için seçildi. Maliyet tarafı ise gerçek: Büyüme Sprinti'nin liste fiyatı olan 240.000 TL. Mağaza ayda 1.400 sipariş alıyor, ortalama sipariş 1.600 TL; ürün maliyeti, kargo ve ödeme komisyonu düşüldükten sonra sipariş başına katkı %30, yani 480 TL. Sprintin etkisinin on iki ay süreceğini varsayarsak aylık karşılığı 20.000 TL eder; 20.000 TL'yi 480 TL'ye bölünce ayda yaklaşık 42 ek sipariş çıkar. 1.400 siparişe göre bu %3'lük bir göreli artıştır.",
+          en: "The figures below are hypothetical; they belong to none of our clients and were chosen only to show how the calculation is built. The cost side is real: €7,500, the list price of the Growth Sprint. The store takes 1,400 orders a month, the average order is €50, and after product cost, delivery and payment fees the contribution per order is 30%, or €15. Assuming the sprint's effect lasts twelve months, that is €625 a month; dividing €625 by €15 gives roughly 42 extra orders a month. Against 1,400 orders that is a relative lift of 3%.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Operasyon tarafında hesap saatle yapılır. Aynı mağazada her sipariş için stok düşümü, fatura ve kargo kaydı elle toplam 5 dakika tutuyorsa ayda 1.400 siparişte bu 7.000 dakika, yani yaklaşık 117 saattir. Saat maliyetini siz koyun: Dijital Dönüşüm Teşhisi'nin 180.000 TL'lik bedeli, önerileri uygulandığında kalkacak saatlerin kaç ayda bu tutara ulaştığıyla tartılır. Teşhis raporu da önerilerini tam bu ölçüyle, sipariş başına zaman kazanımı ve yıllık operasyon tasarrufuyla sıralar. Bir uyarı: bu hesap yalnız danışmanlık bedelini kapsar; uygulama işçiliği ve lisanslar ayrı satırlardır ve aynı yöntemle eklenir.",
+          en: "On the operations side the calculation is in hours. If, in the same store, stock deduction, invoicing and shipment entry take 5 minutes of manual work per order, then at 1,400 orders a month that is 7,000 minutes, or about 117 hours. Put in your own hourly cost: the €5,500 fee of the Digital Transformation Audit is weighed against how many months it takes for the hours removed by its recommendations to add up to that amount. The audit report ranks its recommendations by exactly that measure: time saved per order and annual operations saving. One caution: this calculation covers only the consulting fee; implementation labour and licences are separate lines and are added the same way.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hesabı kendi rakamlarınızla yapın ve sonucu okuyun. Gereken göreli artış birkaç yüzdeyse makul bir hedef konuşuyorsunuz; yüzde yirminin üstündeyse önce trafik ya da ürün tarafında bir iş gerekir, danışmanlık değil. Bu artışı hangi değişikliklerin üretebileceğini [dönüşüm oranını artırmanın yirmi bir taktiğini sıraladığımız yazıda](/yazilar/donusum-orani-nasil-artirilir-21-taktik), kendi oranınızın sektörünüze göre nerede durduğunu [e-ticaret dönüşüm oranı ortalamaları yazısında](/yazilar/e-ticaret-donusum-orani-benchmark) bulursunuz.",
+          en: "Run it with your own numbers and read the result. If the relative lift needed is a few per cent, you are discussing a reasonable target; if it is above twenty per cent, you first need work on traffic or the product, not consulting. Which changes can produce that lift is in [the article setting out twenty-one tactics for raising your conversion rate](/yazilar/donusum-orani-nasil-artirilir-21-taktik); where your own rate sits against your sector is in [the e-commerce conversion rate benchmarks article](/yazilar/e-ticaret-donusum-orani-benchmark).",
+        },
+      },
+      {
+        type: "h2",
+        id: "olcege-gore-butce",
+        text: {
+          tr: "Bütçe mağazanın ölçeğine göre nasıl değişir?",
+          en: "How does the budget change with the size of the store?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ölçek, beş değişkenin ağırlığını değiştirir. Aşağıdaki üç profil rakam vermiyor; bütçenin nereye gitmesi gerektiğini tarif ediyor.",
+          en: "Scale changes the weight of the five variables. The three profiles below give no figures; they describe where the budget should go.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "KOBİ mağazası",
+          en: "An SME store",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yıllık cirosu 20 milyon TL'nin altındaki bir mağazada ücretli bir büyüme sprinti çoğu zaman erkendir; bütçenin doğru yeri hazır bir altyapıda sağlam birkaç entegrasyon, baştan kurulmuş ölçüm ve bariz engellerin düzeltilmesidir. Bu ölçekte ücretsiz bir teşhis iyi bir başlangıçtır: [Diagnoo](/araclar/diagnoo) mağazanın yedi kritik sayfasını tarar; mobil hızı, ödeme adımındaki sürtünmeyi ve eksik ölçüm etiketlerini ayrı ayrı yazar. Kendi ekibinizle uygulanabilecek düzeltmeler, ücretli bir programdan daha çok kazandırabilir.",
+          en: "For a store with annual revenue below 20M TL a paid growth sprint is usually premature; the budget belongs in a few solid integrations on an off-the-shelf platform, measurement set up from the start, and fixing the obvious blockers. At this size a free diagnosis is a good start: [Diagnoo](/araclar/diagnoo) scans the store's seven key pages and reports mobile speed, friction in the checkout step and missing tracking tags separately. Fixes your own team can make may earn more than a paid programme.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Pazaryeri ağırlıklı büyüyen marka",
+          en: "A growing brand selling mostly on marketplaces",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ticaret Bakanlığı'nın 12 Mayıs 2026'da yayımladığı Türkiye'de E-Ticaretin Görünümü Raporu 2025'teki 781 işletmelik ankete göre işletmelerin %39,5'i yalnız pazaryerlerinden, %48,8'i hem kendi sitesinden hem pazaryerlerinden satıyor. Bu profilde bütçenin ağırlığı vitrinde değil, siparişin nereden gelirse gelsin tek akışta işlenmesindedir: stok, fatura ve kargo tek düzene bağlanmadıkça her yeni kanal elle yapılan işi çoğaltır. Bu ölçekte teşhisin değeri, hangi otomasyonun önce geleceğini sıraya koymasındadır.",
+          en: "According to the survey of 781 businesses in the Ministry of Trade's 2025 e-commerce outlook report, published on 12 May 2026, 39.5% of businesses sell only on marketplaces and 48.8% sell both on their own site and on marketplaces. For this profile the weight of the budget is not in the storefront but in processing every order in one flow, wherever it comes from: until stock, invoicing and shipping are tied to one routine, every new channel multiplies the manual work. At this scale the audit's value lies in putting the automations in order.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Bayi ve toptan satan üretici",
+          en: "A manufacturer selling to dealers and wholesale",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "B2B tarafında bütçeyi entegrasyon büyütür: bayiye özel fiyat listesi, toplu sipariş ekranı, cari hesap görünürlüğü, vadeli ödeme ve ERP bağlantısı. Bizim kurulumlarımızda ERP entegrasyonu ve bayi akışı eklenen işler üç aya kadar uzayabiliyor ve fiyat da süreyle birlikte büyüyor. Bu ölçekte en pahalı hata, ERP tarafının entegrasyon yolunu kurulum başladıktan sonra öğrenmektir. Teşhis bu soruyu baştan cevaplar; bugün karşılığı olmayan özel bir müşteri portalı gerekiyorsa sonraki adım MVP Build'in kapsamıdır.",
+          en: "On the B2B side, integration drives the budget: dealer-specific price lists, a bulk order screen, account balance visibility, deferred payment and an ERP connection. In our builds, work that adds ERP integration and a dealer flow can extend to three months, and the price grows with the timeline. At this scale the most expensive mistake is finding out the ERP side's integration path after the build has started. The audit answers that question first; if a custom customer portal with no equivalent today is needed, the next step falls within MVP Build's scope.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-butce-onayi",
+        text: {
+          tr: "Sonuç: bütçeyi onaylamadan önce hangi satırları yan yana koymalısınız?",
+          en: "Conclusion: which lines should you set side by side before approving the budget?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret danışmanlığının fiyatı bir etiket değil, beş değişkenin sonucudur: kapsamdaki kararlar, entegrasyon, kanal ve ölçüm, altyapı ve geçiş, uygulayıcı. İki teklifi toplam tutarla kıyaslamadan önce satırları yan yana koyun; farkın çoğu orada görünür ve çoğu zaman ucuz teklifin sildiği satırı gösterir.",
+          en: "The price of e-commerce consulting is not a label but the result of five variables: the decisions in scope, integration, channels and measurement, platform and migration, and who implements. Before comparing two proposals on the total, set the lines side by side; most of the gap shows up there, and it usually points to the line the cheaper proposal deleted.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut test şu: masadaki her teklif için yedi satırlık bir tablo çizin — karar aşaması, kanal ve bütçe planı, kurulum ve entegrasyon listesi, ölçüm, lisans ve platform maliyeti, geçiş, eğitim ve devir. Her satıra \"dahil\", \"hariç\" ya da \"yazmıyor\" yazın. \"Yazmıyor\" en pahalı cevaptır; tablonun o satırları, imzadan önce sormanız gereken soruların listesidir.",
+          en: "Here is the concrete test you can run today: draw a seven-line table for every proposal on the table — decision stage, channel and budget plan, build and integration list, measurement, licence and platform cost, migration, training and handover. Write \"included\", \"excluded\" or \"not stated\" in each line. \"Not stated\" is the most expensive answer; those lines are the list of questions to ask before you sign.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı tabloyu bizim için de doldurun. [E-ticaret danışmanlığı hizmetimizin kapsamı](/hizmetler/e-ticaret) — neyin dahil olduğu, neyin olmadığı — hizmet sayfasında yazılı; paket fiyatlarımız da paket sayfalarında açık.",
+          en: "Fill in the same table for us. [The scope of our e-commerce consulting service](/hizmetler/e-ticaret) — what is included and what is not — is written out on the service page, and our package prices are open on the package pages.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "E-ticaret danışmanlığı ücreti ne kadar?",
+          en: "How much does e-commerce consulting cost?",
+        },
+        answer: {
+          tr: "INDOLES'te karar aşaması üç ila dört hafta sürer ve KDV hariç 180.000 ile 240.000 TL arasındadır: operasyon kısıtı için Dijital Dönüşüm Teşhisi 180.000 TL, reklam kanalı ve dönüşüm kısıtı için Büyüme Sprinti 240.000 TL. Özel bir yazılım bileşeni gerekirse sekiz haftalık MVP Build 720.000 TL'dir. Mağaza kurulumu ve entegrasyon, platform lisansı ve reklam bütçesi bu bandın dışındadır.",
+          en: "At INDOLES the decision stage takes three to four weeks and costs €5,500 to €7,500 excluding VAT: the Digital Transformation Audit at €5,500 for an operations constraint, the Growth Sprint at €7,500 for an ad channel and conversion constraint. If a custom software component is needed, the eight-week MVP Build is €22,500. Store build and integration, platform licences and ad budget sit outside that band.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanlık fiyatları neden firmadan firmaya bu kadar değişir?",
+          en: "Why do e-commerce consulting prices vary so much between firms?",
+        },
+        answer: {
+          tr: "Fiyatlar aynı işi anlatmadığı için değişir. Bir teklif yalnız kanal planını, diğeri anahtar teslim kurulumu, üçüncüsü aylık danışmanlığı kapsayabilir ve üçü de e-ticaret danışmanlığı diye satılır. Fark ayrıca entegrasyon sayısından, denetlenecek kanal sayısından, altyapı tipinden, geçiş ihtiyacından ve işi kimin uygulayacağından gelir. Kıyaslamadan önce teklifleri satır satır eşleştirin ve yazmayan satırları sorun.",
+          en: "Because the prices do not describe the same work. One proposal may cover only the channel plan, another a turnkey build, a third a monthly retainer, and all three are sold as e-commerce consulting. The gap also comes from the number of integrations, the number of channels to audit, the type of platform, any migration and who implements the work. Before comparing, match the proposals line by line and ask about the lines that are not stated.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret sitesi kurulum fiyatı danışmanlık ücretine dahil mi?",
+          en: "Is the store build price included in the consulting fee?",
+        },
+        answer: {
+          tr: "Bizim yayımlı paketlerimizde dahil değildir. Teşhis ve sprint, neyin hangi sırayla yapılacağına karar verir ve tahmini bütçeyi raporda yazar; kurulum ve entegrasyon ayrı kapsam ve ayrı fiyatla tanımlanır. Kurulum fiyatı akış haritasından sonra, entegrasyon listesine göre yazılır, çünkü iki mağazanın bedelini aynı yapan şey vitrin değil, arkadaki bağlantıların sayısıdır.",
+          en: "Not in our published packages. The audit and the sprint decide what is done and in what order, and put an estimated budget in the report; build and integration are defined with a separate scope and a separate price. The build price is written after the flow map, according to the integration list, because what makes two stores cost the same is not the storefront but the number of connections behind it.",
+        },
+      },
+      {
+        question: {
+          tr: "Platform aboneliği ve eklentiler kimin bütçesinden çıkar?",
+          en: "Whose budget do the platform subscription and add-ons come from?",
+        },
+        answer: {
+          tr: "Sizin bütçenizden ve sizin adınıza açılan hesaptan. Platform aboneliği, tema, eklenti ve barındırma bedelleri danışmanlık fiyatının parçası değildir, çünkü çalışma bittikten sonra da sürerler. Danışmanın işi bu maliyeti karar anında görünür kılmaktır: iki ya da üç yıllık toplamı kurulum, abonelik, eklenti, bakım saatleri ve ekibinizin zamanıyla birlikte hesaplamak.",
+          en: "From your budget, and from an account opened in your name. Platform subscription, theme, add-on and hosting fees are not part of the consulting price, because they continue after the work ends. The consultant's job is to make that cost visible at the moment of decision: to calculate the two- or three-year total including build, subscription, add-ons, maintenance hours and your team's time.",
+        },
+      },
+      {
+        question: {
+          tr: "Reklam bütçesi e-ticaret danışmanlığı fiyatına dahil mi?",
+          en: "Is ad budget included in the e-commerce consulting price?",
+        },
+        answer: {
+          tr: "Dahil değildir. Reklam bütçesi doğrudan reklam hesabınızdan harcanır ve hiçbir paket fiyatımıza girmez; Büyüme Sprinti de reklam bütçesini, araç lisanslarını ve kreatif üretimi fiyatın dışında tutar. Sprintin işi bütçenin hangi kanala, hangi metrik hedefiyle gideceğini 90 günlük bir planla önermektir. Reklam hesaplarının yönetimi ayrı bir hizmettir ve aylık planları performans pazarlama sayfamızda yayımlıdır.",
+          en: "It is not. Ad budget is spent directly from your ad account and is not part of any package price; the Growth Sprint also keeps ad budget, tool licences and creative production outside its price. The sprint's job is to recommend, in a 90-day plan, which channel the budget goes to and with which metric target. Managing the ad accounts is a separate service, and its monthly plans are published on our performance marketing page.",
+        },
+      },
+      {
+        question: {
+          tr: "Aylık e-ticaret danışmanlığı mı, proje mi daha uygun?",
+          en: "Is monthly e-commerce consulting or a project the better fit?",
+        },
+        answer: {
+          tr: "İşin evresine göre ikisi de uygundur. Karar ve kurulum sabit kapsamlı bir proje olarak, sürekli büyüme işi aylık olarak çalışılır. Akış ve kanal verisi okunmadan aylık ücrete başlamak, ilk ayların bedelini neyin yapılacağı bilinmeden ödemek demektir. Aylık modele geçerseniz ücretin karşılığını sayılabilir kılın: ayda kaç saatlik iş, hangi raporlar ve hangi karar toplantıları.",
+          en: "Both fit, depending on the phase of the work. The decision and the build run as a fixed-scope project; ongoing growth work runs monthly. Starting a monthly fee before the flow and channel data have been read means paying for the first months without knowing what will be done. If you move to a monthly model, make what the fee buys countable: how many hours of work a month, which reports and which decision meetings.",
+        },
+      },
+      {
+        question: {
+          tr: "Platform geçişinin maliyeti nasıl hesaplanır?",
+          en: "How is the cost of a platform migration worked out?",
+        },
+        answer: {
+          tr: "Tek seferlik kalemleri ayrı ayrı yazarak: ürün, varyant, müşteri ve sipariş geçmişinin taşınması, eski adreslerin yönlendirilmesi, entegrasyonların yeni altyapıda yeniden kurulması, ölçümün yeniden doğrulanması, ekip eğitimi ve iki sistemin birlikte izlendiği dönem. Büyük bir sistemin yerine geçecek göç yayımlı paketlerimizin hiçbirinde sabit fiyatlı değildir; kapsamı teşhisten sonra yazılır.",
+          en: "By writing the one-off items down separately: moving products, variants, customers and order history, redirecting old addresses, rebuilding integrations on the new platform, revalidating measurement, training the team and the period when both systems are watched side by side. A migration that replaces a large system has no fixed price in any of our published packages; its scope is written after the audit.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret işi için hangi paketle başlanmalı?",
+          en: "Which package should an e-commerce business start with?",
+        },
+        answer: {
+          tr: "Kısıtın nerede olduğuna bakın. Sipariş geliyor ama stok, fatura ve kargo yetişmiyorsa Dijital Dönüşüm Teşhisi; reklam harcanıyor ama büyüme beklenen gibi gitmiyorsa Büyüme Sprinti. Teşhis üç haftada operasyonun sürtünme haritasını ve otomasyon önceliklerini, sprint dört haftada kanal ve huni teşhisini çıkarır. İkisinin aynı anda alınması gerekmez; son çeyreğin verisi hangisinin kısıt olduğunu çoğu zaman zaten söyler.",
+          en: "Look at where the constraint sits. If orders arrive but stock, invoicing and shipping cannot keep up, the Digital Transformation Audit; if ads are running but growth is not landing as expected, the Growth Sprint. The audit produces a friction map of operations and automation priorities in three weeks; the sprint produces a channel and funnel diagnosis in four. They need not be bought together; last quarter's data usually names the constraint already.",
+        },
+      },
+      {
+        question: {
+          tr: "Küçük bir e-ticaret işletmesi danışmanlığa ne kadar bütçe ayırmalı?",
+          en: "How much should a small e-commerce business budget for consulting?",
+        },
+        answer: {
+          tr: "Küçük bir mağazada bütçenin çoğu danışmanlığa değil, hazır bir altyapıda sağlam birkaç entegrasyona ve baştan kurulmuş ölçüme gitmelidir. Büyüme Sprinti'ni yıllık cirosu 20 milyon TL'nin altındaki markalara önermiyoruz, çünkü o ölçekte kanal denetiminin açacağı fark dar kalır. Ücretsiz bir teşhisle bariz engelleri bulup kendi ekibinizle düzeltmek, bu ölçekte ücretli bir programdan daha çok kazandırır.",
+          en: "In a small store most of the budget should go not to consulting but to a few solid integrations on an off-the-shelf platform and measurement set up from the start. We do not recommend the Growth Sprint to brands with annual revenue below 20M TL, because at that scale the gap a channel audit can open stays narrow. Finding the obvious blockers with a free diagnosis and fixing them with your own team earns more at this size than a paid programme.",
+        },
+      },
+      {
+        question: {
+          tr: "Cirodan pay alan bir e-ticaret danışmanıyla çalışmak mantıklı mı?",
+          en: "Does it make sense to work with an e-commerce consultant on a revenue share?",
+        },
+        answer: {
+          tr: "Dört şart sözleşmeye yazılıysa mantıklıdır. Metrik ciro değil, sipariş başına katkı olsun, çünkü ciro indirimle ve marj pahasına da yükselebilir. Baz dönem ve ölçüm kaynağı imzadan önce sabitlensin. Pazaryeri ve mağaza satışlarının sayılıp sayılmayacağı yazılsın. Değişken ücret sabit bir tabanın üstüne eklensin ve bir üst sınırı olsun; tamamen ciroya bağlı bir ücret, kısa vadeli ve marj yiyen hamleleri ödüllendirir.",
+          en: "Only if four conditions are written down. The metric should be contribution per order rather than revenue, because revenue can rise through discounts and at the expense of margin. The baseline period and measurement source should be fixed before signing. Whether marketplace and in-store sales count should be stated. The variable fee should sit on top of a fixed base and have a cap; a fee tied entirely to revenue rewards short-term, margin-eating moves.",
+        },
+      },
+      {
+        question: {
+          tr: "E-ticaret danışmanlığı fiyatlarına KDV dahil mi?",
+          en: "Do e-commerce consulting prices include VAT?",
+        },
+        answer: {
+          tr: "Yayımlı paket fiyatlarımız KDV hariç liste fiyatıdır: Dijital Dönüşüm Teşhisi 180.000 TL, Büyüme Sprinti 240.000 TL, MVP Build 720.000 TL. Fiyatlar sabittir ve kapsam listesine bağlıdır; kapsam değişmedikçe faturaya ek kalem girmez, değişirse süre ve fiyat yazılı olarak yeniden hesaplanır. Lisans, abonelik ve reklam bütçesi gibi kalemler bu fiyatların içinde değildir.",
+          en: "Our published package prices are list prices excluding VAT: the Digital Transformation Audit at €5,500, the Growth Sprint at €7,500 and MVP Build at €22,500. The prices are fixed and tied to the scope list; as long as the scope does not change no extra line reaches the invoice, and if it does, duration and price are recalculated in writing. Items such as licences, subscriptions and ad budget are not included in these prices.",
+        },
+      },
+      {
+        question: {
+          tr: "Fiyat teklifi istemeden önce hangi bilgileri hazırlamalıyım?",
+          en: "What should I prepare before asking for a quote?",
+        },
+        answer: {
+          tr: "Altı bilgi teklifin doğruluğunu belirler: aylık sipariş ve ürün sayısı, siparişin dokunduğu sistemlerin listesi, muhasebe ya da ERP programınızın adı, satış yaptığınız ve reklam verdiğiniz kanallar, mevcut platform maliyetiniz ve iki yıl sonraki hedef ölçek. Bu bilgiler olmadan verilen fiyat ortalama bir mağazaya aittir; sonradan ya daralan ya da genişleyen bir kapsamla sizinkine uyarlanır.",
+          en: "Six pieces of information decide how accurate the quote is: monthly order and product counts, the list of systems an order touches, the name of your accounting or ERP software, the channels you sell and advertise on, your current platform cost and the scale you are aiming for in two years. A price given without them belongs to an average store; it is later fitted to yours through a scope that either shrinks or grows.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "e-ticaret",
+    tags: ["e-ticaret", "e-ticaret-danismanligi", "e-ticaret-danismanligi-fiyatlari", "fiyatlandirma", "butce"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-10-02",
+    readingMinutes: 22,
+    seo: {
+      title: {
+        tr: "E-ticaret danışmanlığı fiyatları ne kadar?",
+        en: "E-commerce consulting pricing: what it costs",
+      },
+      description: {
+        tr: "E-ticaret danışmanlığı fiyatları neye göre değişir? Kapsam, entegrasyon, kanal ve geçiş; 180.000-240.000 TL bant, dışında kalan kalemler ve geri dönüş hesabı.",
+        en: "What drives e-commerce consulting pricing? Scope, integrations, channels and migration; a €5,500-€7,500 band, what sits outside it and how to judge the return.",
+      },
+    },
+  },
+  // Karar kümesi "nasıl işler" halkası — e-ticaret platform kararı ve geçişi
+  // (Yol-Haritasi-Satin-Alma-Niyeti §3, Faz 2; 2026-10-02). Çerçeve öncelikli:
+  // belirli platformların fiyatı, özelliği ya da pazar payı YAZILMADI.
+  //
+  // Kaynaklar — uydurma rakam yok:
+  // - INDOLES'in çalıştığı altyapılar: `services/e-ticaret.ts` (İKAS, Ticimax,
+  //   İdeaSoft, Shopify, WooCommerce kurulumları SSS'i); `cases.ts` MKComputer
+  //   (Magento 2 üzerinde özel modül; "genel amaçlı içe aktarma eklentisi iki
+  //   koşulu aynı anda karşılamıyor" SSS'i; 200.000+ ürün, 5 dakikada senkron)
+  //   ve OdorGo (İKAS altyapısı; Trendyol + Hepsiburada; tek ölçüm çerçevesi;
+  //   8 ayda 10M TL toplam ciro). Ortaklık/sertifika/bayilik iddiası YOK.
+  // - "Hazır altyapıda tema ve ödeme adımına müdahale platformun izin verdiği
+  //   ölçüdedir": `cro-danismanligi-fiyatlari` ile aynı genel ifade, platform
+  //   adı verilmeden.
+  // - Dış veri (`docs/strateji/arastirma/eticaret-benchmark-kaynaklari-
+  //   2026-09.md`): K7 Ticaret Bakanlığı 2025 raporu — 781 işletmelik satış
+  //   kanalı anketi (%48,8 / %39,5 / %11,7) ve e-ticaret/genel ticaret oranı
+  //   (yıl %19,3, Kasım %22,4); K9 iyzico · Dogma Alares · ETİD 108 satıcı
+  //   anketi (%35 aktif yurt dışı satış, %44 yurt dışı/globalleşme zorluğu).
+  // - Kendi site taşımamızın yönlendirme dersi: `docs/strateji/Indeks-
+  //   Denetimi-2026-09-18.md` §2-3 (cutover 29-30 Ağustos; 20 gün sonra
+  //   denetlenen dört eski hizmet adresinin hiçbiri yeniden taranmamış;
+  //   `/sitemap-eski.xml` ile yeniden sunuldu).
+  // - Kurulum süresi ve "kritik akış önce" ilkesi: `services/e-ticaret.ts`
+  //   SSS'i. Teşhis kapsamı: `packages.ts`.
+  // Tek kurgu Okan, beyan edildi. Diagnoo linki gövdede inline (geçiş öncesi
+  // baz çizgisi); köprü eklenmez.
+  {
+    slug: {
+      tr: "e-ticaret-platform-danismanligi",
+      en: "ecommerce-platform-consulting",
+    },
+    title: {
+      tr: "Platform seçimi bir özellik karşılaştırması değil: e-ticaret platform danışmanlığı",
+      en: "Choosing a platform is not a feature comparison: e-commerce platform consulting",
+    },
+    excerpt: {
+      tr: "E-ticaret platform danışmanlığı altyapı kararını özellik listesine değil katalog yapısına, entegrasyonlara ve iki yıllık ölçeğe bakarak verir. Seçim kriterleri, kendi site ile pazaryeri arasındaki karar, geçiş riskleri ve danışmana sorulacak sorular.",
+      en: "E-commerce platform consulting makes the platform decision from catalogue structure, integrations and two-year scale rather than a feature list. Selection criteria, the choice between your own site and marketplaces, migration risks and the questions to ask a consultant.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret platform danışmanlığı, mağazanızın hangi altyapıda çalışacağına ya da mevcut altyapıdan ne zaman ve nasıl ayrılacağınıza özellik listesine değil işinizin akışına bakarak karar verme işidir. Doğru karar dört soruya dayanır: katalog ve sipariş yapınız ne kadar karmaşık, mağazanın hangi sistemlerle konuşması gerekiyor, mağazayı kim ve ne sıklıkla değiştirecek, iki yıl sonra hangi ölçekte olacaksınız? Platform adı bu dört cevabın sonucudur; tersinden başlanırsa karar bir gerekçe değil, bir tercih olur.",
+          en: "E-commerce platform consulting is the work of deciding which platform your store will run on — or when and how to leave the one you have — by looking at how your business flows rather than at a feature list. The right decision rests on four questions: how complex are your catalogue and order structure, which systems does the store need to talk to, who will change the store and how often, and what scale will you be at in two years? The platform name is the result of those four answers; start from the other end and the decision becomes a preference rather than a reasoned choice.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Okan bir spor ekipmanları markasının e-ticaret sorumlusu. Bir yıl önce taşındıkları altyapıdan memnun değil ve masasında üç platformun özellik karşılaştırma tablosu var: her satırda bir onay işareti, her sütunda bir fiyat. Tablonun hiçbir satırı, geçen yıl taşınmalarının asıl sebebini sormuyor: bayi siparişleri neden hâlâ elle giriliyor?",
+          en: "Okan is in charge of e-commerce at a sports equipment brand. He is unhappy with the platform they moved to a year ago, and on his desk is a feature comparison of three platforms: a tick in every row, a price in every column. Not one row asks the question that sent them moving last year: why are dealer orders still typed in by hand?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Okan'ı bu yazı için kurguladım; durumunu kurgulamadım. Platform değiştirmek isteyen alıcının çoğu, bir önceki geçişte çözülmeyen sorunu yeni platformda çözmeyi umar. Bu yazıda platform kararının hangi kriterlerle verildiğini, kendi site ile pazaryeri arasındaki seçimi, mevcut altyapıdan ne zaman ayrılmak gerektiğini, geçişin risklerini ve danışmana sorulacak soruları sırayla açıyorum. Belirli platformların fiyatlarını ya da özelliklerini karşılaştırmıyorum: bu bilgiler sık değişiyor ve kararınızı belirleyen şey zaten onlar değil.",
+          en: "I invented Okan for this article; I did not invent his situation. Most buyers who want to change platform hope the new one will solve the problem the last migration did not. In this article I go through the criteria behind a platform decision, the choice between your own site and marketplaces, when to leave your current platform, the risks of migration and the questions to ask a consultant. I do not compare specific platforms' prices or features: that information changes often, and it is not what decides your choice anyway.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazı e-ticaret karar kümesinin \"nasıl işler\" ayağı. Danışmanı nasıl seçeceğinizi [e-ticaret danışmanı nasıl seçilir yazısında](/yazilar/e-ticaret-danismani-nasil-secilir), kararın ve kurulumun neye mal olduğunu [e-ticaret danışmanlığı fiyatları yazısında](/yazilar/e-ticaret-danismanligi-fiyatlari), platform kararının bizde nasıl verildiğini ise [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret) bulursunuz.",
+          en: "This article is the \"how it works\" part of the e-commerce decision set. How to choose the consultant is in [how to choose an e-commerce consultant](/yazilar/e-ticaret-danismani-nasil-secilir), what the decision and the build cost in [the e-commerce consulting pricing article](/yazilar/e-ticaret-danismanligi-fiyatlari), and how we make the platform decision on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
+        },
+      },
+      {
+        type: "h2",
+        id: "neyi-karara-baglar",
+        text: {
+          tr: "E-ticaret platform danışmanlığı neyi karara bağlar?",
+          en: "What does e-commerce platform consulting decide?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç kararı: altyapının tipini, satış kanallarının yapısını ve zamanlamayı. Hazır bir altyapı mı, kendi sunucunuzda çalışan bir altyapı mı, özel geliştirme mi? Yalnız kendi site mi, yalnız pazaryeri mi, ikisi birden mi? Bugünkü altyapıda kalıp onu iyileştirmek mi, yoksa ayrılmak mı?",
+          en: "Three decisions: the type of platform, the structure of your sales channels and the timing. An off-the-shelf platform, one running on your own server, or custom development? Your own site only, marketplaces only, or both? Stay on today's platform and improve it, or leave?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçüncü karar en çok atlananıdır. Platform danışmanlığının dürüst cevaplarından biri \"değiştirmeyin\"dir: sorun çoğu zaman platformun kendisinde değil, platforma bağlanmamış bir muhasebe programında, elle tutulan bir stok listesinde ya da hiç kurulmamış bir ölçümdedir. Böyle bir durumda yeni bir altyapı aynı sorunu daha pahalı bir yere taşır.",
+          en: "The third decision is the one most often skipped. One of the honest answers in platform consulting is \"don't change\": the problem is often not in the platform itself but in an accounting program that is not connected to it, a stock list kept by hand, or measurement that was never set up. In that situation a new platform moves the same problem somewhere more expensive.",
+        },
+      },
+      {
+        type: "h2",
+        id: "altyapi-tipleri",
+        text: {
+          tr: "Hazır altyapı, kendi sunucunuzdaki altyapı ve özel geliştirme arasındaki fark nedir?",
+          en: "What is the difference between an off-the-shelf platform, a self-hosted platform and custom development?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Fark, işin hangi kısmının sizde, hangi kısmının sağlayıcıda kaldığındadır. Hazır bir altyapıda barındırma, güvenlik ve güncelleme sağlayıcının işidir; kurulum hızlı, bakım yükü düşüktür, ama tema ve ödeme adımı gibi alanlara müdahale platformun izin verdiği ölçüdedir. Kendi sunucunuzda çalışan bir altyapıda esneklik artar; karşılığında barındırma, güvenlik güncellemeleri ve bakım sizin ya da ekibinizin sorumluluğuna geçer. Özel geliştirmede her şey mümkündür, ama her değişiklik geliştirme saatidir ve sistemin yaşaması onu sürdürecek bir ekibe bağlıdır.",
+          en: "The difference lies in which part of the work stays with you and which with the provider. On an off-the-shelf platform, hosting, security and updates are the provider's job; the build is fast and the maintenance load is low, but changes to areas such as the theme and the checkout step go only as far as the platform allows. On a platform running on your own server, flexibility grows, and in return hosting, security updates and maintenance become your or your team's responsibility. With custom development anything is possible, but every change is development time, and the system's life depends on a team to sustain it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üçü arasında genel bir sıralama yok. Standart ürün satan ve birkaç entegrasyonla çalışan bir mağaza için hazır altyapı çoğu zaman en ucuz ve en hızlı yoldur. Karmaşık fiyatlandırma, bayi hiyerarşisi ya da ağır bir ERP entegrasyonu varsa özel geliştirme ya da güçlü bir entegrasyon katmanı anlam kazanır. Arada bir yol daha var: platformun eksik kalan işini, platformu değiştirmeden bir modülle tamamlamak.",
+          en: "There is no general ranking among the three. For a store selling standard products with a few integrations, an off-the-shelf platform is usually the cheapest and fastest route. If there is complex pricing, a dealer hierarchy or heavy ERP integration, custom development or a strong integration layer starts to earn its place. There is also a route in between: completing what the platform lacks with a module, without changing the platform.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu ara yolun gerçek bir örneği [MKComputer vakasında](/vakalar/mkcomputer-dropshipping-otomasyonu). Platform Magento 2 üzerine kuruldu, ama asıl işi Magento'nun kendisi değil, tedarikçinin veri biçimine göre yazılmış özel bir modül yaptı. 200.000'den fazla ürünün stok, fiyat ve tedarikçi bilgisinin sık aralıkla güncellenmesi gerekiyordu ve genel amaçlı bir içe aktarma eklentisi hacim ile tazelik koşulunu aynı anda karşılamıyordu; özel modülle katalog her 5 dakikada bir kendiliğinden güncellenir hâle geldi.",
+          en: "A real example of this middle route is [the MKComputer case](/vakalar/mkcomputer-dropshipping-otomasyonu). The platform was built on Magento 2, but the real work was done not by Magento itself but by a custom module written against the supplier's data format. Stock, price and supplier data for more than 200,000 products had to be refreshed at short intervals, and a general-purpose import extension could not meet the volume and freshness requirements at once; with the custom module, the catalogue came to update automatically every 5 minutes.",
+        },
+      },
+      {
+        type: "h2",
+        id: "secim-kriterleri",
+        text: {
+          tr: "Platform seçimi hangi kriterlerle yapılır?",
+          en: "What criteria should a platform choice rest on?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Altı kriter yeter ve her birinin arkasında platformun sitesinde değil, sizin işinizde cevaplanacak bir soru durur.",
+          en: "Six criteria are enough, and behind each one is a question answered in your business, not on the platform's website.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Katalog yapısı: kaç ürün, kaç varyant, hangi filtreler? Spesifikasyonla aranan ürünler (bellek, ölçü, uyumluluk) ile birkaç yüz standart ürün aynı altyapı ihtiyacını doğurmaz.",
+            en: "Catalogue structure: how many products, how many variants, which filters? Products searched by specification (memory, size, compatibility) and a few hundred standard products do not create the same platform needs.",
+          },
+          {
+            tr: "Sipariş hacmi ve kampanya yoğunluğu: altyapı sıradan bir günde değil, en yoğun kampanya gününde ne yapacak? Ürün sayısı ya da kampanya yoğunluğu artınca tıkanan bir düzen, sorununu en pahalı günde gösterir.",
+            en: "Order volume and campaign peaks: what will the platform do not on an ordinary day but on the busiest campaign day? A setup that jams when product count or campaign volume rises shows its problem on the most expensive day.",
+          },
+          {
+            tr: "Entegrasyonlar: sanal POS ve taksit, e-fatura ve e-arşiv, muhasebe ya da ERP, kargo, pazaryeri siparişleri. Her biri için platformun hazır bir bağlantısı mı var, yoksa ayrı bir geliştirme mi gerekiyor?",
+            en: "Integrations: card payments and instalments, e-invoicing, accounting or ERP, carriers, marketplace orders. For each one, does the platform have a ready connection, or does it need separate development?",
+          },
+          {
+            tr: "B2B ve bayi kuralları: bayiye özel fiyat, toplu sipariş, cari hesap ve vadeli ödeme gerekiyorsa platform bunları taşıyabiliyor mu, yoksa yanına ayrı bir sistem mi kurulacak?",
+            en: "B2B and dealer rules: if you need dealer-specific pricing, bulk ordering, account balances and deferred payment, can the platform carry them, or will a separate system be built alongside it?",
+          },
+          {
+            tr: "Değişiklik sıklığı ve sahibi: mağazada her hafta kim, neyi değiştirecek? Pazarlama ekibinin kendi başına sayfa açabildiği bir düzen ile her değişikliğin geliştiriciye gittiği bir düzen aynı maliyeti taşımaz.",
+            en: "Change frequency and ownership: who will change what on the store every week? A setup where the marketing team can open pages on its own and one where every change goes to a developer do not carry the same cost.",
+          },
+          {
+            tr: "Sahiplik ve çıkış: ürün, müşteri ve sipariş verinizi eksiksiz dışa aktarabiliyor musunuz? Bugün girdiğiniz platformdan bir gün çıkacağınızı varsayarak seçin.",
+            en: "Ownership and exit: can you export your product, customer and order data in full? Choose assuming that one day you will leave the platform you are entering today.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Yurt dışına satıyorsanız yedinci bir kriter eklenir: para birimi, dil, vergi ve kargo kuralları her pazarda ayrı çalışabiliyor mu? iyzico, Dogma Alares ve ETİD'in 108 satıcıyla yaptığı ankette (Türkiye E-Ticaret Ekosistemi 2025) satıcıların %35'i aktif olarak yurt dışına satıyor, %44'ü yurt dışına satışı ve globalleşmeyi bir zorluk olarak anıyor. Çok pazarlı bir mağazada altyapı kararı, her pazarı ayrı bir mağaza gibi düşünmeyi gerektirir.",
+          en: "If you sell abroad, a seventh criterion is added: can currency, language, tax and shipping rules work separately in each market? In the survey of 108 sellers by iyzico, Dogma Alares and ETİD (Türkiye E-Commerce Ecosystem 2025), 35% of sellers actively sell abroad and 44% name selling abroad and going global as a challenge. In a multi-market store the platform decision means thinking of each market as a separate store.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu kriterlerin hiçbiri fiyatı yok saymaz; ama fiyat bir kriter değil, kriterlerin sonucudur. İki ya da üç yıllık toplam maliyeti kurulum, abonelik ya da barındırma, eklentiler, geliştirme ve bakım saatleri ve ekibinizin zamanıyla birlikte hesaplayın; nasıl hesaplanacağını [e-ticaret danışmanlığı fiyatları yazısında](/yazilar/e-ticaret-danismanligi-fiyatlari) satır satır yazdım.",
+          en: "None of these criteria ignores price; but price is not a criterion, it is the result of the criteria. Calculate the two- or three-year total cost with the build, subscription or hosting, add-ons, development and maintenance hours and your team's time; I have written out how to do that line by line in [the e-commerce consulting pricing article](/yazilar/e-ticaret-danismanligi-fiyatlari).",
+        },
+      },
+      {
+        type: "h2",
+        id: "site-mi-pazaryeri-mi",
+        text: {
+          tr: "Kendi site mi, pazaryeri mi, ikisi birden mi?",
+          en: "Your own site, marketplaces, or both?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ticaret Bakanlığı'nın 12 Mayıs 2026'da yayımladığı Türkiye'de E-Ticaretin Görünümü Raporu 2025'teki 781 işletmelik ankete göre işletmelerin %48,8'i hem kendi sitesinden hem pazaryerlerinden, %39,5'i yalnız pazaryerlerinden, %11,7'si yalnız kendi sitesinden satıyor. Yani ankete katılan işletmelerin yaklaşık yarısı iki kanalı birlikte kullanıyor ve soru çoğu zaman \"hangisi\" değil, \"ikisi nasıl tek düzende çalışacak\" sorusudur.",
+          en: "According to the survey of 781 businesses in the Ministry of Trade's 2025 e-commerce outlook report, published on 12 May 2026, 48.8% of businesses sell both on their own site and on marketplaces, 39.5% only on marketplaces and 11.7% only on their own site. In other words, roughly half of the businesses surveyed use both channels, and the question is usually not \"which one\" but \"how will both run in one routine\".",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki kanal farklı şeyler verir. Pazaryeri hazır talep ve güven getirir, ama vitrinin, müşteri ilişkisinin ve kuralların büyük kısmı platformun elindedir. Kendi site marka anlatısını, müşteri verisini ve fiyat kararını size bırakır, ama trafiği kendiniz getirirsiniz. Platform danışmanlığının bu noktadaki işi kanal seçmekten çok, siparişin nereden gelirse gelsin aynı stok, fatura ve kargo akışında işlenmesini sağlamaktır; aksi hâlde her yeni kanal elle yapılan işi çoğaltır. Pazaryeri siparişlerinin site dönüşüm oranını nasıl çarpıttığını [e-ticaret dönüşüm oranı ortalamaları yazısında](/yazilar/e-ticaret-donusum-orani-benchmark) ayrıca anlattık.",
+          en: "The two channels give different things. A marketplace brings ready demand and trust, but most of the storefront, the customer relationship and the rules are in the platform's hands. Your own site leaves the brand story, customer data and pricing decisions to you, but you bring the traffic yourself. Platform consulting's job here is less choosing channels than making sure every order, wherever it comes from, is processed in the same stock, invoicing and shipping flow; otherwise every new channel multiplies the manual work. How marketplace orders distort your site conversion rate is covered separately in [the e-commerce conversion rate benchmarks article](/yazilar/e-ticaret-donusum-orani-benchmark).",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "[OdorGo'da](/vakalar/odorgo-kategori-yaratma) iki kanal birlikte kuruldu: e-ticaret sitesi İKAS altyapısıyla açıldı, Trendyol ve Hepsiburada mağazaları da aynı ölçüm çerçevesine bağlandı. Kategori kampanyasında etki, görüldüğü kanalda değil satın alındığı kanalda kaydediliyordu; kanal başına ayrı okuma, hangi filmin hangi satışı getirdiğini gizlerdi. Sekiz ayda e-ticaret, pazaryeri, perakende ve stand satışları birlikte 10 milyon TL ciroya ulaştı.",
+          en: "At [OdorGo](/vakalar/odorgo-kategori-yaratma) the two channels were set up together: the e-commerce site was opened on İKAS, and the Trendyol and Hepsiburada storefronts were tied into the same measurement frame. In a category campaign the effect was recorded on the channel where the purchase happened, not where it was seen; reading channel by channel would have hidden which film drove which sale. In eight months e-commerce, marketplace, retail and stand sales together reached ₺10M in revenue.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ne-zaman-ayrilmali",
+        text: {
+          tr: "Mevcut platformdan ne zaman ayrılmalısınız?",
+          en: "When should you leave your current platform?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kısıt yapısalsa ayrılmalısınız: altyapı işinizin kuralını ifade edemiyorsa, gereken entegrasyonu hiçbir yoldan kurmanıza izin vermiyorsa, kampanya günü yükü taşımıyorsa ya da verinizi eksiksiz dışarı almanıza engel oluyorsa. Kısıt yapısal değilse ayrılmak sorunu çözmez, taşır.",
+          en: "You should leave when the constraint is structural: when the platform cannot express your business rules, will not let you build a necessary integration by any route, cannot carry the load on a campaign day, or prevents you from exporting your data in full. If the constraint is not structural, leaving does not solve the problem; it moves it.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ayrılmayı haklı çıkarmayan durumlar da en az bu kadar net. Ziyaretçi az geliyorsa iş performans pazarlamada, gelen ziyaretçi satın almıyorsa dönüşüm optimizasyonunda başlar; ürün sayfaları zayıfsa içerikte, sipariş elle işleniyorsa entegrasyonda. Bunların hiçbiri yeni bir altyapı gerektirmez. Kendinize şu soruyu sorun: son altı ayda yapmak isteyip yapamadığınız değişikliklerin kaçı gerçekten platform yüzünden yapılamadı, kaçı zaman, bütçe ya da bilgi eksikliği yüzünden?",
+          en: "The situations that do not justify leaving are just as clear. If few visitors arrive, the work starts with performance marketing; if visitors arrive but do not buy, with conversion optimisation; if the product pages are weak, with content; if orders are processed by hand, with integration. None of these needs a new platform. Ask yourself this: of the changes you wanted to make in the last six months and could not, how many were really blocked by the platform, and how many by time, budget or know-how?",
+        },
+      },
+      {
+        type: "h2",
+        id: "gecis-riskleri",
+        text: {
+          tr: "Platform geçişinin riskleri nelerdir?",
+          en: "What are the risks of a platform migration?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Geçişin riskleri beş yerde toplanır: veri, adresler, entegrasyonlar, ölçüm ve ekip. Hiçbiri geçişi yapılmaz kılmaz, ama hiçbiri kendiliğinden çözülmez.",
+          en: "The risks of a migration collect in five places: data, addresses, integrations, measurement and the team. None of them makes a migration impossible, but none of them solves itself.",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Veri: ürün, varyant, görsel, müşteri ve sipariş geçmişi eksiksiz ve doğru eşlenerek taşınmalı. Eksik taşınan varyant, yanlış stok demektir.",
+            en: "Data: products, variants, images, customers and order history have to move in full and correctly mapped. A variant moved incompletely means wrong stock.",
+          },
+          {
+            tr: "Adresler: ürün ve kategori adresleri değişiyorsa her eski adres yeni karşılığına yönlendirilmeli; yönlendirmesiz geçiş, arama motorlarında biriken görünürlüğü sıfırdan başlatabilir.",
+            en: "Addresses: if product and category URLs change, every old address has to redirect to its new equivalent; a migration without redirects can restart the visibility built up in search engines from zero.",
+          },
+          {
+            tr: "Entegrasyonlar: ödeme, fatura, muhasebe, kargo ve pazaryeri bağlantıları yeni altyapıda yeniden kurulur ve her biri gerçek siparişle yeniden test edilir.",
+            en: "Integrations: payment, invoicing, accounting, carrier and marketplace connections are rebuilt on the new platform and each one is retested with a real order.",
+          },
+          {
+            tr: "Ölçüm: analitik olayları yeniden kurulmazsa geçişin öncesiyle sonrası kıyaslanamaz; geçişin işe yarayıp yaramadığını bilmenin yolu kaybolur.",
+            en: "Measurement: if the analytics events are not rebuilt, before and after cannot be compared, and the way of knowing whether the migration worked is lost.",
+          },
+          {
+            tr: "Ekip: yeni panel yeni alışkanlık ister; ürün ekleme, sipariş yönetme ve rapor okuma eğitimi geçişin parçasıdır, sonrası değil.",
+            en: "The team: a new admin panel needs new habits; training on adding products, managing orders and reading reports is part of the migration, not something after it.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Adres riskini kendi sitemizde yaşadık. Sitemizi 29-30 Ağustos 2026'da yeni bir altyapıya taşıdık ve eski adresleri yeni sayfalara yönlendirdik. Yirmi gün sonra Search Console'da baktığımızda, denetlediğimiz dört eski hizmet adresinin hiçbiri taşımadan beri yeniden taranmamıştı: Google yönlendirmeleri henüz görmemişti ve yeni sayfaların bir kısmını hiç tanımıyordu. Eski adresleri ayrı bir site haritasında toplayıp Google'a yeniden sunduk. Ders şu: yönlendirmeyi kurmak geçişin yarısıdır; diğer yarısı, arama motorunun onu gördüğünü haftalarca izlemektir.",
+          en: "We lived through the address risk on our own site. We moved our site to a new platform on 29-30 August 2026 and redirected the old addresses to the new pages. When we checked Search Console twenty days later, none of the four old service addresses we inspected had been recrawled since the move: Google had not yet seen the redirects and did not know some of the new pages at all. We gathered the old addresses into a separate sitemap and resubmitted them to Google. The lesson: setting up redirects is half of the migration; the other half is monitoring, for weeks, that the search engine has seen them.",
+        },
+      },
+      {
+        type: "h2",
+        id: "gecis-plani",
+        text: {
+          tr: "Geçiş nasıl planlanır?",
+          en: "How is a migration planned?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Geçiş bir tarih değil, bir sıradır. Önce envanter çıkarılır: taşınacak veri, kurulacak entegrasyonlar, yönlendirilecek adresler ve yeniden kurulacak ölçüm olayları. Sonra eşleme yapılır: eski sistemdeki her alanın yenisinde nereye düşeceği yazılır. Ardından test gelir: her entegrasyon gerçek bir siparişle, her yönlendirme tek tek denenir.",
+          en: "A migration is not a date; it is a sequence. First comes the inventory: data to move, integrations to build, addresses to redirect and measurement events to rebuild. Then the mapping: where each field in the old system lands in the new one is written down. Then testing: each integration is tried with a real order, each redirect one by one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Canlıya alma tarihi kampanya takviminden bağımsız seçilmez. Ticaret Bakanlığı verisinde e-ticaretin genel ticarete oranı 2025 yılı genelinde %19,3 iken Kasım'da %22,4'e çıkıyor; o ay geçiş yapmak, en yoğun trafiği en az test edilmiş sisteme vermek demektir. Mağazanın tek seferde açılması da gerekmez: kritik akış olan ürün, sepet, ödeme ve sipariş önce yayına alınır, geri kalanı onun üstüne eklenir. İlk siparişler izlenir, eski ve yeni sistem bir süre birlikte okunur.",
+          en: "The go-live date is not chosen independently of the campaign calendar. In the Ministry of Trade's data, e-commerce's share of total trade was 19.3% across 2025 but rose to 22.4% in November; migrating that month means handing the heaviest traffic to the least tested system. Nor does the store have to open all at once: the critical flow — product, basket, payment and order — goes live first, and the rest is added on top. The first orders are watched, and the old and new systems are read side by side for a while.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Geçişten önce bir de baz çizgisi alın. Bugünkü mağazanızın mobil hızını, ödeme adımındaki sürtünmeyi ve ölçüm etiketlerini kaydetmezseniz, geçişten sonra yeni sistemin daha iyi olup olmadığını söyleyemezsiniz. [Diagnoo](/araclar/diagnoo) bu kaydın bir kısmını ücretsiz tutar: yedi kritik sayfayı tarar, mobil LCP, CLS ve TTFB değerlerini PageSpeed Insights'tan okur ve eksik etiketleri ad ad listeler. Aynı taramayı geçişten sonra tekrarlamak, kıyası rakamla yapmanızı sağlar.",
+          en: "Take a baseline before the migration too. If you do not record your current store's mobile speed, checkout friction and tracking tags, you will not be able to say after the migration whether the new system is better. [Diagnoo](/araclar/diagnoo) keeps part of that record for free: it scans seven key pages, reads mobile LCP, CLS and TTFB from PageSpeed Insights and lists missing tags by name. Repeating the same scan after the migration lets you make the comparison in numbers.",
+        },
+      },
+      {
+        type: "h2",
+        id: "danismana-sorular",
+        text: {
+          tr: "Platform danışmanına hangi soruları sormalısınız?",
+          en: "Which questions should you ask a platform consultant?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sekiz soru, danışmanın platform kararını bir gerekçeye mi, bir alışkanlığa mı dayandırdığını gösterir.",
+          en: "Eight questions show whether the consultant bases the platform decision on reasoning or on habit.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Bize bir altyapı önermeden önce hangi bilgileri istiyorsunuz?",
+            en: "What information do you need before recommending a platform to us?",
+          },
+          {
+            tr: "Elediğiniz seçenekleri ve elenme gerekçelerini yazılı veriyor musunuz?",
+            en: "Do you give the options you ruled out, and why, in writing?",
+          },
+          {
+            tr: "İki ya da üç yıllık toplam maliyeti hangi kalemlerle hesaplıyorsunuz?",
+            en: "Which items do you include in the two- or three-year total cost?",
+          },
+          {
+            tr: "Herhangi bir platformdan komisyon, ortaklık ya da yönlendirme geliri alıyor musunuz?",
+            en: "Do you receive commission, partnership or referral income from any platform?",
+          },
+          {
+            tr: "Geçişte eski adreslerin yönlendirme haritasını kim hazırlıyor ve geçişten sonra kaç hafta izliyorsunuz?",
+            en: "Who prepares the redirect map for old addresses in a migration, and for how many weeks do you monitor afterwards?",
+          },
+          {
+            tr: "Hangi veriler taşınacak, hangileri taşınamayacak ve bunu ne zaman öğreneceğiz?",
+            en: "Which data will be moved, which cannot be, and when will we find out?",
+          },
+          {
+            tr: "Canlıya alma tarihini kampanya takvimimize göre nasıl seçiyorsunuz?",
+            en: "How do you choose the go-live date against our campaign calendar?",
+          },
+          {
+            tr: "Bir müşterinize platformunu değiştirmemesini önerdiğiniz oldu mu?",
+            en: "Have you ever advised a client not to change platform?",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sekizinci soru en çok bilgiyi verendir. Hiç \"değiştirmeyin\" dememiş bir platform danışmanı her soruna aynı cevabı veriyordur. Seçimin genel kriterlerini [e-ticaret danışmanı nasıl seçilir yazısında](/yazilar/e-ticaret-danismani-nasil-secilir) on soruyla ayrıca topladım.",
+          en: "The eighth question yields the most. A platform consultant who has never said \"don't change\" is giving every problem the same answer. I have gathered the general selection criteria separately, in ten questions, in [how to choose an e-commerce consultant](/yazilar/e-ticaret-danismani-nasil-secilir).",
+        },
+      },
+      {
+        type: "h2",
+        id: "kim-ne-zaman",
+        text: {
+          tr: "Kim, ne zaman platform danışmanına ihtiyaç duyar?",
+          en: "Who needs a platform consultant, and when?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Platform danışmanı, geri dönmesi pahalı bir kararın önünde değer üretir. Beş tipik an var: ilk mağaza kurulurken, yani altyapının yanlış seçilme riskinin en yüksek olduğu an; büyümeyle birlikte altyapının ürün sayısı ya da kampanya yoğunluğu karşısında tıkandığı an; bayi ve toptan satış kanalının siteye taşınacağı an; yurt dışı pazarlara açılırken para birimi, dil ve kargo kurallarının ayrıştığı an; muhasebe ya da ERP sisteminin değiştiği ve mağazanın yeni sisteme bağlanması gerektiği an.",
+          en: "A platform consultant earns their keep in front of a decision that is expensive to reverse. There are five typical moments: setting up the first store, when the risk of choosing the wrong platform is highest; when growth makes the platform jam under product count or campaign volume; when the dealer and wholesale channel is to move onto the site; when opening to markets abroad, as currency, language and shipping rules diverge; and when the accounting or ERP system changes and the store has to connect to the new one.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Danışmana ihtiyaç duymadığınız bir an da var: standart ürün satıyorsanız, entegrasyonlarınız birkaç taneyse ve mevcut altyapınız bugünkü ve yakın gelecekteki işinizi taşıyorsa, size gereken bir platform danışmanı değil, iyi bir uygulayıcıdır. Bunu söylemek danışmanın işidir; söylemeyen danışman kararı değil, projeyi satıyordur.",
+          en: "There is also a moment when you do not need a consultant: if you sell standard products, have only a few integrations and your current platform carries today's business and the near future, what you need is not a platform consultant but a good implementer. Saying so is part of the consultant's job; a consultant who does not is selling the project, not the decision.",
+        },
+      },
+      {
+        type: "h2",
+        id: "indoles-platform-karari",
+        text: {
+          tr: "INDOLES platform kararını nasıl veriyor?",
+          en: "How does INDOLES make the platform decision?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Platform adını en son konuşuyoruz. E-ticaret danışmanlığında platform, bakılan dört eksenin yalnız biri; diğer üçü reklam kanalları, çalışma sistemi ve büyüme. Önce siparişin girişten teslimata kadar akışı ve elle yapılan işler haritalanıyor; altyapı kararı bu haritadan sonra, hazır altyapı ile özel geliştirme maliyet, süre ve büyüme senaryosu üzerinden karşılaştırılarak veriliyor. Bu aşamanın çıktısı yazılı bir altyapı kararı, maliyet karşılaştırması ve kurulum planı.",
+          en: "We discuss the platform name last. In e-commerce consulting the platform is only one of the four axes we look along; the other three are ad channels, operating system and growth. First, the order flow from entry to delivery and the manual work along the way are mapped; the platform decision comes after that map, comparing off-the-shelf and custom options on cost, timeline and growth scenario. The output of this stage is a written platform decision, a cost comparison and a build plan.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları hizmetimizin içinde; MKComputer'da Magento 2 üzerinde özel bir modül yazdık, OdorGo'da siteyi İKAS altyapısıyla kurduk. Altyapı kararını marka tercihiyle değil, ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla veriyoruz; mevcut altyapınız bu listedeyse iş sıfırdan değil, akış haritasında çıkan kopma noktalarından başlıyor. Kısıt operasyon tarafındaysa [Dijital Dönüşüm Teşhisi](/paketler/dijital-donusum-teshisi) üç haftada sipariş akışını, envanteri ve müşteri iletişimini haritalar ve her öneri için araç seçimini içeren ayrı bir şartname bırakır. Ayrıntılar [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret).",
+          en: "İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds sit inside our service; at MKComputer we wrote a custom module on Magento 2, and at OdorGo we built the site on İKAS. We make the platform decision on catalogue size, order volume and integration needs rather than brand preference; if your current platform is on that list, the work starts not from scratch but from the breakpoints found in the flow map. If the constraint is on the operations side, the [Digital Transformation Audit](/paketler/dijital-donusum-teshisi) maps order flow, inventory and customer communication in three weeks and leaves a separate spec, including tool selection, for each recommendation. The details are on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-iki-liste",
+        text: {
+          tr: "Sonuç: platform adını konuşmadan önce yapılacak test",
+          en: "Conclusion: the test to run before discussing platform names",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "E-ticaret platform danışmanlığı bir özellik karşılaştırması değil, bir karar disiplinidir. Doğru platform; katalog yapınızı, entegrasyonlarınızı, değişiklik alışkanlığınızı ve iki yıllık ölçeğinizi taşıyan platformdur. Bazen bu, bugünkü platformun kendisidir.",
+          en: "E-commerce platform consulting is not a feature comparison; it is a decision discipline. The right platform is the one that carries your catalogue structure, your integrations, your way of making changes and your two-year scale. Sometimes that is the platform you already have.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz somut test şu: iki liste çıkarın. Birincisi, bir siparişin dokunduğu bütün sistemler: altyapı, ödeme, muhasebe ya da ERP, kargo, pazaryerleri. İkincisi, son altı ayda yapmak isteyip yapamadığınız her değişiklik ve yapamamanızın sebebi. İkinci listenin çoğu platform sınırıysa bir platform sorunuz var. Çoğu zaman, bütçe ya da bilgi eksikliğiyse sorunuz platform değil; yeni bir altyapı aynı listeyi yeni bir panele taşır.",
+          en: "Here is the concrete test you can run today: make two lists. The first: every system an order touches — platform, payments, accounting or ERP, carriers, marketplaces. The second: every change you wanted to make in the last six months and could not, with the reason. If most of the second list is platform limits, you have a platform question. If it is time, budget or know-how, your question is not the platform; a new one would move the same list to a new admin panel.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki listeyi bize de getirin. [E-ticaret danışmanlığında altyapı kararını nasıl verdiğimizi](/hizmetler/e-ticaret) hizmet sayfasında adım adım yazdık; ilk görüşme o iki listeyle başlar.",
+          en: "Bring the two lists to us too. [How we make the platform decision in e-commerce consulting](/hizmetler/e-ticaret) is written out step by step on the service page; the first meeting starts with those two lists.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "E-ticaret platform danışmanlığı ne kadar sürer?",
+          en: "How long does e-commerce platform consulting take?",
+        },
+        answer: {
+          tr: "Karar aşaması haftalar, uygulama aylar sürer. Yayımlı teşhis paketimiz üç haftada sipariş akışını, envanteri ve müşteri iletişimini haritalar ve her öneri için araç seçimini içeren bir şartname bırakır. Hazır altyapı üzerine standart bir mağaza kurulumu genellikle altı ila sekiz hafta, ERP entegrasyonu ve bayi akışı eklendiğinde üç aya kadar sürebilir. Büyük bir sistemin yerine geçecek göçün süresi teşhisten sonra yazılır.",
+          en: "The decision stage takes weeks; implementation takes months. Our published audit package maps order flow, inventory and customer communication in three weeks and leaves a spec, including tool selection, for each recommendation. A standard store build on an off-the-shelf platform usually takes six to eight weeks, and up to three months once ERP integration and a dealer flow are added. The timeline for a migration that replaces a large system is written after the audit.",
+        },
+      },
+      {
+        question: {
+          tr: "Shopify mi, İKAS mı, WooCommerce mu daha iyi?",
+          en: "Is Shopify, İKAS or WooCommerce better?",
+        },
+        answer: {
+          tr: "Herkes için geçerli bir cevap yok ve bu soruyu özellik listesiyle cevaplayan bir karşılaştırma eksik kalır. Doğru platform; katalog yapınızı, sipariş hacminizi, kurmanız gereken entegrasyonları, mağazayı kimin değiştireceğini ve iki yıllık ölçeğinizi taşıyan platformdur. INDOLES üçüyle de kurulum yapar ve kararı marka tercihiyle değil, bu kriterlerin yazılı karşılaştırmasıyla verir.",
+          en: "There is no answer that holds for everyone, and a comparison that answers the question with a feature list falls short. The right platform is the one that carries your catalogue structure, your order volume, the integrations you need, who will change the store and your two-year scale. INDOLES builds on all three and makes the decision through a written comparison against those criteria, not brand preference.",
+        },
+      },
+      {
+        question: {
+          tr: "Platform değiştirmek arama sıralamasını etkiler mi?",
+          en: "Does changing platform affect search rankings?",
+        },
+        answer: {
+          tr: "Adresler değişiyorsa etkileyebilir. Her eski ürün ve kategori adresinin yeni karşılığına yönlendirilmesi gerekir; yönlendirmesiz geçiş biriken görünürlüğü sıfırdan başlatabilir. Yönlendirmeyi kurmak da yetmez: kendi sitemizi taşıdıktan yirmi gün sonra Google, denetlediğimiz eski hizmet adreslerinin hiçbirini yeniden taramamıştı. Eski adresleri ayrı bir site haritasıyla sunmak ve Search Console'da haftalarca izlemek geçişin parçasıdır.",
+          en: "It can, if the addresses change. Every old product and category address has to redirect to its new equivalent; a migration without redirects can restart accumulated visibility from zero. Setting up redirects is not enough either: twenty days after we moved our own site, Google had not recrawled any of the old service addresses we inspected. Submitting the old addresses in a separate sitemap and monitoring them in Search Console for weeks is part of the migration.",
+        },
+      },
+      {
+        question: {
+          tr: "Pazaryerinde satan bir marka kendi e-ticaret sitesini açmalı mı?",
+          en: "Should a brand selling on marketplaces open its own store?",
+        },
+        answer: {
+          tr: "Kendi site marka anlatısını, müşteri verisini ve fiyat kararını size bırakır, ama trafiği kendiniz getirirsiniz. Ticaret Bakanlığı'nın 781 işletmelik anketinde işletmelerin %48,8'i iki kanalı birlikte kullanıyor. Karar verirken asıl soru, siparişin nereden gelirse gelsin tek bir stok, fatura ve kargo akışında işlenip işlenmeyeceğidir; bu düzen yoksa ikinci kanal elle yapılan işi çoğaltır.",
+          en: "Your own site leaves the brand story, customer data and pricing decisions to you, but you bring the traffic yourself. In the Ministry of Trade's survey of 781 businesses, 48.8% use both channels together. The real question when deciding is whether every order, wherever it comes from, will be processed in one stock, invoicing and shipping flow; without that routine, a second channel multiplies the manual work.",
+        },
+      },
+      {
+        question: {
+          tr: "Platform geçişi sırasında satış durur mu?",
+          en: "Do sales stop during a platform migration?",
+        },
+        answer: {
+          tr: "İyi planlanmış bir geçişte durmaz. Canlıya alma tarihi kampanya takviminden uzak seçilir, kritik akış olan ürün, sepet, ödeme ve sipariş önce yayına alınır, her entegrasyon gerçek bir siparişle test edilir ve eski ile yeni sistem bir süre birlikte izlenir. Kesinti riski en çok veri eşlemesinin ve testlerin aceleye getirildiği geçişlerde doğar.",
+          en: "Not in a well-planned migration. The go-live date is chosen away from the campaign calendar, the critical flow of product, basket, payment and order goes live first, each integration is tested with a real order, and the old and new systems are watched side by side for a while. The risk of an outage arises mostly in migrations where data mapping and testing are rushed.",
+        },
+      },
+      {
+        question: {
+          tr: "Ürün ve müşteri verisi yeni platforma nasıl taşınır?",
+          en: "How are product and customer data moved to a new platform?",
+        },
+        answer: {
+          tr: "Önce envanter çıkarılır: ürün, varyant, görsel, müşteri ve sipariş geçmişi. Sonra eski sistemdeki her alanın yenisinde nereye düşeceğini gösteren bir eşleme yazılır ve taşıma örnek bir veri setiyle denenir. Taşınamayacak veri varsa bu kurulumdan önce öğrenilmelidir. Varyant ve stok alanları en dikkatli eşlenmesi gereken alanlardır, çünkü hataları doğrudan yanlış satışa döner.",
+          en: "First an inventory is taken: products, variants, images, customers and order history. Then a mapping is written showing where each field in the old system lands in the new one, and the move is tried on a sample data set. If some data cannot be moved, that has to be known before the build. Variant and stock fields need the most careful mapping, because their errors turn directly into wrong sales.",
+        },
+      },
+      {
+        question: {
+          tr: "Hazır altyapı ne zaman yetersiz kalır?",
+          en: "When does an off-the-shelf platform stop being enough?",
+        },
+        answer: {
+          tr: "Kısıt yapısal hâle geldiğinde: altyapı işinizin fiyat ya da bayi kuralını ifade edemediğinde, gereken entegrasyonu hiçbir yoldan kurmanıza izin vermediğinde, kampanya günü yükü taşımadığında ya da verinizi eksiksiz dışarı almanıza engel olduğunda. Eksik kalan iş bazen bir modül ya da entegrasyon katmanıyla tamamlanabilir; altyapıyı değiştirmeden önce bu yol da değerlendirilmelidir.",
+          en: "When the constraint becomes structural: when the platform cannot express your pricing or dealer rules, will not let you build a necessary integration by any route, cannot carry the load on a campaign day, or prevents you from exporting your data in full. What is missing can sometimes be completed with a module or an integration layer; that route should be weighed before changing the platform.",
+        },
+      },
+      {
+        question: {
+          tr: "Özel e-ticaret yazılımı yaptırmak mantıklı mı?",
+          en: "Does commissioning custom e-commerce software make sense?",
+        },
+        answer: {
+          tr: "Bugün karşılığı olmayan bir işi inşa etmek gerekiyorsa mantıklıdır: karmaşık bir bayi hiyerarşisi, sipariş yönetim aracı ya da müşteri portalı gibi. Hazır bir araç aynı işi görüyorsa özel yazılım pahalı yoldur, çünkü her değişiklik geliştirme saatidir ve sistemin yaşaması onu sürdürecek ekibe bağlıdır. Özel geliştirmede kaynak kodun ve altyapı hesaplarının sizin adınıza olması şarttır.",
+          en: "It makes sense when you need to build something that has no equivalent today: a complex dealer hierarchy, an order management tool or a customer portal. If an existing tool does the same job, custom software is the expensive route, because every change is development time and the system's life depends on a team to sustain it. With custom development, the source code and platform accounts must be in your name.",
+        },
+      },
+      {
+        question: {
+          tr: "B2B bayi satışı için ayrı bir platform gerekir mi?",
+          en: "Do you need a separate platform for B2B dealer sales?",
+        },
+        answer: {
+          tr: "Çoğu zaman gerekmez. Bayiye özel fiyat listesi, toplu sipariş ekranı, cari hesap görünürlüğü ve vadeli ödeme, uygun bir kurulumda tüketici mağazasıyla aynı altyapının içinde bayi akışı olarak çalışabilir. Ayrı bir sistem, bu kurallar mevcut altyapıda ifade edilemiyorsa ya da ERP bağlantısı ayrı bir katman gerektiriyorsa gündeme gelir. Karar akış haritasından sonra verilmelidir.",
+          en: "Usually not. Dealer-specific price lists, a bulk order screen, account balance visibility and deferred payment can, in a suitable setup, run as a dealer flow inside the same platform as the consumer store. A separate system comes up when those rules cannot be expressed on the current platform or when the ERP connection needs a layer of its own. The decision should come after the flow map.",
+        },
+      },
+      {
+        question: {
+          tr: "Platform danışmanı ile kurulumu yapan ekip aynı olmalı mı?",
+          en: "Should the platform consultant and the build team be the same?",
+        },
+        answer: {
+          tr: "Olabilir, ama iki koşulla. Birincisi, altyapı kararı kurulumdan önce, elenen seçenekleri ve gerekçeleriyle yazılı verilmeli; böylece karar, kurulumu yapacak ekibin en iyi bildiği altyapıya kaymaz. İkincisi, danışmanın herhangi bir platformla ticari ilişkisi varsa açıkça söylenmeli. Bu iki koşul tutuyorsa kararı veren ekibin kurulumu da yapması bilgi kaybını azaltır.",
+          en: "It can be, on two conditions. First, the platform decision should be given in writing before the build, with the rejected options and the reasons; that way the decision does not drift towards the platform the build team knows best. Second, if the consultant has a commercial tie to any platform, it should be stated openly. If both conditions hold, having the team that made the decision also do the build reduces the information lost along the way.",
+        },
+      },
+      {
+        question: {
+          tr: "Platform kararı için hangi bilgileri hazırlamalıyım?",
+          en: "What should I prepare for a platform decision?",
+        },
+        answer: {
+          tr: "Beş bilgi: ürün ve varyant sayısı ile katalogdaki filtreler, aylık sipariş hacmi ve en yoğun kampanya günündeki sipariş sayısı, siparişin dokunduğu bütün sistemlerin listesi, mağazada her hafta kimin neyi değiştirdiği ve iki yıl sonraki hedef ölçek. Bunlara bugünkü platform maliyetinizi ve son altı ayda yapamadığınız değişikliklerin listesini eklerseniz görüşme platform adlarıyla değil, işinizle başlar.",
+          en: "Five pieces of information: product and variant counts with the filters in your catalogue, monthly order volume and the order count on your busiest campaign day, the list of every system an order touches, who changes what on the store each week, and the scale you are aiming for in two years. Add your current platform cost and the list of changes you could not make in the last six months, and the meeting starts with your business rather than platform names.",
+        },
+      },
+      {
+        question: {
+          tr: "Platform seçiminde toplam sahip olma maliyeti nasıl hesaplanır?",
+          en: "How is total cost of ownership calculated when choosing a platform?",
+        },
+        answer: {
+          tr: "İki ya da üç yıllık bir pencerede bütün kalemleri toplayarak: kurulum, abonelik ya da barındırma, tema ve eklentiler, varsa satış başına işlem ücretleri, geliştirme ve bakım saatleri, ekibinizin harcayacağı zaman ve bir gün çıkmak isterseniz geçiş maliyeti. Kurulumu ucuz, işletmesi pahalı bir altyapı ilk yıl avantajlı görünür; karşılaştırmayı tek bir yılın faturasıyla yapmayın.",
+          en: "By adding up every item over a two- or three-year window: the build, subscription or hosting, theme and add-ons, any per-sale transaction fees, development and maintenance hours, your team's time and, should you one day want to leave, the cost of migrating. A platform that is cheap to build and expensive to run looks attractive in the first year; do not compare on a single year's invoice.",
+        },
+      },
+    ],
+    category: "growth",
+    topic: "e-ticaret",
+    tags: ["e-ticaret", "e-ticaret-platformu", "altyapi-secimi", "platform-gecisi", "pazaryeri"],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-10-02",
+    readingMinutes: 18,
+    seo: {
+      title: {
+        tr: "E-ticaret platform danışmanlığı: seçim ve geçiş",
+        en: "E-commerce platform consulting and migration",
+      },
+      description: {
+        tr: "E-ticaret platform danışmanlığı: altyapı hangi kriterlerle seçilir, kendi site mi pazaryeri mi, geçiş ne zaman ve hangi risklerle yapılır, danışmana 8 soru.",
+        en: "E-commerce platform consulting: how to choose a platform, own site or marketplaces, when to migrate and with what risks, plus 8 questions for the consultant.",
       },
     },
   },

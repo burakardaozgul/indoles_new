@@ -351,6 +351,16 @@ const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
   ["yapay-zeka-danismanligi-fiyatlari", "yapay zeka danışmanlığı fiyatları"],
   ["yapay-zeka-danismanligi-fiyatlari", "yapay zeka danışmanlığı ne kadar tutar"],
   ["yapay-zeka-danismanligi-fiyatlari", "yapay zeka danışmanlığı neye mal olur"],
+  // E-ticaret karar kümesi (Yol-Haritasi-Satin-Alma-Niyeti §3, Faz 2;
+  // 2026-10-02). Seçim, fiyat ve platform niyeti üç yazıda; satın alma
+  // niyeti ("e ticaret danışmanlığı" üçlüsü) hizmet sayfasında kalır.
+  ["e-ticaret-danismani-nasil-secilir", "e ticaret danışmanı nasıl seçilir"],
+  ["e-ticaret-danismani-nasil-secilir", "e ticaret danışmanı"],
+  ["e-ticaret-danismani-nasil-secilir", "e ticaret ajansı"],
+  ["e-ticaret-danismanligi-fiyatlari", "e ticaret danışmanlığı fiyatları"],
+  ["e-ticaret-danismanligi-fiyatlari", "e ticaret danışmanlığı ücreti"],
+  ["e-ticaret-platform-danismanligi", "e ticaret platform danışmanlığı"],
+  ["e-ticaret-platform-danismanligi", "platform geçişi"],
 ];
 
 describe("Dalga 1 makale keyword yerleşimi (2026-08-28 partisi)", () => {

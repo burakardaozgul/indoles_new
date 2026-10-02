@@ -27,12 +27,14 @@ describe("relatedArticlesForCase", () => {
     }
   });
 
-  it("tek hizmetli künyede yazı → hizmet yönüyle (relatedArticlesForService) aynı sonucu verir", () => {
+  it("tek hizmetli künyede yazı → hizmet yönünün (relatedArticlesForService) en yeni üçüyle aynı sonucu verir", () => {
+    // Hizmet sayfası 2026-10-02'den beri havuzun tamamını şeritte basıyor;
+    // vaka yönü üçte kaldı. Seçim ve sıra aynı, yalnız uzunluk farklı.
     for (const service of SERVICES) {
       const viaCase = relatedArticlesForCase([service.slug.tr]);
       const viaService = relatedArticlesForService(service.slug.tr);
-      expect(viaCase.map((a) => a.slug.tr)).toEqual(
-        viaService.map((a) => a.slug.tr),
+      expect(viaCase.map((a) => a.slug.tr), service.slug.tr).toEqual(
+        viaService.slice(0, 3).map((a) => a.slug.tr),
       );
     }
   });

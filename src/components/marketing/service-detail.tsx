@@ -1,7 +1,6 @@
 import Link from "next/link";
 import {
   Activity,
-  BookOpen,
   ChartNoAxesColumn,
   Compass,
   FileText,
@@ -17,6 +16,7 @@ import { PopupCTAButton } from "@/components/marketing/PopupCTAButton";
 import { ScopeColumns } from "@/components/marketing/scope-columns";
 import { ServicePricing } from "@/components/marketing/service-pricing";
 import { ServiceCaseProof } from "@/components/marketing/service-case-proof";
+import { RelatedArticlesRail } from "@/components/marketing/related-articles-rail";
 import { ServiceIllustration } from "@/components/marketing/service-illustration";
 import { ToolServiceCallout } from "@/components/tools/tool-service-callout";
 import { PILLARS } from "@/lib/content/pillars";
@@ -76,6 +76,14 @@ const COPY = {
     caseProofSource: "Kaynak",
     relatedServices: "Komşu hizmetler",
     relatedArticles: "İlgili yazılar",
+    /* Şeridin erişilebilir adı ve düğmeleri (`RelatedArticlesRail`).
+       `aria-roledescription` ekran okuyucuda Türkçe sesle okunur;
+       "carousel" yerine Türkçe yazımı. */
+    relatedArticlesRegion: "Bu hizmetle ilgili yazılar",
+    relatedArticlesRole: "karusel",
+    relatedArticlesPrev: "Önceki yazılar",
+    relatedArticlesNext: "Sonraki yazılar",
+    readingMinutes: "dk okuma",
     bookCall: "Görüşme planla",
     viewPackage: "Paketi incele",
     readCase: "Vakayı oku",
@@ -113,6 +121,11 @@ const COPY = {
     caseProofSource: "Source",
     relatedServices: "Neighbouring services",
     relatedArticles: "Related reading",
+    relatedArticlesRegion: "Articles related to this service",
+    relatedArticlesRole: "carousel",
+    relatedArticlesPrev: "Previous articles",
+    relatedArticlesNext: "Next articles",
+    readingMinutes: "min read",
     bookCall: "Book a call",
     viewPackage: "View the package",
     readCase: "Read the case",
@@ -165,21 +178,42 @@ const KIND_ICON = {
  * yazmıştı, kodda okunmuyordu. Artık okunuyor.
  *
  * Bir hizmete birden fazla konu bağlanabilir (`performans-pazarlama` hem
- * kendi kümesini hem `musteri-elde-tutma`yı hedefler); hepsi havuza girer,
- * en yeni üçü basılır.
+ * kendi kümesini hem `musteri-elde-tutma`yı hedefler); hepsi havuza girer.
+ *
+ * Havuzun **tamamı** döner (2026-10-02, Burak: "İlgili yazılarda düşme
+ * olmasın, gerekirse slider yapıya geçilsin"). Blok eskiden en yeni üçle
+ * sınırlıydı; kümeler büyüyünce eski karar yazıları — para sorgusu taşıyan
+ * "yapay zeka danışmanı seçerken 12 soru" gibi — bloktan düşüyordu: hem iç
+ * bağlantı hem okur kaybı. Sayı artık yerleşimin sorunu değil;
+ * `RelatedArticlesRail` yatay kaydırmalı şeritte hepsini basar.
+ *
+ * Üst sınır bilinçli olarak yok. 12 gibi bir tavan bugün hiçbir hizmete
+ * dokunmazdı (en büyük küme `cro`, 7 yazı) ama küme haftada bir-iki yazıyla
+ * büyüyor; tavan birkaç hafta içinde aynı düşmeyi geri getirirdi. Kartlar
+ * hafif (başlık, özet, süre) ve şerit sayıdan bağımsız çalışıyor; bir küme
+ * şeridi gerçekten zorlayacak kadar büyürse çözüm konu sayfasına giden bir
+ * "tümü" bağlantısıdır, sessiz kırpma değil.
+ *
+ * Sıra: yayın tarihi azalan. `Array.prototype.sort` kararlıdır (ES2019);
+ * aynı gün yayımlanan yazılar `ARTICLES`teki sıralarını korur, sonuç
+ * build'ler arasında değişmez.
  *
  * Yazı detayındaki kalıptan (`yazilar/[slug]/page.tsx`) bilinçli sapma:
  * orada konu üç yazıyı doldurmazsa kalan **en yeni yazılarla tamamlanıyor**.
- * Burada doldurma yok. Yazı okuyan okur "şunu da oku" önerisine toleranslı;
- * hizmet sayfasındaki blok ise satış bağlamında bir yetkinlik iddiası —
- * CRO sayfasında konuyla ilgisiz bir yazı göstermek iddianın kendisini
- * çürütür. Hizmete bağlı konu ya da yazı yoksa `ServiceDetail` bloğu hiç
- * basmaz (`relatedArticles.length > 0` koşulu).
+ * Burada doldurma yok — bu ilke sınırın kalkmasıyla değişmedi. Yazı okuyan
+ * okur "şunu da oku" önerisine toleranslı; hizmet sayfasındaki blok ise
+ * satış bağlamında bir yetkinlik iddiası — CRO sayfasında konuyla ilgisiz
+ * bir yazı göstermek iddianın kendisini çürütür. Hizmete bağlı konu ya da
+ * yazı yoksa `ServiceDetail` bloğu hiç basmaz (`relatedArticles.length > 0`
+ * koşulu).
  *
- * Bugünkü içerikle kapsama: `cro` 1, `e-ticaret` 1, `ui-ux-tasarim` 1,
- * `marka-stratejisi` 3, `performans-pazarlama` 3 yazı; `ai-danismanlik`
- * ve altı transform/build hizmeti 0 — `yapay-zeka` kümesinde henüz yazı
- * yok (ADR-021'in işaret ettiği içerik boşluğu), diğerlerinin konusu yok.
+ * Vaka yönü (`relatedArticlesForCase`, `lib/content/related-articles.ts`)
+ * üç yazıda kalıyor: orada blok vaka anlatısının ekidir, şerit değil.
+ *
+ * Bugünkü içerikle kapsama (2026-10-02): `cro` 7, `geo-danismanligi` 6,
+ * `ai-danismanlik` 5, `performans-pazarlama` 5 (3 + 2 müşteri elde tutma),
+ * `marka-stratejisi` 4, `e-ticaret` 1, `ui-ux-tasarim` 1 yazı; kalan altı
+ * transform/build hizmetinin konusu yok, blok basılmaz.
  */
 export function relatedArticlesForService(
   serviceSlugTr: string,
@@ -191,8 +225,7 @@ export function relatedArticlesForService(
 
   return ARTICLES.filter((a) => topicIds.includes(a.topic))
     .slice()
-    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
-    .slice(0, 3);
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }
 
 /**
@@ -805,25 +838,28 @@ export function ServiceDetail({
               </div>
             ) : null}
 
+            {/* İlgili yazılar — şerit ızgaranın iki sütununu birden kaplar,
+                kanıt şeridi gibi (`ServiceCaseProof`). Önce yerinde (yarım
+                sütun) denendi: 1440'ta 616px'lik sütunda iki dar kart
+                sığıyordu, başlıklar üç satırda kesiliyordu ve yanındaki
+                sütun boş kalıyordu (paket + komşu hizmet ikilisinden sonra
+                tek kalan blok). Tam satırda üç kart + bir sonrakinin kenarı
+                görünür; en sonda durduğu için ızgaranın akışı değişmez. */}
             {relatedArticles.length > 0 ? (
-              <div>
-                <h3 className="typography-h3 text-ink-900 flex items-center gap-2.5">
-                  <BookOpen aria-hidden="true" size={18} strokeWidth={1.5} className="text-brand-700 shrink-0" />
-                  {t.relatedArticles}
-                </h3>
-                <ul className="mt-6 border-t border-surface-2">
-                  {relatedArticles.map((a) => (
-                    <li key={a.slug.tr} className="border-b border-surface-2 py-5">
-                      <Link
-                        href={localizedHref(locale, "articles", a.slug[locale])}
-                        className="typography-body-md text-ink-900 underline underline-offset-4 decoration-brand-300 hover:decoration-brand-500"
-                      >
-                        {a.title[locale]}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <RelatedArticlesRail
+                className="md:col-span-2"
+                heading={t.relatedArticles}
+                regionLabel={t.relatedArticlesRegion}
+                roleDescription={t.relatedArticlesRole}
+                prevLabel={t.relatedArticlesPrev}
+                nextLabel={t.relatedArticlesNext}
+                articles={relatedArticles.map((a) => ({
+                  href: localizedHref(locale, "articles", a.slug[locale]),
+                  title: a.title[locale],
+                  excerpt: a.excerpt[locale],
+                  meta: `${a.readingMinutes} ${t.readingMinutes}`,
+                }))}
+              />
             ) : null}
           </div>
         </div>

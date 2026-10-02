@@ -1,14 +1,31 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { render, screen, within } from "@testing-library/react";
 import { ScopeColumns } from "@/components/marketing/scope-columns";
 import { CASES } from "@/lib/content/cases";
 import { SERVICES } from "@/lib/content/services";
 import { ARTICLES } from "@/lib/content/articles";
 import { TOPICS } from "@/lib/content/topics";
+import { localizedHref } from "@/lib/i18n/segments";
 import {
+  ServiceDetail,
   relatedArticlesForService,
   relatedCasesForService,
 } from "@/components/marketing/service-detail";
+
+/*
+ * `ServiceDetail`i jsdom'da basabilmek için iki yaprak taklit ediliyor:
+ * `ContactCallout` async sunucu bileşeni (istemci render'ı desteklemez),
+ * `PopupCTAButton` ise `PopupProvider` ister. İkisinin de "İlgili yazılar"
+ * şeridiyle ilgisi yok.
+ */
+vi.mock("@/components/marketing/contact-callout", () => ({
+  ContactCallout: () => null,
+}));
+vi.mock("@/components/marketing/PopupCTAButton", () => ({
+  PopupCTAButton: ({ children }: { children: React.ReactNode }) => (
+    <button type="button">{children}</button>
+  ),
+}));
 
 describe("ScopeColumns", () => {
   const props = {
@@ -354,15 +371,61 @@ describe("ServiceDetail — ilgili yazı seçimi", () => {
       "performans-pazarlama",
     ]);
     const picked = relatedArticlesForService("performans-pazarlama");
-    expect(picked).toHaveLength(3);
+    const pool = ARTICLES.filter((a) =>
+      ["performans-pazarlama", "musteri-elde-tutma"].includes(a.topic),
+    );
+    expect(picked).toHaveLength(pool.length);
+    expect(new Set(picked.map((a) => a.topic))).toEqual(
+      new Set(["performans-pazarlama", "musteri-elde-tutma"]),
+    );
   });
 
-  it("en fazla üç yazı, en yeniden eskiye", () => {
+  it("konuya bağlı yazıların hiçbiri düşmez — havuzun tamamı döner", () => {
+    // Burak (2026-10-02): "İlgili yazılarda düşme olmasın." Eski kural en
+    // yeni üçü alıyordu; büyüyen kümede eski karar yazıları bloktan düşüyordu.
+    for (const service of SERVICES) {
+      const topics = topicsOf(service.slug.tr);
+      const pool = ARTICLES.filter((a) => topics.includes(a.topic))
+        .map((a) => a.slug.tr)
+        .sort();
+      expect(
+        relatedArticlesForService(service.slug.tr)
+          .map((a) => a.slug.tr)
+          .sort(),
+        service.slug.tr,
+      ).toEqual(pool);
+    }
+  });
+
+  it("ai-danismanlik üçten fazla yazı döndürür, 12 soru yazısı dahil", () => {
+    const picked = relatedArticlesForService("ai-danismanlik");
+    expect(picked.length).toBeGreaterThanOrEqual(5);
+    expect(picked.map((a) => a.slug.tr)).toContain(
+      "ai-danismani-secerken-sorulacak-12-soru",
+    );
+  });
+
+  it("en yeniden eskiye sıralı", () => {
+    for (const service of SERVICES) {
+      const dates = relatedArticlesForService(service.slug.tr).map(
+        (a) => a.publishedAt,
+      );
+      expect(dates).toEqual([...dates].sort().reverse());
+    }
+  });
+
+  it("aynı gün yayımlananlar ARTICLES sırasını korur — sıralama kararlı", () => {
     for (const service of SERVICES) {
       const picked = relatedArticlesForService(service.slug.tr);
-      expect(picked.length).toBeLessThanOrEqual(3);
-      const dates = picked.map((a) => a.publishedAt);
-      expect(dates).toEqual([...dates].sort().reverse());
+      for (let i = 1; i < picked.length; i++) {
+        const prev = picked[i - 1]!;
+        const cur = picked[i]!;
+        if (prev.publishedAt !== cur.publishedAt) continue;
+        expect(
+          ARTICLES.indexOf(prev),
+          `${service.slug.tr}: ${prev.slug.tr} / ${cur.slug.tr}`,
+        ).toBeLessThan(ARTICLES.indexOf(cur));
+      }
     }
   });
 
@@ -373,5 +436,133 @@ describe("ServiceDetail — ilgili yazı seçimi", () => {
       );
       expect(new Set(slugs).size).toBe(slugs.length);
     }
+  });
+});
+
+/**
+ * Şeridin sayfadaki karşılığı — `ServiceDetail` gerçekten basılıyor. Kartlar
+ * ve bağlantıları sunucu HTML'inde olmalı (SSG, iç bağlantı değeri); jsdom
+ * düzen hesaplamadığı için kaydırma düğmeleri burada `hidden` kalır, bu da
+ * JS'siz / taşmasız hâlin sözleşmesidir.
+ */
+describe("ServiceDetail — İlgili yazılar şeridi", () => {
+  const serviceBySlug = (slug: string) =>
+    SERVICES.find((s) => s.slug.tr === slug)!;
+
+  it("üçten fazla konu yazısı olan hizmette hepsi kart olarak basılır (ai-danismanlik)", () => {
+    const service = serviceBySlug("ai-danismanlik");
+    const expected = relatedArticlesForService("ai-danismanlik");
+    expect(expected.length).toBeGreaterThan(3);
+
+    render(<ServiceDetail service={service} locale="tr" />);
+    const region = screen.getByRole("region", {
+      name: "Bu hizmetle ilgili yazılar",
+    });
+    expect(region).toHaveAttribute("aria-roledescription", "karusel");
+
+    const list = within(region).getByRole("list", { name: "İlgili yazılar" });
+    const items = within(list).getAllByRole("listitem");
+    expect(items).toHaveLength(expected.length);
+
+    const hrefs = within(list)
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("href"));
+    expect(hrefs).toEqual(
+      expected.map((a) => localizedHref("tr", "articles", a.slug.tr)),
+    );
+    // Para sorgusu taşıyan eski karar yazısı artık düşmüyor.
+    expect(hrefs).toContain(
+      localizedHref("tr", "articles", "ai-danismani-secerken-sorulacak-12-soru"),
+    );
+    for (const a of expected) {
+      expect(
+        within(list).getByRole("heading", { level: 4, name: a.title.tr }),
+      ).toBeInTheDocument();
+    }
+  });
+
+  it("EN sayfada İngilizce başlık, bağlantı ve etiketlerle basılır", () => {
+    const service = serviceBySlug("ai-danismanlik");
+    const expected = relatedArticlesForService("ai-danismanlik");
+
+    render(<ServiceDetail service={service} locale="en" />);
+    const region = screen.getByRole("region", {
+      name: "Articles related to this service",
+    });
+    expect(region).toHaveAttribute("aria-roledescription", "carousel");
+    const hrefs = within(region)
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("href"));
+    expect(hrefs).toEqual(
+      expected.map((a) => localizedHref("en", "articles", a.slug.en)),
+    );
+  });
+
+  it("düğmeler erişilebilir adla basılır ve şeridi denetler (TR + EN)", () => {
+    const service = serviceBySlug("ai-danismanlik");
+
+    const { unmount } = render(<ServiceDetail service={service} locale="tr" />);
+    let region = screen.getByRole("region", {
+      name: "Bu hizmetle ilgili yazılar",
+    });
+    const listId = within(region).getByRole("list").id;
+    const prev = within(region).getByRole("button", {
+      name: "Önceki yazılar",
+      hidden: true,
+    });
+    const next = within(region).getByRole("button", {
+      name: "Sonraki yazılar",
+      hidden: true,
+    });
+    expect(prev).toHaveAttribute("aria-controls", listId);
+    expect(next).toHaveAttribute("aria-controls", listId);
+    unmount();
+
+    render(<ServiceDetail service={service} locale="en" />);
+    region = screen.getByRole("region", {
+      name: "Articles related to this service",
+    });
+    expect(
+      within(region).getByRole("button", {
+        name: "Previous articles",
+        hidden: true,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      within(region).getByRole("button", { name: "Next articles", hidden: true }),
+    ).toBeInTheDocument();
+  });
+
+  it("konusu olmayan hizmette şerit hiç basılmaz", () => {
+    const untargeted = SERVICES.filter(
+      (s) => !TOPICS.some((t) => t.serviceSlug === s.slug.tr),
+    );
+    expect(untargeted.length).toBeGreaterThan(0);
+    for (const service of untargeted) {
+      const { unmount } = render(
+        <ServiceDetail service={service} locale="tr" />,
+      );
+      expect(
+        screen.queryByRole("region", { name: "Bu hizmetle ilgili yazılar" }),
+        service.slug.tr,
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("heading", { name: "İlgili yazılar" }),
+        service.slug.tr,
+      ).not.toBeInTheDocument();
+      unmount();
+    }
+  });
+
+  it("tek yazılı hizmette şerit tek kartla basılır", () => {
+    const single = SERVICES.find(
+      (s) => relatedArticlesForService(s.slug.tr).length === 1,
+    );
+    expect(single).toBeDefined();
+    render(<ServiceDetail service={single!} locale="tr" />);
+    const region = screen.getByRole("region", {
+      name: "Bu hizmetle ilgili yazılar",
+    });
+    expect(within(region).getAllByRole("listitem")).toHaveLength(1);
   });
 });

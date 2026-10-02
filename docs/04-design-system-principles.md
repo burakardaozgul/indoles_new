@@ -311,6 +311,7 @@ Sırasıyla: mono aile, tabular rakam, gradient hairline ayraç, SVG turbulence 
 | Kelime mürekkeplemesi | Manifesto | Scroll ilerledikçe kelimeler `rgb(26 43 52 / .22)` → `ink-900` |
 | Sayaç | Vizyon | `1 - (1-p)³` easing, 1600ms, viewport'a girince |
 | Marquee | Referanslar | 60s linear, hover'da durur |
+| Yatay şerit (native scroll-snap) | Hizmet detayı — İlgili yazılar | `RelatedArticlesRail`: kütüphanesiz `overflow-x` + `snap-x`; JS yalnız ok düğmeleri ve sayaç için. Kart genişliği konteyner sorgusuyla (sonraki kartın kenarı görünür), taşma yoksa oklar `hidden`, uçta `aria-disabled` (odak düşmesin diye `disabled` değil). Reduced-motion'da adım anlık |
 
 **`prefers-reduced-motion` sözleşmesi:** tüm animasyon ve geçişler 0.01ms'ye iner, `.reveal` anında görünür, canvas döngüleri tek kare çizip durur, sayaç doğrudan hedef değere atlar, team slider otomatik dönmez. Bu bir "nice to have" değil, kabul kriteridir.
 

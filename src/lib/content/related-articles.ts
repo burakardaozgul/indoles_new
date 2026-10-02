@@ -14,6 +14,10 @@ import type { ArticleContent } from "./types";
  * `e-ticaret` ve `is-otomasyonlari`yı birlikte taşır); eşleşen konuların
  * yazıları tek havuzda toplanır, en yeni üçü basılır — `relatedArticlesForService`
  * ile aynı disiplin (doldurma yok, alakasız yazı basılmaz).
+ *
+ * Sayı farkı bilinçli: hizmet sayfası 2026-10-02'den beri havuzun tamamını
+ * kaydırmalı şeritte basıyor (konu kümesinin hedef sayfası orası); vaka
+ * detayında blok anlatının ekidir ve üçte kalır.
  */
 export function relatedArticlesForCase(
   serviceSlugsTr: string[] | undefined,

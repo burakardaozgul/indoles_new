@@ -98,13 +98,13 @@ export const dijitalDonusum: ServiceContent = {
     ],
     excludes: {
       tr: [
-        "ERP ve yazılım lisanslarının satışı — INDOLES satıcı değildir",
+        "ERP ve yazılım lisanslarının satışı — INDOLES ERP satıcısı değildir",
         "Donanım, sunucu ve ağ ekipmanı tedariki",
         "Kurum içi değişim yönetimi ve insan kaynakları danışmanlığı",
         "Günlük sistem yöneticiliği ve son kullanıcı destek hattı",
       ],
       en: [
-        "Selling ERP and software licences — INDOLES is not a reseller",
+        "Selling ERP and software licences — INDOLES is not an ERP reseller",
         "Hardware, server and network equipment procurement",
         "Internal change management and HR consulting",
         "Day-to-day system administration and an end-user help desk",
@@ -231,8 +231,8 @@ export const dijitalDonusum: ServiceContent = {
         en: "Do you sell software?",
       },
       answer: {
-        tr: "INDOLES yazılım veya lisans satmaz ve hiçbir tedarikçiden komisyon almaz. Bu bağımsızlık önerinin işe yaraması için şart: satıştan pay alan bir danışman her zaman daha çok yazılım önerir. Tedarikçi seçiminde INDOLES sizin tarafınızda durur — şartnameyi yazar, teklifleri karşılaştırır ve sözleşmeyi kontrol eder.",
-        en: "INDOLES does not sell software or licences and takes no commission from any vendor. That independence is what makes the advice usable: a consultant earning a share of the sale always recommends more software. In vendor selection INDOLES stands on your side — writing the specification, comparing proposals and reviewing the contract.",
+        tr: "Dijital dönüşüm kapsamında INDOLES yazılım veya lisans satmaz ve hiçbir tedarikçiden komisyon almaz. Bu bağımsızlık önerinin işe yaraması için şart: satıştan pay alan bir danışman her zaman daha çok yazılım önerir. Tek ticari bağ e-ticaret tarafındadır: INDOLES İKAS e-ticaret altyapısının bayisidir. Tedarikçi seçiminde INDOLES sizin tarafınızda durur — şartnameyi yazar, teklifleri karşılaştırır ve sözleşmeyi kontrol eder.",
+        en: "Within digital transformation, INDOLES does not sell software or licences and takes no commission from any vendor. That independence is what makes the advice usable: a consultant earning a share of the sale always recommends more software. The one commercial tie sits on the e-commerce side: INDOLES is a reseller of the İKAS e-commerce platform. In vendor selection INDOLES stands on your side — writing the specification, comparing proposals and reviewing the contract.",
       },
     },
     {
@@ -356,4 +356,13 @@ export const dijitalDonusum: ServiceContent = {
 
   relatedPackages: [],
   relatedServices: ["is-otomasyonlari", "isletme-muhendisligi", "teknoloji-ve-altyapi"],
+
+  // 2026-10-02: "Yazılım satıyor musunuz?" SSS'i ve kapsam dışı listesi İKAS
+  // bayiliğiyle hizalandı (Burak teyidi: INDOLES İKAS e-ticaret altyapısının
+  // bayisi). "Yazılım/lisans satmaz, tedarikçiden komisyon almaz" iddiası
+  // dijital dönüşüm kapsamına daraltıldı, İKAS istisnası açıkça yazıldı.
+  // `seo.description`daki "bağımsız — yazılım satışı yok" hizmetin kendi
+  // kapsamını anlatır; değiştirilmedi. `lastmod` ve `WebPage.dateModified`
+  // buradan beslenir.
+  updatedAt: "2026-10-02",
 };

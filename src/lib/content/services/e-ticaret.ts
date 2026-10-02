@@ -21,7 +21,15 @@ import type { ServiceContent } from "../types";
  * (`packages.ts` — kanal başına ROAS/CAC/dönüşüm kıyası, 90 günlük kanal
  * hipotezi ve bütçe dağılımı, A/B test planı, haftalık panel, "ajans
  * değişikliği önermez"); operasyon teşhisi Dijital Dönüşüm Teşhisi
- * (`packages.ts`). Ortaklık, sertifika, platform bayiliği iddiası yok.
+ * (`packages.ts`). Sertifika ve ortaklık iddiası yok.
+ *
+ * İKAS bayiliği (Burak teyidi, 2026-10-02: "İKAS E-Ticaret altyapısının
+ * bayisiyiz"): platform kararının anlatıldığı iki yerde açıklanır — kapsam
+ * kartı "Platform ve altyapı kararı" ve İKAS'ı adıyla soran SSS. Çerçeve
+ * yalnız doğrulanabilir davranışla kurulur: karar elenen seçenekleriyle
+ * yazılı verilir (kapsam, yöntem 02, çıktılar), `platforms` çoklu altyapı,
+ * MKComputer Magento 2 üzerinde (`cases.ts`). Bayilik seviyesi, komisyon
+ * oranı, sertifika yazılmaz.
  *
  * İki farklı alıcıya konuşur: sanayi tarafında B2B e-ihracat ve bayi ağı,
  * ticaret tarafında tüketici mağazası. Orta ton (docs/03 §2c).
@@ -102,8 +110,8 @@ export const eTicaret: ServiceContent = {
       {
         title: { tr: "Platform ve altyapı kararı", en: "Platform decision" },
         description: {
-          tr: "Hazır altyapı, mevcut altyapıyı iyileştirmek ya da özel geliştirme: ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacına göre, elenen seçenekleriyle birlikte yazılı gerekçe.",
-          en: "An off-the-shelf platform, improving the current one or a custom build: decided on catalogue size, order volume and integration needs, with written reasoning that includes the options ruled out.",
+          tr: "Hazır altyapı, mevcut altyapıyı iyileştirmek ya da özel geliştirme: ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacına göre, elenen seçenekleriyle birlikte yazılı gerekçe. INDOLES İKAS e-ticaret altyapısının bayisidir; İKAS bu karşılaştırmada seçeneklerden yalnız biridir.",
+          en: "An off-the-shelf platform, improving the current one or a custom build: decided on catalogue size, order volume and integration needs, with written reasoning that includes the options ruled out. INDOLES is a reseller of the İKAS e-commerce platform; in this comparison İKAS is only one of the options.",
         },
       },
       {
@@ -366,8 +374,8 @@ export const eTicaret: ServiceContent = {
         en: "Do you work with ready-made platforms like Shopify or WooCommerce?",
       },
       answer: {
-        tr: "Evet, İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları bu hizmetin içinde. Altyapı kararı marka tercihiyle değil ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla verilir, gerekçesi maliyet karşılaştırmasıyla yazılı sunulur. Mevcut altyapınız bu listedeyse kurulum sıfırdan değil, akış haritasında çıkan kopma noktalarından başlar.",
-        en: "Yes — İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds all sit inside this service. The platform decision follows product count, order volume and integration needs rather than brand preference, and the reasoning is presented with a cost comparison. If your current platform is on that list, the work starts from the breakpoints found in the flow map rather than from scratch.",
+        tr: "Evet, İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları bu hizmetin içinde. Altyapı kararı marka tercihiyle değil ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla verilir, gerekçesi maliyet karşılaştırmasıyla yazılı sunulur. INDOLES İKAS e-ticaret altyapısının bayisidir; bayilik öneriyi etkileyebileceği için karar elenen seçenekleriyle birlikte yazılır ve İKAS her projenin cevabı değildir. Mevcut altyapınız bu listedeyse kurulum sıfırdan değil, akış haritasında çıkan kopma noktalarından başlar.",
+        en: "Yes — İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds all sit inside this service. The platform decision follows product count, order volume and integration needs rather than brand preference, and the reasoning is presented with a cost comparison. INDOLES is a reseller of the İKAS e-commerce platform; because that tie could sway the recommendation, the decision is written up with the options ruled out, and İKAS is not the answer for every project. If your current platform is on that list, the work starts from the breakpoints found in the flow map rather than from scratch.",
       },
     },
     {

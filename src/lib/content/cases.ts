@@ -2324,13 +2324,16 @@ export const CASES: CaseStudyContent[] = [
         "The brand had only the product: no identity, no content, no sales channel, no shelf.",
       ],
     },
+    // 2026-10-02: eski "İKAS ortaklığıyla" ifadesi bayilikle hizalandı (Burak
+    // teyidi: INDOLES İKAS e-ticaret altyapısının bayisi). "Bayisi olduğumuz"
+    // bugünü anlatır; bayiliğin bu işten önce mi sonra mı başladığı yazılmadı.
     approach: {
       tr: [
         "Kategoriyi ve markayı birlikte kurduk: ürünün ne yaptığını, neden gerektiğini ve neyle yapıldığını anlatan bir dil tanımladık.",
         "Reklam filmlerini gündelik koku senaryoları üzerine kurduk — kedi kumu, genç erkek odası, evde balık pişirmek. Kategoriyi soyut anlatmak yerine tüketiciye kendi evindeki anı gösterdik.",
         "Ürünün nasıl çalıştığını anlatan bir animasyon ürettik: koku molekülünü yok etmek, bastırmakla aynı şey değil — kategori farkındalığı buradan başladı.",
         "Filmlerden çıkan içeriklerle sosyal medya ve dijital pazarlamayı besledik — tek çekim, onlarca kanal.",
-        "İKAS ortaklığıyla e-ticaret sitesini CRO odağında kurduk: ziyaretçi hangi kanaldan hangi sayfaya girerse girsin ikna edici bilgiyi alıp satış adımına gidiyor.",
+        "E-ticaret sitesini, bayisi olduğumuz İKAS altyapısıyla CRO odağında kurduk: ziyaretçi hangi kanaldan hangi sayfaya girerse girsin ikna edici bilgiyi alıp satış adımına gidiyor.",
         "Sosyal medya, e-posta, organik arama ve Google Ads'i tek ölçüm çerçevesinde yönettik; Trendyol ve Hepsiburada mağazalarını açtık.",
       ],
       en: [
@@ -2338,7 +2341,7 @@ export const CASES: CaseStudyContent[] = [
         "We built the commercials around everyday odor scenarios — cat litter, a teenage boy's room, cooking fish at home. Instead of explaining the category in the abstract, we showed consumers a moment from their own home.",
         "We produced an animation explaining how the product works: eliminating an odor molecule is not the same as masking it — category awareness started there.",
         "Content cut from those films fed social media and digital marketing — one shoot, dozens of channels.",
-        "With İKAS we built the e-commerce site around CRO: whichever channel and page a visitor lands on, they get the convincing information and move to the purchase step.",
+        "We built the e-commerce site around CRO on İKAS, the e-commerce platform we resell: whichever channel and page a visitor lands on, they get the convincing information and move to the purchase step.",
         "Social, email, organic search and Google Ads were managed in one measurement frame; Trendyol and Hepsiburada storefronts were opened.",
       ],
     },
@@ -2475,8 +2478,8 @@ export const CASES: CaseStudyContent[] = [
           en: "What was done on the e-commerce side?",
         },
         answer: {
-          tr: "Site, İKAS ortaklığıyla dönüşüm odağında kuruldu. Ziyaretçi hangi kanaldan hangi sayfaya girerse girsin ikna edici bilgiyi alıp satın alma adımına gidiyor; ödeme akışı aynı mantıkla sadeleştirildi. Yeni bir kategoride her giriş sayfası aynı zamanda bir açıklama sayfası olmak zorunda, çünkü ziyaretçi ürünü ilk kez görüyor olabilir.",
-          en: "The site was built around conversion in partnership with İKAS. Whichever channel and page a visitor lands on, they get the convincing information and move to the purchase step, and the checkout flow was simplified on the same logic. In a new category every landing page also has to be an explanation page, because the visitor may be seeing the product for the first time.",
+          tr: "Site, bayisi olduğumuz İKAS altyapısıyla dönüşüm odağında kuruldu. Ziyaretçi hangi kanaldan hangi sayfaya girerse girsin ikna edici bilgiyi alıp satın alma adımına gidiyor; ödeme akışı aynı mantıkla sadeleştirildi. Yeni bir kategoride her giriş sayfası aynı zamanda bir açıklama sayfası olmak zorunda, çünkü ziyaretçi ürünü ilk kez görüyor olabilir.",
+          en: "The site was built around conversion on İKAS, the e-commerce platform we resell. Whichever channel and page a visitor lands on, they get the convincing information and move to the purchase step, and the checkout flow was simplified on the same logic. In a new category every landing page also has to be an explanation page, because the visitor may be seeing the product for the first time.",
         },
       },
       {

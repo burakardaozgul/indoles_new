@@ -338,13 +338,16 @@ export const aiDanismanlik: ServiceContent = {
       // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
       // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
       // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      // 2026-10-02: "satıcı değildir" İKAS bayiliğiyle çelişiyordu (Burak
+      // teyidi: INDOLES İKAS bayisi); "yapay zeka ürünü satmaz"a daraltıldı,
+      // bayilik açıklandı. Model sağlayıcısıyla komisyon iddiası aynen kaldı.
       question: {
         tr: "Yapay zeka firmaları ile yapay zeka danışmanı arasındaki fark nedir?",
         en: "What is the difference between AI companies and an AI consultant?",
       },
       answer: {
-        tr: "Yapay zeka firmaları genellikle bir ürün satar; yapay zeka danışmanı o ürüne ihtiyaç olup olmadığına önce karar verir. INDOLES satıcı değildir ve hiçbir model sağlayıcısıyla komisyon ilişkisi yoktur; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık kontrolü bağımsız yürütülür. \"Burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktıdır — boşa yatırım engellenmiş olur.",
-        en: "AI companies and AI consulting firms generally sell a product; an AI consultant first decides whether that product is needed at all. INDOLES is not a vendor and holds no commission relationship with any model provider; the candidate task list, the cost-benefit calculation and the data readiness check are run independently. A finding of \"AI is not needed here\" is a valid output too, because it prevents a misplaced investment.",
+        tr: "Yapay zeka firmaları genellikle bir ürün satar; yapay zeka danışmanı o ürüne ihtiyaç olup olmadığına önce karar verir. INDOLES yapay zeka ürünü satmaz ve hiçbir model sağlayıcısıyla komisyon ilişkisi yoktur; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık kontrolü bağımsız yürütülür. Yazılım tarafındaki tek ticari bağ e-ticarettedir: INDOLES İKAS e-ticaret altyapısının bayisidir. \"Burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktıdır — boşa yatırım engellenmiş olur.",
+        en: "AI companies and AI consulting firms generally sell a product; an AI consultant first decides whether that product is needed at all. INDOLES does not sell an AI product and holds no commission relationship with any model provider; the candidate task list, the cost-benefit calculation and the data readiness check are run independently. Its only commercial tie on the software side is in e-commerce: INDOLES is a reseller of the İKAS e-commerce platform. A finding of \"AI is not needed here\" is a valid output too, because it prevents a misplaced investment.",
       },
     },
   ],
@@ -384,4 +387,9 @@ export const aiDanismanlik: ServiceContent = {
    * almaya devam ediyor; GEO'nun transform tarafından tek girişi burası.
    */
   relatedServices: ["is-otomasyonlari", "is-zekasi", "geo-danismanligi"],
+
+  // 2026-10-02: karşı-konumlandırma SSS'i İKAS bayiliğiyle hizalandı
+  // ("satıcı değildir" → "yapay zeka ürünü satmaz" + bayilik açıklaması).
+  // `lastmod` ve `WebPage.dateModified` buradan beslenir.
+  updatedAt: "2026-10-02",
 };

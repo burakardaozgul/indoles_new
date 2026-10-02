@@ -1101,10 +1101,13 @@ export const ARTICLES: ArticleContent[] = [
       tr: "Telefonu sessize almadan yattığınız ve satış bildirimleriyle uyandığınız bir sabah. Bu sahneyi yaşadım — sıfırdan üç ay sürdü. Bu yazı, o üç ayda nelerin doğru yapıldığının rehberi.",
       en: "A morning where you go to bed without silencing your phone and wake to sales notifications. I lived that scene — it took three months from zero. This is the guide to what was done right in those three months.",
     },
-    updatedAt: "2026-08-28",
+    // 2026-10-02: "Hangi e-ticaret platformunu seçmeliyim?" cevabı İKAS'ı
+    // öneriyor; INDOLES'in İKAS bayiliği (Burak teyidi) çıkar beyanı olarak
+    // eklendi, tarih ve not güncellendi (ADR-020).
+    updatedAt: "2026-10-02",
     updateNote: {
-      tr: "Bu yazı ilk olarak 6 Ağustos 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık yenilendi, o gün anonim anlattığımız örnekler bugün sitede yayımlanan gerçek vakalarımıza bağlandı, platform listesi ve sık sorulan sorular güncellendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi.",
-      en: "First published on 6 August 2024. Revised on 23 August 2026: the title was renewed, the examples we once told anonymously are now linked to the real case studies published on this site, and the platform list and FAQ were updated. On 28 August 2026 the section headings were rewritten as questions.",
+      tr: "Bu yazı ilk olarak 6 Ağustos 2024'te yayımlandı. 23 Ağustos 2026'da gözden geçirildi: başlık yenilendi, o gün anonim anlattığımız örnekler bugün sitede yayımlanan gerçek vakalarımıza bağlandı, platform listesi ve sık sorulan sorular güncellendi. 28 Ağustos 2026'da ara başlıklar soru formuna getirildi. 2 Ekim 2026'da platform sorusunun cevabına çıkar beyanı eklendi: INDOLES İKAS e-ticaret altyapısının bayisidir.",
+      en: "First published on 6 August 2024. Revised on 23 August 2026: the title was renewed, the examples we once told anonymously are now linked to the real case studies published on this site, and the platform list and FAQ were updated. On 28 August 2026 the section headings were rewritten as questions. On 2 October 2026 a disclosure was added to the platform answer: INDOLES is a reseller of the İKAS e-commerce platform.",
     },
     blocks: [
       {
@@ -1347,8 +1350,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "Which e-commerce platform should I choose?",
         },
         answer: {
-          tr: "Özellik listesine değil üç kritere bakın: bugünkü operasyonunuzu taşıyor mu, iki yıl sonraki ölçeğinizi kaldırır mı, ekosistemi (ödeme, kargo, pazaryeri entegrasyonları) pazarınıza uygun mu? Türkiye'de satan bir marka için İKAS ve Shopify güçlü başlangıçlardır; büyük katalog ve özel iş akışı gerektiren işlerde WooCommerce, Magento veya özel geliştirme devreye girer. Platform kararı geri dönüşü en pahalı karardır — kurulumdan önce verilmelidir.",
-          en: "Look past the feature list at three criteria: does it carry your operation today, will it hold your scale two years from now, and does its ecosystem (payments, shipping, marketplace integrations) fit your market? For a brand selling in Türkiye, İKAS and Shopify are strong starting points; large catalogues and custom workflows call for WooCommerce, Magento or custom development. The platform decision is the most expensive one to reverse — make it before the build.",
+          tr: "Özellik listesine değil üç kritere bakın: bugünkü operasyonunuzu taşıyor mu, iki yıl sonraki ölçeğinizi kaldırır mı, ekosistemi (ödeme, kargo, pazaryeri entegrasyonları) pazarınıza uygun mu? Türkiye'de satan bir marka için İKAS ve Shopify güçlü başlangıçlardır; büyük katalog ve özel iş akışı gerektiren işlerde WooCommerce, Magento veya özel geliştirme devreye girer. Platform kararı geri dönüşü en pahalı karardır — kurulumdan önce verilmelidir. Çıkar beyanı: INDOLES İKAS e-ticaret altyapısının bayisidir; bu öneriyi o bilgiyle birlikte okuyun.",
+          en: "Look past the feature list at three criteria: does it carry your operation today, will it hold your scale two years from now, and does its ecosystem (payments, shipping, marketplace integrations) fit your market? For a brand selling in Türkiye, İKAS and Shopify are strong starting points; large catalogues and custom workflows call for WooCommerce, Magento or custom development. The platform decision is the most expensive one to reverse — make it before the build. A disclosure: INDOLES is a reseller of the İKAS e-commerce platform; read this recommendation with that in mind.",
         },
       },
       {
@@ -7547,8 +7550,13 @@ export const ARTICLES: ArticleContent[] = [
   //   testi, kaynak kod tam sahiplik, ikinci senaryo ayrı pilot; model
   //   kullanımı, bulut ve lisans hariç: `packages.ts`. "KDV hariç liste
   //   fiyatı": `llms-full.txt/route.ts`.
-  // - Yazılım sağlayıcısıyla ortaklık/komisyon yok: `packages.ts` (teşhis
-  //   SSS); model sağlayıcısıyla komisyon yok: `services/ai-danismanlik.ts`.
+  // - İKAS bayiliği: Burak teyidi (2026-10-02, "İKAS E-Ticaret altyapısının
+  //   bayisiyiz") — yazılım tarafındaki tek açıklanan ticari bağ. Bağımsızlık
+  //   iddiası İKAS istisnasıyla: yazılım sağlayıcısıyla ortaklık/komisyon yok
+  //   `packages.ts` (teşhis SSS, ERP/OMS/WMS kapsamında); model sağlayıcısıyla
+  //   komisyon yok `services/ai-danismanlik.ts`. Model/bulut/yapay zeka
+  //   yazılımı sağlayıcısıyla "bağ yok" kısmı yalnız bu mevcut site metnine
+  //   dayanır; Burak ayrıca teyit etmedi.
   // - Kapsam dışı: değişim yönetimi ve İK danışmanlığı
   //   (`services/dijital-donusum.ts`), sıfırdan model eğitimi
   //   (`services/ai-danismanlik.ts`); hukuki değerlendirme hukuk danışmanının
@@ -8061,8 +8069,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "İki şeyi daha açıkça yazayım. INDOLES'in hiçbir yazılım sağlayıcısıyla iş ortaklığı ya da komisyon ilişkisi, hiçbir model sağlayıcısıyla da komisyon ilişkisi yok; \"burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktı sayılıyor. Kapsamımızın dışında kalanlar ise şunlar: kurum içi değişim yönetimi ve insan kaynakları danışmanlığı, sıfırdan model eğitimi ve akademik araştırma, hukuki değerlendirme. Programınız bunlardan birini aynı çatıdan istiyorsa yukarıdaki ölçütler sizi büyük bir danışmanlık firmasına götürüyor demektir ve bu doğru bir karardır.",
-          en: "Two more things, stated plainly. INDOLES has no partnership or commission arrangement with any software supplier, and no commission arrangement with any model provider; a finding of \"AI isn't needed here\" counts as a valid output. What falls outside our scope: internal change management and HR consulting, training models from scratch and academic research, and legal assessment. If your programme needs one of these from under the same roof, the criteria above are pointing you to a large consultancy — and that is the right decision.",
+          tr: "İki şeyi daha açıkça yazayım. INDOLES İKAS e-ticaret altyapısının bayisidir ve yazılım tarafındaki tek ticari bağımız budur; yapay zeka danışmanlığında önerdiğimiz hiçbir model, bulut ya da yapay zeka yazılımı sağlayıcısıyla iş ortaklığımız ya da komisyon ilişkimiz yok ve \"burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktı sayılıyor. Kapsamımızın dışında kalanlar ise şunlar: kurum içi değişim yönetimi ve insan kaynakları danışmanlığı, sıfırdan model eğitimi ve akademik araştırma, hukuki değerlendirme. Programınız bunlardan birini aynı çatıdan istiyorsa yukarıdaki ölçütler sizi büyük bir danışmanlık firmasına götürüyor demektir ve bu doğru bir karardır.",
+          en: "Two more things, stated plainly. INDOLES is a reseller of the İKAS e-commerce platform, and that is our only commercial tie on the software side; we have no partnership or commission arrangement with any model, cloud or AI software provider we recommend in AI consulting, and a finding of \"AI isn't needed here\" counts as a valid output. What falls outside our scope: internal change management and HR consulting, training models from scratch and academic research, and legal assessment. If your programme needs one of these from under the same roof, the criteria above are pointing you to a large consultancy — and that is the right decision.",
         },
       },
       {
@@ -8172,8 +8180,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "Why should you ask about a consultancy's partnerships with software providers?",
         },
         answer: {
-          tr: "Ortaklık önerinin yönünü etkileyebilir. Bir sağlayıcıyla iş ortaklığı ya da komisyon ilişkisi olan danışman, o sağlayıcının ürününü önermeye doğal olarak daha yatkındır; bu kötü niyet değil, teşviktir. Ortaklık tek başına bir sorun değildir ve bazen uygulamayı hızlandırır, ama yazılı olmalıdır. Soru hem büyük firmaya hem butik ekibe sorulmalıdır; INDOLES'in hiçbir yazılım sağlayıcısıyla iş ortaklığı ya da komisyon ilişkisi yoktur.",
-          en: "A partnership can shape the direction of the recommendation. A consultant with a partnership or commission arrangement with a provider is naturally more inclined to recommend that provider's product; this is not bad faith but an incentive. A partnership is not a problem in itself and sometimes speeds implementation up, but it should be in writing. Ask both the large firm and the boutique team; INDOLES has no partnership or commission arrangement with any software supplier.",
+          tr: "Ortaklık önerinin yönünü etkileyebilir. Bir sağlayıcıyla iş ortaklığı ya da komisyon ilişkisi olan danışman, o sağlayıcının ürününü önermeye doğal olarak daha yatkındır; bu kötü niyet değil, teşviktir. Ortaklık tek başına bir sorun değildir ve bazen uygulamayı hızlandırır, ama yazılı olmalıdır. Soru hem büyük firmaya hem butik ekibe sorulmalıdır. INDOLES kendi cevabını da yazılı veriyor: INDOLES İKAS e-ticaret altyapısının bayisidir ve yazılım tarafındaki tek ticari bağı budur; yapay zeka danışmanlığında önerdiği hiçbir model, bulut ya da yapay zeka yazılımı sağlayıcısıyla iş ortaklığı ya da komisyon ilişkisi yoktur.",
+          en: "A partnership can shape the direction of the recommendation. A consultant with a partnership or commission arrangement with a provider is naturally more inclined to recommend that provider's product; this is not bad faith but an incentive. A partnership is not a problem in itself and sometimes speeds implementation up, but it should be in writing. Ask both the large firm and the boutique team. INDOLES puts its own answer in writing too: INDOLES is a reseller of the İKAS e-commerce platform, which is its only commercial tie on the software side, and it has no partnership or commission arrangement with any model, cloud or AI software provider it recommends in AI consulting.",
         },
       },
       {
@@ -9041,6 +9049,9 @@ export const ARTICLES: ArticleContent[] = [
   // - Üretime geçiş için rakam yok: pilot raporundaki yol haritasıyla yazılı
   //   teklif (Burak kararı). Dış kaynak, piyasa ortalaması, saatlik ücret,
   //   rakip fiyatı yok.
+  // - Bağımsızlık cümlesi (2026-10-02 düzeltmesi): İKAS bayiliği Burak
+  //   teyidi; model/bulut/yapay zeka yazılımı sağlayıcısıyla bağ yok kısmı
+  //   `services/ai-danismanlik.ts` ve `packages.ts` metnine dayanır.
   // - Geri ödeme hesabı açıkça varsayımsal (600 tekrar/ay, 12 ay) ve yalnız
   //   yayımlı fiyatları böler. EN tarafı € (sitenin EN fiyat birimi, CRO fiyat
   //   emsali); $ karşılıkları giriş paragrafında ve ilk SSS'te parantez içinde.
@@ -9328,8 +9339,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Dışarıda kalan kalemler görünmez değildir. Teşhis raporundaki her pilot önerisi tahmini maliyetiyle gelir, pilot raporu da üretim ve işletme bütçesini tahmin olarak yazar; bu rakamlar raporda durur, faturada değil. Kapsam değişirse yeniden fiyatlama yazılı yapılır ve süreç içinde sürpriz kalem çıkmaz. INDOLES'in hiçbir model ya da yazılım sağlayıcısıyla komisyon ilişkisi yoktur; önerilen araçtan ya da modelden pay alınmadığı için öneri fiyatı değil gereksinimi izler.",
-          en: "What sits outside is not invisible. Every pilot recommendation in the audit report comes with an estimated cost, and the pilot report writes down the production and running budget as estimates; those figures sit in the report, not on the invoice. If scope changes, repricing is put in writing, and no surprise line appears along the way. INDOLES has no commission relationship with any model or software provider; because no share is taken from a recommended tool or model, the recommendation follows the requirement rather than the price.",
+          tr: "Dışarıda kalan kalemler görünmez değildir. Teşhis raporundaki her pilot önerisi tahmini maliyetiyle gelir, pilot raporu da üretim ve işletme bütçesini tahmin olarak yazar; bu rakamlar raporda durur, faturada değil. Kapsam değişirse yeniden fiyatlama yazılı yapılır ve süreç içinde sürpriz kalem çıkmaz. INDOLES İKAS e-ticaret altyapısının bayisidir ve yazılım tarafındaki tek ticari bağı budur; yapay zeka danışmanlığında önerdiği hiçbir model, bulut ya da yapay zeka yazılımı sağlayıcısıyla iş ortaklığı ya da komisyon ilişkisi yoktur. Önerilen araçtan ya da modelden pay alınmadığı için öneri fiyatı değil gereksinimi izler.",
+          en: "What sits outside is not invisible. Every pilot recommendation in the audit report comes with an estimated cost, and the pilot report writes down the production and running budget as estimates; those figures sit in the report, not on the invoice. If scope changes, repricing is put in writing, and no surprise line appears along the way. INDOLES is a reseller of the İKAS e-commerce platform, which is its only commercial tie on the software side; it has no partnership or commission relationship with any model, cloud or AI software provider it recommends in AI consulting. Because no share is taken from a recommended tool or model, the recommendation follows the requirement rather than the price.",
         },
       },
       {
@@ -15107,10 +15118,16 @@ export const ARTICLES: ArticleContent[] = [
   //   OdorGo (İKAS altyapısı, Trendyol + Hepsiburada, 8 ayda 10M TL toplam
   //   ciro, Şubat 2026 devri), MKComputer (Magento 2; "denetim tamamlanmadan
   //   Magento, sunucu veya arayüz kararı verilmez" SSS'i).
-  // - Ortaklık/komisyon: INDOLES'in kendi durumu hakkında iddia YAZILMADI —
-  //   `packages.ts` Teşhis SSS'i ("hiçbir yazılım sağlayıcısıyla iş ortaklığı
-  //   veya komisyon ilişkisi yoktur") ile `cases.ts` OdorGo yaklaşımı ("İKAS
-  //   ortaklığıyla") birbirini tutmuyor; okura soru olarak verildi.
+  // - Ortaklık/komisyon (2026-10-02 güncellemesi): Burak teyit etti, INDOLES
+  //   İKAS e-ticaret altyapısının bayisi. Eskiden burada iddia yazılmamıştı,
+  //   çünkü `packages.ts` Teşhis SSS'i ("hiçbir yazılım sağlayıcısıyla...")
+  //   ile OdorGo'nun "İKAS ortaklığıyla" ifadesi birbirini tutmuyordu; ikisi
+  //   de bayilikle hizalandı. Okura bırakılan altıncı soruya ("komisyon,
+  //   ortaklık ya da yönlendirme geliri") bizim cevabımız "INDOLES bu işi
+  //   nasıl yürütüyor?" bölümünde ve ticari ilişki SSS'inde. Çerçeve yalnız
+  //   doğrulanabilir davranış: karar elenen seçenekleriyle yazılı
+  //   (`services/e-ticaret.ts`), MKComputer Magento 2'de. Bayilik seviyesi,
+  //   komisyon oranı yazılmaz.
   // - Tek kurgu Murat, gövdede beyan edildi. Dış kaynak yok.
   // Diagnoo linki gövdede inline (ölçüm bölümü); köprü eklenmez (21 taktik ve
   // benchmark emsali, `tools-content.test.ts`).
@@ -15560,8 +15577,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları bu kapsamın içinde; altyapı kararını marka tercihiyle değil, ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla veriyoruz. Kanal tarafında ajans değişikliği önermiyoruz; mevcut kurulumun ROAS ve CAC tarafında ne ürettiğini ölçüp bütçe dağılımını öneriyoruz. Reklam hesaplarının günlük yönetimi [performans pazarlama](/hizmetler/performans-pazarlama) hizmetimizin, test edilerek yürütülen dönüşüm programı [dönüşüm oranı optimizasyonu](/hizmetler/cro) hizmetimizin konusu. Altyapı hesapları, alan adı ve varsa kaynak kod baştan firmanın adına açılıyor. Ayrıntıları [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret) yazdık.",
-          en: "İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds sit inside this scope; we make the platform decision on catalogue size, order volume and integration needs rather than brand preference. On the channel side we do not propose changing agencies; we measure what the current setup produces on ROAS and CAC and recommend the budget split. Day-to-day management of ad accounts belongs to our [performance marketing](/hizmetler/performans-pazarlama) service, and a tested conversion programme to our [conversion rate optimisation](/hizmetler/cro) service. Platform accounts, the domain and any source code are opened in the company's name from the start. The details are on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
+          tr: "İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları bu kapsamın içinde; altyapı kararını marka tercihiyle değil, ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla veriyoruz. Altıncı soruya bizim cevabımız şu: INDOLES İKAS e-ticaret altyapısının bayisidir; bayilik öneriyi etkileyebileceği için altyapı kararını elenen seçenekleriyle birlikte yazılı veriyoruz ve İKAS her projenin cevabı değil. Kanal tarafında ajans değişikliği önermiyoruz; mevcut kurulumun ROAS ve CAC tarafında ne ürettiğini ölçüp bütçe dağılımını öneriyoruz. Reklam hesaplarının günlük yönetimi [performans pazarlama](/hizmetler/performans-pazarlama) hizmetimizin, test edilerek yürütülen dönüşüm programı [dönüşüm oranı optimizasyonu](/hizmetler/cro) hizmetimizin konusu. Altyapı hesapları, alan adı ve varsa kaynak kod baştan firmanın adına açılıyor. Ayrıntıları [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret) yazdık.",
+          en: "İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds sit inside this scope; we make the platform decision on catalogue size, order volume and integration needs rather than brand preference. Our answer to the sixth question is this: INDOLES is a reseller of the İKAS e-commerce platform; because that tie could sway the recommendation, we put the platform decision in writing along with the options ruled out, and İKAS is not the answer for every project. On the channel side we do not propose changing agencies; we measure what the current setup produces on ROAS and CAC and recommend the budget split. Day-to-day management of ad accounts belongs to our [performance marketing](/hizmetler/performans-pazarlama) service, and a tested conversion programme to our [conversion rate optimisation](/hizmetler/cro) service. Platform accounts, the domain and any source code are opened in the company's name from the start. The details are on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
         },
       },
       {
@@ -15651,8 +15668,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "How can I tell whether a consultant has a commercial tie to a platform?",
         },
         answer: {
-          tr: "Doğrudan sorun ve cevabı yazılı isteyin: herhangi bir platformdan komisyon, ortaklık, yönlendirme geliri ya da indirimli lisans alınıyor mu? Ticari ilişki tek başına sorun değildir; gizlenmesi sorundur. Ardından altyapı kararı belgesine bakın: elenen seçenekler ve elenme gerekçeleri yazılıysa öneri bir karşılaştırmadan çıkmıştır, yalnız tek bir altyapı anlatılıyorsa karşılaştırma hiç yapılmamış olabilir.",
-          en: "Ask directly and ask for the answer in writing: does the consultant receive commission, partnership or referral income, or discounted licences, from any platform? A commercial tie is not a problem in itself; hiding it is. Then look at the platform decision document: if the rejected options and the reasons for rejecting them are written down, the recommendation came out of a comparison; if only one platform is described, a comparison may never have been made.",
+          tr: "Doğrudan sorun ve cevabı yazılı isteyin: herhangi bir platformdan komisyon, ortaklık, yönlendirme geliri ya da indirimli lisans alınıyor mu? Ticari ilişki tek başına sorun değildir; gizlenmesi sorundur. Ardından altyapı kararı belgesine bakın: elenen seçenekler ve elenme gerekçeleri yazılıysa öneri bir karşılaştırmadan çıkmıştır, yalnız tek bir altyapı anlatılıyorsa karşılaştırma hiç yapılmamış olabilir. Bizim cevabımız da yazılı: INDOLES İKAS e-ticaret altyapısının bayisidir.",
+          en: "Ask directly and ask for the answer in writing: does the consultant receive commission, partnership or referral income, or discounted licences, from any platform? A commercial tie is not a problem in itself; hiding it is. Then look at the platform decision document: if the rejected options and the reasons for rejecting them are written down, the recommendation came out of a comparison; if only one platform is described, a comparison may never have been made. Our own answer is in writing too: INDOLES is a reseller of the İKAS e-commerce platform.",
         },
       },
       {
@@ -15775,6 +15792,9 @@ export const ARTICLES: ArticleContent[] = [
   // - Getiri hesabı açıkça varsayımsal; maliyet tarafı gerçek paket fiyatı.
   //   EN € değerleri paket kuruyla (240.000 TL ↔ €7.500, oran 32) orantılı
   //   seçildi; yüzdeler iki dilde aynı çıkar.
+  // - İKAS bayiliği (Burak teyidi, 2026-10-02) platform lisansı bölümünde ve
+  //   platform aboneliği SSS'inde açıklandı. Bayiliğin ticari koşulu (komisyon
+  //   oranı, aboneliğin kimin üzerinden faturalandığı) bilinmiyor, yazılmadı.
   // Tek kurgu Aslı, beyan edildi. Diagnoo linki gövdede inline; köprü yok.
   {
     slug: {
@@ -15986,8 +16006,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Platform maliyeti danışmanlık fiyatının parçası değildir, çünkü sizin hesabınızdan doğrudan ödenir ve çalışma bittikten sonra da sürer. Danışmanın işi bu maliyeti sizin yerinize ödemek değil, karar anında görünür kılmaktır.",
-          en: "Platform cost is not part of the consulting price, because it is paid directly from your account and continues after the work ends. The consultant's job is not to pay it for you but to make it visible at the moment of decision.",
+          tr: "Platform maliyeti danışmanlık fiyatının parçası değildir, çünkü sizin hesabınızdan doğrudan ödenir ve çalışma bittikten sonra da sürer. Danışmanın işi bu maliyeti sizin yerinize ödemek değil, karar anında görünür kılmaktır. Bu kalemle ilgili bir ticari bağımızı da açık yazayım: INDOLES İKAS e-ticaret altyapısının bayisidir; bayilik öneriyi etkileyebileceği için altyapı kararını elenen seçenekleri ve maliyet karşılaştırmasıyla birlikte yazılı veriyoruz.",
+          en: "Platform cost is not part of the consulting price, because it is paid directly from your account and continues after the work ends. The consultant's job is not to pay it for you but to make it visible at the moment of decision. One commercial tie of ours belongs on this line, so I will state it plainly: INDOLES is a reseller of the İKAS e-commerce platform; because that tie could sway the recommendation, we put the platform decision in writing with the options ruled out and a cost comparison.",
         },
       },
       {
@@ -16284,8 +16304,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "Whose budget do the platform subscription and add-ons come from?",
         },
         answer: {
-          tr: "Sizin bütçenizden ve sizin adınıza açılan hesaptan. Platform aboneliği, tema, eklenti ve barındırma bedelleri danışmanlık fiyatının parçası değildir, çünkü çalışma bittikten sonra da sürerler. Danışmanın işi bu maliyeti karar anında görünür kılmaktır: iki ya da üç yıllık toplamı kurulum, abonelik, eklenti, bakım saatleri ve ekibinizin zamanıyla birlikte hesaplamak.",
-          en: "From your budget, and from an account opened in your name. Platform subscription, theme, add-on and hosting fees are not part of the consulting price, because they continue after the work ends. The consultant's job is to make that cost visible at the moment of decision: to calculate the two- or three-year total including build, subscription, add-ons, maintenance hours and your team's time.",
+          tr: "Sizin bütçenizden ve sizin adınıza açılan hesaptan. Platform aboneliği, tema, eklenti ve barındırma bedelleri danışmanlık fiyatının parçası değildir, çünkü çalışma bittikten sonra da sürerler. Danışmanın işi bu maliyeti karar anında görünür kılmaktır: iki ya da üç yıllık toplamı kurulum, abonelik, eklenti, bakım saatleri ve ekibinizin zamanıyla birlikte hesaplamak. INDOLES İKAS e-ticaret altyapısının bayisidir; bu yüzden İKAS'ın girdiği bir karşılaştırmada da elenen seçenekler ve maliyetleri yazılı durur.",
+          en: "From your budget, and from an account opened in your name. Platform subscription, theme, add-on and hosting fees are not part of the consulting price, because they continue after the work ends. The consultant's job is to make that cost visible at the moment of decision: to calculate the two- or three-year total including build, subscription, add-ons, maintenance hours and your team's time. INDOLES is a reseller of the İKAS e-commerce platform, so a comparison that includes İKAS also keeps the options ruled out, and their costs, in writing.",
         },
       },
       {
@@ -16396,7 +16416,12 @@ export const ARTICLES: ArticleContent[] = [
   //   (Magento 2 üzerinde özel modül; "genel amaçlı içe aktarma eklentisi iki
   //   koşulu aynı anda karşılamıyor" SSS'i; 200.000+ ürün, 5 dakikada senkron)
   //   ve OdorGo (İKAS altyapısı; Trendyol + Hepsiburada; tek ölçüm çerçevesi;
-  //   8 ayda 10M TL toplam ciro). Ortaklık/sertifika/bayilik iddiası YOK.
+  //   8 ayda 10M TL toplam ciro). Ortaklık/sertifika iddiası YOK.
+  // - İKAS bayiliği (Burak teyidi, 2026-10-02): "INDOLES platform kararını
+  //   nasıl veriyor?" bölümünde dördüncü sorunun (komisyon/ortaklık/
+  //   yönlendirme geliri) cevabı olarak ve "Shopify mi, İKAS mı" SSS'inde
+  //   tek cümle. Denge: İKAS reklamı değil — aynı paragrafta MKComputer'ın
+  //   Magento 2'si duruyor; bayilik seviyesi, komisyon oranı yazılmaz.
   // - "Hazır altyapıda tema ve ödeme adımına müdahale platformun izin verdiği
   //   ölçüdedir": `cro-danismanligi-fiyatlari` ile aynı genel ifade, platform
   //   adı verilmeden.
@@ -16791,8 +16816,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları hizmetimizin içinde; MKComputer'da Magento 2 üzerinde özel bir modül yazdık, OdorGo'da siteyi İKAS altyapısıyla kurduk. Altyapı kararını marka tercihiyle değil, ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla veriyoruz; mevcut altyapınız bu listedeyse iş sıfırdan değil, akış haritasında çıkan kopma noktalarından başlıyor. Kısıt operasyon tarafındaysa [Dijital Dönüşüm Teşhisi](/paketler/dijital-donusum-teshisi) üç haftada sipariş akışını, envanteri ve müşteri iletişimini haritalar ve her öneri için araç seçimini içeren ayrı bir şartname bırakır. Ayrıntılar [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret).",
-          en: "İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds sit inside our service; at MKComputer we wrote a custom module on Magento 2, and at OdorGo we built the site on İKAS. We make the platform decision on catalogue size, order volume and integration needs rather than brand preference; if your current platform is on that list, the work starts not from scratch but from the breakpoints found in the flow map. If the constraint is on the operations side, the [Digital Transformation Audit](/paketler/dijital-donusum-teshisi) maps order flow, inventory and customer communication in three weeks and leaves a separate spec, including tool selection, for each recommendation. The details are on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
+          tr: "İKAS, Ticimax, İdeaSoft, Shopify ve WooCommerce kurulumları hizmetimizin içinde; MKComputer'da Magento 2 üzerinde özel bir modül yazdık, OdorGo'da siteyi İKAS altyapısıyla kurduk. Dördüncü soruya bizim cevabımız: INDOLES İKAS e-ticaret altyapısının bayisidir; bayilik öneriyi etkileyebileceği için elenen seçenekler de kararla birlikte yazılır ve İKAS her projenin cevabı değildir. Altyapı kararını marka tercihiyle değil, ürün sayısı, sipariş hacmi ve entegrasyon ihtiyacıyla veriyoruz; mevcut altyapınız bu listedeyse iş sıfırdan değil, akış haritasında çıkan kopma noktalarından başlıyor. Kısıt operasyon tarafındaysa [Dijital Dönüşüm Teşhisi](/paketler/dijital-donusum-teshisi) üç haftada sipariş akışını, envanteri ve müşteri iletişimini haritalar ve her öneri için araç seçimini içeren ayrı bir şartname bırakır. Ayrıntılar [e-ticaret danışmanlığı hizmet sayfamızda](/hizmetler/e-ticaret).",
+          en: "İKAS, Ticimax, İdeaSoft, Shopify and WooCommerce builds sit inside our service; at MKComputer we wrote a custom module on Magento 2, and at OdorGo we built the site on İKAS. Our answer to the fourth question: INDOLES is a reseller of the İKAS e-commerce platform; because that tie could sway the recommendation, the options ruled out are written down with the decision, and İKAS is not the answer for every project. We make the platform decision on catalogue size, order volume and integration needs rather than brand preference; if your current platform is on that list, the work starts not from scratch but from the breakpoints found in the flow map. If the constraint is on the operations side, the [Digital Transformation Audit](/paketler/dijital-donusum-teshisi) maps order flow, inventory and customer communication in three weeks and leaves a separate spec, including tool selection, for each recommendation. The details are on [our e-commerce consulting service page](/hizmetler/e-ticaret).",
         },
       },
       {
@@ -16842,8 +16867,8 @@ export const ARTICLES: ArticleContent[] = [
           en: "Is Shopify, İKAS or WooCommerce better?",
         },
         answer: {
-          tr: "Herkes için geçerli bir cevap yok ve bu soruyu özellik listesiyle cevaplayan bir karşılaştırma eksik kalır. Doğru platform; katalog yapınızı, sipariş hacminizi, kurmanız gereken entegrasyonları, mağazayı kimin değiştireceğini ve iki yıllık ölçeğinizi taşıyan platformdur. INDOLES üçüyle de kurulum yapar ve kararı marka tercihiyle değil, bu kriterlerin yazılı karşılaştırmasıyla verir.",
-          en: "There is no answer that holds for everyone, and a comparison that answers the question with a feature list falls short. The right platform is the one that carries your catalogue structure, your order volume, the integrations you need, who will change the store and your two-year scale. INDOLES builds on all three and makes the decision through a written comparison against those criteria, not brand preference.",
+          tr: "Herkes için geçerli bir cevap yok ve bu soruyu özellik listesiyle cevaplayan bir karşılaştırma eksik kalır. Doğru platform; katalog yapınızı, sipariş hacminizi, kurmanız gereken entegrasyonları, mağazayı kimin değiştireceğini ve iki yıllık ölçeğinizi taşıyan platformdur. INDOLES üçüyle de kurulum yapar ve kararı marka tercihiyle değil, bu kriterlerin yazılı karşılaştırmasıyla verir. INDOLES İKAS e-ticaret altyapısının bayisidir; bayilik öneriyi etkileyebileceği için karşılaştırma elenen seçenekleriyle birlikte yazılır.",
+          en: "There is no answer that holds for everyone, and a comparison that answers the question with a feature list falls short. The right platform is the one that carries your catalogue structure, your order volume, the integrations you need, who will change the store and your two-year scale. INDOLES builds on all three and makes the decision through a written comparison against those criteria, not brand preference. INDOLES is a reseller of the İKAS e-commerce platform; because that tie could sway the recommendation, the comparison is written up with the options ruled out.",
         },
       },
       {

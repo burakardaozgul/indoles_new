@@ -32,7 +32,22 @@ import type { ServiceContent } from "../types";
 export const eTicaret: ServiceContent = {
   slug: { tr: "e-ticaret", en: "e-commerce" },
   pillar: "growth",
-  name: { tr: "E-ticaret", en: "E-commerce" },
+  /**
+   * H1 hedef kelimeyi taşır (2026-10-02, Burak'ın konumlandırma kararı:
+   * "E-Ticaret hizmet sayfası E-Ticaret danışmanlığı olmalı"). Önce yalnız
+   * "E-ticaret"ti; "e ticaret danışmanlığı" (GKP 100-1B) yalnız seo.title ve
+   * description'daydı. "danışmanlığı" ailesi H1'e girebilir — yasak yalnız
+   * "ajansı"/"firmaları" için (`keyword-coverage.test.ts`); emsal
+   * `ai-danismanlik` ve `marka-stratejisi` adları. Not: strateji v1.4 karar
+   * 3 dar kapsam kelimelerini "H1'e değil" diye yerleştirmişti; bu ad o
+   * kuralın Burak kararıyla açılan istisnasıdır.
+   *
+   * Ad tek kaynaktan türer (hub kartı, ServicesScroll, breadcrumb, komşu
+   * listeler, pillar sayfası, Service/BreadcrumbList JSON-LD, llms, OG);
+   * elle tutulan kopyalar: `diagnoo-report.tsx` `RELATED_SERVICES` (test
+   * korumalı) ve `messages/*.json` growth.services etiketi.
+   */
+  name: { tr: "E-ticaret danışmanlığı", en: "E-commerce consulting" },
 
   shortDescription: {
     industrial: {
@@ -408,30 +423,35 @@ export const eTicaret: ServiceContent = {
   ],
 
   seo: {
+    /**
+     * CRO emsali kalıp: "<hedef kelime>: <tanımlayıcı>" (CRO-Hedef-Netligi
+     * 2026-09-18). Tanımlayıcı dört eksenin üçünü sayar; dördüncüsü (çalışma
+     * sistemi) açıklamada. "ajansı" başlığa girmez — istisna yalnız `cro`.
+     */
     title: {
-      tr: "E-ticaret danışmanlığı ve kurulumu",
-      en: "E-commerce build and consulting",
+      tr: "E-ticaret danışmanlığı: platform, kanal ve büyüme",
+      en: "E-commerce consulting: platform, channels and growth",
     },
     description: {
-      tr: "Stok, muhasebe ve kargo entegre çalışan e-ticaret danışmanlığı ve kurulumu. İKAS, Ticimax, Shopify veya özel geliştirme; bayi ve toptan sipariş akışı dahil.",
-      en: "E-commerce consultancy and builds with stock, accounting and shipping integrated. Shopify, local platforms or custom code, plus dealer and wholesale flows.",
+      tr: "E-ticaret danışmanlığı: hangi platform, hangi reklam kanalı, nasıl bir sistem ve büyümek için önce ne? Dört karar veriyle verilir; kurulum ve ölçüm dahil.",
+      en: "E-commerce consulting: which platform, which ad channels, what system and what to fix first to grow. Four decisions on data; build and measurement included.",
     },
     entities: {
       tr: [
         "INDOLES",
-        "e-ticaret",
+        "e-ticaret danışmanlığı",
         "Shopify",
         "ERP",
-        "stok",
-        "bayi",
+        "ROAS",
+        "dönüşüm oranı",
       ],
       en: [
         "INDOLES",
-        "e-commerce",
+        "e-commerce consulting",
         "Shopify",
         "ERP",
-        "stock",
-        "dealer",
+        "ROAS",
+        "conversion rate",
       ],
     },
   },

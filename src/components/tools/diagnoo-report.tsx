@@ -408,7 +408,7 @@ export const RELATED_SERVICES = [
   {
     slug: "e-ticaret",
     path: { tr: "/hizmetler/e-ticaret", en: "/hizmetler/e-commerce" },
-    name: { tr: "E-ticaret", en: "E-commerce" },
+    name: { tr: "E-ticaret danışmanlığı", en: "E-commerce consulting" },
   },
 ] as const;
 

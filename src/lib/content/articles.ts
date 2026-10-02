@@ -15795,6 +15795,11 @@ export const ARTICLES: ArticleContent[] = [
   // - İKAS bayiliği (Burak teyidi, 2026-10-02) platform lisansı bölümünde ve
   //   platform aboneliği SSS'inde açıklandı. Bayiliğin ticari koşulu (komisyon
   //   oranı, aboneliğin kimin üzerinden faturalandığı) bilinmiyor, yazılmadı.
+  //   Bu yüzden "sizin hesabınızdan doğrudan ödenir / sizin adınıza açılan
+  //   hesaptan" ödeme iddiaları çıkarıldı (bayi üzerinden faturalanan bir İKAS
+  //   aboneliğinde yanlış olabilirdi); geriye yalnız doğrulanabilen kaldı:
+  //   platform maliyeti danışmanlık ve paket fiyatının dışında, çalışmadan
+  //   sonra da sürer. "Kimin bütçesinden" SSS'i "dahil mi" sorusuna çevrildi.
   // Tek kurgu Aslı, beyan edildi. Diagnoo linki gövdede inline; köprü yok.
   {
     slug: {
@@ -16006,8 +16011,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Platform maliyeti danışmanlık fiyatının parçası değildir, çünkü sizin hesabınızdan doğrudan ödenir ve çalışma bittikten sonra da sürer. Danışmanın işi bu maliyeti sizin yerinize ödemek değil, karar anında görünür kılmaktır. Bu kalemle ilgili bir ticari bağımızı da açık yazayım: INDOLES İKAS e-ticaret altyapısının bayisidir; bayilik öneriyi etkileyebileceği için altyapı kararını elenen seçenekleri ve maliyet karşılaştırmasıyla birlikte yazılı veriyoruz.",
-          en: "Platform cost is not part of the consulting price, because it is paid directly from your account and continues after the work ends. The consultant's job is not to pay it for you but to make it visible at the moment of decision. One commercial tie of ours belongs on this line, so I will state it plainly: INDOLES is a reseller of the İKAS e-commerce platform; because that tie could sway the recommendation, we put the platform decision in writing with the options ruled out and a cost comparison.",
+          tr: "Platform maliyeti danışmanlık fiyatının parçası değildir: ayrı bir kalemdir ve çalışma bittikten sonra da sürer. Danışmanın işi bu maliyeti karar anında görünür kılmaktır. Bu kalemle ilgili bir ticari bağımızı da açık yazayım: INDOLES İKAS e-ticaret altyapısının bayisidir; bayilik öneriyi etkileyebileceği için altyapı kararını elenen seçenekleri ve maliyet karşılaştırmasıyla birlikte yazılı veriyoruz.",
+          en: "Platform cost is not part of the consulting price: it is a separate line and continues after the work ends. The consultant's job is to make it visible at the moment of decision. One commercial tie of ours belongs on this line, so I will state it plainly: INDOLES is a reseller of the İKAS e-commerce platform; because that tie could sway the recommendation, we put the platform decision in writing with the options ruled out and a cost comparison.",
         },
       },
       {
@@ -16300,12 +16305,12 @@ export const ARTICLES: ArticleContent[] = [
       },
       {
         question: {
-          tr: "Platform aboneliği ve eklentiler kimin bütçesinden çıkar?",
-          en: "Whose budget do the platform subscription and add-ons come from?",
+          tr: "Platform aboneliği ve eklentiler danışmanlık fiyatına dahil mi?",
+          en: "Are the platform subscription and add-ons included in the consulting price?",
         },
         answer: {
-          tr: "Sizin bütçenizden ve sizin adınıza açılan hesaptan. Platform aboneliği, tema, eklenti ve barındırma bedelleri danışmanlık fiyatının parçası değildir, çünkü çalışma bittikten sonra da sürerler. Danışmanın işi bu maliyeti karar anında görünür kılmaktır: iki ya da üç yıllık toplamı kurulum, abonelik, eklenti, bakım saatleri ve ekibinizin zamanıyla birlikte hesaplamak. INDOLES İKAS e-ticaret altyapısının bayisidir; bu yüzden İKAS'ın girdiği bir karşılaştırmada da elenen seçenekler ve maliyetleri yazılı durur.",
-          en: "From your budget, and from an account opened in your name. Platform subscription, theme, add-on and hosting fees are not part of the consulting price, because they continue after the work ends. The consultant's job is to make that cost visible at the moment of decision: to calculate the two- or three-year total including build, subscription, add-ons, maintenance hours and your team's time. INDOLES is a reseller of the İKAS e-commerce platform, so a comparison that includes İKAS also keeps the options ruled out, and their costs, in writing.",
+          tr: "Hayır. Platform aboneliği, tema, eklenti ve barındırma bedelleri danışmanlık ve paket fiyatının dışındadır ve çalışma bittikten sonra da sürer. Danışmanın işi bu maliyeti karar anında görünür kılmaktır: iki ya da üç yıllık toplamı kurulum, abonelik, eklenti, bakım saatleri ve ekibinizin zamanıyla birlikte hesaplamak. INDOLES İKAS e-ticaret altyapısının bayisidir; bu yüzden İKAS'ın girdiği bir karşılaştırmada da elenen seçenekler ve maliyetleri yazılı durur.",
+          en: "No. Platform subscription, theme, add-on and hosting fees sit outside the consulting and package prices, and they continue after the work ends. The consultant's job is to make that cost visible at the moment of decision: to calculate the two- or three-year total including build, subscription, add-ons, maintenance hours and your team's time. INDOLES is a reseller of the İKAS e-commerce platform, so a comparison that includes İKAS also keeps the options ruled out, and their costs, in writing.",
         },
       },
       {

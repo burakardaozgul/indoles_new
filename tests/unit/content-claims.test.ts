@@ -201,6 +201,18 @@ describe("Bağımsızlık iddiası — İKAS bayiliği", () => {
     }
   });
 
+  it("platform aboneliği için ödeme/hesap iddiası kurulmaz", () => {
+    // Bayi olarak İKAS aboneliğinin kimin üzerinden faturalandığı bilinmiyor
+    // (2026-10-02). Doğrulanabilen yalnız "danışmanlık ve paket fiyatının
+    // dışında, çalışmadan sonra da sürer"; reklam bütçesinin reklam hesabından
+    // harcanması İKAS'la ilgisiz, bu kuralın dışında.
+    const paymentClaim =
+      /hesabınızdan doğrudan ödenir|adınıza açılan hesaptan|yerinize ödemek|paid directly from your account|account opened in your name|not to pay it for you/;
+    for (const u of units) {
+      expect(u.text.match(paymentClaim)?.[0] ?? null, u.where).toBeNull();
+    }
+  });
+
   it("platform ve bağımsızlık konuşulan sayfalar bayiliği iki dilde açıklar", () => {
     const required = [
       "hizmet:e-ticaret",

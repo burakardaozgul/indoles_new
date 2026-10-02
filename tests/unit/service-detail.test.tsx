@@ -293,6 +293,29 @@ describe("ServiceDetail — vaka eşlemesi (C-03)", () => {
     ).toEqual(["gymwolves-12-kat-satis", "mkcomputer-dropshipping-otomasyonu"]);
   });
 
+  it("e-ticaret şeridi elle seçimle OdorGo, sonra Meccanotecnica Umbra'yı gösterir", () => {
+    // Burak kararı (2026-10-02): OdorGo tüketici tarafının, Meccanotecnica
+    // B2B teklif portalının kanıtı. Meccanotecnica künyesinde `e-ticaret`
+    // taşımaz (pillar `transform`) — şeride yalnız elle seçimle girer.
+    const eTicaret = SERVICES.find((s) => s.slug.tr === "e-ticaret")!;
+    const picked = [
+      "odorgo-kategori-yaratma",
+      "meccanotecnica-umbra-teklif-portali",
+    ];
+    expect(eTicaret.featuredCaseSlugs).toEqual(picked);
+    expect(casesFor(eTicaret).map((c) => c.slug.tr)).toEqual(picked);
+
+    const mecca = CASES.find((c) => c.slug.tr === picked[1])!;
+    expect(mecca.serviceSlugs).not.toContain("e-ticaret");
+    // İki vakanın da şeride girecek metriği var — metin bağlantılı hâle düşmez.
+    for (const c of casesFor(eTicaret)) expect(c.metrics.length).toBeGreaterThan(0);
+
+    // Elle seçim olmasa künye sırası SOYLU AVM + MKComputer verirdi.
+    expect(
+      relatedCasesForService("e-ticaret", eTicaret.pillar, 2).map((c) => c.slug.tr),
+    ).toEqual(["soylu-avm-e-ticaret-buyume", "mkcomputer-dropshipping-otomasyonu"]);
+  });
+
   it("elle seçim listeyi doldurmuyorsa kalan yer otomatik eşlemeyle tamamlanır", () => {
     const picked = relatedCasesForService("cro", "growth", 2, [
       "odorgo-kategori-yaratma",
@@ -437,6 +460,47 @@ describe("ServiceDetail — ilgili yazı seçimi", () => {
       expect(new Set(slugs).size).toBe(slugs.length);
     }
   });
+});
+
+/**
+ * Kanıt şeridinin sayfadaki karşılığı — e-ticaret sayfası iki vakayı,
+ * künyesi ve metrikleriyle basıyor (TR + EN).
+ */
+describe("ServiceDetail — e-ticaret kanıt şeridi", () => {
+  const eTicaret = SERVICES.find((s) => s.slug.tr === "e-ticaret")!;
+  const expected = [
+    "odorgo-kategori-yaratma",
+    "meccanotecnica-umbra-teklif-portali",
+  ].map((slug) => CASES.find((c) => c.slug.tr === slug)!);
+
+  for (const locale of ["tr", "en"] as const) {
+    it(`${locale}: iki vaka, künye bağlantısı ve ilk metrikleriyle basılır`, () => {
+      render(<ServiceDetail service={eTicaret} locale={locale} />);
+      const heading = screen.getByRole("heading", {
+        level: 3,
+        name: locale === "tr" ? "Bu işlerin sonucu" : "What the work produced",
+      });
+      const strip = heading.parentElement!;
+
+      const hrefs = within(strip)
+        .getAllByRole("link")
+        .map((a) => a.getAttribute("href"));
+      expect(hrefs).toEqual(
+        expected.map((c) => localizedHref(locale, "cases", c.slug[locale])),
+      );
+      for (const c of expected) {
+        expect(
+          within(strip).getByRole("link", {
+            name: `${c.clientName[locale]} — ${c.title[locale]}`,
+          }),
+        ).toBeInTheDocument();
+        expect(within(strip).getByText(c.lead[locale])).toBeInTheDocument();
+        expect(
+          within(strip).getByText(c.metrics[0]!.value[locale]),
+        ).toBeInTheDocument();
+      }
+    });
+  }
 });
 
 /**

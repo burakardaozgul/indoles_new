@@ -476,9 +476,31 @@ export const eTicaret: ServiceContent = {
   relatedPackages: ["buyume-sprinti", "dijital-donusum-teshisi"],
   relatedServices: ["cro", "performans-pazarlama", "ozel-yazilim-ve-mobil"],
 
+  /**
+   * Kanıt şeridi elle seçildi (Burak kararı, 2026-10-02: "ODORGO kanıt
+   * şeridi için çok uygun, ayrıca Meccanotecnica da önemli").
+   *
+   * - OdorGo: tüketici tarafının kanıtı. Site bayisi olduğumuz İKAS
+   *   altyapısıyla kuruldu, kanallar (site, Trendyol, Hepsiburada) tek ölçüm
+   *   çerçevesinde okundu; 8 ayda 10M TL ciro. Künyesinde `e-ticaret` var.
+   * - Meccanotecnica Umbra: sanayi tarafının kanıtı — B2B e-ticaret
+   *   derinliği. Katalog "e-ticaret derinliğinde" kuruldu, alıcı listesini
+   *   teklif portalından tek formla gönderiyor; 10× teklif talebi, %90 daha
+   *   kısa yanıt. Künyesinde `e-ticaret` YOK (pillar `transform`): şeride
+   *   yalnız bu elle seçimle girer, otomatik eşleme onu bulmaz.
+   *
+   * Önceki otomatik seçim (künye, `CASES` sırası) SOYLU AVM + MKComputer'dı.
+   * SOYLU AVM'nin kanıtı kampanya ve ölçüm (performans pazarlama),
+   * MKComputer'ınki stok/fiyat senkronu (otomasyon); ikisi de künyede
+   * `e-ticaret` taşımaya devam ediyor, yalnız şeritten çıktılar.
+   */
+  featuredCaseSlugs: ["odorgo-kategori-yaratma", "meccanotecnica-umbra-teklif-portali"],
+
   // 2026-10-02: sayfa gerçekten değişti — dört eksenli danışmanlık
-  // konumlandırması (Burak). Önceki dokunuş 2026-09-18: kanıt şeridi
-  // MKComputer'dan SOYLU AVM'ye geçti (`cases.ts` künyesi; gerekçe
+  // konumlandırması (Burak), aynı gün İKAS bayiliği açıklaması ve kanıt
+  // şeridinin elle seçimi (OdorGo + Meccanotecnica Umbra). Önceki dokunuş
+  // 2026-09-18: SOYLU AVM künyesine `e-ticaret` eklendi, şerit otomatik
+  // eşlemeyle SOYLU AVM + MKComputer gösteriyordu (gerekçe
   // `docs/strateji/Indeks-Denetimi-2026-09-18.md`). `lastmod` ve
   // `WebPage.dateModified` buradan beslenir.
   updatedAt: "2026-10-02",

@@ -555,7 +555,7 @@ export type ServiceContent = {
    * Dolu olduğunda şeridin sırası bu listeyi izler; liste iki vakayı
    * doldurmuyorsa kalan yer otomatik eşlemeyle (künye, sonra pillar)
    * tamamlanır — `relatedCasesForService`. Alan boşsa seçim tümüyle
-   * otomatiktir; bugün yalnız `cro` dolduruyor.
+   * otomatiktir; bugün `cro`, `geo-danismanligi` ve `e-ticaret` dolduruyor.
    *
    * Elle seçimin gerekçesi künye ile kanıt anlatısının ayrışabilmesi: bir
    * vaka künyesinde hizmeti taşıyabilir ama ölçülmüş sonucu başka bir işin

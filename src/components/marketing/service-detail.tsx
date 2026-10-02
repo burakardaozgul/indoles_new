@@ -259,7 +259,8 @@ export function relatedArticlesForService(
  * sayfası tek bir müşteriyle değil, tekrar eden bir sonuçla konuşuyor. Sıra
  * üç katmanlı:
  *
- * 1. `featuredCaseSlugs` — elle seçim, verilen sırayla (bugün yalnız `cro`).
+ * 1. `featuredCaseSlugs` — elle seçim, verilen sırayla (bugün `cro`,
+ *    `geo-danismanligi` ve `e-ticaret`).
  * 2. Künye eşleşmesi — `serviceSlugs` bu hizmeti taşıyan vakalar, `CASES`
  *    sırasıyla.
  * 3. Pillar eşleşmesi — yalnız ilk iki katman `limit`i doldurmazsa.

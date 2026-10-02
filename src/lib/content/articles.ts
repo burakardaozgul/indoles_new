@@ -2976,8 +2976,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Bir not: bu sekiz soru genel ajans seçimi içindir. İşiniz e-ticaretse listeye platform, ödeme altyapısı ve entegrasyon soruları da biner — [yazılar bölümünde](/yazilar) gerçek bir e-ticaret ajansının neyi değiştirdiğini ayrı bir yazıda anlattım.",
-          en: "One note: these eight questions are for choosing an agency in general. If your business is e-commerce, questions about platform, payment infrastructure and integrations sit on top of the list — in [the journal](/yazilar) I've written separately about what a real e-commerce agency changes.",
+          tr: "Bir not: bu sekiz soru genel ajans seçimi içindir. İşiniz e-ticaretse listeye platform, ödeme altyapısı ve entegrasyon soruları da biner — [yazılar bölümünde](/yazilar) gerçek bir e-ticaret ajansının neyi değiştirdiğini ayrı bir yazıda anlattım. Seçiminiz yapay zeka tarafındaysa ve masada büyük bir danışmanlık firmasıyla butik bir ekip birlikte duruyorsa, [büyük danışmanlık mı, butik yapay zeka ajansı mı sorusunu](/yazilar/buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi) da ayrıca ele aldım.",
+          en: "One note: these eight questions are for choosing an agency in general. If your business is e-commerce, questions about platform, payment infrastructure and integrations sit on top of the list — in [the journal](/yazilar) I've written separately about what a real e-commerce agency changes. If your choice is on the AI side, with a large consultancy and a boutique team both on the table, I have also taken on [the big consultancy or boutique AI agency question](/yazilar/buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi) separately.",
         },
       },
       {
@@ -7392,8 +7392,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Aynı disiplinin pazarlama tarafındaki karşılığını [ajansa sorulacak sekiz soruda](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) yazmıştık; sorular farklı, mantık aynı. Aradığınız şey yapay zeka motorlarında görünür olmaksa, yani ChatGPT'nin ya da Perplexity'nin sizi kaynak göstermesiyse, soru listesi başka: [GEO ajansı seçerken sorulacaklar](/yazilar/geo-ajansi-nasil-secilir) ayrı bir yazıda. Bu on iki soruyu bize de sorun: ikinci ve sekizinci sorunun cevabı bu yazının içinde, rakamlarıyla duruyor.",
-          en: "We wrote the marketing-side equivalent of this discipline in [eight questions to ask an agency](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru); different questions, same logic. If what you are after is visibility in AI engines, meaning ChatGPT or Perplexity citing you as a source, the question list is different: [what to ask when choosing a GEO agency](/yazilar/geo-ajansi-nasil-secilir) sits in a separate article. Ask us these twelve too: the answers to the second and the eighth already sit inside this article, with their numbers attached.",
+          tr: "Aynı disiplinin pazarlama tarafındaki karşılığını [ajansa sorulacak sekiz soruda](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru) yazmıştık; sorular farklı, mantık aynı. Aradığınız şey yapay zeka motorlarında görünür olmaksa, yani ChatGPT'nin ya da Perplexity'nin sizi kaynak göstermesiyse, soru listesi başka: [GEO ajansı seçerken sorulacaklar](/yazilar/geo-ajansi-nasil-secilir) ayrı bir yazıda. Masada kiminle oturacağınız henüz belli değilse, yani seçim büyük bir danışmanlık firması, butik bir ekip ve iç ekip arasındaysa, önce [büyük danışmanlık mı, butik ajans mı kararının ölçütlerine](/yazilar/buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi) bakın. Bu on iki soruyu bize de sorun: ikinci ve sekizinci sorunun cevabı bu yazının içinde, rakamlarıyla duruyor.",
+          en: "We wrote the marketing-side equivalent of this discipline in [eight questions to ask an agency](/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru); different questions, same logic. If what you are after is visibility in AI engines, meaning ChatGPT or Perplexity citing you as a source, the question list is different: [what to ask when choosing a GEO agency](/yazilar/geo-ajansi-nasil-secilir) sits in a separate article. If you have not yet settled who sits across the table — the choice is still between a large consultancy, a boutique team and an in-house team — start with [the criteria for choosing between a big consultancy and a boutique agency](/yazilar/buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi). Ask us these twelve too: the answers to the second and the eighth already sit inside this article, with their numbers attached.",
         },
       },
     ],
@@ -7523,6 +7523,720 @@ export const ARTICLES: ArticleContent[] = [
       description: {
         tr: "Chatbot satan yapay zeka ajansı mı, sistem kuran danışman mı? Pilot süresi, veri hazırlığı, taban ölçüm ve sistem sahipliği dahil 12 soruyla ayrımı görün.",
         en: "An AI agency selling chatbots, or a consultant building systems? Twelve questions covering pilot timelines, data prep, baselines and who owns the system.",
+      },
+    },
+  },
+  // Yol haritası Faz 2 "ajans mı danışmanlık mı" (Yol-Haritasi-Satin-Alma-
+  // Niyeti §4). Yapay zeka danışmanlığı karar kümesinin "kimle çalışmalıyım"
+  // halkası: nasıl seçilir `ai-danismani-secerken-sorulacak-12-soru`da, nasıl
+  // işler `ai-donusumune-nereden-baslanir-90-gunluk-pilot`ta kalır — bu yazı
+  // ikisini tekrar etmez, linkler. Karşıladığı yüzeyler: niyetli sorgu #17
+  // ("büyük danışmanlık firması vs butik yapay zeka ajansı farkları", bugün
+  // 8 soru yazısına düşüyor) ve GEO ölçüm promptları C1 (yapay zeka ve
+  // yönetim danışmanlığı farkı) ile C3 (iş geliştirme / yönetim
+  // danışmanlığı / reklam ajansı — kısa bölüm, ayrıntı `is-gelistirme-
+  // studyosu-nedir`de).
+  //
+  // Çıkar beyanı gövdenin ikinci paragrafında: INDOLES butik taraf. Firma adı
+  // yok; büyük danışmanlık firmaları kategori olarak anlatılır, genellemeler
+  // "olabilir / çoğunlukla" ile yumuşatıldı ve sorular iki tarafa da simetrik.
+  //
+  // Olgu kaynakları — uydurma rakam yok, piyasa istatistiği yok:
+  // - Dijital Dönüşüm Teşhisi 3 hafta, 180.000 TL / €5.500; AI Pilot 6 hafta,
+  //   480.000 TL / €15.000, tek senaryo, en fazla iki aday, 2 haftalık saha
+  //   testi, kaynak kod tam sahiplik, ikinci senaryo ayrı pilot; model
+  //   kullanımı, bulut ve lisans hariç: `packages.ts`. "KDV hariç liste
+  //   fiyatı": `llms-full.txt/route.ts`.
+  // - Yazılım sağlayıcısıyla ortaklık/komisyon yok: `packages.ts` (teşhis
+  //   SSS); model sağlayıcısıyla komisyon yok: `services/ai-danismanlik.ts`.
+  // - Kapsam dışı: değişim yönetimi ve İK danışmanlığı
+  //   (`services/dijital-donusum.ts`), sıfırdan model eğitimi
+  //   (`services/ai-danismanlik.ts`); hukuki değerlendirme hukuk danışmanının
+  //   işi (90 günlük pilot yazısı, AB Tüzüğü paragrafı).
+  // - Meccanotecnica Umbra: 22 hafta, aynı sürüm, 10 kat teklif talebi,
+  //   yanıt süresinde %90 kısalma: `cases.ts`.
+  // - TÜİK Yapay Zeka İstatistikleri (1 Ekim 2025), en sık engel uzmanlık
+  //   eksikliği: 90 günlük pilot yazısındaki kaynaklı alıntı; oran tekrar
+  //   edilmedi.
+  // - Büyük danışmanlık firmalarının yapay zeka danışmanlığı vermesi:
+  //   `docs/strateji/Rakip-Analizi-P0-SERP.md` §2 (isim gövdeye girmez).
+  {
+    slug: {
+      tr: "buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi",
+      en: "big-consultancy-or-boutique-ai-agency",
+    },
+    title: {
+      tr: "Büyük danışmanlık firması mı, butik yapay zeka ajansı mı? Nasıl karar verilir",
+      en: "Big consultancy or boutique AI agency? How to decide",
+    },
+    excerpt: {
+      tr: "Yapay zeka danışmanlığında seçim üç yönlü: büyük danışmanlık firması, butik ajans ya da iç ekip. Hangisinin ne zaman mantıklı olduğu ölçeğe, regülasyona, hıza ve uygulamayı kimin yapacağına bağlı; her birinin gerçek riskiyle birlikte.",
+      en: "The choice in AI consulting runs three ways: a large consultancy, a boutique agency or an in-house team. Which one makes sense depends on scale, regulation, speed and who does the implementation — with the real risk of each spelled out.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: {
+          tr: "Yapay zeka danışmanlığında büyük danışmanlık firması, program birden çok ülkeyi, birimi ve düzenleyiciyi aynı anda ilgilendirdiğinde ve yönetim kurulu bağımsız, kurumsal bir imza aradığında mantıklı seçimdir. Butik yapay zeka ajansı, tek bir süreçte haftalar içinde ölçülebilir bir sonuç istendiğinde ve stratejiyi yazan ekibin sistemi de kurması gerektiğinde öne çıkar. İç ekip ise yapay zeka şirkette sürekli bakım isteyen kalıcı bir yetkinliğe dönüştüğünde doğru cevaptır; çoğu şirket için en sağlıklı yol karma modeldir: işi dışarıdan başlatmak, bilgiyi içeride bırakmak.",
+          en: "In AI consulting, a large consultancy is the sensible choice when the programme touches several countries, business units and regulators at once, and the board wants an independent, institutional signature on it. A boutique AI agency comes out ahead when you need a measurable result on a single process within weeks, and the team that writes the strategy also has to build the system. An in-house team is the right answer once AI has become a permanent capability that needs constant upkeep; for most companies the healthiest route is a mix — start the work with outside help and keep the knowledge inside.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Kısa cevabı başa koydum, çünkü uzun cevabın bir beyanla başlaması gerekiyor: bu yazıyı yazan taraf tarafsız değil. INDOLES bu ayrımın butik tarafında duruyor; strateji ile yazılımı aynı çatı altında yapan küçük bir ekibiz ve paketlerimizin fiyatını açıkça yayımlıyoruz. Bu yüzden aşağıda büyük danışmanlık firmasının gerçekten daha doğru seçim olduğu durumları da, butik tarafın — bizim de taşıdığımız — gerçek risklerini de yazdım. Hiçbir firmayı adıyla anmadım: büyük danışmanlık firmaları burada bir kategori olarak anlatılıyor, şirket şirket kıyaslanmıyor; kategorinin içindeki firmalar da birbirinden ayrışır.",
+          en: "I put the short answer first because the long one has to begin with a disclosure: whoever wrote this is not neutral. INDOLES sits on the boutique side of the line — a small team doing strategy and software under one roof, with our package prices published openly. That is why what follows sets out both the situations in which a large consultancy genuinely is the better choice and the real risks of the boutique side, which we carry too. I have not named any firm: large consultancies are discussed here as a category rather than compared company by company, and the firms within the category differ from one another as well.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu yazı yapay zeka danışmanlığı karar kümesinin \"kimle çalışmalıyım\" ayağı. Seçtiğiniz tarafı ilk görüşmede nasıl sınayacağınızı [yapay zeka danışmanına sorulacak 12 soruda](/yazilar/ai-danismani-secerken-sorulacak-12-soru), karar verildikten sonra ilk doksan günün nasıl yürüdüğünü [90 günlük pilot çerçevesinde](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot) anlattık; [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) hizmetimizin kapsamı ise hizmet sayfasında yazılı.",
+          en: "This article is the \"who should we work with\" part of the AI consulting decision set. How to test whichever side you pick in the first meeting is covered in [12 questions to ask an AI consultant](/yazilar/ai-danismani-secerken-sorulacak-12-soru); how the first ninety days run once the decision is made is in [the 90-day pilot framework](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot); and the scope of our [AI consulting](/hizmetler/ai-danismanlik) service is written out on the service page.",
+        },
+      },
+      {
+        type: "h2",
+        id: "yapay-zeka-ve-yonetim-danismanligi-farki",
+        text: {
+          tr: "Yapay zeka danışmanlığı ile geleneksel yönetim danışmanlığı arasındaki fark nedir?",
+          en: "What is the difference between AI consulting and traditional management consulting?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Geleneksel yönetim danışmanlığı bir kararı netleştirir: hangi pazara girileceğini, hangi yatırımın yapılacağını ya da organizasyonun nasıl kurulacağını analiz ve senaryoyla önerir; çıktısı çoğunlukla bir rapor ve bir yol haritasıdır. Yapay zeka danışmanlığı ise belirli bir süreçte yapay zekanın ölçülebilir bir karşılık üretip üretmediğini sınar ve üretiyorsa sistemi kurar; çıktısı bir rapordan çok, ölçülmüş bir pilot ve çalışan bir sistemdir.",
+          en: "Traditional management consulting clarifies a decision: which market to enter, which investment to make, how to organise — it recommends through analysis and scenarios, and its output is usually a report and a roadmap. AI consulting tests whether AI produces a measurable return in a specific process and, if it does, builds the system; its output is less a report than a measured pilot and a working system.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki işin ayrıştığı dört eksen var:",
+          en: "The two kinds of work part ways along four axes:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Birim: yönetim danışmanlığı bir kararla, yapay zeka danışmanlığı bir süreçle çalışır. İlkinin sorusu \"ne yapmalıyız\", ikincisinin sorusu \"şu süreçte yapay zeka işe yarıyor mu\"dur.",
+            en: "Unit: management consulting works on a decision, AI consulting on a process. The first asks \"what should we do?\"; the second asks \"does AI work in this process?\"",
+          },
+          {
+            tr: "Çıktı: yönetim danışmanlığının teslimi bir belgedir; yapay zeka danışmanlığının teslimi, gerçek veriyle çalışmış ve sonucu mevcut yöntemle yan yana ölçülmüş bir sistemdir.",
+            en: "Output: management consulting delivers a document; AI consulting delivers a system that has run on real data, with its result measured side by side against the current method.",
+          },
+          {
+            tr: "Ekip: ilkinde analist ve sektör uzmanı ağırlıktadır; ikincisinde süreç bilgisinin yanında veri hazırlığını, entegrasyonu ve arayüzü yapacak mühendislik kapasitesi gerekir.",
+            en: "Team: the first leans on analysts and sector specialists; the second needs, alongside process knowledge, the engineering capacity to do the data preparation, the integration and the interface.",
+          },
+          {
+            tr: "Ölçüm: yönetim danışmanlığı senaryoların beklenen etkisini hesaplar; yapay zeka danışmanlığı işe başlamadan taban değeri ölçer ve pilottan sonra aynı ölçümü tekrarlar.",
+            en: "Measurement: management consulting estimates the expected impact of its scenarios; AI consulting measures the baseline before starting and repeats the same measurement after the pilot.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Hangi durumda hangisinin seçileceği de bu eksenlerden çıkar. Sorunuz şirketin yönüyle ilgiliyse — yeni bir iş kolu, bir satın alma, organizasyon yapısı — ihtiyacınız yönetim danışmanlığıdır ve yapay zeka o kararın girdilerinden biri olabilir. Sorunuz belirli bir işin daha hızlı, daha az hatayla ya da daha ucuza yapılıp yapılamayacağıysa ihtiyacınız yapay zeka danışmanlığıdır. İki soru aynı anda masadaysa sıra önemlidir: yön kararı önce verilir, pilot o yönün içinde açılır.",
+          en: "Which one to choose follows from the same axes. If your question is about the company's direction — a new line of business, an acquisition, the organisation structure — what you need is management consulting, and AI may be one of the inputs to that decision. If your question is whether a specific piece of work can be done faster, with fewer errors or at lower cost, what you need is AI consulting. If both questions are on the table at once, order matters: the direction is decided first, and the pilot opens inside that direction.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Sınır eskisi kadar keskin değil. Büyük danışmanlık firmaları artık yapay zeka danışmanlığı da veriyor; bazı butik ekipler ise strateji tarafına hiç dokunmadan yalnız araç kuruyor. Bu yüzden karar \"danışmanlık mı, yapay zeka mı\" etiketine değil, karşınızdaki ekibin hangi soruyu cevaplamak üzere kurulduğuna bakılarak verilmeli.",
+          en: "The line is not as sharp as it used to be. Large consultancies now offer AI consulting too, while some boutique teams build tools without touching strategy at all. So the decision should rest not on the \"consulting or AI\" label but on which question the team across the table is set up to answer.",
+        },
+      },
+      {
+        type: "h2",
+        id: "buyuk-firma-ile-butik-ajans-farki",
+        text: {
+          tr: "Büyük danışmanlık firması ile butik yapay zeka ajansı arasındaki fark nedir?",
+          en: "What is the difference between a large consultancy and a boutique AI agency?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Fark kalitede değil, ölçekte ve yapıdadır. Büyük danışmanlık firması geniş bir uzman havuzu, risk, uyum ve çoğu zaman hukuk gibi komşu uzmanlıklar ve kurumsal yönetişime alışık bir çalışma düzeni getirir; butik ajans ise küçük ve kıdemli bir kadro, kısa bir karar zinciri ve çoğu zaman uygulamayı da kendisi yapan bir ekip getirir.",
+          en: "The difference lies not in quality but in scale and structure. A large consultancy brings a deep bench of specialists, adjacent expertise such as risk, compliance and often legal, and a way of working that is used to corporate governance; a boutique agency brings a small, senior team, a short chain of decisions and, more often than not, a team that does the implementation itself.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "\"Butik\" kelimesi de tek bir şeyi anlatmıyor. Bu kategoride iki farklı sağlayıcı var: hazır bir modelin üstüne sohbet botu ya da içerik otomasyonu kuran yapay zeka ajansları ve süreci ölçüp sistemi o ölçünün etrafına kuran küçük danışmanlık ve mühendislik ekipleri. İkisinin farkını [yapay zeka danışmanına sorulacak 12 soru yazısının](/yazilar/ai-danismani-secerken-sorulacak-12-soru) ilk bölümünde açtık; bu yazıda butik derken ikincisini kastediyorum, çünkü büyük danışmanlık firmasıyla aynı soruya cevap veren odur.",
+          en: "\"Boutique\" doesn't describe a single thing either. The category holds two different kinds of provider: AI agencies that build a chatbot or a content automation on top of an off-the-shelf model, and small consulting and engineering teams that measure the process and build the system around that measure. We set out the difference in the first section of [the 12 questions to ask an AI consultant](/yazilar/ai-danismani-secerken-sorulacak-12-soru); here, by boutique I mean the second kind, because that is the one answering the same question as a large consultancy.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karar sekiz kriterde netleşir. Her satırda üç seçeneği yan yana yazdım; kendi durumunuzu hangisinin tarif ettiğine bakın.",
+          en: "The decision becomes clear across eight criteria. Each line sets the three options side by side; look at which one describes your situation.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Şirket ölçeği: büyük danışmanlık firması çok ülkeli, çok birimli yapılarda güçlüdür. Butik ajans tek bir iş birimi ya da tek bir süreç düzeyindeki işlerde güçlüdür. İç ekip, yapay zekanın birden fazla birimde sürekli iş ürettiği ölçekte anlam kazanır.",
+            en: "Company scale: a large consultancy is strong in multi-country, multi-unit structures. A boutique agency is strong in work at the level of one business unit or one process. An in-house team makes sense at the scale where AI produces work continuously across several units.",
+          },
+          {
+            tr: "Regülasyon ve kurumsal yönetişim: büyük firma risk, uyum ve hukuk uzmanlığını aynı çatıdan getirebilir ve denetim komitesinin tanıdığı bir süreçle çalışır. Butik ajans bu uzmanlığı genellikle sizin hukuk danışmanınızla birlikte yürütür. İç ekip, uyum sorumluluğunu şirketin kendi uyum birimine bağlar.",
+            en: "Regulation and corporate governance: a large firm can bring risk, compliance and legal expertise under the same roof and works through a process an audit committee recognises. A boutique agency usually handles this alongside your own legal adviser. An in-house team ties compliance responsibility to the company's own compliance function.",
+          },
+          {
+            tr: "Hız: büyük firmanın gücü paralel kapasitedir; birden çok birimde aynı anda ekip çalıştırabilir. Butik ajansın gücü, tek bir süreçte ilk ölçülebilir sonuca ulaşma hızıdır, çünkü karar zinciri kısadır. İç ekibin hızı işe alımla sınırlıdır; ekip kurulmadan iş başlamaz.",
+            en: "Speed: a large firm's strength is parallel capacity — it can run teams in several units at once. A boutique agency's strength is how fast it reaches the first measurable result on one process, because its decision chain is short. An in-house team's speed is capped by hiring; no work starts until the team exists.",
+          },
+          {
+            tr: "Bütçe ve fiyatlandırma: büyük firmanın teklifi genellikle kapsam görüşmesinden sonra hazırlanır ve ekip büyüklüğüyle süreye bağlıdır. Butik ajansın teklifi de kapsama bağlıdır; bazıları sabit kapsamlı paketlerin fiyatını açıkça yayımlar. İç ekibin maliyeti maaşla birlikte işe alım süresi, araçlar ve ekibin iş beklediği dönemler de hesaba katılarak çıkarılır.",
+            en: "Budget and pricing: a large firm's proposal is usually prepared after a scoping conversation and tied to team size and duration. A boutique agency's proposal is tied to scope as well; some publish the prices of fixed-scope packages openly. An in-house team's cost is worked out with salaries plus time to hire, tools and the periods when the team is waiting for work.",
+          },
+          {
+            tr: "Uygulamayı kim yapacak: büyük firmada uygulama, firmanın kendi teknoloji biriminde, bir teknoloji ortağında ya da sizin ekibinizde olabilir; hangisi olduğu teklifte yazmalıdır. Strateji ile yazılımı aynı ekipte tutan butik ajansta uygulama, öneriyi yazan ekipte kalır. İç ekipte uygulama zaten içeridedir, ama süreç seçimi ve strateji de içeride yapılmak zorundadır.",
+            en: "Who does the implementation: at a large firm, implementation may sit with the firm's own technology unit, with a technology partner or with your team; the proposal should say which. At a boutique agency that keeps strategy and software in one team, implementation stays with the team that wrote the recommendation. With an in-house team, implementation is already inside — but so are process selection and strategy, which then have to be done in-house too.",
+          },
+          {
+            tr: "Ekip sürekliliği: büyük firmada sorulması gereken, teklifi sunan kıdemli ekiple işi yürütecek ekibin aynı kişiler olup olmadığıdır. Butik ajansta sorulması gereken, işin bir ya da iki kişiye bağlı olup olmadığı ve o kişiler müsait olmadığında ne olacağıdır. İç ekipte risk, kilit kişinin ayrılmasıdır.",
+            en: "Team continuity: at a large firm, the question to ask is whether the senior people presenting the proposal are the people who will do the work. At a boutique agency, the question is whether the work hangs on one or two people, and what happens when they are unavailable. With an in-house team, the risk is a key person leaving.",
+          },
+          {
+            tr: "Bağımsızlık: iki dış seçenekte de bir yazılım, bulut ya da model sağlayıcısıyla iş ortaklığı olup olmadığı sorulmalıdır; ortaklık tek başına kötü değildir, ama öneriyi etkileyebilir ve yazılı olmalıdır. İç ekip bağımsızdır, ama zaten bildiği teknolojiye eğilim gösterebilir.",
+            en: "Independence: with both outside options, ask whether there is a partnership with a software, cloud or model provider; a partnership is not bad in itself, but it can shape the recommendation and should be in writing. An in-house team is independent, but may lean towards the technology it already knows.",
+          },
+          {
+            tr: "Bilginin devri: büyük firmada da butik ajansta da devir, teklifte ayrı bir kalem olarak yazılmadıkça gerçekleşmez: kaynak kod, kural setleri, veri, hesaplar ve sistemi çalıştırabilecek iki kişi. İç ekipte bilgi zaten içeridedir; risk, yazıya geçmemiş olmasıdır.",
+            en: "Knowledge transfer: at a large firm and a boutique agency alike, handover only happens if it is written into the proposal as its own line: source code, rule sets, data, accounts, and two people able to run the system. With an in-house team the knowledge is already inside; the risk is that it never gets written down.",
+          },
+        ],
+      },
+      {
+        type: "h2",
+        id: "buyuk-danismanlik-ne-zaman",
+        text: {
+          tr: "Büyük danışmanlık firması hangi durumda daha doğru seçimdir?",
+          en: "When is a large consultancy the better choice?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük danışmanlık firması, yapay zeka kararı tek bir sürecin ötesine geçtiğinde ve kapsam butik bir ekibin taşıyabileceğinden geniş olduğunda daha doğru seçimdir. Beş durum bunun tipik örneğidir ve bu durumlarda butik bir ekibi seçmek bütçeden tasarruf etmek değil, riski ertelemektir.",
+          en: "A large consultancy is the better choice when the AI decision reaches beyond a single process and the scope is broader than a boutique team can carry. Five situations are typical of this, and in them choosing a boutique team does not save budget — it postpones the risk.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Program çok ülkeye ya da çok birime yayılıyorsa: yüzlerce kişinin rolünün değiştiği bir dönüşümde değişim yönetimi, eğitim ve iç iletişim işin kendisi kadar büyüktür ve paralel ekip kapasitesi ister.",
+            en: "The programme spans several countries or units: in a transformation that changes the roles of hundreds of people, change management, training and internal communication are as big as the work itself, and they need parallel team capacity.",
+          },
+          {
+            tr: "Sektör yoğun biçimde düzenleniyorsa: bankacılık, sigorta, sağlık ya da kamu gibi alanlarda model riski, denetim izi ve hukuki değerlendirmenin aynı çatı altından gelmesi gerekebilir.",
+            en: "The sector is heavily regulated: in banking, insurance, healthcare or the public sector, model risk, the audit trail and the legal assessment may need to come from under one roof.",
+          },
+          {
+            tr: "Yönetim kurulu bağımsız ve tanınmış bir imza istiyorsa: bazı kararlarda değerlendirmeyi kimin yaptığı, kurul ve yatırımcı için değerlendirmenin kendisi kadar güvencedir.",
+            en: "The board wants an independent, recognised signature: for some decisions, who carried out the assessment is as much of an assurance to the board and investors as the assessment itself.",
+          },
+          {
+            tr: "Yapay zeka daha büyük bir kararın parçasıysa: bir birleşmede, kapsamlı bir ERP değişiminde ya da organizasyon yapısının yeniden kurulmasında yapay zeka bir alt başlıktır; önce yön kararı verilir.",
+            en: "AI is part of a bigger decision: in a merger, a full ERP replacement or a rebuilt organisation structure, AI is a sub-heading; the direction is decided first.",
+          },
+          {
+            tr: "Şirket global bir grubun Türkiye birimiyse: merkezin belirlediği yöntem, onaylı tedarikçi listesi ve onay süreci seçimi baştan daraltabilir.",
+            en: "The company is the Türkiye unit of a global group: the method, approved supplier list and sign-off process set by headquarters can narrow the choice from the start.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu durumların birincisinde biz de doğru adres değiliz: dijital dönüşüm hizmetimizin kapsam dışı listesinde kurum içi değişim yönetimi ve insan kaynakları danışmanlığı yazıyor. İkincisinde pilotu kurabiliriz, ama hukuki ve uyum görüşü bizden değil, sizin hukuk danışmanınızdan gelmek zorunda. Kapsamımızın sınırını aşağıda, INDOLES bölümünde ayrıca yazdım; sınırını yazan bir sağlayıcıyı değerlendirmek, \"her şeyi yaparız\" diyeni değerlendirmekten kolaydır.",
+          en: "In the first of these situations, we are not the right address either: the out-of-scope list of our digital transformation service names internal change management and HR consulting. In the second we can build the pilot, but the legal and compliance opinion has to come from your legal adviser rather than from us. I set out the limits of our scope separately in the INDOLES section below; a provider that writes down its limits is easier to assess than one that says it does everything.",
+        },
+      },
+      {
+        type: "h2",
+        id: "butik-ajans-ne-zaman",
+        text: {
+          tr: "Butik yapay zeka ajansı hangi durumda daha doğru seçimdir?",
+          en: "When is a boutique AI agency the better choice?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Butik yapay zeka ajansı, sorun tek bir süreçte tanımlanabildiğinde, sonucun haftalar içinde ölçülmesi istendiğinde ve öneriyi yazan ekibin sistemi de kurması gerektiğinde daha doğru seçimdir. Bu koşullarda büyük bir yapının kapasitesi kullanılmadan kalır, aradaki devir noktaları ise maliyet üretir.",
+          en: "A boutique AI agency is the better choice when the problem can be pinned to a single process, the result has to be measured within weeks, and the team writing the recommendation also has to build the system. Under those conditions a large structure's capacity goes unused, while the hand-off points in between generate cost.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Sorun tek bir süreçte duruyorsa: teklif hazırlama, sipariş girişi, teknik doküman arama ya da gelen talebin sınıflandırılması gibi tekrar eden ve kaydı tutulan bir iş.",
+            en: "The problem sits in one process: repeated, recorded work such as preparing quotes, entering orders, searching technical documents or classifying incoming requests.",
+          },
+          {
+            tr: "Strateji ile uygulamanın arasına devir girmemesi gerekiyorsa: öneriyi yazan ekip veri hazırlığını, entegrasyonu ve arayüzü de yapıyorsa raporun rafta beklemesi riski ortadan kalkar.",
+            en: "No hand-off should come between strategy and implementation: if the team that writes the recommendation also does the data preparation, the integration and the interface, the risk of the report gathering dust disappears.",
+          },
+          {
+            tr: "Bütçe sabit bir kapsama bağlanmak isteniyorsa: tek senaryolu bir pilotun kapsamı, süresi ve neyin dahil olmadığı imzadan önce yazılabilir.",
+            en: "The budget needs to be tied to a fixed scope: the scope, duration and exclusions of a single-scenario pilot can be written down before signing.",
+          },
+          {
+            tr: "Karar zinciri kısaysa: kurucunun ya da genel müdürün doğrudan sahiplendiği işlerde, haftalık kararı veren kişiyle işi yapan ekip aynı masada oturabilir.",
+            en: "The decision chain is short: in work the founder or managing director owns directly, the person making the weekly decisions and the team doing the work can sit at the same table.",
+          },
+          {
+            tr: "Kıdemli kişiyle doğrudan çalışmak önemliyse: butik bir ekipte görüşmeye gelen kişi çoğu zaman işi yapan kişidir.",
+            en: "Working directly with senior people matters: in a boutique team, the person who comes to the meeting is usually the person who does the work.",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı ekipte kalmanın ne demek olduğunu kendi tarafımızdan bir örnekle göstereyim. [Meccanotecnica Umbra Türkiye'de](/vakalar/meccanotecnica-umbra-teklif-portali) ürün kataloğunu, mühendisin tesisini anlatıp uygun donanımı bulduğu AI teknik danışmanı, teklif portalını ve CRM bağlantısını aynı ekip kurdu; proje 22 hafta sürdü ve parçalar ayrı ayrı değil, aynı sürümde yayına alındı. Teklif talebi 10 katına çıktı, talep ile yanıt arasındaki süre yüzde doksan kısaldı. Bu sonucu büyüklük üretmedi; kataloğun ve danışmanın birlikte çalışması gerektiğini bilen ekibin ikisini birden kurması üretti.",
+          en: "Let me show what staying in one team means with an example from our side. At [Meccanotecnica Umbra Türkiye](/vakalar/meccanotecnica-umbra-teklif-portali), the same team built the product catalogue, the AI technical advisor where an engineer describes their plant and finds the right equipment, the quote portal and the CRM connection; the project ran 22 weeks, and the pieces went live in the same release rather than one by one. Quote requests rose tenfold and the time between request and response fell by ninety percent. Size did not produce that result; a team that knew the catalogue and the advisor had to work together, and built both, did.",
+        },
+      },
+      {
+        type: "h2",
+        id: "ic-ekip-ne-zaman",
+        text: {
+          tr: "Yapay zeka için iç ekip kurmak ne zaman mantıklı?",
+          en: "When does it make sense to build an in-house AI team?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İç ekip, yapay zeka şirkette bir proje olmaktan çıkıp sürekli bakım isteyen bir yetkinliğe dönüştüğünde mantıklıdır: birden fazla sistem canlıda çalışıyorsa, modeller ve kural setleri düzenli güncelleniyorsa ve süreç bilgisi şirketi rakiplerinden ayıran şeyin kendisiyse. Bu noktadan önce kurulan ekip, çoğu zaman ne yapacağını henüz bilmeyen bir ekiptir.",
+          en: "An in-house team makes sense once AI stops being a project in the company and becomes a capability that needs constant upkeep: when several systems are running live, when models and rule sets are updated regularly, and when process knowledge is itself what sets the company apart from its competitors. A team hired before that point is, more often than not, a team that does not yet know what it is there to do.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Türkiye'de engel çoğu zaman bütçeden önce uzmanlıktır. TÜİK'in 1 Ekim 2025'te yayımladığı Yapay Zeka İstatistikleri bülteninde, yapay zekayı kullanmayı düşünüp henüz kullanmayan girişimlerin en sık gösterdiği neden, girişimde ilgili uzmanlığın bulunmamasıydı. İç ekip bu açığı kapatmanın kalıcı yoludur ama en hızlı yolu değildir: işe alım aylar sürebilir ve tek başına işe alınmış bir veri uzmanı, süreç sahibi ve entegrasyonu yazacak bir mühendis olmadan pilotu taşıyamaz.",
+          en: "In Türkiye the barrier is often expertise before budget. In the Artificial Intelligence Statistics bulletin that TÜİK, the Turkish Statistical Institute, published on 1 October 2025, the reason cited most often by enterprises considering AI but not yet using it was a lack of relevant expertise in the business. An in-house team is the permanent way to close that gap, but not the fastest: hiring can take months, and a data specialist hired on their own cannot carry a pilot without a process owner and an engineer to write the integration.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Pilotun hangi bloklarının kendi ekibinizle yürütülebileceği de belli. Süreç seçimi, sahiplik ve taban ölçüm süreç bilgisi ister, yapay zeka uzmanlığı istemez; dış destek genellikle kurulum ve saha testinde, yani model seçimi, entegrasyon ve prototip geliştirmede gerekir. Bu ayrımı [90 günlük pilot çerçevesinde](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot) blok blok yazdık.",
+          en: "Which blocks of a pilot your own team can run is clear as well. Process selection, ownership and the baseline need process knowledge rather than AI expertise; outside support is usually needed in the build and field test — model selection, integration and prototype development. We set out that split block by block in [the 90-day pilot framework](/yazilar/ai-donusumune-nereden-baslanir-90-gunluk-pilot).",
+        },
+      },
+      {
+        type: "h2",
+        id: "karma-model",
+        text: {
+          tr: "Karma model nasıl kurulur?",
+          en: "How do you set up a mixed model?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Karma model, dış ekibin başlattığı işi iç ekibin devraldığı ya da iki dış tarafın farklı katmanları üstlendiği düzendir ve tek bir kuralla çalışır: sonucun sahibi şirketin içindedir. Süreç sahibi şirkettendir, dış taraflar onun için rakam üretir; bu kural yazılı değilse karma model, iki tarafın da sonucu sahiplenmediği bir boşluğa dönüşür.",
+          en: "A mixed model is an arrangement in which an in-house team takes over work an outside team started, or two outside parties take on different layers — and it runs on one rule: the owner of the result sits inside the company. The process owner comes from the company and the outside parties produce numbers for that person; if this rule is not written down, the mixed model turns into a gap in which neither side owns the result.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Üç karma düzen öne çıkıyor:",
+          en: "Three mixed arrangements stand out:",
+        },
+      },
+      {
+        type: "list",
+        items: [
+          {
+            tr: "Butik ekip başlatır, iç ekip devralır: pilotu dış ekip kurar; pilot süresince ekibinizden en az iki kişi sistemi birlikte çalışarak öğrenir ve kaynak kod, kural setleri, veri ve hesaplar pilot sonunda şirkette kalır. Çoğu şirket için en sağlıklı karma budur.",
+            en: "A boutique team starts, the in-house team takes over: the outside team builds the pilot; during it at least two people on your team learn the system by working on it alongside, and the source code, rule sets, data and accounts stay with the company when the pilot ends. For most companies this is the healthiest mix.",
+          },
+          {
+            tr: "Büyük firma yönü belirler, butik ekip uygular: kurumsal yol haritası büyük bir danışmanlık firmasından gelir, tek tek pilotlar o haritanın içinde butik bir ekip tarafından kurulur. Bu düzende yol haritasının hangi ölçüyle izleneceği iki tarafa da aynı belgeyle verilmelidir.",
+            en: "A large firm sets the direction, a boutique team implements: the corporate roadmap comes from a large consultancy, and individual pilots are built inside that roadmap by a boutique team. In this arrangement both sides should receive, in the same document, the measure by which the roadmap will be tracked.",
+          },
+          {
+            tr: "İç ekip yönetir, dış ekipler belirli işleri kurar: şirketin kendi yapay zeka sorumlusu portföyü yönetir; kapasitesinin ya da uzmanlığının yetmediği tek tek pilotlar dışarıya verilir.",
+            en: "The in-house team manages, outside teams build specific pieces: the company's own AI lead runs the portfolio, and individual pilots that exceed its capacity or expertise go to outside teams.",
+          },
+        ],
+      },
+      {
+        type: "h2",
+        id: "gercek-riskler",
+        text: {
+          tr: "Her seçeneğin gerçek riski nedir?",
+          en: "What is the real risk of each option?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Her seçeneğin riski, en güçlü olduğu yerin gölgesidir. Büyük firmanın riski ölçeğinden, butik ekibin riski küçüklüğünden, iç ekibin riski yalnızlığından, karma modelin riski ise sahipsizliğinden gelir.",
+          en: "Each option's risk is the shadow of its greatest strength. The large firm's risk comes from its scale, the boutique team's from its smallness, the in-house team's from its isolation, and the mixed model's from nobody owning it.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Büyük danışmanlık firmasının riski",
+          en: "The risk with a large consultancy",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Teklifi sunan kıdemli ekip ile işi yürüten ekip farklı kişilerden oluşabilir; isimleri sözleşmede yazmıyorsa ilk ay masada kimin oturacağı belirsizdir. Çıktı bir rapor olarak kalabilir: rapor doğru olsa bile uygulayacak kadro şirkette yoksa karar rafta bekler. Tek bir süreçlik bir iş için kapsam, süre ve maliyet orantısız büyüyebilir. Firmanın bir teknoloji sağlayıcısıyla ortaklığı varsa, önerinin o sağlayıcıya eğilip eğilmediğini sorgulamak sizin işinizdir.",
+          en: "The senior team presenting the proposal and the team doing the work may be different people; if their names are not in the contract, who sits at the table in month one is anyone's guess. The output can stay a report: even if the report is right, without people in the company to implement it the decision waits on the shelf. For work covering a single process, scope, duration and cost can grow out of proportion. If the firm has a partnership with a technology provider, it is your job to ask whether the recommendation leans towards that provider.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Butik yapay zeka ajansının riski",
+          en: "The risk with a boutique AI agency",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İş bir ya da iki kıdemli kişiye bağlı olabilir; o kişiler hastalandığında, ayrıldığında ya da aynı anda üç müşteriye bölündüğünde takvim kayar. Kapasitenin bir tavanı vardır: aynı anda beş birimde pilot yürütmek butik bir ekibin taşıyabileceği iş değildir. Hukuk, uyum ve değişim yönetimi gibi komşu uzmanlıklar çoğu zaman ekipte yoktur. Küçük şirketin kendi sürekliliği de bir risktir; bu yüzden sistemin ve bilginin proje sonunda sizde kalması butik tarafta pazarlık konusu değil, ön koşuldur. Bu risklerin hepsi bizim için de geçerli: tek çatı altında çalışmak, tek noktaya bağımlılık demektir.",
+          en: "The work may hang on one or two senior people; when they fall ill, leave or get split across three clients at once, the schedule slips. Capacity has a ceiling: running pilots in five units at once is not work a boutique team can carry. Adjacent expertise such as legal, compliance and change management is often missing from the team. The small company's own continuity is a risk too, which is why the system and the knowledge staying with you when the project ends is not up for negotiation on the boutique side — it is a precondition. Every one of these risks applies to us as well: working under one roof means depending on a single point.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "İç ekibin riski",
+          en: "The risk with an in-house team",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İşe alım zaman alır ve ilk pilot ekip kurulana kadar bekler. Tek kişilik bir \"yapay zeka ekibi\", süreç sahibi ve entegrasyonu yazacak mühendis olmadan yalnız kalır ve deneme projeleri üretir. Model katmanı bu alanın en hızlı değişen parçasıdır; dışarıyla temas etmeyen bir ekibin bilgisi hızla eskiyebilir. Bilgi içeride kalır, ama yazıya geçmezse kilit kişiyle birlikte kapıdan çıkar.",
+          en: "Hiring takes time, and the first pilot waits until the team is in place. A one-person \"AI team\" is left on its own without a process owner and an engineer to write the integration, and ends up producing trial projects. The model layer is the fastest-changing part of this field; a team with no outside contact can see its knowledge age quickly. The knowledge stays inside, but if it is never written down it walks out of the door with the key person.",
+        },
+      },
+      {
+        type: "h3",
+        text: {
+          tr: "Karma modelin riski",
+          en: "The risk with a mixed model",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki taraf da sonucu sahiplenmeyebilir: dış ekip kurulumu, iç ekip işletmeyi savunur ve arada kalan ölçüm kimsenin işi olmaz. Devir yazılı değilse gerçekleşmez; takvimde bir tarih, ekipte iki isim ve teslim edilecek dört kalem olarak sözleşmeye girmelidir.",
+          en: "Neither side may own the result: the outside team defends the build, the in-house team defends the running, and the measurement in between becomes nobody's job. If the handover is not written down it never happens; it belongs in the contract as a date in the calendar, two names on the team and four items to be delivered.",
+        },
+      },
+      {
+        type: "h2",
+        id: "imzadan-once-sorular",
+        text: {
+          tr: "İmzadan önce hangi soruları sormalısınız?",
+          en: "Which questions should you ask before signing?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İmzadan önce sorulacak sorular, seçenekler arasındaki farkı yüzeye çıkaran sorulardır ve iki dış tarafa da aynı biçimde sorulmalıdır. Aşağıdaki sekiz soru büyük bir danışmanlık firmasına da butik bir ekibe de sorulabilir; cevapları yan yana koyduğunuzda karar çoğu zaman kendiliğinden netleşir.",
+          en: "The questions to ask before signing are the ones that bring the differences between the options to the surface, and they should be put to both outside parties in the same way. The eight questions below work for a large consultancy and a boutique team alike; set the answers side by side and the decision usually becomes clear on its own.",
+        },
+      },
+      {
+        type: "list",
+        ordered: true,
+        items: [
+          {
+            tr: "Teklifi sunan kişilerle işi yürütecek kişiler aynı mı, isimleri sözleşmede yazıyor mu?",
+            en: "Are the people presenting the proposal the people who will do the work, and are their names in the contract?",
+          },
+          {
+            tr: "Çıktı bir belge mi, çalışan bir sistem mi; uygulamayı kim yapıyor?",
+            en: "Is the output a document or a working system, and who does the implementation?",
+          },
+          {
+            tr: "Projeden önce hangi taban ölçüm alınacak ve bu ölçüm teklifte bir kalem mi?",
+            en: "Which baseline will be measured before the project, and is that measurement a line in the proposal?",
+          },
+          {
+            tr: "Fiyat neye bağlı — sabit kapsama mı, ekip ve süreye mi — ve neyin dahil olmadığı yazılı mı?",
+            en: "What is the price tied to — a fixed scope, or team and duration — and are the exclusions in writing?",
+          },
+          {
+            tr: "Herhangi bir yazılım, bulut ya da model sağlayıcısıyla iş ortaklığınız veya komisyon ilişkiniz var mı?",
+            en: "Do you have a partnership or a commission arrangement with any software, cloud or model provider?",
+          },
+          {
+            tr: "Kaynak kod, kural setleri, veri ve hesaplar proje sonunda kimde kalıyor?",
+            en: "Who ends up with the source code, rule sets, data and accounts when the project closes?",
+          },
+          {
+            tr: "Ekibimizden kim, hangi tarihe kadar sistemi sizin olmadan çalıştırabilir hâle gelecek?",
+            en: "Who on our team will be able to run the system without you, and by what date?",
+          },
+          {
+            tr: "Hukuki ve uyum değerlendirmesi kimin sorumluluğunda?",
+            en: "Whose responsibility is the legal and compliance assessment?",
+          },
+        ],
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Birinci ve beşinci soru büyük firma tarafında, altıncı ve yedinci soru butik tarafta en çok bilgiyi verir; sekizinci soru ise aradığınız tarafın hangisi olduğunu çoğu zaman tek başına söyler. Yapay zeka projesinin kendisine dair sorular — veri hazırlığı, modelin yanıldığı durumlar, sağlayıcı bağımlılığı — [12 soru yazısında](/yazilar/ai-danismani-secerken-sorulacak-12-soru) ayrıca duruyor.",
+          en: "The first and fifth questions tell you most on the large-firm side, the sixth and seventh on the boutique side; the eighth often tells you on its own which side you are actually looking for. Questions about the AI project itself — data preparation, what happens when the model is wrong, provider lock-in — sit separately in [the 12 questions article](/yazilar/ai-danismani-secerken-sorulacak-12-soru).",
+        },
+      },
+      {
+        type: "h2",
+        id: "is-gelistirme-yonetim-reklam-farki",
+        text: {
+          tr: "İş geliştirme danışmanlığı, yönetim danışmanlığından ve reklam ajansından nasıl ayrılır?",
+          en: "How does business development consulting differ from management consulting and from an advertising agency?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Reklam ajansı talebi hareketlendirir: kampanya, mecra ve kreatif üretir. Yönetim danışmanlığı kararı netleştirir: analiz eder, senaryo kurar, öneri yazar. İş geliştirme danışmanlığı ise problemin ve sonucun sahibi olarak çalışır: teşhis eder, planı yazar, uygulamayı da kurar ve sonucu ölçer.",
+          en: "An advertising agency moves demand: it produces campaigns, media and creative. Management consulting clarifies a decision: it analyses, builds scenarios and writes a recommendation. Business development consulting works as the owner of the problem and the result: it diagnoses, writes the plan, builds the implementation as well, and measures the outcome.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Ayrım kalitede değil, kapsamda ve sahiplenmededir; üçünün de yeri var. Yapay zeka tarafında bu ayrım bu yazının ana sorusuna denk geliyor: yön kararı yönetim danışmanlığının, sohbet botu ve içerik otomasyonu çoğu zaman ajansın, ölçülmüş bir sürecin kurulup ekibe devredilmesi ise iş geliştirme tarafının işidir. Üç modelin hangi problemi çözdüğünü ve hangi şirketin hangisine gitmesi gerektiğini [iş geliştirme stüdyosu nedir yazısında](/yazilar/is-gelistirme-studyosu-nedir) ayrıntılı anlattım.",
+          en: "The difference lies not in quality but in scope and ownership; all three have their place. On the AI side, it maps onto this article's main question: the direction decision belongs to management consulting, a chatbot or content automation usually to an agency, and building a measured process and handing it to the team to the business development side. Which problem each of the three models solves, and which company should go to which, I covered in detail in [what a business building studio is](/yazilar/is-gelistirme-studyosu-nedir).",
+        },
+      },
+      {
+        type: "h2",
+        id: "indoles-nerede-duruyor",
+        text: {
+          tr: "INDOLES bu ayrımın neresinde duruyor?",
+          en: "Where does INDOLES sit in this picture?",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "INDOLES butik taraftadır ve kendini iş geliştirme stüdyosu olarak tanımlar: yapay zeka danışmanlığında iş envanteriyle başlar, pilotu kendisi kurar, sonucu mevcut yöntemle yan yana ölçer ve sistemi iç ekibe devreder. Strateji ve yazılım aynı çatı altında durur; öneriyi yazan ekip prototipi de yazar.",
+          en: "INDOLES is on the boutique side and describes itself as a business building studio: in AI consulting it starts with a task inventory, builds the pilot itself, measures the result side by side with the current method, and hands the system over to the in-house team. Strategy and software sit under one roof; the team that writes the recommendation also writes the prototype.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bu işin girişini fiyatı açık iki paket oluşturuyor. [Dijital Dönüşüm Teşhisi](/paketler/dijital-donusum-teshisi) üç hafta sürer ve 180.000 TL'dir: sahada 3-5 süreç incelenir, pilot adayları getiri sırasına dizilir ve hangilerinin gerçekten yapay zeka gerektirdiği raporda ayrılır. [AI Pilot](/paketler/ai-pilot) altı hafta sürer ve 480.000 TL'dir: tek bir kullanım senaryosuna kilitlenir, en fazla iki adayla başlar, gerçek kullanıcıyla iki haftalık saha testini kapsar ve kaynak kod tam sahiplikle teslim edilir; ikinci bir senaryo ayrı bir pilot olarak fiyatlanır. İki fiyat da KDV hariç liste fiyatıdır; model kullanım ücretleri, bulut altyapısı ve araç lisansları fiyatın dışındadır.",
+          en: "Two packages with open prices form the entry point to this work. The [Digital Transformation Audit](/paketler/dijital-donusum-teshisi) runs three weeks at €5,500: 3-5 processes are reviewed on site, pilot candidates are ranked by return, and the report separates out which of them actually need AI. The [AI Pilot](/paketler/ai-pilot) runs six weeks at €15,000: it locks onto a single use case, starts from no more than two candidates, includes a two-week field test with real users, and hands over the source code in full ownership; a second scenario is priced as a separate pilot. Both are list prices excluding VAT; model usage fees, cloud infrastructure and tool licences sit outside them.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "İki şeyi daha açıkça yazayım. INDOLES'in hiçbir yazılım sağlayıcısıyla iş ortaklığı ya da komisyon ilişkisi, hiçbir model sağlayıcısıyla da komisyon ilişkisi yok; \"burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktı sayılıyor. Kapsamımızın dışında kalanlar ise şunlar: kurum içi değişim yönetimi ve insan kaynakları danışmanlığı, sıfırdan model eğitimi ve akademik araştırma, hukuki değerlendirme. Programınız bunlardan birini aynı çatıdan istiyorsa yukarıdaki ölçütler sizi büyük bir danışmanlık firmasına götürüyor demektir ve bu doğru bir karardır.",
+          en: "Two more things, stated plainly. INDOLES has no partnership or commission arrangement with any software supplier, and no commission arrangement with any model provider; a finding of \"AI isn't needed here\" counts as a valid output. What falls outside our scope: internal change management and HR consulting, training models from scratch and academic research, and legal assessment. If your programme needs one of these from under the same roof, the criteria above are pointing you to a large consultancy — and that is the right decision.",
+        },
+      },
+      {
+        type: "h2",
+        id: "sonuc-tek-sayfa",
+        text: {
+          tr: "Sonuç: karar vermeden önce dolduracağınız tek sayfa",
+          en: "Conclusion: the one page to fill in before you decide",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Büyük danışmanlık firması mı, butik yapay zeka ajansı mı, iç ekip mi sorusunun cevabı sağlayıcıların sunumunda değil, sizin işinizin tarifinde durur. Tarif doğru yazıldığında seçeneklerden biri kendiliğinden elenir; ikisi arasında kalan bir karar da çoğu zaman karma bir modele işaret eder.",
+          en: "The answer to whether you want a large consultancy, a boutique AI agency or an in-house team lies not in the providers' presentations but in how you describe your own work. Once the description is right, one of the options drops out on its own, and a decision left between the other two usually points to a mixed model.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Bugün yapabileceğiniz test bir sayfa sürüyor. Dört satır yazın: işin birimi tek bir süreç mi, çok birimli bir program mı; uygulamayı kim yapacak; proje bittiğinde sistemi kim çalıştıracak; regülasyon ya da yönetim kurulu bağımsız bir imza istiyor mu. Birinci satıra \"program\", dördüncü satıra \"evet\" yazdıysanız büyük bir danışmanlık firmasıyla konuşun. Birinci satıra \"tek süreç\", ikinci satıra \"dış ekip\" yazdıysanız butik bir ekiple konuşun. Üçüncü satıra yazacak bir isim yoksa hangi tarafı seçerseniz seçin, ilk işiniz o ismi bulmaktır.",
+          en: "The test you can run today takes one page. Write four lines: is the unit of work a single process or a multi-unit programme; who will do the implementation; who will run the system when the project ends; does regulation or the board require an independent signature? If you wrote \"programme\" on the first line and \"yes\" on the fourth, talk to a large consultancy. If you wrote \"single process\" on the first and \"outside team\" on the second, talk to a boutique team. If there is no name to write on the third line, whichever side you pick, your first job is to find that name.",
+        },
+      },
+      {
+        type: "p",
+        text: {
+          tr: "Aynı ölçütleri bize de uygulayın. Hangi işin nasıl ölçüldüğü [Meccanotecnica Umbra vakasında](/vakalar/meccanotecnica-umbra-teklif-portali), yöntemin adımları ve neyin kapsam dışında kaldığı [yapay zeka danışmanlığı](/hizmetler/ai-danismanlik) sayfasında yazılı.",
+          en: "Apply the same criteria to us. How the work was measured is in [the Meccanotecnica Umbra case](/vakalar/meccanotecnica-umbra-teklif-portali); the method's steps and what falls outside the scope are written out on the [AI consulting](/hizmetler/ai-danismanlik) page.",
+        },
+      },
+    ],
+    faq: [
+      {
+        question: {
+          tr: "Yapay zeka danışmanlığında büyük firma mı butik mi seçilmeli?",
+          en: "Should you choose a large firm or a boutique for AI consulting?",
+        },
+        answer: {
+          tr: "Seçim işin ölçeğine ve uygulamayı kimin yapacağına göre yapılır. Program birden çok ülkeyi ya da birimi kapsıyorsa, sektör yoğun biçimde düzenleniyorsa veya yönetim kurulu bağımsız ve tanınmış bir imza istiyorsa büyük danışmanlık firması daha doğrudur. Sorun tek bir süreçte duruyorsa, sonucun haftalar içinde ölçülmesi isteniyorsa ve öneriyi yazan ekibin sistemi de kurması gerekiyorsa butik bir ekip daha doğrudur. İki koşul kümesi birlikte varsa karma model kurulur.",
+          en: "The choice follows the scale of the work and who will do the implementation. If the programme spans several countries or units, the sector is heavily regulated, or the board wants an independent, recognised signature, a large consultancy fits better. If the problem sits in a single process, the result needs measuring within weeks, and the team writing the recommendation must also build the system, a boutique team fits better. Where both sets of conditions hold, a mixed model is set up.",
+        },
+      },
+      {
+        question: {
+          tr: "Butik bir yapay zeka ajansıyla çalışmanın riski nedir?",
+          en: "What is the risk of working with a boutique AI agency?",
+        },
+        answer: {
+          tr: "Dört risk öne çıkar. İş bir ya da iki kıdemli kişiye bağlı olabilir ve o kişiler müsait olmadığında takvim kayar. Kapasitenin bir tavanı vardır; aynı anda birçok birimde pilot yürütülemez. Hukuk, uyum ve değişim yönetimi gibi komşu uzmanlıklar çoğu zaman ekipte yoktur. Küçük şirketin kendi sürekliliği de bir risktir; bu nedenle kaynak kod, kural setleri, veri ve hesapların proje sonunda alıcıda kalması sözleşmeye ön koşul olarak yazılmalıdır.",
+          en: "Four risks stand out. The work may hang on one or two senior people, and the schedule slips when they are unavailable. Capacity has a ceiling; pilots cannot run in many units at once. Adjacent expertise such as legal, compliance and change management is often missing from the team. The small company's own continuity is a risk as well, so the source code, rule sets, data and accounts staying with the buyer when the project ends should be written into the contract as a precondition.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka için iç ekip kurmak mı, danışmanlık almak mı daha doğru?",
+          en: "Is it better to build an in-house AI team or to bring in consultants?",
+        },
+        answer: {
+          tr: "Yapay zeka şirkette henüz proje düzeyindeyse danışmanlık, sürekli bakım isteyen bir yetkinliğe dönüştüyse iç ekip daha doğrudur. İlk pilotu dış ekiple kurup pilot süresince ekipten en az iki kişiyi sistemi çalıştırabilir hâle getirmek, iki yolun avantajını birleştirir. Önce işe alım yapmak ise riskli bir sıradır: ne yapacağı henüz belli olmayan bir ekip, süreç sahibi ve entegrasyonu yazacak mühendis olmadan deneme projeleri üretir.",
+          en: "Consulting is the better fit while AI is still at project level in the company, and an in-house team once it has become a capability that needs constant upkeep. Building the first pilot with an outside team and getting at least two people on your team able to run the system during it combines the advantages of both routes. Hiring first is a risky order: a team that does not yet know what it is for, without a process owner and an engineer to write the integration, ends up producing trial projects.",
+        },
+      },
+      {
+        question: {
+          tr: "Büyük danışmanlık firmaları yapay zeka projesini kendileri mi uygular?",
+          en: "Do large consultancies implement AI projects themselves?",
+        },
+        answer: {
+          tr: "Firmadan firmaya ve projeden projeye değişir. Uygulama firmanın kendi teknoloji biriminde, firmanın çalıştığı bir teknoloji ortağında ya da doğrudan müşterinin ekibinde olabilir. Teklifte üç şey açıkça yazmalıdır: uygulamayı hangi ekibin yapacağı, o ekibin hangi kişilerden oluşacağı ve önerilen teknolojinin bir iş ortaklığına bağlı olup olmadığı. Uygulama sözleşmenin dışında kalıyorsa raporu hangi kadronun hayata geçireceği imzadan önce planlanmalıdır.",
+          en: "It varies from firm to firm and from project to project. Implementation may sit with the firm's own technology unit, with a technology partner it works with, or directly with the client's team. The proposal should state three things plainly: which team does the implementation, which people that team consists of, and whether the recommended technology is tied to a partnership. If implementation falls outside the contract, the people who will put the report into practice should be planned before signing.",
+        },
+      },
+      {
+        question: {
+          tr: "Butik bir ekip büyük şirketlerle çalışabilir mi?",
+          en: "Can a boutique team work with large companies?",
+        },
+        answer: {
+          tr: "Çalışabilir, ama doğru kapsamla. Büyük şirkette butik bir ekibin en iyi sonuç verdiği iş, tek bir süreçte, adı yazılı bir süreç sahibiyle yürüyen ve bitiş kriteri baştan belli olan bir pilottur. Bilgi güvenliği incelemesi, satın alma süreci ve veri erişim onayı teknik kurulumdan uzun sürebileceği için bu onaylar ilk haftada başlatılmalıdır. Aynı anda birçok birime yayılan bir dönüşüm programı ise butik bir ekibin kapasitesini aşar.",
+          en: "It can, with the right scope. In a large company, the work where a boutique team does best is a pilot on a single process, with a named process owner and an exit criterion fixed from the start. Since an information security review, the procurement process and data access approval can take longer than the technical build, those approvals should be started in the first week. A transformation programme spreading across many units at once, however, exceeds a boutique team's capacity.",
+        },
+      },
+      {
+        question: {
+          tr: "Yönetim danışmanlığı ile yapay zeka danışmanlığı aynı projede birlikte alınabilir mi?",
+          en: "Can management consulting and AI consulting be combined in the same project?",
+        },
+        answer: {
+          tr: "Alınabilir ve sıra doğru kurulursa iyi çalışır: yön kararı önce, pilot sonra. Yönetim danışmanlığı hangi iş kolunun, hangi pazarın ya da hangi yatırımın öncelikli olduğunu netleştirir; yapay zeka danışmanlığı o yönün içindeki belirli bir süreçte ölçülebilir sonucu arar. İki çalışma aynı ölçüyle izlenmelidir; yol haritasının başarı ölçüsü ile pilotun taban değeri aynı belgede yazılmazsa iki çalışma birbirinden habersiz ilerler.",
+          en: "They can, and they work well together if the order is right: the direction decision first, the pilot second. Management consulting clarifies which line of business, market or investment takes priority; AI consulting looks for a measurable result in a specific process inside that direction. The two should be tracked against the same measure; if the roadmap's success measure and the pilot's baseline are not written in the same document, the two pieces of work proceed unaware of each other.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka danışmanlığı teklifleri nasıl karşılaştırılır?",
+          en: "How do you compare AI consulting proposals?",
+        },
+        answer: {
+          tr: "Teklifleri fiyatla değil, aynı birime çevirerek karşılaştırın. Beş satırı yan yana koyun: kapsam ve neyin dahil olmadığı, çıktının bir belge mi çalışan bir sistem mi olduğu, işi yürütecek kişilerin isimleri, proje sonunda kaynak kod, veri ve hesapların kimde kalacağı ve ekipten kimin sistemi çalıştırabilir hâle geleceği. Fiyat farkının büyük kısmı bu satırlarda görünür; bir teklifte olmayan satır sonradan ya faturaya ya da sizin ekibinizin iş yüküne eklenir.",
+          en: "Compare proposals not on price but by converting them into the same unit. Put five lines side by side: the scope and its exclusions, whether the output is a document or a working system, the names of the people doing the work, who ends up with the source code, data and accounts at the end, and who on your team will become able to run the system. Most of the price gap shows up in these lines; a line missing from one proposal is later added either to the invoice or to your team's workload.",
+        },
+      },
+      {
+        question: {
+          tr: "Danışmanlık firmasının yazılım sağlayıcısıyla ortaklığı neden sorulmalı?",
+          en: "Why should you ask about a consultancy's partnerships with software providers?",
+        },
+        answer: {
+          tr: "Ortaklık önerinin yönünü etkileyebilir. Bir sağlayıcıyla iş ortaklığı ya da komisyon ilişkisi olan danışman, o sağlayıcının ürününü önermeye doğal olarak daha yatkındır; bu kötü niyet değil, teşviktir. Ortaklık tek başına bir sorun değildir ve bazen uygulamayı hızlandırır, ama yazılı olmalıdır. Soru hem büyük firmaya hem butik ekibe sorulmalıdır; INDOLES'in hiçbir yazılım sağlayıcısıyla iş ortaklığı ya da komisyon ilişkisi yoktur.",
+          en: "A partnership can shape the direction of the recommendation. A consultant with a partnership or commission arrangement with a provider is naturally more inclined to recommend that provider's product; this is not bad faith but an incentive. A partnership is not a problem in itself and sometimes speeds implementation up, but it should be in writing. Ask both the large firm and the boutique team; INDOLES has no partnership or commission arrangement with any software supplier.",
+        },
+      },
+      {
+        question: {
+          tr: "Yapay zeka projesinde bilgi devri nasıl güvenceye alınır?",
+          en: "How do you secure knowledge transfer in an AI project?",
+        },
+        answer: {
+          tr: "Devir sözleşmeye üç kalem olarak yazılır. Birincisi sahiplik: kaynak kod, sistemin çalışma mantığını taşıyan kural ve komut setleri, üretilen veri ve hesapların mülkiyeti proje sonunda alıcıda kalır. İkincisi kişiler: ekipten en az iki kişi sistemi günlük olarak çalıştırabilir hâle gelir; bu eğitim sunumuyla değil, birlikte çalışılan haftalarla olur. Üçüncüsü belge: sistemin izlenmesi, hata durumunun tanınması ve müdahale için yazılı bir işletme kılavuzu bırakılır.",
+          en: "Handover goes into the contract as three items. First, ownership: the source code, the rule and prompt sets carrying the system's operating logic, the data produced, and title to the accounts stay with the buyer when the project ends. Second, people: at least two members of the team become able to run the system day to day, which comes from weeks of working together rather than a training deck. Third, documentation: a written operating guide is left behind for monitoring the system, recognising when it goes wrong and stepping in.",
+        },
+      },
+      {
+        question: {
+          tr: "Regülasyonu yoğun bir sektörde butik bir ekiple çalışılabilir mi?",
+          en: "Can you work with a boutique team in a heavily regulated sector?",
+        },
+        answer: {
+          tr: "Çalışılabilir, yeter ki sorumluluk paylaşımı baştan yazılsın. Butik bir ekip tanımlı bir pilotu kurabilir; hukuki değerlendirme, model riski politikası ve denetim izi gereksinimi ise şirketin kendi hukuk ve uyum birimiyle birlikte yürütülür. Kişisel veri söz konusuysa KVKK açısından veri sorumlusu şirkettir, sağlayıcı veri işleyendir. Hukuk, risk ve uyum görüşünün aynı çatıdan gelmesi zorunluysa büyük bir danışmanlık firması daha uygun seçimdir.",
+          en: "You can, provided the split of responsibility is written down from the start. A boutique team can build a defined pilot, while the legal assessment, the model risk policy and the audit trail requirements are handled with the company's own legal and compliance functions. Where personal data is involved, under Turkish data protection law (KVKK) the company is the data controller and the provider is the processor. If legal, risk and compliance opinions must come from under one roof, a large consultancy is the better fit.",
+        },
+      },
+      {
+        question: {
+          tr: "INDOLES bu karşılaştırmada hangi tarafta duruyor?",
+          en: "Which side of this comparison is INDOLES on?",
+        },
+        answer: {
+          tr: "INDOLES butik taraftadır ve bu karşılaştırmayı tarafsız bir gözlemci olarak değil, butik tarafın içinden yazdı. Strateji ile yazılımı aynı çatı altında yapar, fiyatı açık sabit kapsamlı paketlerle çalışır ve yapay zekada tek senaryolu bir pilotla başlar: AI Pilot paketi altı hafta sürer ve kaynak kod tam sahiplikle teslim edilir. Kurum içi değişim yönetimi, insan kaynakları danışmanlığı ve sıfırdan model eğitimi kapsam dışıdır; bu işler aynı çatıdan isteniyorsa büyük bir danışmanlık firması daha doğru seçimdir.",
+          en: "INDOLES is on the boutique side, and it wrote this comparison from inside that side rather than as a neutral observer. It does strategy and software under one roof, works through fixed-scope packages with open prices, and in AI starts with a single-scenario pilot: the AI Pilot package runs six weeks and the source code is handed over in full ownership. Internal change management, HR consulting and training models from scratch are out of scope; if that work is needed from under one roof, a large consultancy is the better choice.",
+        },
+      },
+      {
+        question: {
+          tr: "KOBİ'ler yapay zeka danışmanlığını kimden almalı?",
+          en: "Who should SMEs get AI consulting from?",
+        },
+        answer: {
+          tr: "KOBİ'lerde karar zinciri kısadır, süreç sahibi çoğu zaman kurucudur ve sorun genellikle tek bir tekrar eden işte durur; üçü de butik bir ekibin güçlü olduğu koşullardır. Belirleyici olan şirket büyüklüğü değil, işin tekrar sıklığı, hatanın bugünkü maliyeti ve geçmiş kaydın varlığıdır. Aday süreç bile belli değilse önce kısa bir teşhis, belliyse doğrudan tek senaryolu bir pilot daha az riskli bir başlangıçtır. Büyük bir program ancak ilk pilotun sonucu okunduktan sonra gündeme gelmelidir.",
+          en: "In SMEs the decision chain is short, the process owner is often the founder, and the problem usually sits in a single repeated task; all three are conditions in which a boutique team is strong. What decides it is not company size but how often the work repeats, what an error costs today, and whether a historical record exists. If even the candidate process is unclear, a short diagnosis first; if it is clear, a single-scenario pilot straight away is the less risky start. A large programme should come up only after the first pilot's result has been read.",
+        },
+      },
+    ],
+    category: "transform",
+    topic: "yapay-zeka",
+    tags: [
+      "yapay-zeka-danismanligi",
+      "buyuk-danismanlik-firmasi",
+      "butik-ajans",
+      "yonetim-danismanligi",
+      "tedarikci-secimi",
+    ],
+    authorSlug: "burak-ozgul",
+    publishedAt: "2026-10-02",
+    readingMinutes: 19,
+    seo: {
+      title: {
+        tr: "Büyük danışmanlık mı, butik yapay zeka ajansı mı?",
+        en: "Big consultancy or boutique AI agency?",
+      },
+      description: {
+        tr: "Yapay zeka danışmanlığında büyük danışmanlık firması, butik ajans ya da iç ekip: hangisi ne zaman mantıklı, gerçek riskleri ne, imzadan önce ne sorulmalı?",
+        en: "AI consulting from a large consultancy, a boutique agency or an in-house team: when each one makes sense, the real risks, and what to ask before you sign.",
       },
     },
   },
@@ -8169,8 +8883,8 @@ export const ARTICLES: ArticleContent[] = [
       {
         type: "p",
         text: {
-          tr: "Sayfa dolduysa doksan günün ilk on beşi başlamış demektir. Adayları beş ölçütle puanlayın, en yüksek puanı alanın taban ölçüm penceresini iki hafta sonrasına koyun ve erişim taleplerini bugünden gönderin. Yapay zeka dönüşümü büyük bir kararla değil, küçük ve ölçülmüş bir kararla başlar; doksan günü kendi ekibinizle yürütmeniz de mümkün, dışarıdan destekle yürütmeniz de. İkinci yolu seçerseniz yöntemi [danışmanlık kapsamımızda](/hizmetler/ai-danismanlik), kanıtını vaka kayıtlarımızda bulabilirsiniz.",
-          en: "If the page is full, the first fifteen of the ninety days have begun. Score the candidates against the five criteria, set the baseline window for the top scorer two weeks out, and send the access requests today. AI transformation starts not with a big decision but with a small, measured one; you can run the ninety days with your own team or with outside support. If you choose the second route, you will find the method in [our consulting scope](/hizmetler/ai-danismanlik) and the evidence in our case records.",
+          tr: "Sayfa dolduysa doksan günün ilk on beşi başlamış demektir. Adayları beş ölçütle puanlayın, en yüksek puanı alanın taban ölçüm penceresini iki hafta sonrasına koyun ve erişim taleplerini bugünden gönderin. Yapay zeka dönüşümü büyük bir kararla değil, küçük ve ölçülmüş bir kararla başlar; doksan günü kendi ekibinizle yürütmeniz de mümkün, dışarıdan destekle yürütmeniz de. İkinci yolu seçerseniz yöntemi [danışmanlık kapsamımızda](/hizmetler/ai-danismanlik), kanıtını vaka kayıtlarımızda bulabilirsiniz. Dış desteği büyük bir danışmanlık firmasından mı, butik bir ekipten mi alacağınıza henüz karar vermediyseniz [o seçimin ölçütlerini](/yazilar/buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi) ayrı bir yazıda topladık.",
+          en: "If the page is full, the first fifteen of the ninety days have begun. Score the candidates against the five criteria, set the baseline window for the top scorer two weeks out, and send the access requests today. AI transformation starts not with a big decision but with a small, measured one; you can run the ninety days with your own team or with outside support. If you choose the second route, you will find the method in [our consulting scope](/hizmetler/ai-danismanlik) and the evidence in our case records. If you have not yet decided whether that outside support should come from a large consultancy or a boutique team, we gathered [the criteria for that choice](/yazilar/buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi) in a separate article.",
         },
       },
     ],

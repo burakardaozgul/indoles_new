@@ -336,6 +336,14 @@ const TARGETS_ARTICLES: Array<[slug: string, keyword: string]> = [
   ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "ai pilot projesi"],
   ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "yapay zeka dönüşümüne nereden başlanır"],
   ["ai-donusumune-nereden-baslanir-90-gunluk-pilot", "yapay zeka projesi nasıl başlatılır"],
+  // Yol haritası Faz 2 "ajans mı danışmanlık mı" (2026-10-02): kimle
+  // çalışmalıyım niyeti. Niyetli sorgu #17 ("büyük danışmanlık firması vs
+  // butik yapay zeka ajansı farkları") ve GEO promptu C1'in ifadesi; seçim
+  // soruları `ai-danismani-secerken-sorulacak-12-soru`da kalır.
+  ["buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi", "büyük danışmanlık firması"],
+  ["buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi", "butik yapay zeka ajansı"],
+  ["buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi", "yapay zeka danışmanlığı ile geleneksel yönetim danışmanlığı"],
+  ["buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi", "iç ekip"],
 ];
 
 describe("Dalga 1 makale keyword yerleşimi (2026-08-28 partisi)", () => {

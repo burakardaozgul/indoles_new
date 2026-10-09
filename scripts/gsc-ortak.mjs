@@ -143,9 +143,37 @@ export async function getAccessToken(keyPath, scope) {
   return data.access_token;
 }
 
-/** Tek hücreyi CSV'ye uygun kaçışlar. */
+/**
+ * Formül başlatan karakterler — OWASP "CSV Injection": `=`, `+`, `-`, `@`,
+ * tab ve CR. Bunlardan biriyle başlayan metin hücresi Excel / Sheets /
+ * Numbers'ta formül olarak çalıştırılabilir (`=HYPERLINK(...)`, `@SUM(...)`).
+ */
+const FORMUL_ONEKI_RE = /^[=+\-@\t\r]/;
+
+/**
+ * Tek hücreyi CSV'ye uygun kaçışlar.
+ *
+ * 1. Formül kaçışı: METİN değer `FORMUL_ONEKI_RE` ile başlıyorsa başına tek
+ *    tırnak eklenir ve hücre tırnaklanır (`=1+1` → `"'=1+1"`). Gerekçe: bu
+ *    yardımcıdan geçen değerlerin çoğu dışarıdan beslenir — GSC sorgu metni
+ *    kullanıcı üretimidir; GA4'te açılış sayfası (sorgu dizesiyle), kaynak,
+ *    kampanya, utm_* ve olay adı ziyaretçinin URL'sinden gelir.
+ *    İstisnalar: `number` tipindeki değer dokunulmaz (`-3` sayı kalır);
+ *    tek başına `-` (boş küme / pozisyon yer tutucusu, `kumeler.csv`)
+ *    formül kuramaz, olduğu gibi yazılır.
+ * 2. RFC4180: `"`, `,` ya da satır sonu içeren hücre tırnaklanır.
+ *
+ * Geri okuma (`parseCsv`) öneki SOYMAZ — `'=1+1` olarak döner. Veri
+ * sadakati tercihi: soymak, gerçekten tek tırnakla başlayan bir değeri
+ * bozardı (nadir ama mümkün). Küme / niyet desenleri başa sabitlenmediği için
+ * önek `--from-dir` yolundaki eşlemeyi değiştirmez (`gsc-kumeler.test.ts`).
+ */
 export function csvCell(v) {
+  if (typeof v === "number") return String(v);
   const s = String(v ?? "");
+  if (s !== "-" && FORMUL_ONEKI_RE.test(s)) {
+    return `"'${s.replaceAll('"', '""')}"`;
+  }
   return /[",\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s;
 }
 
@@ -157,6 +185,9 @@ export function toCsv(rows) {
 /**
  * RFC4180 tarzı CSV ayrıştırıcı — tırnaklı alan, gömülü virgül ve çift
  * tırnak kaçışını doğru okur. GSC sorguları ikisini de içeriyor.
+ *
+ * `csvCell`'in formül kaçışı için eklediği baştaki `'` bilerek SOYULMAZ
+ * (gerekçe `csvCell` yorumunda): `"'=1+1"` → `'=1+1`.
  */
 export function parseCsv(text) {
   const rows = [];

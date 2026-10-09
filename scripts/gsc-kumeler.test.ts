@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { csvCell, csvToObjects, toCsv } from "./gsc-ortak.mjs";
 import {
   a3Adaylari,
   a4Niyet,
@@ -452,6 +453,82 @@ describe("kumelerCsv", () => {
       "N0-ETICARET",
       "N0-DIJITAL",
       "HS",
+    ]);
+  });
+});
+
+/**
+ * CSV formül enjeksiyonu (OWASP "CSV Injection") — `gsc-ortak.mjs` `csvCell`.
+ * GSC sorgusu ve GA4 kaynak/sayfa değerleri dışarıdan beslenir; formül
+ * karakteriyle başlayan metin hücresi `'` öneki alır ve tırnaklanır.
+ */
+describe("csvCell — formül kaçışı", () => {
+  it("=, +, -, @, tab ve CR ile başlayan metni önekler ve tırnaklar", () => {
+    expect(csvCell("=1+1")).toBe(`"'=1+1"`);
+    expect(csvCell("+90 555")).toBe(`"'+90 555"`);
+    expect(csvCell("-cro")).toBe(`"'-cro"`);
+    expect(csvCell("@x")).toBe(`"'@x"`);
+    expect(csvCell("\t=1")).toBe(`"'\t=1"`);
+    expect(csvCell("\r=1")).toBe(`"'\r=1"`);
+    expect(csvCell('=HYPERLINK("http://x","a")')).toBe(
+      `"'=HYPERLINK(""http://x"",""a"")"`
+    );
+  });
+
+  it("sayı tipine, düz metne ve tek başına '-' yer tutucusuna dokunmaz", () => {
+    expect(csvCell(-3)).toBe("-3");
+    expect(csvCell(0)).toBe("0");
+    expect(csvCell("cro ajansı")).toBe("cro ajansı");
+    expect(csvCell("/tr/hizmetler/cro")).toBe("/tr/hizmetler/cro");
+    expect(csvCell("-")).toBe("-");
+    expect(csvCell("12.34%")).toBe("12.34%");
+    expect(csvCell(null)).toBe("");
+  });
+
+  it("virgül / tırnak içeren metni yine RFC4180'e göre tırnaklar", () => {
+    expect(csvCell("cro, ux")).toBe(`"cro, ux"`);
+    expect(csvCell('a "b"')).toBe(`"a ""b"""`);
+  });
+
+  it("toCsv satırı: metin önekli, sayı ve yer tutucu olduğu gibi", () => {
+    expect(
+      toCsv([
+        ["query", "clicks", "position"],
+        ["=1+1", 3, "-"],
+        ["-cro ajansı", -3, "9.14"],
+      ])
+    ).toBe(`query,clicks,position\n"'=1+1",3,-\n"'-cro ajansı",-3,9.14\n`);
+  });
+
+  it("geri okuma öneki soymaz; küme ve niyet eşlemesi değişmez (--from-dir yolu)", () => {
+    const geri = csvToObjects(
+      toCsv([
+        ["query", "clicks", "impressions", "ctr", "position"],
+        ["-cro ajansı fiyatları", 1, 10, "10.00%", "8.00"],
+        ["=geo ajansı", 0, 5, "0.00%", "12.00"],
+        ["+yapay zeka danışmanlığı", 0, 4, "0.00%", "9.00"],
+      ])
+    );
+    expect(geri.map((r) => r.query)).toEqual([
+      "'-cro ajansı fiyatları",
+      "'=geo ajansı",
+      "'+yapay zeka danışmanlığı",
+    ]);
+    // Öneksiz satırlarla birebir aynı küme ve niyet sonucu.
+    const oneksiz = geri.map((r) => ({
+      ...r,
+      query: String(r.query).replace(/^'/, ""),
+    }));
+    expect(sorguKumeleri(geri)).toEqual(sorguKumeleri(oneksiz));
+    expect(niyetKumesi(geri).alt).toEqual(niyetKumesi(oneksiz).alt);
+    const k = sorguKumeleri(geri);
+    expect(al(k, "G1").gosterim).toBe(10);
+    expect(al(k, "G3").gosterim).toBe(5);
+    expect(al(k, "G2").gosterim).toBe(4);
+    expect(geri.map((r) => niyetHizmeti(r.query))).toEqual([
+      "CRO",
+      "GEO",
+      "AI",
     ]);
   });
 });

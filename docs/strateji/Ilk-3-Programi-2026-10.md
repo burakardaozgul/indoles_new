@@ -586,3 +586,7 @@ Kaynak: P09, Q09, hesap. Sitenin kendi ≤3 bandı veri olarak kirli olduğu iç
 - **Şirketimi … birleşik pozisyon:** (21 × 5,14 + 9 × 7,33) / 30 = 5,80 (9 Eki) · (21 × 5,71 + 9 × 7,33) / 30 = 6,20 (2 Eki) · (14 × 6,00 + 7 × 7,14) / 21 = 6,38 (22 Eyl).
 - **Para sayfaları (17 URL; UX hizmet ve e-ticaret fiyat yazısı P09'da satırsız):** 551 göst / 1 tık. Beklenen tık, her sayfanın gösterimi × P09 bant CTR'ı (3-5 %4,35 · 5-10 %1,59 · 10-20 %0,83 · 20+ %0,55) = 4,85; Poisson P(≤1 | 4,85) = e^−4,85 × 5,85 ≈ 0,046.
 - **Lead olayı sayısında kaynak farkı:** DT §3.1 (GA4 test çekimi, 9 Eyl–8 Eki) `contact_booking_submitted` 1 gösteriyor; GA-L (10 Eyl–7 Eki) 0. Pencere farkı; bu belge GA-L'yi kullanır (form / brief = 1).
+
+---
+
+**Düzeltme (2026-10-09, ölçüm scripti `scripts/para-seti.mjs` ile yeniden hesap):** "para sayfaları (17 URL) 551 göst / 1 tık" değeri **574 / 1** olmalı — 551, 2 Ekim'de yayımlanan iki yazıyı (`e-ticaret-danismani-nasil-secilir` 12, `yapay-zeka-danismanligi-fiyatlari` 11) saymıyordu. Özet, §E.1, §E.3 ve Ek'teki 551 bu notla okunur; bant bazlı beklenen tık (4,85) ve Poisson hesabı Hafta 3 kontrolünde 574 ile yeniden yapılır. Para seti toplamı (286 / 1) ve bantlar (0 / 6 / 5 / 4) değişmedi. §A.4 yazım varyantları plan gereği ayrı izlenir (`IZLEME_SATIRLARI`), ana sorguya birleştirilmez.

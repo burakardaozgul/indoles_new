@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * GSC Pull — Search Console verisini service account ile çeker, CSV döker,
- * G1-G5 küme özetini ve N0 satın alma niyeti kümesini (strateji v1.18'in
- * birincil ölçüleri) hesaplar.
+ * G1-G5 küme özetini, N0 satın alma niyeti kümesini (strateji v1.18'in
+ * birincil ölçüleri) ve İlk 3 programının para setini hesaplar.
  *
  * Sıfır bağımlılık: Node 22+ (fetch + crypto). Ortak altyapı
  * `scripts/gsc-ortak.mjs`'te; `googleapis` paketi bilinçli olarak eklenmedi
@@ -16,6 +16,9 @@
  *   # API'ye hiç dokunmadan, mevcut CSV'lerden küme hesabı:
  *   node scripts/gsc-pull.mjs --from-dir "<GSC-Data/haftalik-2026-09-18>" [--out /tmp/x]
  *
+ *   # Para setinde Δ poz ve türetilmiş son hafta için önceki çekim (iki kipte de):
+ *   node scripts/gsc-pull.mjs --from-dir "<…/haftalik-2026-10-09>" --prev "<…/haftalik-2026-10-02>"
+ *
  * Varsayılanlar: son 28 gün (bitiş bugün-3, GSC gecikmesi) · anahtar Marketing
  * klasöründeki JSON · çıktı `GSC-Data/haftalik-<bugün>/` · mülk
  * `https://www.indoles.com.tr/`.
@@ -26,11 +29,12 @@
  * yanlış veriyi klasöre yazdı, bu yüzden varsayılan olmaktan çıkarıldı.
  *
  * Çıktılar: gunluk.csv · sorgular.csv · sayfalar.csv · sorgu-sayfa.csv ·
- * ulkeler.csv · kumeler.csv · ozet.txt · meta.txt — hepsi UTF-8.
+ * ulkeler.csv · kumeler.csv · para-seti.csv · ozet.txt · meta.txt — hepsi
+ * UTF-8.
  */
 
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -44,6 +48,12 @@ import {
   resolveKeyPath,
   toCsv,
 } from "./gsc-ortak.mjs";
+import {
+  IZLEME_SATIRLARI,
+  PARA_SAYFALARI,
+  PARA_SETI,
+  PARA_SETI_BAZ,
+} from "./para-seti.mjs";
 
 /** Varsayılan mülk — `--site auto` denmedikçe otomatik seçim yapılmaz. */
 export const DEFAULT_SITE = "https://www.indoles.com.tr/";
@@ -436,6 +446,284 @@ export function gunlukOzet(rows) {
   };
 }
 
+// ------------------------------------- Para seti — İlk 3 programı (§E.5)
+
+/**
+ * Para seti hesabı — otorite: `docs/strateji/Ilk-3-Programi-2026-10.md`
+ * §A.2 (set), §0 (bant ve türetilmiş son hafta), §E.1 (log biçimi), §E.5
+ * (tasarım). Set verisi `scripts/para-seti.mjs`'te; burada yalnız mantık.
+ *
+ * Bant sınırları ağırlıklı ortalama pozisyonun İKİ HANEYE yuvarlanmış
+ * değerine uygulanır — rapordaki sayı neyse bant da odur (birleşik
+ * pozisyon 10,000000001 çıkıp 11-20'ye düşmesin).
+ */
+export const BANTLAR = [
+  { key: "ilk3", label: "ilk 3", ust: 3 },
+  { key: "4-10", label: "4-10", ust: 10 },
+  { key: "11-20", label: "11-20", ust: 20 },
+  { key: "20+", label: "20+", ust: Infinity },
+];
+
+/** Pozisyonun bandı (`"ilk3"`, `"4-10"` …); gösterim yoksa `null`. */
+export function bant(pozisyon) {
+  if (pozisyon === null || pozisyon === undefined) return null;
+  const p = Math.round(pozisyon * 100) / 100;
+  return BANTLAR.find((b) => p <= b.ust)?.key ?? null;
+}
+
+/**
+ * Para seti eşleme anahtarı: küçük harf, sadeleşmiş boşluk, sondaki `?.!`
+ * atılmış. Soru işaretli ve işaretsiz yazım tek sorgudur (§A.2 #4); başka
+ * yazım farkı (ör. "yapay zekâ") birleşmez.
+ */
+export function paraAnahtari(query) {
+  return norm(query)
+    .trim()
+    .replace(/\s+/g, " ")
+    .replace(/[?.!]+$/u, "")
+    .trim();
+}
+
+/** GSC `page` değerinin yolu; URL değilse olduğu gibi. */
+function sayfaYolu(page) {
+  try {
+    return new URL(page).pathname;
+  } catch {
+    return String(page ?? "");
+  }
+}
+
+/** Yol kıyası için sondaki `/` atılır (kök hariç). */
+const yolAnahtari = (yol) => yol.replace(/\/+$/, "") || "/";
+
+/**
+ * `PARA_SETI`'ndeki her kaydın eşleme anahtarlarından kayıt numarasına
+ * sözlük. Aynı anahtar iki kayda düşerse hata — sessiz çift sayım olmasın.
+ */
+function paraIndeksi(set) {
+  const indeks = new Map();
+  for (const kayit of set) {
+    for (const q of [kayit.sorgu, ...kayit.varyantlar]) {
+      const k = paraAnahtari(q);
+      const mevcut = indeks.get(k);
+      if (mevcut !== undefined && mevcut !== kayit.no) {
+        throw new Error(
+          `para seti: "${q}" iki kayda düşüyor (#${mevcut}, #${kayit.no})`
+        );
+      }
+      indeks.set(k, kayit.no);
+    }
+  }
+  return indeks;
+}
+
+/** Sorgu satırlarını kayıt numarasına göre toplar (varyantlar birleşik). */
+function paraTopla(rows, indeks) {
+  const acc = new Map();
+  for (const r of rows ?? []) {
+    const no = indeks.get(paraAnahtari(r.query));
+    if (no === undefined) continue;
+    const o = acc.get(no) ?? bosOzet();
+    ekle(o, num(r.impressions), num(r.clicks), num(r.position));
+    acc.set(no, o);
+  }
+  return acc;
+}
+
+/**
+ * Türetilmiş son hafta (§0): ardışık iki çekimin farkı
+ * `P_son = (G·P − G₀·P₀) / (G − G₀)`, `n = G − G₀`. Sonuç yalnız önceki
+ * çekimin kendine ait günleri (~0 gösterim) temizse doğrudur; script bunu
+ * denetleyemez, `n` ile birlikte yazar.
+ *
+ * Döner: `null` (önceki çekim yok) ya da
+ * `{ durum, n, pozisyon }` — durum `"turetildi"` · `"yeni"` (önceki çekimde
+ * 0 gösterim: tüm gösterim yeni pencerede) · `"yok"` (n <= 0) ·
+ * `"temiz-degil"` (sonuç 1'in altında — önceki çekimin kendine ait
+ * günlerinde gösterim vardı).
+ */
+export function sonHaftaTuret(simdi, onceki) {
+  if (!onceki) return null;
+  if (simdi.gosterim === 0) return { durum: "yok", n: 0, pozisyon: null };
+  if (onceki.gosterim === 0) {
+    return {
+      durum: "yeni",
+      n: simdi.gosterim,
+      pozisyon: simdi.pozAgirlik / simdi.gosterim,
+    };
+  }
+  const n = simdi.gosterim - onceki.gosterim;
+  if (n <= 0) return { durum: "yok", n, pozisyon: null };
+  const p = (simdi.pozAgirlik - onceki.pozAgirlik) / n;
+  if (p < 1) return { durum: "temiz-degil", n, pozisyon: null };
+  return { durum: "turetildi", n, pozisyon: p };
+}
+
+function bantSayilari(kayitlar) {
+  const say = Object.fromEntries([
+    ...BANTLAR.map((b) => [b.key, 0]),
+    ["gorunmuyor", 0],
+  ]);
+  for (const k of kayitlar) say[k.bant ?? "gorunmuyor"] += 1;
+  return say;
+}
+
+/**
+ * Para seti — §E.5'in `paraSeti(sorguRows, sorguSayfaRows, onceki?)`'i.
+ *
+ * Her kayıt için: varyantlarla birleşik gösterim / tık / gösterim ağırlıklı
+ * pozisyon (`sorgular.csv`), bant, sıralanan sayfalar (`sorgu-sayfa.csv`,
+ * göst / poz), kazanan sayfanın sıralanıp sıralanmadığı ve kendi pozisyonu,
+ * kanibalizasyon işareti (kazanan dışında bir sayfa sıralanıyorsa) ve
+ * `onceki` (önceki çekimin `sorgular.csv` satırları) verilirse Δ poz ile
+ * türetilmiş son hafta.
+ *
+ * @param {Record<string, string>[]} sorguRows
+ * @param {Record<string, string>[]} sorguSayfaRows
+ * @param {Record<string, string>[] | null} [onceki]
+ * @param {{ sonHafta?: boolean }} [secenek] `sonHafta: false` — pencereler
+ *   örtüşmüyorsa türetme yapılmaz, yalnız Δ.
+ * @param {typeof PARA_SETI} [set] test için; varsayılan `PARA_SETI`
+ * @param {typeof IZLEME_SATIRLARI} [izleme] test için; varsayılan `IZLEME_SATIRLARI`
+ */
+export function paraSeti(
+  sorguRows,
+  sorguSayfaRows,
+  onceki = null,
+  secenek = {},
+  set = PARA_SETI,
+  izleme = IZLEME_SATIRLARI
+) {
+  const sonHafta = secenek.sonHafta ?? true;
+  const indeks = paraIndeksi(set);
+  const simdi = paraTopla(sorguRows, indeks);
+  const once = onceki ? paraTopla(onceki, indeks) : null;
+
+  const sayfaAcc = new Map();
+  for (const r of sorguSayfaRows ?? []) {
+    const no = indeks.get(paraAnahtari(r.query));
+    if (no === undefined) continue;
+    const yol = sayfaYolu(r.page);
+    const anahtar = `${no}\u0000${yolAnahtari(yol)}`;
+    const o = sayfaAcc.get(anahtar) ?? { no, yol, ...bosOzet() };
+    ekle(o, num(r.impressions), num(r.clicks), num(r.position));
+    sayfaAcc.set(anahtar, o);
+  }
+
+  const kayitlar = set.map((k) => {
+    const o = simdi.get(k.no) ?? bosOzet();
+    const kapali = kapat(o);
+    const kazananYol = yolAnahtari(k.kazananSayfa);
+    const sayfalar = [...sayfaAcc.values()]
+      .filter((s) => s.no === k.no)
+      .map((s) => ({
+        yol: s.yol,
+        gosterim: s.gosterim,
+        tiklama: s.tiklama,
+        pozisyon: kapat(s).pozisyon,
+        kazanan: yolAnahtari(s.yol) === kazananYol,
+      }))
+      .sort((a, b) => b.gosterim - a.gosterim || a.yol.localeCompare(b.yol));
+    const kazanan = sayfalar.find((s) => s.kazanan) ?? null;
+    const oncekiOzet = once ? (once.get(k.no) ?? bosOzet()) : null;
+    const oncekiPoz = oncekiOzet ? kapat(oncekiOzet).pozisyon : null;
+    return {
+      no: k.no,
+      sorgu: k.sorgu,
+      hizmet: k.hizmet,
+      niyet: k.niyet,
+      konusma: Boolean(k.konusma),
+      kazananSayfa: k.kazananSayfa,
+      gosterim: kapali.gosterim,
+      tiklama: kapali.tiklama,
+      pozisyon: kapali.pozisyon,
+      bant: bant(kapali.pozisyon),
+      sayfalar,
+      kazananSiralaniyor: kazanan !== null,
+      kazananGosterim: kazanan?.gosterim ?? 0,
+      kazananPozisyon: kazanan?.pozisyon ?? null,
+      kanibalizasyon: sayfalar.some((s) => !s.kazanan),
+      onceki: oncekiOzet
+        ? { gosterim: oncekiOzet.gosterim, pozisyon: oncekiPoz }
+        : null,
+      deltaPoz:
+        kapali.pozisyon !== null && oncekiPoz !== null
+          ? kapali.pozisyon - oncekiPoz
+          : null,
+      sonHafta: oncekiOzet && sonHafta ? sonHaftaTuret(o, oncekiOzet) : null,
+    };
+  });
+
+  const izlemeIndeks = new Map(
+    izleme.map((s, i) => [paraAnahtari(s.sorgu), i])
+  );
+  const izlemeAcc = izleme.map(() => ({ ...bosOzet(), sayfalar: new Map() }));
+  for (const r of sorguRows ?? []) {
+    const i = izlemeIndeks.get(paraAnahtari(r.query));
+    if (i === undefined) continue;
+    const o = izlemeAcc[i];
+    if (o) ekle(o, num(r.impressions), num(r.clicks), num(r.position));
+  }
+  for (const r of sorguSayfaRows ?? []) {
+    const i = izlemeIndeks.get(paraAnahtari(r.query));
+    if (i === undefined) continue;
+    const yol = sayfaYolu(r.page);
+    const m = izlemeAcc[i]?.sayfalar;
+    if (m) m.set(yol, (m.get(yol) ?? 0) + num(r.impressions));
+  }
+
+  return {
+    kayitlar,
+    bant: bantSayilari(kayitlar),
+    konusmaHaricBant: bantSayilari(kayitlar.filter((k) => !k.konusma)),
+    gosterim: kayitlar.reduce((t, k) => t + k.gosterim, 0),
+    tiklama: kayitlar.reduce((t, k) => t + k.tiklama, 0),
+    kanibalizasyon: kayitlar.filter((k) => k.kanibalizasyon),
+    oncekiVar: Boolean(onceki),
+    izleme: izleme.map((s, i) => {
+      const o = izlemeAcc[i] ?? { ...bosOzet(), sayfalar: new Map() };
+      return {
+        sorgu: s.sorgu,
+        bagli: s.bagli,
+        not: s.not ?? "",
+        ...kapat(o),
+        sayfalar: [...o.sayfalar.entries()]
+          .map(([yol, gosterim]) => ({ yol, gosterim }))
+          .sort((a, b) => b.gosterim - a.gosterim),
+      };
+    }),
+  };
+}
+
+/**
+ * Para sayfalarının sayfa düzeyi gösterim / tık (`sayfalar.csv`, anonim
+ * sorgular dahil) — §E.2'nin tık ölçüsü. Satırı olmayan sayfa `eksik`te.
+ *
+ * @param {Record<string, string>[]} sayfaRows
+ * @param {string[]} [liste] test için; varsayılan `PARA_SAYFALARI`
+ */
+export function paraSayfalari(sayfaRows, liste = PARA_SAYFALARI) {
+  const hedef = new Map(liste.map((y) => [yolAnahtari(y), y]));
+  const bulunan = new Map();
+  for (const r of sayfaRows ?? []) {
+    const yol = yolAnahtari(sayfaYolu(r.page));
+    if (!hedef.has(yol)) continue;
+    const o = bulunan.get(yol) ?? bosOzet();
+    ekle(o, num(r.impressions), num(r.clicks), num(r.position));
+    bulunan.set(yol, o);
+  }
+  const sayfalar = [...bulunan.entries()]
+    .map(([yol, o]) => ({ yol: hedef.get(yol) ?? yol, ...kapat(o) }))
+    .sort((a, b) => b.gosterim - a.gosterim || a.yol.localeCompare(b.yol));
+  return {
+    url: liste.length,
+    gosterim: sayfalar.reduce((t, s) => t + s.gosterim, 0),
+    tiklama: sayfalar.reduce((t, s) => t + s.tiklama, 0),
+    sayfalar,
+    eksik: liste.filter((y) => !bulunan.has(yolAnahtari(y))),
+  };
+}
+
 // ------------------------------------------------------------ çıktı yazımı
 
 const yuzde = (v) => (v === null ? "-" : `${v.toFixed(2)}%`);
@@ -592,6 +880,224 @@ export function niyetBolumu({ niyet, hs, toplamGosterim }) {
   return L;
 }
 
+/** `YYYY-MM-DD` + n gün; tarih geçersizse `null`. */
+function gunKaydir(iso, n) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(iso ?? ""))) return null;
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return null;
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+
+/**
+ * Şimdiki ve önceki çekimin pencerelerinden türetmenin pencerelerini kurar:
+ * `son` = önceki çekimin bitişinden sonraki günler → şimdiki bitiş;
+ * `oncekiYalniz` = önceki çekimin başlangıcı → şimdiki başlangıçtan önceki
+ * gün (temizlik koşulu bu günlerde ~0 gösterimdir, §0). Pencereler
+ * örtüşmüyorsa `ortusuyor: false` — türetme yapılmaz.
+ */
+export function turetmePenceresi({ start, end, oncekiStart, oncekiEnd }) {
+  const sonIlk = gunKaydir(oncekiEnd, 1);
+  const yalnizSon = gunKaydir(start, -1);
+  if (!sonIlk || !yalnizSon || !end || !oncekiStart || !start) {
+    return { ortusuyor: true, son: null, oncekiYalniz: null };
+  }
+  return {
+    ortusuyor: oncekiEnd >= start && oncekiEnd < end,
+    son: `${sonIlk}→${end}`,
+    oncekiYalniz: `${oncekiStart}→${yalnizSon}`,
+  };
+}
+
+const bantMetni = (say) => {
+  const L = BANTLAR.map((b) => `${b.label} ${say[b.key]}`);
+  if (say.gorunmuyor > 0) L.push(`görünmüyor ${say.gorunmuyor}`);
+  return L.join(" · ");
+};
+
+const bazBant = (say) => BANTLAR.map((b) => say[b.key]).join(" · ");
+
+function deltaPozMetni(k, oncekiVar) {
+  if (!oncekiVar) return "—";
+  if (k.deltaPoz !== null) {
+    return `${k.deltaPoz > 0 ? "+" : ""}${k.deltaPoz.toFixed(2)}`;
+  }
+  if (k.pozisyon !== null) return "yeni";
+  if (k.onceki?.pozisyon != null) return "kayboldu";
+  return "—";
+}
+
+function sonHaftaMetni(s) {
+  if (!s) return "—";
+  if (s.durum === "yeni") return `yeni ≈${poz(s.pozisyon)} (n=${s.n})`;
+  if (s.durum === "temiz-degil") return `türetilemez (n=${s.n})`;
+  if (s.durum !== "turetildi") return "—";
+  return `≈${poz(s.pozisyon)} (n=${s.n}${s.n < 10 ? ", bağlam" : ""})`;
+}
+
+const sayfaMetni = (s) => `${s.yol} (${s.gosterim} / ${poz(s.pozisyon)})`;
+
+/**
+ * Tablonun "Not" sütunu — kanibalizasyon, kazanan durumu, okuma kuralları.
+ * Eski URL: yolu `/tr` ya da `/en` ile başlamayan sayfa (`eskiUrlPayi` ile
+ * aynı tanım).
+ */
+function paraNotu(k) {
+  const notlar = [];
+  const eskiVar = k.sayfalar.some((s) => !/^\/(tr|en)(\/|$)/.test(s.yol));
+  if (k.gosterim === 0) notlar.push("görünmüyor");
+  else if (k.sayfalar.length === 0) notlar.push("sayfa satırı yok");
+  else if (!k.kazananSiralaniyor) {
+    notlar.push(
+      `kazanan sıralanmıyor${eskiVar ? " (eski URL sıralanıyor)" : ""}`
+    );
+  } else if (k.kanibalizasyon) {
+    notlar.push(
+      `bölünmüş (A-6) — kazanan ${k.kazananGosterim} / ${poz(k.kazananPozisyon)}`
+    );
+  }
+  if (k.konusma) notlar.push("konuşma biçimli");
+  if (k.gosterim > 0 && k.gosterim <= 5) notlar.push("≤5 göst, yalnız izlenir");
+  return notlar.join("; ");
+}
+
+/**
+ * `ozet.txt`'in "Para seti (İlk 3 programı)" bölümü — plan §E.1 biçimi;
+ * haftalık log'a "### Para seti …" başlığıyla kopyalanır. Satır dizisi döner.
+ *
+ * @param {{ para: ReturnType<typeof paraSeti>, sayfa: ReturnType<typeof paraSayfalari>, pencere?: { onceki?: string | null, ortusuyor?: boolean, son?: string | null, oncekiYalniz?: string | null } }} p
+ */
+export function paraSetiBolumu({ para, sayfa, pencere = {} }) {
+  const L = [];
+  const baz = PARA_SETI_BAZ;
+  const bazAd = `${baz.etiket} baz`;
+  L.push("## Para seti (İlk 3 programı)");
+  L.push("");
+  L.push(`Bant: ${bantMetni(para.bant)}   (${bazAd}: ${bazBant(baz.bant)})`);
+  L.push(
+    `Para seti: ${para.gosterim} göst / ${para.tiklama} tık   (${bazAd}: ${baz.gosterim} / ${baz.tiklama})`
+  );
+  L.push(
+    `Para sayfaları sayfa düzeyi (${sayfa.url} URL): ${sayfa.gosterim} / ${sayfa.tiklama}   (${bazAd}: ${baz.paraSayfalari.gosterim} / ${baz.paraSayfalari.tiklama})`
+  );
+  L.push(
+    `Konuşma biçimli 2 sorgu hariç bant: ${bantMetni(para.konusmaHaricBant)}   (${bazAd}: ${bazBant(baz.konusmaHaricBant)})`
+  );
+  L.push(
+    `Kanibalizasyon (kazanan dışı sayfa sıralanıyor): ${para.kanibalizasyon.length} sorgu${para.kanibalizasyon.length ? ` — ${para.kanibalizasyon.map((k) => `#${k.no}`).join(", ")}` : ""}`
+  );
+  L.push("");
+  L.push(
+    "| # | Sorgu | Kazanan sayfa | Göst | Poz | Tık | Bant | Δ poz (önceki) | Son hafta (türetilmiş) | Sıralanan sayfa(lar) | Not |"
+  );
+  L.push("|---|---|---|---|---|---|---|---|---|---|---|");
+  const bantEtiketi = Object.fromEntries(BANTLAR.map((b) => [b.key, b.label]));
+  for (const k of para.kayitlar) {
+    L.push(
+      `| ${k.no} | ${k.sorgu} | ${k.kazananSayfa} | ${k.gosterim} | ${poz(k.pozisyon)} | ${k.tiklama} | ${k.bant ? bantEtiketi[k.bant] : "—"} | ${deltaPozMetni(k, para.oncekiVar)} | ${sonHaftaMetni(k.sonHafta)} | ${k.sayfalar.map(sayfaMetni).join(" · ") || "—"} | ${paraNotu(k) || "—"} |`
+    );
+  }
+  L.push("");
+  L.push(
+    "Tanım: docs/strateji/Ilk-3-Programi-2026-10.md §A.2 (15 sorgu), §A.3/§B.3 (kazanan sayfa), §0 (bant ve türetme); veri scripts/para-seti.mjs. Pozisyon gösterim ağırlıklı; soru işaretli/işaretsiz yazım tek sorgu. Bant: ilk 3 ≤ 3,0 · 4-10 ≤ 10,0 · 11-20 ≤ 20,0 · 20+. ≤5 gösterimli sorgudan karar çıkmaz (§E.6)."
+  );
+  if (para.oncekiVar && pencere.ortusuyor === false) {
+    L.push(
+      `Önceki çekim: ${pencere.onceki ?? "-"}. Pencereler örtüşmüyor — yalnız Δ poz; son hafta türetilmedi (§0).`
+    );
+  } else if (para.oncekiVar) {
+    const son = pencere.son ? ` · son pencere ${pencere.son}` : "";
+    const temiz = pencere.oncekiYalniz
+      ? `önceki çekimin kendine ait günlerinde (${pencere.oncekiYalniz}) ~0 gösterim`
+      : "önceki çekimin kendine ait günlerinde ~0 gösterim";
+    L.push(
+      `Önceki çekim: ${pencere.onceki ?? "-"}${son}. Son hafta = (G·P − G₀·P₀) / (G − G₀), n = G − G₀; doğruluk koşulu ${temiz} — script denetlemez. Karar girdisi yalnız n ≥ 10 ve temizken (§0, §E.6).`
+    );
+  } else {
+    L.push("Önceki çekim verilmedi (--prev): Δ poz ve son hafta yok.");
+  }
+  L.push("");
+  L.push("Varyantlar ve izleme satırları (puanlanmaz, §A.4):");
+  const setAd = Object.fromEntries(para.kayitlar.map((k) => [k.no, k.sorgu]));
+  for (const s of para.izleme) {
+    const bag =
+      s.bagli !== null ? `→ #${s.bagli} ${setAd[s.bagli] ?? ""}` : s.not;
+    const veri =
+      s.gosterim > 0
+        ? `${s.gosterim} göst · ${s.tiklama} tık · poz ${poz(s.pozisyon)}${s.sayfalar.length ? ` · ${s.sayfalar.map((x) => x.yol).join(", ")}` : ""}`
+        : "görünmüyor";
+    L.push(`  - ${s.sorgu} (${bag}) — ${veri}`);
+  }
+  L.push("");
+  L.push(
+    `Para sayfaları, sayfa düzeyi (göst / tık / poz; ${sayfa.sayfalar.length} / ${sayfa.url} URL satırlı):`
+  );
+  for (const s of sayfa.sayfalar) {
+    L.push(`  - ${s.yol} — ${s.gosterim} / ${s.tiklama} / ${poz(s.pozisyon)}`);
+  }
+  if (sayfa.eksik.length) L.push(`  - satırsız: ${sayfa.eksik.join(", ")}`);
+  L.push("");
+  return L;
+}
+
+/** `para-seti.csv` — tablonun makine okunur hali (`csvCell` kaçışıyla). */
+export function paraSetiCsv(para) {
+  const yuvarla = (v) => (v === null ? "-" : Number(v.toFixed(2)));
+  const satirlar = [
+    [
+      "no",
+      "sorgu",
+      "hizmet",
+      "niyet",
+      "konusma",
+      "kazanan_sayfa",
+      "gosterim",
+      "tiklama",
+      "pozisyon",
+      "bant",
+      "kazanan_siralaniyor",
+      "kazanan_gosterim",
+      "kazanan_pozisyon",
+      "kanibalizasyon",
+      "siralanan_sayfalar",
+      "onceki_gosterim",
+      "onceki_pozisyon",
+      "delta_poz",
+      "son_hafta_durum",
+      "son_hafta_n",
+      "son_hafta_pozisyon",
+      "not",
+    ],
+  ];
+  for (const k of para.kayitlar) {
+    satirlar.push([
+      k.no,
+      k.sorgu,
+      k.hizmet,
+      k.niyet,
+      k.konusma ? 1 : 0,
+      k.kazananSayfa,
+      k.gosterim,
+      k.tiklama,
+      poz(k.pozisyon),
+      k.bant ?? "-",
+      k.kazananSiralaniyor ? 1 : 0,
+      k.kazananGosterim,
+      poz(k.kazananPozisyon),
+      k.kanibalizasyon ? 1 : 0,
+      k.sayfalar.map(sayfaMetni).join("; ") || "-",
+      k.onceki ? k.onceki.gosterim : "-",
+      k.onceki ? poz(k.onceki.pozisyon) : "-",
+      yuvarla(k.deltaPoz),
+      k.sonHafta?.durum ?? "-",
+      k.sonHafta ? k.sonHafta.n : "-",
+      k.sonHafta ? poz(k.sonHafta.pozisyon) : "-",
+      paraNotu(k) || "-",
+    ]);
+  }
+  return toCsv(satirlar);
+}
+
 /** `ozet.txt` — `GSC-Data/haftalik-log.md` kaydına doğrudan kopyalanabilir. */
 export function ozetMetni({
   site,
@@ -605,6 +1111,7 @@ export function ozetMetni({
   a6,
   niyet = null,
   hs = null,
+  para = null,
 }) {
   const delta = (a, b) => {
     const d = a - b;
@@ -667,6 +1174,7 @@ export function ozetMetni({
       ...niyetBolumu({ niyet, hs, toplamGosterim: gunluk.donem.gosterim })
     );
   }
+  if (para) L.push(...paraSetiBolumu(para));
   L.push(
     `## A-3 adayları (poz<10 & CTR<%1 & gösterim>=20) — ${a3.length} sayfa`
   );
@@ -742,10 +1250,33 @@ function metaOku(dir) {
 }
 
 /**
- * Bir çıktı klasöründeki CSV'lerden küme hesabını yapar ve
- * `kumeler.csv` + `ozet.txt` üretir. API'ye hiç dokunmaz.
+ * Önceki çekim klasörünün para seti girdisi: `sorgular.csv` ve pencere.
+ * Klasör verilip CSV yoksa hata — Δ'nın sessizce boş kalmasından iyidir.
  */
-export function kumeHesabi(fromDir, outDir, meta = {}) {
+function oncekiCekim(prevDir) {
+  if (!prevDir) return null;
+  const dosya = join(prevDir, "sorgular.csv");
+  if (!existsSync(dosya)) {
+    throw new Error(`--prev klasöründe sorgular.csv yok: ${prevDir}`);
+  }
+  return {
+    ad: basename(prevDir),
+    meta: metaOku(prevDir),
+    sorgular: readCsvFile(dosya),
+  };
+}
+
+/**
+ * Bir çıktı klasöründeki CSV'lerden küme hesabını yapar ve
+ * `kumeler.csv` + `para-seti.csv` + `ozet.txt` üretir. API'ye hiç dokunmaz.
+ * `prevDir` verilirse para setinde Δ poz ve türetilmiş son hafta hesaplanır.
+ *
+ * @param {string} fromDir
+ * @param {string} outDir
+ * @param {{ site?: string, start?: string, end?: string }} [meta]
+ * @param {string | null} [prevDir] önceki çekim klasörü (`--prev`)
+ */
+export function kumeHesabi(fromDir, outDir, meta = {}, prevDir = null) {
   const bilgi = { ...metaOku(fromDir), ...meta };
   const sorgular = readCsvFile(join(fromDir, "sorgular.csv"));
   const sayfalar = readCsvFile(join(fromDir, "sayfalar.csv"));
@@ -762,12 +1293,37 @@ export function kumeHesabi(fromDir, outDir, meta = {}) {
   const niyet = niyetKumesi(sorgular);
   const hs = hizmetSayfasiPayi(sayfalar);
 
+  const onceki = oncekiCekim(prevDir);
+  const pencere = onceki
+    ? turetmePenceresi({
+        start: bilgi.start,
+        end: bilgi.end,
+        oncekiStart: onceki.meta.start,
+        oncekiEnd: onceki.meta.end,
+      })
+    : null;
+  const para = {
+    para: paraSeti(sorgular, sorguSayfa, onceki?.sorgular ?? null, {
+      sonHafta: pencere?.ortusuyor ?? true,
+    }),
+    sayfa: paraSayfalari(sayfalar),
+    pencere: {
+      onceki: onceki
+        ? `${onceki.ad} (${onceki.meta.start ?? "-"} → ${onceki.meta.end ?? "-"})`
+        : null,
+      ortusuyor: pencere?.ortusuyor ?? true,
+      son: pencere?.son ?? null,
+      oncekiYalniz: pencere?.oncekiYalniz ?? null,
+    },
+  };
+
   mkdirSync(outDir, { recursive: true });
   writeFileSync(
     join(outDir, "kumeler.csv"),
     kumelerCsv(sorgu, ulke, niyet, hs),
     "utf8"
   );
+  writeFileSync(join(outDir, "para-seti.csv"), paraSetiCsv(para.para), "utf8");
   writeFileSync(
     join(outDir, "ozet.txt"),
     ozetMetni({
@@ -782,10 +1338,11 @@ export function kumeHesabi(fromDir, outDir, meta = {}) {
       a6,
       niyet,
       hs,
+      para,
     }),
     "utf8"
   );
-  return { sorgu, ulke, eski, a3, a6, gunluk, niyet, hs };
+  return { sorgu, ulke, eski, a3, a6, gunluk, niyet, hs, para };
 }
 
 // ------------------------------------------------------------------- API
@@ -855,7 +1412,7 @@ function isoDaysAgo(n) {
 }
 
 /** Küme hesabının konsol özeti — iki çalışma kipinde de aynı satırlar. */
-function konsolOzeti({ sorgu, ulke, eski, a3, niyet, hs }) {
+function konsolOzeti({ sorgu, ulke, eski, a3, niyet, hs, para }) {
   for (const kume of SORGU_KUMELERI) {
     const o = sorgu[kume.key];
     console.log(
@@ -875,16 +1432,24 @@ function konsolOzeti({ sorgu, ulke, eski, a3, niyet, hs }) {
   console.log(
     `  Hizmet sayfası payı: ${yuzde(hs.pay)} (${hs.gosterim} / ${hs.toplam}, ${hs.kayit} sayfa)`
   );
+  const b = para.para.bant;
+  console.log(
+    `  Para seti: bant ${BANTLAR.map((x) => b[x.key]).join(" / ")}${b.gorunmuyor ? ` (+${b.gorunmuyor} görünmüyor)` : ""} · ${para.para.gosterim} göst / ${para.para.tiklama} tık · para sayfaları ${para.sayfa.gosterim} / ${para.sayfa.tiklama}${para.pencere.onceki ? ` · önceki ${para.pencere.onceki}` : ""}`
+  );
 }
 
 async function main() {
   const fromDir = arg("from-dir");
+  // --prev: para setinde Δ poz ve türetilmiş son hafta için önceki çekim.
+  // API çekiminden önce doğrulanır — çekim bittikten sonra patlamasın.
+  const prevDir = arg("prev");
+  if (prevDir) oncekiCekim(prevDir);
 
   // --from-dir: API'ye hiç dokunmadan mevcut CSV'lerden küme hesabı.
   if (fromDir) {
     const outDir = arg("out", fromDir);
     console.log(`GSC küme hesabı (API'siz) · kaynak ${fromDir}`);
-    konsolOzeti(kumeHesabi(fromDir, outDir));
+    konsolOzeti(kumeHesabi(fromDir, outDir, {}, prevDir));
     console.log(`Tamam → ${outDir}`);
     return;
   }
@@ -954,7 +1519,7 @@ async function main() {
   );
 
   console.log("Küme özeti:");
-  konsolOzeti(kumeHesabi(outDir, outDir, { site, start, end }));
+  konsolOzeti(kumeHesabi(outDir, outDir, { site, start, end }, prevDir));
   console.log(`Tamam → ${outDir}`);
 }
 

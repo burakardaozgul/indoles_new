@@ -115,14 +115,10 @@ export function professionalServiceLd() {
     "@type": "ProfessionalService",
     email: COMPANY.email,
     telephone: COMPANY.phone,
-    geo: {
-      "@type": "GeoCoordinates",
-      // `COMPANY.geo` insan-okur biçimde ("41.0082° N"); şema ondalık
-      // derece ister. Değer hâlâ şehir merkezi — bina koordinatı
-      // doğrulanınca künyede değişir (bkz. company.ts `geo` notu).
-      latitude: parseFloat(COMPANY.geo.lat),
-      longitude: parseFloat(COMPANY.geo.lon),
-    },
+    // `geo` YOK (karar 2026-10-09): elimizdeki koordinat şehir merkeziydi,
+    // açık adresin binası değil — yanlış pin, eksik pinden kötüdür. GBP
+    // pininden doğrulanmış koordinat alınınca künyeye (`COMPANY.geo`)
+    // eklenecek ve burada `GeoCoordinates` olarak basılacak.
     areaServed: "TR",
     availableLanguage: ["tr", "en"],
     // `COMPANY.hours` ("Pzt–Cum 09:00–18:00") aynı bilginin görünen ikizi;

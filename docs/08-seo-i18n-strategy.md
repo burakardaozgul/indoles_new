@@ -302,7 +302,7 @@ Her sayfa tipine uygun schema.org JSON-LD.
 
 `sameAs` kaynağı (2026-09-25, 2026-10-09): `COMPANY.social` (üst bar/footer'da ikonu olan LinkedIn ve Instagram) + `COMPANY.profiles` (ikonsuz doğrulanmış kayıtlar — Google İşletme Profili `kgmid`, Clutch, Sortlist). X kaydı yok; hesap yok. GoodFirms profili incelemede — yayımlanmış URL'i olmadan `sameAs`a girmez.
 
-`foundingDate` ve `address` kaynağı (2026-10-09, Burak): `COMPANY.foundingDate` (yıl; şirket 2018, INDOLES adı 2021'den beri) ve `COMPANY.address`. Aynı `PostalAddress` iletişim sayfasındaki `ProfessionalService` düğümüne de devredilir; sayfadaki görünür adres satırı (`COMPANY.address.display`) ve dizin profilleri aynı yazımı taşır (NAP). `geo` hâlâ şehir merkezi koordinatı — bina koordinatı doğrulanınca künyede güncellenir.
+`foundingDate` ve `address` kaynağı (2026-10-09, Burak): `COMPANY.foundingDate` (yıl; şirket 2018, INDOLES adı 2021'den beri) ve `COMPANY.address`. Aynı `PostalAddress` iletişim sayfasındaki `ProfessionalService` düğümüne de devredilir; sayfadaki görünür adres satırı (`COMPANY.address.display`) ve dizin profilleri aynı yazımı taşır (NAP). `geo` basılmaz (karar 2026-10-09): eldeki koordinat şehir merkeziydi, adresin binası değil; GBP pininden doğrulanmış koordinat alınınca `COMPANY.geo`ya eklenip `ProfessionalService`e geri döner.
 
 ### 8.2 Service (pillar ve hizmet sayfalarında)
 

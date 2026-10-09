@@ -124,14 +124,14 @@ export const COMPANY = {
     sortlist: "https://www.sortlist.com/agency/indoles-growth",
   },
   /**
-   * Şehir merkezi koordinatı (İstanbul geneli), adresin binası değil.
-   * Açık adres 2026-10-09'da geldi; bina koordinatı henüz doğrulanmadı
-   * (Google İşletme Profili pininden alınmalı). Uydurulmuş hassasiyet
-   * yerine bilinen kaba değer duruyor.
+   * Koordinat YOK (karar 2026-10-09). Önceki `lat`/`lon` (41.0082° N,
+   * 28.9784° E) İstanbul şehir merkeziydi — açık adresin (Esentepe, Şişli)
+   * ~8-9 km uzağı. Açık adres geldikten sonra o değer yanlış bir pin
+   * olurdu; doğrulanmış bina koordinatı olmadığı için şemadan da çıktı.
+   * GBP pininden alınınca eklenecek (`lat`/`lon` ondalık derece) ve
+   * `professionalServiceLd` `geo` düğümünü yeniden basacak.
    */
   geo: {
-    lat: "41.0082° N",
-    lon: "28.9784° E",
     timeZone: "Europe/Istanbul",
   },
 } as const;

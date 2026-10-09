@@ -126,11 +126,13 @@ describe("professionalServiceLd", () => {
     expect(ld.legalName).toBe("İndoles Yazılım A.Ş.");
   });
 
-  it("geo'yu ondalık dereceye çevirir — COMPANY.geo insan-okur biçimde", () => {
+  it("doğrulanmamış koordinatı basmaz — geo yok (karar 2026-10-09)", () => {
+    // Önceki değer (41.0082, 28.9784) şehir merkeziydi, açık adresin
+    // binası değil. GBP pininden doğrulanmış koordinat gelene kadar alan
+    // hiç basılmaz: yanlış pin, eksik pinden kötüdür.
     const ld = professionalServiceLd() as Record<string, any>;
-    expect(ld.geo["@type"]).toBe("GeoCoordinates");
-    expect(ld.geo.latitude).toBeCloseTo(41.0082, 4);
-    expect(ld.geo.longitude).toBeCloseTo(28.9784, 4);
+    expect(ld.geo).toBeUndefined();
+    expect("lat" in COMPANY.geo).toBe(false);
   });
 
   it("iletişim kanallarını künyeyle aynı kaynaktan basar", () => {

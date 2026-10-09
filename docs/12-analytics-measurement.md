@@ -354,7 +354,7 @@ Hedef: Launch sonrası 3. ay itibariyle haftada 15+ qualified lead.
 | Article completion rate | `content_scrolled_100` / `article_viewed` | > %30 |
 | Case study → booking attribution | Session içinde case_study_viewed → booking_confirmed | > %5 |
 
-> **Organik görünürlük KPI'ları (2026-09-25):** Satın alma niyetli görünürlüğün birincil ölçüleri (niyetli sorgularda ilk 10, hizmet sayfası gösterim payı, niyetli tık, nitelikli form, GEO turu) GSC ve GA4 lead anahtar olaylarından beslenir; tanım ve 30 Kasım hedefleri `strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` §9.1'de, haftalık hesap `scripts/gsc-pull.mjs`'te.
+> **Organik görünürlük KPI'ları (2026-09-25):** Satın alma niyetli görünürlüğün birincil ölçüleri (niyetli sorgularda ilk 10, hizmet sayfası gösterim payı, niyetli tık, nitelikli form, GEO turu) GSC ve GA4 lead anahtar olaylarından beslenir; tanım ve 30 Kasım hedefleri `strateji/INDOLES-Organik-Strateji-SEO-GEO-v1.md` §9.1'de, haftalık hesap `scripts/gsc-pull.mjs` (GSC) ve `scripts/ga4-pull.mjs`'te (GA4: form/brief, AI yönlendirmesi — `docs/runbooks/ga4-haftalik.md`; ikisi birlikte `pnpm olcum:weekly`).
 
 ### 5.4 AI agent KPI
 

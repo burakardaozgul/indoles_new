@@ -465,6 +465,20 @@ Kaynak: YH §4, PL, İY09, Ö09. **Ritim:** YH "haftada 1 karar içeriği + 1 de
 
 ---
 
+### 12.1 Burak kararları (9 Ekim, öğleden sonra)
+
+| Madde | Karar |
+|---|---|
+| Workers Paid | **Alındı** — CPU sınırı 30 sn; 1102/503 riski kapandı |
+| GBP adı / dizin kayıtları | **Tamam** |
+| Diagnoo motor anahtarları | Burak hallediyor |
+| Turkcell / CaffeBO vakaları | Sonra |
+| Perplexity (GEO Ay 2) | **Yapılmayacak**; Ay 2 kısmi kapandı, A-5 → Ay 3 (1 Kas) |
+| GA4 istenmeyen yönlendirme + IP filtresi | İptal |
+| Canlı form testi (`contact_form_submitted`) | **Onaylandı**, 9 Eki yapıldı — sonuç haftalık log'da |
+| Dizine ekleme (2 EN e-ticaret yazısı + eski UX adresi) | Liste verildi |
+| **Yön** | "Satış niyetli kelimelerde ilk 3" — İlk 3 programı: `docs/strateji/Ilk-3-Programi-2026-10.md` |
+
 ## 13. GA4 kuruldu — haftalık çekim `pnpm ga4:pull` / `pnpm olcum:weekly` (ayrı dalda yazılıyor, birleştirmede eklenecek)
 
 **Burak'ın yaptıkları (9 Eki):** servis hesabı `indoles@indoles-web-calendar.iam.gserviceaccount.com` GA4 mülküne **Düzenleyici** olarak eklendi · GCP projesi `indoles-web-calendar`'da Analytics **Data API** ve **Admin API** açık · mülk **553152492** (ölçüm kimliği `G-KWT8HCXJT6`, repo `docs/12-analytics-measurement.md`). Erişim test çekimiyle doğrulandı.

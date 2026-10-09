@@ -13,9 +13,10 @@ import type { ServiceContent } from "../types";
  * Kanibalizasyon sınırı: "yapay zeka arama optimizasyonu" ve "geo
  * optimizasyonu" BİLGİ sorgusu kanonik rehberde
  * (`yapay-zeka-aramalarinda-nasil-one-cikarsiniz`) kalır. Bu sayfa ticari
- * niteleyicileri taşır — "GEO danışmanlığı" arama başlığında, "GEO ajansı"
- * lede'de ve karşı-konumlandırma SSS'lerinde (yerleşim kuralı,
- * `keyword-coverage.test.ts`: "ajansı" `name` ve `seo.title`a girmez).
+ * niteleyicileri taşır — "GEO danışmanlığı" H1'de, lede'nin ilk kelimesinde
+ * ve arama başlığında (2026-10-09'dan beri), "GEO ajansı" lede'de ve
+ * karşı-konumlandırma SSS'lerinde (yerleşim kuralı, `keyword-coverage.test.ts`:
+ * "ajansı" `name` ve `seo.title`a girmez).
  *
  * Kapsam yalnız INDOLES'in bugün gerçekten yaptığı işlerden kuruldu: beş
  * sinyalli denetim (GEO Görünürlük Denetleyicisi'yle aynı çerçeve), teknik
@@ -31,13 +32,23 @@ export const geoDanismanligi: ServiceContent = {
   slug: { tr: "geo-danismanligi", en: "geo-consulting" },
   pillar: "growth",
   /**
-   * H1 Burak'ın verdiği ad (2026-09-25). Bilgi sorgusunun tam biçimini
-   * taşır ama arama başlığı ticari biçimi ("GEO danışmanlığı") başa alır;
-   * kanonik rehberin `seo.title`ı ile aynı dizge değildir.
+   * H1 ticari sorguyu taşır (Burak kararı, 2026-10-09 — ADR-040 güncellemesi,
+   * `docs/strateji/Ilk-3-Programi-2026-10.md` §C.1). "geo danışmanlığı" para
+   * setinin en büyük sorgusu (GSC 8 Eyl–6 Eki: 66 gösterim, poz. 27,36);
+   * ifade arama başlığındaydı ama H1'de ve ilk 100 kelimede yoktu. Önceki ad
+   * ("Yapay zeka arama optimizasyonu (GEO)", 2026-09-25) kanonik rehberin
+   * bilgi sorgusunu taşıyordu ve altı GEO yazısının köprü kartında başlık
+   * olarak basılıyordu. Tam form lede'de açıklama olarak kalır.
+   *
+   * EN paritesi: "GEO consulting" (EN pazarına yatırım yok; iki dilde aynı
+   * kalıp — `e-ticaret` "E-commerce consulting" emsali). Ad tek kaynaktan
+   * türer: breadcrumb, hub ve ana sayfa kartları, köprü kartı, `Service` /
+   * `BreadcrumbList` / `WebPage` JSON-LD, `llms.txt`. "ajansı" H1'e GİRMEZ;
+   * `keyword-coverage.test.ts` `NAME_TARGETS` bu adı kilitler.
    */
   name: {
-    tr: "Yapay zeka arama optimizasyonu (GEO)",
-    en: "Generative engine optimization (GEO)",
+    tr: "GEO danışmanlığı",
+    en: "GEO consulting",
   },
 
   shortDescription: {
@@ -52,13 +63,16 @@ export const geoDanismanligi: ServiceContent = {
   },
 
   /**
-   * "GEO ajansı" burada üçüncü taraf tanımı olarak geçer — kendimizi
-   * adlandırmak için değil, o ajanstan beklenmesi gereken çıktıyı
-   * adlandırmak için (`cro.ts` lede'siyle aynı kalıp).
+   * Tanım önce ve H1'in ifadesiyle açılır ("GEO danışmanlığı, … yapılan
+   * iştir"); "yapay zeka arama optimizasyonu" tam formu aynı cümlede
+   * açıklama olarak kalır (2026-10-09). "GEO ajansı" burada üçüncü taraf
+   * tanımı olarak geçer — kendimizi adlandırmak için değil, o ajanstan
+   * beklenmesi gereken çıktıyı adlandırmak için (`cro.ts` lede'siyle aynı
+   * kalıp). Üç ifade de ilk cümlede, yani ilk 100 kelimede.
    */
   lede: {
-    tr: "Yapay zeka arama optimizasyonu (GEO), ChatGPT, Gemini, Perplexity ve Google AI Overviews bir soruyu cevaplarken markanızın kaynak gösterilmesi için yapılan iştir; bir GEO ajansından beklenecek şey sıralama raporu değil, kaç cevapta hangi cümleyle anıldığınızın ölçümüdür. INDOLES aynı işi önce kendi sitesinde kurdu: botlara açık zemin, soru-cevap mimarisi ve her ay aynı 30 sorguyla tutulan kayıt.",
-    en: "Generative engine optimization (GEO) is the work of getting your brand cited when ChatGPT, Gemini, Perplexity and Google AI Overviews answer a question; what a GEO agency owes you is not a ranking report but a measure of how many answers name you, and in which sentence. INDOLES built the same work on its own site first: crawler-open groundwork, a question-and-answer structure and a record kept with the same 30 queries every month.",
+    tr: "GEO danışmanlığı (yapay zeka arama optimizasyonu), ChatGPT, Gemini, Perplexity ve Google AI Overviews bir soruyu cevaplarken markanızın kaynak gösterilmesi için yapılan iştir; bir GEO ajansından beklenecek şey sıralama raporu değil, kaç cevapta hangi cümleyle anıldığınızın ölçümüdür. INDOLES aynı işi önce kendi sitesinde kurdu: botlara açık zemin, soru-cevap mimarisi ve her ay aynı 30 sorguyla tutulan kayıt.",
+    en: "GEO consulting (generative engine optimization) is the work of getting your brand cited when ChatGPT, Gemini, Perplexity and Google AI Overviews answer a question; what a GEO agency owes you is not a ranking report but a measure of how many answers name you, and in which sentence. INDOLES built the same work on its own site first: crawler-open groundwork, a question-and-answer structure and a record kept with the same 30 queries every month.",
   },
 
   signals: {
@@ -366,17 +380,18 @@ export const geoDanismanligi: ServiceContent = {
     },
     {
       // Kendi sitemizin sonuçları — kaynak ve tarihle (Burak'ın kanıt şartı).
-      // GSC: `Marketing/GSC-Data/haftalik-2026-09-22/sorgular.csv`
-      // (2026-08-22 → 2026-09-19): "yerli geo aracı" poz. 1,22,
-      // "türkçe geo aracı var mı" poz. 2,50. Perplexity atfı:
+      // GSC: `Marketing/GSC-Data/haftalik-2026-10-09/sorgular.csv`
+      // (2026-09-08 → 2026-10-06, 9 Eki çekimi): "yerli geo aracı" 38 göst. /
+      // poz. 1,16, "türkçe geo aracı var mı" 39 göst. / poz. 2,64. Önceki
+      // dönem (22 Ağu–19 Eyl): 1,22 ve 2,50. Perplexity atfı:
       // `Marketing/GEO-Olcum/ozet.md` Ay 1 (2026-09-01), 1/30.
       question: {
         tr: "INDOLES'in kendi sitesinde GEO sonucu var mı?",
         en: "Does INDOLES have GEO results on its own site?",
       },
       answer: {
-        tr: "Var ve rakamıyla kayıtlı. Google Search Console'da 22 Ağustos – 19 Eylül 2026 döneminde \"yerli geo aracı\" sorgusunda ortalama pozisyonumuz 1,2, \"türkçe geo aracı var mı\" sorgusunda 2,5 oldu. 1 Eylül 2026 ölçüm turunda Perplexity, CRO ajansı seçimi üzerine bir soruya verdiği cevapta ajans seçim yazımızı kaynak gösterdi. Aynı tur bize dürüst bir ölçü de verdi: 30 sorgunun yalnız 1'inde geçiyoruz.",
-        en: "Yes, and the figures are on record. In Google Search Console for 22 August – 19 September 2026, our average position was 1.2 for the query \"yerli geo aracı\" (local GEO tool) and 2.5 for \"türkçe geo aracı var mı\" (is there a Turkish GEO tool). In the 1 September 2026 measurement round, Perplexity cited our article on choosing a CRO agency when answering a question on that subject. The same round gave us an honest measure too: we appear in only 1 of the 30 queries.",
+        tr: "Var ve rakamıyla kayıtlı. Google Search Console'da 8 Eylül – 6 Ekim 2026 döneminde \"yerli geo aracı\" sorgusunda 38 gösterimde ortalama pozisyonumuz 1,2, \"türkçe geo aracı var mı\" sorgusunda 39 gösterimde 2,6 oldu. 1 Eylül 2026 ölçüm turunda Perplexity, CRO ajansı seçimi üzerine bir soruya verdiği cevapta ajans seçim yazımızı kaynak gösterdi. Aynı tur bize dürüst bir ölçü de verdi: 30 sorgunun yalnız 1'inde geçtik.",
+        en: "Yes, and the figures are on record. In Google Search Console for 8 September – 6 October 2026, our average position was 1.2 across 38 impressions for the query \"yerli geo aracı\" (local GEO tool) and 2.6 across 39 impressions for \"türkçe geo aracı var mı\" (is there a Turkish GEO tool). In the 1 September 2026 measurement round, Perplexity cited our article on choosing a CRO agency when answering a question on that subject. The same round gave us an honest measure too: we appeared in only 1 of the 30 queries.",
       },
     },
     {
@@ -411,12 +426,19 @@ export const geoDanismanligi: ServiceContent = {
     },
   ],
 
-  updatedAt: "2026-09-25",
+  updatedAt: "2026-10-09",
 
   seo: {
     /**
      * Ticari biçim başta: "GEO danışmanlığı". "ajansı" başlığa GİRMEZ —
      * `cro` istisnası yalnız o kayıt içindir (`keyword-coverage.test.ts`).
+     *
+     * 2026-10-09: korundu. Alternatif "GEO danışmanlığı: yapay zeka
+     * görünürlüğü" ana sorguyu aynı yerde ve aynı biçimde taşıyor, yani
+     * "geo danışmanlığı" için kazanç yok; fark yalnız ikincil sorguda
+     * ("yapay zeka görünürlük danışmanlığı"), o da bu başlıkla zaten bu
+     * sayfada 9,28'de. H1 ve lede değişikliği tek değişken kalsın diye
+     * başlığa dokunulmadı (İlk 3 Programı §C.1, §F).
      */
     title: {
       tr: "GEO danışmanlığı: yapay zekada görünürlük",

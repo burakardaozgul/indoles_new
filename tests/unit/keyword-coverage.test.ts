@@ -48,6 +48,40 @@ function searchSurface(s: ServiceContent): string {
 }
 
 /**
+ * "ajansı"/"firmaları" (EN "agency") yasağının `seo.title` istisnaları —
+ * TR slug → başlıkta taşınan ifade ve kararın sahibi.
+ *
+ * Yasak `name` (H1) ve `seo.title` yüzeylerinde geçerli; bu harita yalnız
+ * `seo.title` yüzeyini, yalnız adı geçen kayıt için açar. `name` yasağının
+ * istisnası yoktur. Önceden istisna iki testte sabit kodluydu
+ * (`s.slug.tr === "cro"`); harita onu tek yere ve karar sahibiyle görünür
+ * kıldı (İlk 3 Programı §C.1 madde 1, 2026-10-09). İstisna eklemek ya da
+ * kaldırmak tek satırdır; "istisna kullanılıyor" testleri her kayıt için
+ * ayrı koşar, harita boşalırsa kendiliğinden boş kümeye düşer — ölü istisna
+ * kalmaz.
+ *
+ * `cro` — Burak, 2026-09-18 ("bu seferlik"; strateji v1.16). Gerekçe: "cro
+ * ajansı" P0 müşteri kelimesi ve rakip eşiği Poligon Interactive'in birebir
+ * "CRO Ajansı" taşıyan title'ı (`docs/strateji/Rakip-Analizi-P0-SERP.md`
+ * §4). Seçenek A / B kararı 15 Ekim'de (İlk 3 Programı §B.3); A seçilirse
+ * bu satır silinir. GEO ve AI başlığına "ajansı" istisnası önerilmiyor
+ * (§C.1 madde 5): "ajansı" sorgusu hizmet sayfasına değil seçim yazısına
+ * gidiyor.
+ */
+const TITLE_AJANSI_ISTISNALARI: Record<
+  string,
+  { tr: string; en: string; karar: string }
+> = {
+  cro: { tr: "cro ajansı", en: "cro agency", karar: "Burak, 2026-09-18" },
+};
+
+function titleAjansiIstisnasi(slug: string): boolean {
+  // `in` değil: düz nesnede "constructor" gibi prototip anahtarları için de
+  // `in` `true` döner.
+  return Object.hasOwn(TITLE_AJANSI_ISTISNALARI, slug);
+}
+
+/**
  * Strateji §2'de adıyla geçen ticari kelimeler → hedef hizmet (TR slug).
  *
  * Son iki çift Keyword-Onceliklendirme-2026-08-27 §1.5'ten ("ucuz kazançlar —
@@ -96,16 +130,11 @@ describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
     // tanımına dayanıyor ve `ı`, `ş`, `ğ` bu kümede değil. `/\bajansı\b/`
     // hiçbir zaman eşleşmiyor — bu test önce sessizce geçiyordu.
     //
-    // TEK İSTİSNA — `cro` kaydının `seo.title`ı (Burak, 2026-09-18,
-    // "bu seferlik"; strateji v1.16). Gerekçe: "cro ajansı" P0 müşteri
-    // kelimesi ve rakip eşiği Poligon Interactive'in birebir "CRO Ajansı"
-    // taşıyan title'ı (`docs/strateji/Rakip-Analizi-P0-SERP.md` §4) —
-    // başlıkta kelimeyi taşımayan bir sonuç o SERP'te tıklama dilinde
-    // geride kalıyordu. İstisna yalnız bu sayfa ve yalnız `seo.title`
-    // yüzeyi içindir; `name` yasağı 13 hizmetin 13'ünde sürer, diğer 12
-    // hizmetin `seo.title`ında da sürer.
+    // İstisnalar `TITLE_AJANSI_ISTISNALARI` haritasında, karar sahibiyle:
+    // yalnız adı geçen kaydın `seo.title` yüzeyi muaf tutulur; `name`
+    // yasağı 13 hizmetin 13'ünde sürer.
     for (const s of SERVICES) {
-      const exemptTitle = s.slug.tr === "cro";
+      const exemptTitle = titleAjansiIstisnasi(s.slug.tr);
       const surfaces: Array<[label: string, value: string]> = [
         ["name.tr", s.name.tr],
         ...(exemptTitle
@@ -125,14 +154,18 @@ describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
     }
   });
 
-  it("cro istisnası gerçekten kullanılıyor — başlık hedef kelimeyi taşıyor", () => {
-    // İstisna ölü kalırsa kural fiilen eskisi gibi çalışır ve istisnanın
-    // neden açıldığı kaybolur. Bu test istisnanın karşılığını dondurur:
-    // kelime başlıkta duruyor ve H1 hâlâ temiz.
-    const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
-    expect(norm(cro.seo.title.tr)).toContain(norm("cro ajansı"));
-    expect(norm(cro.name.tr).includes("ajansi")).toBe(false);
-  });
+  it.each(Object.entries(TITLE_AJANSI_ISTISNALARI))(
+    "%s istisnası gerçekten kullanılıyor — başlık hedef kelimeyi taşıyor",
+    (slug, istisna) => {
+      // İstisna ölü kalırsa kural fiilen eskisi gibi çalışır ve istisnanın
+      // neden açıldığı kaybolur. Bu test istisnanın karşılığını dondurur:
+      // kelime başlıkta duruyor ve H1 hâlâ temiz.
+      const service = SERVICES.find((s) => s.slug.tr === slug);
+      expect(service, `hizmet bulunamadı: ${slug} (${istisna.karar})`).toBeDefined();
+      expect(norm(service!.seo.title.tr)).toContain(norm(istisna.tr));
+      expect(norm(service!.name.tr).includes("ajansi")).toBe(false);
+    },
+  );
 
   it("her karşı-konumlandırma sorusu bir farkı tanımlıyor", () => {
     // Kelimeyi soruya sıkıştırıp cevabı boş bırakmak, kelime doldurmadır.
@@ -151,6 +184,42 @@ describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
     for (const { slug, f } of counterPositioning) {
       expect(f.answer.tr, `${slug}: "${f.question.tr}"`).toContain("INDOLES");
     }
+  });
+});
+
+/**
+ * H1 kilidi (İlk 3 Programı §C.1 madde 3; alarm A-7).
+ *
+ * `TARGETS` ifadenin arama yüzeyinin herhangi bir yerinde bulunmasını
+ * denetler, yerini denetlemez: H1'den düşen bir ifade lede'de ya da SSS'te
+ * yaşamaya devam ederse test yeşil kalır. Bu liste Burak'ın H1 kararlarını
+ * dondurur — `name.tr` normalize edilip (küçük harf, noktalama boşluk)
+ * ifadeyi içermek zorunda, karar sessizce geri dönmesin.
+ *
+ * - `ai-danismanlik` — hizmetin ilk adı; v1.19'da e-ticaret adının emsali.
+ * - `e-ticaret` — Burak, 2026-10-02 (strateji v1.19).
+ * - `cro` — Burak, 2026-09-19 (strateji v1.17).
+ * - `geo-danismanligi` — Burak, 2026-10-09 (ADR-040 güncellemesi, v1.21):
+ *   para setinin en büyük sorgusu (66 göst. / poz. 27,36) H1'de yoktu.
+ *
+ * "ajansı" bu listeye giremez: yukarıdaki yasak `name` yüzeyinde
+ * istisnasız geçerli.
+ */
+const NAME_TARGETS: Array<[slug: string, phrase: string]> = [
+  ["ai-danismanlik", "yapay zeka danışmanlığı"],
+  ["e-ticaret", "e-ticaret danışmanlığı"],
+  ["cro", "dönüşüm oranı optimizasyonu"],
+  ["geo-danismanligi", "geo danışmanlığı"],
+];
+
+describe("H1 kilidi (İlk 3 Programı §C.1, A-7)", () => {
+  it.each(NAME_TARGETS)("%s H1'i '%s' ifadesini taşıyor", (slug, phrase) => {
+    const service = SERVICES.find((s) => s.slug.tr === slug);
+    expect(service, `hizmet bulunamadı: ${slug}`).toBeDefined();
+    expect(
+      norm(service!.name.tr),
+      `${slug} name.tr: "${service!.name.tr}"`,
+    ).toContain(norm(phrase));
   });
 });
 
@@ -239,12 +308,12 @@ describe("EN keyword yerleşimi (strateji §2.0 karar 6, docs/19 C-13)", () => {
     // SSS'lerde (karşı-konumlandırma veya üçüncü taraf tanımı olarak)
     // geçiyor. Bu test o durumu dondurur.
     //
-    // TEK İSTİSNA — `cro` kaydının `seo.title.en`i: TR istisnasının EN
-    // eşleniği (Burak, 2026-09-18; strateji v1.16). İki dilde aynı başlık
-    // kalıbı kullanılıyor, kural ikisinde de yalnız bu sayfanın arama
-    // başlığı için esniyor; `name.en` yasağı 13 hizmetin 13'ünde sürer.
+    // İstisnalar TR testiyle aynı haritadan (`TITLE_AJANSI_ISTISNALARI`):
+    // iki dilde aynı başlık kalıbı kullanılıyor, kural ikisinde de yalnız
+    // adı geçen sayfanın arama başlığı için esniyor; `name.en` yasağı 13
+    // hizmetin 13'ünde sürer.
     for (const s of SERVICES) {
-      const exemptTitle = s.slug.tr === "cro";
+      const exemptTitle = titleAjansiIstisnasi(s.slug.tr);
       const surfaces: Array<[label: string, value: string]> = [
         ["name.en", s.name.en],
         ...(exemptTitle
@@ -260,11 +329,15 @@ describe("EN keyword yerleşimi (strateji §2.0 karar 6, docs/19 C-13)", () => {
     }
   });
 
-  it("cro EN istisnası gerçekten kullanılıyor", () => {
-    const cro = SERVICES.find((s) => s.slug.tr === "cro")!;
-    expect(norm(cro.seo.title.en)).toContain(norm("cro agency"));
-    expect(norm(cro.name.en).includes("agency")).toBe(false);
-  });
+  it.each(Object.entries(TITLE_AJANSI_ISTISNALARI))(
+    "%s EN istisnası gerçekten kullanılıyor",
+    (slug, istisna) => {
+      const service = SERVICES.find((s) => s.slug.tr === slug);
+      expect(service, `hizmet bulunamadı: ${slug} (${istisna.karar})`).toBeDefined();
+      expect(norm(service!.seo.title.en)).toContain(norm(istisna.en));
+      expect(norm(service!.name.en).includes("agency")).toBe(false);
+    },
+  );
 });
 
 /**

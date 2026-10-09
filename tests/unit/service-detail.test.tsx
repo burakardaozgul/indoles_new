@@ -630,3 +630,52 @@ describe("ServiceDetail — İlgili yazılar şeridi", () => {
     expect(within(region).getAllByRole("listitem")).toHaveLength(1);
   });
 });
+
+/**
+ * Ad tek kaynaktan döner (GEO H1, 2026-10-09 — ADR-040 güncellemesi).
+ *
+ * `name` H1'e, breadcrumb'ın son halkasına ve üç JSON-LD düğümüne
+ * (`WebPage`, `BreadcrumbList`, `Service`) aynı kayıttan basılıyor. Beklenen
+ * ad burada bilerek düz yazıldı: kayıt sessizce eski ada ("Yapay zeka arama
+ * optimizasyonu (GEO)") dönerse ya da bir yüzey elle tutulan bir kopyaya
+ * bağlanırsa test kırmızıya düşer. H1'in ifadesini ayrıca
+ * `keyword-coverage.test.ts` `NAME_TARGETS` kilitliyor.
+ */
+describe("ServiceDetail — GEO adı H1, breadcrumb ve JSON-LD'de", () => {
+  const geo = SERVICES.find((s) => s.slug.tr === "geo-danismanligi")!;
+  const expectedName = { tr: "GEO danışmanlığı", en: "GEO consulting" } as const;
+
+  for (const locale of ["tr", "en"] as const) {
+    it(`${locale}: "${expectedName[locale]}" her yüzeyde aynı`, () => {
+      const { container } = render(
+        <ServiceDetail service={geo} locale={locale} />,
+      );
+      const name = expectedName[locale];
+
+      expect(
+        screen.getByRole("heading", { level: 1, name }),
+      ).toBeInTheDocument();
+
+      const crumbs = screen.getByRole("navigation", { name: "Breadcrumb" });
+      expect(
+        within(crumbs).getByText(name).getAttribute("aria-current"),
+      ).toBe("page");
+
+      const script = container.querySelector(
+        'script[type="application/ld+json"]',
+      );
+      expect(script).not.toBeNull();
+      const graph = JSON.parse(script!.textContent!)["@graph"] as Array<
+        Record<string, unknown>
+      >;
+      const node = (type: string) => graph.find((n) => n["@type"] === type);
+
+      expect(node("WebPage")?.name).toBe(name);
+      expect(node("Service")?.name).toBe(name);
+      const items = node("BreadcrumbList")?.itemListElement as Array<{
+        name: string;
+      }>;
+      expect(items.at(-1)?.name).toBe(name);
+    });
+  }
+});

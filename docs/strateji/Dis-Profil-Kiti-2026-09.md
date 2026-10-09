@@ -9,6 +9,8 @@ Bu dosya Burak'ın profillere **birebir yapıştıracağı** metinleri taşır. 
 
 ---
 
+> **Güncelleme 2026-10-09:** GEO hizmet sayfası yayında (satır 3 güncellendi); INDOLES İKAS e-ticaret altyapısının bayisidir — profillerde "bağımsız / satıcıdan komisyon almaz" türü bir ifade yazılacaksa bu istisnayla yazılır (bkz. site metinleri). Clutch / GoodFirms / Sortlist henüz açılmadı (Burak, 9 Eki).
+
 ## 1. Değişmezler
 
 Her profilde, her dilde aynı kalır. Tablodaki değerin dışında bir yazım kullanılmaz.
@@ -91,7 +93,7 @@ Sıra satın alma niyetli öncelikten gelir (yol haritası §2: P0 CRO, yapay ze
 |---|---|---|---|
 | 1 | Dönüşüm oranı optimizasyonu (CRO) | Conversion rate optimisation (CRO) | `/tr/hizmetler/cro` · `/en/services/cro` |
 | 2 | Yapay zeka danışmanlığı | AI consultancy | `/tr/hizmetler/ai-danismanlik` · `/en/services/ai-consulting` |
-| 3 | GEO danışmanlığı | GEO consultancy | **Hizmet sayfası henüz yok** (Faz 1 işi). Geçici: `/tr/yazilar/yapay-zeka-aramalarinda-nasil-one-cikarsiniz` · `/en/articles/how-to-stand-out-in-ai-search`. Sayfa yayına girince bütün profillerde değiştir |
+| 3 | GEO danışmanlığı | GEO consulting | `/tr/hizmetler/geo-danismanligi` · `/en/services/geo-consulting` (hizmet sayfası 25 Eyl 2026'dan beri yayında; 9 Eki H1 "GEO danışmanlığı") |
 | 4 | E-ticaret danışmanlığı | E-commerce consultancy | `/tr/hizmetler/e-ticaret` · `/en/services/e-commerce` |
 | 5 | Dijital dönüşüm danışmanlığı | Digital transformation consultancy | `/tr/hizmetler/dijital-donusum` · `/en/services/digital-transformation` |
 | 6 | UX tasarımı | UX design | `/tr/hizmetler/ui-ux-tasarim` · `/en/services/ui-ux-design` |

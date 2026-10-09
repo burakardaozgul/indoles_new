@@ -151,3 +151,44 @@ geldi.
 - `Marketing/GEO-Olcum/ozet.md` (Ay 0: 0/30, Ay 1: 1/30)
 - `docs/strateji/GEO-Olcum-Rutini.md`
 - ADR-018, ADR-021, ADR-030
+
+## Güncelleme 2026-10-09 — H1 "GEO danışmanlığı"
+
+- **Karar veren:** Burak Arda Özgül (İlk 3 Programı onayı, 2026-10-09 —
+  `docs/strateji/Ilk-3-Programi-2026-10.md` karar 2, §C.1).
+- **Değişen:** `name` TR "Yapay zeka arama optimizasyonu (GEO)" →
+  **"GEO danışmanlığı"**; EN "Generative engine optimization (GEO)" →
+  **"GEO consulting"** (EN pazarına yatırım yok; iki dilde aynı kalıp,
+  `e-ticaret` "E-commerce consulting" emsali). Lede "GEO danışmanlığı
+  (yapay zeka arama optimizasyonu), … yapılan iştir" ile açılır: tam form
+  aynı cümlede açıklama olarak, "GEO ajansı" üçüncü taraf tanımı olarak
+  kalır — üç ifade de ilk 100 kelimede. `seo.title` değişmedi.
+- **Gerekçe:** "geo danışmanlığı" 15 sorguluk para setinin en büyük
+  sorgusu (GSC 8 Eyl–6 Eki: 66 gösterim, poz. 27,36). İfade arama
+  başlığındaydı ama H1'de ve ilk 100 kelimede yoktu. Eski H1 kanonik
+  rehberin bilgi sorgusunu ("yapay zeka arama optimizasyonu") taşıyordu ve
+  altı GEO yazısının köprü kartında başlık olarak basılıyordu; bu, yukarıdaki
+  Gerekçe 4'ün kanibalizasyon sınırını H1 düzeyinde bulanıklaştırıyordu.
+  9 Ekim verisinde "\<hizmet\> danışmanlığı" sorguları hizmet sayfasına,
+  "\<hizmet\> ajansı" sorguları seçim yazısına gidiyor; H1 artık o desene
+  uyuyor.
+- **Ad tek kaynaktan döner:** H1, breadcrumb, hub kartı ve `ItemList`,
+  Growth pillar listesi, ana sayfa `ServicesScroll` başlığı ve
+  `aria-label`ı, komşu hizmet listeleri, altı GEO yazısının köprü kartı,
+  vaka künyesi, `WebPage` / `BreadcrumbList` / `Service` JSON-LD,
+  `llms.txt` / `llms-full.txt`. Elle tutulan kopya yok
+  (`diagnoo-report.tsx` `RELATED_SERVICES`te GEO yok; `messages/*.json`
+  Growth etiketi zaten "GEO Danışmanlığı" / "GEO Consulting").
+- **Koruma:** `keyword-coverage.test.ts` `NAME_TARGETS` ("geo danışmanlığı"
+  `name.tr`de) — karar sessizce geri dönmez; `service-detail.test.tsx` adı
+  H1, breadcrumb ve JSON-LD'de iki dilde denetler. "ajansı" yasağı
+  değişmedi.
+- **Aynı turda:** SSS 9 rakamları 9 Ekim çekimine taşındı (8 Eyl–6 Eki);
+  `updatedAt` 2026-10-09. Üç yeni iç bağlantı: 12 soru yazısı → bu sayfa
+  ("GEO danışmanlığı"), kanonik rehber → `geo-ajansi-nasil-secilir`, 8 soru
+  yazısı → CRO ve GEO seçim yazıları.
+- **İzleme:** sayfanın sorunu iki katmanlı — H1 ve ilk 100 kelime bu
+  değişiklikle kapandı; sayfa 25 Eylül'de açıldı ve dış sinyali yok, poz.
+  27'nin ancak otoriteyle kapanacağı plan düzeyinde bir hipotez (İlk 3
+  Programı §B.1, §C.5). 30 Kasım raporu H1 etkisini bu hipotezle birlikte
+  okur; yukarıdaki "ilk 20" tetikleyicisi geçerli kalır.

@@ -435,10 +435,15 @@ export const eTicaret: ServiceContent = {
      * CRO emsali kalıp: "<hedef kelime>: <tanımlayıcı>" (CRO-Hedef-Netligi
      * 2026-09-18). Tanımlayıcı dört eksenin üçünü sayar; dördüncüsü (çalışma
      * sistemi) açıklamada. "ajansı" başlığa girmez — istisna yalnız `cro`.
+     *
+     * EN 2026-10-09'da kısaldı: "…platform, channels and growth" (52)
+     * " — INDOLES" şablonuyla 62 ediyordu, `seo:audit` service bandı 15-60
+     * (CI `checks` 2 Ekim'den beri kırmızıydı). "and" → virgül: 49, şablonla
+     * 59. Hedef kelime "e-commerce consulting" başta kaldı.
      */
     title: {
       tr: "E-ticaret danışmanlığı: platform, kanal ve büyüme",
-      en: "E-commerce consulting: platform, channels and growth",
+      en: "E-commerce consulting: platform, channels, growth",
     },
     description: {
       tr: "E-ticaret danışmanlığı: hangi platform, hangi reklam kanalı, nasıl bir sistem ve büyümek için önce ne? Dört karar veriyle verilir; kurulum ve ölçüm dahil.",

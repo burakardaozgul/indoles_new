@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/seo/site";
+import { COMPANY } from "@/lib/content/company";
 import { SERVICES } from "@/lib/content/services";
 import { PILLARS } from "@/lib/content/pillars";
 import { PACKAGES } from "@/lib/content/packages";
@@ -165,7 +166,8 @@ const body = `# INDOLES — tam içerik dökümü
 
 ## Kimiz
 - İsim: İndoles Yazılım A.Ş.
-- Konum: İstanbul, Türkiye
+- Kuruluş: ${COMPANY.foundingDate} (${COMPANY.brandSince}'den beri INDOLES adıyla)
+- Adres: ${COMPANY.address.display.tr}, Türkiye
 - Dil: TR / EN
 - Alan: iş geliştirme danışmanlığı — sanayi şirketlerine teknoloji dönüşümü, ticaret ve perakende markalarına agresif büyüme
 - Yaklaşım: teşhis olmadan reçete yok — iş önce anlaşılır, teknoloji sonra çağrılır
@@ -226,7 +228,8 @@ ${consultantSection("tr")}
 
 ## Who we are
 - Legal name: İndoles Yazılım A.Ş.
-- Location: Istanbul, Turkey
+- Founded: ${COMPANY.foundingDate} (operating as INDOLES since ${COMPANY.brandSince})
+- Address: ${COMPANY.address.display.en}, Turkey
 - Languages: TR / EN
 - Field: business development consultancy — technology transformation for industrial companies, aggressive growth for commerce and retail brands
 - Approach: no prescription without diagnosis — the business is understood first, technology is called second

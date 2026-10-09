@@ -19,15 +19,38 @@ const WEBSITE_ID = `${SITE_URL}/#website`;
 const IN_LANGUAGE: Record<Locale, string> = { tr: "tr-TR", en: "en-US" };
 
 /**
+ * PostalAddress — künyedeki açık adres (`COMPANY.address`).
+ *
+ * Alan adları schema.org ile birebir; yalnız görünür satır (`display`)
+ * şemaya girmez. Organization ve ProfessionalService aynı nesneyi basar —
+ * iki düğümde iki ayrı adres yazımı NAP tutarlılığını bozardı.
+ */
+function postalAddressLd() {
+  const { streetAddress, addressLocality, addressRegion, postalCode, addressCountry } =
+    COMPANY.address;
+  return {
+    "@type": "PostalAddress",
+    streetAddress,
+    addressLocality,
+    addressRegion,
+    postalCode,
+    addressCountry,
+  };
+}
+
+/**
  * `sameAs`: markanın doğrulanabilir dış profilleri.
  *
  * AI motorları entity'yi çapraz kaynak tutarlılığından öğreniyor
  * (docs/strateji §5); LinkedIn ve Instagram adresleri `COMPANY.social`
  * içinde tek kaynakta duruyor, şema onları yalnızca işaret ediyor. Google
- * İşletme Profili kaydı (`COMPANY.profiles`) görünür ikon taşımadığı için
- * ayrı alanda durur ama aynı varlığın doğrulanmış kaydı olarak buraya girer.
- * Boş bir `sameAs` dizisi "profil yok" değil "bağ kurulamadı" okunduğu için
- * hiç basılmaz.
+ * İşletme Profili kaydı ve B2B dizin profilleri (Clutch, Sortlist —
+ * `COMPANY.profiles`) görünür ikon taşımadığı için ayrı alanda durur ama
+ * aynı varlığın doğrulanmış kaydı olarak buraya girer. Boş bir `sameAs`
+ * dizisi "profil yok" değil "bağ kurulamadı" okunduğu için hiç basılmaz.
+ *
+ * `foundingDate` ve açık `address` 2026-10-09'da eklendi (Burak): dizin
+ * profilleri aynı değerlerle açıldı, şema dizinlerle aynı kimliği taşır.
  */
 export function organizationLd() {
   const sameAs: string[] = [
@@ -41,7 +64,8 @@ export function organizationLd() {
     legalName: "İndoles Yazılım A.Ş.",
     url: SITE_URL,
     logo: absoluteUrl("/brand/indoles-logo-dark.png"),
-    address: { "@type": "PostalAddress", addressCountry: "TR" },
+    foundingDate: COMPANY.foundingDate,
+    address: postalAddressLd(),
     ...(sameAs.length > 0 ? { sameAs } : {}),
   };
 }
@@ -80,9 +104,10 @@ export function webSiteLd() {
  * desenindeydi ve doğrulanmamış numara şemaya girmez. Artık künyeyle aynı
  * kaynaktan geliyor — NAP tutarlılığı ancak böyle korunur.
  *
- * Basılmayan alan: `streetAddress`. Açık adres teyit edilmedi; adres
- * yalnız sayfada görünen şehir kırılımında kalır. Eksik alan, uydurulmuş
- * alandan iyidir.
+ * `address` 2026-10-09'a kadar yalnız şehir kırılımındaydı (açık adres teyit
+ * edilmemişti). Burak açık adresi verdi; artık `organizationLd()`den
+ * devralınır — iletişim sayfasının adresi her sayfadaki Organization'la ve
+ * sayfada görünen satırla aynı kaynaktan gelir.
  */
 export function professionalServiceLd() {
   return {
@@ -90,15 +115,11 @@ export function professionalServiceLd() {
     "@type": "ProfessionalService",
     email: COMPANY.email,
     telephone: COMPANY.phone,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "İstanbul",
-      addressCountry: "TR",
-    },
     geo: {
       "@type": "GeoCoordinates",
       // `COMPANY.geo` insan-okur biçimde ("41.0082° N"); şema ondalık
-      // derece ister. Değer şehir kırılımında, adresle aynı hassasiyette.
+      // derece ister. Değer hâlâ şehir merkezi — bina koordinatı
+      // doğrulanınca künyede değişir (bkz. company.ts `geo` notu).
       latitude: parseFloat(COMPANY.geo.lat),
       longitude: parseFloat(COMPANY.geo.lon),
     },

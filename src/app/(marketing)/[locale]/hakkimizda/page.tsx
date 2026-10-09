@@ -286,7 +286,7 @@ export default async function AboutPage({
           <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-surface-2 pt-8">
             <p className="typography-label text-ink-500 tabular">
               {BOOKABLE_CONSULTANTS.length} {loc === "tr" ? "kişi" : "people"} ·{" "}
-              {COMPANY.locations.join(" · ")}
+              {COMPANY.address.display[loc]}
             </p>
             <a
               href={`mailto:${COMPANY.careersEmail}`}

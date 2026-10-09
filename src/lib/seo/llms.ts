@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/seo/site";
+import { COMPANY } from "@/lib/content/company";
 import { SERVICES } from "@/lib/content/services";
 import { CASES } from "@/lib/content/cases";
 import { ARTICLES } from "@/lib/content/articles";
@@ -84,6 +85,10 @@ function articleLines(locale: Locale): string {
  * Bir dilin llms.txt bölümünü üretir — H1, kısa tanım, kimlik, üç disiplin,
  * vaka çalışmaları, yazılar, iletişim ve kaynaklar.
  *
+ * Kimlik bloğundaki kuruluş yılı ve adres künyeden (`COMPANY`) gelir:
+ * sayfadaki adres satırı, JSON-LD PostalAddress ve dizin profilleriyle aynı
+ * yazım (NAP, 2026-10-09).
+ *
  * `heading` parametrik: kök route'ta EN bölümü TR'den ayırt etmek için
  * "# INDOLES (English)" taşır (aynı belgede iki H1 art arda geldiği için
  * ayrım gerekir), ama tek dilli `/en/llms.txt` dosyasında bu ayrım gereksiz
@@ -103,7 +108,8 @@ function trSection(heading: string, extraResourceLines = ""): string {
 
 ## Kimiz
 - İsim: İndoles Yazılım A.Ş.
-- Konum: İstanbul, Türkiye
+- Kuruluş: ${COMPANY.foundingDate} (${COMPANY.brandSince}'den beri INDOLES adıyla)
+- Adres: ${COMPANY.address.display.tr}, Türkiye
 - Dil: TR / EN
 - Yaklaşım: teşhis olmadan reçete yok — iş önce anlaşılır, teknoloji sonra çağrılır
 
@@ -147,7 +153,8 @@ function enSection(heading: string, extraResourceLines = ""): string {
 
 ## Who we are
 - Legal name: İndoles Yazılım A.Ş.
-- Location: Istanbul, Turkey
+- Founded: ${COMPANY.foundingDate} (operating as INDOLES since ${COMPANY.brandSince})
+- Address: ${COMPANY.address.display.en}, Turkey
 - Languages: TR / EN
 - Approach: no prescription without diagnosis — the business is understood first, technology is called second
 

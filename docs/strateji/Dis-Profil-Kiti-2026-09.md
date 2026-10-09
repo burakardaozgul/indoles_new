@@ -10,6 +10,8 @@ Bu dosya Burak'ın profillere **birebir yapıştıracağı** metinleri taşır. 
 ---
 
 > **Güncelleme 2026-10-09:** GEO hizmet sayfası yayında (satır 3 güncellendi); INDOLES İKAS e-ticaret altyapısının bayisidir — profillerde "bağımsız / satıcıdan komisyon almaz" türü bir ifade yazılacaksa bu istisnayla yazılır (bkz. site metinleri). Clutch / GoodFirms / Sortlist henüz açılmadı (Burak, 9 Eki).
+>
+> **Güncelleme 2026-10-09 (akşam):** Clutch ve Sortlist yayında, GoodFirms incelemede (§11). §1'e açık adres + posta kodu, kuruluş yılı ve e-posta kuralı (hesap contact@, kamuya açık digital@) eklendi; §10 soru 1 yanıtlandı. Site künyesi (`company.ts`) ve Organization şeması aynı değerlere eşitlendi; Clutch ve Sortlist `sameAs`ta.
 
 ## 1. Değişmezler
 
@@ -22,8 +24,9 @@ Her profilde, her dilde aynı kalır. Tablodaki değerin dışında bir yazım k
 | Kategori tanımı | TR **iş geliştirme stüdyosu** · EN **business building studio** | `is-gelistirme-studyosu-nedir` yazısının kanonik terimi; bkz. §10 soru 2 |
 | Web sitesi | `https://www.indoles.com.tr` | Kanonik host `www` (ADR-024). EN profillerde `https://www.indoles.com.tr/en` |
 | Telefon | +90 536 247 60 12 | `company.ts` `phone` |
-| E-posta | digital@indoles.com.tr | `company.ts` `email` |
-| Adres | Levent, İstanbul | Tek doğrulanmış lokasyon. Londra ve Dubai **yazılmaz** (`company.ts` notu: doğrulanmamış lokasyon Google'ın yerel spam politikasına aykırı) |
+| E-posta | **digital@indoles.com.tr** — kamuya açık | `company.ts` `email`. Profilin görünür iletişim alanına yalnız bu yazılır. Platform **hesap** e-postası (giriş, doğrulama, bildirim) **contact@indoles.com.tr** — hiçbir görünür alana yazılmaz |
+| Adres | TR: **Kolektif House \| Levent — Esentepe Mahallesi, Ecza Sokak No: 5/1, 34394 Şişli / İstanbul** · EN: **Kolektif House Levent, Esentepe Mah., Ecza Sok. No:5/1, 34394 Şişli, Istanbul** | `company.ts` `address` (Burak, 2026-10-09). TR satırdaki `\|` yalnız Markdown tablo kaçışı — profile düz `|` yazılır. Ayrı alanlı formlarda: sokak `Kolektif House Levent, Esentepe Mah., Ecza Sok. No:5/1` · ilçe `Şişli` · il `İstanbul` · posta kodu `34394` · ülke Türkiye. Levent semt adıdır, ilçe Şişli. Tek doğrulanmış lokasyon; Londra ve Dubai **yazılmaz** (`company.ts` notu: doğrulanmamış lokasyon Google'ın yerel spam politikasına aykırı) |
+| Kuruluş yılı | **2018** | `company.ts` `foundingDate` (Burak, 2026-10-09). Marka adı INDOLES **2021**'den beri; metinde gerekirse "2018'den beri, 2021'den beri INDOLES adıyla". Founded / kuruluş alanı olan her platformda 2018 |
 | Çalışma saatleri | Pzt–Cum 09:00–18:00 | `company.ts` `hours` |
 | LinkedIn | `https://www.linkedin.com/company/indoles-growth/` | `company.ts` `social` (2026-09-25 düzeltmesi) |
 | Instagram | `https://www.instagram.com/indolesgrowth/` | `company.ts` `social` |
@@ -166,7 +169,7 @@ Kategori adlarında **✓** = platformun kendi kategori sayfası 25 Eylül 2026'
 | Web sitesi | `https://www.indoles.com.tr` |
 | Randevu / iletişim bağlantısı | `https://www.indoles.com.tr/tr/iletisim` (`/rezervasyon` token'lı bir akış, genel bağlantı olarak kullanılmaz) |
 | Telefon, saatler, adres | §1 |
-| Açılış tarihi | Burak — §10 soru 1 |
+| Açılış tarihi | 2018 (§1 kuruluş yılı) |
 
 Kategori mantığı: Google "işletmenizi tarif eden en az sayıda kategori" ve "bu işletme **bir** … dır" testini ister; en fazla 1 birincil + 9 ek. P0 hizmetlerinin ikisi (CRO, GEO) pazarlama danışmanlığıdır, bu yüzden birincil kategori *Marketing consultant*; yapay zeka ve dijital dönüşüm *Business management consultant*, Build pillar'ı ve yasal unvan *Software company* ile taşınır. *Marketing agency* bilinçli olarak dışarıda: dört kategori çekirdeği anlatıyor, beşincisi sinyali inceltir. Strateji §6'daki "danışmanlık + yazılım + pazarlama" seti bununla karşılanıyor.
 
@@ -184,7 +187,7 @@ LinkedIn sayfa bilgisini birden fazla dilde tutmaya izin verir; TR birincil, EN 
 | Web sitesi | `https://www.indoles.com.tr` | `https://www.indoles.com.tr/en` |
 | Sektör | *Business Consulting and Services* ? | aynı |
 | Şirket büyüklüğü | Burak — §10 soru 3 (`consultants.ts`te 10 kişi → "2-10" kovası) | aynı |
-| Merkez | Levent, İstanbul | Levent, Istanbul |
+| Merkez | §1 adres (TR) | §1 adres (EN) |
 | Uzmanlık alanları | Dönüşüm oranı optimizasyonu (CRO) · Yapay zeka danışmanlığı · GEO · E-ticaret danışmanlığı · Dijital dönüşüm danışmanlığı · UX tasarımı | Conversion rate optimisation · AI consultancy · GEO · E-commerce consultancy · Digital transformation · UX design |
 
 Danışman profilleri ↔ site karşılıklı linki (strateji §5 "kadro = 10 entity") bu kitin kapsamı dışında; ayrı iş.
@@ -197,10 +200,10 @@ Danışman profilleri ↔ site karşılıklı linki (strateji §5 "kadro = 10 en
 | Legal name | İndoles Yazılım A.Ş. |
 | Tagline | §3.3 EN |
 | Company summary | §3.2 EN (746) |
-| Website · HQ | `https://www.indoles.com.tr/en` · Istanbul, Türkiye |
+| Website · HQ | `https://www.indoles.com.tr/en` · §1 adres (EN), posta kodu 34394 |
 | Min. project size | En küçük yayımlı paket 6.000 USD (Dijital Dönüşüm Teşhisi, `packages.ts`) → formdaki en yakın alt kova, ör. **$5,000+** |
 | Avg. hourly rate | Yayımlı değil — Burak §10 soru 4 (boş bırakılabilir) |
-| Employees · Founded | Burak §10 soru 1 ve 3 |
+| Employees · Founded | Burak §10 soru 3 · 2018 |
 | Service lines | Conversion Optimization ✓ (`clutch.co/agencies/conversion-optimization`) · AI Consulting ✓ (`clutch.co/consulting/ai`) · Generative Engine Optimization (GEO) ✓ (`clutch.co/seo-firms/generative-engine-optimization`) · eCommerce ? · Digital Strategy ? · UX/UI Design ? |
 | Service focus (%) | Clutch yüzdelerin toplamının 100 olmasını ister. **Öneri** (gerçek iş dağılımına göre Burak ayarlar): CRO 30 · AI Consulting 20 · GEO 15 · eCommerce 15 · Digital Strategy 10 · UX/UI 10 |
 | Portfolio | §5'teki ilk üç vaka, EN satırlarıyla |
@@ -247,7 +250,7 @@ Danışman profilleri ↔ site karşılıklı linki (strateji §5 "kadro = 10 en
 | Industries | Consulting ? · Artificial Intelligence (AI) ? · E-Commerce ? · Marketing ? · Software ? — Crunchbase listesinden seç |
 | Headquarters | Istanbul, Türkiye |
 | Website · LinkedIn | §1 |
-| Founded date · company type | Burak §10 soru 1 · Private |
+| Founded date · company type | 2018 · Private |
 | ADUARDO bağlantısı | Off-site plan Katman 1'e göre ürün olarak eklenir — Burak |
 
 ---
@@ -332,7 +335,7 @@ Yorum bağlantısı: [GBP yorum bağlantısı]
 
 ## 10. Burak'a açık sorular
 
-1. **Kuruluş yılı / GBP açılış tarihi** — `company.ts`te yok; Clutch, GoodFirms, Crunchbase ve LinkedIn soruyor.
+1. ~~**Kuruluş yılı / GBP açılış tarihi**~~ — **Yanıtlandı (Burak, 2026-10-09):** 2018; INDOLES adı 2021'den beri. `company.ts` `foundingDate` ve §1.
 2. **EN kategori tanımı** — sitede iki biçim var: ana sayfa başlığı "Business transformation studio", kanonik terim yazısı "business building studio". Kit ikincisini kullanıyor; hangisi tek biçim olsun?
 3. **Çalışan sayısı aralığı** — `consultants.ts`te 10 kişi (marka brief'inde "8 kişi, doğrulanacak" notu var). LinkedIn "2-10", Clutch "10-49" kovasına düşer; teyit.
 4. **Saatlik ücret** — sitede yayımlı değil. Clutch/GoodFirms'te boş mu kalsın, bir aralık mı girilsin?
@@ -344,13 +347,13 @@ Yorum bağlantısı: [GBP yorum bağlantısı]
 
 ## 11. Uygulama kontrol tablosu
 
-| Platform | Ad | Kısa | Uzun | Hizmet sırası | Kategori | Kanıt | Tarih |
-|---|---|---|---|---|---|---|---|
-| Google İşletme Profili | | — | | | | — | |
-| Bing Places / Apple / Yandex | | — | | | | — | |
-| LinkedIn | | slogan | | | | — | |
-| Clutch | | | | | | | |
-| GoodFirms | | | | | | | |
-| Sortlist | | | | | | | |
-| DesignRush | | | | | | | |
-| Crunchbase | | | | — | | — | |
+| Platform | Ad | Kısa | Uzun | Hizmet sırası | Kategori | Kanıt | Tarih | Durum |
+|---|---|---|---|---|---|---|---|---|
+| Google İşletme Profili | | — | | | | — | | |
+| Bing Places / Apple / Yandex | | — | | | | — | | |
+| LinkedIn | | slogan | | | | — | | |
+| Clutch | | | | | | | 2026-10-09 | **Yayında** — `https://clutch.co/profile/indoles` · Free profil; Verified rozeti alınmadı · site `sameAs`ında |
+| GoodFirms | | | | | | | 2026-10-09 | **Pending** — inceleme 5-10 iş günü; 2-3 referans görüşmesi istenebilir · URL yok, onaylanınca site `sameAs`ına eklenecek |
+| Sortlist | | | | | | | 2026-10-09 | **Yayında** — `https://www.sortlist.com/agency/indoles-growth` · PQI %52; açık kalemler Burak'ta: telefon SMS doğrulaması, ikinci yönetici, takım fotoğrafı · site `sameAs`ında |
+| DesignRush | | | | | | | | |
+| Crunchbase | | | | — | | — | | |

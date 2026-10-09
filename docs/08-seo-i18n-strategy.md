@@ -281,19 +281,28 @@ Her sayfa tipine uygun schema.org JSON-LD.
   "legalName": "İndoles Yazılım A.Ş.",
   "url": "https://indoles.com.tr",
   "logo": "https://indoles.com.tr/logo.svg",
+  "foundingDate": "2018",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kolektif House Levent, Esentepe Mah., Ecza Sok. No:5/1",
+    "addressLocality": "Şişli",
+    "addressRegion": "İstanbul",
+    "postalCode": "34394",
+    "addressCountry": "TR"
+  },
   "sameAs": [
     "https://www.linkedin.com/company/indoles-growth/",
     "https://www.instagram.com/indolesgrowth/",
-    "https://www.google.com/search?kgmid=/g/11lfqvny97"
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "TR"
-  }
+    "https://www.google.com/search?kgmid=/g/11lfqvny97",
+    "https://clutch.co/profile/indoles",
+    "https://www.sortlist.com/agency/indoles-growth"
+  ]
 }
 ```
 
-`sameAs` kaynağı (2026-09-25): `COMPANY.social` (üst bar/footer'da ikonu olan LinkedIn ve Instagram) + `COMPANY.profiles` (ikonsuz doğrulanmış kayıtlar — Google İşletme Profili `kgmid`). X kaydı yok; hesap yok.
+`sameAs` kaynağı (2026-09-25, 2026-10-09): `COMPANY.social` (üst bar/footer'da ikonu olan LinkedIn ve Instagram) + `COMPANY.profiles` (ikonsuz doğrulanmış kayıtlar — Google İşletme Profili `kgmid`, Clutch, Sortlist). X kaydı yok; hesap yok. GoodFirms profili incelemede — yayımlanmış URL'i olmadan `sameAs`a girmez.
+
+`foundingDate` ve `address` kaynağı (2026-10-09, Burak): `COMPANY.foundingDate` (yıl; şirket 2018, INDOLES adı 2021'den beri) ve `COMPANY.address`. Aynı `PostalAddress` iletişim sayfasındaki `ProfessionalService` düğümüne de devredilir; sayfadaki görünür adres satırı (`COMPANY.address.display`) ve dizin profilleri aynı yazımı taşır (NAP). `geo` hâlâ şehir merkezi koordinatı — bina koordinatı doğrulanınca künyede güncellenir.
 
 ### 8.2 Service (pillar ve hizmet sayfalarında)
 

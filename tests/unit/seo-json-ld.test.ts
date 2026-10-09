@@ -33,15 +33,43 @@ describe("organizationLd", () => {
     expect(ld.sameAs).toContain(COMPANY.profiles.googleBusiness);
   });
 
-  it("doğrulanmış kayıtları birebir taşır (Burak, 2026-09-25)", () => {
+  it("doğrulanmış kayıtları birebir taşır (Burak, 2026-09-25 / 2026-10-09)", () => {
     // Eski `/company/indoles` ve `/indoles` adresleri yanlıştı; X hesabı yok.
-    // Değerler sabitlenir ki künyedeki bir kayma sessizce şemaya geçmesin.
+    // Clutch ve Sortlist 2026-10-09'da yayına girdi; GoodFirms incelemede,
+    // URL'i yok. Değerler sabitlenir ki künyedeki bir kayma sessizce şemaya
+    // geçmesin.
     const ld = organizationLd() as Record<string, any>;
     expect(ld.sameAs).toEqual([
       "https://www.linkedin.com/company/indoles-growth/",
       "https://www.instagram.com/indolesgrowth/",
       "https://www.google.com/search?kgmid=/g/11lfqvny97",
+      "https://clutch.co/profile/indoles",
+      "https://www.sortlist.com/agency/indoles-growth",
     ]);
+  });
+
+  it("dizin profillerini sameAs'e alır, incelemedeki GoodFirms'ü almaz", () => {
+    const ld = organizationLd() as Record<string, any>;
+    expect(ld.sameAs).toContain("https://clutch.co/profile/indoles");
+    expect(ld.sameAs).toContain("https://www.sortlist.com/agency/indoles-growth");
+    for (const url of ld.sameAs as string[]) {
+      expect(url).not.toMatch(/goodfirms\.co/);
+    }
+  });
+
+  it("kuruluş yılını ve açık adresi dizinlerle aynı taşır (Burak, 2026-10-09)", () => {
+    const ld = organizationLd() as Record<string, any>;
+    expect(ld.foundingDate).toBe("2018");
+    expect(ld.address).toEqual({
+      "@type": "PostalAddress",
+      streetAddress: "Kolektif House Levent, Esentepe Mah., Ecza Sok. No:5/1",
+      addressLocality: "Şişli",
+      addressRegion: "İstanbul",
+      postalCode: "34394",
+      addressCountry: "TR",
+    });
+    // Görünür satır şema düğümüne sızmaz.
+    expect(ld.address.display).toBeUndefined();
   });
 
   it("var olmayan X hesabını sameAs'e koymaz", () => {
@@ -114,11 +142,16 @@ describe("professionalServiceLd", () => {
     expect(ld.telephone).toBe(COMPANY.phone);
   });
 
-  it("teyit edilmemiş açık adresi hâlâ basmaz", () => {
-    // Kural duruyor: eksik alan, uydurulmuş alandan iyidir.
-    const ld = professionalServiceLd() as Record<string, any>;
-    expect(ld.address.streetAddress).toBeUndefined();
-    expect(ld.address.addressLocality).toBe("İstanbul");
+  it("açık adresi Organization'la aynı basar — tek kaynak, tek yazım", () => {
+    // Bu test önce "teyit edilmemiş açık adres basılmaz"ı doğruluyordu.
+    // Açık adres 2026-10-09'da doğrulandı (Burak); kural değişmedi,
+    // verinin durumu değişti.
+    const org = organizationLd() as Record<string, any>;
+    const ps = professionalServiceLd() as Record<string, any>;
+    expect(ps.address).toEqual(org.address);
+    expect(ps.address.postalCode).toBe("34394");
+    expect(ps.address.addressLocality).toBe("Şişli");
+    expect(ps.foundingDate).toBe("2018");
   });
 
   it("çalışma saatleri görünen COMPANY.hours ile aynı aralığı söyler", () => {

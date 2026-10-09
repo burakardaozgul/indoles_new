@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { buildLlmsTxtRoot, buildLlmsTxtLocale } from "../llms";
 import { SITE_URL } from "../site";
+import { COMPANY } from "@/lib/content/company";
 
 /**
  * Denetim G-11: `/tr/llms.txt` ve `/en/llms.txt` hiç yazılmamıştı, kök
@@ -95,6 +96,21 @@ describe("buildLlmsTxtLocale", () => {
     const trLinks = markdownLinkedUrls(buildLlmsTxtLocale("tr")).length;
     const enLinks = markdownLinkedUrls(buildLlmsTxtLocale("en")).length;
     expect(trLinks).toBe(enLinks);
+  });
+});
+
+describe("kimlik bloğu — NAP (2026-10-09)", () => {
+  it("tr: kuruluş yılını ve künyedeki açık adresi taşır", () => {
+    const tr = buildLlmsTxtLocale("tr");
+    expect(tr).toContain("- Kuruluş: 2018 (2021'den beri INDOLES adıyla)");
+    expect(tr).toContain(`- Adres: ${COMPANY.address.display.tr}, Türkiye`);
+    expect(tr).toContain("34394");
+  });
+
+  it("en: kuruluş yılını ve künyedeki açık adresi taşır", () => {
+    const en = buildLlmsTxtLocale("en");
+    expect(en).toContain("- Founded: 2018 (operating as INDOLES since 2021)");
+    expect(en).toContain(`- Address: ${COMPANY.address.display.en}, Turkey`);
   });
 });
 

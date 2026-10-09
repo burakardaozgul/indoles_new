@@ -103,11 +103,68 @@ describe("Lokasyon künyesi", () => {
     expect(src).not.toMatch(/TODO.*Londra|TODO.*Dubai/i);
   });
 
+  it("kısa semt etiketi açık adresle çelişmez", () => {
+    // Üst bar sığmadığı için kısa etiketi basar; etiket adresin parçası
+    // olmalı — iki ayrı konum NAP tutarsızlığıdır.
+    expect(COMPANY.address.display.tr).toContain("Levent");
+    expect(COMPANY.address.display.tr).toContain("İstanbul");
+    expect(COMPANY.address.display.en).toContain("Levent");
+  });
+
   it("hiçbir danışman biyografisi doğrulanmamış ofis iddiası taşımaz", () => {
     for (const c of CONSULTANTS) {
       for (const bio of [...c.longBio.tr, ...c.longBio.en, c.shortBio.tr, c.shortBio.en]) {
         expect(bio).not.toMatch(/Londra ofis|London office|Dubai ofis|Dubai office/i);
       }
+    }
+  });
+});
+
+describe("Açık adres — NAP (Burak, 2026-10-09)", () => {
+  it("künye dizin profillerine girilen adresi taşır", () => {
+    expect(COMPANY.address.postalCode).toBe("34394");
+    expect(COMPANY.address.addressLocality).toBe("Şişli");
+    expect(COMPANY.address.addressRegion).toBe("İstanbul");
+    expect(COMPANY.address.display.tr).toBe(
+      "Kolektif House | Levent — Esentepe Mahallesi, Ecza Sokak No: 5/1, 34394 Şişli / İstanbul",
+    );
+    expect(COMPANY.address.display.en).toBe(
+      "Kolektif House Levent, Esentepe Mah., Ecza Sok. No:5/1, 34394 Şişli, Istanbul",
+    );
+  });
+
+  it("görünür EN satırı şemadaki sokak adresiyle başlar — iki yazım ayrışamaz", () => {
+    expect(COMPANY.address.display.en.startsWith(COMPANY.address.streetAddress)).toBe(true);
+    for (const line of Object.values(COMPANY.address.display)) {
+      expect(line).toContain(COMPANY.address.postalCode);
+      expect(line).toContain(COMPANY.address.addressLocality);
+    }
+  });
+
+  it("kuruluş yılı 2018, marka adı 2021'den beri", () => {
+    expect(COMPANY.foundingDate).toBe("2018");
+    expect(COMPANY.brandSince).toBe("2021");
+  });
+
+  it("kamuya açık e-posta digital@ — dizin hesap e-postası yayımlanmaz", () => {
+    expect(COMPANY.email).toBe("digital@indoles.com.tr");
+    expect(JSON.stringify(COMPANY)).not.toContain("contact@indoles.com.tr");
+  });
+
+  it("adres gösteren yüzeyler künyeden okur, konumu elle yazmaz", () => {
+    for (const rel of [
+      ["src", "app", "(marketing)", "[locale]", "iletisim", "page.tsx"],
+      ["src", "app", "(marketing)", "[locale]", "hakkimizda", "page.tsx"],
+      ["src", "components", "v2", "chrome", "V2Footer.tsx"],
+    ]) {
+      const src = readFileSync(path.join(process.cwd(), ...rel), "utf8");
+      const file = rel.join("/");
+      expect(src, file).toContain("COMPANY.address.display[");
+      // JSX içinde elle yazılmış şehir/semt satırı kalmadı ("İstanbul,
+      // Türkiye", "Levent, Istanbul"); meta açıklamadaki semt anılışı
+      // görünür adres satırı değildir ve uzunluk bandına bağlıdır.
+      expect(src, file).not.toMatch(/["']Levent, İ?stanbul["']/);
+      expect(src, file).not.toMatch(/["']İ?stanbul, (Türkiye|Turkey)["']/);
     }
   });
 });

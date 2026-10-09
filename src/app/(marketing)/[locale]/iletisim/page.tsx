@@ -168,12 +168,16 @@ export default async function ContactPage({
                   {loc === "tr" ? COMPANY.hours.tr : COMPANY.hours.en}
                 </dd>
               </div>
+              {/* Açık adres künyeden (`COMPANY.address`) gelir — şemadaki
+                  PostalAddress ve dizin profilleriyle aynı yazım (NAP). */}
               <div>
                 <dt className="typography-caption text-ink-500">
-                  {loc === "tr" ? "Konum" : "Location"}
+                  {loc === "tr" ? "Adres" : "Address"}
                 </dt>
                 <dd className="mt-1 text-ink-900">
-                  {loc === "tr" ? "Levent, İstanbul" : "Levent, Istanbul"}
+                  <address className="not-italic">
+                    {COMPANY.address.display[loc]}
+                  </address>
                 </dd>
               </div>
               <div>

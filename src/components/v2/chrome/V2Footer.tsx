@@ -89,10 +89,16 @@ export async function V2Footer({ locale }: { locale: "tr" | "en" }) {
         </div>
 
         <div className="v2-sf-legal">
-          <p className="mono">
-            © {year} {COMPANY.legalName} ·{" "}
-            {isTr ? "İstanbul, Türkiye" : "Istanbul, Turkey"}
-          </p>
+          {/* Yasal unvan + açık adres: künyeden (`COMPANY.address`), şema
+              ve dizin profilleriyle aynı yazım (NAP). */}
+          <div className="mono">
+            <p>
+              © {year} {COMPANY.legalName}
+            </p>
+            <address className="not-italic">
+              {COMPANY.address.display[locale]}
+            </address>
+          </div>
           <nav className="mono v2-sf-legal-nav" aria-label={isTr ? "Yasal" : "Legal"}>
             <Link href="/gizlilik-kvkk">{isTr ? "Gizlilik" : "Privacy"}</Link>
             <Link href="/gizlilik-kvkk">KVKK</Link>

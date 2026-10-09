@@ -26,9 +26,23 @@ export const aiDanismanlik: ServiceContent = {
     },
   },
 
+  /**
+   * 2026-10-09 (İlk 3 Programı §C.1 ve §C.3, Burak onayı):
+   * - "AI danışmanlığı" ilk cümlede parantez içinde — sorgunun bu biçimi
+   *   (GSC 26 gösterim, "yapay zeka danışmanlığı"na yakın) hiçbir yüzeyde
+   *   yoktu. H1 (`name`) değişmedi.
+   * - Üçüncü cümle vaka atıflı kanıt: rakamlar `cases.ts` Meccanotecnica
+   *   Umbra kaydından birebir (`metrics`, `seo.description`: "teklif talebi
+   *   10 katına çıktı, yanıt süresi %90 kısaldı"; bağlam "Portal ve AI
+   *   danışman devreye girdikten sonra"). ADR-018 §3 hizmet düzeyinde
+   *   uydurma metriği yasaklar, vakaya atfedilmiş ölçülmüş sonucu değil.
+   *   Rakam değişirse önce `cases.ts`, sonra burası.
+   * - Hero'ya sığsın diye ilk cümleden "gerçekten para" düştü (CRO ve
+   *   e-ticaret lede'leri emsal, ~300-340 karakter).
+   */
   lede: {
-    tr: "Yapay zeka danışmanlığı, bu teknolojinin nerede gerçekten para kazandırdığını, nerede pahalı bir oyuncak olduğunu ayırma işidir. INDOLES işe araçtan değil, hangi işin ne kadar zaman ve para yediğini ölçmekten başlar.",
-    en: "AI advisory is the work of separating where artificial intelligence genuinely pays off from where it is an expensive toy. INDOLES starts not with the technology but by measuring which tasks consume how much time and money.",
+    tr: "Yapay zeka danışmanlığı (AI danışmanlığı), bu teknolojinin nerede kazandırdığını, nerede pahalı bir oyuncak kaldığını ayırma işidir. INDOLES işe araçtan değil, hangi işin ne kadar zaman ve para yediğini ölçmekten başlar. Meccanotecnica Umbra'da AI teknik danışman ve teklif portalıyla teklif talebi 10 katına çıktı, yanıt süresi %90 kısaldı.",
+    en: "AI advisory, or AI consulting, is the work of separating where artificial intelligence pays off from where it is an expensive toy. INDOLES starts not with the technology but by measuring which tasks consume how much time and money. At Meccanotecnica Umbra, with an AI technical advisor and a quote portal, quote requests rose 10× and response time dropped by 90%.",
   },
 
   signals: {
@@ -214,20 +228,79 @@ export const aiDanismanlik: ServiceContent = {
     },
   ],
 
+  /**
+   * SSS sırası 2026-10-09'da değişti (İlk 3 Programı §C.1, Burak onayı):
+   * iki karşı-konumlandırma sorusu 11-12. sıradan 2-3. sıraya alındı —
+   * ticari sorgunun hedef cevabı görünür yerde durmalı (CRO 2026-09-18
+   * emsali, Rakip-Analizi §4). Ardından "kimle çalışmalıyım" alıcı sorusu
+   * geliyor. 12 üst sınırı için eski SSS 1 (uygunluk) ve SSS 9 (KOBİ
+   * ölçeği) birleşti. FAQPage JSON-LD sırası bu diziden türer.
+   */
   faq: [
     {
-      // Eski iki soru ("Yapay zeka bizim isimize gercekten uyar mi?" ve
-      // "Hangi durumda yapay zeka yanlis tercih olur?") ayni niyetin iki
-      // yuzuydu. SSS ust siniri 12 (services-content.test.ts); yeni
-      // karsi-konumlandirma sorusuna yer acmak icin ikisi burada birlesti,
-      // her iki tarafin da ozgun cumleleri korunarak.
+      // İki birleşmenin ürünü; üç eski cevabın özgün cümleleri korundu.
+      // 1) "Yapay zeka bizim işimize gerçekten uyar mı?" ile "Hangi durumda
+      //    yapay zeka yanlış tercih olur?" aynı niyetin iki yüzüydü.
+      // 2) 2026-10-09: "KOBİ ölçeğinde yapay zeka mantıklı mı?" de buraya
+      //    girdi — büyük-butik alıcı sorusuna yer açmak için (SSS üst sınırı
+      //    12, services-content.test.ts). "Yanlış tercih" ifadesi cevapta.
       question: {
-        tr: "Yapay zeka hangi işlere uyar, hangi durumda yanlış tercih olur?",
-        en: "Which tasks does AI suit, and when is it the wrong choice?",
+        tr: "Yapay zeka hangi işlere uyar, KOBİ ölçeğinde de mantıklı mı?",
+        en: "Which tasks does AI suit, and does it make sense at SME scale?",
       },
       answer: {
-        tr: "Tekrarlı, kurallı ve yeterli veriye sahip işlerde yapay zeka karşılığını verir; tek seferlik, yargı gerektiren veya verisi olmayan işlerde vermez ve eleme adımında listeden çıkar. Aynı sonucu kural tabanlı bir otomasyon getiriyorsa daha ucuz olan seçilir; süreç otomasyonu iş otomasyonları hizmetinde yürür. Sorun karar almak için veriyi görememekse gereken şey model değil raporlamadır, iş zekası hizmetine girer. INDOLES envanter çalışmasının sonunda hangi işin aday olduğunu ve hangisinin olmadığını gerekçesiyle yazar.",
-        en: "Repetitive, rule-bound tasks with enough data behind them are where AI pays off; one-off work, judgement calls and tasks with no data are not, and they drop out at the filtering step. If rule-based automation produces the same result, the cheaper option wins, and that work runs under business automation. If the real problem is not seeing the data behind decisions, the answer is reporting rather than a model, and that belongs to business intelligence. At the end of the inventory INDOLES writes down which tasks qualify and which do not, with the reasoning.",
+        tr: "Tekrarlı, kurallı ve yeterli veriye sahip işlerde yapay zeka karşılığını verir; tek seferlik, yargı gerektiren veya verisi olmayan işlerde yanlış tercihtir ve eleme adımında listeden çıkar. KOBİ ölçeğinde de kararı şirket büyüklüğü değil, işin tekrarlılığı ve verisi belirler: her gün aynı işi elle yapan küçük bir ekipte kazanılan zaman oransal olarak daha görünürdür, çünkü o iş toplam kapasitenin büyük bölümünü tutar. Aynı sonucu kural tabanlı bir otomasyon getiriyorsa daha ucuz olan seçilir; süreç otomasyonu iş otomasyonları hizmetinde yürür. Sorun karar almak için veriyi görememekse gereken şey model değil raporlamadır, iş zekası hizmetine girer. INDOLES ölçekten bağımsız olarak aynı eleme sırasını uygular ve envanter çalışmasının sonunda hangi işin aday olduğunu, hangisinin olmadığını gerekçesiyle yazar; aday iş listesi kısa çıkarsa çalışma da kısa olur.",
+        en: "Repetitive, rule-bound tasks with enough data behind them are where AI pays off; for one-off work, judgement calls and tasks with no data it is the wrong choice, and they drop out at the filtering step. At SME scale too, company size does not decide it — how repetitive the task is and what data exists do: in a small team doing the same job by hand every day, the time saved is proportionally more visible, because that job takes up a large share of total capacity. If rule-based automation produces the same result, the cheaper option wins, and that work runs under business automation. If the real problem is not seeing the data behind decisions, the answer is reporting rather than a model, and that belongs to business intelligence. INDOLES applies the same filter regardless of scale and, at the end of the inventory, writes down which tasks qualify and which do not, with the reasoning; if the candidate list comes out short, so does the engagement.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §2.3).
+      // "yapay zeka ajansi" (Dusuk rekabet, Top-5 esigi) ile "yapay zeka
+      // firmalari" (Orta rekabet) iki ayri SERP niyeti; birlestirilmezler.
+      // Ticari niteleyici kelime H1'e ve seo.title'a girmez.
+      question: {
+        tr: "Yapay zeka ajansı ile yapay zeka danışmanlığı arasındaki fark nedir?",
+        en: "What is the difference between an AI agency and AI advisory?",
+      },
+      answer: {
+        tr: "Yapay zeka ajansı çoğunlukla hazır bir yetenek satar: chatbot kurulumu, içerik üretimi otomasyonu, kampanya araçları. Yapay zeka danışmanlığı ise önce hangi işte yapay zekanın karşılığını verdiğine karar verir, sonra kurar ve sonucu ölçer. INDOLES ikinci yolu izler; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık denetimi pilottan önce gelir, pilot çıktısı mevcut yöntemle yan yana ölçülür. Ekipte bir AI SaaS ürününün (ADUARDO) kurucu ortağı var, dolayısıyla kurulum sonrası doğruluk takibi ve işletme yükü teoriden değil ürün işletme deneyiminden biliniyor.",
+        en: "AI agencies typically sell a ready-made capability: a chatbot build, content automation, campaign tooling. AI advisory decides first where artificial intelligence actually pays off, then builds it and measures the result. INDOLES takes the second route; the candidate task list, the cost-benefit calculation and the data readiness check all come before any pilot, and the pilot output is measured side by side with the current method. One of the team co-founded an AI SaaS product (ADUARDO), so post-launch accuracy monitoring and the running cost of a live system are known from operating a product rather than from theory.",
+      },
+    },
+    {
+      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
+      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
+      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
+      // 2026-10-02: "satıcı değildir" İKAS bayiliğiyle çelişiyordu (Burak
+      // teyidi: INDOLES İKAS bayisi); "yapay zeka ürünü satmaz"a daraltıldı,
+      // bayilik açıklandı. Model sağlayıcısıyla komisyon iddiası aynen kaldı.
+      question: {
+        tr: "Yapay zeka firmaları ile yapay zeka danışmanı arasındaki fark nedir?",
+        en: "What is the difference between AI companies and an AI consultant?",
+      },
+      answer: {
+        tr: "Yapay zeka firmaları genellikle bir ürün satar; yapay zeka danışmanı o ürüne ihtiyaç olup olmadığına önce karar verir. INDOLES yapay zeka ürünü satmaz ve hiçbir model sağlayıcısıyla komisyon ilişkisi yoktur; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık kontrolü bağımsız yürütülür. Yazılım tarafındaki tek ticari bağ e-ticarettedir: INDOLES İKAS e-ticaret altyapısının bayisidir. \"Burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktıdır — boşa yatırım engellenmiş olur.",
+        en: "AI companies and AI consulting firms generally sell a product; an AI consultant first decides whether that product is needed at all. INDOLES does not sell an AI product and holds no commission relationship with any model provider; the candidate task list, the cost-benefit calculation and the data readiness check are run independently. Its only commercial tie on the software side is in e-commerce: INDOLES is a reseller of the İKAS e-commerce platform. A finding of \"AI is not needed here\" is a valid output too, because it prevents a misplaced investment.",
+      },
+    },
+    {
+      // Alıcı sorusu — "kimle çalışmalıyım" (İlk 3 Programı §C.1, 2026-10-09).
+      // Cevap `buyuk-danismanlik-mi-butik-yapay-zeka-ajansi-mi` yazısının kısa
+      // cevabı: ölçek ve regülasyon → büyük firma; tek süreçte haftalar içinde
+      // ölçülebilir sonuç, strateji ve yazılım aynı ekipte → butik; çoğu şirket
+      // için karma model. Çıkar beyanı yazıdaki gibi (INDOLES butik taraf).
+      // Bağımsızlık iddiası bilerek kurulmadı (İKAS bayiliği kuralı,
+      // content-claims.test.ts). SSS cevapları düz metin; yazıya bağlantı
+      // ilgili yazılar şeridinde. EN cevap "artificial intelligence
+      // consulting" hedefini taşır (keyword-coverage TARGETS_EN) — EN başlık
+      // 2026-10-09'da o ifadeyi bıraktı.
+      question: {
+        tr: "Yapay zeka danışmanlığında büyük danışmanlık firmasıyla mı, butik bir ekiple mi çalışmalıyım?",
+        en: "In AI consulting, should we work with a large consultancy or a boutique team?",
+      },
+      answer: {
+        tr: "Yapay zeka danışmanlığında büyük danışmanlık firması, program birden çok ülkeyi, birimi ve düzenleyiciyi aynı anda ilgilendirdiğinde ve yönetim kurulu kurumsal bir imza aradığında doğru seçimdir. Butik bir ekip, tek bir süreçte haftalar içinde ölçülebilir bir sonuç istendiğinde ve stratejiyi yazan ekibin sistemi de kurması gerektiğinde öne çıkar. Çoğu şirket için en sağlıklı yol karma modeldir: işi dışarıdan başlatmak, bilgiyi iç ekipte bırakmak. INDOLES bu ayrımın butik tarafında durur; strateji ile yazılımı aynı ekipte yürütür ve paket fiyatlarını açıkça yayımlar.",
+        en: "In artificial intelligence consulting, a large consultancy is the right choice when the programme touches several countries, business units and regulators at once, and the board wants an institutional signature on it. A boutique team comes out ahead when you need a measurable result on a single process within weeks, and the team that writes the strategy also has to build the system. For most companies the healthiest route is a mix: start the work with outside help and keep the knowledge with the in-house team. INDOLES sits on the boutique side of that line, running strategy and software in one team and publishing its package prices openly.",
       },
     },
     {
@@ -302,16 +375,6 @@ export const aiDanismanlik: ServiceContent = {
     },
     {
       question: {
-        tr: "KOBİ ölçeğinde yapay zeka mantıklı mı?",
-        en: "Does AI make sense at SME scale?",
-      },
-      answer: {
-        tr: "Kararı şirket büyüklüğü değil, işin tekrarlılığı ve verisi belirler. Her gün aynı işi elle yapan küçük bir ekipte kazanılan zaman oransal olarak daha görünürdür, çünkü o iş toplam kapasitenin büyük bölümünü tutar. INDOLES ölçekten bağımsız olarak aynı eleme sırasını uygular; aday iş listesi kısa çıkarsa çalışma da kısa olur.",
-        en: "Company size does not decide it — how repetitive the task is and what data exists do. In a small team doing the same job by hand every day, the time saved is proportionally more visible, because that job takes up a large share of total capacity. INDOLES applies the same filter regardless of scale; if the candidate list comes out short, so does the engagement.",
-      },
-    },
-    {
-      question: {
         tr: "Pilot canlıya alındıktan sonra sistemi kim işletir?",
         en: "Who operates the system after the pilot goes live?",
       },
@@ -320,46 +383,30 @@ export const aiDanismanlik: ServiceContent = {
         en: "Your in-house team runs it; INDOLES provides operating training and leaves a written guide. The training covers three things: monitoring the system, recognising a failure state and intervening. Because the measurement report records the accuracy rate and the failure cases, the team starts out knowing what is normal and what is a deviation worth acting on.",
       },
     },
-    {
-      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §2.3).
-      // "yapay zeka ajansi" (Dusuk rekabet, Top-5 esigi) ile "yapay zeka
-      // firmalari" (Orta rekabet) iki ayri SERP niyeti; birlestirilmezler.
-      // Ticari niteleyici kelime H1'e ve seo.title'a girmez.
-      question: {
-        tr: "Yapay zeka ajansı ile yapay zeka danışmanlığı arasındaki fark nedir?",
-        en: "What is the difference between an AI agency and AI advisory?",
-      },
-      answer: {
-        tr: "Yapay zeka ajansı çoğunlukla hazır bir yetenek satar: chatbot kurulumu, içerik üretimi otomasyonu, kampanya araçları. Yapay zeka danışmanlığı ise önce hangi işte yapay zekanın karşılığını verdiğine karar verir, sonra kurar ve sonucu ölçer. INDOLES ikinci yolu izler; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık denetimi pilottan önce gelir, pilot çıktısı mevcut yöntemle yan yana ölçülür. Ekipte bir AI SaaS ürününün (ADUARDO) kurucu ortağı var, dolayısıyla kurulum sonrası doğruluk takibi ve işletme yükü teoriden değil ürün işletme deneyiminden biliniyor.",
-        en: "AI agencies typically sell a ready-made capability: a chatbot build, content automation, campaign tooling. AI advisory decides first where artificial intelligence actually pays off, then builds it and measures the result. INDOLES takes the second route; the candidate task list, the cost-benefit calculation and the data readiness check all come before any pilot, and the pilot output is measured side by side with the current method. One of the team co-founded an AI SaaS product (ADUARDO), so post-launch accuracy monitoring and the running cost of a live system are known from operating a product rather than from theory.",
-      },
-    },
-    {
-      // Karsi-konumlandirma sorusu (strateji §2, Rakip-Analizi §1-2).
-      // Ticari niteleyici kelime H1'e girmez; kendimizi adlandirmak icin
-      // degil, ayristigimiz seyi adlandirmak icin kullanilir.
-      // 2026-10-02: "satıcı değildir" İKAS bayiliğiyle çelişiyordu (Burak
-      // teyidi: INDOLES İKAS bayisi); "yapay zeka ürünü satmaz"a daraltıldı,
-      // bayilik açıklandı. Model sağlayıcısıyla komisyon iddiası aynen kaldı.
-      question: {
-        tr: "Yapay zeka firmaları ile yapay zeka danışmanı arasındaki fark nedir?",
-        en: "What is the difference between AI companies and an AI consultant?",
-      },
-      answer: {
-        tr: "Yapay zeka firmaları genellikle bir ürün satar; yapay zeka danışmanı o ürüne ihtiyaç olup olmadığına önce karar verir. INDOLES yapay zeka ürünü satmaz ve hiçbir model sağlayıcısıyla komisyon ilişkisi yoktur; aday iş listesi, fayda-maliyet hesabı ve veri hazırlık kontrolü bağımsız yürütülür. Yazılım tarafındaki tek ticari bağ e-ticarettedir: INDOLES İKAS e-ticaret altyapısının bayisidir. \"Burada yapay zeka gerekmiyor\" sonucu da geçerli bir çıktıdır — boşa yatırım engellenmiş olur.",
-        en: "AI companies and AI consulting firms generally sell a product; an AI consultant first decides whether that product is needed at all. INDOLES does not sell an AI product and holds no commission relationship with any model provider; the candidate task list, the cost-benefit calculation and the data readiness check are run independently. Its only commercial tie on the software side is in e-commerce: INDOLES is a reseller of the İKAS e-commerce platform. A finding of \"AI is not needed here\" is a valid output too, because it prevents a misplaced investment.",
-      },
-    },
   ],
 
   seo: {
+    /**
+     * 2026-10-09 (Burak onayı, İlk 3 Programı §C.1):
+     * - Başlık "AI" belirtecini alır, "yapay zeka danışmanlığı" bitişik
+     *   kalır. SERP'te " — INDOLES" ile 55 karakter; gerçek sınır 50
+     *   (layout şablonu +10 ekliyor, docs/08 §7.3).
+     * - Açıklama paket fiyatlarını açık yazar: Dijital Dönüşüm Teşhisi
+     *   180.000 TL / €5,500, AI Pilot 480.000 TL / €15,000 (`packages.ts`
+     *   `pricing`). Fiyat snippet'te fiyat avcısını eler. Paket fiyatı
+     *   değişirse burası elle güncellenir.
+     * - EN başlık "artificial intelligence consulting"i bıraktı; o hedef
+     *   büyük-butik SSS'inin EN cevabında, "ai consultancy" EN açıklamada
+     *   (keyword-coverage TARGETS_EN).
+     * - "ajansı"/"firmaları" başlığa girmez (yerleşim kuralı).
+     */
     title: {
-      tr: "Yapay zeka danışmanlığı ve pilot uygulama",
-      en: "Artificial intelligence consulting and pilots",
+      tr: "Yapay zeka danışmanlığı (AI): teşhis ve pilot",
+      en: "AI consulting: audit and pilot",
     },
     description: {
-      tr: "Kurumsal yapay zeka danışmanlığı, bu teknolojinin nerede kazandırdığını ölçer. Aday iş listesi, fayda-maliyet hesabı ve gerçek veriyle pilot uygulama.",
-      en: "AI consultancy that measures where artificial intelligence actually pays off. Candidate tasks, cost-benefit analysis, a data readiness check and a live pilot.",
+      tr: "AI danışmanlığı: yapay zekanın hangi işte kazandırdığını ölçen teşhis (180.000 TL) ve gerçek veriyle pilot (480.000 TL). Getirmeyen iş listeden çıkar.",
+      en: "AI consultancy: an audit measuring where artificial intelligence pays off (€5,500) and a pilot on real data (€15,000). Tasks that do not return are dropped.",
     },
     entities: {
       tr: [
@@ -388,8 +435,11 @@ export const aiDanismanlik: ServiceContent = {
    */
   relatedServices: ["is-otomasyonlari", "is-zekasi", "geo-danismanligi"],
 
-  // 2026-10-02: karşı-konumlandırma SSS'i İKAS bayiliğiyle hizalandı
-  // ("satıcı değildir" → "yapay zeka ürünü satmaz" + bayilik açıklaması).
+  // 2026-10-09: on-page paketi (İlk 3 Programı §D.1 #2) — başlık, açıklama,
+  // lede'de "AI danışmanlığı" ve vaka atıflı kanıt cümlesi, SSS sırası,
+  // büyük-butik alıcı sorusu ve SSS 1 + 9 birleşmesi.
+  // Önceki dokunuş 2026-10-02: karşı-konumlandırma SSS'i İKAS bayiliğiyle
+  // hizalandı ("satıcı değildir" → "yapay zeka ürünü satmaz" + bayilik).
   // `lastmod` ve `WebPage.dateModified` buradan beslenir.
-  updatedAt: "2026-10-02",
+  updatedAt: "2026-10-09",
 };

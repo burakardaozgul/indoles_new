@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /**
- * GSC script'lerinin ortak altyapısı — yol çözümü, JWT/token, CSV.
+ * GSC ve GA4 script'lerinin ortak altyapısı — yol çözümü, JWT/token, CSV.
+ * (`ga4-pull.mjs` aynı servis hesabı anahtarını `analytics.readonly`
+ * kapsamıyla kullanır.)
  *
  * Sıfır bağımlılık: Node 22+ (fetch + crypto). `googleapis` paketi bilinçli
  * olarak eklenmedi (CLAUDE.md: yeni dependency gerekçe ister; JWT imzalama
@@ -74,6 +76,21 @@ export function resolveKeyPath(cliArg = arg("key")) {
 export function resolveGscDataBase() {
   const adaylar = MARKETING_DIRS.map((d) => join(d, "GSC-Data"));
   return adaylar.find((p) => existsSync(p)) ?? adaylar[0];
+}
+
+/**
+ * `GA4-Data` kök klasörü — `resolveGscDataBase`'in kardeşi.
+ *
+ * Sıra: var olan `GA4-Data` → var olan Marketing klasörünün altındaki
+ * `GA4-Data` (ilk koşuda klasör henüz yok) → ilk aday. Çağıran
+ * `mkdir -p` ile oluşturur.
+ */
+export function resolveGa4DataBase() {
+  const adaylar = MARKETING_DIRS.map((d) => join(d, "GA4-Data"));
+  const mevcut = adaylar.find((p) => existsSync(p));
+  if (mevcut) return mevcut;
+  const marketing = MARKETING_DIRS.find((d) => existsSync(d));
+  return marketing ? join(marketing, "GA4-Data") : adaylar[0];
 }
 
 /** Bugünün tarihi, `YYYY-MM-DD`. */

@@ -42,14 +42,26 @@
 
 Ritim: haftada 1 karar içeriği + 1 destek (güncel olay ya da vaka).
 
+**Durum (9 Eki):**
+
+| Faz | Durum | Yapılan | Kalan |
+|---|---|---|---|
+| 1 | İçerik ve ölçüm işleri tamam; dış profil işleri teyit bekliyor | Niyetli sorgu seti + GSC N0 kümesi, strateji v1.18 ve A-4'ün yeni tanımı, GEO hizmet sayfası, "GEO ajansı nasıl seçilir", CRO "neye mal olur" (hepsi 25 Eyl) · GA4 erişimi (9 Eki) | 1 Ekim GEO turu kısmi (Perplexity yapılmadı) · GBP adı + yorum ritüeli ve Clutch / GoodFirms / Sortlist profilleri: durum bilinmiyor, Burak teyidi · A-4 "üçten ikisi" eşiği teyidi |
+| 2 | İçerik ayağı erken bitti (2 Eki) | Yapay zeka danışmanlığı fiyatları · büyük danışmanlık mı butik ajans mı · e-ticaret üçlüsü (nasıl seçilir, fiyatlar, platform danışmanlığı) · e-ticaret hizmet sayfası yeniden konumlandı (kanıt şeridi OdorGo + Meccanotecnica Umbra) | Turkcell/CaffeBO vakaları (Burak) · vakaların karar kümelerine bağlanması · 2 EN e-ticaret yazısı "URL Google tarafından bilinmiyor" |
+| 3 | Başlamadı (10 Kas) | Benchmark yazısı kamuya açık veri derlemesi olarak 25 Eyl'de yayında | Dijital dönüşüm karar kümesi · UX ajansı itişi (önce eski `/web-tasarim-ui-ux-tasarimi/` adresinin konsolidasyonu) · dijital PR · 30 Kasım raporu |
+
+Ritim notu: 25 Eyl–2 Eki arasında 9 yazı + 1 hizmet sayfası yayımlandı; 3–9 Eki arasında yeni içerik yok. Ayrıntı: `Marketing/Durum-Tablosu-2026-10-09.md` §10 (kopyası `docs/strateji/Durum-Tablosu-2026-10-09.md`).
+
 ## 5. Yeni ölçüler (öneri)
 
-| Ölçü | Bugün | 30 Kasım hedefi |
-|---|---|---|
-| Niyetli sorgu setinde ilk 10'daki sorgu | Faz 1'de ölçülecek (bilinen: 4-5) | 12+ |
-| Hizmet sayfalarının gösterim payı | %3 | %15 |
-| Niyetli sorgulardan tıklama | ~0 | ayda 20+ |
-| Form / brief | GA4'te teyit edilecek | ayda 5+ nitelikli |
-| GEO turu (30 sorgu) | 1/30 | 5/30 |
+| Ölçü | Bugün (25 Eyl) | 2 Eki | 9 Eki | 30 Kasım hedefi |
+|---|---|---|---|---|
+| Niyetli sorgu setinde ilk 10'daki sorgu | Faz 1'de ölçülecek (bilinen: 4-5) | 13 | **18** (11'i ≤3 gösterim) | 12+ |
+| Hizmet sayfalarının gösterim payı | %3 | %6,55 | **%9,58** | %15 |
+| Niyetli sorgulardan tıklama | ~0 | 1 | **1** | ayda 20+ |
+| Form / brief | GA4'te teyit edilecek | teyit yok | **0 form · 3 lead olayı** (GA4, 9 Eyl–8 Eki) | ayda 5+ nitelikli |
+| GEO turu (30 sorgu) | 1/30 | 0/20 kısmi (Perplexity eksik) | 0/20 kısmi — Perplexity hâlâ yapılmadı | 5/30 |
+
+Kaynak: `Marketing/GSC-Data/haftalik-2026-10-02/ozet.txt` (1–29 Eyl) ve `haftalik-2026-10-09/ozet.txt` (8 Eyl–6 Eki) "Satın alma niyeti" bölümü · GA4 Data API test çekimi (9 Eki, mülk 553152492; lead olayları `contact_booking_submitted` 1, `phone_clicked` 1, `tool_report_requested` 1, `contact_form_submitted` 0 — TR varsayılan onayı nedeniyle alt sınır) · `Marketing/GEO-Olcum/kayitlar.csv`. "Bugün" sütunu 25 Eylül'ün elle okumasıdır; kural tabanlı baz `Niyetli-Sorgu-Seti-2026-09.md` §4'te (4 / %2,94 / 0).
 
 Toplam gösterim bağlam ölçüsü olarak izlenmeye devam eder; alarm eşiği olmaktan çıkar.

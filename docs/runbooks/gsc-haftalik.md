@@ -26,7 +26,7 @@
 | Tek tek URL taraması                       | `node scripts/gsc-inspect.mjs https://www.indoles.com.tr/tr/hizmetler/cro`  |
 | Başka URL listesi                          | `node scripts/gsc-inspect.mjs --urls-file liste.txt`                        |
 
-Kilit URL listesi `scripts/gsc-kilit-urller.txt` (52 URL). Yeni hizmet/vaka/yazı yayına girdiğinde bu dosyaya eklenir.
+Kilit URL listesi `scripts/gsc-kilit-urller.txt` (72 URL; 9 Ekim'de 52'den genişletildi — Faz 1 + Faz 2 yüzeyleri TR + EN). Yeni hizmet/vaka/yazı yayına girdiğinde bu dosyaya eklenir.
 
 ## Bilinmesi gerekenler
 
@@ -35,4 +35,4 @@ Kilit URL listesi `scripts/gsc-kilit-urller.txt` (52 URL). Yeni hizmet/vaka/yaz�
 - **Haftalık pencere.** `ozet.txt` "son 7 gün" olarak çekim aralığının son yedi gününü, "önceki 7 gün" olarak ondan önceki yediyi alır ve iki pencerenin tarihlerini tabloya yazar. Log'daki önceki kayıtla hizalamak istersen pencereyi elle düzelt.
 - **Küme kuralları.** G1-G5 desenleri §4 tablosundan gelir; tablodan türetilmeyen üç kural (`ai optimizasyon` → G3, G2'nin G3 ile kesişmemesi, G2'nin `arama motoru` sorgularını saymaması) ve G4'ün `business building` eklemesi `scripts/gsc-pull.mjs`'in küme bloğunda gerekçesiyle yazılıdır. Bu kural seti 18 Eylül'ün elle hesabını birebir yeniden üretir (G3 248/17 sorgu/1 tık, G1 60/13, G2 53/14, G4 20/4, eski URL payı %31,2, A-3 11 sayfa).
 - **N0 kuralı.** Niyetli sorgu = niteleyici + hizmet terimi, genel reklam ajansı / kariyer / araç niyeti hariç; tanım, 43 sorguluk set ve 22 Ağu–19 Eyl baz çizgisi `docs/strateji/Niyetli-Sorgu-Seti-2026-09.md`'de. N0 satırları `kumeler.csv`'nin sonuna eklenir, G1-G5 satırları değişmez.
-- **Kota.** URL Inspection günde 2.000, dakikada 600 istek. Tarama 3 eşzamanlı istek koşar; 52 URL ~1 dakika sürer.
+- **Kota.** URL Inspection günde 2.000, dakikada 600 istek. Tarama 3 eşzamanlı istek koşar; 72 URL ~1,5 dakika sürer (52 URL ~1 dakikaydı).

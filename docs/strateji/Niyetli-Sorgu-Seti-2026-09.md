@@ -181,3 +181,94 @@ Kaynak: `node scripts/gsc-pull.mjs --from-dir "<Marketing>/GSC-Data/haftalik-202
 - **Kural değişikliği:** `scripts/gsc-pull.mjs` N0 bloğu + `gsc-kumeler.test.ts`. Kural değişirse önceki haftalarla kıyas kırılır; değişiklik bu dokümana tarihle yazılır.
 - **Set değişikliği:** bu doküman §2 + testteki set listesi birlikte güncellenir. GSC'de N0'a düşen ama sette olmayan konuşma biçimli sorgular ayda bir gözden geçirilir.
 - **Açık soru (Burak):** Hizmet terimi taşımayan karar sorguları ("hangi ajansla çalışmalıyım", 19 gösterim) yol haritası §1'de alıcı örneği olarak geçiyor ama N0'a sayılmıyor. Ayrı bir bağlam satırı olarak mı izlenmeli, yoksa bu hâliyle mi kalmalı?
+
+---
+
+## Takip — 2026-10-09
+
+Veri: `Marketing/GSC-Data/haftalik-2026-10-02/` (1–29 Eyl) ve `haftalik-2026-10-09/` (8 Eyl–6 Eki), ikisi de `dataState=final`; `ozet.txt` "Satın alma niyeti" bölümü, tam N0 listesi `sorgular.csv` üzerinde `gsc-pull.mjs` `niyetHizmeti` ile, sıralanan sayfa `sorgu-sayfa.csv`'den. Kural değişmedi; kıyas bazla birebir.
+
+### N0 özeti (29 günlük pencere)
+
+| Ölçü | Baz (22 Ağu–19 Eyl) | 2 Eki | 9 Eki | 30 Kasım hedefi |
+|---|---|---|---|---|
+| Niyetli sorgu (N0) | 15 / 84 göst / 0 tık / poz 16,45 | 28 / 179 / 1 / 15,83 | **36 / 331 / 1 / 16,05** | — |
+| Görünen sorgu gösterimindeki payı | %11,35 | %16,56 | **%22,40** (331 / 1.478) | — |
+| Toplam gösterimdeki payı | %3,75 | %5,67 | **%8,44** (331 / 3.920) | — |
+| **İlk 10'daki niyetli sorgu** | 4 | 13 | **18** | 12+ (aşıldı) |
+| **Niyetli tık** | 0 | 1 | **1** | ayda 20+ |
+| **Hizmet sayfası gösterim payı** | %2,94 | %6,55 | **%9,58** (391 / 4.082, 26 sayfa) | %15 |
+
+Not: görünen sorgular 9 Eki'de 52 tıkın yalnız 4'ünü taşıyor; niyetli tık ölçüsü yapısal olarak alt sınırdır.
+
+### Hizmet bazlı
+
+| Hizmet | Baz: sorgu / göst / ilk 10 | 2 Eki: sorgu / göst / ilk 10 | 9 Eki: sorgu / göst / tık / poz / ilk 10 |
+|---|---|---|---|
+| GEO | 3 / 22 / 2 | 10 / 74 / 6 | 12 / 165 / 1 / 19,13 / **8** |
+| CRO | 2 / 20 / 1 | 3 / 29 / 2 | 3 / 41 / 0 / 14,76 / 2 |
+| Yapay zeka | 5 / 12 / 1 | 9 / 41 / 4 | 12 / 87 / 0 / 11,40 / **6** |
+| UX | 5 / 30 / 0 | 5 / 34 / 1 | 4 / 31 / 0 / 12,48 / 0 |
+| E-ticaret | 0 / 0 / 0 | 0 / 0 / 0 | **4 / 6 / 0 / 18,67 / 2** |
+| Dijital dönüşüm | 0 / 0 / 0 | 1 / 1 / 0 | 1 / 1 / 0 / 61,00 / 0 |
+
+### İlk 10'daki 18 sorgu
+
+| Sorgu | Hizmet | Göst / poz | Sıralanan sayfa |
+|---|---|---|---|
+| ai danışmanlığı | Yapay zeka | 26 / 7,00 | `/tr/hizmetler/ai-danismanlik` |
+| şirketimi yapay zeka motorlarında görünür kılacak bir danışman ya da ajans önerir misin? | GEO | 21 / 5,14 | `ai-danismani-secerken-sorulacak-12-soru` |
+| cro ajansı | CRO | 18 / 9,00 | `cro-ajansi-nasil-secilir` (15 / 6,80) + `/tr/hizmetler/cro` (3 / 20,00) |
+| yapay zeka görünürlük danışmanlığı | GEO | 18 / 9,28 | `/tr/hizmetler/geo-danismanligi` |
+| cro danışmanlığı | CRO | 13 / 6,69 | `cro-danismanligi-fiyatlari` |
+| şirketimi yapay zeka motorlarında görünür kılacak bir danışman ya da ajans önerir misin | GEO | 9 / 7,33 | `ai-danismani-secerken-sorulacak-12-soru` |
+| yapay zeka kullanılan danışmanlık paketleri ile klasik hizmetler arasında fiyat farkı var mı? | Yapay zeka | 5 / 8,00 | `/tr/hizmetler/ai-danismanlik` |
+| yapay zeka otomasyon danışmanlığı | Yapay zeka | 3 / 10,00 | `/tr/hizmetler/ai-danismanlik` |
+| chatgpt gemini görünürlüğü ajans türkiye | GEO | 2 / 1,00 | `/tr/hizmetler/geo-danismanligi` |
+| büyük danışmanlık firması vs butik yapay zeka ajansı farkları | Yapay zeka | 2 / 3,50 | `dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru` (yeni "ajans mı danışmanlık mı" yazısı değil) |
+| ai görünürlük danışmanlığı paket fiyatları | GEO | 2 / 6,00 | `/tr/hizmetler/ai-danismanlik` |
+| yapay zeka danışmanlık | Yapay zeka | 2 / 9,50 | `/tr/hizmetler/ai-danismanlik` |
+| ai optimizasyonu diye bir şey duydum, bunu yapan ajans hangisi? | Yapay zeka | 1 / 1,00 | `geo-ajansi-nasil-secilir` |
+| yapay zeka görünürlük platformları arasında nasıl seçim yaparım? | GEO | 1 / 1,00 | `yapay-zeka-aramalarinda-nasil-one-cikarsiniz` |
+| ajansım için müşteri markalarının ai görünürlüğünü izleyen platform | GEO | 1 / 6,00 | `geo-ajansi-nasil-secilir` |
+| shopify seo ve organik büyüme için hangi ajansla çalışmalıyım? | E-ticaret | 1 / 6,00 | `gercek-e-ticaret-ajansinin-etkisi` |
+| eticaret ajansı | E-ticaret | 1 / 8,00 | `gercek-e-ticaret-ajansinin-etkisi` |
+| prompt başına geo platformu fiyatı | GEO | 1 / 9,00 | `geo-ajansi-nasil-secilir` |
+
+İlk 10'dan çıkan: "ux ajansı" 9,89 → 10,46 (28 göst, hâlâ eski `/web-tasarim-ui-ux-tasarimi/`). Sayfa türüne göre: hizmet sayfaları 7, Faz 1 yazıları 4, 28 Ağu yazıları 3, eski yazılar 4, Faz 2 yazıları 0. 18 sorgunun 11'i ≤3 gösterim.
+
+**Kural gözlemi (karar Burak, §5 bakım):** üç sorgu ("…platformları arasında nasıl seçim yaparım?", "…izleyen platform", "prompt başına geo platformu fiyatı") hizmet değil platform/SaaS arıyor; araç dışlaması `araç`/`tool` kelimelerini yakalıyor, `platform`u yakalamıyor. Dışlamaya eklenirse 9 Eki ilk 10 sayısı 15'e iner ve önceki kayıtlarla kıyas kırılır.
+
+### Setin durumu (43 sorgu, birebir yazım)
+
+| Hizmet | Baz: görünen / ilk 10 | 9 Eki: görünen / ilk 10 |
+|---|---|---|
+| CRO | 2 / 1 | 3 / **2** (cro ajansı 9,00 · cro danışmanlığı 6,69) |
+| Yapay zeka danışmanlığı | 4 / 1 | 4 / **2** (ai danışmanlığı 7,00 · büyük danışmanlık … farkları 3,50) |
+| GEO | 2 / 1 | 4 / 1 (şirketimi … önerir misin, iki yazım birlikte 30 / 5,80); geo ajansı 31 / 14,90 · geo danışmanlığı 66 / 27,36 |
+| E-ticaret | 0 / 0 | 2 / 0 (e ticaret ajansı 3 / 16,67 · e ticaret danışmanlığı 1 / 48,00) |
+| Dijital dönüşüm | 0 / 0 | 0 / 0 |
+| UX | 2 / 0 | 2 / 0 (ux ajansı 10,46) |
+| **Toplam** | **10 / 3** | **15 / 5** |
+
+Setteki "yapay zeka görünürlüğü danışmanlığı" GSC'de "yapay zeka görünürlük danışmanlığı" yazımıyla görünüyor (18 / 9,28, ilk 10) — birebir eşleşmediği için tabloya sayılmadı.
+
+### 9 Eki'de ilk kez görünen niyetli sorgular
+
+2 Eki `sorgular.csv`'sinde hiç olmayan, 9 Eki'de N0'a düşen 9 sorgu:
+
+| Sorgu | Hizmet | Göst / poz | Sıralanan sayfa |
+|---|---|---|---|
+| yapay zeka otomasyon danışmanlığı | Yapay zeka | 3 / 10,00 | `/tr/hizmetler/ai-danismanlik` |
+| yapay zekâ danışmanlığı | Yapay zeka | 3 / 14,00 | `/tr/hizmetler/ai-danismanlik` |
+| e ticaret ajansı | E-ticaret | 3 / 16,67 | `gercek-e-ticaret-ajansinin-etkisi` |
+| chatgpt gemini görünürlüğü ajans türkiye | GEO | 2 / 1,00 | `/tr/hizmetler/geo-danismanligi` |
+| yapay zeka danışmanlık | Yapay zeka | 2 / 9,50 | `/tr/hizmetler/ai-danismanlik` |
+| ajansım için müşteri markalarının ai görünürlüğünü izleyen platform | GEO | 1 / 6,00 | `geo-ajansi-nasil-secilir` |
+| shopify seo ve organik büyüme için hangi ajansla çalışmalıyım? | E-ticaret | 1 / 6,00 | `gercek-e-ticaret-ajansinin-etkisi` |
+| eticaret ajansı | E-ticaret | 1 / 8,00 | `gercek-e-ticaret-ajansinin-etkisi` |
+| e ticaret danışmanlığı | E-ticaret | 1 / 48,00 | `/tr/hizmetler/e-ticaret` |
+
+N0'dan düşen: "ankara ui ux ajansı" (2 Eki: 1 / 27). 28 + 9 − 1 = 36. E-ticaretin dört niyetli sorgusunun hiçbiri 2 Ekim'de yayımlanan e-ticaret üçlüsünde değil — pencere o yazılar için en fazla 5 gün.
+
+Durum kesiti: `Marketing/Durum-Tablosu-2026-10-09.md` §3 (kopyası `docs/strateji/Durum-Tablosu-2026-10-09.md`).

@@ -3,7 +3,7 @@
 > **Tetikleyici:** `GSC-Data/haftalik-2026-09-18/` (18 Ağu - 15 Eyl, 28 gün, dataState `final`). Eşik A-3: pozisyon < 10, gösterim ≥ 20, CTR < %1. Bu üç koşulu aynı anda sağlayan 11 sayfa var ve hiçbirinin `seo.title`/`seo.description`'ı 28 Ağustos'tan beri değişmedi.
 > **Değişiklik tipi:** Yalnız arama yüzeyi. H1 ve gövde metni hiçbir sayfada dokunulmadı; iki sayfada gövdeye **ek** yapıldı (§3), silme yok.
 > **Görev tanımı:** `04-ctr-title-revizyonu.md` (prompt kümesi, 18 Eyl). Öneri tablosu Burak tarafından onaylandı; bu belge uygulanan hâli kaydeder.
-> **Yeniden kontrol:** **2 Ekim 2026** (§4).
+> **Yeniden kontrol:** **2 Ekim 2026** (§4) — 9 Ekim'de yapıldı, sonuç **etkisiz** (§4.1).
 
 ---
 
@@ -66,6 +66,44 @@ Bu ikisi title/description dışındadır; sorgu niyeti ile sayfanın verdiği c
 | `ai-danismani-secerken-sorulacak-12-soru` | GEO sorgusu                                      | Köprü paragrafı tıklamayı açmazsa niyet bu sayfada karşılanamıyor demektir; GEO danışmanlığı için ayrı hedef sayfa gerekir |
 
 Kontrol tarihinde CTR hâlâ %1'in altındaysa bir sonraki kaldıraç description değil, sayfanın kendisidir: sorgu niyetiyle sayfa türü eşleşmiyordur.
+
+### 4.1 Kontrol sonucu — 9 Ekim 2026
+
+2 Ekim'de planlanan kontrol 9 Ekim'de, final veriyle (son gün 6 Ekim) yapıldı. **Önce:** `GSC-Data/haftalik-2026-09-18/sayfalar.csv` (18 Ağu–15 Eyl, tetikleyici çekim). **Sonra:** `GSC-Data/haftalik-2026-10-09/sayfalar.csv` (8 Eyl–6 Eki). Değişiklik 19 Eylül 13:25'te canlıya girdi; "sonra" penceresinin 11 günü (8–18 Eyl) revizyon öncesidir ve GSC sayfa verisi günlere bölünmüyor. İki sonucu bu sınır değiştirmiyor: 29 günde 0 tık alan sayfanın revizyon sonrası tıkı da 0'dır; tık alan iki sayfada tıkın tarihi `haftalik-2026-09-22/sayfalar.csv` (22 Ağu–19 Eyl) ile ayrıştırıldı.
+
+| #   | Sayfa                                                          | Önce: göst / tık / poz / CTR | Sonra: göst / tık / poz / CTR | Revizyon sonrası kesin tık                      | 9 Eki A-3'te      | Poz farkı             |
+| --- | -------------------------------------------------------------- | ---------------------------- | ----------------------------- | ----------------------------------------------- | ----------------- | --------------------- |
+| 1   | `/tr/yazilar/google-ai-overviews-da-yer-almak`                 | 110 / 0 / 7,23 / %0          | 81 / 0 / 9,38 / %0            | 0                                               | Evet              | **−2,15**             |
+| 2   | `/en/articles/guerrilla-marketing-in-the-digital-age`          | 63 / 0 / 5,87 / %0           | 36 / 2 / 7,00 / **%5,56**     | **2** (22 Ağu–19 Eyl'de 0 tık)                  | Hayır             | −1,13                 |
+| 3   | `/tr/yazilar/cro-nedir`                                        | 62 / 0 / 8,21 / %0           | 58 / 0 / 8,47 / %0            | 0                                               | Evet              | −0,26                 |
+| 4   | `/tr/yazilar/dogru-pazarlama-ajansi-secmek-icin-8-onemli-soru` | 48 / 0 / 8,92 / %0           | 30 / 0 / 9,50 / %0            | 0                                               | Evet              | −0,58                 |
+| 5   | `/tr/danismanlar/mert-kaplan`                                  | 45 / 0 / 7,69 / %0           | 73 / 1 / 7,37 / %1,37         | 0 (tek tık 16–19 Eyl arasında, revizyon öncesi) | Hayır             | +0,32                 |
+| 6   | `/tr/yazilar/turkiyenin-ilk-geo-denetim-araci`                 | 44 / 0 / 2,55 / %0           | 91 / 0 / 2,71 / %0            | 0                                               | Evet              | −0,16                 |
+| 7   | `/tr/danismanlar/burak-ozgul`                                  | 34 / 0 / 7,38 / %0           | 38 / 0 / 8,24 / %0            | 0                                               | Evet              | −0,86                 |
+| 8   | `/tr/yazilar/satis-ekibinizin-…-lead-toplama-rehberi`          | 30 / 0 / 6,53 / %0           | 36 / 0 / 7,22 / %0            | 0                                               | Evet              | −0,69                 |
+| 9   | `/dijital-cagda-gerilla-pazarlama-evrimi/` (eski URL)          | 28 / 0 / 7,46 / %0           | 18 / 0 / 16,50 / %0           | 0                                               | Hayır (poz)       | −9,04 (konsolidasyon) |
+| 10  | `/en/consultants/burak-ozgul`                                  | 23 / 0 / 6,43 / %0           | 10 / 0 / 7,00 / %0            | 0                                               | Hayır (göst < 20) | −0,57                 |
+| 11  | `/tr/yazilar/ai-danismani-secerken-sorulacak-12-soru`          | 20 / 0 / 8,50 / %0           | 60 / 0 / 7,23 / %0            | 0                                               | Evet              | +1,27                 |
+|     | **Toplam**                                                     | **507 / 0**                  | **531 / 3 / %0,56**           | **2**                                           | **7 / 11**        |                       |
+
+Revize edilmeyen kontrol sayfası `/tr/yazilar/llms-txt-nedir`: 97 / 4 / 5,92 / %4,12 → 55 / 1 / 5,49 / %1,82. A-3 listesi `GSC-Data/haftalik-2026-10-09/ozet.txt`'ten; toplamlar ve farklar hesap.
+
+| Eşik (§4)                                 | Sonuç                                                                                                                                                                                                                                                                    |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| CTR ≥ %1                                  | 2 / 11 sayısal olarak geçti; revizyona bağlanabilen yalnız EN gerilla (2 tık). 2 sayfa gösterim ya da pozisyon düşüşüyle eşik dışına çıktı — başarı sayılmaz. 7 sayfa hâlâ A-3'te                                                                                        |
+| Pozisyon regresyonu ≤ 1 kademe            | 2 ihlal: `google-ai-overviews-da-yer-almak` −2,15, EN gerilla −1,13 (sınırda). Eski gerilla URL'inin düşüşü konsolidasyondur                                                                                                                                             |
+| Google'ın başlığı yeniden yazması         | Elle SERP kontrolü **yapılmadı** — açık iş                                                                                                                                                                                                                               |
+| `turkiyenin-ilk-geo-denetim-araci`        | Poz 2,71'de 91 gösterim, 0 tık devam ediyor → ayrı teşhis tetiklendi: sorun başlıkta değil. "türkçe geo aracı var mı" ve "yerli geo aracı"nda araç sayfası da görünüyor (1-2 gösterim, poz 1) — A-6; niyet aracın, gösterim yazının                                      |
+| `ai-danismani-secerken-sorulacak-12-soru` | GEO sorgusu (21 / 5,14 + 9 / 7,33) hâlâ bu sayfada, 0 tık → köprü paragrafı tıklamayı açmadı. Hedef sayfa (`/hizmetler/geo-danismanligi`, ADR-040) 25 Eylül'de açıldı ama bu sorguda sıralanmıyor; köprü paragrafı ona link vermiyor (yalnız GEO rehberi ve denetleyici) |
+
+**Karar — §4 kuralının uygulanması:** CTR 11 sayfanın 7'sinde %1'in altında; sonraki kaldıraç description değil sayfanın kendisi.
+
+1. Bilgi yazılarına ikinci bir title/description dalgası yapılmaz. 11 sayfanın 6'sı bilgi yazısı, 3'ü danışman profili; satın alma niyeti (strateji v1.18) bunları ikincil yapıyor.
+2. Niyeti başka sayfaya ait iki sayfa sayfa düzeyinde düzeltilir: 12-soru yazısının köprü paragrafına GEO hizmet sayfası linki (TR + EN); GEO aracı yazısı ile araç sayfası arasında "araç var mı" niyetinin araç sayfasına taşınması (öneri, Burak onayıyla).
+3. A-3 dikkati hizmet sayfalarına kayar: `/tr/hizmetler/ai-danismanlik` 136 gösterim / 0 tık / poz 11,18 (2 Eki'de 9,77 ile A-3'teydi, pozisyonla çıktı); `/tr/hizmetler/geo-danismanligi` 109 / 1 / poz 23,77 (CTR değil sıralama işi).
+4. Revizyon sonrası temiz pencere için ~16 Ekim'de `node scripts/gsc-pull.mjs --start 2026-09-19 --end <bugün-3> --out <geçici klasör>` çekimi; gerçek `GSC-Data/` klasörüne yazılmaz.
+
+Durum kesiti: `Marketing/Durum-Tablosu-2026-10-09.md` §6 (kopyası `docs/strateji/Durum-Tablosu-2026-10-09.md`).
 
 ## 5. Doğrulama kaydı (18 Eylül 2026)
 

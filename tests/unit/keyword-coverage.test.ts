@@ -112,6 +112,7 @@ const TARGETS: Array<[slug: string, keyword: string]> = [
   // "geo ajansı" lede ve karşı-konumlandırma SSS'lerinde yaşar, bilgi niyeti
   // ("geo optimizasyonu") kanonik rehberde kalır.
   ["geo-danismanligi", "geo danışmanlığı"],
+  ["ai-danismanlik", "ai danışmanlığı"], // İlk 3 Programı §C.1 (2026-10-09): lede ilk cümle + seo.description
 ];
 
 describe("Dar kapsam keyword yerleşimi (strateji §2, Karar 2)", () => {
